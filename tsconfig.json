@@ -13,7 +13,8 @@
     "declaration": true,
     "skipLibCheck": true,
     "paths": {
-      "lighting": ["./packages/l-design/src/index.tsx"]
+      "lighting-design": ["./packages/l-design/src/index.tsx"],
+      "@light/utils": ["./packages/l-utils/src/index.ts"]
     }
   },
   "include": [
