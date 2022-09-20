@@ -24,7 +24,7 @@
     "test": "node ./__tests__/@cubee/components.test.js"
   },
   "dependencies": {
-    "@light/utils": "0.1.0"
+    "classnames": "^2.3.1"
   },
   "peerDependencies": {
     "antd": "4.x",
