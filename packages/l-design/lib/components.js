@@ -3,5 +3,5 @@
 module.exports = components;
 
 function components() {
-    return "Hello from components";
+  return 'Hello from components';
 }

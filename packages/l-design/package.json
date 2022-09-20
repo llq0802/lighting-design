@@ -1,5 +1,5 @@
 {
-  "name": "light-design",
+  "name": "lighting-design",
   "version": "0.1.0",
   "description": "> TODO: description",
   "author": "李岚清 <958614130@qq.com>",
@@ -17,6 +17,7 @@
     "es"
   ],
   "publishConfig": {
+    "access": "public",
     "registry": "https://registry.npmmirror.com/"
   },
   "scripts": {

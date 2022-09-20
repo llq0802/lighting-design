@@ -1,21 +1,30 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "jsx": "react",
     "baseUrl": "./",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
     "esModuleInterop": true,
-    "types": ["jest"],
+    "experimentalDecorators": true,
     "strict": true,
-    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
     "declaration": true,
+    "skipLibCheck": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"],
-      "@@@/*": ["docs/*"]
+      "lighting": ["./packages/l-design/src/index.tsx"]
     }
   },
-  "include": ["src/**/*", "dosc/**/*"],
-  "exclude": ["node_modules", "lib", "es", "dist", "typings", "**/__test__", "test"]
+  "include": [
+    "typings.d.ts",
+    "**/packages/**/*",
+    "**/docs/**/*",
+    "scripts/**/*",
+    "**/demos",
+    ".eslintrc.js",
+    "tests",
+    "jest.config.js",
+    "**/fixtures"
+  ]
 }
