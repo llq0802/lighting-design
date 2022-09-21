@@ -13,4 +13,4 @@ const Button = () => {
 export default Button;
 ``` -->
 
-<code src="./demo/base.tsx"></code> <API></API>
+<code src="./demos/base.tsx"></code> <API></API>
