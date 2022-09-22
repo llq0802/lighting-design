@@ -1,5 +1,4 @@
-import { Input } from 'antd';
-// import 'antd/es/input/style';
+import { Input } from 'lighting-design';
 import type { FC } from 'react';
 
 const LInput: FC = () => {
@@ -7,4 +6,3 @@ const LInput: FC = () => {
 };
 
 export default LInput;
-export interface InputProps {}

@@ -1,9 +1,11 @@
 import { LoadingOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import classNames from 'classnames';
 import type { FC, ReactNode } from 'react';
 import React from 'react';
 import './index.less';
 import type { ButtonProps } from './type.d';
+// import 'antd/es/button/style';
 
 function processChildren(children?: ReactNode) {
   const childrenList: ReactNode[] = [];
@@ -30,7 +32,7 @@ function processChildren(children?: ReactNode) {
  * @param {*} { loading, children, icon, style, ...props }
  * @return {*}
  */
-const Button: FC<ButtonProps> = ({ size, type, loading, children, icon, style, ...props }) => {
+const LButton: FC<ButtonProps> = ({ size, type, loading, children, icon, style, ...props }) => {
   const buttonClass = classNames('l-button');
 
   const iconNode = loading ? <LoadingOutlined /> : icon;
@@ -43,11 +45,11 @@ const Button: FC<ButtonProps> = ({ size, type, loading, children, icon, style, .
   );
 
   return (
-    <button className={buttonClass} style={style}>
+    <Button className={buttonClass} style={style} type="primary">
       {InnerContent}
-    </button>
+    </Button>
   );
 };
 
-export default Button;
+export default LButton;
 export type { ButtonProps };

@@ -5,7 +5,13 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports.default = void 0;
 
-var _icons = require('@ant-design/icons');
+require('antd/es/button/style');
+
+var _button = _interopRequireDefault(require('antd/es/button'));
+
+var _LoadingOutlined2 = _interopRequireDefault(
+  require('@ant-design/icons/es/icons/LoadingOutlined'),
+);
 
 var _classnames = _interopRequireDefault(require('classnames'));
 
@@ -19,6 +25,7 @@ function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
+// import 'antd/es/button/style';
 function processChildren(children) {
   const childrenList = [];
   let isPrevChildPure = false;
@@ -51,18 +58,21 @@ function processChildren(children) {
  * @return {*}
  */
 
-const Button = ({ size, type, loading, children, icon, style, ...props }) => {
+const LButton = ({ size, type, loading, children, icon, style, ...props }) => {
   const buttonClass = (0, _classnames.default)('l-button');
-  const iconNode = loading ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(_icons.LoadingOutlined, {}) : icon;
+  const iconNode = loading
+    ? /*#__PURE__*/ (0, _jsxRuntime.jsx)(_LoadingOutlined2.default, {})
+    : icon;
   const InnerContent = /*#__PURE__*/ (0, _jsxRuntime.jsxs)(_jsxRuntime.Fragment, {
     children: [iconNode, processChildren(children)],
   });
-  return /*#__PURE__*/ (0, _jsxRuntime.jsx)('button', {
+  return /*#__PURE__*/ (0, _jsxRuntime.jsx)(_button.default, {
     className: buttonClass,
     style: style,
+    type: 'primary',
     children: InnerContent,
   });
 };
 
-var _default = Button;
+var _default = LButton;
 exports.default = _default;

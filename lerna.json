@@ -9,7 +9,8 @@
     "**/dist/**",
     "**/lib/**",
     "**/es/**",
-    "**/test/**"
+    "**/test/**",
+    "**/__test__/**"
   ],
   "useNx": true,
   "useWorkspaces": true,

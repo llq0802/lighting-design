@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-declare const Input: FC;
-export default Input;
+declare const LInput: FC;
+export default LInput;
 export interface InputProps {
 }

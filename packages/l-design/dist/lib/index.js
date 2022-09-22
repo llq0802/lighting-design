@@ -16,6 +16,8 @@ Object.defineProperty(exports, 'Input', {
   },
 });
 
+require('antd/dist/antd.less');
+
 var _Button = _interopRequireDefault(require('./Button'));
 
 var _Input = _interopRequireDefault(require('./Input'));

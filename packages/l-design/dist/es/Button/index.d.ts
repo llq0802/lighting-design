@@ -6,6 +6,6 @@ import type { ButtonProps } from './type.d';
  * @param {*} { loading, children, icon, style, ...props }
  * @return {*}
  */
-declare const Button: FC<ButtonProps>;
-export default Button;
+declare const LButton: FC<ButtonProps>;
+export default LButton;
 export type { ButtonProps };

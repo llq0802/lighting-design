@@ -1,3 +1,6 @@
+import _LoadingOutlined from '@ant-design/icons/es/icons/LoadingOutlined';
+import _Button from 'antd/es/button';
+import 'antd/es/button/style';
 var _excluded = ['size', 'type', 'loading', 'children', 'icon', 'style'];
 
 function _objectWithoutProperties(source, excluded) {
@@ -29,12 +32,12 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 
-import { LoadingOutlined } from '@ant-design/icons';
 import classNames from 'classnames';
 import React from 'react';
 import { Fragment as _Fragment, jsx as _jsx, jsxs as _jsxs } from 'react/jsx-runtime';
 import './index.less';
 
+// import 'antd/es/button/style';
 function processChildren(children) {
   var childrenList = [];
   var isPrevChildPure = false;
@@ -65,7 +68,7 @@ function processChildren(children) {
  * @return {*}
  */
 
-var Button = function Button(_ref) {
+var LButton = function LButton(_ref) {
   var size = _ref.size,
     type = _ref.type,
     loading = _ref.loading,
@@ -75,17 +78,18 @@ var Button = function Button(_ref) {
     props = _objectWithoutProperties(_ref, _excluded);
 
   var buttonClass = classNames('l-button');
-  var iconNode = loading ? /*#__PURE__*/ _jsx(LoadingOutlined, {}) : icon;
+  var iconNode = loading ? /*#__PURE__*/ _jsx(_LoadingOutlined, {}) : icon;
 
   var InnerContent = /*#__PURE__*/ _jsxs(_Fragment, {
     children: [iconNode, processChildren(children)],
   });
 
-  return /*#__PURE__*/ _jsx('button', {
+  return /*#__PURE__*/ _jsx(_Button, {
     className: buttonClass,
     style: style,
+    type: 'primary',
     children: InnerContent,
   });
 };
 
-export default Button;
+export default LButton;

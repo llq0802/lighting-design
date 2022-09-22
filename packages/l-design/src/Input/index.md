@@ -8,9 +8,7 @@ nav:
 
 ```
 
-const Input = ()=>{
 
-  return <h1>Input</h1>
-
-}
 ```
+
+<code src="./demos/base.tsx"></code>

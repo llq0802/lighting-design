@@ -1,30 +1,38 @@
 import { defineConfig } from 'father';
-import { readdirSync } from 'fs';
-import { join } from 'path';
-
-const tailPkgs = readdirSync(join(__dirname, 'packages'))
-  .filter((pkg) => pkg.charAt(0) !== '.')
-  .map((path) => `packages/${path}/src`);
-
-console.log('tailPkgs', tailPkgs);
+// const tailPkgs = readdirSync(join(__dirname, 'packages'))
+//   .filter((pkg) => pkg.charAt(0) !== '.')
+//   .map((path) => `packages/${path}/src`);
+// console.log('tailPkgs', tailPkgs);
 
 export default defineConfig({
   // more father 4 config: https://github.com/umijs/father-next/blob/master/docs/config.md
+  extraBabelPlugins: [
+    ['babel-plugin-import', { libraryName: 'antd', libraryDirectory: 'es', style: true }, 'antd'],
+    [
+      'babel-plugin-import',
+      {
+        libraryName: '@ant-design/icons',
+        libraryDirectory: 'es/icons',
+        camel2DashComponentName: false,
+      },
+      '@ant-design/icons',
+    ],
+    // [
+    //   'babel-plugin-import',
+    //   { libraryName: '@ant-design/icons', libraryDirectory: 'es', style: true },
+    //   '@ant-design/icons',
+    // ],
+  ],
   esm: {
     input: 'packages/l-design/src',
-    // output: 'dist/es',
-    output: 'packages/l-design/es',
+    output: 'packages/l-design/dist/es',
     transformer: 'babel',
     ignores: [],
   },
   cjs: {
     input: 'packages/l-design/src',
-    // output: 'dist/es',
-    output: 'packages/l-design/lib',
+    output: 'packages/l-design/dist/lib',
     transformer: 'babel',
     ignores: [],
   },
-  // extraBabelPlugins: [
-  //   ['babel-plugin-import', { libraryName: 'antd', libraryDirectory: 'es', style: true }, 'antd'],
-  // ],
 });

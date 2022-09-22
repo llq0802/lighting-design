@@ -45,7 +45,8 @@
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.1",
     "stylelint": "13.0.0",
-    "yorkie": "^2.0.0"
+    "yorkie": "^2.0.0",
+    "babel-plugin-import": "^1.13.5"
   },
   "workspaces": [
     "packages/*"
