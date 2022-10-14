@@ -28,12 +28,8 @@
   "scripts": {
     "test": "node ./__tests__/@cubee/components.test.js"
   },
-  "dependencies": {
-    "@ant-design/icons": "^4.7.0",
-    "antd": ">=4.2.0",
-    "classnames": "^2.3.1",
-    "lodash": "^4.17.21"
-  },
+  "dependencies": {},
+  "devDependencies": {},
   "peerDependencies": {
     "antd": ">=4.2.0",
     "react": ">=16.9.0",

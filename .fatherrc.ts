@@ -17,22 +17,25 @@ export default defineConfig({
       },
       '@ant-design/icons',
     ],
+
     // [
     //   'babel-plugin-import',
     //   { libraryName: '@ant-design/icons', libraryDirectory: 'es', style: true },
     //   '@ant-design/icons',
     // ],
   ],
+
   esm: {
     input: 'packages/l-design/src',
     output: 'packages/l-design/dist/es',
     transformer: 'babel',
     ignores: [],
   },
-  cjs: {
-    input: 'packages/l-design/src',
-    output: 'packages/l-design/dist/lib',
-    transformer: 'babel',
-    ignores: [],
-  },
+
+  // cjs: {
+  //   input: 'packages/l-design/src',
+  //   output: 'packages/l-design/dist/lib',
+  //   transformer: 'babel',
+  //   ignores: [],
+  // },
 });
