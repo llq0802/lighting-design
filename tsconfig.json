@@ -14,7 +14,7 @@
     "skipLibCheck": true,
     "paths": {
       "lighting-design": ["./packages/l-design/src/index.tsx"],
-      "@light/utils": ["./packages/l-utils/src/index.ts"]
+      "rc-use-hooks": ["./packages/rc-use-hooks/src/index.ts"]
     }
   },
   "include": [

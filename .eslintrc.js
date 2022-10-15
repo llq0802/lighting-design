@@ -5,5 +5,6 @@ module.exports = {
     'react-hooks/rules-of-hooks': 2, // react函数组件名必须大写
     '@typescript-eslint/consistent-type-imports': 2, // ts类型引入
     'spaced-comment': [2, 'always'], // 注释后面2个空格
+    '@typescript-eslint/ban-types': 0,
   },
 };
