@@ -4,8 +4,9 @@ import { useRef } from 'react';
  * @param value
  * @returns
  */
-export default function useLatest<T>(value: T) {
-  const ref = useRef(value);
+
+export default function useLatest(value) {
+  var ref = useRef(value);
   ref.current = value;
   return ref.current;
 }

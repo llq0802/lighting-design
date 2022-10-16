@@ -5,21 +5,32 @@
   "author": "李岚清 <958614130@qq.com>",
   "homepage": "",
   "license": "ISC",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "typings": "es/index.d.ts",
+  "main": "dist/lib/index.js",
+  "module": "dist/es/index.js",
+  "typings": "dist/es/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
   },
   "files": [
-    "lib",
-    "es"
+    "dist"
+  ],
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
   ],
   "publishConfig": {
+    "access": "public",
     "registry": "https://registry.npmmirror.com/"
   },
   "scripts": {
-    "test": "node ./__tests__/@cubee/utils.test.js"
+    "test": "node ./__tests__/@cubee/components.test.js"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {
+    "react": ">=16.9.0"
   }
 }

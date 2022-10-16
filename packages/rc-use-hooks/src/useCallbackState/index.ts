@@ -2,13 +2,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { isFunction } from '../utils';
 
 /**
- * useState的回调获取最新的state
+ * useState的回调 setState第二个参数(函数)获取最新的state并执行一些操作
  * @export
  * @template T
  * @param {T} state
  * @return {*}  { [T, Function]}
  */
-export function useCallbackState<T>(state: T): [T, Function] {
+export  default  function useCallbackState<T>(state: T): [T, Function] {
   const callBackRef = useRef<Function | null>(null);
   const [data, setData] = useState<T>(state);
   useEffect(() => {

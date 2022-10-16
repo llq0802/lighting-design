@@ -1,7 +1,7 @@
 import type { DependencyList, EffectCallback } from 'react';
 import { useEffect, useRef } from 'react';
 
-// 是否时第一次
+// 是否时第一次渲染组件
 const useIsFirstRender = (): boolean => {
   const isFirst = useRef<boolean>(true);
   const { current } = isFirst;
