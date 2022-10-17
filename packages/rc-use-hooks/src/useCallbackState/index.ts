@@ -1,3 +1,4 @@
+import type { SetStateAction } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { isFunction } from '../utils';
 
@@ -6,16 +7,18 @@ import { isFunction } from '../utils';
  * @export
  * @template T
  * @param {T} state
- * @return {*}  { [T, Function]}
+ * @return {*}  { [T,  (val: SetStateAction<T>, cb: (newVal: T) => void) => void}
  */
-export  default  function useCallbackState<T>(state: T): [T, Function] {
+export default function useCallbackState<T>(
+  state: T,
+): [T, (val: SetStateAction<T>, cb: (newVal: T) => void) => void] {
   const callBackRef = useRef<Function | null>(null);
   const [data, setData] = useState<T>(state);
   useEffect(() => {
     callBackRef?.current?.(data);
   }, [data]);
 
-  const setState = useCallback(function (newState: unknown, cb: (val: T) => void) {
+  const setState = useCallback(function (newState: SetStateAction<T>, cb: (val: T) => void) {
     callBackRef.current = cb;
     if (isFunction(newState)) {
       setData((prevState: T) => {

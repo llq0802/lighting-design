@@ -3,6 +3,7 @@ title: 快速开始
 order: 1
 group:
   path: /
+  order: 1
 nav:
   title: 指南
   order: 1
@@ -23,6 +24,5 @@ ProComponents 是基于 Ant Design 而开发的模板组件，提供了更高级
 在使用之前可以查看一下典型的 Demo 来判断组件是否适合你们的业务。ProComponents 专注于中后台的 CRUD, 预设了相当多的样式和行为。这些行为和样式更改起来会比较困难，如果你的业务需要丰富的自定义建议直接使用 Ant Design。
 
 ## 安装
-
 
 建议还是使用 less，可以方便进行主题自定义，也可以做到按需加载。
