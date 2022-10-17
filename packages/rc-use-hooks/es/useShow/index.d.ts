@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import type { RefObject } from 'react';
 export declare type ShowInstance<T = any> = {
     onShow: (record: T) => void;
     onHide: (data?: any) => void;

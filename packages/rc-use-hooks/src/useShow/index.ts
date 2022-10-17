@@ -1,5 +1,6 @@
 import _cloneDeep from 'lodash/cloneDeep';
-import { RefObject, useCallback } from 'react';
+import type { RefObject} from 'react';
+import { useCallback } from 'react';
 import { useImperativeHandle, useRef } from 'react';
 
 export declare type ShowInstance<T = any> = {

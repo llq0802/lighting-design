@@ -6,47 +6,54 @@ import { defineConfig } from 'father';
 //   .map((path) => `packages/${path}/src`);
 // console.log('tailPkgs', tailPkgs);
 
-// const config = defineConfig({
-//   extraBabelPlugins: [
-//     ['babel-plugin-import', { libraryName: 'antd', libraryDirectory: 'es', style: true }, 'antd'],
-//     [
-//       'babel-plugin-import',
-//       {
-//         libraryName: '@ant-design/icons',
-//         libraryDirectory: 'es/icons',
-//         camel2DashComponentName: false,
-//       },
-//       '@ant-design/icons',
-//     ],
+const { BUILD_TYPE } = process.env;
 
-//     // [
-//     //   'babel-plugin-import',
-//     //   { libraryName: '@ant-design/icons', libraryDirectory: 'es', style: true },
-//     //   '@ant-design/icons',
-//     // ],
-//   ],
+const config =
+  BUILD_TYPE === 'hooks'
+    ? defineConfig({
+        esm: {
+          input: 'packages/rc-use-hooks/src',
+          output: 'packages/rc-use-hooks/es',
+          transformer: 'babel',
+          ignores: [],
+        },
+      })
+    : defineConfig({
+        extraBabelPlugins: [
+          [
+            'babel-plugin-import',
+            { libraryName: 'antd', libraryDirectory: 'es', style: true },
+            'antd',
+          ],
+          [
+            'babel-plugin-import',
+            {
+              libraryName: '@ant-design/icons',
+              libraryDirectory: 'es/icons',
+              camel2DashComponentName: false,
+            },
+            '@ant-design/icons',
+          ],
 
-//   esm: {
-//     input: 'packages/l-design/src',
-//     output: 'packages/l-design/dist/es',
-//     transformer: 'babel',
-//     ignores: [],
-//   },
+          // [
+          //   'babel-plugin-import',
+          //   { libraryName: '@ant-design/icons', libraryDirectory: 'es', style: true },
+          //   '@ant-design/icons',
+          // ],
+        ],
 
-//   // cjs: {
-//   //   input: 'packages/l-design/src',
-//   //   output: 'packages/l-design/dist/lib',
-//   //   transformer: 'babel',
-//   //   ignores: [],
-//   // },
-// });
+        esm: {
+          input: 'packages/l-design/src',
+          output: 'packages/l-design/dist/es',
+          transformer: 'babel',
+          ignores: [],
+        },
+        cjs: {
+          input: 'packages/l-design/src',
+          output: 'packages/l-design/dist/lib',
+          transformer: 'babel',
+          ignores: [],
+        },
+      });
 
-const config = defineConfig({
-  esm: {
-    input: 'packages/rc-use-hooks/src',
-    output: 'packages/rc-use-hooks/dist/es',
-    transformer: 'babel',
-    ignores: [],
-  },
-});
 export default config;

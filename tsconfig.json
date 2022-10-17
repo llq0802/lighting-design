@@ -17,6 +17,7 @@
       "rc-use-hooks": ["./packages/rc-use-hooks/src/index.ts"]
     }
   },
+  "exclude": ["**/demos/**/*", "**/__tests__/**/*"],
   "include": [
     "typings.d.ts",
     "**/packages/**/*",
