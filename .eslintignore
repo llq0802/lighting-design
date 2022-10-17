@@ -8,3 +8,4 @@ es
 .umi
 .github
 webpack.config.js
+config\config.ts.
