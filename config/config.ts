@@ -3,9 +3,10 @@ import { defineConfig } from 'dumi';
 const isDev = process.env.NODE_ENV === 'development';
 
 const configs = defineConfig({
-  publicPath: isDev ? '/' : '/lighting-design/docs-dist/',
-  base: isDev ? '/' : '/lighting-design/docs-dist/',
-  title: 'l-design',
+  dynamicImport: {},
+  publicPath: isDev ? '/' : '/lighting-design/',
+  base: isDev ? '/' : '/lighting-design/',
+  title: 'lighting-design',
   favicon:
     'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
   logo: 'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
@@ -16,7 +17,7 @@ const configs = defineConfig({
     null, // null 值代表保留约定式生成的导航，只做增量配置
     {
       title: 'GitHub',
-      path: 'https://github.com/umijs/dumi',
+      path: 'https://github.com/llq0802/lighting-design',
     },
   ],
 
@@ -35,7 +36,7 @@ const configs = defineConfig({
     ],
     '/hooks': [
       {
-        // title: 'hooks总览',
+        title: 'rc-use-hooks',
         children: ['hooks/start.md'],
       },
       {
