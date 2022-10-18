@@ -48,26 +48,26 @@ const configs = defineConfig({
   // more config: https://d.umijs.org/config
 });
 
-// if (!isDev) {
-//   configs.chunks = ['vendors', 'umi'];
-//   configs.chainWebpack = function (config, { webpack }) {
-//     config.merge({
-//       optimization: {
-//         minimize: true,
-//         splitChunks: {
-//           cacheGroups: {
-//             vendor: {
-//               test: /node_modules/,
-//               chunks: 'all',
-//               name: 'vendors',
-//               priority: -10,
-//               enforce: true,
-//             },
-//           },
-//         },
-//       },
-//     });
-//   };
-// }
+if (!isDev) {
+  configs.chunks = ['vendors', 'umi'];
+  configs.chainWebpack = function (config: any, { webpack }) {
+    config.merge({
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          cacheGroups: {
+            vendor: {
+              test: /node_modules/,
+              chunks: 'all',
+              name: 'vendors',
+              priority: -10,
+              enforce: true,
+            },
+          },
+        },
+      },
+    });
+  };
+}
 
 export default configs;
