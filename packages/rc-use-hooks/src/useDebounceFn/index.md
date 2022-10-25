@@ -10,7 +10,7 @@ nav:
 
 # useDebounceFn
 
-返回最新的 state 或 props 避免闭包问题。
+防抖函数。
 
 ## 代码演示
 

@@ -1,4 +1,5 @@
 export { default as useCallbackState } from './useCallbackState';
+export { default as useClientRect } from './useClientRect';
 export { default as useDebounceFn } from './useDebounceFn';
 export { default as useForceUpdate } from './useForceUpdate';
 export { default as useIsMounted } from './useIsMounted';
@@ -13,3 +14,4 @@ export { default as useShow } from './useShow';
 export { default as useThrottleFn } from './useThrottleFn';
 export { default as useUnmounted } from './useUnmounted';
 export { default as useUpdated } from './useUpdated';
+
