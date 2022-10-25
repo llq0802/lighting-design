@@ -3,6 +3,17 @@ import { defineConfig } from 'dumi';
 const isDev = process.env.NODE_ENV === 'development';
 
 const configs = defineConfig({
+  ssr: {},
+  extraBabelPlugins: [
+    [
+      'babel-plugin-import',
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: true,
+      },
+    ],
+  ],
   dynamicImport: {},
   publicPath: isDev ? '/' : '/lighting-design/',
   base: isDev ? '/' : '/lighting-design/',
