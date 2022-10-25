@@ -41,7 +41,19 @@ const configs = defineConfig({
       },
       {
         title: 'state',
-        children: ['useCallbackState/index.md', 'useLatest/index.md'],
+        children: ['useCallbackState/index.md', 'useLatest/index.md', 'usePrevious/index.md'],
+      },
+      {
+        title: 'effect',
+        children: ['useUpdateEffect/index.md'],
+      },
+      {
+        title: 'dom',
+        children: ['useClientRect/index.md'],
+      },
+      {
+        title: 'other',
+        children: ['useDebounceFn/index.md'],
       },
     ],
   },

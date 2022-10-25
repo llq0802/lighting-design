@@ -1,5 +1,5 @@
 ---
-title: useLatest
+title: usePrevious
 order: 3
 group:
   path: /state
@@ -8,16 +8,16 @@ nav:
   path: /hooks
 ---
 
-# useLatest
+# usePrevious
 
-返回最新的 state 或 props 避免闭包问题。
+用于获取状态上一次的值
 
 ## 代码演示
 
 <code src='./demos/demo1.tsx' />
 
-## API
+### API
 
 ```typescript
-const latestValue = useLatest(value);
+const prevValue = usePrevious(value);
 ```
