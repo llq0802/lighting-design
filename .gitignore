@@ -9,9 +9,9 @@
 
 # production
 es
+lib
 dist
 /docs-dist
-rc-use-hooks/dist/
 
 # misc
 .DS_Store
