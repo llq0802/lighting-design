@@ -13,4 +13,5 @@ export { default as useSetSate } from './useSetSate';
 export { default as useShow } from './useShow';
 export { default as useThrottleFn } from './useThrottleFn';
 export { default as useUnmounted } from './useUnmounted';
-export { default as useUpdateEffect } from './useUpdateEffect';
+export { default as useUpdated } from './useUpdated';
+
