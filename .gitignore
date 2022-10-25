@@ -8,8 +8,8 @@
 /package-lock.json
 
 # production
-/es
-/dist
+es
+dist
 /docs-dist
 
 # misc
