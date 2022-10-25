@@ -1,7 +1,8 @@
+import { Button } from 'antd';
 import { useCallbackState } from 'rc-use-hooks';
 import type { FC } from 'react';
 
-const Demo1: FC = () => {
+const Demo: FC = () => {
   const [count, setcount] = useCallbackState<number>(0);
 
   const onClick = () => {
@@ -11,7 +12,12 @@ const Demo1: FC = () => {
     });
   };
 
-  return <div onClick={onClick}>count: {count}</div>;
+  return (
+    <>
+      <Button onClick={onClick}>点击</Button>
+      <div>count: {count}</div>
+    </>
+  );
 };
 
-export default Demo1;
+export default Demo;

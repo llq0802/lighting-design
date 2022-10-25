@@ -39,3 +39,5 @@ $ npm run build
 举个例子，使用下面的命令，react 会被添加到名为 "awesome-package "的包/工作空间中，作为开发依赖（你也可以使用-D 来代替-dev）： yarn workspace awesome-package add react --dev
 
 如果你想为所有的包添加一个共同的依赖关系，进入项目的根目录并使用-W (或-ignore-workspace-root-check) 标志： yarn add some-package -W -D
+
+`(revert: )?(feat|fix|docs|UI|refactor|perf|workflow|build|CI|typos|chore|tests|types|wip|release|dep|locale)`
