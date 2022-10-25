@@ -46,6 +46,7 @@
     "father": "^4.0.5",
     "gh-pages": "^4.0.0",
     "lerna": "^5.5.1",
+    "classnames": "^2.3.2",
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.1",
     "stylelint": "~13.0.0",
