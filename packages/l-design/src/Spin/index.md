@@ -1,6 +1,6 @@
 ---
 title: Spin
-order: 3
+order: 2
 nav:
   order: 2
   path: /components

@@ -18,7 +18,7 @@ const useIsFirstRender = (): boolean => {
  * @param effect 更新时所需要调用的函数
  * @param deps  更新的依赖
  */
-const useUpdateEffect = (effect: EffectCallback, deps: DependencyList): void => {
+const useUpdated = (effect: EffectCallback, deps: DependencyList): void => {
   // 是否是第一次更新
   const isFirst: boolean = useIsFirstRender();
   useEffect(() => {
@@ -27,4 +27,4 @@ const useUpdateEffect = (effect: EffectCallback, deps: DependencyList): void => 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };
-export default useUpdateEffect;
+export default useUpdated;

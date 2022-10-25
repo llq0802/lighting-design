@@ -8,7 +8,6 @@ import { useCallback, useRef } from 'react';
 function usePersistFn<T extends (...args: any[]) => any>(fn: T): T extends infer R ? R : T {
   const ref = useRef<T>(fn);
   ref.current = fn;
-
   const persistFn = useCallback(
     (...args: any[]) => {
       const refFn = ref.current;
