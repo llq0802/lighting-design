@@ -1,14 +1,14 @@
 ---
-title: useDebounceFn
+title: useUpdated
 order: 3
 group:
-  path: /effect
+  path: /lifecycle
 nav:
   order: 3
   path: /hooks
 ---
 
-# useDebounceFn
+# useUpdated
 
 返回最新的 state 或 props 避免闭包问题。
 

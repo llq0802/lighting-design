@@ -1,14 +1,14 @@
 ---
-title: useDebounceFn
+title: useSafeState
 order: 3
 group:
-  path: /effect
+  path: /state
 nav:
   order: 3
   path: /hooks
 ---
 
-# useDebounceFn
+# useSafeState
 
 返回最新的 state 或 props 避免闭包问题。
 

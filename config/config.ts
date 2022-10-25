@@ -1,9 +1,10 @@
 import { defineConfig } from 'dumi';
+import menus from './menus';
 
 const isDev = process.env.NODE_ENV === 'development';
 
 const configs = defineConfig({
-  ssr: {},
+  // ssr: {},
   extraBabelPlugins: [
     [
       'babel-plugin-import',
@@ -31,44 +32,7 @@ const configs = defineConfig({
       path: 'https://github.com/llq0802/lighting-design',
     },
   ],
-
-  menus: {
-    // 需要自定义侧边菜单的路径，没有配置的路径还是会使用自动生成的配置
-    '/components': [
-      {
-        title: '组件总览',
-        children: [
-          'components.md',
-          'Button/index.md',
-          'Input/index.md',
-          'Spin/index.md',
-          // 'components/Button/index.md', // 对应的 Markdown 文件，路径是相对于 resolve.includes 目录识别的
-        ],
-      },
-    ],
-    '/hooks': [
-      {
-        title: 'rc-use-hooks',
-        children: ['hooks/start.md'],
-      },
-      {
-        title: 'state',
-        children: ['useCallbackState/index.md', 'useLatest/index.md', 'usePrevious/index.md'],
-      },
-      {
-        title: 'effect',
-        children: ['useUpdateEffect/index.md'],
-      },
-      {
-        title: 'dom',
-        children: ['useClientRect/index.md'],
-      },
-      {
-        title: 'other',
-        children: ['useDebounceFn/index.md'],
-      },
-    ],
-  },
+  menus,
   // more config: https://d.umijs.org/config
 });
 

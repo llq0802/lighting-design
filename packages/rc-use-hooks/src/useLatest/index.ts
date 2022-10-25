@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 /**
- * 返回当前最新值的 Hook( state 或 props )
+ * 返回当前最新值的状态
  * @param value
  * @returns
  */
