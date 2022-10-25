@@ -16,7 +16,6 @@ function useClientRect() {
 
   return [rect, ref] as const;
 }
-
 //  官方案例 当且仅当组件挂载和卸载时
 // function useClientRect() {
 //   const [rect, setRect] = useState(null);

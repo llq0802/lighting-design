@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 /**
- * 返回当前最新值的 Hook，可以避免闭包问题。
+ * 返回当前最新值的 Hook( state 或 props )
  * @param value
  * @returns
  */
-export default function useLatest<T>(value: T) {
+export default function useLatest<T = any>(value: T) {
   const ref = useRef(value);
   ref.current = value;
-  return ref.current;
+  return ref;
 }
