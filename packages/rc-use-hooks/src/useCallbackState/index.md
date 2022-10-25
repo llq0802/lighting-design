@@ -14,16 +14,22 @@ nav:
 
 ## 代码演示
 
-<code src='./demos/demo1.tsx' />
+<code src='./demos/Demo1.tsx' />
 
-<!-- <API></API> -->
+### API
+
+```ts
+const [state, setState] = useCallbackState(initialState?);
+```
+
+### state
+
+| 参数  | 说明       | 类型 | 默认值 |
+| ----- | ---------- | ---- | ------ |
+| state | state 的值 | -    | -      |
 
 ### setState
 
-` const setState: (newState: SetStateAction<T>, cb: (val: T) => void) => void`
-
-<!-- | 参数    | 说明                     | 类型               | 默认值 |
-| ------- | ------------------------ | ------------------ | ------ |
-| value   | 需要防抖的值             | `any`              | -      |
-| wait    | 防抖等待时间，单位为毫秒 | `number`           | `0`    |
-| options | 防抖配置                 | `DebounceSettings` | -      | -->
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| setState | 第一个参数传入新的 state,第二个参数为回调函数接受最新传入的 state | (newState: SetStateAction<T>, cb: (newState: T) => void) => void; | - |

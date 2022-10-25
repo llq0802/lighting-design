@@ -8,10 +8,10 @@ export { default as useLatest } from './useLatest';
 export { default as useLockAsyncFn } from './useLockAsyncFn';
 export { default as useMounted } from './useMounted';
 export { default as usePrevious } from './usePrevious';
+export { default as useResetState } from './useResetState';
 export { default as useSafeState } from './useSafeState';
-export { default as useSetSate } from './useSetSate';
+export { default as useSetState } from './useSetState';
 export { default as useShow } from './useShow';
 export { default as useThrottleFn } from './useThrottleFn';
 export { default as useUnmounted } from './useUnmounted';
 export { default as useUpdated } from './useUpdated';
-
