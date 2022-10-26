@@ -10,7 +10,7 @@ nav:
 
 # useLatest
 
-返回最新的 state 或 props 避免闭包问题。
+返回最新的 state 或 props
 
 ## 代码演示
 
@@ -18,6 +18,6 @@ nav:
 
 ## API
 
-```typescript
+```ts
 const latestValue = useLatest(value);
 ```

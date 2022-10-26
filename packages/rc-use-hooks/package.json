@@ -1,6 +1,6 @@
 {
   "name": "rc-use-hooks",
-  "version": "1.0.0",
+  "version": "0.0.1-alpha.1",
   "description": "> TODO: description",
   "author": "李岚清 <958614130@qq.com>",
   "homepage": "",
@@ -13,7 +13,9 @@
     "test": "__tests__"
   },
   "files": [
-    "dist"
+    "dist",
+    "LICENSE",
+    "README.md"
   ],
   "browserslist": [
     "last 2 versions",
@@ -21,10 +23,6 @@
     "> 1%",
     "ie >= 11"
   ],
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmmirror.com/"
-  },
   "scripts": {
     "test": "node ./__tests__/@cubee/components.test.js"
   },

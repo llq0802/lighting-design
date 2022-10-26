@@ -22,7 +22,7 @@ export default {
       title: 'state',
       children: [
         'useCallbackState/index.md',
-        'useSetSate/index.md',
+        'useSetState/index.md',
         'useResetState/index.md',
         'useSafeState/index.md',
         'useLatest/index.md',
