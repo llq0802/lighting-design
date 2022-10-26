@@ -14,7 +14,7 @@ nav:
 
 ## 代码演示
 
-<code src='./demos/Demo.tsx' />
+<code src='./demos/demo1.tsx' />
 
 ## API
 
