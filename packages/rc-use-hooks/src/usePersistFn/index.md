@@ -10,14 +10,32 @@ nav:
 
 # usePersistFn
 
-返回最新的 state 或 props 避免闭包问题。
+持久化 function 的 Hook。
+
+> 参考 [如何从 useCallback 读取一个经常变化的值？](https://zh-hans.reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback)
+>
+> 在某些场景中，你可能会需要用 useCallback 记住一个回调，但由于内部函数必须经常重新创建，记忆效果不是很好，导致子组件重复 render。对于超级复杂的子组件，重新渲染会对性能造成影响。通过 usePersistFn，可以保证函数地址永远不会变化。
 
 ## 代码演示
 
-<!-- <code src='./demos/demo1.tsx' /> -->
+### 基础用法
+
+<code src="./demos/Demo2.tsx" />
 
 ## API
 
 ```typescript
-const latestValue = useLatest(value);
+const fn = usePersistFn(fn: (...args: any) => any);
 ```
+
+### Result
+
+| 参数 | 说明                      | 类型       |
+| ---- | ------------------------- | ---------- |
+| fn   | 引用地址永远不会变化的 fn | `function` |
+
+### Params
+
+| 参数 | 说明             | 类型       | 默认值 |
+| ---- | ---------------- | ---------- | ------ |
+| fn   | 需要持久化的函数 | `function` | -      |
