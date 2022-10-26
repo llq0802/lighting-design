@@ -7,7 +7,7 @@ import { Input } from 'antd';
 import { usePrevious } from 'rc-use-hooks';
 import { useState } from 'react';
 
-function Demo() {
+function Demo1() {
   const [value, setValue] = useState('');
   const prevValue = usePrevious(value);
 
@@ -20,4 +20,4 @@ function Demo() {
   );
 }
 
-export default Demo;
+export default Demo1;

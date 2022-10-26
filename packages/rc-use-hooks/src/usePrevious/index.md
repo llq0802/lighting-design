@@ -16,11 +16,11 @@ nav:
 
 ### 基础用法
 
-<code src="./demos/demo1.tsx" />
+<code src="./demos/demo1.tsx"/>
 
 ### 不受其他状态更新影响
 
-<code src="./demos/demo2.tsx" />
+<code src="./demos/demo2.tsx"/>
 
 ## API
 
