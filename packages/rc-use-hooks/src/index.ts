@@ -1,5 +1,6 @@
 export { default as useCallbackState } from './useCallbackState';
 export { default as useClientRect } from './useClientRect';
+export { default as useConcurrentRequest } from './useConcurrentRequest';
 export { default as useDebounceFn } from './useDebounceFn';
 export { default as useForceUpdate } from './useForceUpdate';
 export { default as useIsMounted } from './useIsMounted';

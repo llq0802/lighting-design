@@ -10,14 +10,30 @@ nav:
 
 # useLockAsyncFn
 
-返回最新的 state 或 props 避免闭包问题。
+用于给一个异步函数增加竞态锁，防止并发执行。
 
 ## 代码演示
 
-<!-- <code src='./demos/demo1.tsx' /> -->
+### 基础用法
+
+<code src="./demos/demo1.tsx" />
 
 ## API
 
 ```typescript
-const latestValue = useLatest(value);
+function useLockFn<P extends any[] = any[], V extends any = any>(
+  fn: (...args: P) => Promise<V>
+): fn: (...args: P) => Promise<V | undefined>;
 ```
+
+### Result
+
+| 参数 | 说明                   | 类型                               |
+| ---- | ---------------------- | ---------------------------------- |
+| fn   | 增加了竞态锁的异步函数 | `(...args: any[]) => Promise<any>` |
+
+### Params
+
+| 参数 | 说明                     | 类型                               | 默认值 |
+| ---- | ------------------------ | ---------------------------------- | ------ |
+| fn   | 需要增加竞态锁的异步函数 | `(...args: any[]) => Promise<any>` | -      |
