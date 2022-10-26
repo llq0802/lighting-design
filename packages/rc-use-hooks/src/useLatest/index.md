@@ -21,3 +21,9 @@ nav:
 ```ts
 const latestValue = useLatest(value);
 ```
+
+### Result
+
+| 参数        | 说明               | 类型                              |
+| ----------- | ------------------ | --------------------------------- |
+| state/props | 最新的 state/props | `React.MutableRefObject<boolean>` |

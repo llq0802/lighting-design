@@ -9,7 +9,7 @@ const useIsMounted = () => {
     };
   }, []);
 
-  return mountedRef.current;
+  return mountedRef;
 };
 
 export default useIsMounted;
