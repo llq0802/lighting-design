@@ -6,7 +6,7 @@ nav:
   path: /components
 ---
 
-# tooltip 加载
+# tooltip 文字提示
 
 用于页面和区块组件的加载状态。
 

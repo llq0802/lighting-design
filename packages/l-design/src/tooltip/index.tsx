@@ -9,17 +9,22 @@ interface LoadingProps {
   children: React.ReactNode;
 }
 const Index: FC<Partial<LoadingProps>> = ({ children }) => {
-  const spinElement = (
+  return (
     <div
       style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
       }}
-    ></div>
+    >
+      <div className="con-tooltip top">
+        {children}
+        <div className="tooltip ">
+          <span>反反复复烦烦烦</span>
+        </div>
+      </div>
+    </div>
   );
-
-  return spinElement;
 };
 
 export default Index;
