@@ -10,14 +10,22 @@ nav:
 
 # useUnmounted
 
-返回最新的 state 或 props 避免闭包问题。
+只在组件 卸载 时执行的 Hook。
 
 ## 代码演示
 
-<!-- <code src='./demos/demo1.tsx' /> -->
+### 基础用法
+
+<code src="./demos/basic1.tsx" />
 
 ## API
 
-```typescript
-const latestValue = useLatest(value);
+```ts
+useUnmounted(fn: () => void);
 ```
+
+### Params
+
+| 参数 | 说明              | 类型       | 默认值 |
+| ---- | ----------------- | ---------- | ------ |
+| fn   | 卸载 时执行的函数 | `function` | -      |

@@ -4,6 +4,9 @@ import type { FC } from 'react';
 import Loading1 from './component/loading1';
 import Loading2 from './component/loading2';
 import Loading3 from './component/loading3';
+import Loading4 from './component/loading4';
+import Loading5 from './component/loading5';
+import Loading6 from './component/loading6';
 import './index.less';
 
 interface LoadingProps {
@@ -51,6 +54,9 @@ const Index: FC<Partial<LoadingProps>> = ({
       load1: <Loading1 key={1} {...props} />,
       load2: <Loading2 key={2} {...props} />,
       load3: <Loading3 key={3} {...props} />,
+      load4: <Loading4 key={3} {...props} />,
+      load5: <Loading5 key={3} {...props} />,
+      load6: <Loading6 key={3} {...props} />,
     },
   ];
 
