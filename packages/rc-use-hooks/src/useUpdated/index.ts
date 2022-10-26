@@ -21,8 +21,8 @@ export const useIsFirstRender = (): boolean => {
 const useUpdated = (effect: EffectCallback, deps?: DependencyList): void => {
   // eslint-disable-next-line no-param-reassign
   deps = Array.isArray(deps) && deps.length > 0 ? deps : undefined;
-  // 是否是第一次更新
   const isFirst: boolean = useIsFirstRender();
+  // 是否是第一次更新
   useEffect(() => {
     // 如果不是第一次执行函数
     if (!isFirst) return effect();
