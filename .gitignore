@@ -2,15 +2,16 @@
 
 # dependencies
 /node_modules
+**/node_modules
 /npm-debug.log*
 /yarn-error.log
-/yarn.lock
 /package-lock.json
 
 # production
-es
-lib
 dist
+**/dist
+**/**/lib/**
+**/**/es/**
 /docs-dist
 
 # misc
@@ -26,3 +27,7 @@ dist
 # ide
 /.vscode
 /.idea
+
+# visual studio code
+.history
+*.log
