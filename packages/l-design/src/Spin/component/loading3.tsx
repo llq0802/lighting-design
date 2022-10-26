@@ -1,51 +1,26 @@
 import type { FC } from 'react';
-import type { SpinLoadingProps} from './loading1';
+import type { SpinLoadingProps } from './loading1';
 import { SpinSizeArr } from './loading1';
 
-const SpinSizeObj = {
-  small: 18,
-  default: 24,
-  large: 42,
-};
-
-const loading3: FC<SpinLoadingProps> = ({ fill, size }) => {
+const Loading1: FC<SpinLoadingProps> = ({ fill, size }) => {
   return (
-    <svg width={SpinSizeObj[size]} height={SpinSizeArr[size]} viewBox="0 0 24 24">
-      <rect x="0" y="0" width="4" height="7" fill={fill}>
+    <svg width={SpinSizeArr[size]} height={SpinSizeArr[size]} viewBox="0 0 50 50">
+      <path
+        fill={fill}
+        d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
+      >
         <animateTransform
           attributeType="xml"
           attributeName="transform"
-          type="scale"
-          values="1,1; 1,3; 1,1"
-          begin="0s"
+          type="rotate"
+          from="0 25 25"
+          to="360 25 25"
           dur="0.6s"
           repeatCount="indefinite"
         />
-      </rect>
-      <rect x="10" y="0" width="4" height="7" fill={fill}>
-        <animateTransform
-          attributeType="xml"
-          attributeName="transform"
-          type="scale"
-          values="1,1; 1,3; 1,1"
-          begin="0.2s"
-          dur="0.6s"
-          repeatCount="indefinite"
-        />
-      </rect>
-      <rect x="20" y="0" width="4" height="7" fill={fill}>
-        <animateTransform
-          attributeType="xml"
-          attributeName="transform"
-          type="scale"
-          values="1,1; 1,3; 1,1"
-          begin="0.4s"
-          dur="0.6s"
-          repeatCount="indefinite"
-        />
-      </rect>
+      </path>
     </svg>
   );
 };
 
-export default loading3;
+export default Loading1;

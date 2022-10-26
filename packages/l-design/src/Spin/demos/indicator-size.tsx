@@ -21,7 +21,7 @@ const Index: FC = () => {
       <div style={flexCenter}>
         mode：
         <Segmented
-          options={['load1', 'load2', 'load3']}
+          options={['load1', 'load2', 'load3','load4', 'load5', 'load6']}
           onChange={(e) => {
             setMode(e);
           }}
@@ -31,7 +31,7 @@ const Index: FC = () => {
       <div style={flexCenter}>
         size：
         <Segmented
-          options={['small', 'default', 'large']}
+          options={['default', 'small', 'large']}
           onChange={(e) => {
             setSize(e);
           }}
