@@ -10,11 +10,11 @@ nav:
 
 # useMounted
 
-返回最新的 state 或 props 避免闭包问题。
+useMounted
 
 ## 代码演示
 
-<!-- <code src='./demos/demo1.tsx' /> -->
+<code src='./demos/demo1.tsx' />
 
 ## API
 
