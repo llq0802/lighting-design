@@ -8,16 +8,24 @@ nav:
   path: /hooks
 ---
 
-# useIsUnmounted
+useIsUnmounted
 
-返回最新的 state 或 props 避免闭包问题。
+判断当前组件是否卸载，如果卸载就不更新状态，避免因组件卸载后更新状态而导致的内存泄漏。
 
 ## 代码演示
 
-<!-- <code src='./demos/demo1.tsx' /> -->
+### 基础用法
+
+<code src="./demos/basic1.tsx" />
 
 ## API
 
 ```typescript
-const latestValue = useLatest(value);
+const isUnmounted = useIsUnmounted();
 ```
+
+### Result
+
+| 参数 | 说明                     | 类型                              |
+| ---- | ------------------------ | --------------------------------- |
+| -    | ref 值为当前组件是否卸载 | `React.MutableRefObject<boolean>` |

@@ -49,7 +49,12 @@ export default {
     },
     {
       title: 'other',
-      children: ['useShow/index.md', 'useLockAsyncFn/index.md', 'usePersistFn/index.md'],
+      children: [
+        'useShow/index.md',
+        'useLockAsyncFn/index.md',
+        'useConcurrentRequest/index.md',
+        'usePersistFn/index.md',
+      ],
     },
   ],
 };

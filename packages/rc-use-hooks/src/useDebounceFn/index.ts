@@ -7,7 +7,7 @@ import useUnmount from '../useUnmounted';
  * @param {T} fn
  * @param {number} [wait=300]
  * @param {Parameters<typeof debounce>[2]} [options={}]
- * @return {*} 
+ * @return {*}
  */
 function useDebounceFn<T extends (...args: any[]) => any>(
   fn: T,
@@ -16,6 +16,7 @@ function useDebounceFn<T extends (...args: any[]) => any>(
 ) {
   const refFn = useRef<T>(fn);
   refFn.current = fn;
+
   const debounceRun = useRef(debounce(((...args) => refFn.current(...args)) as T, wait, options));
 
   useUnmount(() => {
