@@ -1,12 +1,14 @@
 ---
-title: 页面级别的前端组件
+title: 开发更容易
 order: 10
 sidebar: false
 hero:
   title: lighting-design
   desc: 🏆 让中后台开发更简单
   actions:
-    - text: 🏮🏮 快速开始 →
+    - text: 🏮🏮 快速开始 Hooks →
+      link: /hooks/start
+    - text: 🏮🏮 快速开始 组件库 →
       link: /guide/get-start
 features:
   - icon: https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/q48YQ5X4ytAAAAAAAAAAAAAAFl94AQBr

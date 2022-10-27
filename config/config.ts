@@ -19,9 +19,8 @@ const configs = defineConfig({
   publicPath: isDev ? '/' : '/lighting-design/',
   base: isDev ? '/' : '/lighting-design/',
   title: 'lighting-design',
-  favicon:
-    'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
-  logo: 'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
+  favicon: 'https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*cY0tTr8q3Y4AAAAAAAAAAABkARQnAQ',
+  logo: 'https://gw.alipayobjects.com/mdn/rms_08e378/afts/img/A*cY0tTr8q3Y4AAAAAAAAAAABkARQnAQ',
   outputPath: 'docs-dist',
   mode: 'site',
   // 单语言配置方式如下
