@@ -34,6 +34,7 @@ export default {
       children: [
         'useMounted/index.md',
         'useUpdated/index.md',
+        'useForceUpdate/index.md',
         'useUnmounted/index.md',
         'useIsMounted/index.md',
         'useIsUnmounted/index.md',
