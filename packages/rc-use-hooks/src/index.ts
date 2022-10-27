@@ -14,7 +14,7 @@ export { default as useResetState } from './useResetState';
 export { default as useSafeState } from './useSafeState';
 export { default as useSetState } from './useSetState';
 export { default as useShow } from './useShow';
-export type { OnShowInstance } from './useShow';
+export type { UseShowInstance, UseShowInstanceRef, UseShowOptions } from './useShow';
 export { default as useThrottleFn } from './useThrottleFn';
 export { default as useUnmounted } from './useUnmounted';
 export { default as useUpdated } from './useUpdated';
