@@ -1,11 +1,10 @@
 import { Button, Checkbox, Form, Input, message, Modal, Space } from 'antd';
-import type { OnShowInstance } from 'rc-use-hooks';
+import type { UseShowInstance, UseShowInstanceRef } from 'rc-use-hooks';
 import { useShow } from 'rc-use-hooks';
-import type { RefObject } from 'react';
 import { useRef, useState } from 'react';
 
 const demo1 = () => {
-  const childModelRef = useRef<OnShowInstance>(null);
+  const childModelRef = useRef<UseShowInstance>(null);
 
   const handleClickShow = () => {
     childModelRef.current?.onShow({
@@ -16,21 +15,22 @@ const demo1 = () => {
   };
   const handleClickHide = () => {
     childModelRef.current?.onHide({
-      name: '李岚清',
-      age: 25,
-      remember: true,
+      name: '吴彦祖',
+      age: 18,
+      remember: false,
     });
   };
 
   const handleGetData = () => {
     const childData = childModelRef.current?.getChildData();
 
-    message.info(`子组件数据为:   ${JSON.stringify(childData, null, 2)}`);
+    message.info(`获得到子组件数据为:   ${JSON.stringify(childData, null, 2)}`);
     console.log(' childData', childData);
   };
 
   return (
-    <div>
+    <div style={{ border: '1px solid #888', padding: 20 }}>
+      <h2>这是父组件</h2>
       <Space>
         <Button onClick={handleClickShow}> 父组件调用onShow事件并传参数给子组件</Button>
         <Button onClick={handleClickHide}> 父组件调用onHide事件并传参数给子组件</Button>
@@ -45,18 +45,21 @@ const demo1 = () => {
 export default demo1;
 
 type ChildModelProps = {
-  funcRef: RefObject<OnShowInstance>;
+  funcRef: UseShowInstanceRef;
 };
 function ChildModel({ funcRef }: ChildModelProps) {
   const [open, setOpen] = useState(false);
 
   const { parentData, setParentData } = useShow(funcRef, {
     onShow: (data: Record<string, any>) => {
+      message.info(`父组件调用了onShow并传参数${JSON.stringify(data, null, 2)}`);
       console.log('父组件调用了onShow并传参数 ', data);
       setOpen(true);
     },
 
     onHide: (data) => {
+      message.info(`父组件调用了onHide并传参数${JSON.stringify(data, null, 2)}`);
+
       console.log('父组件调用了onHide并传参数 ', data);
       setOpen(false);
     },
@@ -70,9 +73,20 @@ function ChildModel({ funcRef }: ChildModelProps) {
     setOpen(false);
   };
 
+  const handleCancel = () => {
+    setParentData(null);
+    setOpen(false);
+  };
+
   return (
     <>
-      <Modal open={open} title="子组件的弹窗" onOk={handleOk} onCancel={() => setOpen(false)}>
+      <Modal
+        open={open}
+        title="这是子组件弹窗"
+        onOk={handleOk}
+        onCancel={handleCancel}
+        okText="点我向父组件传数据"
+      >
         <Form
           name="basic"
           labelCol={{ span: 5 }}
