@@ -1,0 +1,21 @@
+.content:hover + .tooltipItem {
+  transition: 0.3s linear;
+  animation: odsoky 1s ease-in-out infinite alternate;
+}
+@keyframes odsoky {
+  0% {
+    transform: translate(-50%, 6px);
+  }
+
+  100% {
+    transform: translate(-50%, 0px);
+  }
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  cursor: pointer;
+}
