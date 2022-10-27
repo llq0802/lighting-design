@@ -17,7 +17,7 @@ function mockRequest() {
 
 export default () => {
   const [count, setCount] = useState(0);
-  const submit = useLockAsyncFn(async (params) => {
+  const { run, loading } = useLockAsyncFn(async (params) => {
     message.info(`开始请求${params}`);
     await mockRequest();
     setCount((val) => val + 1);
@@ -27,7 +27,7 @@ export default () => {
   return (
     <>
       <p>请求次数: {count}</p>
-      <Button onClick={() => submit('99')}>Submit</Button>
+      <Button onClick={() => run('99')}>Submit</Button>
     </>
   );
 };

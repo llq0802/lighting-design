@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 /**
  * 用于给一个异步函数节流阀，防止并发执行。
@@ -6,23 +6,31 @@ import { useCallback, useRef } from 'react';
 export default function useLockAsyncFn<P extends any[] = any[], V extends any = any>(
   fn: (...args: P) => Promise<V>,
 ) {
+  const [loading, setLoading] = useState<boolean>(false);
   const lockRef = useRef<boolean>(false);
 
-  return useCallback(
+  const run = useCallback(
     async (...args: P) => {
       if (lockRef.current) return;
       lockRef.current = true;
       try {
+        setLoading(true);
         const ret = await fn(...args);
+        setLoading(false);
         lockRef.current = false;
         return ret;
       } catch (e) {
+        setLoading(false);
         lockRef.current = false;
         throw e;
       }
     },
     [fn],
   );
+  return {
+    loading,
+    run,
+  };
 }
 
 // // 防止网络请求多次(使用promise实现)
