@@ -8,4 +8,6 @@ export { default as Input } from './Input';
 export type { InputProps } from './Input';
 // ===
 export { default as Spin } from './Spin';
-// export type { SpinProps } from './Spin';
+export { default as Tooltip } from './Tooltip';
+
+
