@@ -1,48 +1,59 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+
+type AsyncFnsType = (...args: any[]) => Promise<any>[];
 
 /**
  * 并发请求函数
- * @param {*} urls
+ * @param {*} asyncFns
  * @param {*} max
  * @return {*}
  */
-export default function useConcurrentRequest(urls: string, max: number = 2) {
+export default function useConcurrentRequest(asyncFns: AsyncFnsType, max: number = 3) {
   const [loading, setLoading] = useState(false);
+  const run = useCallback(() => {
+    return new Promise((resolve, reject) => {
+      if (asyncFns.length === 0) {
+        resolve([]);
+        return;
+      }
+      const result: any[] = [];
+      let index = 0, // 获取当前异步函数的索引
+        count = 0; // 请求次数
 
-  return new Promise((resolve) => {
-    if (urls.length === 0) {
-      resolve([]);
-      return;
-    }
+      async function request() {
+        if (index === asyncFns.length) return;
 
-    const result: any[] = [];
-    let index = 0,
-      count = 0;
-
-    async function request() {
-      if (index === urls.length) return;
-      const i = index,
-        curURL = urls[index];
-      index++;
-      try {
-        setLoading(true);
-        const ret = await fetch(curURL);
-        result[i] = ret;
-      } catch (err) {
-        result[i] = err;
-      } finally {
-        count++;
-        if (count === urls.length) {
+        const i = index,
+          curFn = asyncFns[index];
+        index++;
+        try {
+          setLoading(true);
+          const ret = await curFn();
+          result[i] = ret;
+        } catch (err) {
+          result[i] = err;
           setLoading(false);
-          resolve(result);
+          reject(err);
+        } finally {
+          count++;
+          if (count === asyncFns.length) {
+            setLoading(false);
+            resolve(result);
+          }
+          request();
         }
+      }
+      const num = Math.min(max, asyncFns.length);
+      for (let s = 0; s < num; s++) {
         request();
       }
-    }
+    });
 
-    const num = Math.min(max, urls.length);
-    for (let s = 0; s < num; s++) {
-      request();
-    }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return {
+    run,
+    loading,
+  };
 }
