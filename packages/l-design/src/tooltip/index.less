@@ -1,0 +1,180 @@
+.con-tooltip {
+  position: relative;
+  cursor: default;
+  transition: all 0.3s ease-in-out;
+}
+
+.tooltip {
+  position: absolute;
+  width: max-content;
+  max-width: 400px;
+  padding: 10px;
+  color: #fff;
+  background: #333;
+  border-radius: 4px;
+  box-shadow: 0 0 3px #54545480;
+  visibility: hidden;
+  cursor: pointer;
+  opacity: 0.4;
+  transition: all 0.3s linear;
+}
+
+.tooltip > .after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: #333 transparent transparent transparent;
+  border-style: solid;
+  border-width: 8px 8px 0 8px;
+  content: ' ';
+  &:hover {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.con-tooltip:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* -------------top-start------------- */
+.top .tooltip,
+.topLeft .tooltip,
+.topRight .tooltip {
+  bottom: calc(100% + 18px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.top .tooltip > .after,
+.topLeft .tooltip > .after,
+.topRight .tooltip > .after {
+  bottom: -8px;
+  left: calc(50% - 8px);
+}
+.topLeft .tooltip {
+  left: 0;
+  transform: unset;
+}
+.topLeft .tooltip > .after {
+  left: 10px;
+}
+.topRight .tooltip {
+  right: 0;
+  left: unset;
+  transform: unset;
+}
+.topRight .tooltip > .after {
+  right: 10px;
+  left: unset;
+}
+/*----------top-end-------------*/
+
+/*----------bottom-start-------------*/
+.bottom .tooltip,
+.bottomLeft .tooltip,
+.bottomRight .tooltip {
+  top: calc(100% + 18px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+.bottom .tooltip > .after,
+.bottomLeft .tooltip > .after,
+.bottomRight .tooltip > .after {
+  top: -8px;
+  left: calc(50% - 8px);
+  transform: rotate(180deg);
+}
+.bottomLeft .tooltip {
+  left: 0;
+  transform: unset;
+}
+.bottomLeft .tooltip > .after {
+  left: 10px;
+}
+
+.bottomRight .tooltip {
+  right: 0;
+  left: unset;
+  transform: unset;
+}
+.bottomRight .tooltip > .after {
+  right: 10px;
+  left: unset;
+}
+/*----------bottom-end-------------*/
+
+/*------------right-start--------------*/
+.right .tooltip,
+.rightTop .tooltip,
+.rightBottom .tooltip {
+  bottom: 50%;
+  left: calc(100% + 18px);
+  height: fit-content;
+  transform: translateY(50%);
+}
+
+.right .tooltip > .after,
+.rightTop .tooltip > .after,
+.rightBottom .tooltip > .after {
+  top: calc(50% - 4px);
+  left: -12px;
+  transform: rotate(90deg);
+}
+
+.rightTop .tooltip {
+  top: 0;
+  transform: unset;
+}
+
+.rightTop .tooltip > .after {
+  top: 10px;
+}
+
+.rightBottom .tooltip {
+  bottom: 0;
+  transform: unset;
+}
+
+.rightBottom .tooltip > .after {
+  top: unset;
+  bottom: 10px;
+}
+
+/*------------right-end--------------*/
+
+/*---------left-start------------*/
+.left .tooltip,
+.leftTop .tooltip,
+.leftBottom .tooltip {
+  right: calc(100% + 18px);
+  bottom: 50%;
+  height: fit-content;
+  transform: translateY(50%);
+}
+
+.left .tooltip > .after,
+.leftTop .tooltip > .after,
+.leftBottom .tooltip > .after {
+  top: calc(50% - 4px);
+  right: -12px;
+  transform: rotate(270deg);
+}
+
+.leftTop .tooltip {
+  top: 0;
+  transform: unset;
+}
+.leftTop .tooltip > .after {
+  top: 10px;
+}
+
+.leftBottom .tooltip {
+  bottom: 0;
+  transform: unset;
+}
+.leftBottom .tooltip > .after {
+  top: unset;
+  bottom: 10px;
+}
+/*---------left-end------------*/

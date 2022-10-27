@@ -8,7 +8,7 @@ export default {
         'Button/index.md',
         'Input/index.md',
         'Spin/index.md',
-        'tooltip/index.md',
+        'Tooltip/index.md',
         // 'components/Button/index.md', // 对应的 Markdown 文件，路径是相对于 resolve.includes 目录识别的
       ],
     },
@@ -34,6 +34,7 @@ export default {
       children: [
         'useMounted/index.md',
         'useUpdated/index.md',
+        'useForceUpdate/index.md',
         'useUnmounted/index.md',
         'useIsMounted/index.md',
         'useIsUnmounted/index.md',

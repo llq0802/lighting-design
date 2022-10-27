@@ -1,15 +1,16 @@
 import _cloneDeep from 'lodash/cloneDeep';
-import type { RefObject} from 'react';
-import { useCallback } from 'react';
-import { useImperativeHandle, useRef } from 'react';
+import type { RefObject } from 'react';
+import { useCallback, useImperativeHandle, useRef } from 'react';
 
-export declare type ShowInstance<T = any> = {
+export declare type OnShowInstance<T = any> = {
   onShow: (record: T) => void;
   onHide: (data?: any) => void;
   getChildData: () => any;
 };
-export declare type ShowInstanceRef<T = any> = RefObject<ShowInstance<T>>;
-export declare type OptionsType<T> = {
+
+export declare type ShowInstanceRef<T = any> = RefObject<OnShowInstance<T>>;
+
+export declare type OnShowOptionsType<T> = {
   /** show触发事件 */
   onShow: (record: T) => void;
   /** 格式化record */
@@ -18,39 +19,43 @@ export declare type OptionsType<T> = {
   onHide?: (data?: any) => void;
 };
 
+export declare type R = {
+  parentData: Record<string, any>;
+  setParentData: <T = any>(data: T) => void;
+};
+
 /**
  * 父调用子组件方法，并传值更新状态
  * @param funcRef ref对象
  * @param options { onShow, onFormart, onHide }
  * @returns T 传输的数据
  */
-
 export default function useShow(
   funcRef: ShowInstanceRef,
-  options: OptionsType<Record<string, any>>,
-) {
+  options: OnShowOptionsType<Record<string, any>>,
+): R {
   const ref = useRef({});
   const childrenDataRef = useRef<null | any>(null);
-  const onShow = options.onShow,
-    onFormart = options.onFormart,
-    onHide = options.onHide;
+  const opsOnShow = options.onShow,
+    opsOnFormart = options.onFormart,
+    opsOnHide = options.onHide;
 
-  const onCallback = useCallback(
-     <T = any>(data: T) =>{
-      childrenDataRef.current = data;
-    },[]
-  )
+  const onCallback = useCallback(<T = any>(data: T) => {
+    childrenDataRef.current = data;
+  }, []);
 
-  useImperativeHandle(funcRef, function () {
+  useImperativeHandle(funcRef, () => {
     return {
-      onShow: function show(record) {
+      onShow: function (record) {
         ref.current = _cloneDeep(record);
-        onShow(ref.current);
+        if (opsOnShow) opsOnShow(ref.current);
       },
-      onHide: function hide(data) {
-        if (onHide) onHide(data);
+
+      onHide: function (data) {
+        if (opsOnHide) opsOnHide(data);
       },
-      getChildData: function getData() {
+
+      getChildData: function () {
         // 传给父组件的数据
         return childrenDataRef.current;
       },
@@ -58,7 +63,7 @@ export default function useShow(
   });
 
   return {
-    parentData: onFormart ? onFormart(ref.current) : ref.current,
-    setParentData:onCallback,
+    parentData: opsOnFormart ? opsOnFormart(ref.current) : ref.current,
+    setParentData: onCallback,
   };
 }
