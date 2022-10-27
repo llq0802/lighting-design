@@ -19,6 +19,11 @@ export declare type OnShowOptionsType<T> = {
   onHide?: (data?: any) => void;
 };
 
+export declare type R = {
+  parentData: Record<string, any>;
+  setParentData: <T = any>(data: T) => void;
+};
+
 /**
  * 父调用子组件方法，并传值更新状态
  * @param funcRef ref对象
@@ -28,7 +33,7 @@ export declare type OnShowOptionsType<T> = {
 export default function useShow(
   funcRef: ShowInstanceRef,
   options: OnShowOptionsType<Record<string, any>>,
-) {
+): R {
   const ref = useRef({});
   const childrenDataRef = useRef<null | any>(null);
   const opsOnShow = options.onShow,
