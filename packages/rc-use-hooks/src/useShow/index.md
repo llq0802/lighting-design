@@ -56,9 +56,9 @@ const { parentData, setParentData } = useShow(funRef, {
 
 ### Result
 
-| 参数                      | 说明                                             | 类型            |
-| ------------------------- | ------------------------------------------------ | --------------- |
-| `{parentData,parentData}` | 父组件调用 onShow 传入的数据与穿给组件数据的方法 | `UseShowResult` |
+| 参数 | 说明 | 类型 |
+| --- | --- | --- |
+| `{parentData,setParentData}` | 父组件调用 onShow 传入的数据与穿给组件数据的方法 | `UseShowResult` |
 
 ```ts
 type UseShowInstance<T = any> = {
