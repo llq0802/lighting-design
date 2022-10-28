@@ -2,6 +2,14 @@
   "name": "rc-use-hooks",
   "version": "0.0.1-beta.3",
   "description": "rc-use-hooks 是一个使用 React + TS 业务开发中常用的简单易用的 Hooks 库",
+  "Keywords": [
+    "rc-use-hooks",
+    "react-use-hooks",
+    "usehooks",
+    "use-hooks",
+    "rc-hooks",
+    "hooks"
+  ],
   "author": "llq0908 <958614130@qq.com>",
   "homepage": "https://llq0802.github.io/lighting-design/",
   "license": "MIT",
