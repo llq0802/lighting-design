@@ -50,13 +50,13 @@ const config =
 
         esm: {
           input: 'packages/l-design/src',
-          output: 'packages/l-design/dist/es',
+          output: 'packages/l-design/es',
           transformer: 'babel',
           ignores: [],
         },
         cjs: {
           input: 'packages/l-design/src',
-          output: 'packages/l-design/dist/lib',
+          output: 'packages/l-design/lib',
           transformer: 'babel',
           ignores: [],
         },

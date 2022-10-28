@@ -1,13 +1,13 @@
 {
   "name": "rc-use-hooks",
-  "version": "0.0.1-beta.1",
+  "version": "0.0.1-beta.3",
   "description": "rc-use-hooks 是一个使用 React + TS 业务开发中常用的简单易用的 Hooks 库",
-  "author": "李岚清 <958614130@qq.com>",
+  "author": "llq0908 <958614130@qq.com>",
   "homepage": "https://llq0802.github.io/lighting-design/",
   "license": "MIT",
-  "main": "dist/lib/index.js",
-  "module": "dist/es/index.js",
-  "typings": "dist/es/index.d.ts",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "typings": "./es/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/llq0802/lighting-design"
@@ -17,7 +17,8 @@
     "test": "__tests__"
   },
   "files": [
-    "dist",
+    "es",
+    "lib",
     "LICENSE",
     "README.md"
   ],
