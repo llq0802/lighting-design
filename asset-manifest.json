@@ -241,8 +241,6 @@
   "umi.js": "/lighting-design/umi.js",
   "wrappers.js": "/lighting-design/wrappers.js",
   "404.html": "/lighting-design/404.html",
-  "public/favicon.ico": "/lighting-design/favicon.ico",
-  "public/icon.png": "/lighting-design/icon.png",
   "index.html": "/lighting-design/index.html",
   "public/sitemap.xml": "/lighting-design/sitemap.xml"
 }
