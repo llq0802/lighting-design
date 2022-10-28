@@ -3,7 +3,7 @@
  * desc: 响应到一个请求结果后会继续请求
  */
 
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { useConcurrentRequest } from 'rc-use-hooks';
 
 const arrFns: any = [];
@@ -30,6 +30,7 @@ export default () => {
         disabled={loading}
         onClick={async () => {
           const retArr = await run();
+          message.info(`${JSON.stringify(retArr, null, 2)}`);
           console.log(' retArr', retArr);
         }}
       >
