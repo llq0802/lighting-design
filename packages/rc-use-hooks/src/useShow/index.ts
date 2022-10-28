@@ -2,21 +2,26 @@ import _cloneDeep from 'lodash/cloneDeep';
 import type { RefObject } from 'react';
 import { useCallback, useImperativeHandle, useRef } from 'react';
 
-export declare type OnShowInstance<T = any> = {
+export declare type UseShowInstance<T = any> = {
   onShow: (record: T) => void;
   onHide: (data?: any) => void;
   getChildData: () => any;
 };
 
-export declare type ShowInstanceRef<T = any> = RefObject<OnShowInstance<T>>;
+export declare type UseShowInstanceRef<T = any> = RefObject<UseShowInstance<T>>;
 
-export declare type OnShowOptionsType<T> = {
+export declare type UseShowOptions<T> = {
   /** show触发事件 */
-  onShow: (record: T) => void;
-  /** 格式化record */
-  onFormart?: (record: T) => T;
+  onShow: (data: T) => void;
+  /** 格式化data */
+  onFormart?: (data: T) => T;
   /** hide触发事件 */
   onHide?: (data?: any) => void;
+};
+
+export declare type UseShowResult = {
+  parentData: Record<string, any>;
+  setParentData: <T = any>(data: T) => void;
 };
 
 /**
@@ -26,10 +31,10 @@ export declare type OnShowOptionsType<T> = {
  * @returns T 传输的数据
  */
 export default function useShow(
-  funcRef: ShowInstanceRef,
-  options: OnShowOptionsType<Record<string, any>>,
-) {
-  const ref = useRef({});
+  funcRef: UseShowInstanceRef,
+  options: UseShowOptions<Record<string, any>>,
+): UseShowResult {
+  const ref = useRef<null | any>(null);
   const childrenDataRef = useRef<null | any>(null);
   const opsOnShow = options.onShow,
     opsOnFormart = options.onFormart,
@@ -41,8 +46,8 @@ export default function useShow(
 
   useImperativeHandle(funcRef, () => {
     return {
-      onShow: function (record) {
-        ref.current = _cloneDeep(record);
+      onShow: function (data) {
+        ref.current = _cloneDeep(data);
         if (opsOnShow) opsOnShow(ref.current);
       },
 
