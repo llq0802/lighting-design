@@ -32,10 +32,11 @@ Build library via `father`,
 $ npm run build
 ```
 
+
 添加子包间依赖，@cube/components 依赖@cube/util
 
 > 必须添加版本号不然会报错（lerna 添加不会自动添加包的版本号）
-
+ 
 ```shell
 yarn workspace @cubee/components add @cubee/utils@1.0.0
 ```
