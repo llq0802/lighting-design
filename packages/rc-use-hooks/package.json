@@ -1,8 +1,8 @@
 {
   "name": "rc-use-hooks",
-  "version": "0.0.1-beta.3",
+  "version": "0.0.1-beta.5",
   "description": "rc-use-hooks 是一个使用 React + TS 业务开发中常用的简单易用的 Hooks 库",
-  "Keywords": [
+  "keywords": [
     "rc-use-hooks",
     "react-use-hooks",
     "usehooks",
