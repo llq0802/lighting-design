@@ -26,6 +26,10 @@ interface LoadingProps {
   /**
    * 样式
    */
+  style: CSSProperties;
+  /**
+   * 类名
+   */
   className: string;
   /**
    * 卡片样式
@@ -54,6 +58,7 @@ interface LoadingProps {
 }
 const Index: FC<Partial<LoadingProps>> = ({
   className,
+  style,
   tipClassName,
   tipStyle,
   placement = 'top',
@@ -64,15 +69,8 @@ const Index: FC<Partial<LoadingProps>> = ({
   children,
 }) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-      className={className}
-    >
-      <div className={`con-tooltip ${placement}`}>
+    <div className={`y-conent-tooltip ${className || ''}`} style={style}>
+      <div className={`y-tooltip ${placement}`}>
         {children}
         <div
           className={`tooltip ${tipClassName}`}
