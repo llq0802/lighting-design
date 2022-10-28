@@ -20,31 +20,31 @@ function _interopRequireDefault(obj) {
  * @returns T 传输的数据
  */
 function useShow(funcRef, options) {
-  const ref = (0, _react.useRef)({});
+  const ref = (0, _react.useRef)(null);
   const childrenDataRef = (0, _react.useRef)(null);
-  const onShow = options.onShow,
-    onFormart = options.onFormart,
-    onHide = options.onHide;
+  const opsOnShow = options.onShow,
+    opsOnFormart = options.onFormart,
+    opsOnHide = options.onHide;
   const onCallback = (0, _react.useCallback)((data) => {
     childrenDataRef.current = data;
   }, []);
-  (0, _react.useImperativeHandle)(funcRef, function () {
+  (0, _react.useImperativeHandle)(funcRef, () => {
     return {
-      onShow: function show(record) {
-        ref.current = (0, _cloneDeep2.default)(record);
-        onShow(ref.current);
+      onShow: function (data) {
+        ref.current = (0, _cloneDeep2.default)(data);
+        if (opsOnShow) opsOnShow(ref.current);
       },
-      onHide: function hide(data) {
-        if (onHide) onHide(data);
+      onHide: function (data) {
+        if (opsOnHide) opsOnHide(data);
       },
-      getChildData: function getData() {
+      getChildData: function () {
         // 传给父组件的数据
         return childrenDataRef.current;
       },
     };
   });
   return {
-    parentData: onFormart ? onFormart(ref.current) : ref.current,
+    parentData: opsOnFormart ? opsOnFormart(ref.current) : ref.current,
     setParentData: onCallback,
   };
 }

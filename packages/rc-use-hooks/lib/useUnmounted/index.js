@@ -21,7 +21,8 @@ function _default(fn) {
   const fnRef = (0, _useLatest.default)(fn);
   (0, _react.useEffect)(() => {
     return () => {
-      fnRef?.();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      fnRef.current?.();
     }; // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 }
