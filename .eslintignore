@@ -1,11 +1,11 @@
 # dependencies
 node_modules
 # production
-dist
 /.vscode
+dist
 lib
 es
-.umi
+docs-dist
 .github
 webpack.config.js
 config/config.ts.
