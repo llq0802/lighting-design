@@ -4,7 +4,7 @@ import menus from './menus';
 const isDev = process.env.NODE_ENV === 'development';
 
 const configs = defineConfig({
-  // ssr: {},
+  ssr: {},
   extraBabelPlugins: [
     [
       'babel-plugin-import',
@@ -19,9 +19,8 @@ const configs = defineConfig({
   publicPath: isDev ? '/' : '/lighting-design/',
   base: isDev ? '/' : '/lighting-design/',
   title: 'lighting-design',
-  favicon:
-    'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
-  logo: 'https://user-images.githubusercontent.com/9554297/83762004-a0761b00-a6a9-11ea-83b4-9c8ff721d4b8.png',
+  favicon: 'https://llq0802.github.io/180x180.png',
+  logo: 'https://llq0802.github.io/android-chrome-192x192.png',
   outputPath: 'docs-dist',
   mode: 'site',
   // 单语言配置方式如下

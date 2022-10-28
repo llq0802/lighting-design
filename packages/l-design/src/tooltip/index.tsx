@@ -24,6 +24,10 @@ interface LoadingProps {
    */
   title: string | React.ReactNode;
   /**
+   * 样式
+   */
+  className: string;
+  /**
    * 卡片样式
    */
   tipClassName: string;
@@ -40,16 +44,22 @@ interface LoadingProps {
    */
   zIndex: number;
   /**
+   *  文字显示行数
+   */
+  rows: number;
+  /**
    * ReactNode
    */
   children: React.ReactNode;
 }
 const Index: FC<Partial<LoadingProps>> = ({
+  className,
   tipClassName,
   tipStyle,
   placement = 'top',
   title = '',
   color,
+  rows = 1,
   zIndex = 9999,
   children,
 }) => {
@@ -60,6 +70,7 @@ const Index: FC<Partial<LoadingProps>> = ({
         flexDirection: 'column',
         alignItems: 'center',
       }}
+      className={className}
     >
       <div className={`con-tooltip ${placement}`}>
         {children}
