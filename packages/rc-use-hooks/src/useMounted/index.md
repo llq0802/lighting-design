@@ -10,9 +10,11 @@ nav:
 
 # useMounted
 
-useMounted
+只在组件第一次加载完成时触发
 
 ## 代码演示
+
+### 基础用法
 
 <code src='./demos/demo1.tsx' />
 

@@ -32,7 +32,7 @@ const { run, loading } = useConcurrentRequest(arr, 3);
 
 | 参数     | 说明                    | 类型                                  | 默认值 |
 | -------- | ----------------------- | ------------------------------------- | ------ |
-| asyncFns | 返回 Promise 的函数数组 | `(...args: any[]) => Promise<any>[];` | `[]`   |
+| asyncFns | 返回 Promise 的函数数组 | `(...args: any[]) => Promise<any>[];` | `-`    |
 | max      | 请求的并发数量          | `number`                              | `3 `   |
 
 ### Result

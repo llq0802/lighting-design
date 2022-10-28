@@ -26,7 +26,7 @@ const [rect, ref]: [DOMRect, React.RefObject<HTMLDivElement>] = useClientRect();
 
 ### Result
 
-| 参数 | 说明                             | 类型      |
-| ---- | -------------------------------- | --------- |
-| rect | dom 节点的尺寸和相对于视口的位置 | `DOMRect` |
-| ref  | 将 ref 绑定 dom 节点             | -         |
+| 参数 | 说明                             | 类型          |
+| ---- | -------------------------------- | ------------- |
+| rect | dom 节点的尺寸和相对于视口的位置 | `DOMRect`     |
+| ref  | 将 ref 绑定 dom 节点             | `HtmlElement` |
