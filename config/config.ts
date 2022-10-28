@@ -4,7 +4,7 @@ import menus from './menus';
 const isDev = process.env.NODE_ENV === 'development';
 
 const configs = defineConfig({
-  ssr: {},
+  // ssr: {},
   extraBabelPlugins: [
     [
       'babel-plugin-import',

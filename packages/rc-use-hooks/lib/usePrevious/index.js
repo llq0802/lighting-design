@@ -22,7 +22,8 @@ function usePrevious(state) {
   }
 
   return prevRef.current;
-} // export default function usePrevious<T>(value: T): T {
+} // 官方示例
+// export default function usePrevious<T>(value: T): T {
 //   const ref = useRef<unknown | null>(null);
 //   useEffect(() => {
 //     ref.current = value;

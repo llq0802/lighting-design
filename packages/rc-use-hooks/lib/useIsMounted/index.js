@@ -15,7 +15,7 @@ const useIsMounted = () => {
       mountedRef.current = false;
     };
   }, []);
-  return mountedRef.current;
+  return mountedRef;
 };
 
 var _default = useIsMounted;

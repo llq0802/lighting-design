@@ -15,6 +15,12 @@ Object.defineProperty(exports, 'useClientRect', {
     return _useClientRect.default;
   },
 });
+Object.defineProperty(exports, 'useConcurrentRequest', {
+  enumerable: true,
+  get: function () {
+    return _useConcurrentRequest.default;
+  },
+});
 Object.defineProperty(exports, 'useDebounceFn', {
   enumerable: true,
   get: function () {
@@ -55,6 +61,12 @@ Object.defineProperty(exports, 'useMounted', {
   enumerable: true,
   get: function () {
     return _useMounted.default;
+  },
+});
+Object.defineProperty(exports, 'usePersistFn', {
+  enumerable: true,
+  get: function () {
+    return _usePersistFn.default;
   },
 });
 Object.defineProperty(exports, 'usePrevious', {
@@ -110,6 +122,8 @@ var _useCallbackState = _interopRequireDefault(require('./useCallbackState'));
 
 var _useClientRect = _interopRequireDefault(require('./useClientRect'));
 
+var _useConcurrentRequest = _interopRequireDefault(require('./useConcurrentRequest'));
+
 var _useDebounceFn = _interopRequireDefault(require('./useDebounceFn'));
 
 var _useForceUpdate = _interopRequireDefault(require('./useForceUpdate'));
@@ -123,6 +137,8 @@ var _useLatest = _interopRequireDefault(require('./useLatest'));
 var _useLockAsyncFn = _interopRequireDefault(require('./useLockAsyncFn'));
 
 var _useMounted = _interopRequireDefault(require('./useMounted'));
+
+var _usePersistFn = _interopRequireDefault(require('./usePersistFn'));
 
 var _usePrevious = _interopRequireDefault(require('./usePrevious'));
 
