@@ -1,5 +1,5 @@
 ---
-title: 开发更容易
+title: 让开发更容易
 order: 10
 sidebar: false
 hero:
