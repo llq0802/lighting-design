@@ -15,7 +15,7 @@ const useIsUnmount = () => {
       unmountedRef.current = true;
     };
   }, []);
-  return unmountedRef.current;
+  return unmountedRef;
 };
 
 var _default = useIsUnmount;

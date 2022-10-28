@@ -5,6 +5,7 @@ import styles from './index2.less';
 const Index: FC = () => {
   return (
     <Tooltip
+      className={styles.tooltip}
       tipClassName={styles.tooltipItem}
       title={
         <div className={styles.title}>
@@ -14,7 +15,7 @@ const Index: FC = () => {
             width={200}
             height={100}
             style={{
-              marginBottom: 10,
+              marginBottom: 10
             }}
           />
           自定义气泡

@@ -24,6 +24,6 @@ const latestValue = useLatest(value);
 
 ### Result
 
-| 参数        | 说明               | 类型                              |
-| ----------- | ------------------ | --------------------------------- |
-| state/props | 最新的 state/props | `React.MutableRefObject<boolean>` |
+| 参数        | 说明                         | 类型                        |
+| ----------- | ---------------------------- | --------------------------- |
+| state/props | 返回永远是最新的 state/props | `React.MutableRefObject<T>` |
