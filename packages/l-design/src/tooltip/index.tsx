@@ -24,6 +24,10 @@ interface LoadingProps {
    */
   title: string | React.ReactNode;
   /**
+   *  tooltip最大宽度
+   */
+  maxWidth: number;
+  /**
    * 样式
    */
   style: CSSProperties;
@@ -32,7 +36,7 @@ interface LoadingProps {
    */
   className: string;
   /**
-   * 卡片样式
+   * 卡片类名
    */
   tipClassName: string;
   /**
@@ -65,6 +69,7 @@ const Index: FC<Partial<LoadingProps>> = ({
   title = '',
   color,
   rows = 1,
+  maxWidth = 400,
   zIndex = 9999,
   children,
 }) => {
@@ -73,11 +78,18 @@ const Index: FC<Partial<LoadingProps>> = ({
       <div className={`y-tooltip ${placement}`}>
         {children}
         <div
-          className={`tooltip ${tipClassName}`}
-          style={{ zIndex, background: color, ...tipStyle }}
+          className={`tooltip ${tipClassName || ''}`}
+          style={{ zIndex, background: color, maxWidth, ...tipStyle }}
         >
           <div className="after" style={{ borderTopColor: color }} />
-          <span>{title}</span>
+          <span
+            className="tooltip-title"
+            style={{
+              WebkitLineClamp: rows,
+            }}
+          >
+            {title}
+          </span>
         </div>
       </div>
     </div>
