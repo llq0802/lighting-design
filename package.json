@@ -29,7 +29,9 @@
     ]
   },
   "dependencies": {
-    "antd": "^4.23.6"
+    "ahooks": "^3.7.2",
+    "antd": "^4.23.6",
+    "localforage": "^1.10.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",

@@ -28,7 +28,10 @@
   "scripts": {
     "test": "node ./__tests__/@cubee/components.test.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "ahooks": "^3.7.2",
+    "localforage": "^1.10.0"
+  },
   "devDependencies": {},
   "peerDependencies": {
     "antd": ">=4.2.0",
