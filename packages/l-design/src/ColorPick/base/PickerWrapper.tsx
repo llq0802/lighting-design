@@ -17,7 +17,7 @@ export interface PickerCommonProps {
   colorMode?: 'hex' | 'rgb';
   placement?: TooltipProps['placement'];
   changeMethod?: 'onChange' | 'onChangeComplete';
-  size?: 'small' | 'middle';
+  size?: 'small' | 'middle' | 'large';
 }
 
 export interface PickerWrapperProps extends PickerCommonProps, PopoverProps {
@@ -37,7 +37,7 @@ const PickerWrapper: React.FC<PickerWrapperProps> = ({
   placement = 'bottomLeft',
   changeMethod = 'onChange',
   isNoChangeMethod = false,
-  size = 'small',
+  size = 'middle',
   ...restProps
 }) => {
   const [open, setOpen] = useControllableValue<boolean>(restProps, {

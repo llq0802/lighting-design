@@ -8,16 +8,16 @@ import { Color } from 'lighting-design';
 export default () => {
   return (
     <>
-      <Color value="#e60000" />
+      <Color value="#e60000" size="small" />
       <br />
       <br />
       <Color value="#e60000" showText />
       <br />
       <br />
-      <Color value="#e60000" size="middle" />
+      <Color value="#e60000" />
       <br />
       <br />
-      <Color value="#e60000" size="middle" showText />
+      <Color value="#e60000" size="large" showText />
     </>
   );
 };

@@ -6,9 +6,11 @@ export type { CaptchaButtonProps } from './CaptchaButton';
 export {
   ColorBlockPicker,
   ColorChromePicker,
+  ColorCirclePicker,
   ColorCompactPicker,
   ColorPhotoshopPicker,
   ColorSketchPicker,
+  ColorSliderPicker,
   default as Color,
 } from './ColorPick';
 export type {
@@ -18,6 +20,7 @@ export type {
   ColorPhotoshopPickerProps,
   ColorProps,
   ColorSketchPickerProps,
+  ColorSliderPickerProps,
 } from './ColorPick';
 // ===
 export { default as Input } from './Input';

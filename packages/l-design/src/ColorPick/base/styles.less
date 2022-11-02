@@ -17,7 +17,7 @@
     position: relative;
     display: inline-block;
     box-sizing: border-box;
-    width: 24px;
+    width: 24px; // 小尺寸
     height: 24px;
     padding: 3px;
     line-height: 0;
@@ -45,11 +45,12 @@
     height: 100%;
     vertical-align: middle;
   }
-  // 能选中时小手指
+
+  // picker组件选中时小手指
   &-picker &-inner {
     cursor: pointer;
   }
-
+  // 默认尺寸
   &-middle &-outer {
     width: 32px;
     height: 32px;
@@ -63,6 +64,16 @@
 
   &-middle &-text {
     font-size: 14px;
+  }
+  // 大号尺寸
+  &-large &-outer {
+    width: 40px;
+    height: 40px;
+    padding: 4px;
+  }
+
+  &-large &-text {
+    font-size: 15px;
   }
 
   &-overlay-normalize {
@@ -87,6 +98,23 @@
     .photoshop-picker > .flexbox-fix .flexbox-fix,
     .photoshop-picker > .flexbox-fix .flexbox-fix input {
       color: rgba(0, 0, 0, 0.85);
+    }
+
+    .circle-picker {
+      gap: 5px;
+      width: 270px !important;
+      margin-right: 0 !important;
+      margin-bottom: 0 !important;
+      padding: 5px;
+      & > span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      & > span > div {
+        margin-right: 0 !important;
+        margin-bottom: 0 !important;
+      }
     }
   }
 }

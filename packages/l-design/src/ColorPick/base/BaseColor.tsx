@@ -8,14 +8,14 @@ export interface ColorProps extends React.HTMLAttributes<HTMLSpanElement> {
   className?: string;
   value?: string;
   showText?: boolean;
-  size?: 'small' | 'middle';
+  size?: 'small' | 'middle' | 'large';
   renderColor?: (dom: JSX.Element) => React.ReactNode;
 }
 
 const Color: React.FC<ColorProps> = ({
   className,
   value,
-  size = 'small',
+  size = 'middle',
   showText = false,
   renderColor,
 }) => {

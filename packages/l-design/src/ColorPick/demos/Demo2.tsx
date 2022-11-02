@@ -9,6 +9,7 @@
 import {
   ColorBlockPicker,
   ColorChromePicker,
+  ColorCirclePicker,
   ColorCompactPicker,
   ColorPhotoshopPicker,
   ColorSketchPicker,
@@ -21,6 +22,7 @@ export default () => {
   const [color3, setColor3] = useState('#fcdc00');
   const [color4, setColor4] = useState('#a4dd00');
   const [color5, setColor5] = useState('rgba(104,204,202,1)');
+  const [color6, setColor6] = useState('#000');
 
   return (
     <>
@@ -46,14 +48,25 @@ export default () => {
       <ColorPhotoshopPicker value={color4} onChange={setColor4} showText placement="topLeft" />
       <br />
       <br />
+      {/* <h3>ColorSliderPicker</h3>
+      <ColorSliderPicker value={color4} onChange={setColor4} showText placement="topLeft" />
+      <br />
+      <br /> */}
+      <h3>ColorCirclePicker</h3>
+      <ColorCirclePicker value={color5} onChange={setColor5} showText placement="topLeft" />
+
+      <br />
+      <br />
       <h3>ColorSketchPicker</h3>
       <ColorSketchPicker
-        value={color5}
-        onChange={setColor5}
+        value={color6}
+        onChange={setColor6}
         showText
         colorMode="rgb"
         placement="topLeft"
+        size="middle"
       />
+      {/* <input type="color" /> */}
     </>
   );
 };
