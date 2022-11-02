@@ -17,13 +17,15 @@ var _utils = require('../utils');
  * @return {*}  { [T,  (val: SetStateAction<T>, cb: (newVal: T) => void) => void}
  */
 function useCallbackState(state) {
-  const callBackRef = (0, _react.useRef)(null);
+  const callBackRef = (0, _react.useRef)();
   const [data, setData] = (0, _react.useState)(state);
   (0, _react.useEffect)(() => {
     callBackRef?.current?.(data);
   }, [data]);
   const setState = (0, _react.useCallback)(function (newState, cb) {
-    callBackRef.current = cb;
+    if ((0, _utils.isFunction)(cb)) {
+      callBackRef.current = cb;
+    }
 
     if ((0, _utils.isFunction)(newState)) {
       setData((prevState) => {
