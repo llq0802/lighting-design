@@ -1,46 +1,53 @@
 import { useCountDown, useLocalStorageState } from 'ahooks';
 import { Button } from 'antd';
-import type { FC } from 'react';
-import { memo, useCallback, useEffect } from 'react';
+import type { ForwardRefRenderFunction } from 'react';
+import React, { forwardRef, useCallback, useEffect } from 'react';
 import type { CaptchaButtonProps } from './type.d';
 
-const CaptchaButton: FC<CaptchaButtonProps> = (props) => {
+/**
+ * 获取验证码按钮
+ * @param CaptchaButtonProps
+ * @returns
+ */
+const CaptchaButton: ForwardRefRenderFunction<
+  React.Ref<HTMLElement> | undefined,
+  CaptchaButtonProps
+> = (props, ref) => {
   const {
     second = 10,
     cacheKey = '__CaptchaButton__',
+    disabledText = '重发',
     onEnd,
     onClick,
     children,
-    disabledText,
     ...buttonProps
   } = props;
+
   const [targetDate, setTargetDate] = useLocalStorageState<number | undefined>(cacheKey, {
     defaultValue: 0,
   });
-
   const [countdown] = useCountDown({
     targetDate,
     onEnd: () => {
+      setTargetDate(undefined);
       onEnd?.();
     },
   });
-
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
       onClick?.(e);
     },
     [onClick],
   );
-
   useEffect(() => {
     return () => {
       setTargetDate(undefined);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   return (
     <Button
+      ref={ref as React.Ref<HTMLElement> | undefined}
       {...buttonProps}
       onClick={(e) => {
         setTargetDate(Date.now() + second * 1000);
@@ -50,9 +57,10 @@ const CaptchaButton: FC<CaptchaButtonProps> = (props) => {
     >
       {countdown === 0
         ? `${children ?? '获取验证码'}`
-        : `${Math.round(countdown / 1000)}秒后${disabledText ?? '重新获取'}`}
+        : `${Math.round(countdown / 1000)}秒后${disabledText}`}
     </Button>
   );
 };
 
-export default memo(CaptchaButton);
+export default forwardRef(CaptchaButton);
+export type { CaptchaButtonProps } from './type.d';

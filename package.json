@@ -31,12 +31,14 @@
   "dependencies": {
     "ahooks": "^3.7.2",
     "antd": "^4.23.6",
-    "localforage": "^1.10.0"
+    "localforage": "^1.10.0",
+    "react-color": "^2.19.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^13.0.0",
     "@types/jest": "^27.0.3",
+    "@types/react-color": "^3.0.6",
     "@umijs/fabric": "^3.0.0",
     "@umijs/test": "^3.0.5",
     "@umijs/yorkie": "^2.0.5",
@@ -52,6 +54,12 @@
     "prettier": "^2.2.1",
     "stylelint": "~13.0.0",
     "yorkie": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/llq0802/lighting-design",
+    "branch": "master ",
+    "platform": "github"
   },
   "license": "ISC",
   "workspaces": [

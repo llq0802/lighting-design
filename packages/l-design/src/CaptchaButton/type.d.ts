@@ -1,22 +1,28 @@
+import type { ButtonProps } from 'antd';
+
 export interface CaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   /**
    * @description       倒计时秒数
-   * @default           10
+   * @default           10s
    */
-  second: number;
+  second?: number;
   /**
-   * @description       倒计时的文字,会带上second秒
-   * @default           重新获取
+   * @description       倒计时的文字, 会带上second秒
+   * @default           重发
    */
-  disabledText: string;
+  disabledText?: string;
   /**
    * @description       缓存的key、页面刷新后倒计时继续。
    * @default           __CaptchaButton__
    */
-  cacheKey: string;
+  cacheKey?: string;
   /**
-   * @description       倒计时完成时触发
+   * @description       倒计时完成后触发
    * @default           -
    */
-  onEnd: () => void;
+  onEnd?: () => void;
+  /**
+   * @description       倒计时完成后触发
+   * @default           -
+   */
 }

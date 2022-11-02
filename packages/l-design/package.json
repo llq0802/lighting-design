@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "ahooks": "^3.7.2",
+    "react-color": "^2.19.3",
     "localforage": "^1.10.0"
   },
   "devDependencies": {},
