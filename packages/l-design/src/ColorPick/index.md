@@ -24,11 +24,12 @@ nav:
 
 ### Color
 
-| 参数     | 说明               | 类型                           | 默认值     |
-| -------- | ------------------ | ------------------------------ | ---------- |
-| value    | 颜色值             | `string`                       | `- `       |
-| showText | 是否显示颜色值文本 | `boolean`                      | `false`    |
-| size     | 颜色块大小         | `'small' \| 'middle'\|'large'` | `'middle'` |
+| 参数      | 说明               | 类型                           | 默认值                  |
+| --------- | ------------------ | ------------------------------ | ----------------------- |
+| value     | 颜色值             | `string`                       | `- `                    |
+| showText  | 是否显示颜色值文本 | `boolean`                      | `false`                 |
+| size      | 颜色块大小         | `'small' \| 'middle'\|'large'` | `'middle'`              |
+| className | 新增一个根容器类名 | `string`                       | `lighting-design-color` |
 
 ### Picker 共同的 API
 
@@ -43,3 +44,4 @@ nav:
 | colorMode | 颜色模式 | `'hex' \| 'rgb'` | `'hex'` |
 | placement | 颜色选择浮层位置 `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft` `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom` | `string` | `'bottomLeft'` |
 | size | 颜色块大小 | `'small' \| 'middle' \| large` | `'middle'` |
+| className | 新增一个根容器类名 | `string` | `lighting-design-color` |
