@@ -29,10 +29,10 @@
     ]
   },
   "dependencies": {
-    "ahooks": "^3.7.2",
     "antd": "^4.23.6",
     "localforage": "^1.10.0",
-    "react-color": "^2.19.3"
+    "react-color": "^2.19.3",
+    "rc-switch": "~4.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",

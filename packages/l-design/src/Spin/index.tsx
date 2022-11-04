@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 import classNames from 'classnames';
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 import Loading1 from './component/loading1';
 import Loading2 from './component/loading2';
 import Loading3 from './component/loading3';
@@ -11,9 +11,13 @@ import './index.less';
 
 interface LoadingProps {
   /**
+   * 样式
+   */
+  style: CSSProperties;
+  /**
    * 图标类型
    */
-  mode: 'load1' | 'load2' | 'load3';
+  mode: 'load1' | 'load2' | 'load3' | 'load4' | 'load5' | 'load6';
   /**
    * 图标颜色
    */
@@ -40,6 +44,7 @@ interface LoadingProps {
   children: React.ReactNode;
 }
 const Index: FC<Partial<LoadingProps>> = ({
+  style,
   color = '#FF6700',
   size = 'default',
   mode = 'load1',
@@ -59,31 +64,36 @@ const Index: FC<Partial<LoadingProps>> = ({
       load6: <Loading6 key={3} {...props} />,
     },
   ];
+  const prefixCls = 'l-spin';
 
   const isNestedPattern = () => typeof children !== 'undefined';
 
   const spinElement = (
     <div
+      className={prefixCls}
       style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        ...style,
       }}
     >
       {loadArr.map((item) => item[mode])}
-      <span className="y-spin-tip" style={{ color: tipColor }}>
-        {tip}
-      </span>
+      {tip && (
+        <span style={{ marginTop: 6, color: tipColor, display: 'block', width: 'fit-content' }}>
+          {tip}
+        </span>
+      )}
     </div>
   );
 
   if (isNestedPattern()) {
     return (
-      <div className="y-spin-content" style={{ position: 'relative' }}>
-        {loading && <div className="y-spin-loading">{spinElement}</div>}
+      <div className={prefixCls}>
+        {loading && <div className={`${prefixCls}-loading`}>{spinElement}</div>}
         <div
-          className={classNames(`y-spin-container`, {
-            [`y-spin--blur`]: loading,
+          className={classNames(`${prefixCls}-container`, {
+            [`${prefixCls}-blur`]: loading,
           })}
         >
           {children}

@@ -10,6 +10,7 @@ export default {
         'Input/index.md',
         'Spin/index.md',
         'Tooltip/index.md',
+        'Switch/index.md',
         'CaptchaButton/index.md',
         'ColorPick/index.md',
         'FormItem/index.md',

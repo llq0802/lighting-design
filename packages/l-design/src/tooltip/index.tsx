@@ -73,17 +73,19 @@ const Index: FC<Partial<LoadingProps>> = ({
   zIndex = 9999,
   children,
 }) => {
+  const prefixCls = 'l-tooltip';
+
   return (
-    <div className={`y-conent-tooltip ${className || ''}`} style={style}>
-      <div className={`y-tooltip ${placement}`}>
+    <div className={`${prefixCls} ${className || ''}`} style={style}>
+      <div className={`${prefixCls}-controller ${placement}`}>
         {children}
         <div
-          className={`tooltip ${tipClassName || ''}`}
+          className={`${prefixCls}-child ${tipClassName || ''}`}
           style={{ zIndex, background: color, maxWidth, ...tipStyle }}
         >
-          <div className="after" style={{ borderTopColor: color }} />
+          <div className={`${prefixCls}-after`} style={{ borderTopColor: color }} />
           <span
-            className="tooltip-title"
+            className={`${prefixCls}-title`}
             style={{
               WebkitLineClamp: rows,
             }}
