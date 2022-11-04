@@ -9,5 +9,7 @@ export type { InputProps } from './Input';
 // ===
 export { default as Spin } from './Spin';
 export { default as Tooltip } from './Tooltip';
+export { default as Switch } from './Switch';
+
 
 

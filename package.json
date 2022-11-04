@@ -29,7 +29,8 @@
     ]
   },
   "dependencies": {
-    "antd": "^4.23.6"
+    "antd": "^4.23.6",
+    "rc-switch": "~4.0.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",

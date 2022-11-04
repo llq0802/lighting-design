@@ -1,54 +1,50 @@
-.y-spin-content {
+@SpinPrefixCls: ~'l-spin';
+
+.@{SpinPrefixCls} {
   position: relative;
-  // width: fit-content;
-  min-height: 80px;
-}
-
-.y-spin-loading {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.y-spin-tip {
-  margin-top: 6px;
-}
-
-.y-spin-container {
-  position: relative;
-  transition: opacity 0.3s;
-
-  &::after {
+  // min-height: 80px;
+  min-height: 1px;
+  &-loading {
     position: absolute;
     top: 0;
-    right: 0;
-    bottom: 0;
     left: 0;
-    z-index: 10;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
-    background: #fff;
-    opacity: 0;
-    transition: all 0.3s;
-    content: '';
-    pointer-events: none;
   }
-}
+  &-container {
+    position: relative;
+    transition: opacity 0.3s;
 
-.y-spin--blur {
-  clear: both;
-  opacity: 0.5;
-  user-select: none;
-  pointer-events: none;
+    &::after {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      opacity: 0;
+      transition: all 0.3s;
+      content: '';
+      pointer-events: none;
+    }
+  }
 
-  &::after {
-    opacity: 0.4;
-    pointer-events: auto;
+  &-blur {
+    clear: both;
+    opacity: 0.5;
+    user-select: none;
+    pointer-events: none;
+
+    &::after {
+      opacity: 0.4;
+      pointer-events: auto;
+    }
   }
 }

@@ -12,7 +12,7 @@ const Index: FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   return (
-    <>
+    <div>
       <Spin loading={loading} tip="玩命加载中...">
         <Alert
           message="Alert message title"
@@ -26,7 +26,7 @@ const Index: FC = () => {
         加载状态：
         <Switch checked={loading} onChange={(checked) => setLoading(checked)} />
       </div>
-    </>
+    </div>
   );
 };
 
