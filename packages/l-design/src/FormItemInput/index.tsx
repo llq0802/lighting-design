@@ -53,6 +53,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
         allowClear
         autoComplete="off"
         type={type}
+        disabledWhiteSpace={disabledWhiteSpace}
         {...inputProps}
       />
     </LFormItem>

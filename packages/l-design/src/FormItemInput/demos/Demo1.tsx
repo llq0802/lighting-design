@@ -8,12 +8,12 @@ export default () => {
     <Form name="LFormItemInput" form={form}>
       <LFormItemInput
         name="name"
-        alignItems="end"
-        type="phone"
         label="名字"
         required
+        tooltip="禁止空格"
         // rules={[{ required: true, message: 'Please select your favourite colors!', type: 'array' }]}
         disabledWhiteSpace
+        alignItems="end"
         contentAfter={<div>后面</div>}
         inputProps={{ placeholder: '请输入名字' }}
       />

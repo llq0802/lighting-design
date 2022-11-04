@@ -5,13 +5,16 @@ import FormItemWrapper from './FormItemWrapper';
 
 type TransformFn<T = any> = (value: T, currentPathValues?: any) => T | any;
 
+type ContentProps = {
+  style?: React.CSSProperties;
+};
 export interface LFormItemProps extends FormItemProps {
   transform?: TransformFn;
   renderField?: (dom: React.ReactElement) => React.ReactElement;
   alignItems?: 'center' | 'start' | 'end';
   contentBefore?: React.ReactNode;
   contentAfter?: React.ReactNode;
-  contentProps?: Record<string, any>;
+  contentProps?: ContentProps;
   className?: string;
 }
 
@@ -31,8 +34,8 @@ const LFormItem: React.FC<LFormItemProps> = ({
   trigger = 'onChange',
   ...restFromProps
 }) => {
-  console.log('LFormItem-restFromProps ', restFromProps);
-  console.log('LFormItem-contentProps ', contentProps);
+  // console.log('LFormItem-restFromProps ', restFromProps);
+  // console.log('LFormItem-contentProps ', contentProps);
 
   return (
     <Form.Item

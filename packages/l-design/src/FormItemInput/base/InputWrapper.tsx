@@ -36,9 +36,14 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const input = e.target;
       const rawValue = input.value;
-      onChange?.(rawValue as any);
+      if (isSpace) {
+        const newValue = rawValue.replace(/\s+/g, '');
+        onChange?.(newValue as any);
+      } else {
+        onChange?.(rawValue as any);
+      }
     },
-    [onChange],
+    [onChange, isSpace],
   );
 
   return (

@@ -2,7 +2,6 @@
  * title: 基础用法
  * desc: 页面刷新也会计时
  */
-
 import { message, Space } from 'antd';
 import { CaptchaButton } from 'lighting-design';
 

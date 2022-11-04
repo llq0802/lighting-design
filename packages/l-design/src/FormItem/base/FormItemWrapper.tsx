@@ -20,8 +20,8 @@ const WrapperFormElement: React.FC<FormItemWrapperProps> = ({
   children,
   ...contentProps // {value,onChange,...}
 }) => {
-  console.log('WrapperFormElement-children.props ', children?.props);
-  console.log('WrapperFormElement-contentProps ', contentProps);
+  // console.log('WrapperFormElement-children.props ', children?.props);
+  // console.log('WrapperFormElement-contentProps ', contentProps);
 
   // 调用父组件的trigger事件 (一般是onChange事件或onInput事件)
   const handleTrigger = React.useCallback(
