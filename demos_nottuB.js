@@ -1,1 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[5],{CfUW:function(n,a,e){"use strict";e.r(a);var t=e("q1tI"),o=e.n(t),w=e("zK1H"),c=()=>o.a.createElement(w["a"],{loading:!0}," \u6309\u94ae");a["default"]=c}}]);
