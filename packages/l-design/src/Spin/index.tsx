@@ -64,7 +64,7 @@ const Index: FC<Partial<LoadingProps>> = ({
       load6: <Loading6 key={3} {...props} />,
     },
   ];
-  const prefixCls = 'l-spin';
+  const prefixCls = 'lightd-spin';
 
   const isNestedPattern = () => typeof children !== 'undefined';
 

@@ -1,6 +1,6 @@
 import type { ButtonProps } from 'antd';
 
-export interface CaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
+export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   /**
    * @description       倒计时秒数
    * @default           10s

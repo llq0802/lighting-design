@@ -75,7 +75,7 @@ const Switch: FC<Partial<PropsType>> = (props) => {
   } = props;
 
   const [checkedCom, setCheckedCom] = useState<boolean>(defaultChecked);
-  const prefixCls = 'l-switch';
+  const prefixCls = 'lightd-switch';
 
   const handleClick = (checked: boolean, even: SwitchChangeEventHandler) => {
     onClick && onClick(checked, even);

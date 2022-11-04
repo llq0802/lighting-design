@@ -7,12 +7,12 @@
  */
 
 import {
-  ColorBlockPicker,
-  ColorChromePicker,
-  ColorCirclePicker,
-  ColorCompactPicker,
-  ColorPhotoshopPicker,
-  ColorSketchPicker,
+  LColorBlockPicker,
+  LColorChromePicker,
+  LColorCirclePicker,
+  LColorCompactPicker,
+  LColorPhotoshopPicker,
+  LColorSketchPicker,
 } from 'lighting-design';
 import { useState } from 'react';
 
@@ -26,12 +26,12 @@ export default () => {
 
   return (
     <>
-      <h3>ColorBlockPicker</h3>
-      <ColorBlockPicker value={color1} onChange={setColor1} showText />
+      <h3>LColorBlockPicker</h3>
+      <LColorBlockPicker value={color1} onChange={setColor1} showText />
       <br />
       <br />
-      <h3>ColorChromePicker</h3>
-      <ColorChromePicker
+      <h3>LColorChromePicker</h3>
+      <LColorChromePicker
         value={color2}
         onChange={setColor2}
         showText
@@ -40,25 +40,25 @@ export default () => {
       />
       <br />
       <br />
-      <h3>ColorCompactPicker</h3>
-      <ColorCompactPicker value={color3} onChange={setColor3} showText />
+      <h3>LColorCompactPicker</h3>
+      <LColorCompactPicker value={color3} onChange={setColor3} showText />
       <br />
       <br />
-      <h3>ColorPhotoshopPicker</h3>
-      <ColorPhotoshopPicker value={color4} onChange={setColor4} showText placement="topLeft" />
+      <h3>LColorPhotoshopPicker</h3>
+      <LColorPhotoshopPicker value={color4} onChange={setColor4} showText placement="topLeft" />
       <br />
       <br />
       {/* <h3>ColorSliderPicker</h3>
       <ColorSliderPicker value={color4} onChange={setColor4} showText placement="topLeft" />
       <br />
       <br /> */}
-      <h3>ColorCirclePicker</h3>
-      <ColorCirclePicker value={color5} onChange={setColor5} showText placement="topLeft" />
+      <h3>LColorCirclePicker</h3>
+      <LColorCirclePicker value={color5} onChange={setColor5} showText placement="topLeft" />
 
       <br />
       <br />
-      <h3>ColorSketchPicker</h3>
-      <ColorSketchPicker
+      <h3>LColorSketchPicker</h3>
+      <LColorSketchPicker
         value={color6}
         onChange={setColor6}
         showText

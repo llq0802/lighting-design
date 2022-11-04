@@ -6,8 +6,6 @@ export default {
       children: [
         // 'components/Button/index.md', // 对应的 Markdown 文件，路径是相对于 resolve.includes 目录识别的
         'components.md',
-        'Button/index.md',
-        'Input/index.md',
         'Spin/index.md',
         'Tooltip/index.md',
         'Switch/index.md',

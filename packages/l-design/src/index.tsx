@@ -1,41 +1,33 @@
-export { default as Button } from './Button';
-export type { ButtonProps } from './Button';
-// ===
-export { default as CaptchaButton } from './CaptchaButton';
-export type { CaptchaButtonProps } from './CaptchaButton';
+// 验证码组件
+export { default as LCaptchaButton } from './CaptchaButton';
+export type { LCaptchaButtonProps } from './CaptchaButton';
 // 颜色选择组件
 export {
-  ColorBlockPicker,
-  ColorChromePicker,
-  ColorCirclePicker,
-  ColorCompactPicker,
-  ColorPhotoshopPicker,
-  ColorSketchPicker,
-  ColorSliderPicker,
-  default as Color,
+  default as LColor,
+  LColorBlockPicker,
+  LColorChromePicker,
+  LColorCirclePicker,
+  LColorCompactPicker,
+  LColorPhotoshopPicker,
+  LColorSketchPicker,
+  LColorSliderPicker,
 } from './ColorPick';
 export type {
-  ColorBlockPickerProps,
-  ColorChromePickerProps,
-  ColorCompactPickerProps,
-  ColorPhotoshopPickerProps,
-  ColorProps,
-  ColorSketchPickerProps,
-  ColorSliderPickerProps,
+  LColorBlockPickerProps,
+  LColorChromePickerProps,
+  LColorCompactPickerProps,
+  LColorPhotoshopPickerProps,
+  LColorProps,
+  LColorSketchPickerProps,
+  LColorSliderPickerProps,
 } from './ColorPick';
-// ===
+// 基础FormItem容器组件
 export { default as LFormItem } from './FormItem';
 export type { LFormItemProps } from './FormItem';
-// ==
+// 表单输入框组件
 export { default as LFormItemInput } from './FormItemInput';
 export type { LFormItemInputProps } from './FormItemInput';
 // ===
-export { default as Input } from './Input';
-export type { InputProps } from './Input';
-// ===
 export { default as Spin } from './Spin';
-export { default as Tooltip } from './Tooltip';
 export { default as Switch } from './Switch';
-
-
-
+export { default as Tooltip } from './Tooltip';

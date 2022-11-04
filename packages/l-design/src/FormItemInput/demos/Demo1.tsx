@@ -1,7 +1,7 @@
 import { Button, Form } from 'antd';
 import { LFormItemInput } from 'lighting-design';
 
-export default () => {
+const Demo = () => {
   const [form] = Form.useForm();
 
   return (
@@ -36,3 +36,4 @@ export default () => {
     </Form>
   );
 };
+export default Demo;

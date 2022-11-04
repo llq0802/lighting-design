@@ -73,7 +73,7 @@ const Index: FC<Partial<LoadingProps>> = ({
   zIndex = 9999,
   children,
 }) => {
-  const prefixCls = 'l-tooltip';
+  const prefixCls = 'lightd-tooltip';
 
   return (
     <div className={`${prefixCls} ${className || ''}`} style={style}>

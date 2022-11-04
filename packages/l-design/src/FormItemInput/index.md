@@ -1,13 +1,13 @@
 ---
-title: FormItemInput
+title: LFormItemInput
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# FormItemInput
+# LFormItemInput
 
-FormItemInput,
+LFormItemInput,
 
 <code src='./demos/Demo1.tsx'>

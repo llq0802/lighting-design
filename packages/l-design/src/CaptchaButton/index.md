@@ -1,12 +1,12 @@
 ---
-title: CaptchaButton
+title: LCaptchaButton
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# CaptchaButton
+# LCaptchaButton
 
 处理获取验证码之类的组件, 刷新页面也会继续计时
 

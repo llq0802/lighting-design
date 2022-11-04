@@ -2,16 +2,16 @@ import { useCountDown, useLocalStorageState } from 'ahooks';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction } from 'react';
 import React, { forwardRef, useCallback, useEffect } from 'react';
-import type { CaptchaButtonProps } from './type.d';
+import type { LCaptchaButtonProps } from './type.d';
 
 /**
  * 获取验证码按钮
  * @param CaptchaButtonProps
  * @returns
  */
-const CaptchaButton: ForwardRefRenderFunction<
+const LCaptchaButton: ForwardRefRenderFunction<
   React.Ref<HTMLElement> | undefined,
-  CaptchaButtonProps
+  LCaptchaButtonProps
 > = (props, ref) => {
   const {
     second = 10,
@@ -62,5 +62,5 @@ const CaptchaButton: ForwardRefRenderFunction<
   );
 };
 
-export default forwardRef(CaptchaButton);
-export type { CaptchaButtonProps } from './type.d';
+export default forwardRef(LCaptchaButton);
+export type { LCaptchaButtonProps } from './type.d';
