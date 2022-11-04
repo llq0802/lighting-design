@@ -12,6 +12,8 @@ export default {
         'Tooltip/index.md',
         'CaptchaButton/index.md',
         'ColorPick/index.md',
+        'FormItem/index.md',
+        'FormItemInput/index.md',
       ],
     },
   ],

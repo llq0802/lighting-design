@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import './styles.less';
 
-export const prefixCls = 'lighting-design-color';
+export const prefixCls = 'lightd-color';
 
 export interface ColorProps extends React.HTMLAttributes<HTMLSpanElement> {
   className?: string;
