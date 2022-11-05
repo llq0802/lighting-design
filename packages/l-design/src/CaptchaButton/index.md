@@ -12,7 +12,7 @@ nav:
 
 <mark>当存在多个验证码组件时, 请设置不同的 cacheKey 值</mark>
 
-## 基础用法
+## 代码演示
 
 <code src='./demos/demo1.tsx'>
 
