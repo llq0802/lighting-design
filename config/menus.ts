@@ -58,6 +58,7 @@ export default {
         'useLockAsyncFn/index.md',
         'useConcurrentRequest/index.md',
         'usePersistFn/index.md',
+        'useCreate/index.md',
       ],
     },
   ],
