@@ -16,4 +16,14 @@ nav:
 
 ## API
 
-...
+```ts
+const useFormModal: (
+  FormSlot: (props: FormSlotProps, ref: React.MutableRefObject<FormInstance<any>>) => JSX.Element,
+  modalProps?: DraggableModalProps,
+) => {
+  FormModal: (formSlotProps: FormSlotProps) => JSX.Element;
+  form: FormInstance;
+  onOpen: () => void;
+  onClose: () => void;
+};
+```

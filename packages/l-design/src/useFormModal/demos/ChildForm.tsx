@@ -17,7 +17,7 @@ const ChildForm = (props: FormSlotProps, ref: React.MutableRefObject<FormInstanc
       <Form.Item name="age" label="年龄" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
-      <Form.Item name="sex" label="性别" required>
+      <Form.Item name="sex" label="性别" rules={[{ required: true }]}>
         <Select placeholder="Select a option and change input text above" allowClear>
           <Option value="nan">男</Option>
           <Option value="nv">女</Option>
