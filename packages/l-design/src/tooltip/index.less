@@ -1,11 +1,13 @@
-.y-conent-tooltip {
+@TooltipPrefixCls: ~'lightd-tooltip';
+
+.@{TooltipPrefixCls} {
   display: inline-block;
-  .y-tooltip {
+  &-controller {
     position: relative;
     cursor: default;
     transition: all 0.3s ease-in-out;
   }
-  .tooltip {
+  &-child {
     position: absolute;
     width: max-content;
     max-width: 400px;
@@ -20,7 +22,15 @@
     transition: all 0.3s linear;
   }
 
-  .tooltip > .after {
+  &-title {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  &-child > &-after {
     position: absolute;
     width: 0;
     height: 0;
@@ -34,149 +44,154 @@
     }
   }
 
-  .y-tooltip:hover .tooltip {
+  &-controller:hover &-child {
     visibility: visible;
     opacity: 1;
+    // transition-delay:2s;
   }
 
   /* -------------top-start------------- */
-  .top .tooltip,
-  .topLeft .tooltip,
-  .topRight .tooltip {
+  .top &-child,
+  .topLeft &-child,
+  .topRight &-child {
     bottom: calc(100% + 18px);
     left: 50%;
     transform: translateX(-50%);
   }
-  .top .tooltip > .after,
-  .topLeft .tooltip > .after,
-  .topRight .tooltip > .after {
+  .top &-child > &-after,
+  .topLeft &-child > &-after,
+  .topRight &-child > &-after {
     bottom: -8px;
     left: calc(50% - 8px);
   }
-  .topLeft .tooltip {
+
+  .topLeft &-child {
     left: 0;
     transform: unset;
   }
-  .topLeft .tooltip > .after {
+  .topLeft &-child > &-after {
     left: 10px;
   }
-  .topRight .tooltip {
+  .topRight &-child {
     right: 0;
     left: unset;
     transform: unset;
   }
-  .topRight .tooltip > .after {
+  .topRight &-child > &-after {
     right: 10px;
     left: unset;
   }
-  /*----------top-end-------------*/
 
-  /*----------bottom-start-------------*/
-  .bottom .tooltip,
-  .bottomLeft .tooltip,
-  .bottomRight .tooltip {
+  /* ----------top-end------------- */
+
+  /* ----------bottom-start------------- */
+  .bottom &-child,
+  .bottomLeft &-child,
+  .bottomRight &-child {
     top: calc(100% + 18px);
     left: 50%;
     transform: translateX(-50%);
   }
-  .bottom .tooltip > .after,
-  .bottomLeft .tooltip > .after,
-  .bottomRight .tooltip > .after {
+  .bottom &-child > &-after,
+  .bottomLeft &-child > &-after,
+  .bottomRight &-child > &-after {
     top: -8px;
     left: calc(50% - 8px);
     transform: rotate(180deg);
   }
-  .bottomLeft .tooltip {
+  .bottomLeft &-child {
     left: 0;
     transform: unset;
   }
-  .bottomLeft .tooltip > .after {
+  .bottomLeft &-child > &-after {
     left: 10px;
   }
 
-  .bottomRight .tooltip {
+  .bottomRight &-child {
     right: 0;
     left: unset;
     transform: unset;
   }
-  .bottomRight .tooltip > .after {
+  .bottomRight &-child > &-after {
     right: 10px;
     left: unset;
   }
-  /*----------bottom-end-------------*/
 
-  /*------------right-start--------------*/
-  .right .tooltip,
-  .rightTop .tooltip,
-  .rightBottom .tooltip {
+  /* ----------bottom-end------------- */
+
+  /* ------------right-start-------------- */
+  .right &-child,
+  .rightTop &-child,
+  .rightBottom &-child {
     bottom: 50%;
     left: calc(100% + 18px);
     height: fit-content;
     transform: translateY(50%);
   }
 
-  .right .tooltip > .after,
-  .rightTop .tooltip > .after,
-  .rightBottom .tooltip > .after {
+  .right &-child > &-after,
+  .rightTop &-child > &-after,
+  .rightBottom &-child > &-after {
     top: calc(50% - 4px);
     left: -12px;
     transform: rotate(90deg);
   }
 
-  .rightTop .tooltip {
+  .rightTop &-child {
     top: 0;
     transform: unset;
   }
 
-  .rightTop .tooltip > .after {
+  .rightTop &-child > &-after {
     top: 10px;
   }
 
-  .rightBottom .tooltip {
+  .rightBottom &-child {
     bottom: 0;
     transform: unset;
   }
 
-  .rightBottom .tooltip > .after {
+  .rightBottom &-child > &-after {
     top: unset;
     bottom: 10px;
   }
 
-  /*------------right-end--------------*/
+  /* ------------right-end-------------- */
 
-  /*---------left-start------------*/
-  .left .tooltip,
-  .leftTop .tooltip,
-  .leftBottom .tooltip {
+  /* ---------left-start------------ */
+  .left &-child,
+  .leftTop &-child,
+  .leftBottom &-child {
     right: calc(100% + 18px);
     bottom: 50%;
     height: fit-content;
     transform: translateY(50%);
   }
 
-  .left .tooltip > .after,
-  .leftTop .tooltip > .after,
-  .leftBottom .tooltip > .after {
+  .left &-child > &-after,
+  .leftTop &-child > &-after,
+  .leftBottom &-child > &-after {
     top: calc(50% - 4px);
     right: -12px;
     transform: rotate(270deg);
   }
 
-  .leftTop .tooltip {
+  .leftTop &-child {
     top: 0;
     transform: unset;
   }
-  .leftTop .tooltip > .after {
+  .leftTop &-child > &-after {
     top: 10px;
   }
 
-  .leftBottom .tooltip {
+  .leftBottom &-child {
     bottom: 0;
     transform: unset;
   }
-  .leftBottom .tooltip > .after {
+  .leftBottom &-child > &-after {
     top: unset;
     bottom: 10px;
   }
-  /*---------left-end------------*/
+
+  /* ---------left-end------------ */
 }

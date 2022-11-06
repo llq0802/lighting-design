@@ -32,4 +32,4 @@ const [state, setState] = useCallbackState(initialState);
 
 | 参数 | 说明 | 类型 |
 | --- | --- | --- |
-| setState | 第一个参数传入新的 state,第二个参数为回调函数接受最新传入的 state | `(newState: React.SetStateAction<T>, callback: (newState: React.SetStateAction<T>) => void) => void` |
+| setState | 第一个参数传入新的 state,第二个参数为回调函数接受最新传入的 state | `(newState: React.SetStateAction<T>, callback?: (newState: React.SetStateAction<T>) => void) => void` |

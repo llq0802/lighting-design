@@ -12,14 +12,16 @@ import { isFunction } from '../utils';
 export default function useCallbackState<T>(
   state: T,
 ): [T, (val: SetStateAction<T>, cb: (newVal: T) => void) => void] {
-  const callBackRef = useRef<Function | null>(null);
+  const callBackRef = useRef<Function>();
   const [data, setData] = useState<T>(state);
   useEffect(() => {
     callBackRef?.current?.(data);
   }, [data]);
 
-  const setState = useCallback(function (newState: SetStateAction<T>, cb: (val: T) => void) {
-    callBackRef.current = cb;
+  const setState = useCallback(function (newState: SetStateAction<T>, cb?: (val: T) => void) {
+    if (isFunction(cb)) {
+      callBackRef.current = cb;
+    }
     if (isFunction(newState)) {
       setData((prevState: T) => {
         const ret = (newState as Function)?.(prevState);

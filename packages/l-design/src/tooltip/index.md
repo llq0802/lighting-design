@@ -14,6 +14,10 @@ nav:
 
 <code src="./demos/base.tsx"/>
 
+## 多行隐藏
+
+<code src="./demos/rowHide.tsx"/>
+
 ## 气泡位置
 
 <code src="./demos/placement.tsx"/>

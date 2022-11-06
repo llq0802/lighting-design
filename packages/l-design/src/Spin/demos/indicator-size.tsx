@@ -8,20 +8,25 @@ const flexCenter: CSSProperties = {
   justifyContent: 'center',
   alignItems: 'center',
 };
+
+const center = {
+  display: 'flex',
+  justifyContent: 'center',
+};
 const Index: FC = () => {
   const [mode, setMode] = useState<string | any>('load1');
   const [size, setSize] = useState<string | any>('default');
 
   return (
     <>
-      <div style={{ minHeight: 60 }}>
+      <div style={{ ...center, minHeight: 60 }}>
         <Spin mode={mode} size={size} tip="loading..." />
       </div>
       <br />
       <div style={flexCenter}>
         mode：
         <Segmented
-          options={['load1', 'load2', 'load3','load4', 'load5', 'load6']}
+          options={['load1', 'load2', 'load3', 'load4', 'load5', 'load6']}
           onChange={(e) => {
             setMode(e);
           }}
