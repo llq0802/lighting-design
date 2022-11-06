@@ -16,10 +16,11 @@ export default {
         'Switch/index.md',
         'CaptchaButton/index.md',
         'ColorPick/index.md',
-        'FormItem/index.md',
-        'FormItemInput/index.md',
-        'useFormModal/index.md',
       ],
+    },
+    {
+      title: '数据录入',
+      children: ['useFormModal/index.md', 'FormItem/index.md', 'FormItemInput/index.md'],
     },
   ],
   //  hooks

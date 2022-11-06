@@ -5,11 +5,10 @@ import type { FormSlotProps } from 'lighting-design';
 const { Option } = Select;
 
 const ChildForm = (props: FormSlotProps, ref: React.MutableRefObject<FormInstance<any>>) => {
-  // const [form] = Form.useForm();
-  // ref.current = form;
-  console.log('props', props);
-
+  // 第一种绑定ref
+  // const [ref.current] = Form.useForm();
   return (
+    // 第二种绑定ref
     <Form ref={ref} name="control-hooks">
       <Form.Item name="name" label="姓名" rules={[{ required: true }]}>
         <Input />

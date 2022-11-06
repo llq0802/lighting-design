@@ -8,8 +8,9 @@ import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 
 export interface FormSlotProps extends FormProps {
-  formValues?: Record<string, any> | null;
+  formValues?: Record<string, any>;
   submit?: (fields: Record<string, any>, form: FormInstance) => any;
+  [key: string]: any;
 }
 
 export type DraggableModalProps = { isDraggable: boolean } & ModalProps;
@@ -106,8 +107,6 @@ const useFormModal = (
               }
             }}
             onMouseOut={() => setDisabled(true)}
-            onFocus={() => {}}
-            onBlur={() => {}}
           >
             {modalProps?.title || '弹窗'}
           </div>
