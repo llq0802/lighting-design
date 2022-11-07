@@ -1,12 +1,12 @@
 ---
-title: FormItem
+title: LFormItem
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# FormItem
+# LFormItem
 
 FormItem,
 

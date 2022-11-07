@@ -30,9 +30,9 @@
   },
   "dependencies": {
     "antd": "^4.23.6",
-    "localforage": "^1.10.0",
+    "rc-switch": "~4.0.0",
     "react-color": "^2.19.3",
-    "rc-switch": "~4.0.0"
+    "react-draggable": "^4.4.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",
@@ -57,7 +57,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/llq0802/lighting-design",
+    "url": "https://github.com/llq0802/lighting-design",
     "branch": "master ",
     "platform": "github"
   },

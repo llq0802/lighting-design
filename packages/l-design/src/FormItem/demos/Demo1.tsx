@@ -13,7 +13,6 @@ const Demo1 = () => {
           name="name"
           label="Description"
           contentAfter={<div>789</div>}
-          contentProps={{ type: 'number' }}
           renderField={(dom) => {
             console.log('dom ', dom);
 

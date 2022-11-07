@@ -3,21 +3,21 @@
  * desc: 设置 `showText` 显示颜色值
  */
 
-import { Color } from 'lighting-design';
+import { LColor } from 'lighting-design';
 
 export default () => {
   return (
     <>
-      <Color value="#e60000" size="small" />
+      <LColor value="#e60000" size="small" />
       <br />
       <br />
-      <Color value="#e60000" showText />
+      <LColor value="#e60000" showText />
       <br />
       <br />
-      <Color value="#e60000" />
+      <LColor value="#e60000" />
       <br />
       <br />
-      <Color value="#e60000" size="large" showText />
+      <LColor value="#e60000" size="large" showText />
     </>
   );
 };

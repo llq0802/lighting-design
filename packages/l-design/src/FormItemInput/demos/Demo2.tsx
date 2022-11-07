@@ -1,21 +1,17 @@
 import { Button, Form } from 'antd';
-import { LFormItemInput } from 'lighting-design';
+import { LFormItemPassword } from 'lighting-design';
 
 const Demo = () => {
   const [form] = Form.useForm();
 
   return (
     <Form name="LFormItemInput" form={form}>
-      <LFormItemInput
+      <LFormItemPassword
         name="name"
-        label="名字"
-        required
+        label="密码"
         tooltip="禁止空格"
-        // rules={[{ required: true, message: 'Please select your favourite colors!', type: 'array' }]}
-        disabledWhiteSpace
-        alignItems="end"
         contentAfter={<div>后面</div>}
-        inputProps={{ placeholder: '请输入名字' }}
+        passwordProps={{ placeholder: '请输入密码' }}
       />
       <Button
         onClick={() => {

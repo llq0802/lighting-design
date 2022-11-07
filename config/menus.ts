@@ -6,19 +6,30 @@ export default {
       children: [
         // 'components/Button/index.md', // 对应的 Markdown 文件，路径是相对于 resolve.includes 目录识别的
         'components.md',
-        'Button/index.md',
-        'Input/index.md',
+      ],
+    },
+    {
+      title: '基础组件',
+      children: [
         'Spin/index.md',
         'Tooltip/index.md',
         'Switch/index.md',
         'NumberCount/index.md',
         'CaptchaButton/index.md',
         'ColorPick/index.md',
+      ],
+    },
+    {
+      title: '数据录入',
+      children: [
+        'useFormModal/index.md',
         'FormItem/index.md',
         'FormItemInput/index.md',
+        'FormItemCaptcha/index.md',
       ],
     },
   ],
+  //  hooks
   '/hooks': [
     {
       title: 'rc-use-hooks',
@@ -61,6 +72,7 @@ export default {
         'useLockAsyncFn/index.md',
         'useConcurrentRequest/index.md',
         'usePersistFn/index.md',
+        'useCreate/index.md',
       ],
     },
   ],

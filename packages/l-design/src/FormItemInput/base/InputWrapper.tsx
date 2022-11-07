@@ -3,7 +3,7 @@ import { Input } from 'antd';
 import type { FC } from 'react';
 import { useCallback, useMemo } from 'react';
 
-type InputType = InputProps['type'] | 'bankCard' | 'email' | 'idCard' | 'phone';
+export type InputType = InputProps['type'] | 'bankCard' | 'email' | 'idCard' | 'phone';
 
 export interface InputWrapperProps extends InputProps {
   type?: InputType;
@@ -11,7 +11,7 @@ export interface InputWrapperProps extends InputProps {
 }
 
 const InputWrapper: FC<InputWrapperProps> = (props) => {
-  const { value, onChange, type, disabledWhiteSpace, ...restProps } = props;
+  const { value, onChange, type, disabledWhiteSpace = false, ...restProps } = props;
   const isSpace = useMemo(() => disabledWhiteSpace, [disabledWhiteSpace]);
   // 处理input类型
   const realType = useMemo(() => {
@@ -35,12 +35,15 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const input = e.target;
-      const rawValue = input.value;
+      let rawValue = input.value;
+      // 禁止输入空格
+      if (isSpace) {
+        rawValue = rawValue.replace(/\s+/g, '');
+      }
       onChange?.(rawValue as any);
     },
-    [onChange],
+    [onChange, isSpace],
   );
-
   return (
     <Input
       value={value}
