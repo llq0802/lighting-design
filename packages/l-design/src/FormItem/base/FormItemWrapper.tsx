@@ -27,8 +27,10 @@ const WrapperFormElement: React.FC<FormItemWrapperProps> = ({
   const handleTrigger = React.useCallback(
     (...args: any[]) => {
       if (React.isValidElement(children)) {
+        // 如果组件本身传入的props中有onChange
         children?.props?.[trigger]?.(...args);
       }
+      // 调用form组件传的onChange
       contentProps?.[trigger]?.(...args);
     },
     [children, contentProps, trigger],
@@ -45,7 +47,7 @@ const WrapperFormElement: React.FC<FormItemWrapperProps> = ({
         children as React.ReactElement<any, string | React.JSXElementConstructor<any>>,
         {
           ...contentProps, // 注册form其他属性或事件
-          ...triggerProp, // 默认调用onChange事件
+          ...triggerProp, // 默认调用onChange事件(包括组件本身的onchange和form组件的onchange)
           style: { flex: 1, ...contentProps?.style },
         },
       )

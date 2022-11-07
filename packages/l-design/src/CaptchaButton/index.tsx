@@ -10,7 +10,7 @@ import type { LCaptchaButtonProps } from './type.d';
  * @returns
  */
 const LCaptchaButton: ForwardRefRenderFunction<
-  React.Ref<HTMLElement> | undefined,
+  React.RefObject<HTMLInputElement>,
   LCaptchaButtonProps
 > = (props, ref) => {
   const {

@@ -1,7 +1,7 @@
-// 验证码组件
+// 基础验证码组件
 export { default as LCaptchaButton } from './CaptchaButton';
 export type { LCaptchaButtonProps } from './CaptchaButton';
-// 颜色选择组件
+// 基础颜色选择组件
 export {
   default as LColor,
   LColorBlockPicker,
@@ -24,9 +24,16 @@ export type {
 // 基础FormItem容器组件
 export { default as LFormItem } from './FormItem';
 export type { LFormItemProps } from './FormItem';
-// 表单输入框组件
-export { default as LFormItemInput } from './FormItemInput';
-export type { LFormItemInputProps } from './FormItemInput';
+// 表单验证码
+export { default as LFormItemCaptcha } from './FormItemCaptcha';
+export type { LFormItemCaptchaProps } from './FormItemCaptcha';
+// 表单输入框
+export { LFormItemInput, LFormItemPassword, LFormItemTextArea } from './FormItemInput';
+export type {
+  LFormItemInputProps,
+  LFormItemPasswordProps,
+  LFormItemTextAreaProps,
+} from './FormItemInput';
 // ===
 export { default as Spin } from './Spin';
 export { default as Switch } from './Switch';
