@@ -11,6 +11,7 @@ export default {
         'Spin/index.md',
         'Tooltip/index.md',
         'Switch/index.md',
+        'NumberCount/index.md',
         'CaptchaButton/index.md',
         'ColorPick/index.md',
         'FormItem/index.md',
