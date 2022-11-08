@@ -1,17 +1,18 @@
 import classNames from 'classnames';
-import * as React from 'react';
+import type { FC, JSXElementConstructor, ReactElement, ReactNode } from 'react';
+import { cloneElement, isValidElement, useCallback, useMemo } from 'react';
 import './styles.less';
 
 const prefixCls = 'lightd-form-item-wrapper';
 
 export interface FormItemWrapperProps extends Record<string, any> {
-  before?: React.ReactNode;
-  after?: React.ReactNode;
+  before?: ReactNode;
+  after?: ReactNode;
   trigger?: string;
   className?: string;
 }
 
-const WrapperFormElement: React.FC<FormItemWrapperProps> = ({
+const WrapperFormElement: FC<FormItemWrapperProps> = ({
   className,
   trigger = 'onChange',
   alignItems = null,
@@ -24,9 +25,9 @@ const WrapperFormElement: React.FC<FormItemWrapperProps> = ({
   // console.log('WrapperFormElement-contentProps ', contentProps);
 
   // 调用父组件的trigger事件 (一般是onChange事件或onInput事件)
-  const handleTrigger = React.useCallback(
+  const handleTrigger = useCallback(
     (...args: any[]) => {
-      if (React.isValidElement(children)) {
+      if (isValidElement(children)) {
         // 如果组件本身传入的props中有onChange
         children?.props?.[trigger]?.(...args);
       }
@@ -36,21 +37,18 @@ const WrapperFormElement: React.FC<FormItemWrapperProps> = ({
     [children, contentProps, trigger],
   );
   // 优化缓存事件
-  const triggerProp = React.useMemo(
+  const triggerProp = useMemo(
     () => (trigger ? { [trigger]: handleTrigger } : {}),
     [handleTrigger, trigger],
   );
 
   // 判断是不是dom元素比如(Input)
-  const childrenView = React.isValidElement(children)
-    ? React.cloneElement(
-        children as React.ReactElement<any, string | React.JSXElementConstructor<any>>,
-        {
-          ...contentProps, // 注册form其他属性或事件
-          ...triggerProp, // 默认调用onChange事件(包括组件本身的onchange和form组件的onchange)
-          style: { flex: 1, ...contentProps?.style },
-        },
-      )
+  const childrenView = isValidElement(children)
+    ? cloneElement(children as ReactElement<any, string | JSXElementConstructor<any>>, {
+        ...contentProps, // 注册form其他属性或事件
+        ...triggerProp, // 默认调用onChange事件(包括组件本身的onchange和form组件的onchange)
+        style: { flex: 1, ...contentProps?.style },
+      })
     : (children as any);
 
   // 没有前后内容

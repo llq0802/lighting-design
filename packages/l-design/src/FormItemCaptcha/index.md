@@ -1,13 +1,13 @@
 ---
-title: FormItemCaptcha
+title: LFormItemCaptcha
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# FormItemCaptcha
+# LFormItemCaptcha
 
-FormItemCaptcha,
+LFormItemCaptcha,
 
 <code src='./demos/demo1.tsx'>

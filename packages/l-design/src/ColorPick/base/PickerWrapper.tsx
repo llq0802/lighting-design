@@ -2,7 +2,8 @@ import { useControllableValue } from 'ahooks';
 import type { PopoverProps, TooltipProps } from 'antd';
 import { Popover } from 'antd';
 import classNames from 'classnames';
-import React, { cloneElement, useCallback } from 'react';
+import type { FC, ReactElement } from 'react';
+import { cloneElement, useCallback } from 'react';
 import type { ColorResult } from 'react-color';
 import { transformColor } from '../utils';
 import BaseColor, { prefixCls } from './BaseColor';
@@ -21,12 +22,12 @@ export interface PickerCommonProps {
 }
 
 export interface PickerWrapperProps extends PickerCommonProps, PopoverProps {
-  children?: React.ReactElement | any;
+  children?: ReactElement | any;
   isNoChangeMethod?: boolean;
   [key: string]: any;
 }
 
-const PickerWrapper: React.FC<PickerWrapperProps> = ({
+const PickerWrapper: FC<PickerWrapperProps> = ({
   value,
   onChange,
   children,

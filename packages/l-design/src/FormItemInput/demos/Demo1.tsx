@@ -17,6 +17,18 @@ const Demo = () => {
         contentAfter={<div>后面</div>}
         inputProps={{ placeholder: '请输入名字' }}
       />
+      <LFormItemInput
+        dependencies={['name']}
+        name="phone"
+        label="手机号"
+        required
+        tooltip="禁止空格"
+        type="phone"
+        disabledWhiteSpace
+        contentAfter={<div>后面</div>}
+        inputProps={{ placeholder: '手机号' }}
+      />
+
       <Button
         onClick={() => {
           form.validateFields().then((res) => {
