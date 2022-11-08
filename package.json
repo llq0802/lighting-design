@@ -62,6 +62,9 @@
     "platform": "github"
   },
   "license": "ISC",
+  "sideEffects": [
+    "*.less"
+  ],
   "workspaces": [
     "packages/*"
   ]

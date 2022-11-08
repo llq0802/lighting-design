@@ -12,17 +12,17 @@ export interface FormItemWrapperProps extends Record<string, any> {
   className?: string;
 }
 
-const WrapperFormElement: FC<FormItemWrapperProps> = ({
+const FormItemWrapper: FC<FormItemWrapperProps> = ({
   className,
   trigger = 'onChange',
   alignItems = null,
   after = null,
   before = null,
   children,
-  ...contentProps // {value,onChange,...}
+  ...formItemChildrenProps // {value,onChange,...}
 }) => {
-  // console.log('WrapperFormElement-children.props ', children?.props);
-  // console.log('WrapperFormElement-contentProps ', contentProps);
+  // console.log('FormItemWrapper-children.props ', children?.props);
+  // console.log('FormItemWrapper-formItemChildrenProps ', formItemChildrenProps);
 
   // 调用父组件的trigger事件 (一般是onChange事件或onInput事件)
   const handleTrigger = useCallback(
@@ -32,9 +32,9 @@ const WrapperFormElement: FC<FormItemWrapperProps> = ({
         children?.props?.[trigger]?.(...args);
       }
       // 调用form组件传的onChange
-      contentProps?.[trigger]?.(...args);
+      formItemChildrenProps?.[trigger]?.(...args);
     },
-    [children, contentProps, trigger],
+    [children, formItemChildrenProps, trigger],
   );
   // 优化缓存事件
   const triggerProp = useMemo(
@@ -45,9 +45,8 @@ const WrapperFormElement: FC<FormItemWrapperProps> = ({
   // 判断是不是dom元素比如(Input)
   const childrenView = isValidElement(children)
     ? cloneElement(children as ReactElement<any, string | JSXElementConstructor<any>>, {
-        ...contentProps, // 注册form其他属性或事件
+        ...formItemChildrenProps, // 注册form其他属性或事件
         ...triggerProp, // 默认调用onChange事件(包括组件本身的onchange和form组件的onchange)
-        style: { flex: 1, ...contentProps?.style },
       })
     : (children as any);
 
@@ -57,14 +56,15 @@ const WrapperFormElement: FC<FormItemWrapperProps> = ({
   } else {
     const beforeView = before && <div className={`${prefixCls}-before`}>{before}</div>;
     const afterView = after && <div className={`${prefixCls}-after`}>{after}</div>;
+    const contentView = <div className={`${prefixCls}-content`}>{childrenView}</div>;
     return (
       <div className={classNames(prefixCls, className)} style={alignItems ? { alignItems } : {}}>
         {beforeView}
-        {childrenView}
+        {contentView}
         {afterView}
       </div>
     );
   }
 };
 
-export default WrapperFormElement;
+export default FormItemWrapper;

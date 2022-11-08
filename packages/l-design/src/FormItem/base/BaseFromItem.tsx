@@ -1,13 +1,12 @@
 import type { FormItemProps } from 'antd';
 import { Form } from 'antd';
-import type { CSSProperties, FC, ReactElement, ReactNode } from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
 import FormItemWrapper from './FormItemWrapper';
 
 type TransformFn<T = any> = (value: T, currentPathValues?: any) => T | any;
 
-type ContentProps = {
-  style?: CSSProperties;
-};
+type ContentProps = Record<string, any>;
+
 export interface LFormItemProps extends FormItemProps {
   transform?: TransformFn;
   renderField?: (dom: ReactElement) => ReactElement;
@@ -33,9 +32,9 @@ const LFormItem: FC<LFormItemProps> = ({
   shouldUpdate,
   dependencies,
   trigger = 'onChange',
-  ...restFromProps
+  ...restFromItemProps
 }) => {
-  // console.log('LFormItem-contentProps ', contentProps);
+  console.log('LFormItem ', restFromItemProps);
 
   return (
     <Form.Item
@@ -44,7 +43,7 @@ const LFormItem: FC<LFormItemProps> = ({
       shouldUpdate={shouldUpdate}
       dependencies={dependencies}
       trigger={trigger}
-      {...restFromProps}
+      {...restFromItemProps}
     >
       {shouldUpdate ? (
         (...args) => {

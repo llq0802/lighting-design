@@ -13,7 +13,6 @@ export interface InputWrapperProps extends InputProps {
 const InputWrapper: FC<InputWrapperProps> = (props) => {
   const { value, onChange, type, disabledWhiteSpace = false, ...restProps } = props;
   const isSpace = useMemo(() => disabledWhiteSpace, [disabledWhiteSpace]);
-  console.log('InputWrapper', restProps);
 
   // 处理input类型
   const realType = useMemo(() => {
