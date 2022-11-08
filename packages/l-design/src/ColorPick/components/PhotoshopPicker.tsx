@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import type { FC } from 'react';
+import { useCallback, useState } from 'react';
 import type { ColorResult, PhotoshopPickerProps } from 'react-color';
 import { PhotoshopPicker } from 'react-color';
 import type { PickerCommonProps } from '../base/PickerWrapper';
@@ -13,7 +14,7 @@ export type ColorPhotoshopPickerProps = Omit<
     changeMethod?: 'onChangeComplete' | 'onAccept';
   };
 
-const ColorPhotoshopPicker: React.FC<ColorPhotoshopPickerProps> = ({
+const ColorPhotoshopPicker: FC<ColorPhotoshopPickerProps> = ({
   className,
   value,
   onChange,

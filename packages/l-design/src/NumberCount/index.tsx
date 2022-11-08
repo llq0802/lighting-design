@@ -1,6 +1,7 @@
 import type { DOMAttributes, FC, ReactElement, ReactNode } from 'react';
 import React, { useEffect, useRef } from 'react';
-import { Container, render } from 'react-dom';
+import type { Container } from 'react-dom';
+import { render } from 'react-dom';
 import './index.less';
 import ItemChren from './item';
 
@@ -79,7 +80,6 @@ const Index: FC<NumberCountPropsType> = ({
     const $dom = $parent.querySelectorAll('.number-animate-dom');
     for (const o of $dom) {
       const dataNum = o.getAttribute('data-num') || 0;
-      // if (zero) num = num == 0 ? 10 : num;
       const _height = o.offsetHeight / 12;
       o.style.transform =
         'translateY(' + (dataNum == '.' ? -11 * _height : -dataNum * _height) + 'px)';
@@ -95,7 +95,7 @@ const Index: FC<NumberCountPropsType> = ({
         loadAnimate(domRef.current);
       });
     } else {
-      $dom.forEach((o, i) => {
+      $dom.forEach((o, i: number) => {
         o.setAttribute('data-num', newArr[i]);
       });
       loadAnimate(domRef.current);
@@ -109,11 +109,7 @@ const Index: FC<NumberCountPropsType> = ({
   };
 
   useEffect(() => {
-    console.log(value);
-    if (value) {
-      
-      update(value);
-    }
+    if (value) update(value);
   }, [value]);
 
   useEffect(() => {

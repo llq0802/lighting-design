@@ -1,18 +1,19 @@
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
+import type { FC, HTMLAttributes, ReactNode } from 'react';
+import { useMemo } from 'react';
 import './styles.less';
 
 export const prefixCls = 'lightd-color';
 
-export interface ColorProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface ColorProps extends HTMLAttributes<HTMLSpanElement> {
   className?: string;
   value?: string;
   showText?: boolean;
   size?: 'small' | 'middle' | 'large';
-  renderColor?: (dom: JSX.Element) => React.ReactNode;
+  renderColor?: (dom: JSX.Element) => ReactNode;
 }
 
-const Color: React.FC<ColorProps> = ({
+const Color: FC<ColorProps> = ({
   className,
   value,
   size = 'middle',

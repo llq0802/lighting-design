@@ -1,24 +1,24 @@
 import type { FormItemProps } from 'antd';
 import { Form } from 'antd';
-import * as React from 'react';
+import type { CSSProperties, FC, ReactElement, ReactNode } from 'react';
 import FormItemWrapper from './FormItemWrapper';
 
 type TransformFn<T = any> = (value: T, currentPathValues?: any) => T | any;
 
 type ContentProps = {
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 };
 export interface LFormItemProps extends FormItemProps {
   transform?: TransformFn;
-  renderField?: (dom: React.ReactElement) => React.ReactElement;
+  renderField?: (dom: ReactElement) => ReactElement;
   alignItems?: 'center' | 'start' | 'end';
-  contentBefore?: React.ReactNode;
-  contentAfter?: React.ReactNode;
+  contentBefore?: ReactNode;
+  contentAfter?: ReactNode;
   contentProps?: ContentProps;
   className?: string;
 }
 
-const LFormItem: React.FC<LFormItemProps> = ({
+const LFormItem: FC<LFormItemProps> = ({
   transform,
   renderField,
   className,
@@ -31,10 +31,10 @@ const LFormItem: React.FC<LFormItemProps> = ({
   label,
   children,
   shouldUpdate,
+  dependencies,
   trigger = 'onChange',
   ...restFromProps
 }) => {
-  // console.log('LFormItem-restFromProps ', restFromProps);
   // console.log('LFormItem-contentProps ', contentProps);
 
   return (
@@ -42,6 +42,7 @@ const LFormItem: React.FC<LFormItemProps> = ({
       name={name}
       label={label}
       shouldUpdate={shouldUpdate}
+      dependencies={dependencies}
       trigger={trigger}
       {...restFromProps}
     >
@@ -57,7 +58,7 @@ const LFormItem: React.FC<LFormItemProps> = ({
               alignItems={alignItems}
               {...contentProps}
             >
-              {renderField ? renderField(innerChildren as React.ReactElement) : innerChildren}
+              {renderField ? renderField(innerChildren as ReactElement) : innerChildren}
             </FormItemWrapper>
           );
         }
@@ -70,7 +71,7 @@ const LFormItem: React.FC<LFormItemProps> = ({
           alignItems={alignItems}
           {...contentProps}
         >
-          {renderField ? renderField(children as React.ReactElement) : children}
+          {renderField ? renderField(children as ReactElement) : children}
         </FormItemWrapper>
       )}
     </Form.Item>

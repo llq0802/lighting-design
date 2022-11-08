@@ -1,7 +1,7 @@
 import { useCountDown, useLocalStorageState } from 'ahooks';
 import { Button } from 'antd';
-import type { ForwardRefRenderFunction } from 'react';
-import React, { forwardRef, useCallback, useEffect } from 'react';
+import type { ForwardRefRenderFunction, MouseEvent, Ref, RefObject } from 'react';
+import { forwardRef, useCallback, useEffect } from 'react';
 import type { LCaptchaButtonProps } from './type.d';
 
 /**
@@ -9,10 +9,10 @@ import type { LCaptchaButtonProps } from './type.d';
  * @param CaptchaButtonProps
  * @returns
  */
-const LCaptchaButton: ForwardRefRenderFunction<
-  React.RefObject<HTMLInputElement>,
-  LCaptchaButtonProps
-> = (props, ref) => {
+const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCaptchaButtonProps> = (
+  props,
+  ref,
+) => {
   const {
     second = 10,
     cacheKey = '__CaptchaButton__',
@@ -34,7 +34,7 @@ const LCaptchaButton: ForwardRefRenderFunction<
     },
   });
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    (e: MouseEvent<HTMLElement>) => {
       onClick?.(e);
     },
     [onClick],
@@ -47,7 +47,7 @@ const LCaptchaButton: ForwardRefRenderFunction<
   }, []);
   return (
     <Button
-      ref={ref as React.Ref<HTMLElement> | undefined}
+      ref={ref as Ref<HTMLElement> | undefined}
       {...buttonProps}
       onClick={(e) => {
         setTargetDate(Date.now() + second * 1000);

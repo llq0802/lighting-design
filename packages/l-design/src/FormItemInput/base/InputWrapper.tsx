@@ -1,9 +1,9 @@
 import type { InputProps } from 'antd';
 import { Input } from 'antd';
-import type { FC } from 'react';
+import type { ChangeEvent, FC } from 'react';
 import { useCallback, useMemo } from 'react';
 
-export type InputType = InputProps['type'] | 'bankCard' | 'email' | 'idCard' | 'phone';
+export type InputType = InputProps['type'] | 'bankCard' | 'idCard' | 'phone';
 
 export interface InputWrapperProps extends InputProps {
   type?: InputType;
@@ -13,9 +13,11 @@ export interface InputWrapperProps extends InputProps {
 const InputWrapper: FC<InputWrapperProps> = (props) => {
   const { value, onChange, type, disabledWhiteSpace = false, ...restProps } = props;
   const isSpace = useMemo(() => disabledWhiteSpace, [disabledWhiteSpace]);
+  console.log('InputWrapper', restProps);
+
   // 处理input类型
   const realType = useMemo(() => {
-    if (type === 'phone' || type === 'idCard' || type === 'bankCard' || type === 'email') {
+    if (type === 'phone' || type === 'idCard' || type === 'bankCard') {
       return 'text';
     }
     return type;
@@ -33,16 +35,23 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
   }, [type]);
 
   const handleChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       const input = e.target;
       let rawValue = input.value;
+      // 只能输入数字
+      if (
+        (type === 'phone' || type === 'bankCard') &&
+        window.isNaN(input.value as unknown as any)
+      ) {
+        rawValue = rawValue.replace(/.*/g, '');
+      }
       // 禁止输入空格
       if (isSpace) {
         rawValue = rawValue.replace(/\s+/g, '');
       }
       onChange?.(rawValue as any);
     },
-    [onChange, isSpace],
+    [onChange, isSpace, type],
   );
   return (
     <Input

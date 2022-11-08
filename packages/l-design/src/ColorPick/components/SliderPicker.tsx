@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import type { SliderPickerProps } from 'react-color';
 import { SliderPicker } from 'react-color';
 import type { PickerCommonProps } from '../base/PickerWrapper';
@@ -7,7 +7,7 @@ import PickerWrapper from '../base/PickerWrapper';
 export type ColorSliderPickerProps = Omit<SliderPickerProps, 'onChange' | 'onChangeComplete'> &
   PickerCommonProps;
 
-const ColorBlockPicker: React.FC<ColorSliderPickerProps> = ({
+const ColorBlockPicker: FC<ColorSliderPickerProps> = ({
   className,
   value,
   trigger,

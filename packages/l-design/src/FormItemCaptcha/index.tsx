@@ -1,4 +1,5 @@
-import React from 'react';
+import type { FC } from 'react';
+import { useMemo } from 'react';
 import type { LCaptchaButtonProps } from '../CaptchaButton';
 import type { LFormItemProps } from '../FormItem';
 import LFormItem from '../FormItem';
@@ -14,7 +15,7 @@ export interface LFormItemCaptchaProps
     >,
     Pick<LCaptchaButtonProps, 'cacheKey' | 'second' | 'disabledText' | 'onEnd'> {}
 
-const LFormItemCaptcha: React.FC<LFormItemCaptchaProps> = ({
+const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   cacheKey,
   second,
   disabledText,
@@ -30,7 +31,7 @@ const LFormItemCaptcha: React.FC<LFormItemCaptchaProps> = ({
   required,
   ...restProps
 }) => {
-  const messageLabel = React.useMemo(() => getFormItemLabel(restProps), [restProps]);
+  const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
 
   return (
     <LFormItem

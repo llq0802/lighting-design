@@ -1,7 +1,8 @@
 import { useMount } from 'ahooks';
 import type { InputProps, InputRef } from 'antd';
 import { Divider, Input } from 'antd';
-import * as React from 'react';
+import type { FC } from 'react';
+import { useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 import type { LCaptchaButtonProps } from '../../CaptchaButton';
 import LCaptchaButton from '../../CaptchaButton';
 
@@ -29,7 +30,7 @@ const checkResult = async (fn: () => boolean | Promise<boolean>) => {
   return Promise.reject(false);
 };
 
-const CodeInput: React.FC<CodeInputProps> = ({
+const CodeInput: FC<CodeInputProps> = ({
   value,
   onChange,
 
@@ -42,11 +43,11 @@ const CodeInput: React.FC<CodeInputProps> = ({
 
   ...restProps
 }) => {
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const buttonRef = React.useRef<HTMLButtonElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const { onClick, onEnd } = buttonProps;
   // 点击按钮
-  const onButtonClick = React.useCallback(
+  const onButtonClick = useCallback(
     async (e: React.MouseEvent<HTMLElement>) => {
       console.log('点击按钮 ');
       onClick?.(e);
@@ -59,14 +60,14 @@ const CodeInput: React.FC<CodeInputProps> = ({
     [autoFocusOnGetCaptcha, onClick, onGetCaptcha],
   );
 
-  const handleEnd = React.useCallback(() => {
+  const handleEnd = useCallback(() => {
     onEnd?.();
   }, [onEnd]);
 
   // @ts-ignore
-  React.useImperativeHandle(buttonProps?.ref, () => buttonRef.current, [buttonRef]);
+  useImperativeHandle(buttonProps?.ref, () => buttonRef.current, [buttonRef]);
 
-  const defaultStyle = React.useMemo(() => {
+  const defaultStyle = useMemo(() => {
     let inputStyle: React.CSSProperties = {
       flex: 1,
       transition: 'width 0.3s ease 0s',
@@ -86,7 +87,7 @@ const CodeInput: React.FC<CodeInputProps> = ({
     };
   }, [type]);
 
-  const buttonStyle = React.useMemo(
+  const buttonStyle = useMemo(
     () => ({
       ...defaultStyle.button,
       ...buttonProps?.style,
