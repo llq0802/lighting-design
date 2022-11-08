@@ -1,0 +1,34 @@
+@NumberRollPrefixCls: ~'lightd-numberRoll';
+
+.@{NumberRollPrefixCls} {
+  &-animate {
+    position: relative;
+    display: inline-block;
+    height: 45px;
+    overflow: hidden;
+    font-size: 40px;
+    line-height: 45px;
+  }
+  &-animate-dom {
+    position: relative;
+    top: 0;
+    float: left;
+    width: 27px;
+    text-align: center;
+  }
+
+  &-animate-dot {
+    float: left;
+    width: 21px;
+    text-align: center;
+  }
+  &-animate-dot,
+  &-animate-dom {
+    span {
+      float: left;
+      width: 100%;
+      height: 45px;
+      line-height: 1.1;
+    }
+  }
+}
