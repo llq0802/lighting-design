@@ -1,20 +1,37 @@
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import { NumberCount } from 'lighting-design';
 import type { FC } from 'react';
 import { useState } from 'react';
 
+const center = {
+  display: 'flex',
+  justifyContent: 'center',
+};
 const Demo: FC = () => {
   const [count, setCount] = useState(0);
+  const [value, setValue] = useState<number>();
   return (
     <>
-      <NumberCount value={0} count={count} speed={3} />
-      <Button
-        onClick={() => {
-          setCount(99999);
-        }}
-      >
-        设置99999
-      </Button>
+      <NumberCount style={center} value={count} />
+      <br />
+      <Input.Group compact style={center}>
+        <Input
+          style={{ width: 200 }}
+          value={value}
+          placeholder="请输入数字"
+          onChange={(e: any) => {
+            setValue(e.target.value);
+          }}
+        />
+        <Button
+          type="primary"
+          onClick={() => {
+            setCount(Number(value));
+          }}
+        >
+          设置
+        </Button>
+      </Input.Group>
     </>
   );
 };
