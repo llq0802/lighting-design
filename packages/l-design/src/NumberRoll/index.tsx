@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 import './index.less';
 import ItemChren from './item';
 
-interface NumberCountPropsType {
+interface NumberRollPropsType {
   /**
    * 默认值
    */
@@ -19,7 +19,7 @@ interface NumberCountPropsType {
    */
   symbol?: number;
   /**
-   * 动画速度 1s
+   * 动画速度 ms
    */
   speed?: number;
   /**
@@ -35,13 +35,13 @@ interface NumberCountPropsType {
    */
   className?: string;
 }
-
-const Index: FC<NumberCountPropsType> = ({
-  className,
+export const prefixCls = 'lightd-numberRoll';
+const Index: FC<NumberRollPropsType> = ({
+  className = '',
   style,
-  minLength,
+  minLength = 1,
   speed = 1000,
-  value = 100,
+  value = 0,
   symbol = '',
   dot = 0,
 }) => {
@@ -52,15 +52,19 @@ const Index: FC<NumberCountPropsType> = ({
       // 设置分隔符 不是第0个，三的余数，必须有分隔符，不是小数点"."
       if (i != 0 && (newStr.length - i) % 3 == 0 && symbol != '' && o != '.') {
         numberDom.push((key: React.Key | null | undefined) => (
-          <div className="number-animate-dot" key={key}>
+          <div className={`${prefixCls}-animate-dot`} key={key}>
             <span>{symbol}</span>
           </div>
         ));
       } else {
-        numberDom.push((key: React.Key | null | undefined) => <ItemChren num={o} key={key} />);
+        numberDom.push((key: React.Key) => <ItemChren num={o} key={key} />);
       }
     });
-    return <div className="number-animate">{numberDom.map((item, key: number) => item(key))}</div>;
+    return (
+      <div className={`${prefixCls}-animate`}>
+        {numberDom.map((item, index: number) => item(index))}
+      </div>
+    );
   };
 
   // 将数字转换为数组，如果有最小位数则往前拼接“0”
@@ -75,9 +79,9 @@ const Index: FC<NumberCountPropsType> = ({
     return newStr;
   };
 
-  // 执行动画
+  // 设置动画
   const loadAnimate = ($parent: any) => {
-    const $dom = $parent.querySelectorAll('.number-animate-dom');
+    const $dom = $parent.querySelectorAll(`.${prefixCls}-animate-dom`);
     for (const o of $dom) {
       const dataNum = o.getAttribute('data-num') || 0;
       const _height = o.offsetHeight / 12;
@@ -87,15 +91,16 @@ const Index: FC<NumberCountPropsType> = ({
     }
   };
 
+  // 更新设置
   const update = (valNum: number) => {
     const newArr = valToArr(valNum),
-      $dom = domRef.current.querySelectorAll('.number-animate-dom');
+      $dom = domRef.current.querySelectorAll(`.${prefixCls}-animate-dom`);
     if ($dom.length != newArr.length) {
       render(setNumDom(valToArr(valNum)), domRef.current, () => {
         loadAnimate(domRef.current);
       });
     } else {
-      $dom.forEach((o, i: number) => {
+      $dom.forEach((o: any, i: number) => {
         o.setAttribute('data-num', newArr[i]);
       });
       loadAnimate(domRef.current);
@@ -115,11 +120,10 @@ const Index: FC<NumberCountPropsType> = ({
   useEffect(() => {
     load();
   }, []);
+
   return (
     <>
-      <div className={className} style={style}>
-        <div className="Odometer" ref={domRef} />
-      </div>
+      <div className={`${prefixCls} ${className}`} style={style} ref={domRef} />
     </>
   );
 };

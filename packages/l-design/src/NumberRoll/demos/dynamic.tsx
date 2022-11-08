@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import { NumberCount } from 'lighting-design';
+import { NumberRoll } from 'lighting-design';
 import type { FC } from 'react';
 import { useState } from 'react';
 
@@ -15,7 +15,7 @@ const Demo: FC = () => {
 
   return (
     <div>
-      <NumberCount
+      <NumberRoll
         style={{
           display: 'flex',
           justifyContent: 'center',

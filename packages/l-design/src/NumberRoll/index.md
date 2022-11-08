@@ -1,12 +1,12 @@
 ---
-title: NumberCount
+title: NumberRoll
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# NumberCount 数值加载
+# NumberRoll 数值加载
 
 数值加载
 

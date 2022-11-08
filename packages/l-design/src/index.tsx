@@ -38,7 +38,7 @@ export type {
 export { default as Spin } from './Spin';
 export { default as Tooltip } from './Tooltip';
 export { default as Switch } from './Switch';
-export { default as NumberCount } from './NumberCount';
+export { default as NumberRoll } from './NumberRoll';
 // hooks方式使用弹窗组件
 export { default as useFormModal } from './useFormModal';
 export type { DraggableModalProps, FormSlotProps } from './useFormModal';
