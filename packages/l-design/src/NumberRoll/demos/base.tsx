@@ -1,37 +1,26 @@
-import { Button, Input } from 'antd';
 import { NumberRoll } from 'lighting-design';
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const center = {
   display: 'flex',
   justifyContent: 'center',
 };
 const Demo: FC = () => {
-  const [count, setCount] = useState(0);
-  const [value, setValue] = useState<number>();
+  const [value, setCalue] = useState(9);
+
+  const load = () => {
+    setInterval(() => {
+      setCalue(value * Math.floor(Math.random() * 1000));
+    }, 3000);
+  };
+  useEffect(() => {
+    load();
+  }, []);
+
   return (
     <>
-      <NumberRoll style={center} value={count} />
-      <br />
-      <Input.Group compact style={center}>
-        <Input
-          style={{ width: 200 }}
-          value={value}
-          placeholder="请输入数字"
-          onChange={(e: any) => {
-            setValue(e.target.value);
-          }}
-        />
-        <Button
-          type="primary"
-          onClick={() => {
-            setCount(Number(value));
-          }}
-        >
-          设置
-        </Button>
-      </Input.Group>
+      <NumberRoll style={center} value={value} />
     </>
   );
 };

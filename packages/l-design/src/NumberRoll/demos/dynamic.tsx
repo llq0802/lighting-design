@@ -1,53 +1,38 @@
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import { NumberRoll } from 'lighting-design';
 import type { FC } from 'react';
 import { useState } from 'react';
 
 const center = {
   display: 'flex',
-  width: '50%',
-  margin: '0 auto',
-  justifyContent: 'space-around',
+  justifyContent: 'center',
 };
-
 const Demo: FC = () => {
-  const [count, setCount] = useState(100);
-
+  const [count, setCount] = useState(0);
+  const [value, setValue] = useState<number>();
   return (
-    <div>
-      <NumberRoll
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-        value={0}
-        count={count}
-      />
+    <>
+      <NumberRoll style={center} value={count} />
       <br />
-      <div style={center}>
+      <Input.Group compact style={center}>
+        <Input
+          style={{ width: 200 }}
+          value={value}
+          placeholder="请输入数字"
+          onChange={(e: any) => {
+            setValue(e.target.value);
+          }}
+        />
         <Button
+          type="primary"
           onClick={() => {
-            setCount(99999);
+            setCount(Number(value));
           }}
         >
-          设置999
+          设置
         </Button>
-        <Button
-          onClick={() => {
-            setCount(100);
-          }}
-        >
-          设置100
-        </Button>
-        <Button
-          onClick={() => {
-            setCount(0);
-          }}
-        >
-          设置0
-        </Button>
-      </div>
-    </div>
+      </Input.Group>
+    </>
   );
 };
 

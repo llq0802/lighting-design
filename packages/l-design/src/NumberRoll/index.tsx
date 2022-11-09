@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import type { DOMAttributes, FC, ReactElement, ReactNode } from 'react';
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import type { Container } from 'react-dom';
 import { render } from 'react-dom';
 import './index.less';
@@ -46,7 +47,8 @@ const Index: FC<NumberRollPropsType> = ({
   dot = 0,
 }) => {
   const domRef = useRef<HTMLDivElement | Container | any>(null);
-  const setNumDom = (newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
+
+  const setNumDom = useCallback((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
     const numberDom: any[] = [];
     newStr.forEach((o, i) => {
       // 设置分隔符 不是第0个，三的余数，必须有分隔符，不是小数点"."
@@ -65,10 +67,10 @@ const Index: FC<NumberRollPropsType> = ({
         {numberDom.map((item, index: number) => item(index))}
       </div>
     );
-  };
+  }, []);
 
   // 将数字转换为数组，如果有最小位数则往前拼接“0”
-  const valToArr = (val: number): string[] => {
+  const valToArr = useCallback((val: number): string[] => {
     const newStr = val.toFixed(dot).toString().split('');
     // 拼接最小位数
     if (newStr.length <= minLength) {
@@ -77,10 +79,10 @@ const Index: FC<NumberRollPropsType> = ({
       }
     }
     return newStr;
-  };
+  }, []);
 
   // 设置动画
-  const loadAnimate = ($parent: any) => {
+  const loadAnimate = useCallback(($parent: any) => {
     const $dom = $parent.querySelectorAll(`.${prefixCls}-animate-dom`);
     for (const o of $dom) {
       const dataNum = o.getAttribute('data-num') || 0;
@@ -89,10 +91,10 @@ const Index: FC<NumberRollPropsType> = ({
         'translateY(' + (dataNum == '.' ? -11 * _height : -dataNum * _height) + 'px)';
       o.style.transition = (dataNum == '.' ? 0 : speed / 1000) + 's';
     }
-  };
+  }, []);
 
   // 更新设置
-  const update = (valNum: number) => {
+  const update = useCallback((valNum: number) => {
     const newArr = valToArr(valNum),
       $dom = domRef.current.querySelectorAll(`.${prefixCls}-animate-dom`);
     if ($dom.length != newArr.length) {
@@ -105,20 +107,16 @@ const Index: FC<NumberRollPropsType> = ({
       });
       loadAnimate(domRef.current);
     }
-  };
-
-  const load = () => {
-    render(setNumDom(valToArr(value)), domRef.current, () => {
-      loadAnimate(domRef.current);
-    });
-  };
+  }, []);
 
   useEffect(() => {
     if (value) update(value);
   }, [value]);
 
   useEffect(() => {
-    load();
+    render(setNumDom(valToArr(value)), domRef.current, () => {
+      loadAnimate(domRef.current);
+    });
   }, []);
 
   return (

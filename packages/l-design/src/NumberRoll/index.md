@@ -13,9 +13,9 @@ nav:
 ## 基本用法
 
 <code src="./demos/base.tsx"/>
-<!-- 
+
 ## 动态设置
 
-<!-- <code src="./demos/dynamic.tsx"/> -->
+<code src="./demos/dynamic.tsx"/>
 
 <API></API>
