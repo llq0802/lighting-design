@@ -12,19 +12,19 @@ interface NumberRollPropsType {
    */
   value: number;
   /**
-   *  默认最小位数
+   * 最小位数（个位数起）
    */
   minLength?: number;
   /**
-   * 默认的分割符号，千，万，千万
+   * 分割符号（禁用 "."） 1,000,000,000
    */
-  symbol?: number;
+  symbol?: string;
   /**
    * 动画速度 ms
    */
   speed?: number;
   /**
-   * //保留几位小数点
+   * 保留几位小数
    */
   dot?: number;
   /**
@@ -49,18 +49,25 @@ const Index: FC<NumberRollPropsType> = ({
   const domRef = useRef<HTMLDivElement | Container | any>(null);
 
   const setNumDom = useCallback((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
-    const numberDom: any[] = [];
+    const numberDom: any[] = []; // 整数位数
+    const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
     newStr.forEach((o, i) => {
-      // 设置分隔符 不是第0个，三的余数，必须有分隔符，不是小数点"."
-      if (i != 0 && (newStr.length - i) % 3 == 0 && symbol != '' && o != '.') {
+      // 设置分隔符 不是第0个，必须整数，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
+      if (
+        i != 0 &&
+        i <= newStr.length - decimal &&
+        (newStr.length - decimal - i) % 3 == 0 &&
+        symbol != '' &&
+        symbol != '.' &&
+        o != '.'
+      ) {
         numberDom.push((key: React.Key | null | undefined) => (
           <div className={`${prefixCls}-animate-dot`} key={key}>
             <span>{symbol}</span>
           </div>
         ));
-      } else {
-        numberDom.push((key: React.Key) => <ItemChren num={o} key={key} />);
       }
+      numberDom.push((key: React.Key) => <ItemChren num={o} key={key} />);
     });
     return (
       <div className={`${prefixCls}-animate`}>
@@ -71,10 +78,33 @@ const Index: FC<NumberRollPropsType> = ({
 
   // 将数字转换为数组，如果有最小位数则往前拼接“0”
   const valToArr = useCallback((val: number): string[] => {
-    const newStr = val.toFixed(dot).toString().split('');
-    // 拼接最小位数
-    if (newStr.length <= minLength) {
-      for (let i = 0; i < minLength - newStr.length; i++) {
+    const newVal: string = val.toString();
+    let newStr: string[] = [];
+    if (newVal.includes('.')) {
+      newStr = newVal.split('');
+      const decimal = newVal.length - 1 - newVal.indexOf('.'); // 小数位数
+      if (dot && decimal !== dot) {
+        // 大于则减去相差值，小于则添加差值个"0"
+        if (decimal > dot) {
+          newStr.length = newStr.length - (decimal - dot);
+        } else {
+          for (let i = 0; i < dot - decimal; i++) {
+            newStr.push('0');
+          }
+        }
+      }
+    } else {
+      try {
+        newStr = val.toFixed(dot).split('');
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    // 拼接最小位数(个位数起)
+    const integer = newStr.join('').indexOf('.'); // 整数位数
+    if (minLength > 1 && minLength !== integer && minLength > integer) {
+      for (let i = 0; i < minLength - integer; i++) {
         newStr.unshift('0');
       }
     }
@@ -86,9 +116,9 @@ const Index: FC<NumberRollPropsType> = ({
     const $dom = $parent.querySelectorAll(`.${prefixCls}-animate-dom`);
     for (const o of $dom) {
       const dataNum = o.getAttribute('data-num') || 0;
-      const _height = o.offsetHeight / 12;
+      const _height = o.offsetHeight / 11;
       o.style.transform =
-        'translateY(' + (dataNum == '.' ? -11 * _height : -dataNum * _height) + 'px)';
+        'translateY(' + (dataNum == '.' ? -10 * _height : -dataNum * _height) + 'px)';
       o.style.transition = (dataNum == '.' ? 0 : speed / 1000) + 's';
     }
   }, []);

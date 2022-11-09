@@ -7,7 +7,7 @@ interface PropsType {
 }
 export const prefixCls = 'lightd-numberRoll';
 const Index: FC<PropsType> = ({ num }) => {
-  const [itemArr] = useState(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.']);
+  const [itemArr] = useState(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.']);
   return (
     <>
       <div className={`${prefixCls}-animate-dom`} data-num={num}>

@@ -8,7 +8,7 @@ const center = {
   justifyContent: 'center',
 };
 const Demo: FC = () => {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(999.99);
   const [value, setValue] = useState<number>();
   return (
     <>
@@ -19,6 +19,7 @@ const Demo: FC = () => {
           style={{ width: 200 }}
           value={value}
           placeholder="请输入数字"
+          defaultValue={999.99}
           onChange={(e: any) => {
             setValue(e.target.value);
           }}
