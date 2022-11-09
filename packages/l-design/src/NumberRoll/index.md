@@ -13,9 +13,13 @@ nav:
 ## 基本用法
 
 <code src="./demos/base.tsx"/>
-<!-- 
-## 动态设置
 
-<!-- <code src="./demos/dynamic.tsx"/> -->
+## 动态数字
+
+<code src="./demos/dynamic.tsx"/>
+
+## 金额分隔符
+
+<code src="./demos/decimal.tsx"/>
 
 <API></API>
