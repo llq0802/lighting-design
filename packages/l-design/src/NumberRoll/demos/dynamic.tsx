@@ -12,7 +12,7 @@ const Demo: FC = () => {
   const [value, setValue] = useState<number>();
   return (
     <>
-      <NumberRoll style={center} value={count} />
+      <NumberRoll style={center} value={count}/>
       <br />
       <Input.Group compact style={center}>
         <Input

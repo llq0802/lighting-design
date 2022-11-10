@@ -14,6 +14,10 @@ nav:
 
 <code src="./demos/base.tsx"/>
 
+## 时间类型
+
+<code src="./demos/date.tsx"/>
+
 ## 动态数字
 
 <code src="./demos/dynamic.tsx"/>

@@ -12,7 +12,7 @@ const Demo: FC = () => {
   });
   const load = () => {
     setInterval(() => {
-      const random = Number((Math.random() * 10000000000).toFixed(2));
+      const random = Number((Math.random() * 1000000000).toFixed(2));
       setCount(random);
     }, 5000);
   };

@@ -1,8 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import type { DOMAttributes, FC, ReactElement, ReactNode } from 'react';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, {
+  DOMAttributes,
+  FC,
+  ReactElement,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import type { Container } from 'react-dom';
 import { render } from 'react-dom';
+import DateItem from './dateItem';
 import './index.less';
 import ItemChren from './item';
 
@@ -10,7 +19,7 @@ interface NumberRollPropsType {
   /**
    * 默认值
    */
-  value: number;
+  value?: number | string;
   /**
    * 最小位数（个位数起）
    */
@@ -28,6 +37,10 @@ interface NumberRollPropsType {
    */
   dot?: number;
   /**
+   * 类型
+   */
+  type?: 'number' | 'date';
+  /**
    * 样式
    */
   style?: React.CSSProperties;
@@ -37,17 +50,36 @@ interface NumberRollPropsType {
   className?: string;
 }
 export const prefixCls = 'lightd-numberRoll';
+
+export const NumberRoll_NumberArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+export const NumberRoll_DaterArray = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  ':',
+  ' ',
+  '-',
+];
 const Index: FC<NumberRollPropsType> = ({
   className = '',
   style,
+  type = 'number',
   minLength = 1,
-  speed = 1000,
+  speed = 500,
   value = 0,
   symbol = '',
   dot = 0,
 }) => {
   const domRef = useRef<HTMLDivElement | Container | any>(null);
 
+  const [state, setstate] = useState('');
   const setNumDom = useCallback((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
     const numberDom: any[] = []; // 整数位数
     const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
@@ -67,7 +99,11 @@ const Index: FC<NumberRollPropsType> = ({
           </div>
         ));
       }
-      numberDom.push((key: React.Key) => <ItemChren num={o} key={key} />);
+      if (type === 'date') {
+        numberDom.push((key: React.Key) => <DateItem num={o} key={key} />);
+      } else {
+        numberDom.push((key: React.Key) => <ItemChren num={o} key={key} />);
+      }
     });
     return (
       <div className={`${prefixCls}-animate`}>
@@ -116,10 +152,30 @@ const Index: FC<NumberRollPropsType> = ({
     const $dom = $parent.querySelectorAll(`.${prefixCls}-animate-dom`);
     for (const o of $dom) {
       const dataNum = o.getAttribute('data-num') || 0;
-      const _height = o.offsetHeight / 11;
+      const _height = o.offsetHeight / NumberRoll_NumberArray.length;
       o.style.transform =
         'translateY(' + (dataNum == '.' ? -10 * _height : -dataNum * _height) + 'px)';
       o.style.transition = (dataNum == '.' ? 0 : speed / 1000) + 's';
+    }
+  }, []);
+
+  // 设置动画
+  const loadAnimateDate = useCallback(($parent: any) => {
+    const $dom = $parent.querySelectorAll(`.${prefixCls}-animate-dom`);
+    for (const o of $dom) {
+      const dataNum = o.getAttribute('data-num') || 0;
+      const _height = o.offsetHeight / NumberRoll_DaterArray.length;
+      o.style.transform =
+        'translateY(' +
+        (dataNum == ':'
+          ? -10 * _height
+          : dataNum == ' '
+          ? -11 * _height
+          : dataNum == '-'
+          ? -12 * _height
+          : -dataNum * _height) +
+        'px)';
+      o.style.transition = (dataNum == ':' || dataNum == ' ' ? 0 : speed / 1000) + 's';
     }
   }, []);
 
@@ -139,14 +195,36 @@ const Index: FC<NumberRollPropsType> = ({
     }
   }, []);
 
+  // number类型判断
+  const errorTypeNumber = () => {
+    if (typeof value !== 'number') throw new Error('type of value must be number');
+    if (isNaN(value) && !value) throw new Error('Number type value cannot be undefined');
+    if (value < 0) throw new Error('value cannot be negative');
+  };
+
+  // 更新
   useEffect(() => {
-    if (value) update(value);
+    switch (type) {
+      case 'number':
+        errorTypeNumber();
+        if (value) update(value);
+        break;
+      case 'date':
+        if (typeof value !== 'string') throw new Error('Type is "date", value type must be string');
+        render(setNumDom(value.split('')), domRef.current, () => {
+          loadAnimateDate(domRef.current);
+        });
+        break;
+    }
   }, [value]);
 
-  useEffect(() => {
-    render(setNumDom(valToArr(value)), domRef.current, () => {
-      loadAnimate(domRef.current);
-    });
+  useEffect((): any => {
+    if (type === 'number') {
+      errorTypeNumber();
+      render(setNumDom(valToArr(value)), domRef.current, () => {
+        loadAnimate(domRef.current);
+      });
+    }
   }, []);
 
   return (

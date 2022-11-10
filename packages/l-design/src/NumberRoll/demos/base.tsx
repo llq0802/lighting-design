@@ -13,7 +13,7 @@ const Demo: FC = () => {
     setInterval(() => {
       const random = value * Math.floor(Math.random() * 1000);
       setCalue(random);
-    }, 5000);
+    }, 3000);
   };
   useEffect(() => {
     load();
@@ -21,7 +21,7 @@ const Demo: FC = () => {
 
   return (
     <>
-      <NumberRoll style={center} value={value} />
+      <NumberRoll style={center} value={value}/>
     </>
   );
 };
