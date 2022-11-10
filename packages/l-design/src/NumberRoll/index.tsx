@@ -78,8 +78,6 @@ const Index: FC<NumberRollPropsType> = ({
   dot = 0,
 }) => {
   const domRef = useRef<HTMLDivElement | Container | any>(null);
-
-  const [state, setstate] = useState('');
   const setNumDom = useCallback((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
     const numberDom: any[] = []; // 整数位数
     const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
