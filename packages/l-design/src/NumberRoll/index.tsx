@@ -1,53 +1,45 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  DOMAttributes,
-  FC,
-  ReactElement,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import type { DOMAttributes, FC, ReactElement, ReactNode } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import type { Container } from 'react-dom';
 import { render } from 'react-dom';
-import DateItem from './dateItem';
+import DateItem from './components/dateItem';
+import ItemChren from './components/item';
 import './index.less';
-import ItemChren from './item';
 
 interface NumberRollPropsType {
   /**
    * 默认值
    */
-  value?: number | string;
+  value: number | string;
   /**
    * 最小位数（个位数起）
    */
-  minLength?: number;
+  minLength: number;
   /**
    * 分割符号（禁用 "."） 1,000,000,000
    */
-  symbol?: string;
+  symbol: string;
   /**
    * 动画速度 ms
    */
-  speed?: number;
+  speed: number;
   /**
    * 保留几位小数
    */
-  dot?: number;
+  dot: number;
   /**
    * 类型
    */
-  type?: 'number' | 'date';
+  type: 'number' | 'date';
   /**
    * 样式
    */
-  style?: React.CSSProperties;
+  style: React.CSSProperties;
   /**
    * 类名
    */
-  className?: string;
+  className: string;
 }
 export const prefixCls = 'lightd-numberRoll';
 
@@ -67,7 +59,7 @@ export const NumberRoll_DaterArray = [
   ' ',
   '-',
 ];
-const Index: FC<NumberRollPropsType> = ({
+const Index: FC<Partial<NumberRollPropsType>> = ({
   className = '',
   style,
   type = 'number',
@@ -111,7 +103,7 @@ const Index: FC<NumberRollPropsType> = ({
   }, []);
 
   // 将数字转换为数组，如果有最小位数则往前拼接“0”
-  const valToArr = useCallback((val: number): string[] => {
+  const valToArr = useCallback((val: number | any): string[] => {
     const newVal: string = val.toString();
     let newStr: string[] = [];
     if (newVal.includes('.')) {
@@ -178,7 +170,7 @@ const Index: FC<NumberRollPropsType> = ({
   }, []);
 
   // 更新设置
-  const update = useCallback((valNum: number) => {
+  const update = useCallback((valNum: number | any) => {
     const newArr = valToArr(valNum),
       $dom = domRef.current.querySelectorAll(`.${prefixCls}-animate-dom`);
     if ($dom.length != newArr.length) {

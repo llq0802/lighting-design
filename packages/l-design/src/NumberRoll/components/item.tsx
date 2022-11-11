@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { NumberRoll_NumberArray } from '.';
+import { NumberRoll_NumberArray } from '..';
 
 interface PropsType {
   num: string;

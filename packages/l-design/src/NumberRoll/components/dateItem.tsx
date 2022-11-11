@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { NumberRoll_DaterArray } from '.';
+import { NumberRoll_DaterArray } from '..';
 
 interface PropsType {
   num: string;
