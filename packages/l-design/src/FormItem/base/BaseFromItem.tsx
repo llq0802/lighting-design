@@ -48,7 +48,7 @@ const LFormItem: FC<LFormItemProps> = ({
               validator(_: any, value: any) {
                 let errMsg = '';
                 if (!value) {
-                  errMsg = required ? `请输入${messageLabel}` : '';
+                  errMsg = required ? `请输入${messageLabel}!` : '';
                 }
                 if (errMsg) {
                   return Promise.reject(errMsg);

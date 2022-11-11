@@ -13,22 +13,23 @@ const Demo1 = () => {
           tooltip="这是提示"
           name="name"
           label="Description"
-          rules={[
-            {
-              required: true,
-              // message: 'Please input your username!',
-              validator(_, value) {
-                let errMsg = '';
-                if (value !== '999') {
-                  errMsg = `请输入999`;
-                }
-                if (errMsg) {
-                  return Promise.reject(errMsg);
-                }
-                return Promise.resolve();
-              },
-            },
-          ]}
+          required
+          // rules={[
+          //   {
+          //     required: true,
+          //     // message: 'Please input your username!',
+          //     validator(_, value) {
+          //       let errMsg = '';
+          //       if (value !== '999') {
+          //         errMsg = `请输入999`;
+          //       }
+          //       if (errMsg) {
+          //         return Promise.reject(errMsg);
+          //       }
+          //       return Promise.resolve();
+          //     },
+          //   },
+          // ]}
           onEnd={() => {
             message.info('倒计时完成');
           }}
