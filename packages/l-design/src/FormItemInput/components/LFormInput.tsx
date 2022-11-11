@@ -3,7 +3,6 @@ import type { FC } from 'react';
 import { useMemo } from 'react';
 import type { LFormItemProps } from '../../FormItem/base/BaseFromItem';
 import LFormItem from '../../FormItem/base/BaseFromItem';
-import { getFormItemLabel } from '../../utils';
 import type { InputWrapperProps } from '../base/InputWrapper';
 import InputWrapper from '../base/InputWrapper';
 
@@ -17,11 +16,9 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   type,
   disabledWhiteSpace,
   inputProps = {},
-  required = false,
-  transform,
+  required,
   ...restProps
 }) => {
-  const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
   const isOnblur = useMemo(
     () => type === 'bankCard' || type === 'idCard' || type === 'phone' || type === 'email',
     [type],
@@ -31,20 +28,6 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
     <LFormItem
       required={required}
       validateTrigger={isOnblur ? 'onBlur' : 'onChange'}
-      rules={[
-        {
-          validator(_, value) {
-            let errMsg = '';
-            if (!value) {
-              errMsg = required ? `请输入${messageLabel}` : '';
-            }
-            if (errMsg) {
-              return Promise.reject(errMsg);
-            }
-            return Promise.resolve();
-          },
-        },
-      ]}
       {...restProps}
     >
       <InputWrapper

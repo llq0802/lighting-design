@@ -1,15 +1,16 @@
 import type { FormItemProps } from 'antd';
 import { Form } from 'antd';
 import type { FC, ReactElement, ReactNode } from 'react';
-import { cloneElement } from 'react';
+import { cloneElement, useMemo } from 'react';
+import { getFormItemLabel } from '../../utils';
 import FormItemWrapper from './FormItemWrapper';
 
-type TransformFn<T = any> = (value: T, currentPathValues?: any) => T | any;
+type TransformFn<T = any> = (value: T) => T;
 
 type ContentProps = Record<string, any>;
 
 export interface LFormItemProps extends FormItemProps {
-  transform?: TransformFn;
+  transformFn?: TransformFn;
   renderField?: (dom: ReactElement) => ReactElement;
   alignItems?: 'center' | 'start' | 'end';
   contentBefore?: ReactNode;
@@ -19,7 +20,7 @@ export interface LFormItemProps extends FormItemProps {
 }
 
 const LFormItem: FC<LFormItemProps> = ({
-  transform,
+  transformFn,
   renderField,
   className,
   contentBefore,
@@ -28,22 +29,45 @@ const LFormItem: FC<LFormItemProps> = ({
   contentProps,
 
   name,
-  label,
-  children,
+  required,
   shouldUpdate,
   dependencies,
+  children,
+  rules = [],
   trigger = 'onChange',
   ...restFromItemProps
 }) => {
   console.log('LFormItem ', restFromItemProps);
+  const messageLabel = useMemo(() => getFormItemLabel(restFromItemProps), [restFromItemProps]);
+  const itemRules = useMemo(
+    () =>
+      rules.length > 0
+        ? rules
+        : [
+            {
+              validator(_: any, value: any) {
+                let errMsg = '';
+                if (!value) {
+                  errMsg = required ? `请输入${messageLabel}` : '';
+                }
+                if (errMsg) {
+                  return Promise.reject(errMsg);
+                }
+                return Promise.resolve();
+              },
+            },
+          ],
+    [messageLabel, required, rules],
+  );
 
   if (shouldUpdate) {
     return (
       <Form.Item
         name={name}
-        label={label}
+        required={required}
         shouldUpdate={shouldUpdate}
         trigger={trigger}
+        rules={itemRules}
         {...restFromItemProps}
       >
         {(form) => {
@@ -68,14 +92,20 @@ const LFormItem: FC<LFormItemProps> = ({
   if (dependencies && dependencies?.length > 0) {
     return (
       <Form.Item noStyle dependencies={dependencies}>
-        {(formInstance) => {
-          const depFields = formInstance.getFieldsValue(dependencies);
-          const innerChildren = typeof children === 'function' ? children(formInstance) : children;
+        {(form) => {
+          const depFields = form.getFieldsValue(dependencies);
+          const innerChildren = typeof children === 'function' ? children(form) : children;
           const contentChildren = cloneElement(innerChildren as ReactElement, {
             ...depFields,
           });
           return (
-            <Form.Item name={name} label={label} trigger={trigger} {...restFromItemProps}>
+            <Form.Item
+              name={name}
+              required={required}
+              trigger={trigger}
+              rules={itemRules}
+              {...restFromItemProps}
+            >
               <FormItemWrapper
                 className={className}
                 before={contentBefore}
@@ -94,7 +124,13 @@ const LFormItem: FC<LFormItemProps> = ({
   }
 
   return (
-    <Form.Item name={name} label={label} trigger={trigger} {...restFromItemProps}>
+    <Form.Item
+      name={name}
+      required={required}
+      trigger={trigger}
+      rules={itemRules}
+      {...restFromItemProps}
+    >
       <FormItemWrapper
         className={className}
         before={contentBefore}

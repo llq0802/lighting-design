@@ -1,9 +1,7 @@
 import type { FC } from 'react';
-import { useMemo } from 'react';
 import type { LCaptchaButtonProps } from '../CaptchaButton';
 import type { LFormItemProps } from '../FormItem';
 import LFormItem from '../FormItem';
-import { getFormItemLabel } from '../utils';
 import type { CodeInputProps } from './base/CaptchaInput';
 import CaptchaInput from './base/CaptchaInput';
 
@@ -31,27 +29,8 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   required,
   ...restProps
 }) => {
-  const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
-
   return (
-    <LFormItem
-      required={required}
-      rules={[
-        {
-          validator(rules, value) {
-            let errMsg = '';
-            if (!value) {
-              errMsg = required ? `请输入${messageLabel}` : '';
-            }
-            if (errMsg) {
-              return Promise.reject(errMsg);
-            }
-            return Promise.resolve();
-          },
-        },
-      ]}
-      {...restProps}
-    >
+    <LFormItem required={required} {...restProps}>
       <CaptchaInput
         type={type}
         onGetCaptcha={onGetCaptcha}
