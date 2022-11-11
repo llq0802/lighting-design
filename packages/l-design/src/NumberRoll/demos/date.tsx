@@ -9,7 +9,9 @@ const center = {
 };
 const Demo: FC = () => {
   const [value, setValue] = useState<number | string>(moment(new Date()).format('HH:mm:ss'));
-  const [value2, setValue2] = useState<number | string>(moment(new Date()).format('yyyy-MM-DD HH:mm'));
+  const [value2, setValue2] = useState<number | string>(
+    moment(new Date()).format('yyyy-MM-DD HH:mm'),
+  );
 
   useEffect(() => {
     const timer = setInterval(() => {

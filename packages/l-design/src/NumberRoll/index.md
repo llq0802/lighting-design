@@ -26,4 +26,8 @@ nav:
 
 <code src="./demos/decimal.tsx"/>
 
+## 改变大小
+
+<code src="./demos/size.tsx"/>
+
 <API></API>

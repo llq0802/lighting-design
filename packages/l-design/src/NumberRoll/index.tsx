@@ -3,8 +3,8 @@ import type { DOMAttributes, FC, ReactElement, ReactNode } from 'react';
 import React, { useCallback, useEffect, useRef } from 'react';
 import type { Container } from 'react-dom';
 import { render } from 'react-dom';
-import DateItem from './components/dateItem';
-import ItemChren from './components/item';
+import DataChildren from './components/dataChildren';
+import ItemChildren from './components/itemChildren';
 import './index.less';
 
 interface NumberRollPropsType {
@@ -32,6 +32,10 @@ interface NumberRollPropsType {
    * 类型
    */
   type: 'number' | 'date';
+  /**
+   * 缩放大小
+   */
+  scale: number;
   /**
    * 样式
    */
@@ -68,6 +72,7 @@ const Index: FC<Partial<NumberRollPropsType>> = ({
   value = 0,
   symbol = '',
   dot = 0,
+  scale = 1,
 }) => {
   const domRef = useRef<HTMLDivElement | Container | any>(null);
   const setNumDom = useCallback((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
@@ -90,13 +95,13 @@ const Index: FC<Partial<NumberRollPropsType>> = ({
         ));
       }
       if (type === 'date') {
-        numberDom.push((key: React.Key) => <DateItem num={o} key={key} />);
+        numberDom.push((key: React.Key) => <DataChildren num={o} key={key} />);
       } else {
-        numberDom.push((key: React.Key) => <ItemChren num={o} key={key} />);
+        numberDom.push((key: React.Key) => <ItemChildren num={o} key={key} />);
       }
     });
     return (
-      <div className={`${prefixCls}-animate`}>
+      <div className={`${prefixCls}-animate`} style={{ transform:`scale(${scale})` }}>
         {numberDom.map((item, index: number) => item(index))}
       </div>
     );
