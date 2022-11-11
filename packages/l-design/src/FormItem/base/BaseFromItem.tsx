@@ -1,6 +1,7 @@
 import type { FormItemProps } from 'antd';
 import { Form } from 'antd';
 import type { FC, ReactElement, ReactNode } from 'react';
+import { cloneElement } from 'react';
 import FormItemWrapper from './FormItemWrapper';
 
 type TransformFn<T = any> = (value: T, currentPathValues?: any) => T | any;
@@ -36,18 +37,17 @@ const LFormItem: FC<LFormItemProps> = ({
 }) => {
   console.log('LFormItem ', restFromItemProps);
 
-  return (
-    <Form.Item
-      name={name}
-      label={label}
-      shouldUpdate={shouldUpdate}
-      dependencies={dependencies}
-      trigger={trigger}
-      {...restFromItemProps}
-    >
-      {shouldUpdate ? (
-        (...args) => {
-          const innerChildren = typeof children === 'function' ? children(...args) : children;
+  if (shouldUpdate) {
+    return (
+      <Form.Item
+        name={name}
+        label={label}
+        shouldUpdate={shouldUpdate}
+        trigger={trigger}
+        {...restFromItemProps}
+      >
+        {(form) => {
+          const contentChildren = typeof children === 'function' ? children(form) : children;
           return (
             <FormItemWrapper
               className={className}
@@ -57,22 +57,54 @@ const LFormItem: FC<LFormItemProps> = ({
               alignItems={alignItems}
               {...contentProps}
             >
-              {renderField ? renderField(innerChildren as ReactElement) : innerChildren}
+              {renderField ? renderField(contentChildren as ReactElement) : contentChildren}
             </FormItemWrapper>
           );
-        }
-      ) : (
-        <FormItemWrapper
-          className={className}
-          before={contentBefore}
-          after={contentAfter}
-          trigger={trigger}
-          alignItems={alignItems}
-          {...contentProps}
-        >
-          {renderField ? renderField(children as ReactElement) : children}
-        </FormItemWrapper>
-      )}
+        }}
+      </Form.Item>
+    );
+  }
+
+  if (dependencies && dependencies?.length > 0) {
+    return (
+      <Form.Item noStyle dependencies={dependencies}>
+        {(formInstance) => {
+          const depFields = formInstance.getFieldsValue(dependencies);
+          const innerChildren = typeof children === 'function' ? children(formInstance) : children;
+          const contentChildren = cloneElement(innerChildren as ReactElement, {
+            ...depFields,
+          });
+          return (
+            <Form.Item name={name} label={label} trigger={trigger} {...restFromItemProps}>
+              <FormItemWrapper
+                className={className}
+                before={contentBefore}
+                after={contentAfter}
+                trigger={trigger}
+                alignItems={alignItems}
+                {...contentProps}
+              >
+                {renderField ? renderField(contentChildren) : contentChildren}
+              </FormItemWrapper>
+            </Form.Item>
+          );
+        }}
+      </Form.Item>
+    );
+  }
+
+  return (
+    <Form.Item name={name} label={label} trigger={trigger} {...restFromItemProps}>
+      <FormItemWrapper
+        className={className}
+        before={contentBefore}
+        after={contentAfter}
+        trigger={trigger}
+        alignItems={alignItems}
+        {...contentProps}
+      >
+        {renderField ? renderField(children as ReactElement) : children}
+      </FormItemWrapper>
     </Form.Item>
   );
 };

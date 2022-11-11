@@ -11,3 +11,4 @@ nav:
 FormItem,
 
 <code src='./demos/Demo1.tsx'>
+<code src='./demos/Demo2.tsx'>

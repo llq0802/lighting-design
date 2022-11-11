@@ -1,13 +1,19 @@
 import { Button, Form, Input, Select, Space } from 'antd';
 import { LFormItem } from 'lighting-design';
 
-const Demo1 = () => {
+const Demo2 = () => {
   const [form] = Form.useForm();
   // const nameValue = Form.useWatch('name', form);
   return (
     <>
       <Form name="Form1" form={form} preserve={false}>
-        <LFormItem name="name" className="l-name" label="姓名" contentAfter={<div>后面</div>}>
+        <LFormItem
+          name="name"
+          className="l-name"
+          label="姓名"
+          contentAfter={<div>后面</div>}
+          required
+        >
           <Input />
         </LFormItem>
 
@@ -22,20 +28,17 @@ const Demo1 = () => {
           />
         </LFormItem>
 
-        <LFormItem shouldUpdate={(prevV, curV) => prevV.select !== curV.select}>
-          {({ getFieldValue }) =>
-            getFieldValue('select') === 'a' ? (
-              <LFormItem
-                name="age"
-                className="l-age"
-                label="年龄"
-                alignItems="end"
-                contentAfter={<div>后面</div>}
-              >
-                <Input placeholder="年龄" />
-              </LFormItem>
-            ) : null
-          }
+        <LFormItem
+          required
+          name="age"
+          className="l-age"
+          label="年龄"
+          alignItems="end"
+          contentAfter={<div>岁</div>}
+          dependencies={['name', 'select']}
+        >
+          {/* <Input placeholder="年龄" /> */}
+          <Input placeholder="年龄" />
         </LFormItem>
       </Form>
 
@@ -49,14 +52,14 @@ const Demo1 = () => {
         </Button>
         <Button
           onClick={() => {
-            form.setFieldsValue({ name: '1' });
+            form.validateFields();
           }}
         >
-          设置
+          验证
         </Button>
       </Space>
     </>
   );
 };
 
-export default Demo1;
+export default Demo2;
