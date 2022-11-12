@@ -14,14 +14,14 @@ export interface LFormItemCaptchaProps
     Pick<LCaptchaButtonProps, 'cacheKey' | 'second' | 'disabledText' | 'onEnd'> {}
 
 const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
-  cacheKey,
+  cacheKey = '__FormItemCaptcha__',
   second,
   disabledText,
   onEnd,
-
   type,
-  autoClick = false,
-  autoFocusOnGetCaptcha = true,
+
+  autoClick,
+  autoFocusOnGetCaptcha,
   onGetCaptcha,
   inputProps = {},
   buttonProps = {},

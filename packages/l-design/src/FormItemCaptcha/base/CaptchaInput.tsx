@@ -1,7 +1,7 @@
 import { useMount } from 'ahooks';
-import type { InputProps, InputRef } from 'antd';
+import type { ButtonProps, InputProps, InputRef } from 'antd';
 import { Divider, Input } from 'antd';
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 import { useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 import type { LCaptchaButtonProps } from '../../CaptchaButton';
 import LCaptchaButton from '../../CaptchaButton';
@@ -9,7 +9,7 @@ import LCaptchaButton from '../../CaptchaButton';
 export interface CodeInputProps extends Record<number | string, any> {
   value?: any;
   onChange?: (value: any) => void;
-  type?: 'default' | 'inline'; // 显示类型
+  type?: ButtonProps['type'] | 'inline'; // 显示类型
   inputProps?: InputProps;
   buttonProps?: LCaptchaButtonProps;
   autoClick?: boolean;
@@ -25,9 +25,9 @@ const checkResult = async (fn: () => boolean | Promise<boolean>) => {
       return ret;
     }
   } catch (error) {
-    console.error('checkResult ', error);
+    console.error('验证码接口出错！', error);
   }
-  return Promise.reject(false);
+  return Promise.reject(false); // 抛错 后续代码不执行
 };
 
 const CodeInput: FC<CodeInputProps> = ({
@@ -68,12 +68,12 @@ const CodeInput: FC<CodeInputProps> = ({
   useImperativeHandle(buttonProps?.ref, () => buttonRef.current, [buttonRef]);
 
   const defaultStyle = useMemo(() => {
-    let inputStyle: React.CSSProperties = {
+    let inputStyle: CSSProperties = {
       flex: 1,
       transition: 'width 0.3s ease 0s',
       marginRight: '8px',
     };
-    let buttonStyle: React.CSSProperties = {};
+    let buttonStyle: CSSProperties = {};
     if (type === 'inline') {
       inputStyle = { flex: 1 };
       buttonStyle = {
@@ -97,7 +97,7 @@ const CodeInput: FC<CodeInputProps> = ({
 
   const captchaButtonDom = (
     <LCaptchaButton
-      type={type === 'inline' ? 'link' : 'default'}
+      type={type === 'inline' || type === 'link' ? 'link' : type}
       {...buttonProps}
       onClick={onButtonClick}
       onEnd={handleEnd}
@@ -113,7 +113,7 @@ const CodeInput: FC<CodeInputProps> = ({
   });
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
       <Input
         placeholder="请输入"
         onChange={onChange}

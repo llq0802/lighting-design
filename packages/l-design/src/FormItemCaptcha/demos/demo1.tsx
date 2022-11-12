@@ -9,27 +9,11 @@ const Demo1 = () => {
       <Form name="formCaptcha" form={form}>
         <LFormItemCaptcha
           type="inline"
-          className="zxc"
           tooltip="这是提示"
           name="name"
-          label="Description"
+          label="验证码"
           required
-          // rules={[
-          //   {
-          //     required: true,
-          //     // message: 'Please input your username!',
-          //     validator(_, value) {
-          //       let errMsg = '';
-          //       if (value !== '999') {
-          //         errMsg = `请输入999`;
-          //       }
-          //       if (errMsg) {
-          //         return Promise.reject(errMsg);
-          //       }
-          //       return Promise.resolve();
-          //     },
-          //   },
-          // ]}
+          onGetCaptcha={async () => true}
           onEnd={() => {
             message.info('倒计时完成');
           }}
