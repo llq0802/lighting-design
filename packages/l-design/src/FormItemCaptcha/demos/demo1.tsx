@@ -10,7 +10,7 @@ const Demo1 = () => {
         <LFormItemCaptcha
           type="inline"
           tooltip="这是提示"
-          name="name"
+          name="code"
           label="验证码"
           required
           onGetCaptcha={async () => true}

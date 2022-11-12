@@ -22,10 +22,10 @@ export default {
     {
       title: '数据录入',
       children: [
-        'useFormModal/index.md',
         'FormItem/index.md',
         'FormItemInput/index.md',
         'FormItemCaptcha/index.md',
+        'useFormModal/index.md',
       ],
     },
   ],

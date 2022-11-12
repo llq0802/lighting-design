@@ -11,7 +11,6 @@ const Demo = () => {
         label="名字"
         required
         tooltip="禁止空格"
-        // rules={[{ required: true, message: 'Please select your favourite colors!', type: 'array' }]}
         disabledWhiteSpace
         alignItems="end"
         contentAfter={<div>后面</div>}
@@ -22,11 +21,11 @@ const Demo = () => {
         name="phone"
         label="手机号"
         required
-        tooltip="禁止空格"
+        tooltip="禁止空格 只能输入数字"
         type="phone"
         disabledWhiteSpace
         contentAfter={<div>后面</div>}
-        inputProps={{ placeholder: '手机号' }}
+        inputProps={{ placeholder: '请输入手机号' }}
       />
 
       <Button

@@ -37,7 +37,7 @@ const LFormItem: FC<LFormItemProps> = ({
   trigger = 'onChange',
   ...restFromItemProps
 }) => {
-  console.log('LFormItem ', restFromItemProps);
+  // console.log('LFormItem ', restFromItemProps);
   const messageLabel = useMemo(() => getFormItemLabel(restFromItemProps), [restFromItemProps]);
   const itemRules = useMemo(
     () =>

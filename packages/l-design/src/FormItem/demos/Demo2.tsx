@@ -1,5 +1,6 @@
 import { Button, Form, Input, Select, Space } from 'antd';
 import { LFormItem } from 'lighting-design';
+import AgeSelect from './components/AgeSelect';
 
 const Demo2 = () => {
   const [form] = Form.useForm();
@@ -16,14 +17,12 @@ const Demo2 = () => {
         >
           <Input />
         </LFormItem>
-
-        <LFormItem name="select" label="选择">
+        <LFormItem name="l-sex" label="性别" required>
           <Select
-            placeholder="Search to Select"
+            placeholder="选择性别"
             options={[
-              { value: 'a', label: 'AA' },
-              { value: 'b', label: 'BB' },
-              { value: 'c', label: 'CC' },
+              { value: '1', label: '男' },
+              { value: '0', label: '女' },
             ]}
           />
         </LFormItem>
@@ -35,10 +34,9 @@ const Demo2 = () => {
           label="年龄"
           alignItems="end"
           contentAfter={<div>岁</div>}
-          dependencies={['name', 'select']}
+          dependencies={['sex']}
         >
-          {/* <Input placeholder="年龄" /> */}
-          <Input placeholder="年龄" />
+          <AgeSelect />
         </LFormItem>
       </Form>
 

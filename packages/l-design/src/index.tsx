@@ -28,20 +28,23 @@ export type { LFormItemProps } from './FormItem';
 export { default as LFormItemCaptcha } from './FormItemCaptcha';
 export type { LFormItemCaptchaProps } from './FormItemCaptcha';
 // 表单输入框
-export { LFormItemInput, LFormItemPassword, LFormItemTextArea } from './FormItemInput';
+export {
+  LFormItemInput,
+  LFormItemNumber,
+  LFormItemPassword,
+  LFormItemTextArea,
+} from './FormItemInput';
 export type {
   LFormItemInputProps,
+  LFormItemNumberProps,
   LFormItemPasswordProps,
   LFormItemTextAreaProps,
 } from './FormItemInput';
+export { default as NumberRoll } from './NumberRoll';
 // ===
 export { default as Spin } from './Spin';
-export { default as Tooltip } from './Tooltip';
 export { default as Switch } from './Switch';
-export { default as NumberRoll } from './NumberRoll';
+export { default as Tooltip } from './Tooltip';
 // hooks方式使用弹窗组件
 export { default as useFormModal } from './useFormModal';
 export type { DraggableModalProps, FormSlotProps } from './useFormModal';
-
-
-

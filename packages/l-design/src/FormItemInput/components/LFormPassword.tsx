@@ -31,14 +31,13 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
 
   return (
     <LFormItem
-      validateTrigger="onBlur"
       required={required}
       rules={[
         {
           validator(rule, value) {
             let errMsg = '';
             if (!value) {
-              errMsg = required ? `请输入${messageLabel}` : '';
+              errMsg = required ? `请输入${messageLabel}!` : '';
             } else if (value.length < min || value.length > max) {
               errMsg = `${messageLabel}为${min}～${max}位`;
             }

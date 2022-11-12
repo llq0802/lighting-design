@@ -37,7 +37,7 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
     (e: ChangeEvent<HTMLInputElement>) => {
       const input = e.target;
       let rawValue = input.value;
-      // 只能输入数字
+      // 手机类型银行卡只能输入数字
       if (
         (type === 'phone' || type === 'bankCard') &&
         window.isNaN(input.value as unknown as any)
@@ -56,6 +56,9 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
     <Input
       value={value}
       onChange={handleChange}
+      placeholder="请输入"
+      allowClear
+      autoComplete="off"
       type={realType}
       maxLength={maxLen}
       {...restProps}

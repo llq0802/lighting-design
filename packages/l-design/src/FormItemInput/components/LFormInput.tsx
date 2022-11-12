@@ -30,14 +30,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
       validateTrigger={isOnblur ? 'onBlur' : 'onChange'}
       {...restProps}
     >
-      <InputWrapper
-        placeholder="请输入"
-        allowClear
-        autoComplete="off"
-        type={type}
-        disabledWhiteSpace={disabledWhiteSpace}
-        {...inputProps}
-      />
+      <InputWrapper type={type} disabledWhiteSpace={disabledWhiteSpace} {...inputProps} />
     </LFormItem>
   );
 };

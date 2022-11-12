@@ -49,7 +49,6 @@ const CodeInput: FC<CodeInputProps> = ({
   // 点击按钮
   const onButtonClick = useCallback(
     async (e: React.MouseEvent<HTMLElement>) => {
-      console.log('点击按钮 ');
       onClick?.(e);
       // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject() 表示验证失败或请求验证码失败。
       await checkResult(onGetCaptcha);
