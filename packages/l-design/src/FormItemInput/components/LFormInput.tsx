@@ -20,7 +20,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   ...restProps
 }) => {
   const isOnblur = useMemo(
-    () => type === 'bankCard' || type === 'idCard' || type === 'phone' || type === 'email',
+    () => type === 'bankCard' || type === 'idCard' || type === 'phone',
     [type],
   );
 

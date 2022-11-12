@@ -23,7 +23,8 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   disabledPaste = true,
   disabledCopy = true,
   passwordProps = {},
-  required = false,
+
+  required,
   ...restProps
 }) => {
   const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
