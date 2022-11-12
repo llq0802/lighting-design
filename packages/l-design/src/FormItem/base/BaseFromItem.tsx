@@ -31,7 +31,7 @@ const LFormItem: FC<LFormItemProps> = ({
   name,
   required,
   shouldUpdate,
-  dependencies,
+  dependencies = [],
   children,
   rules = [],
   trigger = 'onChange',

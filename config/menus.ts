@@ -24,6 +24,7 @@ export default {
       children: [
         'FormItem/index.md',
         'FormItemInput/index.md',
+        'FormItemSelect/index.md',
         'FormItemCaptcha/index.md',
         'useFormModal/index.md',
       ],
