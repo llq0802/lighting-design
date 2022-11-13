@@ -40,6 +40,8 @@ export type {
   LFormItemPasswordProps,
   LFormItemTextAreaProps,
 } from './FormItemInput';
+export { default as LFormItemSelect } from './FormItemSelect';
+export type { LFormItemSelectProps } from './FormItemSelect';
 export { default as NumberRoll } from './NumberRoll';
 // ===
 export { default as Spin } from './Spin';

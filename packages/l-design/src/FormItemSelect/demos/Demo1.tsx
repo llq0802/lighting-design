@@ -14,7 +14,7 @@ const Demo1 = () => {
         label="名字"
         required
         tooltip="禁止空格"
-        disabledWhiteSpace
+        // disabledWhiteSpace
         alignItems="end"
         contentAfter={<div>后面</div>}
         inputProps={{ placeholder: '请输入名字' }}
@@ -24,21 +24,22 @@ const Demo1 = () => {
         name="select"
         all
         required
-        dependencies={['userName']}
-        request={async (params) => {
-          console.log(' params', params);
-          if (!params) return [];
-          return [
-            { label: 'open', value: 'open' },
-            { label: 'closed', value: 'closed' },
-            { label: 'processing', value: 'processing' },
-          ];
-        }}
-        // options={[
-        //   { label: 'Unresolved', value: 'open' },
-        //   { label: 'Resolved', value: 'closed' },
-        //   { label: 'Resolving', value: 'processing' },
-        // ]}
+        // dependencies={['userName']}
+        debounceTime={300}
+        // request={async (params) => {
+        //   console.log(' params', params);
+        //   // if (!params) return [];
+        //   return [
+        //     { label: 'open', value: 'open' },
+        //     { label: 'closed', value: 'closed' },
+        //     { label: 'processing', value: 'processing' },
+        //   ];
+        // }}
+        options={[
+          { label: 'Unresolved', value: 'open' },
+          { label: 'Resolved', value: 'closed' },
+          { label: 'Resolving', value: 'processing' },
+        ]}
       />
 
       <Button

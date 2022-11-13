@@ -11,18 +11,20 @@ export interface LFormItemSelectProps
   extends LFormItemProps,
     Pick<SelectWrapperProps, 'selectProps' | 'request' | 'all' | 'allValue' | 'allLabel'>,
     Pick<SelectProps, 'options'> {
-  dependencies: string[];
+  dependencies?: string[];
+  debounceTime?: number;
 }
 
 const LFormItemSelect: FC<LFormItemSelectProps> = ({
   request,
+  debounceTime,
   all = false,
   allValue = '',
   allLabel = '全部',
   options = [],
   selectProps = {},
 
-  required = false,
+  required,
   ...restProps
 }) => {
   const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
@@ -55,6 +57,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
         dependencies={restProps?.dependencies}
         options={options}
         request={request}
+        debounceTime={debounceTime}
         all={all}
         allValue={allValue}
         allLabel={allLabel}
