@@ -6,13 +6,18 @@ interface PropsType {
 }
 export const prefixCls = 'lightd-numberRoll';
 const Index: FC<PropsType> = ({ num }) => {
+  const isDel = (item: string) => item === '-' || item === ' ' || item === ':';
+
   return (
     <>
-      <div className={`${prefixCls}-animate-dom`} data-num={num}>
+      <div
+        className={`${prefixCls}-animate-dom ${isDel(num) ? `${prefixCls}-animate-dom-del` : ''}`}
+        data-num={num}
+      >
         {NumberRoll_DaterArray.map((item, i) => (
           <span
             className={`${prefixCls}-animate-span ${
-              item === '-' || item === ' ' || item === ':' ? `${prefixCls}-animate-span-del` : ''
+              isDel(item) ? `${prefixCls}-animate-span-del` : ''
             }`}
             key={i}
           >

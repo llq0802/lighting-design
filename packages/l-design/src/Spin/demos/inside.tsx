@@ -1,5 +1,5 @@
-import { Alert, Switch } from 'antd';
-import { Spin } from 'lighting-design';
+import { Alert } from 'antd';
+import { Spin, Switch } from 'lighting-design';
 import type { CSSProperties, FC } from 'react';
 import { useState } from 'react';
 

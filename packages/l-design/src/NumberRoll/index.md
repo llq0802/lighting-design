@@ -18,6 +18,10 @@ nav:
 
 <code src="./demos/date.tsx"/>
 
+## 改变样式
+
+<code src="./demos/style.tsx"/>
+
 ## 动态数字
 
 <code src="./demos/dynamic.tsx"/>

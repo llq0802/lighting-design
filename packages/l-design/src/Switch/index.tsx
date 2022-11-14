@@ -49,11 +49,11 @@ interface PropsType {
   /**
    * 点击时回调函数
    */
-  onClick: (checked: boolean, event: SwitchChangeEventHandler) => void | any;
+  onClick: (checked: boolean, event: SwitchChangeEventHandler) => void;
   /**
    * 状态改变时触发
    */
-  onChange: (checked: boolean, event: SwitchChangeEventHandler) => void | any;
+  onChange: (checked: boolean, event: SwitchChangeEventHandler) => void;
 }
 
 declare type SwitchChangeEventHandler = (
