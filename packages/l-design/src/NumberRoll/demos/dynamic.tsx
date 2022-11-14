@@ -8,8 +8,8 @@ const center = {
   justifyContent: 'center',
 };
 const Demo: FC = () => {
-  const [count, setCount] = useState(999.99);
-  const [value, setValue] = useState<number>();
+  const [count, setCount] = useState<number>(999.99);
+  const [value, setValue] = useState<number>(999.99);
   return (
     <>
       <NumberRoll style={center} value={count}/>
@@ -19,7 +19,6 @@ const Demo: FC = () => {
           style={{ width: 200 }}
           value={value}
           placeholder="请输入数字"
-          defaultValue={999.99}
           onChange={(e: any) => {
             setValue(e.target.value);
           }}
