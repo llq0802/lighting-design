@@ -17,12 +17,14 @@ export interface LFormItemProps extends FormItemProps {
   contentAfter?: ReactNode;
   contentProps?: ContentProps;
   className?: string;
+  isSelectType?: boolean;
 }
 
 const LFormItem: FC<LFormItemProps> = ({
   transformFn,
   renderField,
   className,
+  isSelectType,
   contentBefore,
   contentAfter,
   alignItems,
@@ -32,9 +34,9 @@ const LFormItem: FC<LFormItemProps> = ({
   required,
   shouldUpdate,
   dependencies = [],
-  children,
   rules = [],
   trigger = 'onChange',
+  children,
   ...restFromItemProps
 }) => {
   // console.log('LFormItem ', restFromItemProps);
@@ -48,7 +50,7 @@ const LFormItem: FC<LFormItemProps> = ({
               validator(_: any, value: any) {
                 let errMsg = '';
                 if (!value) {
-                  errMsg = required ? `请输入${messageLabel}!` : '';
+                  errMsg = required ? `请${isSelectType ? '选择' : '输入'}${messageLabel}!` : '';
                 }
                 if (errMsg) {
                   return Promise.reject(errMsg);
@@ -57,7 +59,7 @@ const LFormItem: FC<LFormItemProps> = ({
               },
             },
           ],
-    [messageLabel, required, rules],
+    [messageLabel, required, rules, isSelectType],
   );
 
   if (shouldUpdate) {

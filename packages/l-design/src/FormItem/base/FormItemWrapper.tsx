@@ -36,7 +36,7 @@ const FormItemWrapper: FC<FormItemWrapperProps> = ({
     },
     [children, formItemChildrenProps, trigger],
   );
-  // 优化缓存事件
+  // 优化缓存事件(默认onchange事件)
   const triggerProp = useMemo(
     () => (trigger ? { [trigger]: handleTrigger } : {}),
     [handleTrigger, trigger],
