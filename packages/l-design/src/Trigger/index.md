@@ -1,15 +1,15 @@
 ---
-title: LFormItemSelect
+title: LTrigger
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# FormItemSelect
+# Trigger
 
-FormItemSelect
+Trigger
 
-<mark>FormItemSelect</mark>
+<mark>Trigger</mark>
 
 <code src='./demos/Demo1.tsx' />

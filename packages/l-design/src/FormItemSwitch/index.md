@@ -1,5 +1,5 @@
 ---
-title: FormItemSwitch
+title: LFormItemSwitch
 order: 2
 nav:
   order: 2

@@ -17,6 +17,7 @@ export default {
         'NumberRoll/index.md',
         'CaptchaButton/index.md',
         'ColorPick/index.md',
+        'Trigger/index.md',
       ],
     },
     {
