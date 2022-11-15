@@ -6,7 +6,7 @@ nav:
   path: /components
 ---
 
-# NumberRoll 数值加载
+# LNumberRoll 数值加载
 
 数值加载
 

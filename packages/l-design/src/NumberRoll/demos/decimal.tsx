@@ -21,7 +21,7 @@ const Demo: FC = () => {
   }, []);
   return (
     <>
-      <LNumberRoll style={center} value={count} dot={2} symbol="," />
+      <LNumberRoll style={center} value={value} dot={2} symbol="," />
       <br />
     </>
   );
