@@ -45,7 +45,7 @@ export type { LFormItemSelectProps } from './FormItemSelect';
 // hooks方式使用弹窗组件
 export { default as LFormItemSwitch } from './FormItemSwitch';
 export type { LFormItemSwitchProps } from './FormItemSwitch';
-export { default as NumberRoll } from './NumberRoll';
+export { default as LNumberRoll } from './NumberRoll';
 // ===
 export { default as Spin } from './Spin';
 export { default as Switch } from './Switch';

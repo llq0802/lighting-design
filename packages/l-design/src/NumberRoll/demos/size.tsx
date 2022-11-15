@@ -1,4 +1,4 @@
-import { NumberRoll } from 'lighting-design';
+import { LNumberRoll } from 'lighting-design';
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 
@@ -23,14 +23,14 @@ const Demo: FC = () => {
 
   return (
     <>
-      <NumberRoll style={center} value={value} scale={0.6} />
+      <LNumberRoll style={center} value={value} scale={0.6} />
       <br />
       <br />
-      <NumberRoll style={center} value={value} scale={1.4} />
+      <LNumberRoll style={center} value={value} scale={1.4} />
       <br />
       <br />
       <br />
-      <NumberRoll style={center} value={value} scale={2} />
+      <LNumberRoll style={center} value={value} scale={2} />
     </>
   );
 };

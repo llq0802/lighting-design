@@ -76,6 +76,7 @@ const Tables: React.FC = (props) => {
 
   return (
     <Table
+      size="small"
       rowSelection={{
         selectedRowKeys: value ?? [],
         type: 'radio',

@@ -14,10 +14,10 @@ export default {
         'Spin/index.md',
         'Tooltip/index.md',
         'Switch/index.md',
-        'NumberRoll/index.md',
-        'CaptchaButton/index.md',
         'ColorPick/index.md',
         'Trigger/index.md',
+        'NumberRoll/index.md',
+        'CaptchaButton/index.md',
       ],
     },
     {

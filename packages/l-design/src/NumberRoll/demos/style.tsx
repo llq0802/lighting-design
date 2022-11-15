@@ -1,8 +1,8 @@
-import { NumberRoll } from 'lighting-design';
+import { LNumberRoll } from 'lighting-design';
 import moment from 'moment';
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import'./index.less';
+import './index.less';
 
 const center = {
   display: 'flex',
@@ -21,7 +21,7 @@ const Demo: FC = () => {
 
   return (
     <>
-      <NumberRoll style={center} className='numberStyle' value={value} type="date" />
+      <LNumberRoll style={center} className="numberStyle" value={value} type="date" />
     </>
   );
 };

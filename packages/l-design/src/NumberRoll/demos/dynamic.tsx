@@ -1,5 +1,5 @@
 import { Button, Input } from 'antd';
-import { NumberRoll } from 'lighting-design';
+import { LNumberRoll } from 'lighting-design';
 import type { FC } from 'react';
 import { useState } from 'react';
 
@@ -12,7 +12,7 @@ const Demo: FC = () => {
   const [value, setValue] = useState<number>(999.99);
   return (
     <>
-      <NumberRoll style={center} value={count}/>
+      <LNumberRoll style={center} value={count} />
       <br />
       <Input.Group compact style={center}>
         <Input

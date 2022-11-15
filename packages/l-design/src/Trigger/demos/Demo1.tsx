@@ -13,7 +13,7 @@ const Demo1 = () => {
           <ChildTable1 />
         </LTrigger>
         <span>多选</span>
-        <LTrigger allowClear>
+        <LTrigger allowClear placement="topLeft">
           <ChildTable2 />
         </LTrigger>
       </Space>

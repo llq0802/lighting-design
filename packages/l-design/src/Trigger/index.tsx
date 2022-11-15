@@ -29,17 +29,24 @@ export type TriggerProps = {
   | 'suffixIcon'
 >;
 
-const Trigger: FC<TriggerProps> = ({
-  allowClear,
-  getPopupContainer,
-  fieldNames = { label: 'label', value: 'value' },
-  placement = 'bottomLeft',
-  disabled = false,
-  placeholder = '请选择',
-  style,
-  children,
-  ...restprops // value onchange
-}) => {
+const Trigger: FC<TriggerProps> = (props) => {
+  const {
+    allowClear,
+    suffixIcon,
+    removeIcon,
+    clearIcon,
+    showArrow,
+    size,
+    getPopupContainer,
+    fieldNames = { label: 'label', value: 'value' },
+    placement = 'bottomLeft',
+    disabled = false,
+    placeholder = '请选择',
+    style,
+    children,
+    ...restprops // value onchange
+  } = props;
+
   const [isOpen, setIsOpen] = useControllableValue<boolean>(restprops, {
     defaultValue: false,
     defaultValuePropName: 'defaultOpen',
@@ -69,6 +76,11 @@ const Trigger: FC<TriggerProps> = ({
   return (
     <Select
       fieldNames={fieldNames}
+      clearIcon={clearIcon}
+      removeIcon={removeIcon}
+      showArrow={showArrow}
+      suffixIcon={suffixIcon}
+      size={size}
       value={state?.[fieldNames.label]}
       onChange={setState}
       allowClear={allowClear}

@@ -101,7 +101,7 @@ const Index: FC<Partial<NumberRollPropsType>> = ({
       }
     });
     return (
-      <div className={`${prefixCls}-animate`} style={{ transform:`scale(${scale})` }}>
+      <div className={`${prefixCls}-animate`} style={{ transform: `scale(${scale})` }}>
         {numberDom.map((item, index: number) => item(index))}
       </div>
     );
