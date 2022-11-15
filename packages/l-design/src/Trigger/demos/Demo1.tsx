@@ -1,16 +1,22 @@
-import { useState } from 'react';
-import Trigger from '..';
+import { Space } from 'antd';
+import LTrigger from '..';
 
-import ChildTable from './ChildTable';
+import ChildTable1 from './ChildTable1';
+import ChildTable2 from './ChildTable2';
 
 const Demo1 = () => {
-  const [opts, setOpts] = useState();
-
   return (
     <div className="trigger-box">
-      <Trigger allowClear>
-        <ChildTable />
-      </Trigger>
+      <Space>
+        <span>单选</span>
+        <LTrigger allowClear>
+          <ChildTable1 />
+        </LTrigger>
+        <span>多选</span>
+        <LTrigger allowClear>
+          <ChildTable2 />
+        </LTrigger>
+      </Space>
     </div>
   );
 };

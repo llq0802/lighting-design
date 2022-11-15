@@ -30,8 +30,6 @@ export type TriggerProps = {
 >;
 
 const Trigger: FC<TriggerProps> = ({
-  value,
-  onChange,
   allowClear,
   getPopupContainer,
   fieldNames = { label: 'label', value: 'value' },
@@ -40,35 +38,25 @@ const Trigger: FC<TriggerProps> = ({
   placeholder = '请选择',
   style,
   children,
-  ...restprops
+  ...restprops // value onchange
 }) => {
   const [isOpen, setIsOpen] = useControllableValue<boolean>(restprops, {
-    defaultValuePropName: 'defaultOpen',
     defaultValue: false,
+    defaultValuePropName: 'defaultOpen',
     valuePropName: 'open',
     trigger: 'onDropdownVisibleChange',
   });
   const [state, setState] = useControllableValue<Record<string, any>>(restprops, {
     defaultValue: {},
+    defaultValuePropName: 'defaultValue',
+    valuePropName: 'value',
+    trigger: 'onChange',
   });
-
-  const onDropdownVisibleChange = (open: boolean) => {
-    console.log('open', open);
-    setIsOpen(open);
-  };
-
   const isComponent = isValidElement(children);
-
   const dropdownRender = !isComponent
     ? undefined
     : () => (
-        <div
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          style={{ padding: 8 }}
-        >
+        <div style={{ padding: 8 }}>
           {cloneElement(children, {
             // @ts-ignore
             value: state?.[fieldNames.value],
@@ -91,8 +79,8 @@ const Trigger: FC<TriggerProps> = ({
       style={{ width: 250, ...style }}
       open={isOpen}
       placeholder={placeholder}
-      onDropdownVisibleChange={onDropdownVisibleChange}
       dropdownMatchSelectWidth={500}
+      onDropdownVisibleChange={setIsOpen}
       dropdownRender={dropdownRender}
     />
   );

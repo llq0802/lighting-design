@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface DataType {
   key: React.Key;
@@ -55,21 +55,18 @@ const data: DataType[] = [
 // rowSelection object indicates the need for row selection
 
 const Tables: React.FC = (props) => {
-  console.log('Tables ');
-
+  const { value, onChange, setOpen } = props;
+  useEffect(() => {
+    console.log('Tables-value ', value);
+  }, []);
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      // props?.onChange({
-      //   label: selectedRows.map((row) => row.name).join(','),
-      //   value: selectedRowKeys,
-      // });
-
-      props?.onChange({
+      console.log(`selectedRowKeys:`, selectedRowKeys, 'selectedRows: ', selectedRows);
+      onChange({
         label: selectedRows[0].name,
         value: selectedRowKeys[0],
       });
-      props?.setOpen(false);
+      setOpen(false);
     },
     getCheckboxProps: (record: DataType) => ({
       disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -80,7 +77,7 @@ const Tables: React.FC = (props) => {
   return (
     <Table
       rowSelection={{
-        selectedRowKeys: props.value ?? [],
+        selectedRowKeys: value ?? [],
         type: 'radio',
         ...rowSelection,
       }}
