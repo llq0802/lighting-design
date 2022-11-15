@@ -30,6 +30,7 @@ export default {
         'FormItemCaptcha/index.md',
         'FormItemAutoComplete/index.md',
         'useFormModal/index.md',
+        'useFormDrawer/index.md',
       ],
     },
   ],

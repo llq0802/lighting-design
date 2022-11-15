@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-key */
 import classNames from 'classnames';
 import type { CSSProperties, FC } from 'react';
-import Loading1 from './component/loading1';
-import Loading2 from './component/loading2';
-import Loading3 from './component/loading3';
-import Loading4 from './component/loading4';
-import Loading5 from './component/loading5';
-import Loading6 from './component/loading6';
+import Loading1 from './component/spin-loading1';
+import Loading2 from './component/spin-loading2';
+import Loading3 from './component/spin-loading3';
+import Loading4 from './component/spin-loading4';
+import Loading5 from './component/spin-loading5';
+import Loading6 from './component/spin-loading6';
 import './index.less';
 
 interface LoadingProps {

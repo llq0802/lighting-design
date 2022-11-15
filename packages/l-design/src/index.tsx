@@ -50,5 +50,7 @@ export { default as LNumberRoll } from './NumberRoll';
 export { default as Spin } from './Spin';
 export { default as Switch } from './Switch';
 export { default as Tooltip } from './Tooltip';
+export { default as useFormDrawer } from './useFormDrawer';
+export type { DrawerModalProps, DrawerSubmitProps, FormDrawerSlotProps } from './useFormDrawer';
 export { default as useFormModal } from './useFormModal';
 export type { DraggableModalProps, FormSlotProps } from './useFormModal';
