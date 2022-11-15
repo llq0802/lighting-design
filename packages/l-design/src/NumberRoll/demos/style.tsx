@@ -8,8 +8,9 @@ const center = {
   display: 'flex',
   justifyContent: 'center',
 };
+
 const Demo: FC = () => {
-  const [value, setValue] = useState<number | string>(moment(new Date()).format('HH:mm:ss'));
+  const [value, setValue] = useState<string>(moment(new Date()).format('HH:mm:ss'));
   useEffect(() => {
     const timer = setInterval(() => {
       setValue(moment(new Date()).format('HH:mm:ss'));

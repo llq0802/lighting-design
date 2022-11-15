@@ -7,12 +7,12 @@ const center = {
   justifyContent: 'center',
 };
 const Demo: FC = () => {
-  const [value, setCalue] = useState(10);
+  const [value, setValue] = useState(10 as number);
 
   const load = () => {
     setInterval(() => {
       const random = value * Math.floor(Math.random() * 1000);
-      setCalue(random);
+      setValue(random);
     }, 3000);
   };
   useEffect(() => {

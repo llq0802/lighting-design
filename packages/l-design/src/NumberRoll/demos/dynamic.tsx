@@ -17,18 +17,11 @@ const Demo: FC = () => {
       <Input.Group compact style={center}>
         <Input
           style={{ width: 200 }}
-          value={value}
+          value={count}
           placeholder="请输入数字"
-          onChange={(e: any) => {
-            setValue(e.target.value);
-          }}
+          onChange={(e: any) => setCount(e.target.value)}
         />
-        <Button
-          type="primary"
-          onClick={() => {
-            setCount(Number(value));
-          }}
-        >
+        <Button type="primary" onClick={() => setValue(Number(count))}>
           设置
         </Button>
       </Input.Group>
