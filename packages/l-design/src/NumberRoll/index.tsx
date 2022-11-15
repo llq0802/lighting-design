@@ -101,7 +101,7 @@ const Index: FC<Partial<NumberRollPropsType>> = ({
       }
     });
     return (
-      <div className={`${prefixCls}-animate`} style={{ transform:`scale(${scale})` }}>
+      <div className={`${prefixCls}-animate`} style={{ transform: `scale(${scale})` }}>
         {numberDom.map((item, index: number) => item(index))}
       </div>
     );
@@ -202,7 +202,7 @@ const Index: FC<Partial<NumberRollPropsType>> = ({
     switch (type) {
       case 'number':
         errorTypeNumber();
-        if (value) update(value);
+        update(value);
         break;
       case 'date':
         if (typeof value !== 'string') throw new Error('Type is "date", value type must be string');
@@ -222,10 +222,6 @@ const Index: FC<Partial<NumberRollPropsType>> = ({
     }
   }, []);
 
-  return (
-    <>
-      <div className={`${prefixCls} ${className}`} style={style} ref={domRef} />
-    </>
-  );
+  return <div className={`${prefixCls} ${className}`} style={style} ref={domRef} />;
 };
 export default Index;
