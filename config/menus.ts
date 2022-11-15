@@ -29,6 +29,7 @@ export default {
         'FormItemSwitch/index.md',
         'FormItemCaptcha/index.md',
         'useFormModal/index.md',
+        'useFormDrawer/index.md',
       ],
     },
   ],
