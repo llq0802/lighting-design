@@ -44,6 +44,10 @@ interface NumberRollPropsType {
    * 类名
    */
   className: string;
+  /**
+   * 动画结束的回调
+   */
+  onFinish: (value: number | string) => void;
 }
 export const prefixCls = 'lightd-numberRoll';
 
@@ -73,6 +77,7 @@ const Index: FC<Partial<NumberRollPropsType>> = ({
   symbol = '',
   dot = 0,
   scale = 1,
+  onFinish,
 }) => {
   const domRef = useRef<HTMLDivElement | Container | any>(null);
   const setNumDom = useCallback((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
@@ -197,6 +202,15 @@ const Index: FC<Partial<NumberRollPropsType>> = ({
     if (value < 0) throw new Error('value cannot be negative');
   };
 
+  useEffect((): any => {
+    if (type === 'number') {
+      errorTypeNumber();
+      render(setNumDom(valToArr(value)), domRef.current, () => {
+        loadAnimate(domRef.current);
+      });
+    }
+  }, []);
+
   // 更新
   useEffect(() => {
     switch (type) {
@@ -211,16 +225,13 @@ const Index: FC<Partial<NumberRollPropsType>> = ({
         });
         break;
     }
-  }, [value]);
-
-  useEffect((): any => {
-    if (type === 'number') {
-      errorTypeNumber();
-      render(setNumDom(valToArr(value)), domRef.current, () => {
-        loadAnimate(domRef.current);
-      });
+    if (onFinish) {
+      const timer = setTimeout(() => {
+        if (onFinish) onFinish(value);
+        clearTimeout(timer);
+      }, speed);
     }
-  }, []);
+  }, [value]);
 
   return <div className={`${prefixCls} ${className}`} style={style} ref={domRef} />;
 };
