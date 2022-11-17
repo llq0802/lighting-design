@@ -1,7 +1,7 @@
 import type { FormItemProps } from 'antd';
 import { Form } from 'antd';
 import type { FC, ReactElement, ReactNode } from 'react';
-import { cloneElement, useMemo } from 'react';
+import { cloneElement, isValidElement, useMemo } from 'react';
 import { getFormItemLabel } from '../../utils';
 import FormItemWrapper from './FormItemWrapper';
 
@@ -97,9 +97,10 @@ const LFormItem: FC<LFormItemProps> = ({
         {(form) => {
           const depFields = form.getFieldsValue(dependencies);
           const innerChildren = typeof children === 'function' ? children(form) : children;
-          const contentChildren = cloneElement(innerChildren as ReactElement, {
-            ...depFields,
-          });
+          const contentChildren = isValidElement(innerChildren)
+            ? cloneElement(innerChildren as ReactElement, { ...depFields })
+            : innerChildren;
+
           return (
             <Form.Item
               name={name}
@@ -116,7 +117,7 @@ const LFormItem: FC<LFormItemProps> = ({
                 alignItems={alignItems}
                 {...contentProps}
               >
-                {renderField ? renderField(contentChildren) : contentChildren}
+                {renderField ? renderField(contentChildren as ReactElement) : contentChildren}
               </FormItemWrapper>
             </Form.Item>
           );

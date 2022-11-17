@@ -4,7 +4,6 @@ import type { FC } from 'react';
 import { useMemo } from 'react';
 import type { LFormItemProps } from '../FormItem/base/BaseFromItem';
 import LFormItem from '../FormItem/base/BaseFromItem';
-export const prefixCls = 'lightd-switch-wrapper';
 
 const SwitchWrapper = (
   props: Pick<LFormItemSwitchProps, 'checkedBg' | 'unCheckedBg' | 'switchProps'> &

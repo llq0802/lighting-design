@@ -1,7 +1,6 @@
 import { Button, Form } from 'antd';
-import { LFormItemInput } from 'lighting-design';
+import { LFormItemInput, LFormItemSelect } from 'lighting-design';
 import { useState } from 'react';
-import LFormItemSelect from '..';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
@@ -20,26 +19,26 @@ const Demo1 = () => {
         inputProps={{ placeholder: '请输入名字' }}
       />
       <LFormItemSelect
-        label="选择"
+        label="select选择"
         name="select"
         all
         required
         dependencies={['userName']}
         debounceTime={300}
-        // request={async (params) => {
-        //   console.log(' params', params);
-        //   // if (!params) return [];
-        //   return [
-        //     { label: 'open', value: 'open' },
-        //     { label: 'closed', value: 'closed' },
-        //     { label: 'processing', value: 'processing' },
-        //   ];
-        // }}
-        options={[
-          { label: 'Unresolved', value: 'open' },
-          { label: 'Resolved', value: 'closed' },
-          { label: 'Resolving', value: 'processing' },
-        ]}
+        request={async (params) => {
+          console.log(' params', params);
+          // if (!params) return [];
+          return [
+            { label: 'open', value: 'open' },
+            { label: 'closed', value: 'closed' },
+            { label: 'processing', value: 'processing' },
+          ];
+        }}
+        // options={[
+        //   { label: 'Unresolved', value: 'open' },
+        //   { label: 'Resolved', value: 'closed' },
+        //   { label: 'Resolving', value: 'processing' },
+        // ]}
       />
 
       <Button

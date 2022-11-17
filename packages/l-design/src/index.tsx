@@ -40,6 +40,8 @@ export type {
   LFormItemPasswordProps,
   LFormItemTextAreaProps,
 } from './FormItemInput';
+export { default as LFormItemRadio } from './FormItemRadio';
+export type { LFormItemRadioProps } from './FormItemRadio';
 export { default as LFormItemSelect } from './FormItemSelect';
 export type { LFormItemSelectProps } from './FormItemSelect';
 // hooks方式使用弹窗组件

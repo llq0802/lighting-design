@@ -1,7 +1,6 @@
 import { Button, Form } from 'antd';
-import { LFormItemInput } from 'lighting-design';
+import { LFormItemInput, LFormItemRadio } from 'lighting-design';
 import { useState } from 'react';
-import LFormItemSelect from '..';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
@@ -14,18 +13,18 @@ const Demo1 = () => {
         label="名字"
         required
         tooltip="禁止空格"
-        // disabledWhiteSpace
+        disabledWhiteSpace
         alignItems="end"
         contentAfter={<div>后面</div>}
         inputProps={{ placeholder: '请输入名字' }}
       />
-      <LFormItemSelect
+      <LFormItemRadio
         label="选择"
         name="select"
         all
         required
         dependencies={['userName']}
-        debounceTime={300}
+        // debounceTime={300}
         // request={async (params) => {
         //   console.log(' params', params);
         //   // if (!params) return [];
