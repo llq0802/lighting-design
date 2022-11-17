@@ -23,7 +23,14 @@ const Demo: FC = () => {
 
   return (
     <>
-      <LNumberRoll style={center} value={value} type="date" />
+      <LNumberRoll
+        style={center}
+        value={value}
+        type="date"
+        // onFinish={(value) => {
+        //   console.log('动画结束', value);
+        // }}
+      />
       <br />
       <LNumberRoll style={center} value={value2} type="date" />
     </>
