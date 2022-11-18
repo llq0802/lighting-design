@@ -4,13 +4,19 @@ import { Checkbox } from 'antd';
 import type { CheckboxChangeEvent, CheckboxGroupProps } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import type { FC, ReactNode } from 'react';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type CheckboxWrapperProps = Record<string, any> &
   Partial<{
     request: (...args: any[]) => Promise<any>;
     debounceTimex: number;
-    beforeAll: CheckboxOptionType;
+    beforeAll: {
+      label: React.ReactNode;
+      value: CheckboxValueType;
+      style?: React.CSSProperties;
+      disabled?: boolean;
+      onChange?: (e: CheckboxValueType[]) => void;
+    };
     checkboxProps: CheckboxGroupProps;
     dependencies: string[];
   }>;
@@ -31,7 +37,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   const [checkAll, setCheckAll] = useState<boolean>(false);
 
   const [optsRequest, setOpts] = useState<{ label: ReactNode; value: string | number }[]>([]);
-  const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
+  const isFirst = useRef<boolean>(true);
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
@@ -95,16 +101,19 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     }
   }, [opts, optsRequest]);
 
-  const checkAllChange = (e: CheckboxChangeEvent) => {
-    let checkAllValue: CheckboxValueType[] = [];
-    if (e.target.checked) {
-      checkAllValue = selectOptions.map((item: CheckboxOptionType) => item.value);
-    }
-    console.log(value);
-    setIndeterminate(false);
-    setCheckAll(e.target.checked);
-    onChange(checkAllValue);
-  };
+  const checkAllChange = useCallback(
+    (e: CheckboxChangeEvent) => {
+      let checkAllValue: CheckboxValueType[] = [];
+      if (e.target.checked) {
+        checkAllValue = selectOptions.map((item: CheckboxOptionType) => item.value);
+      }
+      setIndeterminate(false);
+      setCheckAll(e.target.checked);
+      onChange(checkAllValue);
+      if (beforeAll?.onChange) beforeAll?.onChange(checkAllValue);
+    },
+    [beforeAll, onChange, selectOptions],
+  );
 
   const checkChange = (checkedValue: CheckboxValueType[]) => {
     if (beforeAll?.value) {
@@ -119,7 +128,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         <Checkbox
           indeterminate={indeterminate}
           style={beforeAll.style}
-          disabled={beforeAll.disabled}
+          disabled={beforeAll.disabled || isClearDepends}
           onChange={checkAllChange}
           checked={checkAll}
         >

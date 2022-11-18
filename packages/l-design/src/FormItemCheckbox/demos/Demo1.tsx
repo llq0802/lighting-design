@@ -18,18 +18,21 @@ const Demo1 = () => {
         tooltip="禁止空格"
         disabledWhiteSpace
         alignItems="end"
-        contentAfter={<div>后面</div>}
         inputProps={{ placeholder: '请输入名字' }}
       />
       <LFormItemCheckbox
         label="选择"
         name="select"
+        initialValue={'2'}
         beforeAll={{
           label: '全选',
           value: 'all',
           disabled: false,
           style: {
-            marginRight: 10,
+            marginRight: 6,
+          },
+          onChange(e) {
+            console.log(e);
           },
         }}
         required
@@ -38,13 +41,11 @@ const Demo1 = () => {
           { label: '睡觉', value: '2' },
           { label: '打豆豆', value: '3' },
         ]}
-        checkboxProps={{
-          value,
-          onChange: (checkedValue) => {
-            console.log(checkedValue);
-            setValue(checkedValue);
-          },
-        }}
+        // checkboxProps={{
+        //   onChange: (checked) => {
+        //     console.log(checked);
+        //   },
+        // }}
       />
 
       <Button
