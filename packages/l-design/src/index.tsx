@@ -44,6 +44,8 @@ export type {
 } from './FormItemInput';
 export { default as LFormItemRadio } from './FormItemRadio';
 export type { LFormItemRadioProps } from './FormItemRadio';
+export { default as LFormItemRate } from './FormItemRate';
+export type { LFormItemRateProps } from './FormItemRate';
 export { default as LFormItemSelect } from './FormItemSelect';
 export type { LFormItemSelectProps } from './FormItemSelect';
 // hooks方式使用弹窗组件

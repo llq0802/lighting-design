@@ -1,5 +1,5 @@
 import { Button, Form } from 'antd';
-import { LFormItemCheckbox, LFormItemInput } from 'lighting-design';
+import { LFormItemInput, LFormItemRate } from 'lighting-design';
 
 const Index = () => {
   const [form] = Form.useForm();
@@ -21,27 +21,14 @@ const Index = () => {
         alignItems="end"
         inputProps={{ placeholder: '请输入名字' }}
       />
-      <LFormItemCheckbox
-        label="选择"
-        name="select"
-        initialValue={'2'}
-        beforeAll={{
-          label: '全选',
-          value: 'all',
-          disabled: false,
-          style: {
-            marginRight: 6,
-          },
-          onChange(e) {
-            console.log(e);
-          },
-        }}
+      <LFormItemRate
+        label="评分"
+        name="rate"
+        initialValue={3.5}
         required
-        options={[
-          { label: '上班', value: '1' },
-          { label: '睡觉', value: '2' },
-          { label: '打豆豆', value: '3' },
-        ]}
+        rateProps={{
+          allowHalf: true,
+        }}
       />
 
       <Button
