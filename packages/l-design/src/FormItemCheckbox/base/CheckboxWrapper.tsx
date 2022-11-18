@@ -115,13 +115,16 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     [beforeAll, onChange, selectOptions],
   );
 
-  const checkChange = (checkedValue: CheckboxValueType[]) => {
-    if (beforeAll?.value) {
-      setIndeterminate(!!checkedValue.length && checkedValue.length < selectOptions.length);
-      setCheckAll(checkedValue.length === selectOptions.length);
-    }
-    onChange(checkedValue);
-  };
+  const checkChange = useCallback(
+    (checkedValue: CheckboxValueType[]) => {
+      if (beforeAll?.value) {
+        setIndeterminate(!!checkedValue.length && checkedValue.length < selectOptions.length);
+        setCheckAll(checkedValue.length === selectOptions.length);
+      }
+      onChange(checkedValue);
+    },
+    [beforeAll?.value, onChange, selectOptions.length],
+  );
   return (
     <>
       {beforeAll?.value && (

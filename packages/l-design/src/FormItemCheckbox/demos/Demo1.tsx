@@ -1,16 +1,20 @@
 import { Button, Form } from 'antd';
-import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { LFormItemInput } from 'lighting-design';
 import { useState } from 'react';
 import LFormItemCheckbox from '..';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
-  const [value, setValue] = useState<CheckboxValueType[]>(['1']);
   const [opts, setOpts] = useState([]);
 
   return (
-    <Form name="LFormItemSelect" form={form}>
+    <Form
+      name="LFormItemSelect"
+      form={form}
+      onValuesChange={(e) => {
+        console.log(e);
+      }}
+    >
       <LFormItemInput
         name="userName"
         label="名字"
@@ -41,11 +45,6 @@ const Demo1 = () => {
           { label: '睡觉', value: '2' },
           { label: '打豆豆', value: '3' },
         ]}
-        // checkboxProps={{
-        //   onChange: (checked) => {
-        //     console.log(checked);
-        //   },
-        // }}
       />
 
       <Button
