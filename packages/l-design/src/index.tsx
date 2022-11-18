@@ -27,6 +27,8 @@ export type { LFormItemProps } from './FormItem';
 // 表单验证码
 export { default as LFormItemCaptcha } from './FormItemCaptcha';
 export type { LFormItemCaptchaProps } from './FormItemCaptcha';
+export { default as LFormItemCheckbox } from './FormItemCheckbox';
+export type { LFormItemCheckboxProps } from './FormItemCheckbox';
 // 表单输入框
 export {
   LFormItemInput,

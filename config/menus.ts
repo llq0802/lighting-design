@@ -27,6 +27,7 @@ export default {
         'FormItemInput/index.md',
         'FormItemSelect/index.md',
         'FormItemRadio/index.md',
+        'FormItemCheckbox/index.md',
         'FormItemSwitch/index.md',
         'FormItemCaptcha/index.md',
         'FormItemAutoComplete/index.md',
