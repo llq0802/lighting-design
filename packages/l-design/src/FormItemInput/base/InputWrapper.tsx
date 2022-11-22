@@ -55,13 +55,13 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
   return (
     <Input
       value={value}
-      onChange={handleChange}
       placeholder="请输入"
       allowClear
       autoComplete="off"
       type={realType}
       maxLength={maxLen}
       {...restProps}
+      onChange={handleChange}
     />
   );
 };

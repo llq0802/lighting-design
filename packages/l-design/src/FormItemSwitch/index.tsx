@@ -14,7 +14,7 @@ const SwitchWrapper = (
     return checked ? { backgroundColor: checkedBg } : { backgroundColor: unCheckedBg };
   }, [checkedBg, unCheckedBg, checked]);
 
-  return <Switch checked={checked} onChange={onChange} {...switchProps} style={styles} />;
+  return <Switch checked={checked} {...switchProps} style={styles} onChange={onChange} />;
 };
 
 export interface LFormItemSwitchProps extends LFormItemProps {

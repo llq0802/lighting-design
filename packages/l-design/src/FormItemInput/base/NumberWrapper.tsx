@@ -20,10 +20,10 @@ const NumberWrapper: FC<NumberWrapperProps> = (props) => {
   return (
     <InputNumber
       value={value}
-      onChange={handleChange}
       precision={2}
       style={{ width: '100%' }}
       {...restProps}
+      onChange={handleChange}
     />
   );
 };

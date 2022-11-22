@@ -109,12 +109,12 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   return (
     <Select
       value={value}
-      onChange={onChange}
       options={selectOptions}
       placeholder="请选择"
       allowClear
       style={{ width: '100%' }}
       {...selectProps}
+      onChange={onChange}
     />
   );
 };

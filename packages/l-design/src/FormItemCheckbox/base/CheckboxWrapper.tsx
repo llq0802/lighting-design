@@ -141,9 +141,9 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       <Checkbox.Group
         value={value}
         options={selectOptions}
-        onChange={checkChange}
         disabled={isClearDepends}
         {...checkboxProps}
+        onChange={checkChange}
       />
     </>
   );

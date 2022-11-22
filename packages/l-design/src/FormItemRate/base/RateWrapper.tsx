@@ -81,7 +81,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
 
   return (
     <>
-      <Rate value={selectValue} onChange={onChange} disabled={isClearDepends} {...rateProps} />
+      <Rate value={selectValue} disabled={isClearDepends} {...rateProps} onChange={onChange} />
     </>
   );
 };

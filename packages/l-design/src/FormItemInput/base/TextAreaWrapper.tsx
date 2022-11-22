@@ -27,8 +27,8 @@ const TextAreaWrapper: FC<TextAreaWrapperProps> = (props) => {
       placeholder="请输入"
       autoComplete="off"
       value={value}
-      onChange={handleChange}
       {...restProps}
+      onChange={handleChange}
     />
   );
 };

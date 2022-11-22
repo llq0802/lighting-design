@@ -109,9 +109,9 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     <Radio.Group
       value={value}
       options={selectOptions}
-      onChange={onChange}
       disabled={isClearDepends}
       {...radioProps}
+      onChange={onChange}
     />
   );
 };
