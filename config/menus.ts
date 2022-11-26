@@ -30,6 +30,8 @@ export default {
         'FormItemCheckbox/index.md',
         'FormItemRate/index.md',
         'FormItemSwitch/index.md',
+        'FormItemSlider/index.md',
+        'FormItemCascader/index.md',
         'FormItemCaptcha/index.md',
         'FormItemAutoComplete/index.md',
         'useFormModal/index.md',

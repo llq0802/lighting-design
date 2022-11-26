@@ -27,6 +27,8 @@ export type { LFormItemProps } from './FormItem';
 // 表单验证码
 export { default as LFormItemCaptcha } from './FormItemCaptcha';
 export type { LFormItemCaptchaProps } from './FormItemCaptcha';
+export { default as LFormItemCascader } from './FormItemCascader';
+export type { LFormItemCascaderProps } from './FormItemCascader';
 export { default as LFormItemCheckbox } from './FormItemCheckbox';
 export type { LFormItemCheckboxProps } from './FormItemCheckbox';
 // 表单输入框
@@ -48,11 +50,13 @@ export { default as LFormItemRate } from './FormItemRate';
 export type { LFormItemRateProps } from './FormItemRate';
 export { default as LFormItemSelect } from './FormItemSelect';
 export type { LFormItemSelectProps } from './FormItemSelect';
+export { default as LFormItemSlider } from './FormItemSlider';
+export type { LFormItemSliderProps } from './FormItemSlider';
 // hooks方式使用弹窗组件
 export { default as LFormItemSwitch } from './FormItemSwitch';
 export type { LFormItemSwitchProps } from './FormItemSwitch';
 export { default as LNumberRoll } from './NumberRoll';
-// ===
+// ===基础组件
 export { default as Spin } from './Spin';
 export { default as Switch } from './Switch';
 export { default as Tooltip } from './Tooltip';

@@ -1,15 +1,15 @@
 ---
-title: LFormItemSelect
+title: LFormItemSlider
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# LFormItemSelect
+# LFormItemSlider
 
-LFormItemSelect
+LFormItemSlider
 
-<mark>LFormItemSelect</mark>
+<mark>LFormItemSlider</mark>
 
 <code src='./demos/Demo1.tsx' />
