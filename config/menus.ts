@@ -35,6 +35,7 @@ export default {
         'FormItemSwitch/index.md',
         'FormItemSlider/index.md',
         'FormItemCascader/index.md',
+        'FormItemAddress/index.md',
         'FormItemCaptcha/index.md',
         'FormItemAutoComplete/index.md',
       ],

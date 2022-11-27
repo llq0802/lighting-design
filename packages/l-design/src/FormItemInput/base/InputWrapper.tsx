@@ -48,19 +48,20 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
       if (isSpace) {
         rawValue = rawValue.replace(/\s+/g, '');
       }
+
       onChange?.(rawValue as any);
     },
     [onChange, isSpace, type],
   );
   return (
     <Input
-      value={value}
       placeholder="请输入"
       allowClear
       autoComplete="off"
       type={realType}
       maxLength={maxLen}
       {...restProps}
+      value={value}
       onChange={handleChange}
     />
   );

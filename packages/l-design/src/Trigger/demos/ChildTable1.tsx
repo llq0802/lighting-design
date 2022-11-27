@@ -68,10 +68,10 @@ const Tables: React.FC = (props) => {
       });
       setOpen(false);
     },
-    getCheckboxProps: (record: DataType) => ({
-      disabled: record.name === 'Disabled User', // Column configuration not to be checked
-      name: record.name,
-    }),
+    // getCheckboxProps: (record: DataType) => ({
+    //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
+    //   name: record.name,
+    // }),
   };
 
   return (

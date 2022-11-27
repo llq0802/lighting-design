@@ -2,7 +2,7 @@ import { useDeepCompareEffect, useRequest } from 'ahooks';
 import type { RateProps } from 'antd';
 import { Rate } from 'antd';
 import type { FC } from 'react';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type RateWrapperProps = Record<string, any> &
   Partial<{
@@ -79,9 +79,19 @@ const RateWrapper: FC<RateWrapperProps> = ({
     }
   }, [reqValue, request, value]);
 
+  const handleChange = useCallback(
+    (num: number) => {
+      if (rateProps?.onChange) {
+        rateProps?.onChange(num);
+      }
+      onChange(num);
+    },
+    [onChange, rateProps],
+  );
+
   return (
     <>
-      <Rate value={selectValue} disabled={isClearDepends} {...rateProps} onChange={onChange} />
+      <Rate disabled={isClearDepends} {...rateProps} value={selectValue} onChange={handleChange} />
     </>
   );
 };

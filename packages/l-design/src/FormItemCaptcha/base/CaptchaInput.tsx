@@ -1,7 +1,7 @@
 import { useMount } from 'ahooks';
 import type { ButtonProps, InputProps, InputRef } from 'antd';
 import { Divider, Input } from 'antd';
-import type { CSSProperties, FC } from 'react';
+import type { ChangeEvent, CSSProperties, FC } from 'react';
 import { useCallback, useImperativeHandle, useMemo, useRef } from 'react';
 import type { LCaptchaButtonProps } from '../../CaptchaButton';
 import LCaptchaButton from '../../CaptchaButton';
@@ -111,17 +111,28 @@ const CodeInput: FC<CodeInputProps> = ({
     }
   });
 
+  const handleOnChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const input = e.target;
+      if (inputProps?.onChange) {
+        inputProps?.onChange(input.value as any);
+      }
+      onChange?.(input.value);
+    },
+    [inputProps, onChange],
+  );
+
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Input
         placeholder="请输入"
-        onChange={onChange}
-        value={value}
         allowClear
         autoComplete="off"
         ref={inputRef as unknown as React.Ref<InputRef> | undefined}
         {...restProps}
         {...inputProps}
+        onChange={handleOnChange}
+        value={value}
         style={{
           ...defaultStyle.input,
           ...inputProps?.style,

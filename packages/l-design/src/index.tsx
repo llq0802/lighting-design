@@ -24,6 +24,8 @@ export type {
 // 基础FormItem容器组件
 export { default as LFormItem } from './FormItem';
 export type { LFormItemProps } from './FormItem';
+export { default as LFormItemAddress } from './FormItemAddress';
+export type { LFormItemAddressProps } from './FormItemAddress';
 // 表单验证码
 export { default as LFormItemCaptcha } from './FormItemCaptcha';
 export type { LFormItemCaptchaProps } from './FormItemCaptcha';
