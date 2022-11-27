@@ -12,8 +12,8 @@ export interface LFormItemAddressProps<DataNodeType = any> extends Omit<LFormIte
   inputFormProps?: LFormItemProps;
   cascaderFormProps?: LFormItemProps;
   placeholders?: [string, string];
-  inputColProps: ColProps;
-  cascaderColProps: ColProps;
+  inputColProps?: ColProps;
+  cascaderColProps?: ColProps;
 }
 
 const LFormItemAddress: FC<LFormItemAddressProps> = ({

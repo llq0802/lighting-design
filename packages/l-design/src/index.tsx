@@ -33,6 +33,8 @@ export { default as LFormItemCascader } from './FormItemCascader';
 export type { LFormItemCascaderProps } from './FormItemCascader';
 export { default as LFormItemCheckbox } from './FormItemCheckbox';
 export type { LFormItemCheckboxProps } from './FormItemCheckbox';
+export { default as LFormItemColor } from './FormItemColor';
+export type { LFormItemColorProps } from './FormItemColor';
 // 表单输入框
 export {
   LFormItemInput,

@@ -27,6 +27,7 @@ export default {
       children: [
         'FormItem/index.md',
         'FormItemInput/index.md',
+        'FormItemColor/index.md',
         'FormItemSelect/index.md',
         'FormItemTreeSelect/index.md',
         'FormItemRadio/index.md',
