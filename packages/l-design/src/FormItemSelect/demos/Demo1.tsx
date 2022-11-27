@@ -4,7 +4,14 @@ import { useState } from 'react';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
-  const [opts, setOpts] = useState([]);
+  const [opts, setOpts] = useState<any[]>([
+    { label: 'closed', value: 'closed' },
+    { label: 'processing', value: 'processing' },
+  ]);
+
+  const onChange = () => {
+    console.log(' onChange-++++');
+  };
 
   return (
     <Form name="LFormItemSelect" form={form}>
@@ -23,17 +30,21 @@ const Demo1 = () => {
         name="select"
         all
         required
-        dependencies={['userName']}
+        // dependencies={['userName']}
         debounceTime={300}
-        request={async (params) => {
-          console.log(' params', params);
-          // if (!params) return [];
-          return [
-            { label: 'open', value: 'open' },
-            { label: 'closed', value: 'closed' },
-            { label: 'processing', value: 'processing' },
-          ];
+        selectProps={{
+          onChange,
+          options: opts,
         }}
+        // request={async (params) => {
+        //   console.log(' params', params);
+        //   // if (!params) return [];
+        //   return [
+        //     { label: 'open', value: 'open' },
+        //     { label: 'closed', value: 'closed' },
+        //     { label: 'processing', value: 'processing' },
+        //   ];
+        // }}
         // options={[
         //   { label: 'Unresolved', value: 'open' },
         //   { label: 'Resolved', value: 'closed' },

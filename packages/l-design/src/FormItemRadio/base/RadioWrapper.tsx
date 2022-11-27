@@ -1,8 +1,8 @@
 import { useDeepCompareEffect, useRequest } from 'ahooks';
-import type { RadioGroupProps } from 'antd';
+import type { RadioChangeEvent, RadioGroupProps } from 'antd';
 import { Radio } from 'antd';
 import type { FC, ReactNode } from 'react';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type RadioWrapperProps = Record<string, any> & {
   request?: (...args: any[]) => Promise<any>;
@@ -105,13 +105,23 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     }
   }, [opts, optsRequest]);
 
+  const handleChange = useCallback(
+    (val: RadioChangeEvent) => {
+      if (radioProps?.onChange) {
+        radioProps?.onChange(val);
+      }
+      onChange(val);
+    },
+    [onChange, radioProps],
+  );
+
   return (
     <Radio.Group
-      value={value}
       options={selectOptions}
       disabled={isClearDepends}
       {...radioProps}
-      onChange={onChange}
+      value={value}
+      onChange={handleChange}
     />
   );
 };

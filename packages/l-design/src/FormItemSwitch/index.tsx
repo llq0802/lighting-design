@@ -1,7 +1,7 @@
 import type { SwitchProps } from 'antd';
 import { Switch } from 'antd';
 import type { FC } from 'react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { LFormItemProps } from '../FormItem/base/BaseFromItem';
 import LFormItem from '../FormItem/base/BaseFromItem';
 
@@ -14,7 +14,17 @@ const SwitchWrapper = (
     return checked ? { backgroundColor: checkedBg } : { backgroundColor: unCheckedBg };
   }, [checkedBg, unCheckedBg, checked]);
 
-  return <Switch checked={checked} {...switchProps} style={styles} onChange={onChange} />;
+  const handleChange = useCallback(
+    (bool: boolean) => {
+      if (switchProps?.onChange) {
+        switchProps?.onChange(bool);
+      }
+      onChange(bool);
+    },
+    [onChange, switchProps],
+  );
+
+  return <Switch {...switchProps} style={styles} checked={checked} onChange={handleChange} />;
 };
 
 export interface LFormItemSwitchProps extends LFormItemProps {

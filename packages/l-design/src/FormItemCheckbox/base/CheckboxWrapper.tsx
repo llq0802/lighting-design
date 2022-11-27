@@ -115,15 +115,18 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     [beforeAll, onChange, selectOptions],
   );
 
-  const checkChange = useCallback(
+  const handleChange = useCallback(
     (checkedValue: CheckboxValueType[]) => {
       if (beforeAll?.value) {
         setIndeterminate(!!checkedValue.length && checkedValue.length < selectOptions.length);
         setCheckAll(checkedValue.length === selectOptions.length);
       }
+      if (checkboxProps?.onChange) {
+        checkboxProps?.onChange(checkedValue);
+      }
       onChange(checkedValue);
     },
-    [beforeAll?.value, onChange, selectOptions.length],
+    [beforeAll?.value, checkboxProps, onChange, selectOptions.length],
   );
   return (
     <>
@@ -139,11 +142,11 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         </Checkbox>
       )}
       <Checkbox.Group
-        value={value}
         options={selectOptions}
         disabled={isClearDepends}
         {...checkboxProps}
-        onChange={checkChange}
+        value={value}
+        onChange={handleChange}
       />
     </>
   );

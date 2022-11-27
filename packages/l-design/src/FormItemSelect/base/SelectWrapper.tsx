@@ -2,7 +2,7 @@ import { useDeepCompareEffect, useRequest } from 'ahooks';
 import type { SelectProps } from 'antd';
 import { Select } from 'antd';
 import type { FC, ReactNode } from 'react';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type SelectWrapperProps = Record<string, any> & {
   request?: (...args: any[]) => Promise<any>;
@@ -52,7 +52,8 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   );
   // 判断依赖项是否有空或undefined
   const isClearDepends = useMemo(
-    () => depends.some((nameValue) => nameValue === '' || nameValue == undefined),
+    () =>
+      depends.some((nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length),
     [depends],
   );
 
@@ -106,15 +107,24 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     }
   }, [isClearDepends, opts, optsRequest]);
 
+  const handleChange = useCallback(
+    (val: string, items: { label: string; value: string } | { label: string; value: string }[]) => {
+      if (selectProps?.onChange) {
+        selectProps?.onChange(val, items);
+      }
+      onChange(val);
+    },
+    [onChange, selectProps],
+  );
   return (
     <Select
-      value={value}
       options={selectOptions}
       placeholder="请选择"
       allowClear
       style={{ width: '100%' }}
       {...selectProps}
-      onChange={onChange}
+      value={value}
+      onChange={handleChange}
     />
   );
 };
