@@ -38,6 +38,8 @@ export default {
         'FormItemCascader/index.md',
         'FormItemAddress/index.md',
         'FormItemCaptcha/index.md',
+        'FormItemDate/index.md',
+        'FormItemDateRange/index.md',
         'FormItemAutoComplete/index.md',
       ],
     },
