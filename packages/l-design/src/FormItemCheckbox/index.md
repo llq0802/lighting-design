@@ -1,14 +1,14 @@
 ---
-title: FormItemCheckbox
+title: LFormItemCheckbox
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-## FormItemCheckbox
+## LFormItemCheckbox
 
-<mark>FormItemCheckbox</mark>
+<mark>LFormItemCheckbox</mark>
 
 <code src='./demos/Demo1.tsx' />
 

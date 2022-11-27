@@ -1,14 +1,14 @@
 ---
-title: FormItemRate
+title: LFormItemRate
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-## FormItemRate
+## LFormItemRate
 
-<mark>FormItemRate</mark>
+<mark>LFormItemRate</mark>
 
 <code src='./demos/Demo1.tsx' />
 
