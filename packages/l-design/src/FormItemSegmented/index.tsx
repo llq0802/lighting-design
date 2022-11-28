@@ -29,6 +29,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
         options={options}
         request={request}
         debounceTime={debounceTime}
+        // @ts-ignore
         segmentedProps={segmentedProps}
       />
     </LFormItem>

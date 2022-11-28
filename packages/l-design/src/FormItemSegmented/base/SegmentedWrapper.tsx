@@ -3,13 +3,14 @@ import type { SegmentedProps } from 'antd';
 import { Segmented } from 'antd';
 import type { SegmentedLabeledOption, SegmentedValue } from 'antd/lib/segmented';
 import type { FC } from 'react';
-import { useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type SegmentedWrapperProps = Record<string, any> & {
   request?: (...args: any[]) => Promise<any>;
   debounceTime?: number;
   segmentedProps?: SegmentedProps;
   dependencies?: string[];
+  options?: SegmentedProps['options'];
 };
 
 const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
@@ -43,7 +44,8 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
 
   // 判断依赖项是否有空或undefined
   const isClearDepends = useMemo(
-    () => depends.some((nameValue) => nameValue === '' || nameValue == undefined),
+    () =>
+      depends.some((nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length),
     [depends],
   );
 
@@ -88,13 +90,25 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
     }
   }, [opts, optsRequest]);
 
+  const handleChange = useCallback(
+    (val: SegmentedValue) => {
+      if (segmentedProps?.onChange) {
+        // @ts-ignore
+        segmentedProps?.onChange(val);
+      }
+      onChange(val);
+    },
+    [onChange, segmentedProps],
+  );
+
   return (
+    // @ts-ignore
     <Segmented
       disabled={isClearDepends}
       {...segmentedProps}
       options={selectOptions}
       value={value}
-      onChange={onChange}
+      onChange={handleChange}
     />
   );
 };
