@@ -41,6 +41,7 @@ export default {
         'FormItemDate/index.md',
         'FormItemDateRange/index.md',
         'FormItemAutoComplete/index.md',
+        'FormItemSegmented/index.md',
       ],
     },
   ],
