@@ -16,14 +16,13 @@ import {
 const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps | any> = ({
   style,
   value,
-  dateValueType,
   ...restProps
 }) => {
   return (
     <DatePicker
       {...restProps}
       value={transformMomentValue(value)}
-      style={{ width: 280, ...style }}
+      style={{ width: '100%', ...style }}
     />
   );
 };
@@ -85,7 +84,6 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
         format={currentFormat}
         showTime={showTime}
         picker={currentPicker}
-        dateValueType={dateValueType}
         disabledDate={currentDisabledDate}
         {...pickerProps}
       />

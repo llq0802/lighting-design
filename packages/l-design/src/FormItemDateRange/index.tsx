@@ -1,47 +1,94 @@
-import type { DatePickerProps, TimePickerProps } from 'antd';
+import type { TimePickerProps } from 'antd';
 import { DatePicker } from 'antd';
-import type { MonthPickerProps, WeekPickerProps } from 'antd/lib/date-picker';
+import type { RangePickerProps } from 'antd/lib/date-picker';
 import type { FC } from 'react';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { LFormItemProps } from '../FormItem/base/BaseFromItem';
 import LFormItem from '../FormItem/base/BaseFromItem';
+import type { DateValueType, Picker } from '../utils/date';
+import {
+  createDisabledDate,
+  getDateFormat,
+  transformDate,
+  transformMomentValue,
+} from '../utils/date';
 
-const DatePickerWrapper: React.FC<DatePickerProps | MonthPickerProps | WeekPickerProps | any> = ({
-  style,
-  ...restProps
-}) => {
-  return <DatePicker {...restProps} style={{ width: 280, ...style }} />;
+const { RangePicker } = DatePicker;
+
+export type RangePickerWrapperProps = any & RangePickerProps;
+
+const RangePickerWrapper: FC<RangePickerWrapperProps> = ({ style, value, ...restProps }) => {
+  return (
+    <RangePicker
+      {...restProps}
+      value={transformMomentValue(value)}
+      style={{ width: '100%', ...style }}
+    />
+  );
 };
 
-export type Picker = 'date' | 'week' | 'month' | 'quarter' | 'year';
-
-export interface LFormItemDateProps extends LFormItemProps {
+export interface LFormItemDateRangeProps extends LFormItemProps {
   disabledDateBefore?: number;
   disabledDateAfter?: number;
   showTime?: TimePickerProps | boolean;
   format?: string;
+  dateValueType?: DateValueType;
   picker?: Picker;
-  pickerProps?: DatePickerProps | MonthPickerProps | WeekPickerProps | any;
+  pickerProps?: RangePickerProps | Record<string, any>;
 }
 
-const LFormItemDate: FC<LFormItemDateProps> = ({
+const LFormItemDateRange: FC<LFormItemDateRangeProps> = ({
+  dateValueType = 'moment',
+  normalize,
   disabledDateBefore,
   disabledDateAfter,
   showTime = false,
   format,
   picker = 'date',
+
   pickerProps = {},
-  className,
+
   required = false,
   ...restProps
 }) => {
   const currentPicker = useMemo(() => pickerProps.picker || picker, [pickerProps.picker, picker]);
+  const currentFormat = useMemo(
+    () =>
+      getDateFormat(pickerProps.format || format, currentPicker, pickerProps.showTime || showTime),
+    [format, pickerProps.format, currentPicker, pickerProps.showTime, showTime],
+  );
+
+  const currentDisabledDate = useMemo(
+    () =>
+      createDisabledDate(currentPicker, {
+        disabledDateBefore,
+        disabledDateAfter,
+      }),
+    [currentPicker, disabledDateBefore, disabledDateAfter],
+  );
+
+  const handleTransform = useCallback(
+    (...args: any[]) => {
+      if (typeof normalize === 'function') {
+        // @ts-ignore
+        return normalize(...args);
+      }
+      return transformDate(args[0], currentFormat, dateValueType);
+    },
+    [currentFormat, normalize, dateValueType],
+  );
 
   return (
-    <LFormItem required={required} isSelectType {...restProps}>
-      <DatePickerWrapper showTime={showTime} picker={currentPicker} {...pickerProps} />
+    <LFormItem required={required} isSelectType normalize={handleTransform} {...restProps}>
+      <RangePickerWrapper
+        format={currentFormat}
+        showTime={showTime}
+        picker={currentPicker}
+        disabledDate={currentDisabledDate}
+        {...pickerProps}
+      />
     </LFormItem>
   );
 };
 
-export default LFormItemDate;
+export default LFormItemDateRange;

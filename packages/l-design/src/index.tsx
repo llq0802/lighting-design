@@ -37,6 +37,8 @@ export { default as LFormItemColor } from './FormItemColor';
 export type { LFormItemColorProps } from './FormItemColor';
 export { default as LFormItemDate } from './FormItemDate';
 export type { LFormItemDateProps } from './FormItemDate';
+export { default as LFormItemDateRange } from './FormItemDateRange';
+export type { LFormItemDateRangeProps } from './FormItemDateRange';
 // 表单输入框
 export {
   LFormItemInput,
