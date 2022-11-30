@@ -43,6 +43,7 @@ export default {
         'FormItemTimePicker/index.md',
         'FormItemAutoComplete/index.md',
         'FormItemSegmented/index.md',
+        'FormItmUpload/index.md',
       ],
     },
   ],

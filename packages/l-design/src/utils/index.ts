@@ -28,3 +28,11 @@ export function depsSame(oldDeps: DependencyList, deps: DependencyList): boolean
   }
   return true;
 }
+
+// 生产唯一id
+const randomStr = Math.random().toString(16).substring(2);
+let _id = 1;
+export function uniqueId(prefix = '') {
+  ++_id;
+  return `${prefix}${randomStr}${_id}`;
+}
