@@ -27,6 +27,8 @@ type CreateDisabledDateOptions = {
   disabledDateAfter?: number;
 };
 
+export type DateValueType = 'string' | 'number' | 'moment';
+
 // 获取日期格式
 export function getDateFormat(format: any, picker: string, showTime = false) {
   if (format) return format;
@@ -82,7 +84,7 @@ export function createDisabledDate(picker: Picker = 'date', opts: CreateDisabled
   };
 }
 
-// string number 转换为moment
+// string number moment 转换为moment
 export function transformMomentValue(val: string | number | Moment): Moment;
 export function transformMomentValue(val: (string | number | Moment)[]): [Moment, Moment];
 export function transformMomentValue(val: string | number | Moment | (string | number | Moment)[]) {
@@ -95,38 +97,35 @@ export function transformMomentValue(val: string | number | Moment | (string | n
   return val;
 }
 
-// moment转换为string number
-export function transformDate(date: Moment | string, format: string, dateValueType: string): string;
-// eslint-disable-next-line @typescript-eslint/unified-signatures
+// moment转换为string number moment
 export function transformDate(
-  date: (Moment | string)[],
+  date: Moment,
   format: string,
   dateValueType: string,
-): string;
-
-
-
-
-
+): string | number | Moment;
 
 export function transformDate(
-  date: Moment | string | (Moment | string)[],
+  date: Moment[],
   format: string,
   dateValueType: string,
-) {
-  if (moment.isMoment(date)) {
-    return date.format(format);
-  }
+): (string | number | Moment)[];
+
+export function transformDate(
+  date: Moment | Moment[],
+  format: string,
+  dateValueType: string,
+): string | number | Moment | (string | number | Moment)[] {
   if (Array.isArray(date) && date.length > 0) {
     return date.map((item) => transformDate(item, format, dateValueType));
   }
-
-  if (date && typeof date === 'number') {
-    return  moment(date).valueOf();
+  if (moment.isMoment(date) && dateValueType === 'moment') {
+    return date;
   }
-  if (date && typeof date === 'string') {
-    return moment(date, format).format(format);
+  if (date && dateValueType === 'number') {
+    return moment(date as Moment).valueOf();
   }
-
+  if (date && dateValueType === 'string') {
+    return moment(date as Moment, format).format(format);
+  }
   return date;
 }

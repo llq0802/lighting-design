@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import { useCallback, useMemo } from 'react';
 import type { LFormItemProps } from '../FormItem/base/BaseFromItem';
 import LFormItem from '../FormItem/base/BaseFromItem';
-import type { Picker } from '../utils/date';
+import type { DateValueType, Picker } from '../utils/date';
 import {
   createDisabledDate,
   getDateFormat,
@@ -33,7 +33,7 @@ export interface LFormItemDateProps extends LFormItemProps {
   disabledDateAfter?: number;
   showTime?: TimePickerProps | boolean;
   format?: string;
-  dateValueType?: 'string' | 'number' | 'moment';
+  dateValueType?: DateValueType;
   picker?: Picker;
   pickerProps?: DatePickerProps | MonthPickerProps | WeekPickerProps | any;
 }

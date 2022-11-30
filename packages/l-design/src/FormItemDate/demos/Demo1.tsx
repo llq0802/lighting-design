@@ -13,6 +13,7 @@ const Demo1 = () => {
         name="date1"
         required
         disabledDateAfter={1}
+        dateValueType="string"
 
         // disabledDateBefore={1}
         // picker="quarter"
