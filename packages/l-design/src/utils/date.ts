@@ -95,23 +95,37 @@ export function transformMomentValue(val: string | number | Moment | (string | n
   return val;
 }
 
-// moment转换为string
-export function transformDate(date: Moment | string, format: string): string;
+// moment转换为string number
+export function transformDate(date: Moment | string, format: string, dateValueType: string): string;
 // eslint-disable-next-line @typescript-eslint/unified-signatures
-export function transformDate(date: (Moment | string)[], format: string): string;
-export function transformDate(date: Moment | string | (Moment | string)[], format: string) {
+export function transformDate(
+  date: (Moment | string)[],
+  format: string,
+  dateValueType: string,
+): string;
+
+
+
+
+
+
+export function transformDate(
+  date: Moment | string | (Moment | string)[],
+  format: string,
+  dateValueType: string,
+) {
   if (moment.isMoment(date)) {
     return date.format(format);
   }
   if (Array.isArray(date) && date.length > 0) {
-    return date.map((item) => transformDate(item, format));
-  }
-  if (date && typeof date === 'string') {
-    return moment(date, format).format(format);
+    return date.map((item) => transformDate(item, format, dateValueType));
   }
 
   if (date && typeof date === 'number') {
-    moment(date).valueOf();
+    return  moment(date).valueOf();
+  }
+  if (date && typeof date === 'string') {
+    return moment(date, format).format(format);
   }
 
   return date;

@@ -1,13 +1,5 @@
 import type { DependencyList } from 'react';
 
-// 日期格式
-export enum DateFormat {
-  date = 'YYYY-MM-DD',
-  week = 'YYYY-wo',
-  month = 'YYYY-MM',
-  quarter = 'YYYY-\\QQ',
-  year = 'YYYY',
-}
 /**
  * 获取Form组价的label名称
  * @export
