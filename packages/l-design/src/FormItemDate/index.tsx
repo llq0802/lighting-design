@@ -22,7 +22,7 @@ const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps
   return (
     <DatePicker
       {...restProps}
-      value={transformMomentValue(value, dateValueType)}
+      value={transformMomentValue(value)}
       style={{ width: 280, ...style }}
     />
   );
