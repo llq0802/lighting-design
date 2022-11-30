@@ -3,8 +3,13 @@ import menus from './menus';
 
 const isDev = process.env.NODE_ENV === 'development';
 
+const isBlack = new Date() <= new Date('2022-12-5');
+
+const styles = isBlack ? [`body { filter: grayscale(1); }`] : undefined;
+
 const configs = defineConfig({
   // ssr: {},
+  styles,
   extraBabelPlugins: [
     [
       'babel-plugin-import',
