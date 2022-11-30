@@ -63,6 +63,8 @@ export type { LFormItemSliderProps } from './FormItemSlider';
 // hooks方式使用弹窗组件
 export { default as LFormItemSwitch } from './FormItemSwitch';
 export type { LFormItemSwitchProps } from './FormItemSwitch';
+export { default as LFormItemTimePicker } from './FormItemTimePicker';
+export type { LFormItemTimePickerProps } from './FormItemTimePicker';
 export { default as LFormItemTreeSelect } from './FormItemTreeSelect';
 export type { LFormItemTreeSelectProps } from './FormItemTreeSelect';
 export { default as LNumberRoll } from './NumberRoll';

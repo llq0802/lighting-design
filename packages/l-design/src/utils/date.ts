@@ -97,6 +97,31 @@ export function transformMomentValue(val: string | number | Moment | (string | n
   return val;
 }
 
+// string moment 转换为moment
+export function timePickerMomentVlaue(
+  val: string | Moment | (string | Moment)[],
+  format: moment.MomentFormatSpecification,
+): Moment | [Moment, Moment];
+
+export function timePickerMomentVlaue(
+  val: string | Moment | (string | Moment)[],
+  format: moment.MomentFormatSpecification,
+) {
+  if (Array.isArray(val)) return val.map((item) => timePickerMomentVlaue(item, format));
+  if (val && typeof val === 'string') return moment(val, format);
+  return val;
+}
+
+// string moment 转换为 string
+export function timePickerMomentString(
+  val: string | Moment | (string | Moment)[],
+  format: string,
+): string | object {
+  if (Array.isArray(val)) return val.map((item: any) => timePickerMomentString(item, format));
+  if (val && typeof val === 'object') return moment(val).format(format);
+  return val;
+}
+
 // moment转换为string number moment
 export function transformDate(
   date: Moment,

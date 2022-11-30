@@ -40,6 +40,7 @@ export default {
         'FormItemCaptcha/index.md',
         'FormItemDate/index.md',
         'FormItemDateRange/index.md',
+        'FormItemTimePicker/index.md',
         'FormItemAutoComplete/index.md',
         'FormItemSegmented/index.md',
       ],
