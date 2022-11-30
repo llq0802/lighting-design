@@ -1,87 +1,41 @@
 import { Button, Form } from 'antd';
-import {
-  LFormItemAddress,
-  LFormItemCascader,
-  LFormItemColor,
-  LFormItemSelect,
-} from 'lighting-design';
-import { useState } from 'react';
-
-const options: any[] = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
+import { LFormItemColor, LFormItemDate, LFormItemDateRange } from 'lighting-design';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
-  const [opts, setOpts] = useState([]);
 
   return (
     <Form name="LFormItemSelect" form={form}>
-      <LFormItemSelect
-        label="select选择"
-        name="select"
-        all
-        required
-        options={[
-          { label: 'A', value: 'a' },
-          { label: 'B', value: 'b' },
-          { label: 'C', value: 'c' },
-        ]}
-      />
-
-      <LFormItemCascader
-        label="级联选择"
-        // name={['sheng', 'shi', 'qu']}
-        name={'cascader'}
-        required
-        // options={options}
-        dependencies={['select']}
-        debounceTime={300}
-        request={async (params) => {
-          console.log('request-params', params);
-          // if (!params) return [];
-          return options;
-        }}
-      />
-
-      <LFormItemAddress
-        label="地址选择"
-        names={['location', 'address']}
-        required
-        options={options}
-      />
       <LFormItemColor type="chrome" label="颜色选择" name="color" required />
+
+      <LFormItemDate
+        label="日期选择"
+        name="date1"
+        required
+        disabledDateAfter={1}
+        dateValueType="string"
+
+        // disabledDateBefore={1}
+        // picker="quarter"
+      />
+      <LFormItemDate label="月份选择" name="date3" required disabledDateBefore={1} picker="month" />
+
+      <LFormItemDateRange
+        label="range选择1"
+        name="range1"
+        required
+        dateValueType="string"
+        disabledDateAfter={1}
+        // picker="quarter"
+      />
+      <LFormItemDateRange
+        label="range选择2"
+        name="range2"
+        required
+        dateValueType="string"
+        picker="month"
+        // disabledDateAfter={0}
+      />
 
       <Button
         onClick={() => {
@@ -98,13 +52,6 @@ const Demo1 = () => {
         }}
       >
         获取
-      </Button>
-      <Button
-        onClick={() => {
-          setOpts([]);
-        }}
-      >
-        强制更新
       </Button>
     </Form>
   );

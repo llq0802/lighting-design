@@ -85,9 +85,11 @@ export function createDisabledDate(picker: Picker = 'date', opts: CreateDisabled
 }
 
 // string number moment 转换为moment
-export function transformMomentValue(val: string | number | Moment): Moment;
-export function transformMomentValue(val: (string | number | Moment)[]): [Moment, Moment];
-export function transformMomentValue(val: string | number | Moment | (string | number | Moment)[]) {
+export function transformMomentValue(val?: string | number | Moment): Moment;
+export function transformMomentValue(val?: (string | number | Moment)[]): [Moment, Moment];
+export function transformMomentValue(
+  val?: string | number | Moment | (string | number | Moment)[],
+) {
   if (Array.isArray(val)) {
     return val.map((item) => transformMomentValue(item));
   }
