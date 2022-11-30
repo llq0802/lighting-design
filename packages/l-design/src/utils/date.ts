@@ -2,9 +2,9 @@ import type { Moment } from 'moment';
 import moment from 'moment';
 
 // DatePicker picker值
-export type Picker = 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year';
+export type Picker = 'date' | 'week' | 'month' | 'quarter' | 'year';
 
-// moment 与antd-Data度量值
+// moment 与antd-Date枚举
 export enum MomentEnum {
   date = 'days',
   week = 'weeks',
