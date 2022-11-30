@@ -1,6 +1,8 @@
 import type { TimePickerProps } from 'antd';
 import { DatePicker } from 'antd';
+import locale from 'antd/es/date-picker/locale/zh_CN';
 import type { RangePickerProps } from 'antd/lib/date-picker';
+import 'moment/locale/zh-cn';
 import type { FC } from 'react';
 import { useCallback, useMemo } from 'react';
 import type { LFormItemProps } from '../FormItem/base/BaseFromItem';
@@ -12,7 +14,6 @@ import {
   transformDate,
   transformMomentValue,
 } from '../utils/date';
-
 const { RangePicker } = DatePicker;
 
 export type RangePickerWrapperProps = any & RangePickerProps;
@@ -20,6 +21,7 @@ export type RangePickerWrapperProps = any & RangePickerProps;
 const RangePickerWrapper: FC<RangePickerWrapperProps> = ({ style, value, ...restProps }) => {
   return (
     <RangePicker
+      locale={locale}
       {...restProps}
       value={transformMomentValue(value)}
       style={{ width: '100%', ...style }}

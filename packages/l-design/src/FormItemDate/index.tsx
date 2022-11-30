@@ -13,6 +13,9 @@ import {
   transformMomentValue,
 } from '../utils/date';
 
+import locale from 'antd/es/date-picker/locale/zh_CN';
+import 'moment/locale/zh-cn';
+
 const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps | any> = ({
   style,
   value,
@@ -20,6 +23,7 @@ const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps
 }) => {
   return (
     <DatePicker
+      locale={locale}
       {...restProps}
       value={transformMomentValue(value)}
       style={{ width: '100%', ...style }}
