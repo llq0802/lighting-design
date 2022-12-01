@@ -42,7 +42,7 @@ export interface LFormItemDateProps extends LFormItemProps {
 }
 
 const LFormItemDate: FC<LFormItemDateProps> = ({
-  dateValueType = 'moment',
+  dateValueType = 'string',
   normalize,
   disabledDateBefore,
   disabledDateAfter,

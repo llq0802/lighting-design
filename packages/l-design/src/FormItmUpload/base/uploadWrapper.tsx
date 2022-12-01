@@ -2,53 +2,46 @@ import type { UploadProps } from 'antd';
 import { message, Upload } from 'antd';
 import type { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload';
 import classNames from 'classnames';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useCallback, useMemo } from 'react';
 import { checkFileSize, checkFileType } from '../../utils/upload';
 import './styles.less';
 
-const prefixCls = 'lightd-form-upload-wrapper';
+export const lightdUploadWrapper = 'lightd-upload-wrapper';
 
 export interface UploadWrapperProps extends UploadProps {
   fileTypeMessage?: string | false; // 文件类型错误提示
   fileSizeMessage?: string | false; // 文件超过最大尺寸提示
-  maxCountMessage?: string | false; // 上传文件超过限制数量时提示
-
+  // maxCountMessage?: string | false; // 上传文件超过限制数量时提示
   onUpload?: (file: File) => Promise<object | undefined>; // 自定义文件上传
-
   maxSize?: number; // 单个文件最大尺寸，用于校验
-
   dragger?: boolean; // 支持拖拽
-
-  // icon和title配置图标和文本内容
-  icon?: ReactNode;
-  title?: ReactNode;
 }
 
-const UploadWrapper: FC<UploadWrapperProps> = ({
-  fileTypeMessage = '只支持上传x文件',
-  fileSizeMessage = '文件必须小于x',
-  dragger = false,
-  icon,
-  title,
-  maxSize = 1024 * 1024 * 5,
-  onUpload,
-  onChange,
+const UploadWrapper: FC<UploadWrapperProps> = (props) => {
+  const {
+    fileTypeMessage = '只支持上传x文件',
+    fileSizeMessage = '文件必须小于x',
+    dragger = false,
+    maxSize = 1024 * 1024 * 5,
+    onUpload,
 
-  maxCount,
-  accept = 'image/*',
-  className,
-  disabled,
-  action,
-  beforeUpload,
-  ...restProps
-}) => {
+    onChange,
+    maxCount,
+    accept = 'image/*',
+    className,
+    disabled,
+    action,
+    beforeUpload,
+    ...restProps
+  } = props;
+
+  // console.log(' UploadWrapper-props', props);
   // 上传前验证
   const handleBeforeUpload = useCallback(
     (file: RcFile, fileList: RcFile[]) => {
       // 检查是否支持文件类型
       const isSupportFileType = checkFileType(file, accept);
-      console.log(' isSupportFileType', isSupportFileType, fileTypeMessage);
       if (!isSupportFileType && fileTypeMessage) {
         message.error(fileTypeMessage.replace(/x/g, accept));
         return Upload.LIST_IGNORE;
@@ -61,7 +54,7 @@ const UploadWrapper: FC<UploadWrapperProps> = ({
       }
       // 若返回 false 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，
       // 可以返回 Upload.LIST_IGNORE， 此时列表中将不展示此文件。
-      return beforeUpload ? beforeUpload(file, fileList) : !!action; // action没有传地址则停止上传(不会生产status, response等)
+      return beforeUpload ? beforeUpload(file, fileList) : !!action; // action没有传地址则停止上传(不会生产status,percent ,response等)
     },
     [accept, maxSize, beforeUpload, action, fileTypeMessage, fileSizeMessage],
   );
@@ -126,7 +119,7 @@ const UploadWrapper: FC<UploadWrapperProps> = ({
   // 处理change事件
   const handleChange = useCallback(
     ({ file, fileList }: UploadChangeParam) => {
-      console.log(' handleChange', file, fileList);
+      console.log('UploadWrapper-handleChange', file, fileList);
       let cloneFileList = fileList.slice();
       if (!action && typeof onUpload === 'function') {
         cloneFileList = cloneFileList.map((fileItem) => {
@@ -155,22 +148,24 @@ const UploadWrapper: FC<UploadWrapperProps> = ({
   };
 
   const UploadContent = useMemo(() => (dragger ? Upload.Dragger : Upload), [dragger]);
+
   return (
     <>
       <UploadContent
+        className={classNames(lightdUploadWrapper, className)}
         accept={accept}
         action={action}
         beforeUpload={handleBeforeUpload}
-        progress={{
-          status: 'active',
-          showInfo: false,
-          strokeWidth: 4,
-        }}
         onChange={handleChange}
         onPreview={handlePreview}
         disabled={disabled}
         maxCount={maxCount}
-        className={classNames(prefixCls, className)}
+        progress={{
+          status: 'active',
+          showInfo: false,
+          strokeWidth: 4,
+          format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
+        }}
         {...restProps}
       />
     </>

@@ -1,34 +1,78 @@
 import { Button, Form } from 'antd';
-import { LFormItemDate, LFormItemDateRange } from 'lighting-design';
-import UploadWrapper from '../base/uploadWrapper';
+import { LFormItemDate } from 'lighting-design';
+import LFormItemUpload from '..';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
 
   return (
     <Form name="LFormItemSelect" form={form}>
-      <LFormItemDate
-        label="日期选择"
-        name="date1"
-        required
-        disabledDateAfter={1}
-        dateValueType="string"
-      />
-      <LFormItemDate label="月份选择" name="date3" required disabledDateBefore={1} picker="month" />
-      <LFormItemDateRange
-        label="range选择1"
-        name="range1"
-        required
-        dateValueType="string"
-        disabledDateAfter={1}
-      />
+      <LFormItemDate label="日期选择" name="date1" required disabledDateAfter={1} />
 
-      <UploadWrapper
-        // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        accept=".jpg"
-      >
+      {/* action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76', */}
+      {/* <UploadWrapper action="https://www.mocky.io/v2/5cc8019d300000980a055e76" accept=".jpg">
         <Button>Click to Upload</Button>
-      </UploadWrapper>
+      </UploadWrapper> */}
+
+      {/* <UploadAvatar
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        // onChange={(info: UploadChangeParam) => {
+        //   const { file, fileList } = info;
+        //   console.log('UploadAvatar-onChange', file, fileList);
+        // }
+      /> */}
+
+      <LFormItemUpload
+        name="avatar"
+        label="头像上传"
+        // required
+        accept=".jpg, .jpeg"
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        // normalize={(value, prevValue, prevValues) => {
+        //   console.log('normalize ', value, prevValue, prevValues);
+        //   return value.map((item) => item.name);
+        // }}
+        initialValue={[
+          {
+            name: 'meinv',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          },
+        ]}
+        required
+        rules={[
+          {
+            validator(rules, value) {
+              console.log('value ', value);
+              let errMsg = '';
+              if (!value || (Array.isArray(value) && value.length <= 0)) {
+                errMsg = '请上传';
+              }
+              if (errMsg) {
+                return Promise.reject(errMsg);
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}
+      />
+      <LFormItemUpload
+        uploadType="dragger"
+        name="dragger"
+        label="拖动上传"
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        // normalize={(value, prevValue, prevValues) => {
+        //   console.log('normalize ', value, prevValue, prevValues);
+        //   return value.map((item) => item.name);
+        // }}
+        initialValue={[
+          {
+            name: 'meinv',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          },
+        ]}
+      />
 
       <br />
       <br />
