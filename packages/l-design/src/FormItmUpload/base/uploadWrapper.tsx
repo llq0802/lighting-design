@@ -1,5 +1,6 @@
 import type { UploadProps } from 'antd';
-import { message, Upload } from 'antd';
+import { ConfigProvider, message, Upload } from 'antd';
+import zhCN from 'antd/es/locale/zh_CN';
 import type { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload';
 import classNames from 'classnames';
 import type { FC } from 'react';
@@ -32,6 +33,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     className,
     disabled,
     action,
+    onPreview,
     beforeUpload,
     ...restProps
   } = props;
@@ -142,33 +144,32 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
 
   // 组件卸载时
   // useUnmount(() => {});
-
-  const handlePreview = (file: UploadFile) => {
-    console.log(' handlePreview', file);
-  };
+  // const handlePreview = (file: UploadFile) => {
+  //   console.log(' handlePreview', file);
+  // };
 
   const UploadContent = useMemo(() => (dragger ? Upload.Dragger : Upload), [dragger]);
 
   return (
-    <>
+    <ConfigProvider locale={zhCN}>
       <UploadContent
         className={classNames(lightdUploadWrapper, className)}
         accept={accept}
         action={action}
         beforeUpload={handleBeforeUpload}
         onChange={handleChange}
-        onPreview={handlePreview}
+        onPreview={onPreview}
         disabled={disabled}
         maxCount={maxCount}
         progress={{
           status: 'active',
           showInfo: false,
-          strokeWidth: 4,
+          strokeWidth: 3,
           format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
         }}
         {...restProps}
       />
-    </>
+    </ConfigProvider>
   );
 };
 

@@ -57,6 +57,34 @@ const Demo1 = () => {
         ]}
       />
       <LFormItemUpload
+        name="image"
+        label="图片上传"
+        required
+        uploadType="image"
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        initialValue={[
+          {
+            name: 'meinv',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          },
+        ]}
+        rules={[
+          {
+            validator(rules, value) {
+              console.log('value ', value);
+              let errMsg = '';
+              if (!value || (Array.isArray(value) && value.length <= 0)) {
+                errMsg = '请上传';
+              }
+              if (errMsg) {
+                return Promise.reject(errMsg);
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}
+      />
+      <LFormItemUpload
         uploadType="dragger"
         name="dragger"
         label="拖动上传"

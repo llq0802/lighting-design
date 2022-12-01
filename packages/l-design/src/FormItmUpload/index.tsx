@@ -5,6 +5,7 @@ import LFormItem from '../FormItem/base/BaseFromItem';
 import { getFormItemLabel } from '../utils';
 import UploadAvatar from './base/UploadAvatar';
 import UploadDragger from './base/UploadDragger';
+import UploadImage from './base/UploadImage';
 
 const normFile = (value: any): any[] => {
   if (Array.isArray(value)) return value;
@@ -32,6 +33,9 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   ...restProps
 }) => {
   const UploadComp = useMemo(() => {
+    if (uploadType === 'image') {
+      return UploadImage;
+    }
     if (uploadType === 'avatar') {
       return UploadAvatar;
     }

@@ -10,13 +10,13 @@ const defaultShowUploadList = {
 
 type UploadDraggerrProps = Omit<UploadWrapperProps, 'dragger'> & {
   buttonIcon: ReactNode;
-  buttonTitle: string;
+  buttonText: string;
 };
 
 const UploadDragger: FC<UploadDraggerrProps> = ({
   showUploadList,
   buttonIcon = <InboxOutlined />,
-  buttonTitle = '单击或拖动文件到此区域进行上传',
+  buttonText = '单击或拖动文件到此区域进行上传',
   ...restProps
 }) => {
   const currentShowUploadList = useMemo(() => {
@@ -36,11 +36,11 @@ const UploadDragger: FC<UploadDraggerrProps> = ({
   return (
     <UploadWrapper {...restProps} dragger showUploadList={currentShowUploadList}>
       <p className="ant-upload-drag-icon">{buttonIcon}</p>
-      <p className="ant-upload-text">{buttonTitle}</p>
+      <p className="ant-upload-text">{buttonText}</p>
       <p className="ant-upload-hint">
         {/* Support for a single or bulk upload. Strictly prohibit from uploading company data or other
         band files */}
-        {buttonTitle}
+        {buttonText}
       </p>
     </UploadWrapper>
   );
