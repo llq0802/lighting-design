@@ -105,8 +105,9 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
                 if (item.uid === uid) {
                   const error = typeof err !== 'object' ? { message: err || '上传错误' } : err;
                   item.status = 'error';
-                  item.percent = 100;
+                  item.percent = 0;
                   item.error = error;
+                  item.response = undefined;
                 }
                 return item;
               });
