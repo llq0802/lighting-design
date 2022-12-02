@@ -23,6 +23,41 @@ const Demo1 = () => {
       /> */}
 
       <LFormItemUpload
+        name="default"
+        label="默认上传"
+        // required
+        accept=".jpg, .jpeg"
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        // normalize={(value, prevValue, prevValues) => {
+        //   console.log('normalize ', value, prevValue, prevValues);
+        //   return value.map((item) => item.name);
+        // }}
+        initialValue={[
+          {
+            name: 'meinv',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          },
+        ]}
+        required
+        rules={[
+          {
+            validator(rules, value) {
+              console.log('value ', value);
+              let errMsg = '';
+              if (!value || (Array.isArray(value) && value.length <= 0)) {
+                errMsg = '请上传';
+              }
+              if (errMsg) {
+                return Promise.reject(errMsg);
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}
+      />
+      <LFormItemUpload
+        uploadType="avatar"
         name="avatar"
         label="头像上传"
         // required

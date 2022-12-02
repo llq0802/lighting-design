@@ -14,7 +14,7 @@ const AvatarContent: FC<{
   fileList?: UploadFile[];
   title?: ReactNode;
   icon?: ReactNode;
-}> = ({ fileList, icon, title }) => {
+}> = ({ fileList }) => {
   const [imgUrl, setImgUrl] = useState('');
 
   const currentFile = useMemo(
@@ -25,12 +25,12 @@ const AvatarContent: FC<{
   const isError = currentFile?.status === 'error';
   // const isDone = currentFile?.status === 'done';
 
-  console.log('AvatarContent- currentFile', currentFile);
-
   const getUrl = useCallback(async () => {
+    console.log('AvatarContent-currentFile', currentFile);
     if (currentFile && currentFile instanceof File) {
       const base64Url = await getBase64(currentFile.originFileObj as RcFile);
       setImgUrl(base64Url);
+      currentFile.url = base64Url;
     } else if (currentFile?.url) {
       setImgUrl(currentFile?.url);
     } else if (currentFile?.thumbUrl) {
@@ -64,7 +64,7 @@ const AvatarContent: FC<{
   } else if (uploading || !imgUrl) {
     viewConent = <UploadButton uploading={uploading} />;
   } else {
-    viewConent = <img src={imgUrl} alt={currentFile?.name || 'avatar'} />;
+    viewConent = imgUrl && !uploading && <img src={imgUrl} alt={currentFile?.name || 'avatar'} />;
   }
 
   const dom = (

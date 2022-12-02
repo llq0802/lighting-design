@@ -1,25 +1,50 @@
-import type { FC } from 'react';
+import type { ButtonProps, UploadProps } from 'antd';
+import type { FC, ReactNode } from 'react';
 import { useMemo } from 'react';
 import type { LFormItemProps } from '../FormItem/base/BaseFromItem';
 import LFormItem from '../FormItem/base/BaseFromItem';
 import { getFormItemLabel } from '../utils';
 import UploadAvatar from './base/UploadAvatar';
+import UploadDefault from './base/UploadDefault';
 import UploadDragger from './base/UploadDragger';
 import UploadImage from './base/UploadImage';
+import type { UploadWrapperProps } from './base/UploadWrapper';
 
 const normFile = (value: any): any[] => {
   if (Array.isArray(value)) return value;
   return value?.fileList ?? [];
 };
 
-export type LFormItemUploadProps = LFormItemProps & Record<string, any>;
+export type LFormItemUploadProps = LFormItemProps &
+  Pick<
+    UploadWrapperProps,
+    | 'accept'
+    | 'action'
+    | 'onUpload'
+    | 'disabled'
+    | 'multiple'
+    | 'fileTypeMessage'
+    | 'fileSizeMessage'
+    | 'maxSize'
+    | 'maxCount'
+    | 'onGetPreviewUrl'
+    | 'previewModalProps'
+  > & {
+    uploadType: 'image' | 'default' | 'avatar' | 'dragger';
+    uploadProps: UploadProps;
+    buttonProps: ButtonProps;
+    buttonIcon: ReactNode;
+    buttonText: string;
+  };
 
 const LFormItemUpload: FC<LFormItemUploadProps> = ({
-  uploadType = 'avatar',
+  uploadType = 'default',
   onUpload,
   fileTypeMessage,
   fileSizeMessage,
-
+  buttonIcon,
+  buttonText,
+  buttonProps,
   maxSize,
   maxCount,
   disabled = false,
@@ -42,7 +67,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
     if (uploadType === 'dragger') {
       return UploadDragger;
     }
-    return UploadAvatar;
+    return UploadDefault;
   }, [uploadType]);
 
   return (
@@ -68,6 +93,9 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
       {...restProps}
     >
       <UploadComp
+        buttonIcon={buttonIcon}
+        buttonText={buttonText}
+        buttonProps={buttonProps}
         action={action}
         accept={accept}
         onUpload={onUpload}

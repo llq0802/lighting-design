@@ -1,12 +1,15 @@
-import type { UploadProps } from 'antd';
+import { useUnmount } from 'ahooks';
+import type { ModalProps, UploadProps } from 'antd';
 import { ConfigProvider, message, Upload } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload';
 import classNames from 'classnames';
 import type { FC } from 'react';
-import { useCallback, useMemo } from 'react';
-import { checkFileSize, checkFileType } from '../../utils/upload';
+import { useCallback, useMemo, useState } from 'react';
+import { uniqueId } from '../../utils';
+import { checkFileSize, checkFileType, createFileUrl, removeFileUrl } from '../../utils/upload';
 import './styles.less';
+import UploadPreview from './UploadPreview';
 
 export const lightdUploadWrapper = 'lightd-upload-wrapper';
 
@@ -17,6 +20,9 @@ export interface UploadWrapperProps extends UploadProps {
   onUpload?: (file: File) => Promise<object | undefined>; // 自定义文件上传
   maxSize?: number; // 单个文件最大尺寸，用于校验
   dragger?: boolean; // 支持拖拽
+  // 内置预览modal props
+  previewModalProps?: ModalProps;
+  onGetPreviewUrl?: (file: File) => Promise<string>; // 点击预览获取大图URL
 }
 
 const UploadWrapper: FC<UploadWrapperProps> = (props) => {
@@ -26,6 +32,8 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     dragger = false,
     maxSize = 1024 * 1024 * 5,
     onUpload,
+    previewModalProps = {},
+    onGetPreviewUrl,
 
     onChange,
     maxCount,
@@ -33,12 +41,18 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     className,
     disabled,
     action,
-    onPreview,
     beforeUpload,
     ...restProps
   } = props;
+  // 当前组件唯一标识，用于缓存和释放 URL.createObjectURL
+  const uniqueKey = useMemo(() => uniqueId(lightdUploadWrapper), []);
 
-  // console.log(' UploadWrapper-props', props);
+  const [previewProps, setPreviewProps] = useState({
+    open: false,
+    title: '预览',
+    imgUrl: '',
+  });
+
   // 上传前验证
   const handleBeforeUpload = useCallback(
     (file: RcFile, fileList: RcFile[]) => {
@@ -142,13 +156,65 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     [onChange, action, onUpload, handleUpload],
   );
 
-  // 组件卸载时
-  // useUnmount(() => {});
-  // const handlePreview = (file: UploadFile) => {
-  //   console.log(' handlePreview', file);
-  // };
+  // 是否支持预览
+  const isShowPreview = useMemo(() => {
+    if (
+      restProps?.showUploadList &&
+      typeof restProps.showUploadList === 'object' &&
+      restProps.showUploadList?.showPreviewIcon === false
+    ) {
+      return false;
+    }
+    return true;
+  }, [restProps?.showUploadList]);
+
+  // 关闭预览
+  const handlePreviewCancel = useCallback(() => {
+    setPreviewProps({
+      ...previewProps,
+      open: false,
+    });
+  }, [previewProps]);
+
+  // 打开预览
+  const handlePreview = useCallback(
+    async (file: UploadFile) => {
+      console.log('****打开预览****', file);
+      if (!isShowPreview) return;
+
+      if (!file?.url && !file?.thumbUrl && !file?.preview) {
+        message.error('当前文件不支持预览!');
+        return;
+      }
+
+      if (onGetPreviewUrl) {
+        file.preview = await onGetPreviewUrl((file?.originFileObj || file) as File);
+      } else if (file.url || file.thumbUrl || file.preview) {
+        file.preview = file.url || file.thumbUrl || file.preview;
+      } else if (!file.url || !file.thumbUrl || !file.preview) {
+        if (file instanceof File) {
+          // base64 路径太大，可能导致卡顿问题
+          file.preview = createFileUrl(uniqueKey, file.uid, (file?.originFileObj || file) as File);
+        }
+      }
+
+      const previewUlr = file.preview || '';
+      const previewTitle = file.name || previewUlr.substring(previewUlr.lastIndexOf('/') + 1);
+      setPreviewProps({
+        open: true,
+        imgUrl: previewUlr,
+        title: previewTitle,
+      });
+    },
+    [isShowPreview, onGetPreviewUrl, uniqueKey],
+  );
 
   const UploadContent = useMemo(() => (dragger ? Upload.Dragger : Upload), [dragger]);
+
+  // 组件卸载时 清除url内存
+  useUnmount(() => {
+    removeFileUrl(uniqueKey);
+  });
 
   return (
     <ConfigProvider locale={zhCN}>
@@ -158,7 +224,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
         action={action}
         beforeUpload={handleBeforeUpload}
         onChange={handleChange}
-        onPreview={onPreview}
+        onPreview={handlePreview}
         disabled={disabled}
         maxCount={maxCount}
         progress={{
@@ -169,6 +235,10 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
         }}
         {...restProps}
       />
+
+      {isShowPreview && !restProps.onPreview && (
+        <UploadPreview {...previewProps} {...previewModalProps} onCancel={handlePreviewCancel} />
+      )}
     </ConfigProvider>
   );
 };

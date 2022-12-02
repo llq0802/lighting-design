@@ -1,4 +1,6 @@
-import { InboxOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
+import type { ButtonProps } from 'antd';
+import { Button } from 'antd';
 import type { FC, ReactNode } from 'react';
 import { useMemo } from 'react';
 import type { UploadWrapperProps } from './UploadWrapper';
@@ -8,15 +10,16 @@ const defaultShowUploadList = {
   showPreviewIcon: false,
 };
 
-type UploadDraggerrProps = Omit<UploadWrapperProps, 'dragger'> & {
+type UploadDefaultProps = UploadWrapperProps & {
+  buttonProps?: ButtonProps;
   buttonIcon?: ReactNode;
-  buttonText?: string;
+  buttonTitle?: string;
 };
 
-const UploadDragger: FC<UploadDraggerrProps> = ({
+const UploadDefault: FC<UploadDefaultProps> = ({
   showUploadList,
-  buttonIcon = <InboxOutlined />,
-  buttonText = '单击或拖动文件到此区域进行上传',
+  buttonIcon = <UploadOutlined />,
+  buttonTitle = '点击上传',
   ...restProps
 }) => {
   const currentShowUploadList = useMemo(() => {
@@ -34,16 +37,10 @@ const UploadDragger: FC<UploadDraggerrProps> = ({
   }, [showUploadList]);
 
   return (
-    <UploadWrapper {...restProps} dragger showUploadList={currentShowUploadList}>
-      <p className="ant-upload-drag-icon">{buttonIcon}</p>
-      <p className="ant-upload-text">{buttonText}</p>
-      <p className="ant-upload-hint">
-        {/* Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-        band files */}
-        {buttonText}
-      </p>
+    <UploadWrapper {...restProps} showUploadList={currentShowUploadList}>
+      <Button icon={buttonIcon}>{buttonTitle}</Button>
     </UploadWrapper>
   );
 };
 
-export default UploadDragger;
+export default UploadDefault;
