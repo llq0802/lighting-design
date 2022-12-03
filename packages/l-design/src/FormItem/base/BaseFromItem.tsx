@@ -2,15 +2,12 @@ import type { FormItemProps } from 'antd';
 import { Form } from 'antd';
 import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement, useMemo } from 'react';
-import { getFormItemLabel } from '../../utils';
+import { usePlaceholder } from '../../utils';
 import FormItemWrapper from './FormItemWrapper';
-
-type TransformFn<T = any> = (value: T) => T;
 
 type ContentProps = Record<string, any>;
 
 export interface LFormItemProps extends FormItemProps {
-  transformFn?: TransformFn;
   renderField?: (dom: ReactElement) => ReactElement;
   alignItems?: 'center' | 'start' | 'end';
   contentBefore?: ReactNode;
@@ -18,13 +15,17 @@ export interface LFormItemProps extends FormItemProps {
   contentProps?: ContentProps;
   className?: string;
   isSelectType?: boolean;
+  disabled?: boolean;
+  placeholder?: string;
 }
 
 const LFormItem: FC<LFormItemProps> = ({
-  transformFn,
+  isSelectType,
+  placeholder,
+
   renderField,
   className,
-  isSelectType,
+
   contentBefore,
   contentAfter,
   alignItems,
@@ -40,7 +41,13 @@ const LFormItem: FC<LFormItemProps> = ({
   ...restFromItemProps
 }) => {
   // console.log('LFormItem ', restFromItemProps);
-  const messageLabel = useMemo(() => getFormItemLabel(restFromItemProps), [restFromItemProps]);
+
+  const messageLabel = usePlaceholder({
+    restProps: restFromItemProps,
+    isSelectType,
+    placeholder,
+  });
+
   const itemRules = useMemo(
     () =>
       rules.length > 0
@@ -50,7 +57,7 @@ const LFormItem: FC<LFormItemProps> = ({
               validator(_: any, value: any) {
                 let errMsg = '';
                 if (!value) {
-                  errMsg = required ? `请${isSelectType ? '选择' : '输入'}${messageLabel}!` : '';
+                  errMsg = required ? `${messageLabel}!` : '';
                 }
                 if (errMsg) {
                   return Promise.reject(errMsg);
@@ -59,7 +66,7 @@ const LFormItem: FC<LFormItemProps> = ({
               },
             },
           ],
-    [messageLabel, required, rules, isSelectType],
+    [messageLabel, required, rules],
   );
 
   if (shouldUpdate) {

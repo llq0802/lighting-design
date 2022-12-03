@@ -14,7 +14,7 @@ const Demo = () => {
         disabledWhiteSpace
         alignItems="end"
         contentAfter={<div>后面</div>}
-        inputProps={{ placeholder: '请输入名字' }}
+        disabled
       />
       <LFormItemInput
         dependencies={['name']}
@@ -25,7 +25,6 @@ const Demo = () => {
         type="phone"
         disabledWhiteSpace
         contentAfter={<div>后面</div>}
-        inputProps={{ placeholder: '请输入手机号' }}
       />
 
       <Button

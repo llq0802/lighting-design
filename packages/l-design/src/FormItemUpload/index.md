@@ -1,15 +1,15 @@
 ---
-title: FormItmUpload
+title: LFormItemUpload
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# FormItmUpload
+# LFormItemUpload
 
-FormItmUpload
+LFormItemUpload
 
-<mark>FormItmUpload</mark>
+<mark>LFormItemUpload</mark>
 
 <code src='./demos/Demo1.tsx' />

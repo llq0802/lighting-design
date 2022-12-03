@@ -1,6 +1,6 @@
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker } from 'antd';
-import type { MonthPickerProps, WeekPickerProps } from 'antd/lib/date-picker';
+import type { MonthPickerProps, RangePickerProps, WeekPickerProps } from 'antd/lib/date-picker';
 import type { FC } from 'react';
 import { useCallback, useMemo } from 'react';
 import type { LFormItemProps } from '../FormItem/base/BaseFromItem';
@@ -19,13 +19,36 @@ import 'moment/locale/zh-cn';
 const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps | any> = ({
   style,
   value,
+  format,
   ...restProps
 }) => {
   return (
     <DatePicker
       locale={locale}
+      format={format}
       {...restProps}
-      value={transformMomentValue(value)}
+      value={transformMomentValue(value, format)}
+      style={{ width: '100%', ...style }}
+    />
+  );
+};
+
+const { RangePicker } = DatePicker;
+
+export type RangePickerWrapperProps = any & RangePickerProps;
+
+const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
+  style,
+  value,
+  format,
+  ...restProps
+}) => {
+  return (
+    <RangePicker
+      locale={locale}
+      format={format}
+      {...restProps}
+      value={transformMomentValue(value, format)}
       style={{ width: '100%', ...style }}
     />
   );
@@ -39,6 +62,7 @@ export interface LFormItemDateProps extends LFormItemProps {
   dateValueType?: DateValueType;
   picker?: Picker;
   pickerProps?: DatePickerProps | MonthPickerProps | WeekPickerProps | any;
+  rangePicker?: boolean;
 }
 
 const LFormItemDate: FC<LFormItemDateProps> = ({
@@ -47,11 +71,13 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
   disabledDateBefore,
   disabledDateAfter,
   showTime = false,
+  rangePicker = false,
   format,
   picker = 'date',
 
   pickerProps = {},
 
+  disabled = false,
   required = false,
   ...restProps
 }) => {
@@ -82,15 +108,39 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
     [currentFormat, normalize, dateValueType],
   );
 
-  return (
-    <LFormItem required={required} isSelectType normalize={handleTransform} {...restProps}>
+  const Comp = useMemo(() => {
+    return !rangePicker ? (
       <DatePickerWrapper
+        disabled={disabled}
         format={currentFormat}
         showTime={showTime}
         picker={currentPicker}
         disabledDate={currentDisabledDate}
         {...pickerProps}
       />
+    ) : (
+      <RangePickerWrapper
+        format={currentFormat}
+        showTime={showTime}
+        picker={currentPicker}
+        disabledDate={currentDisabledDate}
+        disabled={disabled}
+        {...pickerProps}
+      />
+    );
+  }, [
+    currentDisabledDate,
+    currentFormat,
+    currentPicker,
+    disabled,
+    pickerProps,
+    rangePicker,
+    showTime,
+  ]);
+
+  return (
+    <LFormItem required={required} isSelectType normalize={handleTransform} {...restProps}>
+      {Comp}
     </LFormItem>
   );
 };

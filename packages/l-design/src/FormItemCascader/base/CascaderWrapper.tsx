@@ -30,6 +30,8 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   request,
   debounceTime,
   cascaderProps = {},
+  placeholder,
+  disabled,
   ...restProps // LFormItem传过来的其他值
 }) => {
   const [optsRequest, setOpts] = useState<CascaderOption[]>([]);
@@ -100,7 +102,8 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
 
   return (
     <Cascader
-      placeholder="请选择"
+      disabled={disabled}
+      placeholder={placeholder}
       options={selectOptions}
       {...cascaderProps}
       value={value}

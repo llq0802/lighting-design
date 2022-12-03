@@ -22,15 +22,7 @@ const TextAreaWrapper: FC<TextAreaWrapperProps> = (props) => {
     },
     [onChange, isSpace],
   );
-  return (
-    <Input.TextArea
-      placeholder="请输入"
-      autoComplete="off"
-      value={value}
-      {...restProps}
-      onChange={handleChange}
-    />
-  );
+  return <Input.TextArea autoComplete="off" value={value} {...restProps} onChange={handleChange} />;
 };
 
 export default TextAreaWrapper;

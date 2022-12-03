@@ -16,7 +16,6 @@ export const lightdUploadWrapper = 'lightd-upload-wrapper';
 export interface UploadWrapperProps extends UploadProps {
   fileTypeMessage?: string | false; // 文件类型错误提示
   fileSizeMessage?: string | false; // 文件超过最大尺寸提示
-  // maxCountMessage?: string | false; // 上传文件超过限制数量时提示
   onUpload?: (file: File) => Promise<object | undefined>; // 自定义文件上传
   maxSize?: number; // 单个文件最大尺寸，用于校验
   dragger?: boolean; // 支持拖拽
@@ -37,7 +36,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
 
     onChange,
     maxCount,
-    accept = 'image/*',
+    accept = '*',
     className,
     disabled,
     action,
@@ -136,7 +135,6 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
   // 处理change事件
   const handleChange = useCallback(
     ({ file, fileList }: UploadChangeParam) => {
-      console.log('UploadWrapper-handleChange', file, fileList);
       let cloneFileList = fileList.slice();
       if (!action && typeof onUpload === 'function') {
         cloneFileList = cloneFileList.map((fileItem) => {
@@ -180,7 +178,6 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
   // 打开预览
   const handlePreview = useCallback(
     async (file: UploadFile) => {
-      console.log('****打开预览****', file);
       if (!isShowPreview) return;
 
       if (!file?.url && !file?.thumbUrl && !file?.preview) {
@@ -193,7 +190,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
       } else if (file.url || file.thumbUrl || file.preview) {
         file.preview = file.url || file.thumbUrl || file.preview;
       } else if (!file.url || !file.thumbUrl || !file.preview) {
-        if (file instanceof File) {
+        if (file?.originFileObj instanceof File) {
           // base64 路径太大，可能导致卡顿问题
           file.preview = createFileUrl(uniqueKey, file.uid, (file?.originFileObj || file) as File);
         }
@@ -236,7 +233,6 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
         }}
         {...restProps}
       />
-
       {isShowPreview && !restProps.onPreview && (
         <UploadPreview {...previewProps} {...previewModalProps} onCancel={handlePreviewCancel} />
       )}

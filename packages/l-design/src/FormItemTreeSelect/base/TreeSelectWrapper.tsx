@@ -16,6 +16,7 @@ export type TreeSelectWrapperProps = Record<string, any> & {
 export type TreeSelectOption = {
   value: string;
   title: string;
+  placeholder: string;
   children: TreeSelectOption[];
   disabled: boolean;
   disableCheckbox: boolean;
@@ -33,6 +34,8 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   treeCheckable = false,
   request,
   debounceTime,
+  disabled,
+  placeholder,
   treeSelectProps = {},
   ...restProps // LFormItem传过来的其他值
 }) => {
@@ -116,9 +119,10 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
 
   return (
     <TreeSelect
+      disabled={disabled}
+      placeholder={placeholder}
       treeData={treeSelectData}
       dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-      placeholder="请选择"
       style={{ width: '100%' }}
       treeCheckable={treeCheckable}
       {...treeSelectProps}

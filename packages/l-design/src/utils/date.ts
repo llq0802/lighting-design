@@ -33,7 +33,8 @@ export type DateValueType = 'string' | 'number' | 'moment';
 export function getDateFormat(format: any, picker: string, showTime = false) {
   if (format) return format;
   const timeFormatStr = picker === 'date' && showTime ? ' HH:mm:ss' : '';
-  return DateFormat[picker] + timeFormatStr || 'YYYY-MM-DD';
+  const ret = DateFormat[picker] + timeFormatStr || 'YYYY-MM-DD';
+  return ret;
 }
 
 // 创建不可选日期方法
@@ -84,21 +85,6 @@ export function createDisabledDate(picker: Picker = 'date', opts: CreateDisabled
   };
 }
 
-// string number moment 转换为moment
-export function transformMomentValue(val?: string | number | Moment): Moment;
-export function transformMomentValue(val?: (string | number | Moment)[]): [Moment, Moment];
-export function transformMomentValue(
-  val?: string | number | Moment | (string | number | Moment)[],
-) {
-  if (Array.isArray(val)) {
-    return val.map((item) => transformMomentValue(item));
-  }
-  if (val && (typeof val === 'string' || typeof val === 'number')) {
-    return moment(val);
-  }
-  return val;
-}
-
 // string moment 转换为moment
 export function timePickerMomentVlaue(
   val: string | Moment | (string | Moment)[],
@@ -121,6 +107,26 @@ export function timePickerMomentString(
 ): string | object {
   if (Array.isArray(val)) return val.map((item: any) => timePickerMomentString(item, format));
   if (val && typeof val === 'object') return moment(val).format(format);
+  return val;
+}
+
+// string number moment 转换为moment
+
+export function transformMomentValue(val?: string | number | Moment, format?: string): Moment;
+export function transformMomentValue(
+  val?: (string | number | Moment)[],
+  format?: string,
+): [Moment, Moment];
+export function transformMomentValue(
+  val?: string | number | Moment | (string | number | Moment)[],
+  format?: string,
+) {
+  if (Array.isArray(val)) {
+    return val.map((item) => transformMomentValue(item, format));
+  }
+  if (val && (typeof val === 'string' || typeof val === 'number')) {
+    return moment(val, format);
+  }
   return val;
 }
 
@@ -152,7 +158,7 @@ export function transformDate(
     return moment(date as Moment).valueOf();
   }
   if (date && dateValueType === 'string') {
-    return moment(date as Moment, format).format(format);
+    return moment(date as Moment).format(format);
   }
   return date;
 }

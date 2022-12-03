@@ -1,12 +1,15 @@
 import { useDeepCompareEffect, useRequest } from 'ahooks';
 import type { SelectProps } from 'antd';
 import { Select } from 'antd';
+import type { DefaultOptionType } from 'antd/lib/select';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type SelectWrapperProps = Record<string, any> & {
   request?: (...args: any[]) => Promise<any>;
   debounceTime?: number;
+  disabled?: boolean;
+  placeholder?: string;
   all?: boolean;
   allValue?: number | string;
   allLabel?: ReactNode;
@@ -18,11 +21,12 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   value,
   onChange,
   dependencies = [],
-
+  placeholder,
   options: outOptions = [],
   request,
   debounceTime,
   all = false,
+  disabled = false,
   allValue = '',
   allLabel = '全部',
   selectProps = {},
@@ -108,7 +112,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   }, [isClearDepends, opts, optsRequest]);
 
   const handleChange = useCallback(
-    (val: string, items: { label: string; value: string } | { label: string; value: string }[]) => {
+    (val: string, items: DefaultOptionType | DefaultOptionType[]) => {
       if (selectProps?.onChange) {
         selectProps?.onChange(val, items);
       }
@@ -118,8 +122,9 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   );
   return (
     <Select
+      disabled={disabled}
       options={selectOptions}
-      placeholder="请选择"
+      placeholder={placeholder}
       allowClear
       style={{ width: '100%' }}
       {...selectProps}

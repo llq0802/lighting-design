@@ -13,6 +13,7 @@ export interface LFormItemSliderProps
 
 const LFormItemSlider: React.FC<LFormItemSliderProps> = ({
   required,
+  disabled,
   min,
   max,
   step,
@@ -22,7 +23,7 @@ const LFormItemSlider: React.FC<LFormItemSliderProps> = ({
 }) => {
   return (
     <LFormItem required={required} isSelectType {...restProps}>
-      <Slider min={min} max={max} step={step} marks={marks} {...sliderProps} />
+      <Slider min={min} max={max} step={step} marks={marks} disabled={disabled} {...sliderProps} />
     </LFormItem>
   );
 };

@@ -7,15 +7,15 @@ export function checkFileType(file: File, accept?: string) {
     return true;
   }
   let ret = false;
+  // 第一种方法
   // const types = accept
   // .toLowerCase()
   // .split(/,(\s+)?/)
   // .map((item) => item.trim())
   // .filter(Boolean);
 
-  // (?:x)表示不存储匹配的值x 在正则分割字符串为数组的时候，可以使用/(?:)/来分隔单个字符
+  // 第二种方法 (?:x)表示不存储匹配的值x 在正则分割字符串为数组的时候，可以使用/(?:)/来分隔单个字符
   const types = accept.toLowerCase().split(/,(?:\s+)?/);
-  console.log('types ', types);
   // .doc .docx .jpg .png
   types.some((type) => {
     if (
@@ -23,12 +23,10 @@ export function checkFileType(file: File, accept?: string) {
       (type.indexOf('.') === 0 &&
         file.name.toLowerCase().slice(file.name.length - type.length) === type)
     ) {
-      console.log(' file', file.type, file.name, file.name.length - type.length, type);
       ret = true;
     } else if (type.includes('/*') && file.type.includes('/')) {
       //  image/* 匹配所有图片类型
       const match = type.match(/(.*)\/\*/);
-      console.log('match ', match);
       const fileParentType = file.type.split('/')[0];
       if (match && match[1] === fileParentType) {
         ret = true;

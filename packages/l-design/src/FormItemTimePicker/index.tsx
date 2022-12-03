@@ -13,6 +13,7 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
   rangePicker,
   format,
   onChange,
+  disabled,
   ...restProps
 }) => {
   const newValue = useMemo(() => timePickerMomentVlaue(value, format), [format, value]);
@@ -20,9 +21,16 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
     onChange(formatString, values);
   };
   return !rangePicker ? (
-    <TimePicker {...restProps} format={format} value={newValue} onChange={handleChange} />
+    <TimePicker
+      disabled={disabled}
+      {...restProps}
+      format={format}
+      value={newValue}
+      onChange={handleChange}
+    />
   ) : (
     <TimePicker.RangePicker
+      disabled={disabled}
       {...restProps}
       format={format}
       value={newValue}
@@ -46,6 +54,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
   timePickerProps = {},
 
   required = false,
+  disabled = false,
   ...restProps
 }) => {
   useMemo(
@@ -56,6 +65,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
   return (
     <LFormItem required={required} isSelectType {...restProps}>
       <TimePickerWrapper
+        disabled={disabled}
         format={format}
         showTime={showTime}
         rangePicker={rangePicker}

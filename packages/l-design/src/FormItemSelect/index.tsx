@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useMemo } from 'react';
 import type { LFormItemProps } from '../FormItem/base/BaseFromItem';
 import LFormItem from '../FormItem/base/BaseFromItem';
-import { getFormItemLabel } from '../utils';
+import { getFormItemLabel, usePlaceholder } from '../utils';
 import type { SelectWrapperProps } from './base/SelectWrapper';
 import SelectWrapper from './base/SelectWrapper';
 
@@ -25,12 +25,22 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   selectProps = {},
 
   required,
+  disabled,
+  placeholder,
   ...restProps
 }) => {
   const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
+
+  const messagePlaceholder = usePlaceholder({
+    placeholder,
+    restProps,
+    isSelectType: true,
+  });
+
   return (
     <LFormItem
       required={required}
+      isSelectType
       rules={[
         {
           validator(rule, value) {
@@ -54,6 +64,8 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
       {...restProps}
     >
       <SelectWrapper
+        disabled={disabled}
+        placeholder={messagePlaceholder}
         dependencies={restProps?.dependencies}
         options={options}
         request={request}

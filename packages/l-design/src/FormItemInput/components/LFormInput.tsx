@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useMemo } from 'react';
 import type { LFormItemProps } from '../../FormItem/base/BaseFromItem';
 import LFormItem from '../../FormItem/base/BaseFromItem';
+import { usePlaceholder } from '../../utils';
 import type { InputWrapperProps } from '../base/InputWrapper';
 import InputWrapper from '../base/InputWrapper';
 
@@ -17,6 +18,8 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   disabledWhiteSpace,
   inputProps = {},
   required,
+  disabled,
+  placeholder,
   ...restProps
 }) => {
   const isOnblur = useMemo(
@@ -24,13 +27,24 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
     [type],
   );
 
+  const messageLabel = usePlaceholder({
+    placeholder,
+    restProps,
+  });
+
   return (
     <LFormItem
       required={required}
       validateTrigger={isOnblur ? 'onBlur' : 'onChange'}
       {...restProps}
     >
-      <InputWrapper type={type} disabledWhiteSpace={disabledWhiteSpace} {...inputProps} />
+      <InputWrapper
+        disabled={disabled}
+        placeholder={messageLabel}
+        type={type}
+        disabledWhiteSpace={disabledWhiteSpace}
+        {...inputProps}
+      />
     </LFormItem>
   );
 };

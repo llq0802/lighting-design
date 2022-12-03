@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useMemo } from 'react';
 import type { LFormItemProps } from '../../FormItem/base/BaseFromItem';
 import LFormItem from '../../FormItem/base/BaseFromItem';
-import { getFormItemLabel } from '../../utils';
+import { getFormItemLabel, usePlaceholder } from '../../utils';
 import PasswordWrapper from '../base/PasswordWrapper';
 
 export interface LFormItemPasswordProps extends LFormItemProps {
@@ -25,9 +25,16 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   passwordProps = {},
 
   required,
+  disabled,
+  placeholder,
   ...restProps
 }) => {
   const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
+
+  const messagePlaceholder = usePlaceholder({
+    placeholder,
+    restProps,
+  });
 
   return (
     <LFormItem
@@ -51,9 +58,11 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
       {...restProps}
     >
       <PasswordWrapper
+        disabled={disabled}
         disabledWhiteSpace={disabledWhiteSpace}
         disabledPaste={disabledPaste}
         disabledCopy={disabledCopy}
+        placeholder={messagePlaceholder}
         {...passwordProps}
       />
     </LFormItem>

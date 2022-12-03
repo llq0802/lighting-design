@@ -8,13 +8,14 @@ import { getBase64 } from '../../utils/upload';
 import UploadButton from './UploadButton';
 import type { UploadWrapperProps } from './UploadWrapper';
 import UploadWrapper, { lightdUploadWrapper } from './UploadWrapper';
+
 const prefixCls = `${lightdUploadWrapper}-avatar`;
 
 const AvatarContent: FC<{
   fileList?: UploadFile[];
-  title?: ReactNode;
-  icon?: ReactNode;
-}> = ({ fileList }) => {
+  buttonText?: ReactNode;
+  buttonIcon?: ReactNode;
+}> = ({ fileList, buttonText, buttonIcon }) => {
   const [imgUrl, setImgUrl] = useState('');
 
   const currentFile = useMemo(
@@ -23,11 +24,10 @@ const AvatarContent: FC<{
   );
   const uploading = currentFile?.status === 'uploading';
   const isError = currentFile?.status === 'error';
-  // const isDone = currentFile?.status === 'done';
 
   const getUrl = useCallback(async () => {
     console.log('AvatarContent-currentFile', currentFile);
-    if (currentFile && currentFile instanceof File) {
+    if (currentFile?.originFileObj instanceof File) {
       const base64Url = await getBase64(currentFile.originFileObj as RcFile);
       setImgUrl(base64Url);
       currentFile.url = base64Url;
@@ -35,6 +35,8 @@ const AvatarContent: FC<{
       setImgUrl(currentFile?.url);
     } else if (currentFile?.thumbUrl) {
       setImgUrl(currentFile?.thumbUrl);
+    } else if (currentFile?.preview) {
+      setImgUrl(currentFile?.preview);
     }
   }, [currentFile]);
 
@@ -42,30 +44,31 @@ const AvatarContent: FC<{
     getUrl();
   }, [getUrl]);
 
-  let viewConent = null;
-  if (isError) {
-    viewConent = (
-      <div style={{ width: '100%' }}>
-        <PictureOutlined />
-        <div
-          style={{
-            marginTop: 8,
-            padding: '0 8px',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-          title={currentFile.name}
-        >
-          {currentFile.name}
+  const viewConent = useMemo(() => {
+    if (isError) {
+      return (
+        <div style={{ width: '100%' }}>
+          <PictureOutlined />
+          <div
+            style={{
+              marginTop: 8,
+              padding: '0 8px',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+            title={currentFile.name}
+          >
+            {currentFile.name}
+          </div>
         </div>
-      </div>
-    );
-  } else if (uploading || !imgUrl) {
-    viewConent = <UploadButton uploading={uploading} />;
-  } else {
-    viewConent = imgUrl && !uploading && <img src={imgUrl} alt={currentFile?.name || 'avatar'} />;
-  }
+      );
+    } else if (uploading || !imgUrl) {
+      return <UploadButton uploading={uploading} buttonText={buttonText} buttonIcon={buttonIcon} />;
+    } else {
+      return imgUrl && !uploading && <img src={imgUrl} alt={currentFile?.name || 'avatar'} />;
+    }
+  }, [buttonIcon, buttonText, currentFile, imgUrl, isError, uploading]);
 
   const dom = (
     <div
@@ -80,7 +83,17 @@ const AvatarContent: FC<{
   return dom;
 };
 
-const UploadAvatar: FC<UploadWrapperProps> = ({ fileList, className, ...restProps }) => {
+type UploadAvatarProps = UploadWrapperProps & {
+  buttonIcon?: ReactNode;
+  buttonText?: string;
+};
+const UploadAvatar: FC<UploadAvatarProps> = ({
+  fileList,
+  className,
+  buttonIcon,
+  buttonText,
+  ...restProps
+}) => {
   return (
     <UploadWrapper
       {...restProps}
@@ -92,7 +105,7 @@ const UploadAvatar: FC<UploadWrapperProps> = ({ fileList, className, ...restProp
       maxCount={1}
       className={classNames(prefixCls, className)}
     >
-      <AvatarContent fileList={fileList} />
+      <AvatarContent fileList={fileList} buttonText={buttonText} buttonIcon={buttonIcon} />
     </UploadWrapper>
   );
 };

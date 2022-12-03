@@ -79,9 +79,10 @@ const Demo1 = () => {
         label="地址选择"
         names={['location', 'address']}
         required
+        disabled
         options={options}
       />
-      <LFormItemColor type="chrome" label="颜色选择" name="color" required />
+      <LFormItemColor disabled colorType="chrome" label="颜色选择" name="color" required />
 
       <Button
         onClick={() => {

@@ -1,7 +1,7 @@
-// 基础验证码组件
+// ==========基础验证码组件==========
 export { default as LCaptchaButton } from './CaptchaButton';
 export type { LCaptchaButtonProps } from './CaptchaButton';
-// 基础颜色选择组件
+// ==========基础颜色选择组件==========
 export {
   default as LColor,
   LColorBlockPicker,
@@ -21,12 +21,11 @@ export type {
   LColorSketchPickerProps,
   LColorSliderPickerProps,
 } from './ColorPick';
-// 基础FormItem容器组件
+// ==========基础FormItem容器组件==========
 export { default as LFormItem } from './FormItem';
 export type { LFormItemProps } from './FormItem';
 export { default as LFormItemAddress } from './FormItemAddress';
 export type { LFormItemAddressProps } from './FormItemAddress';
-// 表单验证码
 export { default as LFormItemCaptcha } from './FormItemCaptcha';
 export type { LFormItemCaptchaProps } from './FormItemCaptcha';
 export { default as LFormItemCascader } from './FormItemCascader';
@@ -37,9 +36,6 @@ export { default as LFormItemColor } from './FormItemColor';
 export type { LFormItemColorProps } from './FormItemColor';
 export { default as LFormItemDate } from './FormItemDate';
 export type { LFormItemDateProps } from './FormItemDate';
-export { default as LFormItemDateRange } from './FormItemDateRange';
-export type { LFormItemDateRangeProps } from './FormItemDateRange';
-// 表单输入框
 export {
   LFormItemInput,
   LFormItemNumber,
@@ -62,15 +58,17 @@ export { default as LFormItemSelect } from './FormItemSelect';
 export type { LFormItemSelectProps } from './FormItemSelect';
 export { default as LFormItemSlider } from './FormItemSlider';
 export type { LFormItemSliderProps } from './FormItemSlider';
-// hooks方式使用弹窗组件
+// ==========hooks方式使用弹窗组件==========
 export { default as LFormItemSwitch } from './FormItemSwitch';
 export type { LFormItemSwitchProps } from './FormItemSwitch';
 export { default as LFormItemTimePicker } from './FormItemTimePicker';
 export type { LFormItemTimePickerProps } from './FormItemTimePicker';
 export { default as LFormItemTreeSelect } from './FormItemTreeSelect';
 export type { LFormItemTreeSelectProps } from './FormItemTreeSelect';
+export { default as LFormItemUpload } from './FormItemUpload';
+export type { LFormItemUploadProps } from './FormItemUpload';
 export { default as LNumberRoll } from './NumberRoll';
-// ===基础组件
+// ==========基础组件==========
 export { default as Spin } from './Spin';
 export { default as Switch } from './Switch';
 export { default as Tooltip } from './Tooltip';

@@ -6,7 +6,7 @@ const Demo1 = () => {
 
   return (
     <Form name="LFormItemSelect" form={form}>
-      <LFormItemColor type="chrome" label="颜色选择" name="color" required />
+      <LFormItemColor label="颜色选择" name="color" required disabled />
 
       <LFormItemDate
         label="日期选择"
@@ -18,13 +18,21 @@ const Demo1 = () => {
         // disabledDateBefore={1}
         // picker="quarter"
       />
-      <LFormItemDate label="月份选择" name="date3" required disabledDateBefore={1} picker="month" />
+      <LFormItemDate
+        label="月份选择"
+        name="date3"
+        required
+        disabledDateBefore={1}
+        picker="month"
+        rangePicker
+      />
       <LFormItemDate
         label="季度选择"
         name="date2"
         required
-        disabledDateAfter={0}
+        disabledDateAfter={1}
         picker="quarter"
+        dateValueType="string"
       />
 
       <Button

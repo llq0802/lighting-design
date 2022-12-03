@@ -5,7 +5,6 @@ import LFormItem from '../FormItem/base/BaseFromItem';
 import type { CheckboxWrapperProps } from './base/CheckboxWrapper';
 import CheckboxWrapper from './base/CheckboxWrapper';
 
-
 export interface LFormItemCheckboxProps
   extends LFormItemProps,
     Pick<CheckboxWrapperProps, 'checkboxProps' | 'request' | 'beforeAll'> {
@@ -20,7 +19,8 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   options = [],
   checkboxProps = {},
   debounceTime,
-
+  placeholder,
+  disabled,
   required,
   ...restProps
 }) => {

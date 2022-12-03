@@ -11,17 +11,18 @@ export interface LFormItemAddressProps<DataNodeType = any> extends Omit<LFormIte
   cascaderProps?: CascaderProps<DataNodeType>;
   inputFormProps?: LFormItemProps;
   cascaderFormProps?: LFormItemProps;
-  placeholders?: [string, string];
   inputColProps?: ColProps;
   cascaderColProps?: ColProps;
+  disabled?: boolean;
 }
 
 const LFormItemAddress: FC<LFormItemAddressProps> = ({
   names,
   label,
   required = false,
+  disabled = false,
   options = [],
-  placeholders = ['省/市/区', '详细地址'],
+  placeholder = ['省/市/区', '详细地址'],
   inputFormProps = {},
   cascaderFormProps = {},
   cascaderProps = {},
@@ -46,8 +47,8 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
               {
                 validator(rule, value) {
                   let errMsg = '';
-                  if (!value || value.length <= 0) {
-                    errMsg = required ? `请选择${placeholders[0]}` : '';
+                  if (!value || value?.length <= 0) {
+                    errMsg = required ? `请选择${placeholder[0]}` : '';
                   }
                   if (errMsg) {
                     return Promise.reject(errMsg);
@@ -59,8 +60,9 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
             {...cascaderFormProps}
           >
             <Cascader
-              placeholder={`请选择${placeholders[0]}`}
+              disabled={disabled}
               options={options}
+              placeholder={`请选择${placeholder[0]}`}
               {...cascaderProps}
             />
           </LFormItem>
@@ -73,7 +75,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
                 validator(rule, value) {
                   let errMsg = '';
                   if (!value) {
-                    errMsg = required ? `请输入${placeholders[1]}` : '';
+                    errMsg = required ? `请输入${placeholder[1]}` : '';
                   }
                   if (errMsg) {
                     return Promise.reject(errMsg);
@@ -85,7 +87,8 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
             {...inputFormProps}
           >
             <Input
-              placeholder={`请输入${placeholders[1]}`}
+              disabled={disabled}
+              placeholder={`请输入${placeholder[1]}`}
               allowClear
               autoComplete="off"
               {...inputProps}

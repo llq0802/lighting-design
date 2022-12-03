@@ -20,6 +20,7 @@ const UploadDefault: FC<UploadDefaultProps> = ({
   showUploadList,
   buttonIcon = <UploadOutlined />,
   buttonTitle = '点击上传',
+  buttonProps,
   ...restProps
 }) => {
   const currentShowUploadList = useMemo(() => {
@@ -38,7 +39,9 @@ const UploadDefault: FC<UploadDefaultProps> = ({
 
   return (
     <UploadWrapper {...restProps} showUploadList={currentShowUploadList}>
-      <Button icon={buttonIcon}>{buttonTitle}</Button>
+      <Button icon={buttonIcon} {...buttonProps}>
+        {buttonTitle}
+      </Button>
     </UploadWrapper>
   );
 };

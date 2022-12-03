@@ -30,11 +30,11 @@ export type LFormItemUploadProps = LFormItemProps &
     | 'onGetPreviewUrl'
     | 'previewModalProps'
   > & {
-    uploadType: 'image' | 'default' | 'avatar' | 'dragger';
-    uploadProps: UploadProps;
-    buttonProps: ButtonProps;
-    buttonIcon: ReactNode;
-    buttonText: string;
+    uploadType?: 'image' | 'default' | 'avatar' | 'dragger';
+    uploadProps?: UploadProps;
+    buttonProps?: ButtonProps;
+    buttonIcon?: ReactNode;
+    buttonText?: string;
   };
 
 const LFormItemUpload: FC<LFormItemUploadProps> = ({

@@ -6,11 +6,8 @@ const Demo1 = () => {
   const [form] = Form.useForm();
 
   return (
-    <Form
-      name="LFormItemSelect"
-      form={form}
-    >
-      <LFormItemColor type="chrome" label="颜色选择" name="color" required />
+    <Form name="LFormItemSelect" form={form}>
+      <LFormItemColor colorType="chrome" label="颜色选择" name="color" required />
 
       <LFormItemTimePicker
         label="时间选择"
@@ -18,6 +15,7 @@ const Demo1 = () => {
         format="HH:mm"
         required
         initialValue={'15:08'}
+        disabled
       />
       <LFormItemTimePicker
         label="时间选择2"

@@ -4,8 +4,8 @@ import type { UploadWrapperProps } from './UploadWrapper';
 import UploadWrapper from './UploadWrapper';
 
 type UploadImageProps = UploadWrapperProps & {
-  buttonIcon: ReactNode;
-  buttonText: string;
+  buttonIcon?: ReactNode;
+  buttonText?: string;
 };
 
 const UploadImage: FC<UploadImageProps> = ({

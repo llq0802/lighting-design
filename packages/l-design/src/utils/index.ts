@@ -1,4 +1,5 @@
 import type { DependencyList } from 'react';
+import { useMemo } from 'react';
 
 /**
  * 获取Form组价的label名称
@@ -36,3 +37,19 @@ export function uniqueId(prefix = '') {
   ++_id;
   return `${prefix}${randomStr}${_id}`;
 }
+
+export const usePlaceholder = (options: {
+  placeholder?: string;
+  isSelectType?: boolean;
+  restProps: Record<string, any>;
+}) => {
+  const { placeholder, restProps, isSelectType = false } = options;
+
+  if (placeholder) return placeholder;
+
+  const res = useMemo(
+    () => `${isSelectType ? '请选择' : '请输入'}${placeholder || getFormItemLabel(restProps)}`,
+    [placeholder, restProps, isSelectType],
+  );
+  return res;
+};

@@ -9,10 +9,12 @@ const SwitchWrapper = (
   props: Pick<LFormItemSwitchProps, 'checkedBg' | 'unCheckedBg' | 'switchProps'> &
     Record<string, any>,
 ) => {
-  const { checked, onChange, unCheckedBg, checkedBg, ...switchProps } = props;
+  const { checked, onChange, unCheckedBg, checkedBg, disabled, style, ...switchProps } = props;
   const styles = useMemo(() => {
-    return checked ? { backgroundColor: checkedBg } : { backgroundColor: unCheckedBg };
-  }, [checkedBg, unCheckedBg, checked]);
+    return checked
+      ? { backgroundColor: checkedBg, ...style }
+      : { backgroundColor: unCheckedBg, ...style };
+  }, [checked, checkedBg, style, unCheckedBg]);
 
   const handleChange = useCallback(
     (bool: boolean) => {
@@ -24,7 +26,15 @@ const SwitchWrapper = (
     [onChange, switchProps],
   );
 
-  return <Switch {...switchProps} style={styles} checked={checked} onChange={handleChange} />;
+  return (
+    <Switch
+      disabled={disabled}
+      {...switchProps}
+      style={styles}
+      checked={checked}
+      onChange={handleChange}
+    />
+  );
 };
 
 export interface LFormItemSwitchProps extends LFormItemProps {
@@ -39,11 +49,17 @@ const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
   switchProps = {},
 
   required,
+  disabled,
   ...restProps
 }) => {
   return (
     <LFormItem isSelectType valuePropName="checked" required={required} {...restProps}>
-      <SwitchWrapper checkedBg={checkedBg} unCheckedBg={unCheckedBg} {...switchProps} />
+      <SwitchWrapper
+        checkedBg={checkedBg}
+        unCheckedBg={unCheckedBg}
+        disabled={disabled}
+        {...switchProps}
+      />
     </LFormItem>
   );
 };

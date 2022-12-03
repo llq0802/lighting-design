@@ -57,7 +57,6 @@ const PassworldWrapper: FC<PassworldWrapperProps> = (props) => {
   return (
     <Input.Password
       value={value}
-      placeholder="请输入"
       autoComplete="off"
       {...restProps}
       onPaste={handlePaste}

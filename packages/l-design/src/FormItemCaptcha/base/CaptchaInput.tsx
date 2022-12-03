@@ -14,6 +14,9 @@ export interface CodeInputProps extends Record<number | string, any> {
   buttonProps?: LCaptchaButtonProps;
   autoClick?: boolean;
   autoFocusOnGetCaptcha?: true;
+  placeholder?: string;
+  disabled?: boolean;
+
   // 发送验证码
   onGetCaptcha?: () => boolean | Promise<any>;
 }
@@ -33,6 +36,8 @@ const checkResult = async (fn: () => boolean | Promise<boolean>) => {
 const CodeInput: FC<CodeInputProps> = ({
   value,
   onChange,
+  placeholder,
+  disabled,
 
   type = 'default',
   onGetCaptcha = () => true,
@@ -125,7 +130,8 @@ const CodeInput: FC<CodeInputProps> = ({
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Input
-        placeholder="请输入"
+        disabled={disabled}
+        placeholder={placeholder}
         allowClear
         autoComplete="off"
         ref={inputRef as unknown as React.Ref<InputRef> | undefined}

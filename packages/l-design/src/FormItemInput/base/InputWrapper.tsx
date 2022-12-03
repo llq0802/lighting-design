@@ -55,7 +55,6 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
   );
   return (
     <Input
-      placeholder="请输入"
       allowClear
       autoComplete="off"
       type={realType}
