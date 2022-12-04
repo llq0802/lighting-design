@@ -1,5 +1,5 @@
 import { Button, Form } from 'antd';
-import { LFormItemColor, LFormItemDate } from 'lighting-design';
+import { LFormItemColor, LFormItemDatePicker } from 'lighting-design';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
@@ -8,7 +8,7 @@ const Demo1 = () => {
     <Form name="LFormItemSelect" form={form}>
       <LFormItemColor label="颜色选择" name="color" required disabled />
 
-      <LFormItemDate
+      <LFormItemDatePicker
         label="日期选择"
         name="date1"
         required
@@ -18,7 +18,7 @@ const Demo1 = () => {
         // disabledDateBefore={1}
         // picker="quarter"
       />
-      <LFormItemDate
+      <LFormItemDatePicker
         label="月份选择"
         name="date3"
         required
@@ -26,7 +26,7 @@ const Demo1 = () => {
         picker="month"
         rangePicker
       />
-      <LFormItemDate
+      <LFormItemDatePicker
         label="季度选择"
         name="date2"
         required

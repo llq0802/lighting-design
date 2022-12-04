@@ -34,8 +34,8 @@ export { default as LFormItemCheckbox } from './FormItemCheckbox';
 export type { LFormItemCheckboxProps } from './FormItemCheckbox';
 export { default as LFormItemColor } from './FormItemColor';
 export type { LFormItemColorProps } from './FormItemColor';
-export { default as LFormItemDate } from './FormItemDate';
-export type { LFormItemDateProps } from './FormItemDate';
+export { default as LFormItemDatePicker } from './FormItemDatePicker';
+export type { LFormItemDatePickerProps } from './FormItemDatePicker';
 export {
   LFormItemInput,
   LFormItemNumber,

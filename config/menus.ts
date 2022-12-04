@@ -39,7 +39,7 @@ export default {
         'FormItemSlider/index.md',
         'FormItemCascader/index.md',
         'FormItemAddress/index.md',
-        'FormItemDate/index.md',
+        'FormItemDatePicker/index.md',
         'FormItemTimePicker/index.md',
         'FormItemUpload/index.md',
         'FormItemColor/index.md',

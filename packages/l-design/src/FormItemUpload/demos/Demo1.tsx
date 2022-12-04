@@ -1,5 +1,5 @@
 import { Button, Form } from 'antd';
-import { LFormItemDate, LFormItemUpload } from 'lighting-design';
+import { LFormItemDatePicker, LFormItemUpload } from 'lighting-design';
 import { upload } from './services';
 
 const Demo1 = () => {
@@ -7,7 +7,7 @@ const Demo1 = () => {
 
   return (
     <Form name="LFormItemSelect" form={form}>
-      <LFormItemDate label="日期选择" name="date1" required disabledDateAfter={1} />
+      <LFormItemDatePicker label="日期选择" name="date1" required disabledDateAfter={1} />
 
       {/* action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76', */}
       {/* <UploadWrapper action="https://www.mocky.io/v2/5cc8019d300000980a055e76" accept=".jpg">

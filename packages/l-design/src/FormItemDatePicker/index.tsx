@@ -54,7 +54,7 @@ const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
   );
 };
 
-export interface LFormItemDateProps extends LFormItemProps {
+export interface LFormItemDatePickerProps extends LFormItemProps {
   disabledDateBefore?: number;
   disabledDateAfter?: number;
   showTime?: TimePickerProps | boolean;
@@ -65,7 +65,7 @@ export interface LFormItemDateProps extends LFormItemProps {
   rangePicker?: boolean;
 }
 
-const LFormItemDate: FC<LFormItemDateProps> = ({
+const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
   dateValueType = 'string',
   normalize,
   disabledDateBefore,
@@ -145,4 +145,4 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
   );
 };
 
-export default LFormItemDate;
+export default LFormItemDatePicker;
