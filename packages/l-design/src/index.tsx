@@ -24,49 +24,51 @@ export type {
 // ==========基础FormItem容器组件==========
 export { default as LFormItem } from './FormItem';
 export type { LFormItemProps } from './FormItem';
-export { default as LFormItemAddress } from './FormItemAddress';
-export type { LFormItemAddressProps } from './FormItemAddress';
-export { default as LFormItemCaptcha } from './FormItemCaptcha';
-export type { LFormItemCaptchaProps } from './FormItemCaptcha';
-export { default as LFormItemCascader } from './FormItemCascader';
-export type { LFormItemCascaderProps } from './FormItemCascader';
-export { default as LFormItemCheckbox } from './FormItemCheckbox';
-export type { LFormItemCheckboxProps } from './FormItemCheckbox';
-export { default as LFormItemColor } from './FormItemColor';
-export type { LFormItemColorProps } from './FormItemColor';
-export { default as LFormItemDatePicker } from './FormItemDatePicker';
-export type { LFormItemDatePickerProps } from './FormItemDatePicker';
+export { default as LFormItemAddress } from './FormItem/components/FormItemAddress';
+export type { LFormItemAddressProps } from './FormItem/components/FormItemAddress';
+export { default as LFormItemAutoComplete } from './FormItem/components/FormItemAutoComplete';
+export type { LFormItemAutoCompleteProps } from './FormItem/components/FormItemAutoComplete';
+export { default as LFormItemCaptcha } from './FormItem/components/FormItemCaptcha';
+export type { LFormItemCaptchaProps } from './FormItem/components/FormItemCaptcha';
+export { default as LFormItemCascader } from './FormItem/components/FormItemCascader';
+export type { LFormItemCascaderProps } from './FormItem/components/FormItemCascader';
+export { default as LFormItemCheckbox } from './FormItem/components/FormItemCheckbox';
+export type { LFormItemCheckboxProps } from './FormItem/components/FormItemCheckbox';
+export { default as LFormItemColor } from './FormItem/components/FormItemColor';
+export type { LFormItemColorProps } from './FormItem/components/FormItemColor';
+export { default as LFormItemDatePicker } from './FormItem/components/FormItemDatePicker';
+export type { LFormItemDatePickerProps } from './FormItem/components/FormItemDatePicker';
 export {
   LFormItemInput,
   LFormItemNumber,
   LFormItemPassword,
   LFormItemTextArea,
-} from './FormItemInput';
+} from './FormItem/components/FormItemInput';
 export type {
   LFormItemInputProps,
   LFormItemNumberProps,
   LFormItemPasswordProps,
   LFormItemTextAreaProps,
-} from './FormItemInput';
-export { default as LFormItemRadio } from './FormItemRadio';
-export type { LFormItemRadioProps } from './FormItemRadio';
-export { default as LFormItemRate } from './FormItemRate';
-export type { LFormItemRateProps } from './FormItemRate';
-export { default as LFormItemSegmented } from './FormItemSegmented';
-export type { LFormItemSegmentedoProps } from './FormItemSegmented';
-export { default as LFormItemSelect } from './FormItemSelect';
-export type { LFormItemSelectProps } from './FormItemSelect';
-export { default as LFormItemSlider } from './FormItemSlider';
-export type { LFormItemSliderProps } from './FormItemSlider';
+} from './FormItem/components/FormItemInput';
+export { default as LFormItemRadio } from './FormItem/components/FormItemRadio';
+export type { LFormItemRadioProps } from './FormItem/components/FormItemRadio';
+export { default as LFormItemRate } from './FormItem/components/FormItemRate';
+export type { LFormItemRateProps } from './FormItem/components/FormItemRate';
+export { default as LFormItemSegmented } from './FormItem/components/FormItemSegmented';
+export type { LFormItemSegmentedoProps } from './FormItem/components/FormItemSegmented';
+export { default as LFormItemSelect } from './FormItem/components/FormItemSelect';
+export type { LFormItemSelectProps } from './FormItem/components/FormItemSelect';
+export { default as LFormItemSlider } from './FormItem/components/FormItemSlider';
+export type { LFormItemSliderProps } from './FormItem/components/FormItemSlider';
 // ==========hooks方式使用弹窗组件==========
-export { default as LFormItemSwitch } from './FormItemSwitch';
-export type { LFormItemSwitchProps } from './FormItemSwitch';
-export { default as LFormItemTimePicker } from './FormItemTimePicker';
-export type { LFormItemTimePickerProps } from './FormItemTimePicker';
-export { default as LFormItemTreeSelect } from './FormItemTreeSelect';
-export type { LFormItemTreeSelectProps } from './FormItemTreeSelect';
-export { default as LFormItemUpload } from './FormItemUpload';
-export type { LFormItemUploadProps } from './FormItemUpload';
+export { default as LFormItemSwitch } from './FormItem/components/FormItemSwitch';
+export type { LFormItemSwitchProps } from './FormItem/components/FormItemSwitch';
+export { default as LFormItemTimePicker } from './FormItem/components/FormItemTimePicker';
+export type { LFormItemTimePickerProps } from './FormItem/components/FormItemTimePicker';
+export { default as LFormItemTreeSelect } from './FormItem/components/FormItemTreeSelect';
+export type { LFormItemTreeSelectProps } from './FormItem/components/FormItemTreeSelect';
+export { default as LFormItemUpload } from './FormItem/components/FormItemUpload';
+export type { LFormItemUploadProps } from './FormItem/components/FormItemUpload';
 export { default as LNumberRoll } from './NumberRoll';
 // ==========基础组件==========
 export { default as Spin } from './Spin';
