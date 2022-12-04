@@ -27,7 +27,7 @@ export default () => {
   return (
     <>
       <h3>LColorBlockPicker</h3>
-      <LColorBlockPicker value={color1} onChange={setColor1} showText />
+      <LColorBlockPicker value={color1} onChange={setColor1} showText disabled />
       <br />
       <br />
       <h3>LColorChromePicker</h3>

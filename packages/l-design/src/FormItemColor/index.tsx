@@ -1,12 +1,10 @@
-import classnames from 'classnames';
 import type { FC } from 'react';
 import { useMemo } from 'react';
-import LColor, { LColorChromePicker, LColorSketchPicker } from '../ColorPick';
+import { LColorChromePicker, LColorSketchPicker } from '../ColorPick';
 import type { ColorChromePickerProps } from '../ColorPick/components/ChromePicker';
 import type { ColorSketchPickerProps } from '../ColorPick/components/SketchPicker';
 import type { LFormItemProps } from '../FormItem/base/BaseFromItem';
 import LFormItem from '../FormItem/base/BaseFromItem';
-import './styles.less';
 export interface LFormItemColorProps extends LFormItemProps {
   colorProps?: ColorSketchPickerProps | ColorChromePickerProps;
   colorType?: 'sketch' | 'chrome';
@@ -20,19 +18,10 @@ const LFormItemColor: FC<LFormItemColorProps> = ({
   ...restProps
 }) => {
   const ColorConent = useMemo(() => {
-    if (disabled) {
-      return (
-        <LColor
-          showText
-          className={classnames('lightd-form-color-disabled', colorProps.className)}
-          size={colorProps.size}
-        />
-      );
-    }
     if (colorType === 'sketch') {
-      return <LColorSketchPicker showText {...colorProps} />;
+      return <LColorSketchPicker showText disabled={disabled} {...colorProps} />;
     }
-    return <LColorChromePicker showText {...colorProps} />;
+    return <LColorChromePicker showText disabled={disabled} {...colorProps} />;
   }, [colorProps, colorType, disabled]);
 
   return (

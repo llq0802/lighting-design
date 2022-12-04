@@ -17,6 +17,7 @@ const ColorChromePicker: FC<ColorChromePickerProps> = ({
   placement,
   changeMethod,
   size,
+  disabled,
   ...restProps
 }) => {
   const wrapperProps = {
@@ -29,6 +30,7 @@ const ColorChromePicker: FC<ColorChromePickerProps> = ({
     placement,
     changeMethod,
     size,
+    disabled,
   };
 
   return (

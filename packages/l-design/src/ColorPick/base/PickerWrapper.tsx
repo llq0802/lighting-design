@@ -13,6 +13,7 @@ export interface PickerCommonProps {
   className?: string;
   value?: string;
   showText?: boolean;
+  disabled?: boolean;
   trigger?: 'click' | 'hover' | string | string[];
   onChange?: (colorStr: string) => void;
   colorMode?: 'hex' | 'rgb';
@@ -33,6 +34,7 @@ const PickerWrapper: FC<PickerWrapperProps> = ({
   children,
   className,
   showText = false,
+  disabled = false,
   trigger = 'click',
   colorMode = 'hex',
   placement = 'bottomLeft',
@@ -59,25 +61,30 @@ const PickerWrapper: FC<PickerWrapperProps> = ({
     <BaseColor
       value={value}
       showText={showText}
+      disabled={disabled}
       size={size}
       className={classNames(`${prefixCls}-picker`, className)}
-      renderColor={(dom) => (
-        <Popover
-          content={
-            isNoChangeMethod
-              ? children
-              : cloneElement(children, { [changeMethod]: handleChange, color: value })
-          }
-          trigger={trigger}
-          open={open}
-          onOpenChange={setOpen}
-          placement={placement}
-          overlayClassName={`${prefixCls}-overlay-normalize`}
-          {...restProps}
-        >
-          {dom}
-        </Popover>
-      )}
+      renderColor={(dom) =>
+        disabled ? (
+          dom
+        ) : (
+          <Popover
+            content={
+              isNoChangeMethod
+                ? children
+                : cloneElement(children, { [changeMethod]: handleChange, color: value })
+            }
+            trigger={trigger}
+            open={open}
+            onOpenChange={setOpen}
+            placement={placement}
+            overlayClassName={`${prefixCls}-overlay-normalize`}
+            {...restProps}
+          >
+            {dom}
+          </Popover>
+        )
+      }
     />
   );
 };

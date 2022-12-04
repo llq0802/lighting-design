@@ -17,6 +17,7 @@ const ColorSketchPicker: FC<ColorSketchPickerProps> = ({
   placement,
   changeMethod,
   size,
+  disabled,
   ...restProps
 }) => {
   const wrapperProps = {
@@ -29,6 +30,7 @@ const ColorSketchPicker: FC<ColorSketchPickerProps> = ({
     placement,
     changeMethod,
     size,
+    disabled,
   };
 
   return (

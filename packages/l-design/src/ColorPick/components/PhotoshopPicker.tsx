@@ -23,6 +23,7 @@ const ColorPhotoshopPicker: FC<ColorPhotoshopPickerProps> = ({
   colorMode,
   placement,
   size,
+  disabled,
   changeMethod = 'onAccept',
   ...restProps
 }) => {
@@ -33,6 +34,7 @@ const ColorPhotoshopPicker: FC<ColorPhotoshopPickerProps> = ({
     value,
     trigger,
     showText,
+    disabled,
     colorMode,
     placement,
     size,
