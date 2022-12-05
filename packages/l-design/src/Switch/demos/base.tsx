@@ -8,9 +8,12 @@ const center = {
 const Index: FC = () => {
   return (
     <div style={center}>
-      <Switch defaultChecked onChange={(e)=>{
-        console.log(e);
-      }}/>
+      <Switch
+        defaultChecked
+        onChange={(e) => {
+          console.log(e);
+        }}
+      />
     </div>
   );
 };

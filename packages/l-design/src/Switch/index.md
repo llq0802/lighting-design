@@ -14,6 +14,10 @@ nav:
 
 <code src="./demos/base.tsx"/>
 
+## 大小用法
+
+<code src="./demos/size.tsx"/>
+
 ## 开关状态
 
 <code src="./demos/disabled.tsx"/>
