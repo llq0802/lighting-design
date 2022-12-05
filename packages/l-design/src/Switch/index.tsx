@@ -5,7 +5,7 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import Spin from '../Spin';
 import './index.less';
-interface PropsType {
+export interface LightdSwitchProps {
   /**
    * 类名
    */
@@ -61,7 +61,7 @@ declare type SwitchChangeEventHandler = (
   event: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>,
 ) => void;
 
-const Switch: FC<Partial<PropsType>> = (props) => {
+const Switch: FC<Partial<LightdSwitchProps>> = (props) => {
   const {
     className = '',
     checkedChildren = '',
