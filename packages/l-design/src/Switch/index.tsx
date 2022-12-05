@@ -29,7 +29,7 @@ export interface LightdSwitchProps {
   /**
    * 大小
    */
-  size: 'default' | 'large';
+  size: 'small' | 'default' | 'large';
   /**
    * 自动聚焦
    */
@@ -68,6 +68,7 @@ const Switch: FC<Partial<LightdSwitchProps>> = (props) => {
     unCheckedChildren = '',
     disabled = false,
     loading,
+    size = 'default',
     defaultChecked = false,
     checked = defaultChecked,
     onChange,
@@ -91,8 +92,8 @@ const Switch: FC<Partial<LightdSwitchProps>> = (props) => {
     <Spin loading={loading} size="small" color="#ccc" mode="load3">
       <RcSwitch
         prefixCls={prefixCls}
-        // className={`${prefixCls}-${'size'} ${className}`}
-        className={`${className}`}
+        className={`${prefixCls}-${size} ${className}`}
+        // className={`${className}`}
         disabled={disabled}
         checked={checkedCom}
         defaultChecked={defaultChecked}
