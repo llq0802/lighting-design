@@ -58,6 +58,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
 
   const dom = useMemo(() => {
     const ret = [
+      // 默认设置为重置
       <Button
         key="reset-lightd-form"
         {...resetButtonProps}
@@ -68,6 +69,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
       >
         {resetText}
       </Button>,
+      // 默认设置为提交
       <Button
         key="submit-lightd-form"
         type="primary"

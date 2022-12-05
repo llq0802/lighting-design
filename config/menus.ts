@@ -26,6 +26,7 @@ export default {
       title: '数据录入',
       children: [
         'FormItem/index.md',
+        'Form/components/MoadlForm/index.md',
         'FormItem/components/FormItemInput/index.md',
         'FormItem/components/FormItemCaptcha/index.md',
         'FormItem/components/FormItemAutoComplete/index.md',

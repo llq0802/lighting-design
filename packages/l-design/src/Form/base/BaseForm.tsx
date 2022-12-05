@@ -62,6 +62,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): ReactNode {
       formRef.current?.resetFields?.();
     }
   }, [ready]);
+
   useUpdateEffect(() => {
     setLoading(outLoading);
   }, [outLoading]);
@@ -93,16 +94,16 @@ function BaseForm<T = any>(props: BaseFormProps<T>): ReactNode {
   const formDom = (
     <Form
       form={formRef.current}
+      initialValues={initialValues}
+      className={classnames(prefixCls, className)}
+      onValuesChange={onValuesChange}
+      onFinish={onFinish}
       onKeyPress={(event) => {
         const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
         if (pressEnterSubmit && buttonHtmlType !== 'submit' && event.key === 'Enter' && ready) {
           formRef.current?.submit();
         }
       }}
-      initialValues={initialValues}
-      onValuesChange={onValuesChange}
-      onFinish={onFinish}
-      className={classnames(prefixCls, className)}
       {...restProps}
     >
       <Form.Item noStyle shouldUpdate>

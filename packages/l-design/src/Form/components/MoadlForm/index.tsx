@@ -18,14 +18,18 @@ export interface LModalFormProps<T = any>
 
 const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const {
-    title,
-    width,
     trigger,
-    modalProps,
-    children,
-    submitter,
-    onFinish,
+
+    title = '弹窗',
+    width = 600,
+    modalProps = {},
+
     form: outForm,
+    onFinish,
+
+    submitter,
+    children,
+
     ...restProps
   } = props;
 
@@ -59,7 +63,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                 ...submitter,
                 resetButtonProps: {
                   // 把重置按钮配置成取消按钮
-                  preventDefault: true,
+                  preventDefault: true, // 不触发默认的重置表单事件
                   ...(submitter ? submitter?.resetButtonProps : {}),
                   onClick: (e) => {
                     setOpen(false);
@@ -80,8 +84,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
         formRender={(formDom, submitterDom) => (
           <Modal
             title={title}
-            width={width || 600}
-            centered
+            width={width}
             footer={submitterDom}
             {...modalProps}
             open={open}
@@ -90,7 +93,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               modalProps?.onCancel?.(e);
             }}
             afterClose={() => {
-              formRef.current.resetFields();
+              formRef.current.resetFields(); // 弹窗关闭后重置表单
               modalProps?.afterClose?.();
             }}
           >
