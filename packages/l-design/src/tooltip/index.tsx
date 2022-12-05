@@ -68,7 +68,7 @@ const Index: FC<Partial<LoadingProps>> = ({
   placement = 'top',
   title = '',
   color,
-  rows = 1,
+  rows = false,
   maxWidth = 400,
   zIndex = 9999,
   children,
@@ -85,9 +85,9 @@ const Index: FC<Partial<LoadingProps>> = ({
         >
           <div className={`${prefixCls}-after`} style={{ borderTopColor: color }} />
           <span
-            className={`${prefixCls}-title`}
+            className={typeof rows === 'number' ? `${prefixCls}-title` : ''}
             style={{
-              WebkitLineClamp: rows,
+              WebkitLineClamp: rows as number,
             }}
           >
             {title}
