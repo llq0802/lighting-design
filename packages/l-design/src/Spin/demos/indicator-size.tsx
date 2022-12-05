@@ -1,4 +1,5 @@
 import { Segmented } from 'antd';
+import type { LightdSpinProps } from 'lighting-design';
 import { Spin } from 'lighting-design';
 import type { CSSProperties, FC } from 'react';
 import { useState } from 'react';
@@ -14,8 +15,8 @@ const center = {
   justifyContent: 'center',
 };
 const Index: FC = () => {
-  const [mode, setMode] = useState<string | any>('load1');
-  const [size, setSize] = useState<string | any>('default');
+  const [mode, setMode] = useState('load1');
+  const [size, setSize] = useState('default');
 
   return (
     <>
@@ -27,7 +28,7 @@ const Index: FC = () => {
         mode：
         <Segmented
           options={['load1', 'load2', 'load3', 'load4', 'load5', 'load6']}
-          onChange={(e) => {
+          onChange={(e: any) => {
             setMode(e);
           }}
         />
@@ -37,7 +38,7 @@ const Index: FC = () => {
         size：
         <Segmented
           options={['default', 'small', 'large']}
-          onChange={(e) => {
+          onChange={(e: any) => {
             setSize(e);
           }}
         />
