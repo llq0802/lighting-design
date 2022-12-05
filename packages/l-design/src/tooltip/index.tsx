@@ -2,7 +2,7 @@
 import type { CSSProperties, FC } from 'react';
 import './index.less';
 
-interface LoadingProps {
+export interface LightdTooltipProps {
   /**
    * 气泡位置
    */
@@ -60,7 +60,7 @@ interface LoadingProps {
    */
   children: React.ReactNode;
 }
-const Index: FC<Partial<LoadingProps>> = ({
+const Index: FC<Partial<LightdTooltipProps>> = ({
   className,
   style,
   tipClassName,

@@ -72,15 +72,11 @@ export type { LFormItemUploadProps } from './FormItem/components/FormItemUpload'
 export { default as LNumberRoll } from './NumberRoll';
 // ==========基础组件==========
 export { default as Spin } from './Spin';
-export { default as LightdSpinProps } from './Spin';
-
+export type { default as LightdSpinProps } from './Spin';
 export { default as Switch } from './Switch';
-export { default as LightdSwitchProps } from './Switch';
-
-
-
-
+export type { default as LightdSwitchProps } from './Switch';
 export { default as Tooltip } from './Tooltip';
+export type { default as LightdTooltipProps } from './Tooltip';
 export { default as useFormDrawer } from './useFormDrawer';
 export type { DrawerModalProps, DrawerSubmitProps, FormDrawerSlotProps } from './useFormDrawer';
 export { default as useFormModal } from './useFormModal';
