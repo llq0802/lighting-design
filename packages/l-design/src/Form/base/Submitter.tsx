@@ -84,7 +84,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     ];
 
     if (!showReset) {
-      return ret.slice(0, 1);
+      return ret.slice(1);
     }
     return ret;
   }, [

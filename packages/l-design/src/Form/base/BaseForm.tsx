@@ -3,7 +3,7 @@ import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
-import { Children, useRef, useState } from 'react';
+import { Children, useMemo, useRef, useState } from 'react';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
@@ -18,7 +18,7 @@ export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset'> {
 
   formRender?: (formDom: ReactElement, submitterDom: ReactNode) => ReactNode;
 
-  ready?: boolean; // false 时，禁止触发 submit 。 true 时，会对表单初始值重新赋值。
+  isReady?: boolean; // false 时，禁止触发 submit 。 true 时，会对表单初始值重新赋值。
 
   loading?: boolean;
 
@@ -37,7 +37,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): ReactNode {
     submitter = {},
     loading: outLoading = false,
     pressEnterSubmit = true,
-    ready = true,
+    isReady = true,
 
     form: outForm,
     onFinish,
@@ -58,32 +58,37 @@ function BaseForm<T = any>(props: BaseFormProps<T>): ReactNode {
 
   useUpdateEffect(() => {
     // 准备完成后，重新设置初始值
-    if (ready) {
+    if (isReady) {
       formRef.current?.resetFields?.();
     }
-  }, [ready]);
+  }, [isReady]);
 
   useUpdateEffect(() => {
     setLoading(outLoading);
   }, [outLoading]);
 
-  const submitterProps = typeof submitter === 'boolean' || !submitter ? {} : submitter;
-  const submitterDom = submitter ? (
-    <Submitter
-      onReset={onReset}
-      {...submitterProps}
-      form={formRef?.current}
-      submitButtonProps={{
-        loading,
-        disabled: !ready,
-        ...submitterProps?.submitButtonProps,
-      }}
-      resetButtonProps={{
-        disabled: loading || !ready,
-        ...submitterProps?.resetButtonProps,
-      }}
-    />
-  ) : null;
+  const submitterProps = useMemo(() => {
+    return typeof submitter === 'boolean' || !submitter ? {} : submitter;
+  }, [submitter]);
+
+  const submitterDom = useMemo(() => {
+    return submitter ? (
+      <Submitter
+        onReset={onReset}
+        {...submitterProps}
+        form={formRef?.current}
+        resetButtonProps={{
+          disabled: loading || !isReady,
+          ...submitterProps?.resetButtonProps,
+        }}
+        submitButtonProps={{
+          loading,
+          disabled: !isReady,
+          ...submitterProps?.submitButtonProps,
+        }}
+      />
+    ) : null;
+  }, [isReady, loading, onReset, submitter, submitterProps]);
 
   const formItems = Children.toArray(children);
 
@@ -100,7 +105,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): ReactNode {
       onFinish={onFinish}
       onKeyPress={(event) => {
         const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
-        if (pressEnterSubmit && buttonHtmlType !== 'submit' && event.key === 'Enter' && ready) {
+        if (pressEnterSubmit && buttonHtmlType !== 'submit' && event.key === 'Enter' && isReady) {
           formRef.current?.submit();
         }
       }}

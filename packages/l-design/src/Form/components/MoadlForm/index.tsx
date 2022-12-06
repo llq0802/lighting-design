@@ -7,33 +7,34 @@ import type { BaseFormProps } from '../../base/BaseForm';
 import BaseForm from '../../base/BaseForm';
 
 export interface LModalFormProps<T = any>
-  extends Omit<BaseFormProps<T>, 'title'>,
+  extends Omit<BaseFormProps<T>, 'title' | 'onFinish'>,
     Pick<ModalProps, 'open'> {
   title?: ReactNode;
   width?: ModalProps['width'];
   trigger?: ReactElement;
-  modalProps?: Omit<ModalProps, 'open'>;
+  modalProps?: Omit<ModalProps, 'open' | 'onOk'>;
   onOpenChange?: (open: boolean) => void;
+  onFinish: (values: Record<string, any>) => void | undefined | true | Promise<any>;
 }
 
 const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const {
     trigger,
-
-    title = '弹窗',
+    title = '标题',
     width = 600,
     modalProps = {},
+    open: outOpen,
+    onOpenChange: outOnOpenChange,
+    children,
 
     form: outForm,
     onFinish,
-
+    loading,
     submitter,
-    children,
-
     ...restProps
   } = props;
 
-  const [open, setOpen] = useControllableValue(restProps, {
+  const [open, setOpen] = useControllableValue(props, {
     defaultValue: false,
     valuePropName: 'open',
     trigger: 'onOpenChange',
@@ -42,13 +43,22 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
 
+  const handleFinish = async (values: Record<string, any>) => {
+    const ret = await onFinish?.(values);
+    // 如果表单提交函数返回true 则关闭弹窗
+    if (ret === true) {
+      setOpen(false);
+    }
+  };
+
   return (
     <>
       {/* @ts-ignore */}
       <BaseForm<any>
         {...restProps}
+        loading={modalProps?.confirmLoading ?? loading}
         form={formRef.current}
-        onFinish={onFinish}
+        onFinish={handleFinish}
         submitter={
           typeof submitter == 'undefined' || submitter
             ? {
@@ -59,12 +69,11 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                   type: (modalProps?.okType as 'primary') || 'primary',
                   ...submitter?.submitButtonProps,
                 },
-
                 ...submitter,
                 resetButtonProps: {
                   // 把重置按钮配置成取消按钮
                   preventDefault: true, // 不触发默认的重置表单事件
-                  ...(submitter ? submitter?.resetButtonProps : {}),
+                  ...submitter?.resetButtonProps,
                   onClick: (e) => {
                     setOpen(false);
                     modalProps?.onCancel?.(e);
@@ -73,19 +82,20 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                 },
 
                 render: (submitterDom, submitterProps) => {
-                  if (submitter && typeof submitter?.render === 'function') {
+                  if (typeof submitter?.render === 'function') {
                     return submitter.render(submitterDom, submitterProps);
                   }
                   return submitterDom;
                 },
               }
-            : submitter
+            : submitter // 这是 false
         }
         formRender={(formDom, submitterDom) => (
           <Modal
             title={title}
             width={width}
             footer={submitterDom}
+            maskClosable={false}
             {...modalProps}
             open={open}
             onCancel={(e) => {
