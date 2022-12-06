@@ -25,7 +25,7 @@ export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset'> {
   submitter?: false | Omit<LFormSubmitterProps, 'form'>;
 
   onReset?: (event: MouseEvent<HTMLElement>) => void;
-  pressEnterSubmit?: boolean;
+  isEnterSubmit?: boolean;
 
   children?: ReactNode;
 }
@@ -36,7 +36,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): ReactNode {
     formRender,
     submitter = {},
     loading: outLoading = false,
-    pressEnterSubmit = true,
+    isEnterSubmit = true,
     isReady = true,
 
     form: outForm,
@@ -105,7 +105,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): ReactNode {
       onFinish={onFinish}
       onKeyPress={(event) => {
         const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
-        if (pressEnterSubmit && buttonHtmlType !== 'submit' && event.key === 'Enter' && isReady) {
+        if (isEnterSubmit && buttonHtmlType !== 'submit' && event.key === 'Enter' && isReady) {
           formRef.current?.submit();
         }
       }}
