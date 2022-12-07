@@ -36,8 +36,14 @@ const Demo1 = () => {
         //   footer: false,
         // }}
       >
-        <LFormItemColor colorType="chrome" initialValue='#666' label="颜色选择" name="color" required />
-        <LFormItemInput name="input" initialValue='寸金乃买寸光阴' required label="输入框" />
+        <LFormItemColor
+          colorType="chrome"
+          initialValue="#666"
+          label="颜色选择"
+          name="color"
+          required
+        />
+        <LFormItemInput name="input" initialValue="寸金乃买寸光阴" required label="输入框" />
       </LDrawerForm>
       <Button type="primary" onClick={() => setOpen(true)}>
         打开抽屉

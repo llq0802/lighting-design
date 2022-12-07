@@ -1,20 +1,15 @@
 import { Button, Form, message } from 'antd';
 import { LFormItemColor, LFormItemInput } from 'lighting-design';
-import { useState } from 'react';
 import LModalForm from '..';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
   return (
     <>
       <LModalForm
-        open={open}
-        onOpenChange={(isOpen) => {
-          console.log('isOpen ', isOpen);
-          setOpen(false);
-        }}
+        isDraggable
         form={form}
         title="弹窗"
         onFinish={async (values) => {
@@ -22,15 +17,14 @@ const Demo1 = () => {
           message.success('提交成功');
           return true;
         }}
-        modalProps={{}}
-        // trigger={<Button type="primary">打开弹窗</Button>}
+        trigger={<Button type="primary">打开弹窗</Button>}
       >
         <LFormItemColor colorType="chrome" label="颜色选择" name="color" required />
         <LFormItemInput name="input" required label="输入框" />
       </LModalForm>
-      <Button type="primary" onClick={() => setOpen(true)}>
+      {/* <Button type="primary" onClick={() => setOpen(true)}>
         打开弹窗
-      </Button>
+      </Button> */}
     </>
   );
 };
