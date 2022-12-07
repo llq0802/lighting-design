@@ -1,12 +1,12 @@
 ---
-title: Spin
+title: LSpin
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# Spin 加载
+# LSpin 加载
 
 用于页面和区块组件的加载状态。
 

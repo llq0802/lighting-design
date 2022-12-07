@@ -1,12 +1,12 @@
 ---
-title: Switch
+title: LSwitch
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# Switch 开关
+# LSwitch 开关
 
 开关选择器。
 

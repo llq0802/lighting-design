@@ -1,4 +1,4 @@
-import { Switch } from 'lighting-design';
+import { LSwitch } from 'lighting-design';
 import type { CSSProperties, FC } from 'react';
 
 const center: CSSProperties = {
@@ -10,9 +10,9 @@ const center: CSSProperties = {
 const Index: FC = () => {
   return (
     <div style={center}>
-      <Switch defaultChecked size="small" />
-      <Switch defaultChecked size="default" />
-      <Switch defaultChecked size="large" />
+      <LSwitch defaultChecked size="small" />
+      <LSwitch defaultChecked size="default" />
+      <LSwitch defaultChecked size="large" />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Tooltip } from 'lighting-design';
+import { LTooltip } from 'lighting-design';
 import type { FC } from 'react';
 
 const center = {
@@ -10,10 +10,13 @@ const center = {
 const Index: FC = () => {
   return (
     <div style={center}>
-      <Tooltip rows={2} title="这是一条很长很长很长很很长很长很长很长很长很很长很长很长很长很很长很长很长长很长很长很长很长很长长很长很长很长的语句">
+      <LTooltip
+        rows={2}
+        title="这是一条很长很长很长很很长很长很长很长很长很很长很长很长很长很很长很长很长长很长很长很长很长很长长很长很长很长的语句"
+      >
         单行超出隐藏
-      </Tooltip>
-      <Tooltip
+      </LTooltip>
+      <LTooltip
         tipStyle={{
           textIndent: '2em',
         }}
@@ -21,7 +24,7 @@ const Index: FC = () => {
         rows={3}
       >
         多行超出隐藏
-      </Tooltip>
+      </LTooltip>
     </div>
   );
 };

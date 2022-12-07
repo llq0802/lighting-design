@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import { Switch } from 'lighting-design';
+import { LSwitch } from 'lighting-design';
 import type { FC } from 'react';
 import { useState } from 'react';
 
@@ -15,7 +15,7 @@ const Index: FC = () => {
   return (
     <div>
       <div style={center}>
-        <Switch checked={checked} disabled={disabled} loading={loading} />
+        <LSwitch checked={checked} disabled={disabled} loading={loading} />
       </div>
       <br />
       <div
