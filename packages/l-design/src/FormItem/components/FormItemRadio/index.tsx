@@ -20,6 +20,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   allValue = '',
   allLabel = '全部',
   options = [],
+  disabled,
   radioProps = {},
 
   required,
@@ -31,6 +32,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
         dependencies={restProps?.dependencies}
         options={options}
         request={request}
+        disabled={disabled}
         debounceTime={debounceTime}
         all={all}
         allValue={allValue}

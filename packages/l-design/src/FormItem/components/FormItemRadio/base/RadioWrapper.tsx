@@ -18,7 +18,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   value,
   onChange,
   dependencies = [],
-
+  disabled,
   options: outOptions = [],
   request,
   debounceTime,
@@ -118,7 +118,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   return (
     <Radio.Group
       options={selectOptions}
-      disabled={isClearDepends}
+      disabled={disabled ?? isClearDepends}
       {...radioProps}
       value={value}
       onChange={handleChange}

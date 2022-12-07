@@ -7,6 +7,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 export type RateWrapperProps = Record<string, any> &
   Partial<{
     request: (...args: any[]) => Promise<any>;
+    disabled: boolean;
     debounceTimex: number;
     dependencies: string[];
     rateProps: RateProps;
@@ -19,7 +20,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   request,
   debounceTime,
   rateProps = {},
-
+  disabled,
   ...restProps
 }) => {
   const [reqValue, setReqvalue] = useState(0);
@@ -91,7 +92,12 @@ const RateWrapper: FC<RateWrapperProps> = ({
 
   return (
     <>
-      <Rate disabled={isClearDepends} {...rateProps} value={selectValue} onChange={handleChange} />
+      <Rate
+        disabled={disabled ?? isClearDepends}
+        {...rateProps}
+        value={selectValue}
+        onChange={handleChange}
+      />
     </>
   );
 };

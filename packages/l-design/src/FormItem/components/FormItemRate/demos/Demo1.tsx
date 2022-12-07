@@ -25,7 +25,7 @@ const Index = () => {
         label="评分"
         name="rate"
         initialValue={3.5}
-        required
+        disabled
         rateProps={{
           allowHalf: true,
         }}

@@ -16,12 +16,14 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   debounceTime,
   rateProps,
   required,
+  disabled,
   ...restProps
 }) => {
   return (
     <LFormItem required={required} isSelectType {...restProps}>
       <RateWrapper
         dependencies={restProps?.dependencies}
+        disabled={disabled}
         request={request}
         debounceTime={debounceTime}
         rateProps={rateProps}

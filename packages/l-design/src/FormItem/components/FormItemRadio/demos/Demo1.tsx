@@ -23,7 +23,8 @@ const Demo1 = () => {
         name="select"
         all
         required
-        dependencies={['userName']}
+        // dependencies={['userName']}
+        // disabled
         // debounceTime={300}
         // request={async (params) => {
         //   console.log(' params', params);

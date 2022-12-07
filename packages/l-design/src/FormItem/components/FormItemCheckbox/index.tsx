@@ -30,6 +30,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
         dependencies={restProps?.dependencies}
         options={options}
         request={request}
+        disabled={disabled}
         debounceTime={debounceTime}
         beforeAll={beforeAll}
         checkboxProps={checkboxProps}

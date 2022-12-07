@@ -30,6 +30,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   debounceTime,
   beforeAll,
   checkboxProps = {},
+  disabled,
 
   ...restProps
 }) => {
@@ -110,7 +111,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       setIndeterminate(false);
       setCheckAll(e.target.checked);
       onChange(checkAllValue);
-      if (beforeAll?.onChange) beforeAll?.onChange(checkAllValue);
+      beforeAll?.onChange(checkAllValue);
     },
     [beforeAll, onChange, selectOptions],
   );
@@ -133,8 +134,11 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       {beforeAll?.value && (
         <Checkbox
           indeterminate={indeterminate}
-          style={beforeAll.style}
-          disabled={beforeAll.disabled || isClearDepends}
+          style={{
+            marginRight: '8px',
+            ...beforeAll.style,
+          }}
+          disabled={disabled ?? (beforeAll.disabled || isClearDepends)}
           onChange={checkAllChange}
           checked={checkAll}
         >
@@ -143,7 +147,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       )}
       <Checkbox.Group
         options={selectOptions}
-        disabled={isClearDepends}
+        disabled={disabled ?? isClearDepends}
         {...checkboxProps}
         value={value}
         onChange={handleChange}
