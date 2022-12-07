@@ -30,7 +30,7 @@ export interface LDrawerFormProps<T = any>
    */
   loading?: boolean;
   /**
-   * (`actionBarDir` 为 `footer`) 抽屉操作栏排版 
+   * (`actionBarDir` 为 `footer`) 抽屉操作栏排版
    */
   actionaType?: 'left' | 'center' | 'right' | undefined;
   /**
@@ -121,7 +121,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
                   return submitterDom;
                 },
               }
-            : submitter // 这是 false
+            : submitter
         }
         formRender={(formDom, submitterDom) => (
           <Drawer
@@ -130,9 +130,13 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             placement={placement}
             footer={actionBarDir === 'footer' && submitterDom}
             extra={actionBarDir === 'extra' && submitterDom}
-            footerStyle={{ display: 'flex', justifyContent: actionaType }}
             maskClosable={false}
             {...drawerProps}
+            footerStyle={{
+              display: 'flex',
+              justifyContent: actionaType,
+              ...drawerProps.footerStyle,
+            }}
             open={open}
             onClose={(e) => {
               setOpen(false);
