@@ -22,6 +22,9 @@ export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset'> {
 
   loading?: boolean;
 
+  /**
+   *  默认按钮配置
+   */
   submitter?: false | Omit<LFormSubmitterProps, 'form'>;
 
   onReset?: (event: MouseEvent<HTMLElement>) => void;

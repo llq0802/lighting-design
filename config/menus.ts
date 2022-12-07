@@ -27,6 +27,7 @@ export default {
       children: [
         'FormItem/index.md',
         'Form/components/MoadlForm/index.md',
+        'Form/components/DrawerForm/index.md',
         'FormItem/components/FormItemInput/index.md',
         'FormItem/components/FormItemCaptcha/index.md',
         'FormItem/components/FormItemAutoComplete/index.md',
