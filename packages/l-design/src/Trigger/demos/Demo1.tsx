@@ -1,5 +1,5 @@
 import { Space } from 'antd';
-import LTrigger from '..';
+import { LTrigger } from 'lighting-design';
 import ChildTable1 from './ChildTable1';
 
 import ChildTable2 from './ChildTable2';

@@ -79,13 +79,15 @@ export type { LFormItemTreeSelectProps } from './FormItem/components/FormItemTre
 export { default as LFormItemUpload } from './FormItem/components/FormItemUpload';
 export type { LFormItemUploadProps } from './FormItem/components/FormItemUpload';
 export { default as LNumberRoll } from './NumberRoll';
-// ==========基础组件==========
 export { default as LSpin } from './Spin';
 export type { default as LSpinProps } from './Spin';
 export { default as LSwitch } from './Switch';
 export type { default as LSwitchProps } from './Switch';
 export { default as LTooltip } from './Tooltip';
 export type { default as LTooltipProps } from './Tooltip';
+// ==========基础组件==========
+export { default as LTrigger } from './Trigger';
+export type { default as LTriggerProps } from './Trigger';
 export { default as useFormDrawer } from './useFormDrawer';
 export type { DrawerModalProps, DrawerSubmitProps, FormDrawerSlotProps } from './useFormDrawer';
 export { default as useFormModal } from './useFormModal';

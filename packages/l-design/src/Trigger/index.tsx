@@ -5,7 +5,7 @@ import type { FC, ReactElement } from 'react';
 import { cloneElement, isValidElement } from 'react';
 
 export const prefixCls = 'lightd-trigger';
-export type TriggerProps = {
+export type LTriggerProps = {
   width: number | string;
   dropdownWidth: number;
   dropdownClassName: string;
@@ -31,7 +31,7 @@ export type TriggerProps = {
   | 'dropdownStyle'
 >;
 
-const Trigger: FC<Partial<TriggerProps>> = (props) => {
+const Trigger: FC<Partial<LTriggerProps>> = (props) => {
   const {
     width = 250,
     dropdownWidth = 500,
