@@ -8,4 +8,4 @@ nav:
 
 # LForm
 
-LForm,
+LForm, <code src='./demos/Demo1.tsx'>

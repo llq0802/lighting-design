@@ -62,7 +62,6 @@ function LQueryForm(props: LQueryFormProps) {
   const [collapsed, setCollapsed] = useState(isCollapsed);
 
   return (
-    // @ts-ignore
     <BaseForm
       layout={layout}
       submitter={{

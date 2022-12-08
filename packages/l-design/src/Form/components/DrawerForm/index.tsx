@@ -30,10 +30,6 @@ export interface LDrawerFormProps<T = any>
    */
   loading?: boolean;
   /**
-   * (`actionBarDir` 为 `footer`) 抽屉操作栏排版
-   */
-  actionaType?: 'left' | 'center' | 'right' | undefined;
-  /**
    * 抽屉默认操作栏位置 (只生效默认操作栏)
    */
   actionBarDir?: 'footer' | 'extra' | undefined;
@@ -59,7 +55,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     placement = 'right',
     drawerProps = {},
     open: outOpen,
-    actionaType = 'center',
     actionBarDir = 'footer',
     onOpenChange: outOnOpenChange,
     children,
@@ -88,7 +83,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
 
   return (
     <>
-      {/* @ts-ignore */}
       <BaseForm<any>
         {...restProps}
         loading={loading}
@@ -134,7 +128,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             {...drawerProps}
             footerStyle={{
               display: 'flex',
-              justifyContent: actionaType,
+              justifyContent: (submitter && submitter?.buttonAlign) || 'center',
               ...drawerProps.footerStyle,
             }}
             open={open}

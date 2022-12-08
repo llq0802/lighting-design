@@ -21,6 +21,8 @@ export type {
   LColorSketchPickerProps,
   LColorSliderPickerProps,
 } from './ColorPick';
+export { default as LForm } from './Form';
+export type { LFormProps } from './Form';
 // ==========基础Form容器组件==========
 export { default as LDrawerForm } from './Form/components/DrawerForm';
 export type { LDrawerFormProps } from './Form/components/DrawerForm';

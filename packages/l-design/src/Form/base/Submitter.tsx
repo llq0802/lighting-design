@@ -4,23 +4,28 @@ import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { useCallback, useMemo } from 'react';
 
 export interface LFormSubmitterProps {
+  /** 重置按钮名称*/
   resetText?: ReactNode;
+  /** 提交按钮名称*/
   submitText?: ReactNode;
-
+  /** 重置按钮的Props 如果配置preventDefault为`true`则不会触发表单重置事件 */
   resetButtonProps?: ButtonProps & { preventDefault?: boolean };
+  /** 提交按钮的Props 如果配置preventDefault为`true`则不会触发表单提交事件 */
   submitButtonProps?: ButtonProps & { preventDefault?: boolean };
-
+  /** 重置回调 */
   onReset?: (event: MouseEvent<HTMLElement>) => void;
-
+  /** 提交回调 */
   onSubmit?: (event: MouseEvent<HTMLElement>) => void;
-
+  /** 是否展示重置按钮 */
   showReset?: boolean;
-
+  /** form实例 */
   form?: FormInstance;
-
+  /** 重新渲染函数 */
   render?:
     | ((dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode | false)
     | false;
+  /** 按钮位置 */
+  buttonAlign?: 'left' | 'right' | 'center';
 }
 
 const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {

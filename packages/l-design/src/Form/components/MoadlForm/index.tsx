@@ -11,11 +11,10 @@ import BaseForm from '../../base/BaseForm';
 export interface LModalFormProps<T = any>
   extends Omit<BaseFormProps<T>, 'title' | 'onFinish'>,
     Pick<ModalProps, 'open'> {
+  /** 弹窗标题 */
   title?: ReactNode;
   /** 是否允许拖动 */
   isDraggable?: boolean;
-  /** 底部操作栏位置 */
-  actionaType?: 'left' | 'center' | 'right';
   /** Moadl的宽 */
   width?: ModalProps['width'];
   /** 打开弹窗的按钮 */
@@ -24,7 +23,7 @@ export interface LModalFormProps<T = any>
   modalProps?: Omit<ModalProps, 'open' | 'onOk'>;
   /** 弹窗打开关闭的回调 */
   onOpenChange?: (open: boolean) => void;
-  /** 表单提交 返回true时将自动关闭弹窗 */
+  /** 表单提交 只有返回true时才关闭弹窗 */
   onFinish: (values: Record<string, any>) => void | undefined | true | Promise<any>;
 }
 
@@ -32,7 +31,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const {
     isDraggable = false,
     trigger,
-    actionaType = 'right',
 
     title = '标题',
     width = 600,
@@ -83,7 +81,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
 
   return (
     <>
-      {/* @ts-ignore */}
       <BaseForm<any>
         {...restProps}
         loading={modalProps?.confirmLoading ?? loading}
@@ -119,7 +116,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                     <div
                       style={{
                         display: 'flex',
-                        justifyContent: actionaType,
+                        justifyContent: submitter?.buttonAlign || 'right',
                       }}
                     >
                       {submitterDom}

@@ -1,8 +1,8 @@
-import { Button, Form, message } from 'antd';
-import { LFormItemColor, LFormItemInput, LModalForm } from 'lighting-design';
+import { Button, message } from 'antd';
+import { LForm, LFormItemColor, LFormItemInput, LModalForm } from 'lighting-design';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
   // const [open, setOpen] = useState(false);
 
   return (

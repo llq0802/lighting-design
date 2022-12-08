@@ -9,31 +9,30 @@ import Submitter from './Submitter';
 
 const prefixCls = 'lightd-form';
 
-export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset'> {
+export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset' | 'title'> {
+  /** 渲染Form组件的children */
   contentRender?: (
     formItemsDom: ReactNode[],
     submitterDom: ReactNode,
     form: FormInstance<T>,
   ) => ReactNode;
-
+  /** 重新渲染Form*/
   formRender?: (formDom: ReactElement, submitterDom: ReactNode) => ReactNode;
-
-  isReady?: boolean; // false 时，禁止触发 submit 。 true 时，会对表单初始值重新赋值。
-
+  /** 表单是否渲染完成  false时，禁止触发 submit。true 时，会对表单初始值重新赋值。 */
+  isReady?: boolean;
+  /** 表单提交按钮的loading */
   loading?: boolean;
-
-  /**
-   *  默认按钮配置
-   */
+  /** 默认按钮配置 */
   submitter?: false | Omit<LFormSubmitterProps, 'form'>;
-
+  /** 重置按钮事件回调 */
   onReset?: (event: MouseEvent<HTMLElement>) => void;
+  /** 是否按Enter键能提交表单 */
   isEnterSubmit?: boolean;
 
   children?: ReactNode;
 }
 
-function BaseForm<T = any>(props: BaseFormProps<T>): ReactNode {
+function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
   const {
     contentRender,
     formRender,
@@ -125,7 +124,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): ReactNode {
     </Form>
   );
 
-  return formRender ? formRender(formDom, submitterDom) : formDom;
+  return (formRender ? formRender(formDom, submitterDom) : formDom) as JSX.Element;
 }
 
 export default BaseForm;
