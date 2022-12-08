@@ -28,6 +28,7 @@ export default {
         'FormItem/index.md',
         'Form/components/MoadlForm/index.md',
         'Form/components/DrawerForm/index.md',
+        'Form/components/QueryForm/index.md',
         'FormItem/components/FormItemInput/index.md',
         'FormItem/components/FormItemCaptcha/index.md',
         'FormItem/components/FormItemAutoComplete/index.md',

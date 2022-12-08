@@ -1,6 +1,5 @@
 import { Button, Form, message } from 'antd';
-import { LFormItemColor, LFormItemInput } from 'lighting-design';
-import LModalForm from '..';
+import { LFormItemColor, LFormItemInput, LModalForm } from 'lighting-design';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
