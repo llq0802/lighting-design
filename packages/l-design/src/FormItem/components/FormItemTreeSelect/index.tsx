@@ -42,7 +42,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
         {
           validator(rule, value) {
             let errMsg = '';
-            if (!value || value?.length === 0) {
+            if (!value || !value?.length) {
               errMsg = required ? `请选择${messageLabel}!` : '';
             }
             if (errMsg) {

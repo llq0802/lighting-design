@@ -64,7 +64,8 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   const opts = useMemo(() => {
     const rawOptions = selectProps.options || outOptions;
     if (all && rawOptions?.length > 0) {
-      rawOptions.unshift({ label: allLabel, value: allValue });
+      const retOptions = [{ label: allLabel, value: allValue }, ...rawOptions];
+      return retOptions;
     }
     return rawOptions;
   }, [all, allLabel, allValue, outOptions, selectProps.options]);

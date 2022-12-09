@@ -53,7 +53,8 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   );
   // 判断依赖项是否有空或undefined
   const isClearDepends = useMemo(
-    () => depends.some((nameValue) => nameValue === '' || nameValue == undefined),
+    () =>
+      depends.some((nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length),
     [depends],
   );
 

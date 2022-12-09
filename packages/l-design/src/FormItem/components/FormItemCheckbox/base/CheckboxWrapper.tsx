@@ -6,17 +6,20 @@ import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
+type beforeAllProps = {
+  label?: React.ReactNode;
+  value?: CheckboxValueType;
+  style?: React.CSSProperties;
+  disabled?: boolean;
+  onChange?: (e: CheckboxValueType[]) => void;
+};
+
 export type CheckboxWrapperProps = Record<string, any> &
   Partial<{
     request: (...args: any[]) => Promise<any>;
     debounceTimex: number;
-    beforeAll: {
-      label: React.ReactNode;
-      value: CheckboxValueType;
-      style?: React.CSSProperties;
-      disabled?: boolean;
-      onChange?: (e: CheckboxValueType[]) => void;
-    };
+    beforeAll: beforeAllProps;
+
     checkboxProps: CheckboxGroupProps;
     dependencies: string[];
   }>;
@@ -57,7 +60,8 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   );
   // 判断依赖项是否有空或undefined
   const isClearDepends = useMemo(
-    () => depends.some((nameValue) => nameValue === '' || nameValue == undefined),
+    () =>
+      depends.some((nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length),
     [depends],
   );
 
@@ -111,38 +115,36 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       setIndeterminate(false);
       setCheckAll(e.target.checked);
       onChange(checkAllValue);
-      beforeAll?.onChange(checkAllValue);
+      beforeAll?.onChange?.(checkAllValue);
     },
     [beforeAll, onChange, selectOptions],
   );
 
   const handleChange = useCallback(
     (checkedValue: CheckboxValueType[]) => {
-      if (beforeAll?.value) {
+      if (beforeAll) {
         setIndeterminate(!!checkedValue.length && checkedValue.length < selectOptions.length);
         setCheckAll(checkedValue.length === selectOptions.length);
       }
-      if (checkboxProps?.onChange) {
-        checkboxProps?.onChange(checkedValue);
-      }
+      checkboxProps?.onChange?.(checkedValue);
       onChange(checkedValue);
     },
-    [beforeAll?.value, checkboxProps, onChange, selectOptions.length],
+    [beforeAll, checkboxProps, onChange, selectOptions.length],
   );
   return (
     <>
-      {beforeAll?.value && (
+      {beforeAll && (
         <Checkbox
           indeterminate={indeterminate}
           style={{
             marginRight: '8px',
-            ...beforeAll.style,
+            ...beforeAll?.style,
           }}
-          disabled={disabled ?? (beforeAll.disabled || isClearDepends)}
+          disabled={disabled ?? (beforeAll?.disabled || isClearDepends)}
           onChange={checkAllChange}
           checked={checkAll}
         >
-          {beforeAll.label || '全选'}
+          {beforeAll?.label || '全选'}
         </Checkbox>
       )}
       <Checkbox.Group

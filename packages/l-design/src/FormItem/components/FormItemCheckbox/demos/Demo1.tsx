@@ -24,12 +24,9 @@ const Index = () => {
       <LFormItemCheckbox
         label="选择"
         name="select"
-        disabled
-        initialValue={'2'}
         beforeAll={{
           label: '全选',
           value: 'all',
-
           onChange(e) {
             console.log(e);
           },
