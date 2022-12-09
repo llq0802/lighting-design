@@ -1,6 +1,5 @@
 import { Segmented } from 'antd';
-import type { LightdSpinProps } from 'lighting-design';
-import { Spin } from 'lighting-design';
+import { LSpin } from 'lighting-design';
 import type { CSSProperties, FC } from 'react';
 import { useState } from 'react';
 
@@ -21,7 +20,7 @@ const Index: FC = () => {
   return (
     <>
       <div style={{ ...center, minHeight: 60 }}>
-        <Spin mode={mode} size={size} tip="loading..." />
+        <LSpin mode={mode} size={size} tip="loading..." />
       </div>
       <br />
       <div style={flexCenter}>

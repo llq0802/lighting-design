@@ -1,8 +1,11 @@
 import type { TimePickerProps } from 'antd';
 import { TimePicker } from 'antd';
+import locale from 'antd/es/date-picker/locale/zh_CN';
 import type { Moment } from 'moment';
+import 'moment/locale/zh-cn';
 import type { FC } from 'react';
 import { useMemo } from 'react';
+import { getFormItemLabel } from '../../../utils';
 import { timePickerMomentString, timePickerMomentVlaue } from '../../../utils/date';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
@@ -22,6 +25,8 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
   };
   return !rangePicker ? (
     <TimePicker
+      style={{ width: 169, ...style }}
+      locale={locale}
       disabled={disabled}
       {...restProps}
       format={format}
@@ -30,6 +35,8 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
     />
   ) : (
     <TimePicker.RangePicker
+      style={{ width: '100%', ...style }}
+      locale={locale}
       disabled={disabled}
       {...restProps}
       format={format}
@@ -62,8 +69,28 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
     [format, restProps],
   );
 
+  const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
+
   return (
-    <LFormItem required={required} isSelectType {...restProps}>
+    <LFormItem
+      required={required}
+      isSelectType
+      rules={[
+        {
+          validator(rule, value) {
+            let errMsg = '';
+            if (!value || !value?.filter(Boolean)?.length) {
+              errMsg = required ? `请选择${messageLabel}!` : '';
+            }
+            if (errMsg) {
+              return Promise.reject(errMsg);
+            }
+            return Promise.resolve();
+          },
+        },
+      ]}
+      {...restProps}
+    >
       <TimePickerWrapper
         disabled={disabled}
         format={format}

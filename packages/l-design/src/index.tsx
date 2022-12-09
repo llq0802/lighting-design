@@ -21,6 +21,15 @@ export type {
   LColorSketchPickerProps,
   LColorSliderPickerProps,
 } from './ColorPick';
+export { default as LForm } from './Form';
+export type { LFormProps } from './Form';
+// ==========基础Form容器组件==========
+export { default as LDrawerForm } from './Form/components/DrawerForm';
+export type { LDrawerFormProps } from './Form/components/DrawerForm';
+export { default as LModalForm } from './Form/components/MoadlForm';
+export type { LModalFormProps } from './Form/components/MoadlForm';
+export { default as LQueryForm } from './Form/components/QueryForm';
+export type { LQueryFormProps } from './Form/components/QueryForm';
 // ==========基础FormItem容器组件==========
 export { default as LFormItem } from './FormItem';
 export type { LFormItemProps } from './FormItem';
@@ -70,13 +79,15 @@ export type { LFormItemTreeSelectProps } from './FormItem/components/FormItemTre
 export { default as LFormItemUpload } from './FormItem/components/FormItemUpload';
 export type { LFormItemUploadProps } from './FormItem/components/FormItemUpload';
 export { default as LNumberRoll } from './NumberRoll';
+export { default as LSpin } from './Spin';
+export type { default as LSpinProps } from './Spin';
+export { default as LSwitch } from './Switch';
+export type { default as LSwitchProps } from './Switch';
+export { default as LTooltip } from './Tooltip';
+export type { default as LTooltipProps } from './Tooltip';
 // ==========基础组件==========
-export { default as Spin } from './Spin';
-export type { default as LightdSpinProps } from './Spin';
-export { default as Switch } from './Switch';
-export type { default as LightdSwitchProps } from './Switch';
-export { default as Tooltip } from './Tooltip';
-export type { default as LightdTooltipProps } from './Tooltip';
+export { default as LTrigger } from './Trigger';
+export type { default as LTriggerProps } from './Trigger';
 export { default as useFormDrawer } from './useFormDrawer';
 export type { DrawerModalProps, DrawerSubmitProps, FormDrawerSlotProps } from './useFormDrawer';
 export { default as useFormModal } from './useFormModal';

@@ -18,7 +18,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   value,
   onChange,
   dependencies = [],
-
+  disabled,
   options: outOptions = [],
   request,
   debounceTime,
@@ -53,14 +53,16 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   );
   // 判断依赖项是否有空或undefined
   const isClearDepends = useMemo(
-    () => depends.some((nameValue) => nameValue === '' || nameValue == undefined),
+    () =>
+      depends.some((nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length),
     [depends],
   );
 
   const opts = useMemo(() => {
     const rawOptions = radioProps.options || outOptions;
     if (all && rawOptions?.length > 0) {
-      rawOptions.unshift({ label: allLabel, value: allValue });
+      const retOptions = [{ label: allLabel, value: allValue }, ...rawOptions];
+      return retOptions;
     }
     return rawOptions;
   }, [all, allLabel, allValue, outOptions, radioProps.options]);
@@ -118,7 +120,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   return (
     <Radio.Group
       options={selectOptions}
-      disabled={isClearDepends}
+      disabled={disabled ?? isClearDepends}
       {...radioProps}
       value={value}
       onChange={handleChange}

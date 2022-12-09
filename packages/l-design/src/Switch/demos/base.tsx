@@ -1,4 +1,4 @@
-import { Switch } from 'lighting-design';
+import { LSwitch } from 'lighting-design';
 import type { FC } from 'react';
 
 const center = {
@@ -8,7 +8,7 @@ const center = {
 const Index: FC = () => {
   return (
     <div style={center}>
-      <Switch
+      <LSwitch
         defaultChecked
         onChange={(e) => {
           console.log(e);

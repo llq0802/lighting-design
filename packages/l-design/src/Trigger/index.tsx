@@ -5,7 +5,11 @@ import type { FC, ReactElement } from 'react';
 import { cloneElement, isValidElement } from 'react';
 
 export const prefixCls = 'lightd-trigger';
-export type TriggerProps = {
+export type LTriggerProps = {
+  width: number | string;
+  dropdownWidth: number;
+  dropdownClassName: string;
+  /** 配置字段 label为展示名称的字段 value为字段的值*/
   fieldNames?: {
     label: string;
     value: string;
@@ -21,21 +25,20 @@ export type TriggerProps = {
   | 'placeholder'
   | 'style'
   | 'getPopupContainer'
-  | 'allowClear'
-  | 'removeIcon'
   | 'clearIcon'
-  | 'showArrow'
   | 'size'
   | 'suffixIcon'
+  | 'dropdownStyle'
 >;
 
-const Trigger: FC<TriggerProps> = (props) => {
+const Trigger: FC<Partial<LTriggerProps>> = (props) => {
   const {
+    width = 250,
+    dropdownWidth = 500,
+    dropdownClassName,
     allowClear,
     suffixIcon,
-    removeIcon,
     clearIcon,
-    showArrow,
     size,
     getPopupContainer,
     fieldNames = { label: 'label', value: 'value' },
@@ -43,6 +46,7 @@ const Trigger: FC<TriggerProps> = (props) => {
     disabled = false,
     placeholder = '请选择',
     style,
+    dropdownStyle,
     children,
     ...restprops // value onchange
   } = props;
@@ -63,11 +67,12 @@ const Trigger: FC<TriggerProps> = (props) => {
   const dropdownRender = !isComponent
     ? undefined
     : () => (
-        <div style={{ padding: 8 }}>
+        <div style={{ padding: 8 }} className={dropdownClassName}>
           {cloneElement(children, {
             // @ts-ignore
             value: state?.[fieldNames.value],
             onChange: setState,
+            open: isOpen,
             setOpen: setIsOpen,
           })}
         </div>
@@ -77,23 +82,22 @@ const Trigger: FC<TriggerProps> = (props) => {
     <Select
       fieldNames={fieldNames}
       clearIcon={clearIcon}
-      removeIcon={removeIcon}
-      showArrow={showArrow}
       suffixIcon={suffixIcon}
       size={size}
       value={state?.[fieldNames.label]}
-      onChange={setState}
       allowClear={allowClear}
       getPopupContainer={getPopupContainer}
       placement={placement}
       disabled={disabled}
       popupClassName={prefixCls}
-      style={{ width: 250, ...style }}
+      style={{ width: width, ...style }}
       open={isOpen}
       placeholder={placeholder}
-      dropdownMatchSelectWidth={500}
+      dropdownMatchSelectWidth={dropdownWidth}
       onDropdownVisibleChange={setIsOpen}
+      dropdownStyle={dropdownStyle}
       dropdownRender={dropdownRender}
+      onChange={setState}
     />
   );
 };

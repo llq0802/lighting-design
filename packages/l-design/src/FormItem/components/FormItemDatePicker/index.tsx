@@ -55,13 +55,20 @@ const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
 };
 
 export interface LFormItemDatePickerProps extends LFormItemProps {
+  /** 禁用今天的前面的日期 为`0`时包括今天*/
   disabledDateBefore?: number;
+  /** 禁用今天的后面的日期 为`0`时包括今天*/
   disabledDateAfter?: number;
+  /** 是否展示时间 */
   showTime?: TimePickerProps | boolean;
+  /** 日期格式 */
   format?: string;
+  /** 表单获取到的时间格式 */
   dateValueType?: DateValueType;
+  /** 日期类型 */
   picker?: Picker;
   pickerProps?: DatePickerProps | MonthPickerProps | WeekPickerProps | any;
+  /** 是否是范围日期选择 */
   rangePicker?: boolean;
 }
 

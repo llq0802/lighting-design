@@ -1,4 +1,4 @@
-import { Spin } from 'lighting-design';
+import { LSpin } from 'lighting-design';
 import type { FC } from 'react';
 
 const center = {
@@ -8,7 +8,7 @@ const center = {
 const Index: FC = () => {
   return (
     <div style={center}>
-      <Spin />
+      <LSpin />
     </div>
   );
 };

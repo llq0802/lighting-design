@@ -8,14 +8,23 @@ import FormItemWrapper from './FormItemWrapper';
 type ContentProps = Record<string, any>;
 
 export interface LFormItemProps extends FormItemProps {
+  /** 重新渲染FormItem组件 */
   renderField?: (dom: ReactElement) => ReactElement;
+  /** 当配置了contentBefore或者contentAfter时组件垂直的对齐方式 */
   alignItems?: 'center' | 'start' | 'end';
+  /** 组件前面的内容 */
   contentBefore?: ReactNode;
+  /** 组件后面的内容 */
   contentAfter?: ReactNode;
+  /** 传给children的额外属性 */
   contentProps?: ContentProps;
+  /** 组件最外层容器类名 */
   className?: string;
+  /** 是否是选择类型的组件(内部使用) */
   isSelectType?: boolean;
+  /** 是否禁用 */
   disabled?: boolean;
+  /** 组件的placeholder */
   placeholder?: string;
 }
 

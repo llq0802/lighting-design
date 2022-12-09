@@ -26,8 +26,11 @@ export default {
     {
       title: '数据录入',
       children: [
-        'FormItem/index.md',
+        'Form/index.md',
         'Form/components/MoadlForm/index.md',
+        'Form/components/DrawerForm/index.md',
+        'Form/components/QueryForm/index.md',
+        'FormItem/index.md',
         'FormItem/components/FormItemInput/index.md',
         'FormItem/components/FormItemCaptcha/index.md',
         'FormItem/components/FormItemAutoComplete/index.md',
@@ -49,6 +52,7 @@ export default {
     },
     {
       title: '数据展示',
+      children: ['Table/index.md'],
     },
   ],
   //  hooks
