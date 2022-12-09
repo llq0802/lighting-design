@@ -51,6 +51,7 @@ export default {
     },
     {
       title: '数据展示',
+      children: ['Table/index.md'],
     },
   ],
   //  hooks
