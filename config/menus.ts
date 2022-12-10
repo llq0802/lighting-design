@@ -20,6 +20,7 @@ export default {
         'CaptchaButton/index.md',
         'useFormModal/index.md',
         'useFormDrawer/index.md',
+        'WaterMark/index.md',
       ],
     },
     {
