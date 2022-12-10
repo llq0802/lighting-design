@@ -21,7 +21,13 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
   }, [collapsed, onToggle]);
 
   return (
-    <a onClick={handleCollapse} className={`${prefixCls}-collapse`}>
+    <a
+      onClick={handleCollapse}
+      className={`${prefixCls}-collapse`}
+      style={{
+        whiteSpace: 'nowrap',
+      }}
+    >
       {collapsed ? '展开' : '收起'}
       <DownOutlined
         style={{

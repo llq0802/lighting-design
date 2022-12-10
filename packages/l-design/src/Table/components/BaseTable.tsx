@@ -1,12 +1,15 @@
 import { useMount, usePagination } from 'ahooks';
 import type { CardProps, FormInstance } from 'antd';
-import { Card, Table } from 'antd';
+import { Card, Space, Table } from 'antd';
 import type { ColumnsType, TableProps } from 'antd/lib/table';
+import classnames from 'classnames';
 import type { CSSProperties, FC, MutableRefObject, ReactElement, ReactNode } from 'react';
-import { useCallback, useImperativeHandle, useMemo, useRef } from 'react';
+import { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { LQueryFormProps } from '../../Form/components/QueryForm';
+import TableContext from '../TableContext';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
 import './styles.less';
+import ToolbarAction from './ToolBarAction';
 
 export type BaseTableProps = {
   /** 表格内容是否换行 */
@@ -29,6 +32,8 @@ export type BaseTableProps = {
   tableRef: MutableRefObject<any | undefined>;
   /** 是否占满剩余空间 */
   isSpace: boolean;
+  /** 表格最外层div类名 */
+  wrapperClassName: string;
   /** 表格额外类名 */
   tableClassName: string;
   /** 表格额外style */
@@ -40,15 +45,15 @@ export type BaseTableProps = {
 
   columns: ColumnsType<Record<string, any>>;
   /** 是否显示内置表格工具 */
-  showToolbarAction: boolean;
+  showToolbar: boolean;
   /** 重新渲染toolBar 包括内置表格工具 */
-  toolbarRender: (dom: ReactElement) => ReactNode;
+  toolbarRender: (dom: ReactElement | null) => ReactNode;
   /** 重新渲染表格 */
-  tableRender: (dom: ReactElement) => ReactNode;
+  tableRender: (tableDom: ReactElement, props: BaseTableProps) => ReactNode;
   /** 整个toolBar的左侧 */
   toolbarLeft: ReactNode;
   /** 整个toolBar的右侧 在内置表格工具左侧 */
-  toolbaRight: ReactNode;
+  toolbarRight: ReactNode;
   /** 表格上部区域 */
   tableExtra: ReactNode;
   /** 表单查询框组 */
@@ -64,6 +69,8 @@ export type RequestType = 'onSearch' | 'onReload' | 'onReset';
 // 显示数据总量
 const showTotal = (total: number) => `共 ${total} 条数据`;
 
+const prefixCls = 'lightd-table';
+
 const BaseTable: FC<BaseTableProps> = (props) => {
   const {
     nowrap,
@@ -78,8 +85,18 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     formCardProps,
     tableCardProps,
 
+    tableExtra,
+    tableRender,
+    showToolbar = true,
+    toolbarRender,
+    toolbarLeft,
+    toolbarRight,
+
+    wrapperClassName,
     tableClassName,
     tableStyle,
+    size: defaultSize,
+    columns,
 
     formItems = [],
 
@@ -87,6 +104,9 @@ const BaseTable: FC<BaseTableProps> = (props) => {
 
     ...restProps
   } = props;
+
+  const [currentColumns, setCurrentColumns] = useState(columns);
+  const [size, setSize] = useState(defaultSize);
 
   const queryFormRef = useRef<FormInstance | null>(null);
   // 绑定SearchForm组件form实例
@@ -114,6 +134,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
 
   const hasFromItems = useMemo(() => Array.isArray(formItems) && formItems.length > 0, [formItems]);
 
+  // request请求
   const {
     data,
     loading: requestLoading,
@@ -136,7 +157,6 @@ const BaseTable: FC<BaseTableProps> = (props) => {
         total: res.total,
       };
     },
-
     {
       manual: true,
       defaultCurrent: outPaginationCurrent,
@@ -192,9 +212,9 @@ const BaseTable: FC<BaseTableProps> = (props) => {
   );
 
   // 默认 onReset 中已经重置表单，这里只从第一页开始显示、查询数据请求
-  const handleSearchFormReset = useCallback(() => {
-    handleSearch('onReset');
-  }, [handleSearch]);
+  // const handleSearchFormReset = useCallback(() => {
+  //   handleSearch('onReset');
+  // }, [handleSearch]);
 
   // 表格分页排序等改变时
   const handleTableChange = useCallback(
@@ -238,12 +258,31 @@ const BaseTable: FC<BaseTableProps> = (props) => {
       }
     }
   });
+
+  // useEffect(() => {
+  //   setCurrentColumns(columns);
+  // }, [columns]);
+
+  const toolbarDom = showToolbar ? (
+    <div className={`${prefixCls}-toolbar`}>
+      <div className={`${prefixCls}-toolbar-content-left`}>{<Space>{toolbarLeft}</Space>}</div>
+      <div className={`${prefixCls}-toolbar-content-right`}>
+        <Space>
+          {toolbarRight}
+          <ToolbarAction config={{}} className={`${prefixCls}-toolbar-action`} />
+        </Space>
+      </div>
+    </div>
+  ) : null;
+
   const tableDom = (
     <Card bordered={false} className={LIGHTD_CARD} {...tableCardProps}>
+      {toolbarRender ? toolbarRender(toolbarDom) : toolbarDom}
       <Table
         className={tableClassName}
         style={tableStyle}
-        loading={requestLoading}
+        columns={currentColumns}
+        loading={restProps?.loading || requestLoading}
         dataSource={data?.list}
         onChange={handleTableChange}
         pagination={
@@ -265,21 +304,36 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     </Card>
   );
 
-  return (
-    <div>
-      <SearchForm
-        ref={handleFormRef}
-        cardProps={formCardProps}
-        onFinish={handleSearchFormFinish}
-        onReset={handleSearchFormReset}
-        loading={requestLoading}
-        formItems={formItems}
-        initialValues={formInitialValues}
-        {...queryFormProps}
-      />
-      {tableDom}
-    </div>
+  const renderTable = () => (tableRender ? tableRender(tableDom, props) : tableDom);
+
+  const finallyDom = (
+    <TableContext.Provider
+      value={{
+        size,
+        setSize,
+        reload: refresh,
+        columns: currentColumns,
+        setColumns: setCurrentColumns,
+      }}
+    >
+      <div className={classnames(prefixCls, wrapperClassName)}>
+        <SearchForm
+          loading={!!restProps?.loading || requestLoading}
+          ref={handleFormRef}
+          cardProps={formCardProps}
+          onFinish={handleSearchFormFinish}
+          // onReset={handleSearchFormReset}
+          formItems={formItems}
+          initialValues={formInitialValues}
+          {...queryFormProps}
+        />
+        {tableExtra}
+        {renderTable()}
+      </div>
+    </TableContext.Provider>
   );
+
+  return finallyDom;
 };
 
 export default BaseTable;

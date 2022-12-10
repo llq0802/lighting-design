@@ -4,7 +4,9 @@ import { Space, Tooltip } from 'antd';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import TableContext from '../TableContext';
+import ColumnSetting from './ColumnSetting';
 
+// 刷新
 const ReloadIcon = () => {
   const { reload } = useContext(TableContext);
   return (
@@ -18,8 +20,9 @@ export type ToolbarActionProps = SpaceProps;
 
 const ToolbarAction: FC<ToolbarActionProps> = ({ ...restProps }) => {
   return (
-    <Space {...restProps} style={{ fontSize: 16, ...restProps?.style }}>
+    <Space {...restProps} className="asdv" style={{ fontSize: 16, ...restProps?.style }}>
       <ReloadIcon />
+      <ColumnSetting />
     </Space>
   );
 };
