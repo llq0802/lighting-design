@@ -79,7 +79,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
         {
           validator(rule, value) {
             let errMsg = '';
-            if (!value || !value?.filter(Boolean)?.length) {
+            if (!value || (Array.isArray(value) && !value?.filter(Boolean)?.length)) {
               errMsg = required ? `请选择${messageLabel}!` : '';
             }
             if (errMsg) {

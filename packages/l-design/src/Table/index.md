@@ -10,4 +10,4 @@ nav:
 
 LTable,
 
- <!-- <code src='./demos/Demo1.tsx'> -->
+ <code src='./demos/Demo1.tsx' background="#f5f5f5">

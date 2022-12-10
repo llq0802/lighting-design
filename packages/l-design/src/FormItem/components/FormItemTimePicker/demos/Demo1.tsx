@@ -15,7 +15,6 @@ const Demo1 = () => {
         format="HH:mm"
         required
         initialValue={'15:08'}
-        disabled
       />
       <LFormItemTimePicker
         label="时间选择2"
