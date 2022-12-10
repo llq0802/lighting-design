@@ -6,6 +6,9 @@ import LForm from '../../Form';
 import type { LQueryFormProps } from '../../Form/components/QueryForm';
 import LQueryForm from '../../Form/components/QueryForm';
 import { uniqueId } from '../../utils';
+import './styles.less';
+
+export const LIGHTD_CARD = 'lightd-card';
 
 export declare interface SearchFormProps extends LQueryFormProps {
   formItems?: Exclude<ReactNode, string | number | boolean | null | undefined>[];
@@ -33,9 +36,14 @@ const SearchForm = forwardRef(
 
     return (
       <Card
+        className={LIGHTD_CARD}
         bordered={false}
         {...cardProps}
-        bodyStyle={{ paddingBottom: 0, ...cardProps?.bodyStyle }}
+        bodyStyle={{
+          paddingBottom: 0,
+          marginBottom: 16,
+          ...cardProps?.bodyStyle,
+        }}
       >
         <LQueryForm form={form} name={searchFormId} {...restProps}>
           {items.map((item: any, index: number) =>

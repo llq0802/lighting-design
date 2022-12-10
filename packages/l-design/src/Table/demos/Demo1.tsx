@@ -1,11 +1,43 @@
-import { Form } from 'antd';
+import type { FormInstance } from 'antd';
+import { LFormItemInput } from 'lighting-design';
+import { useRef } from 'react';
 import BaseTable from '../components/BaseTable';
+import { apiGetUserList, columns } from './utils';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
+  const formRef = useRef<FormInstance>();
+
+  // useEffect(() => {
+  //   console.log('formRef', formRef);
+  // }, []);
+
   return (
     <>
-      <BaseTable />
+      <BaseTable
+        formItems={[
+          <LFormItemInput name="input4" label="输入框" />,
+          <LFormItemInput name="input5" label="输入框" />,
+          <LFormItemInput name="input6" label="输入框" />,
+          <LFormItemInput name="input7" label="输入框" />,
+          <LFormItemInput name="input8" label="输入框" />,
+        ]}
+        formRef={formRef}
+        columns={columns}
+        // formInitialValues={{
+        //   input4: '123123',
+        // }}
+        request={async (params, requestType) => {
+          console.log('params ', params);
+          console.log('requestType ', requestType);
+          const res = await apiGetUserList();
+          // console.log(' res', res);
+          return {
+            success: true,
+            data: res.data,
+            total: res.total,
+          };
+        }}
+      />
     </>
   );
 };
