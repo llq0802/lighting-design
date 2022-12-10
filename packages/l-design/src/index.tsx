@@ -92,3 +92,5 @@ export { default as useFormDrawer } from './useFormDrawer';
 export type { DrawerModalProps, DrawerSubmitProps, FormDrawerSlotProps } from './useFormDrawer';
 export { default as useFormModal } from './useFormModal';
 export type { DraggableModalProps, FormSlotProps } from './useFormModal';
+export { default as LWaterMark } from './WaterMark';
+export type { default as LWaterMarkProps } from './WaterMark';

@@ -1,5 +1,5 @@
 ---
-title: 水印
+title: LWaterMark
 order: 2
 nav:
   order: 2
@@ -8,7 +8,7 @@ nav:
 
 # 水印
 
-选择弹出框、弹出任意内容、用于复杂的选择组件。
+使用了 `MutationObserver` API 用户无法直接修改
 
 ## 代码演示
 

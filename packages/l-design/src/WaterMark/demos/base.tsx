@@ -1,9 +1,9 @@
-import WaterMark from '..';
+import { LWaterMark } from 'lighting-design';
 
 const Index = () => {
   return (
     <div style={{ width: '100%', height: 400 }}>
-      <WaterMark offsetLeft={40} rotate={30} content="测试水印" />
+      <LWaterMark offsetLeft={40} rotate={30} content="测试水印" />
     </div>
   );
 };

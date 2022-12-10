@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
-export interface WaterMarkProps {
+export interface LWaterMarkProps {
   width?: number;
   height?: number;
   /**
@@ -44,7 +44,7 @@ export interface WaterMarkProps {
   children?: React.ReactNode;
 }
 
-const WaterMark: React.FC<WaterMarkProps> = ({
+const WaterMark: React.FC<LWaterMarkProps> = ({
   content,
   contentType = 'fill',
   width = 200,
@@ -108,10 +108,11 @@ const WaterMark: React.FC<WaterMarkProps> = ({
       createWaterMark();
       createObserver();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 
   return (
-    <div className={classNames('water-mark', className)} style={style} ref={containerRef}>
+    <div className={classNames('lightd-water-mark', className)} style={style} ref={containerRef}>
       {children}
     </div>
   );

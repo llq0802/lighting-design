@@ -16,11 +16,11 @@ export default {
         'Switch/index.md',
         'ColorPick/index.md',
         'Trigger/index.md',
+        'WaterMark/index.md',
         'NumberRoll/index.md',
         'CaptchaButton/index.md',
         'useFormModal/index.md',
         'useFormDrawer/index.md',
-        'WaterMark/index.md',
       ],
     },
     {
