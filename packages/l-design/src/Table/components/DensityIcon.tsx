@@ -1,7 +1,7 @@
 import { ColumnHeightOutlined } from '@ant-design/icons';
 import { Dropdown, Tooltip } from 'antd';
+import type { SetStateAction } from 'react';
 import { useContext } from 'react';
-import type { TableContextProps } from '../TableContext';
 import TableContext from '../TableContext';
 
 const DensityIcon = () => {
@@ -15,7 +15,7 @@ const DensityIcon = () => {
         style: { width: 80 },
         selectedKeys: [!size || size === 'large' ? 'default' : size],
         onClick({ key }) {
-          setSize?.(key as TableContextProps['size']);
+          setSize?.(key as SetStateAction<'middle' | 'small' | 'large'>);
         },
         items: [
           { label: '默认', key: 'default' },

@@ -1,27 +1,47 @@
 import type { FormInstance } from 'antd';
 import { Button } from 'antd';
 import { LFormItemInput } from 'lighting-design';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import BaseTable from '../components/BaseTable';
 import { apiGetUserList, columns } from './utils';
 
 const Demo1 = () => {
   const formRef = useRef<FormInstance>();
+  const tableRef = useRef();
 
   // useEffect(() => {
   //   console.log('formRef', formRef);
   // }, []);
 
+  const [state, setState] = useState({
+    useid: '123',
+  });
+
   return (
     <>
       <BaseTable
+        // loading={{
+        //   size: 'large',
+        // }}
+        tableRef={tableRef}
+        requestParams={state}
         queryFormProps={{
           showColsNumber: 3,
           isSpace: false,
         }}
         toolbarLeft={
           <>
-            <Button type="primary">新增</Button>
+            <Button
+              type="primary"
+              onClick={() => {
+                setState({
+                  useid: Math.random().toString(16).slice(2),
+                });
+                console.log(' tableRef', tableRef);
+              }}
+            >
+              新增
+            </Button>
             <Button type="primary">导出</Button>
           </>
         }
@@ -44,7 +64,7 @@ const Demo1 = () => {
           input4: '123123',
         }}
         request={async (params, requestType) => {
-          // console.log('params ', params);
+          console.log('params --', params);
           // console.log('requestType ', requestType);
           const res = await apiGetUserList();
           // console.log(' res', res);
@@ -54,6 +74,20 @@ const Demo1 = () => {
             total: res.total,
           };
         }}
+        expandable={{
+          onExpand: (a, b) => {
+            console.log(' a,b', a, b);
+          },
+        }}
+        // contentRender={(data: any[]) => (
+        //   <Row gutter={[8, 8]} >
+        //     {data.map((d) => (
+        //       <Col span={8} key={d.name}>
+        //         <Card title={d.name} />
+        //       </Col>
+        //     ))}
+        //   </Row>
+        // )}
       />
     </>
   );

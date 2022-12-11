@@ -55,6 +55,14 @@ const data = [
     name: 'Joe Black',
     age: 32,
     address: 'Sidney No. 1 Lake Park',
+    children: [
+      {
+        key: '623',
+        name: 'Joe Black12',
+        age: 32,
+        address: 'Sidney No. 1 Lake Park',
+      },
+    ],
   },
   {
     key: '7',
