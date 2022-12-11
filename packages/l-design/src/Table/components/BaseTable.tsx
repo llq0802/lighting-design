@@ -1,6 +1,7 @@
-import { useMount, usePagination } from 'ahooks';
+import { useMount, usePagination, useUpdateEffect } from 'ahooks';
 import type { CardProps, FormInstance } from 'antd';
 import { Card, Space, Table } from 'antd';
+import type { Key } from 'antd/es/table/interface';
 import type { ColumnsType, TableProps } from 'antd/lib/table';
 import classnames from 'classnames';
 import type { CSSProperties, FC, MutableRefObject, ReactElement, ReactNode } from 'react';
@@ -65,12 +66,20 @@ export type BaseTableProps = {
 } & Omit<TableProps<Record<string, any>>, 'columns'>;
 
 export type RequestType = 'onSearch' | 'onReload' | 'onReset';
+export const LIGHTD_TABLE = 'lightd-table';
 
 // 显示数据总量
-const showTotal = (total: number) => `共 ${total} 条数据`;
+const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
+  <span
+    className={`${LIGHTD_TABLE}-pagination-showTotal`}
+  >{`当前显示${range[0]}-${range[1]} 条，共 ${total} 条数据`}</span>
+);
 
-const prefixCls = 'lightd-table';
-
+/**
+ * 表格组件
+ * @param props
+ * @returns
+ */
 const BaseTable: FC<BaseTableProps> = (props) => {
   const {
     nowrap,
@@ -95,8 +104,8 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     wrapperClassName,
     tableClassName,
     tableStyle,
-    size: defaultSize,
-    columns,
+    size: outSize = 'middle',
+    columns: outColumns = [],
 
     formItems = [],
 
@@ -105,11 +114,11 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     ...restProps
   } = props;
 
-  const [currentColumns, setCurrentColumns] = useState(columns);
-  const [size, setSize] = useState(defaultSize);
-
+  const [currentColumns, setCurrentColumns] = useState(outColumns);
+  const [currentSize, setCurrentSize] = useState(outSize);
+  // 绑定SearchForm组件form实例在内部
   const queryFormRef = useRef<FormInstance | null>(null);
-  // 绑定SearchForm组件form实例
+  // 绑定SearchForm组件form实例在外部
   const handleFormRef = useCallback(
     (refValue: FormInstance) => {
       queryFormRef.current = refValue;
@@ -144,13 +153,9 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     pagination: paginationAction,
   } = usePagination(
     async (arg, requestType) => {
-      console.log('...arg ', arg);
       const res = await request(arg, requestType);
       if (!res?.success) {
-        return {
-          list: [],
-          total: 0,
-        };
+        return { list: [], total: 0 };
       }
       return {
         list: res.data,
@@ -201,6 +206,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     (formValues: Record<string, any>) => {
       return run(
         {
+          ...params[0],
           current: 1,
           pageSize: outPaginationPageSize,
           formValues: formValues,
@@ -208,7 +214,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
         'onSearch',
       );
     },
-    [outPaginationPageSize, run],
+    [outPaginationPageSize, params, run],
   );
 
   // 默认 onReset 中已经重置表单，这里只从第一页开始显示、查询数据请求
@@ -247,6 +253,10 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     onSearch: handleSearch,
   }));
 
+  useUpdateEffect(() => {
+    setCurrentColumns(outColumns);
+  }, [outColumns]);
+
   useMount(() => {
     if (autoRequest) {
       if (hasFromItems) {
@@ -259,17 +269,13 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     }
   });
 
-  // useEffect(() => {
-  //   setCurrentColumns(columns);
-  // }, [columns]);
-
   const toolbarDom = showToolbar ? (
-    <div className={`${prefixCls}-toolbar`}>
-      <div className={`${prefixCls}-toolbar-content-left`}>{<Space>{toolbarLeft}</Space>}</div>
-      <div className={`${prefixCls}-toolbar-content-right`}>
+    <div className={`${LIGHTD_TABLE}-toolbar`}>
+      <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>{<Space>{toolbarLeft}</Space>}</div>
+      <div className={`${LIGHTD_TABLE}-toolbar-content-right`}>
         <Space>
           {toolbarRight}
-          <ToolbarAction config={{}} className={`${prefixCls}-toolbar-action`} />
+          <ToolbarAction className={`${LIGHTD_TABLE}-toolbar-action`} />
         </Space>
       </div>
     </div>
@@ -281,9 +287,10 @@ const BaseTable: FC<BaseTableProps> = (props) => {
       <Table
         className={tableClassName}
         style={tableStyle}
+        size={currentSize}
         columns={currentColumns}
         loading={restProps?.loading || requestLoading}
-        dataSource={data?.list}
+        dataSource={data?.list || []}
         onChange={handleTableChange}
         pagination={
           outPagination !== false
@@ -304,19 +311,20 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     </Card>
   );
 
-  const renderTable = () => (tableRender ? tableRender(tableDom, props) : tableDom);
+  const renderTableDom = () => (tableRender ? tableRender(tableDom, props) : tableDom);
 
   const finallyDom = (
+    // 根节点注册
     <TableContext.Provider
       value={{
-        size,
-        setSize,
         reload: refresh,
-        columns: currentColumns,
+        size: currentSize,
+        setSize: setCurrentSize,
+        columns: outColumns,
         setColumns: setCurrentColumns,
       }}
     >
-      <div className={classnames(prefixCls, wrapperClassName)}>
+      <div className={classnames(LIGHTD_TABLE, wrapperClassName)}>
         <SearchForm
           loading={!!restProps?.loading || requestLoading}
           ref={handleFormRef}
@@ -328,7 +336,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
           {...queryFormProps}
         />
         {tableExtra}
-        {renderTable()}
+        {renderTableDom()}
       </div>
     </TableContext.Provider>
   );

@@ -44,8 +44,8 @@ const Demo1 = () => {
           input4: '123123',
         }}
         request={async (params, requestType) => {
-          console.log('params ', params);
-          console.log('requestType ', requestType);
+          // console.log('params ', params);
+          // console.log('requestType ', requestType);
           const res = await apiGetUserList();
           // console.log(' res', res);
           return {

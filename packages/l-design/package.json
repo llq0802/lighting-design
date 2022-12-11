@@ -37,7 +37,7 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "antd": ">=4.2.0",
+    "antd": ">=4.24.0",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   }

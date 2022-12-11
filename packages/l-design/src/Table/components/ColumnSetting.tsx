@@ -1,63 +1,69 @@
 import { SettingOutlined } from '@ant-design/icons';
+import { useUpdateEffect } from 'ahooks';
 import type { TableColumnType } from 'antd';
 import { Checkbox, Popover, Tooltip, Tree } from 'antd';
 import type { Key, ReactNode } from 'react';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import TableContext from '../TableContext';
-
-const prefixCls = 'lightd-table';
+import { LIGHTD_TABLE } from './BaseTable';
 
 const ColumnSetting = () => {
-  const { columns = [], setColumns } = useContext(TableContext);
+  const { columns: outColumns = [], setColumns } = useContext(TableContext);
+
+  console.log('ColumnSetting ', outColumns);
   // 全部列的 key
   const columnsKey = useMemo(
     () =>
-      columns.map((column: TableColumnType<any>, index: number) => {
+      outColumns.map((column: TableColumnType<any>, index: number) => {
         return `${column.dataIndex || ''}-${column.key || ''}-${index}`;
       }),
-    [columns],
+    [outColumns],
   );
+  // 当前显示的列 key ，默认全部选中
+  const [selectedKey, setSelectedKey] = useState<Key[]>(columnsKey);
 
-  const [selectedKey, setSelectedKey] = useState<Key[]>(columnsKey); // 当前显示的列 key ，默认全部选中
-
-  const checkAll = useMemo(() => selectedKey.length === columns.length, [selectedKey, columns]);
+  const checkAll = useMemo(
+    () => selectedKey.length === outColumns.length,
+    [selectedKey, outColumns],
+  );
 
   const indeterminate = useMemo(
-    () => selectedKey.length > 0 && selectedKey.length !== columns.length,
-    [selectedKey, columns],
+    () => selectedKey.length > 0 && selectedKey.length !== outColumns.length,
+    [selectedKey, outColumns],
   );
 
-  // useEffect(() => {
-  //   const newColumns = columns.filter((item, index) => selectedKey.includes(columnsKey[index]));
-  //   console.log('newColumns ', newColumns);
-  //   setColumns?.(newColumns);
-  // }, [selectedKey]);
+  useUpdateEffect(() => {
+    const newColumns = outColumns.filter((item, index) => selectedKey.includes(columnsKey[index]));
+    setColumns?.(newColumns);
+  }, [outColumns, columnsKey, selectedKey, setColumns]);
 
-  console.log(' setSelectedKey');
-  useEffect(() => {
+  useUpdateEffect(() => {
     setSelectedKey(columnsKey);
   }, [columnsKey]);
 
   const treeData = useMemo(() => {
-    return columns.map((item, index) => {
+    return outColumns.map((item, index) => {
       return {
         key: columnsKey[index],
         title: (item.title || '') as ReactNode,
       };
     });
-  }, [columns, columnsKey]);
+  }, [outColumns, columnsKey]);
 
   const onCheckAllChange = useCallback(() => {
-    if (selectedKey.length === columns.length) {
+    if (selectedKey.length === outColumns.length) {
       setSelectedKey([]);
     } else {
       setSelectedKey([...columnsKey]);
     }
-  }, [selectedKey.length, columns.length, columnsKey]);
+  }, [selectedKey.length, outColumns.length, columnsKey]);
 
-  const onCheck = useCallback((checkedKeysValue: Key[]) => {
-    setSelectedKey(checkedKeysValue);
-  }, []);
+  const handleTreeCheck = useCallback(
+    (checkedKeys: Key[] | { checked: Key[]; halfChecked: Key[] }) => {
+      setSelectedKey(checkedKeys as Key[]);
+    },
+    [],
+  );
 
   return (
     <Popover
@@ -76,10 +82,10 @@ const ColumnSetting = () => {
           checkable
           selectable={false}
           blockNode
-          onCheck={onCheck}
+          onCheck={handleTreeCheck}
           checkedKeys={selectedKey}
           treeData={treeData}
-          className={`${prefixCls}-column-setting`}
+          className={`${LIGHTD_TABLE}-column-setting`}
         />
       }
       arrowPointAtCenter

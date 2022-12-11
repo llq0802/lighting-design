@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import { useContext } from 'react';
 import TableContext from '../TableContext';
 import ColumnSetting from './ColumnSetting';
+import DensityIcon from './DensityIcon';
 
 // 刷新
 const ReloadIcon = () => {
@@ -16,12 +17,18 @@ const ReloadIcon = () => {
   );
 };
 
-export type ToolbarActionProps = SpaceProps;
+export type ToolbarActionProps = SpaceProps & Record<string, any>;
 
+/**
+ * 内置工具栏
+ * @param param0
+ * @returns
+ */
 const ToolbarAction: FC<ToolbarActionProps> = ({ ...restProps }) => {
   return (
-    <Space {...restProps} className="asdv" style={{ fontSize: 16, ...restProps?.style }}>
+    <Space size={10} {...restProps} style={{ fontSize: 16, ...restProps?.style }}>
       <ReloadIcon />
+      <DensityIcon />
       <ColumnSetting />
     </Space>
   );
