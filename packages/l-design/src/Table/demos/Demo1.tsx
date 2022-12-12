@@ -8,7 +8,7 @@ import { apiGetUserList, columns } from './utils';
 
 const Demo1: FC = () => {
   const formRef = useRef<FormInstance>();
-  const tableRef = useRef();
+  const tableRef = useRef<null>(null);
 
   // useEffect(() => {
   //   console.log('formRef', formRef);
@@ -18,12 +18,18 @@ const Demo1: FC = () => {
     parentId: '0',
   });
 
+  const formItems = [
+    <LFormItemInput key="0" name="input4" label="输入框" />,
+    <LFormItemInput key="1" name="input5" label="输入框" />,
+    <LFormItemInput key="2" name="input6" label="输入框" />,
+    <LFormItemInput key="3" name="input7" label="输入框" />,
+    <LFormItemInput key="4" name="input8" label="输入框" />,
+  ];
+
   return (
     <LTable
       // showToolbar={false}
-      // loading={{
-      //   size: 'large',
-      // }}
+      loading={{ size: 'large' }}
       tableRef={tableRef}
       requestParams={state}
       queryFormProps={{
@@ -35,9 +41,6 @@ const Demo1: FC = () => {
           <Button
             type="primary"
             onClick={() => {
-              setState({
-                useid: Math.random().toString(16).slice(2),
-              });
               console.log(' tableRef', tableRef);
             }}
           >
@@ -52,13 +55,7 @@ const Demo1: FC = () => {
       //     <Button type="primary">导入</Button>
       //   </>
       // }
-      formItems={[
-        <LFormItemInput name="input4" label="输入框" />,
-        <LFormItemInput name="input5" label="输入框" />,
-        <LFormItemInput name="input6" label="输入框" />,
-        <LFormItemInput name="input7" label="输入框" />,
-        <LFormItemInput name="input8" label="输入框" />,
-      ]}
+      formItems={formItems}
       formRef={formRef}
       columns={columns}
       // formInitialValues={{
@@ -77,12 +74,13 @@ const Demo1: FC = () => {
         };
       }}
       expandable={{
-        onExpand: (isOPen, record) => {
+        onExpand: async (isOPen, record) => {
           if (isOPen) {
-            console.log('record', record);
-            setState({
-              parentId: record.key,
+            // console.log('record', record);
+            await setState({
+              parentId: Math.random().toString(16).slice(2),
             });
+            tableRef.current!.onReload();
           }
         },
       }}

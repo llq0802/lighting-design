@@ -1,7 +1,7 @@
 import { FullscreenExitOutlined, FullscreenOutlined, ReloadOutlined } from '@ant-design/icons';
 import { useFullscreen } from 'ahooks';
 import type { SpaceProps } from 'antd';
-import { Space, Tooltip } from 'antd';
+import { ConfigProvider, Space, Tooltip } from 'antd';
 import type { CSSProperties, FC } from 'react';
 import { useContext } from 'react';
 import TableContext from '../TableContext';
@@ -10,11 +10,13 @@ import DensityIcon from './DensityIcon';
 
 // 刷新图标
 const ReloadIcon = () => {
-  const { reload } = useContext(TableContext);
+  const { reload, rootRef } = useContext(TableContext);
   return (
-    <Tooltip title="刷新">
-      <ReloadOutlined onClick={reload} />
-    </Tooltip>
+    <ConfigProvider getPopupContainer={() => rootRef!.current || document.body}>
+      <Tooltip title="刷新重置">
+        <ReloadOutlined onClick={reload} />
+      </Tooltip>
+    </ConfigProvider>
   );
 };
 // 全屏
@@ -23,14 +25,16 @@ const FullscreenIcon = () => {
   const [isFull, { enterFullscreen, exitFullscreen }] = useFullscreen(rootRef!.current);
 
   return isFull ? (
-    <Tooltip title="退出全屏">
-      <FullscreenExitOutlined
-        onClick={() => {
-          exitFullscreen();
-          setFullScreen?.(false);
-        }}
-      />
-    </Tooltip>
+    <ConfigProvider getPopupContainer={() => rootRef!.current || document.body}>
+      <Tooltip title="退出全屏">
+        <FullscreenExitOutlined
+          onClick={() => {
+            exitFullscreen();
+            setFullScreen?.(false);
+          }}
+        />
+      </Tooltip>
+    </ConfigProvider>
   ) : (
     <Tooltip title="进入全屏">
       <FullscreenOutlined

@@ -1,11 +1,11 @@
-import { useMount, usePagination, useUpdateEffect } from 'ahooks';
+import { usePagination, useUpdateEffect } from 'ahooks';
 import type { CardProps, FormInstance } from 'antd';
-import { Card, Space, Spin, Table } from 'antd';
+import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import type { Key } from 'antd/es/table/interface';
 import type { ColumnsType, TableProps } from 'antd/lib/table';
 import classnames from 'classnames';
 import type { CSSProperties, FC, MutableRefObject, ReactElement, ReactNode } from 'react';
-import { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { LQueryFormProps } from '../../Form/components/QueryForm';
 import TableContext from '../TableContext';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
@@ -14,6 +14,9 @@ import type { ToolbarActionConfigProps } from './ToolBarAction';
 import ToolbarAction from './ToolBarAction';
 
 export type BaseTableProps = {
+  /** 表格 表单是否准备好 false时表格不会请求 表单不能提交查询 */
+  isReady?: boolean;
+
   /** 全屏表格的背景颜色 */
   fullScreenBackgroundColor?: string;
   /** 表格内容是否换行 */
@@ -122,7 +125,10 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     tableExtra,
     tableRender,
     showToolbar = true,
-    toolbarActionConfig = {},
+    isReady = true,
+    toolbarActionConfig = {
+      showFullscreen: true,
+    },
     toolbarRender,
     toolbarLeft,
     toolbarRight,
@@ -191,6 +197,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     loading: requestLoading,
     run,
     refresh,
+    mutate,
     params,
     pagination: paginationAction,
   } = usePagination(
@@ -218,7 +225,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     },
   );
 
-  // 重置表单数据
+  // 重置数据，从第一页开始显示、查询数据
   const handleReset = useCallback(() => {
     if (hasFromItems) {
       queryFormRef.current?.resetFields();
@@ -250,6 +257,26 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     [hasFromItems, outPaginationPageSize, paginationAction, run],
   );
 
+  // 根据当前条件和页码 查询数据
+  const handleReload = useCallback(
+    (type = 'onReload') => {
+      if (hasFromItems) {
+        const formValues = queryFormRef.current?.getFieldsValue();
+        return run(
+          {
+            current: paginationAction?.current,
+            pageSize: paginationAction?.pageSize,
+            formValues: formValues,
+          },
+          type,
+        );
+      } else {
+        paginationAction.changeCurrent(paginationAction?.current);
+      }
+    },
+    [hasFromItems, paginationAction, run],
+  );
+
   // 表单查询
   const handleSearchFormFinish = useCallback(
     (formValues: Record<string, any>) => {
@@ -273,30 +300,34 @@ const BaseTable: FC<BaseTableProps> = (props) => {
 
   // 表格分页排序等改变时
   const handleTableChange = useCallback(
-    (pagination) => {
+    (pagination: Record<string, any>) => {
       // console.log('pagination ', pagination);
       // console.log('filters ', filters);
       // console.log('sorter ', sorter);
       // console.log('extra ', extra);
-
-      const formValues = queryFormRef.current?.getFieldsValue();
-      return run(
-        {
-          current: pagination.current,
-          pageSize: pagination.pageSize,
-          formValues: formValues,
-        },
-        'onReload',
-      );
+      if (hasFromItems) {
+        const formValues = queryFormRef.current?.getFieldsValue();
+        return run(
+          {
+            current: pagination.current,
+            pageSize: pagination.pageSize,
+            formValues: formValues,
+          },
+          'onReload',
+        );
+      } else {
+        paginationAction.changeCurrent(pagination?.current);
+      }
     },
-    [run],
+    [hasFromItems, paginationAction, run],
   );
 
   // 暴露外部方法
   useImperativeHandle(tableRef, () => ({
     // 根据条件，当前页、刷新数据
-    onReload: refresh,
-    // 重置数据，清空选择
+    // onReload: refresh,
+    onReload: handleReload,
+    // 重置数据，从第一页开始显示、查询数据
     onReset: handleReset,
     // 根据条件，从第一页开始显示、查询数据
     onSearch: handleSearch,
@@ -315,8 +346,9 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     setCurrentColumns(outColumns);
   }, [outColumns]);
 
-  useMount(() => {
-    if (autoRequest) {
+  // 初始化请求
+  useEffect(() => {
+    if (autoRequest && isReady) {
       if (hasFromItems) {
         Promise.resolve().then(() => {
           queryFormRef.current?.submit();
@@ -325,7 +357,8 @@ const BaseTable: FC<BaseTableProps> = (props) => {
         paginationAction.changeCurrent(1);
       }
     }
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoRequest, hasFromItems, isReady]);
 
   const ToolbarActionDom = (
     <ToolbarAction
@@ -387,6 +420,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
 
   const searchFormDom = (
     <SearchForm
+      isReady={isReady}
       loading={!!currentLoading?.spinning || requestLoading}
       ref={handleFormRef}
       cardProps={formCardProps}
@@ -405,7 +439,8 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     // 根节点注册
     <TableContext.Provider
       value={{
-        reload: refresh,
+        // reload: refresh,
+        reload: handleReset,
         size: currentSize,
         setSize: setCurrentSize,
         columns: outColumns,
@@ -428,7 +463,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     </TableContext.Provider>
   );
 
-  return tableRender
+  const returnDom = tableRender
     ? tableRender(
         {
           searchFormDom: searchFormDom,
@@ -440,6 +475,17 @@ const BaseTable: FC<BaseTableProps> = (props) => {
         props,
       )
     : finallyDom;
+
+  if (!toolbarActionConfig?.showFullscreen) {
+    return returnDom;
+  }
+  return (
+    // 处理表格在全屏状态下 ant一些弹出层组件()无法显示问题
+    // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域
+    <ConfigProvider getPopupContainer={() => rootRef.current || document.body}>
+      {returnDom}
+    </ConfigProvider>
+  );
 };
 
 export default BaseTable;

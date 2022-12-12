@@ -1,14 +1,14 @@
 import { SettingOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from 'ahooks';
 import type { TableColumnType } from 'antd';
-import { Checkbox, Popover, Tooltip, Tree } from 'antd';
+import { Checkbox, ConfigProvider, Popover, Tooltip, Tree } from 'antd';
 import type { Key, ReactNode } from 'react';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import TableContext from '../TableContext';
 import { LIGHTD_TABLE } from './BaseTable';
 
 const ColumnSetting = () => {
-  const { columns: outColumns = [], setColumns } = useContext(TableContext);
+  const { columns: outColumns = [], setColumns, rootRef } = useContext(TableContext);
   // 全部列的 key
   const columnsKey = useMemo(
     () =>
@@ -64,36 +64,38 @@ const ColumnSetting = () => {
   );
 
   return (
-    <Popover
-      title={
-        <Checkbox
-          indeterminate={indeterminate}
-          onChange={onCheckAllChange}
-          checked={checkAll}
-          style={{ height: '32px', lineHeight: '32px' }}
-        >
-          全选
-        </Checkbox>
-      }
-      content={
-        <Tree
-          checkable
-          selectable={false}
-          blockNode
-          onCheck={handleTreeCheck}
-          checkedKeys={selectedKey}
-          treeData={treeData}
-          className={`${LIGHTD_TABLE}-column-setting`}
-        />
-      }
-      arrowPointAtCenter
-      placement="bottomRight"
-      trigger={['click']}
-    >
-      <Tooltip title="列设置">
-        <SettingOutlined />
-      </Tooltip>
-    </Popover>
+    <ConfigProvider getPopupContainer={() => rootRef!.current || document.body}>
+      <Popover
+        title={
+          <Checkbox
+            indeterminate={indeterminate}
+            onChange={onCheckAllChange}
+            checked={checkAll}
+            style={{ height: '32px', lineHeight: '32px' }}
+          >
+            全选
+          </Checkbox>
+        }
+        content={
+          <Tree
+            checkable
+            selectable={false}
+            blockNode
+            onCheck={handleTreeCheck}
+            checkedKeys={selectedKey}
+            treeData={treeData}
+            className={`${LIGHTD_TABLE}-column-setting`}
+          />
+        }
+        arrowPointAtCenter
+        placement="bottomRight"
+        trigger={['click']}
+      >
+        <Tooltip title="列设置">
+          <SettingOutlined />
+        </Tooltip>
+      </Popover>
+    </ConfigProvider>
   );
 };
 
