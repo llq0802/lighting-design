@@ -9,8 +9,6 @@ import { LIGHTD_TABLE } from './BaseTable';
 
 const ColumnSetting = () => {
   const { columns: outColumns = [], setColumns } = useContext(TableContext);
-
-  console.log('ColumnSetting ', outColumns);
   // 全部列的 key
   const columnsKey = useMemo(
     () =>

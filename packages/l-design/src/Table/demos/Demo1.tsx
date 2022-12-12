@@ -80,9 +80,9 @@ const Demo1 = () => {
           },
         }}
         // contentRender={(data: any[]) => (
-        //   <Row gutter={[8, 8]} >
+        //   <Row gutter={[8, 8]}>
         //     {data.map((d) => (
-        //       <Col span={8} key={d.name}>
+        //       <Col span={8} key={d.key}>
         //         <Card title={d.name} />
         //       </Col>
         //     ))}

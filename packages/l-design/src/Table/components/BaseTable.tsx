@@ -57,7 +57,21 @@ export type BaseTableProps = {
   /** 重新渲染toolBar 包括内置表格工具 */
   toolbarRender?: (ToolbarActionDom: ReactElement | null) => ReactNode;
   /** 重新渲染整个表格 */
-  tableRender?: (tableDom: ReactElement, props: BaseTableProps) => ReactNode;
+  tableRender?: (
+    optionsDom: {
+      /** 表单dom */
+      searchFormDom: ReactNode;
+      /** 工具栏dom */
+      toolbarDom: ReactNode;
+      /**   table上面额外Dom 如果没有配置则没有 */
+      tableExtraDom: ReactNode;
+      /**   table主体Dom 包含工具栏Dom  */
+      tableDom: ReactNode;
+      /** 整个表格Dom包含全部Dom */
+      finallyDom: ReactNode;
+    },
+    props: BaseTableProps,
+  ) => ReactNode;
   /** 重新渲染表格内容 */
   contentRender?: (data: Record<string, any>[]) => ReactNode;
   /** 整个toolBar的左侧 */
@@ -371,7 +385,7 @@ const BaseTable = (props: BaseTableProps): ReactNode => {
     </Spin>
   );
 
-  const SearchFormDom = (
+  const searchFormDom = (
     <SearchForm
       loading={!!currentLoading?.spinning || requestLoading}
       ref={handleFormRef}
@@ -407,14 +421,25 @@ const BaseTable = (props: BaseTableProps): ReactNode => {
           [`${LIGHTD_TABLE}-fullScreen`]: isFullScreen,
         })}
       >
-        {SearchFormDom}
+        {searchFormDom}
         {tableExtra}
         {tableDom}
       </div>
     </TableContext.Provider>
   );
 
-  return tableRender ? tableRender(finallyDom, props) : finallyDom;
+  return tableRender
+    ? tableRender(
+        {
+          searchFormDom: searchFormDom,
+          toolbarDom: toolbarDom,
+          tableExtraDom: tableExtra,
+          tableDom: tableDom,
+          finallyDom: finallyDom,
+        },
+        props,
+      )
+    : finallyDom;
 };
 
 export default BaseTable;
