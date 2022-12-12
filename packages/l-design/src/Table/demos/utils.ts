@@ -50,20 +50,20 @@ const data = [
     age: 32,
     address: 'Sidney No. 1 Lake Park',
   },
-  // {
-  //   key: '6',
-  //   name: 'Joe Black',
-  //   age: 32,
-  //   address: 'Sidney No. 1 Lake Park',
-  //   children: [
-  //     {
-  //       key: '623',
-  //       name: 'Joe Black12',
-  //       age: 32,
-  //       address: 'Sidney No. 1 Lake Park',
-  //     },
-  //   ],
-  // },
+  {
+    key: '6',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+    children: [
+      {
+        key: '6-1',
+        name: 'Joe Black12',
+        age: 32,
+        address: 'Sidney No. 1 Lake Park',
+      },
+    ],
+  },
   {
     key: '7',
     name: 'Joe Black',
@@ -102,7 +102,7 @@ const data = [
   },
 ];
 
-export function apiGetUserList() {
+export function apiGetUserList(): Promise<Record<string, any>> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({

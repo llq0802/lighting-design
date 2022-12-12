@@ -4,7 +4,7 @@ import { Card, Space, Spin, Table } from 'antd';
 import type { Key } from 'antd/es/table/interface';
 import type { ColumnsType, TableProps } from 'antd/lib/table';
 import classnames from 'classnames';
-import type { CSSProperties, MutableRefObject, ReactElement, ReactNode } from 'react';
+import type { CSSProperties, FC, MutableRefObject, ReactElement, ReactNode } from 'react';
 import { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { LQueryFormProps } from '../../Form/components/QueryForm';
 import TableContext from '../TableContext';
@@ -15,7 +15,7 @@ import ToolbarAction from './ToolBarAction';
 
 export type BaseTableProps = {
   /** 全屏表格的背景颜色 */
-  fullScreenBackgroundColor: string;
+  fullScreenBackgroundColor?: string;
   /** 表格内容是否换行 */
   nowrap?: boolean;
   /** 异步请求函数额外参数 */
@@ -55,7 +55,7 @@ export type BaseTableProps = {
   /** 配置内置表格工具栏 与Space组件有相同属性 showToolbar为 true 时生效*/
   toolbarActionConfig?: ToolbarActionConfigProps;
   /** 重新渲染toolBar 包括内置表格工具 */
-  toolbarRender?: (ToolbarActionDom: ReactElement | null) => ReactNode;
+  toolbarRender?: (ToolbarActionDom: ReactNode) => ReactNode;
   /** 重新渲染整个表格 */
   tableRender?: (
     optionsDom: {
@@ -71,7 +71,7 @@ export type BaseTableProps = {
       finallyDom: ReactNode;
     },
     props: BaseTableProps,
-  ) => ReactNode;
+  ) => ReactElement;
   /** 重新渲染表格内容 */
   contentRender?: (data: Record<string, any>[]) => ReactNode;
   /** 整个toolBar的左侧 */
@@ -103,7 +103,7 @@ const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
  * @param props
  * @returns
  */
-const BaseTable = (props: BaseTableProps): ReactNode => {
+const BaseTable: FC<BaseTableProps> = (props) => {
   const {
     nowrap,
 
