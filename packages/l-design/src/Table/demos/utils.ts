@@ -57,7 +57,7 @@ const data = [
     address: 'Sidney No. 1 Lake Park',
     children: [
       {
-        key: '623',
+        key: '6-1',
         name: 'Joe Black12',
         age: 32,
         address: 'Sidney No. 1 Lake Park',
@@ -102,7 +102,7 @@ const data = [
   },
 ];
 
-export function apiGetUserList() {
+export function apiGetUserList(): Promise<Record<string, any>> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
