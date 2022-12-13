@@ -2,7 +2,7 @@ import { usePagination } from 'ahooks';
 import type { CardProps, FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import type { Key } from 'antd/es/table/interface';
-import type { ColumnsType, TableProps } from 'antd/lib/table';
+import type { TableProps } from 'antd/lib/table';
 import classnames from 'classnames';
 import type { CSSProperties, FC, MutableRefObject, ReactElement, ReactNode } from 'react';
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
@@ -19,7 +19,7 @@ export type BaseTableProps = {
   /** 表格 表单是否准备好 false时表格不会请求 表单不能提交查询 */
   isReady?: boolean;
   /** 全屏表格的背景颜色 */
-  fullScreenBackgroundColor?: string;
+  fullScreenBgColor?: string;
   /** 表格内容是否换行 */
   nowrap?: boolean;
   /** 异步请求函数额外参数 */
@@ -52,8 +52,7 @@ export type BaseTableProps = {
   formCardProps?: CardProps;
   /** 表格外层的CardProps*/
   tableCardProps?: CardProps;
-  /** 表格列 */
-  columns: ColumnsType<any>;
+
   /** 是否显示toolbar */
   showToolbar?: boolean;
   /** 配置内置表格工具栏 与Space组件有相同属性 showToolbar为 true 时生效*/
@@ -90,7 +89,7 @@ export type BaseTableProps = {
   formInitialValues?: Record<string, any>;
   /** 查询表单LQueryFormProps */
   queryFormProps?: LQueryFormProps;
-} & Omit<TableProps<Record<string, any>>, 'columns'>;
+} & TableProps<any>;
 
 export type RequestType = 'onSearch' | 'onReload' | 'onReset';
 export const LIGHTD_TABLE = 'lightd-table';
@@ -115,7 +114,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     formRef,
     tableRef,
 
-    fullScreenBackgroundColor = '#fff',
+    fullScreenBgColor = '#fff',
     requestParams = {},
     request,
     autoRequest = true,
@@ -156,7 +155,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const [isFullScreen, setFullScreen] = useState(false);
   const rootDefaultStyle = isFullScreen
-    ? { background: fullScreenBackgroundColor, overflow: 'auto', padding: 24 }
+    ? { background: fullScreenBgColor, overflow: 'auto', padding: 24 }
     : {};
 
   // 绑定SearchForm组件form实例在内部
@@ -496,7 +495,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     return returnDom;
   }
   return (
-    // 处理表格在全屏状态下 ant一些弹出层组件()无法显示问题
+    // 处理表格在全屏状态下 ant一些弹出层组件(Modal)无法显示问题
     // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域
     <ConfigProvider getPopupContainer={() => rootRef.current || document.body}>
       {returnDom}
