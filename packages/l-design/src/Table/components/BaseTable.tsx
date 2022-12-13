@@ -1,4 +1,4 @@
-import { usePagination, useUpdateEffect } from 'ahooks';
+import { usePagination } from 'ahooks';
 import type { CardProps, FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import type { Key } from 'antd/es/table/interface';
@@ -14,9 +14,10 @@ import type { ToolbarActionConfigProps } from './ToolBarAction';
 import ToolbarAction from './ToolBarAction';
 
 export type BaseTableProps = {
+  /** 表格是否需要排序序号 */
+  isSort: boolean;
   /** 表格 表单是否准备好 false时表格不会请求 表单不能提交查询 */
   isReady?: boolean;
-
   /** 全屏表格的背景颜色 */
   fullScreenBackgroundColor?: string;
   /** 表格内容是否换行 */
@@ -52,7 +53,7 @@ export type BaseTableProps = {
   /** 表格外层的CardProps*/
   tableCardProps?: CardProps;
   /** 表格列 */
-  columns: ColumnsType<Record<string, any>>;
+  columns: ColumnsType<any>;
   /** 是否显示toolbar */
   showToolbar?: boolean;
   /** 配置内置表格工具栏 与Space组件有相同属性 showToolbar为 true 时生效*/
@@ -108,6 +109,7 @@ const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
  */
 const BaseTable: FC<BaseTableProps> = (props) => {
   const {
+    isSort = true,
     nowrap,
 
     formRef,
@@ -342,9 +344,23 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     },
   }));
 
-  useUpdateEffect(() => {
-    setCurrentColumns(outColumns);
-  }, [outColumns]);
+  useEffect(() => {
+    if (isSort) {
+      const sortColumn = {
+        align: 'center',
+        title: '序号',
+        width: 70,
+        // fixed: 'left',
+        render: (_, __, index: number) => {
+          return (
+            <>{(paginationAction?.current - 1) * (paginationAction?.pageSize || 0) + index + 1}</>
+          );
+        },
+      };
+      setCurrentColumns([sortColumn, ...outColumns]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSort, outColumns, paginationAction.current, paginationAction?.pageSize]);
 
   // 初始化请求
   useEffect(() => {
