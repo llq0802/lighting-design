@@ -1,22 +1,11 @@
 import { Form, Input, Table } from 'antd';
 import type { FC } from 'react';
 import { useCallback, useMemo, useState } from 'react';
-
-function geTableRowKey(
-  rowKey: string,
-): (record: Record<string, any>, index?: number) => string | number;
-function geTableRowKey(
-  rowKey: (record: Record<string, any>, index: number) => string | number,
-): (record: Record<string, any>, index: number) => string | number;
-function geTableRowKey(rowKey: unknown) {
-  if (typeof rowKey === 'function') {
-    return rowKey;
-  }
-  return (record: Record<string, any>, index: number) =>
-    typeof rowKey === 'string' ? record[rowKey] : record.key ?? index;
-}
+import { getTableRowKey } from '../../utils';
 
 const EditableCell: FC<any> = ({
+  rowKey,
+  editable,
   editing,
   dataIndex,
   title,
@@ -29,7 +18,7 @@ const EditableCell: FC<any> = ({
     <td {...restProps}>
       {editing ? (
         <Form.Item
-          name={dataIndex}
+          name={[rowKey, dataIndex]}
           style={{ margin: 0 }}
           rules={[
             {
@@ -53,16 +42,17 @@ const EditableCell: FC<any> = ({
  * @returns
  */
 const EditTable = (props) => {
-  const { columns, rowKey } = props;
+  const { columns, rowKey, ...restProps } = props;
 
   const [form] = Form.useForm();
+  const [tableData, setTableData] = useState<Record<string, any>[]>([]);
+  const [editingKeys, setEditingKeys] = useState<(string | number)[]>([]);
 
-  const [editingKey, setEditingKey] = useState('');
-
+  // 是否正在编辑
   const isEditing = useCallback(
     (record: Record<string, any>, index: number) =>
-      geTableRowKey(rowKey)(record, index) === editingKey,
-    [editingKey, rowKey],
+      editingKeys.includes(getTableRowKey(rowKey)(record, index)),
+    [editingKeys, rowKey],
   );
 
   const mergedColumns = useMemo(() => {
@@ -72,6 +62,7 @@ const EditTable = (props) => {
         ...col,
         onCell: (record: Record<string, any>, index: number) => ({
           record,
+          rowKey: getTableRowKey(rowKey)(record, index),
           editable: col.editable,
           dataIndex: col.dataIndex || index,
           title: col.title,
@@ -80,10 +71,67 @@ const EditTable = (props) => {
       };
     });
     return newColumns;
-  }, [columns, isEditing]);
+  }, [columns, isEditing, rowKey]);
 
-  const cancel = () => {
-    setEditingKey('');
+  const outRowKey = useMemo(() => {
+    let keyName = '';
+    if (typeof rowKey === 'function') {
+      keyName = rowKey();
+    } else {
+      keyName = rowKey;
+    }
+    return keyName;
+  }, [rowKey]);
+
+  // 取消
+  const onCancel = (key: string | number) => {
+    setEditingKeys((prevKeys) => {
+      const newKeys = prevKeys.filter((itemKey) => itemKey !== key);
+      return newKeys;
+    });
+  };
+  // 保存
+  const onSave = async (key: string | number) => {
+    try {
+      const rowFormValues = await form.validateFields();
+      console.log(' rowFormValues', rowFormValues);
+      const newData: Record<string, any>[] = [...tableData];
+      const currentRow = newData.find((item) => key === item[outRowKey]);
+
+      if (currentRow) {
+        setTableData((prevItemData: Record<string, any>[]) => {
+          return prevItemData.map((item) => {
+            if (item[outRowKey] === key) {
+              return {
+                ...item,
+                ...rowFormValues[outRowKey],
+              };
+            } else {
+              return item;
+            }
+          });
+        });
+        setEditingKeys((prevItemKeys) => {
+          return prevItemKeys.filter((itemKey) => itemKey !== key);
+        });
+      } else {
+      }
+    } catch (errInfo) {
+      console.log('Validate Failed:', errInfo);
+    }
+  };
+
+  // 编辑
+  const onEdit = (record: Record<string, any>) => {
+    const { [outRowKey]: keyValue, ...restFromValues } = record;
+    form.setFieldsValue({
+      [keyValue]: {
+        ...restFromValues,
+      },
+    });
+    setEditingKeys((itemKey) => {
+      return [...itemKey, keyValue];
+    });
   };
 
   return (
@@ -91,16 +139,11 @@ const EditTable = (props) => {
       <Table
         rowKey={rowKey}
         components={{
-          body: {
-            cell: EditableCell,
-          },
+          body: { cell: EditableCell },
         }}
-        dataSource={[]}
         columns={mergedColumns}
         rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
+        {...restProps}
       />
     </Form>
   );
