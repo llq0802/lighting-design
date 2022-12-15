@@ -53,3 +53,14 @@ export const usePlaceholder = (options: {
   );
   return res;
 };
+
+export function getTableRowKey(rowKey: Function): Function;
+// eslint-disable-next-line @typescript-eslint/unified-signatures
+export function getTableRowKey(rowKey: string): Function;
+export function getTableRowKey(rowKey: unknown) {
+  if (typeof rowKey === 'function') {
+    return rowKey;
+  }
+  return (record: Record<string, any>, index?: number) =>
+    typeof rowKey === 'string' ? record[rowKey] : record.key ?? index;
+}

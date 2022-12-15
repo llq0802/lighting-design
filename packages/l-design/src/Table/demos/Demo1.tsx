@@ -28,6 +28,9 @@ const Demo1: FC = () => {
 
   return (
     <LTable
+      // toolbarActionConfig={{
+      //   showFullscreen: false,
+      // }}
       // showToolbar={false}
       loading={{ size: 'large' }}
       tableRef={tableRef}

@@ -101,6 +101,21 @@ const data = [
     address: 'Sidney No. 1 Lake Park',
   },
 ];
+interface Item {
+  key: string;
+  name: string;
+  age: number;
+  address: string;
+}
+export const originData: Item[] = [];
+for (let i = 0; i < 100; i++) {
+  originData.push({
+    key: i.toString(),
+    name: `Edrward ${i}`,
+    age: 32,
+    address: `London Park no-${i}`,
+  });
+}
 
 export function apiGetUserList(): Promise<Record<string, any>> {
   return new Promise((resolve) => {
