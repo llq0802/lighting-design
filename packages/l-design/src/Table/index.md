@@ -11,4 +11,5 @@ nav:
 LTable,
 
  <code src='./demos/Demo1.tsx' background="#f5f5f5">
- <code src='./demos/Demo2.tsx' background="#f5f5f5">
+ <!-- <code src='./demos/Demo2.tsx' background="#f5f5f5"> -->
+ <code src='./demos/Demo4.tsx' background="#f5f5f5">

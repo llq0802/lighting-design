@@ -65,9 +65,9 @@ const Demo1: FC = () => {
       //   input4: '123123',
       // }}
       request={async (params, requestType) => {
-        console.log('==params==', params);
-        console.log('requestType ', requestType);
-        console.log('tableRef ', tableRef.current);
+        // console.log('==params==', params);
+        // console.log('requestType ', requestType);
+        // console.log('tableRef ', tableRef.current);
 
         const res: Record<string, any> = await apiGetUserList();
         return {

@@ -1,10 +1,12 @@
-import { Form, Input, Table } from 'antd';
+import { Form, Input } from 'antd';
 import type { FC } from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useImperativeHandle, useMemo } from 'react';
 import { getTableRowKey } from '../../utils';
+import BaseTable from './BaseTable';
 
+// 测试
 const EditableCell: FC<any> = ({
-  rowKey,
+  rowKeyValue,
   editable,
   editing,
   dataIndex,
@@ -18,7 +20,7 @@ const EditableCell: FC<any> = ({
     <td {...restProps}>
       {editing ? (
         <Form.Item
-          name={[rowKey, dataIndex]}
+          name={[rowKeyValue, dataIndex]}
           style={{ margin: 0 }}
           rules={[
             {
@@ -41,20 +43,37 @@ const EditableCell: FC<any> = ({
  * @param props
  * @returns
  */
-const EditTable = (props) => {
-  const { columns, rowKey, ...restProps } = props;
+const LEditTable = (props) => {
+  const {
+    columns,
+    rowKey,
+    size,
+    editTableRef,
+    editTableProps,
+
+    ...restProps
+  } = props;
+
+  const {
+    editKeys = [],
+    editKeysChange,
+
+    onSave: outOnSave,
+    onDelete: outOnDelete,
+  } = editTableProps;
 
   const [form] = Form.useForm();
-  const [tableData, setTableData] = useState<Record<string, any>[]>([]);
-  const [editingKeys, setEditingKeys] = useState<(string | number)[]>([]);
 
-  // 是否正在编辑
+  useEffect(() => {}, []);
+
+  // 当前行是否正在编辑
   const isEditing = useCallback(
     (record: Record<string, any>, index: number) =>
-      editingKeys.includes(getTableRowKey(rowKey)(record, index)),
-    [editingKeys, rowKey],
+      editKeys.includes(getTableRowKey(rowKey)(record, index)),
+    [editKeys, rowKey],
   );
 
+  // 重新处理列
   const mergedColumns = useMemo(() => {
     const newColumns = columns.map((col: Record<string, any>) => {
       if (!col.editable && col.editable !== true) return col;
@@ -62,11 +81,11 @@ const EditTable = (props) => {
         ...col,
         onCell: (record: Record<string, any>, index: number) => ({
           record,
-          rowKey: getTableRowKey(rowKey)(record, index),
-          editable: col.editable,
-          dataIndex: col.dataIndex || index,
+          rowKeyValue: getTableRowKey(rowKey)(record, index),
           title: col.title,
+          editable: col.editable,
           editing: isEditing(record, index),
+          dataIndex: col.dataIndex || index,
         }),
       };
     });
@@ -78,75 +97,77 @@ const EditTable = (props) => {
     if (typeof rowKey === 'function') {
       keyName = rowKey();
     } else {
-      keyName = rowKey;
+      keyName = rowKey || 'key';
     }
     return keyName;
   }, [rowKey]);
 
   // 取消
-  const onCancel = (key: string | number) => {
-    setEditingKeys((prevKeys) => {
-      const newKeys = prevKeys.filter((itemKey) => itemKey !== key);
-      return newKeys;
-    });
+  const handleCancel = (key: string) => {
+    const newKeys = editKeys.filter((itemKey) => itemKey !== key);
+    editKeysChange(newKeys);
   };
-  // 保存
-  const onSave = async (key: string | number) => {
-    try {
-      const rowFormValues = await form.validateFields();
-      console.log(' rowFormValues', rowFormValues);
-      const newData: Record<string, any>[] = [...tableData];
-      const currentRow = newData.find((item) => key === item[outRowKey]);
-
-      if (currentRow) {
-        setTableData((prevItemData: Record<string, any>[]) => {
-          return prevItemData.map((item) => {
-            if (item[outRowKey] === key) {
-              return {
-                ...item,
-                ...rowFormValues[outRowKey],
-              };
-            } else {
-              return item;
-            }
-          });
-        });
-        setEditingKeys((prevItemKeys) => {
-          return prevItemKeys.filter((itemKey) => itemKey !== key);
-        });
-      } else {
-      }
-    } catch (errInfo) {
-      console.log('Validate Failed:', errInfo);
-    }
-  };
-
   // 编辑
-  const onEdit = (record: Record<string, any>) => {
+  const handleEdit = (record: Record<string, any>) => {
     const { [outRowKey]: keyValue, ...restFromValues } = record;
     form.setFieldsValue({
       [keyValue]: {
         ...restFromValues,
       },
     });
-    setEditingKeys((itemKey) => {
-      return [...itemKey, keyValue];
-    });
+    editKeysChange([...(editKeys || []), keyValue]);
   };
 
+  // 保存
+  const handleSave = async (key: string) => {
+    await form.validateFields();
+    const fieldsValue = form.getFieldValue(key);
+    await outOnSave?.(key, fieldsValue);
+
+    handleCancel(key);
+  };
+
+  // 删除
+  const handleDelete = async (key: string) => {
+    const fieldsValue = form.getFieldValue(key);
+    await outOnDelete?.(key, fieldsValue);
+    handleCancel(key);
+  };
+
+  // 重置表单数据
+  const handleFormReset = (key?: string) => {
+    if (key) {
+      const nameKey = [key];
+      form.resetFields([nameKey]);
+    } else {
+      form.resetFields();
+    }
+  };
+
+  // 暴露外部方法
+  useImperativeHandle(editTableRef, () => ({
+    // 点击每一行保存的时候触发
+    onSave: handleSave,
+    onCancel: handleCancel,
+    onEdit: handleEdit,
+    onDelete: handleDelete,
+    onFormReset: handleFormReset,
+  }));
+
   return (
-    <Form form={form} component={false}>
-      <Table
+    <Form form={form} component={false} size={size}>
+      <BaseTable
         rowKey={rowKey}
+        size={size}
         components={{
           body: { cell: EditableCell },
         }}
         columns={mergedColumns}
-        rowClassName="editable-row"
+        rowClassName="lightd-editable-row"
         {...restProps}
       />
     </Form>
   );
 };
 
-export default EditTable;
+export default LEditTable;

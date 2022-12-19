@@ -374,7 +374,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     // 表格根标签div
     rootRef: rootRef,
     // 表格数据
-    tableData: data?.list ?? [],
+    tableData: data?.list ?? (restProps?.dataSource || []),
     // 页码信息
     pagination: {
       current: paginationAction.current,
