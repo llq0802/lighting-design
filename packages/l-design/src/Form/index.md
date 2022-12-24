@@ -35,10 +35,10 @@ nav:
 | onReset | 点击重置按钮的回调 | `(e) => void` | - |
 | submitText | 提交按钮文本 | `ReactNode` | `提交` |
 | resetText | 重置按钮文本 | `ReactNode` | `重置` |
-| submitButtonProps | 提交按钮属性，和 antd [Button](https://ant-design.gitee.io/components/button-cn/#API) 一致 | [ButtonProps](https://ant-design.gitee.io/components/button-cn/#API) | - |
-| resetButtonProps | 重置按钮属性，和 antd [Button](https://ant-design.gitee.io/components/button-cn/#API) 一致 | [ButtonProps](https://ant-design.gitee.io/components/button-cn/#API) | - |
+| submitButtonProps | 提交按钮属性，和 antd [Button](https://4x.ant.design/components/button-cn/#API) 一致 | [ButtonProps](https://4x.ant.design/components/button-cn/#API) | - |
+| resetButtonProps | 重置按钮属性，和 antd [Button](https://4x.ant.design/components/button-cn/#API) 一致 | [ButtonProps](https://4x.ant.design/components/button-cn/#API) | - |
 | showReset | 是否渲染重置按钮 | `boolean` | `true` |
-| buttonAlign | 按钮位置 | `string` | `'left' \| 'right' \| 'center'` |
-| render | 自定义操作的渲染 | `false \| (props: BizFormSubmitterProps, dom: ReactElement[]) => ReactNode` | - |
+| buttonAlign | 按钮位置 | `'left' \| 'right' \| 'center'` | `-` |
+| render | 自定义操作的渲染 | `false \| (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-` |
 
 `submitButtonProps` `resetButtonProps` 额外支持 `preventDefault` 配置项，如果设置为 `true` ，则不触发预置行为(重置或提交事件)。

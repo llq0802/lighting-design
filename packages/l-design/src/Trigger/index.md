@@ -32,9 +32,9 @@ nav:
 | style | 组件样式 | `CSSProperties` | `-` |
 | open | 是否展开下拉菜单 | `boolean` | `-` |
 | clearIcon | 自定义的多选框清空图标 | `ReactNode` | `-` |
-| getPopupContainer | 菜单渲染父节点。默认渲染到 body 上 | `function(triggerNode` | `() => document.body ` |
+| getPopupContainer | 菜单渲染父节点。默认渲染到 body 上 | `function(triggerNode)` | `() => document.body ` |
 | suffixIcon | 自定义的选择框后缀图标 | `ReactNode` | `-` |
 | value | 值 | `{ label: string; value: string\| string[]; }` | `-` |
-| mode | 设置模式为多选或单选 | `'checkbox' 'radio'` | `radio` |
+| mode | 设置模式为多选或单选 | `'checkbox' \| 'radio'` | `radio` |
 | onDropdownVisibleChange | 展开下拉菜单的回调 | `function(open) ` | `-` |
 | onChange | value 变化时，调用此函数 | `function(value) ` | `-` |

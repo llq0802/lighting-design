@@ -16,14 +16,14 @@ nav:
 
 除了以下参数，其余和 [LForm](/components/form) 一样。
 
-| 参数           | 说明                                                     | 类型        | 默认值 |
-| -------------- | -------------------------------------------------------- | ----------- | ------ |
-| isSpace        | 提交按钮文本                                             | `ReactNode` | `查询` |
-| itemColProps   | 提交按钮文本                                             | `ColProps`  | `查询` |
-| submitText     | 提交按钮文本                                             | `ReactNode` | `查询` |
-| resetText      | 重置按钮文本                                             | `ReactNode` | `重置` |
-| isCollapsed    | 默认状态下是否折叠超出的表单项                           | `boolean`   | `true` |
-| showColsNumber | 显示的表单控件数量，数量大于等于控件数量则隐藏展开按钮。 | `number`    | -      |
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| isSpace | 是否水平紧凑模式 | `boolean` | `false` |
+| itemColProps | 普通模式下的 Col 配置 | [ColProps](https://4x.ant.design/components/grid-cn/#Col) | `-` |
+| submitText | 提交按钮文本 | `ReactNode` | `查询` |
+| resetText | 重置按钮文本 | `ReactNode` | `重置` |
+| isCollapsed | 默认状态下是否折叠超出的表单项 | `boolean` | `true` |
+| showColsNumber | 显示的表单控件数量，数量大于等于控件数量则隐藏展开按钮。 | `number` | - |
 
 #### 支持响应式
 

@@ -43,6 +43,6 @@ nav:
 | onChange | 当颜色值改变后触发。 | `(color: string) => void` | `-` |
 | trigger | 触发行为 | `'hover' \| 'click'` | `'click'` |
 | colorMode | 颜色模式 | `'hex' \| 'rgb'` | `'hex'` |
-| placement | 浮层位置 `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft` `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom` | `string` | `'bottomLeft'` |
-| size | 颜色块大小 | `'small' \| 'middle' \| large` | `'middle'` |
+| placement | 浮层位置 `top` `left` `right` `bottom` `topLeft` `topRight` `bottomLeft` <br/> `bottomRight` `leftTop` `leftBottom` `rightTop` `rightBottom` | `string` | `'bottomLeft'` |
+| size | 颜色块大小 | `'small' \| 'middle' \| 'large'` | `'middle'` |
 | className | 新增一个根容器类名 | `string` | `'lightd-color'` |
