@@ -18,11 +18,17 @@ const LForm: FC<LFormProps> & {
   useWatch: typeof Form.useWatch;
 } = ({ submitter, ...restProps }) => {
   const submitterProps = typeof submitter === 'boolean' || !submitter ? {} : submitter;
+
   const submitterConfig =
     typeof submitter === 'undefined' || submitter
       ? {
           render: (dom: ReactNode) => (
-            <Form.Item label="" colon={false} style={{ marginBottom: 0 }}>
+            <Form.Item
+              label=""
+              colon={false}
+              style={{ marginBottom: 0 }}
+              wrapperCol={submitterProps?.wrapperCol}
+            >
               <div
                 style={{
                   display: 'flex',

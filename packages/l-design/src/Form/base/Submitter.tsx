@@ -1,5 +1,6 @@
 import type { ButtonProps, FormInstance } from 'antd';
 import { Button, Space } from 'antd';
+import type { FormProps } from 'antd/es/form';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { useCallback, useMemo } from 'react';
 
@@ -20,6 +21,8 @@ export interface LFormSubmitterProps {
   showReset?: boolean;
   /** form实例 */
   form?: FormInstance;
+  /** 同Form的wrapperCol */
+  wrapperCol?: FormProps['wrapperCol'];
   /** 重新渲染函数 */
   render?:
     | ((dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode | false)

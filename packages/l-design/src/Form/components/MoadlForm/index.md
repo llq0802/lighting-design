@@ -14,7 +14,7 @@ nav:
 
 ## API
 
-除了以下参数，其余和 [LForm](/components/form) 一样。
+除了以下参数，其余和 [LForm](/components/form#api) 一样。
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |

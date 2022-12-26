@@ -1,19 +1,28 @@
-import { Button, Form, Input, Select, Space } from 'antd';
-import { LFormItem } from 'lighting-design';
+import { Input, Select } from 'antd';
+import { LForm, LFormItem } from 'lighting-design';
 import AgeSelect from './components/AgeSelect';
 
 const Demo2 = () => {
-  const [form] = Form.useForm();
-  // const nameValue = Form.useWatch('name', form);
+  const [form] = LForm.useForm();
   return (
     <>
-      <Form name="Form1" form={form} preserve={false}>
+      <LForm
+        name="Form1"
+        form={form}
+        preserve={false}
+        submitter={{
+          wrapperCol: { offset: 4, span: 20 },
+        }}
+      >
         <LFormItem
           name="name"
           className="l-name"
           label="姓名"
           contentAfter={<div>后面</div>}
           required
+          contentProps={{
+            placeholder: '输入姓名',
+          }}
         >
           <Input />
         </LFormItem>
@@ -38,24 +47,7 @@ const Demo2 = () => {
         >
           <AgeSelect />
         </LFormItem>
-      </Form>
-
-      <Space>
-        <Button
-          onClick={() => {
-            console.log(' form', form.getFieldsValue());
-          }}
-        >
-          获取
-        </Button>
-        <Button
-          onClick={() => {
-            form.validateFields();
-          }}
-        >
-          验证
-        </Button>
-      </Space>
+      </LForm>
     </>
   );
 };
