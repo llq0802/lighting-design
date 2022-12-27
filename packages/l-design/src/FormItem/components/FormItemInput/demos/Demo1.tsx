@@ -1,4 +1,4 @@
-import { LForm, LFormItemInput } from 'lighting-design';
+import { LForm, LFormItemInput, LFormItemNumber, LFormItemPassword } from 'lighting-design';
 import IdentifyCode from './IdentifyCode';
 import renderFieldWithPopover from './renderFieldWithPopover';
 
@@ -35,13 +35,10 @@ const Demo = () => {
         contentAfter={<div>后面</div>}
       />
 
-      <LFormItemInput
-        label="图片验证码"
-        name="code"
-        required
-        placeholder="请输入验证码"
-        contentAfter={<IdentifyCode />}
-      />
+      <LFormItemInput label="图片验证码" name="code" required contentAfter={<IdentifyCode />} />
+
+      <LFormItemNumber label="数字" name="LFormItemNumber" required contentAfter="$" />
+      <LFormItemPassword label="密码" name="LFormPassword" required />
 
       <LFormItemInput
         label="结合popover"

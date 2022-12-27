@@ -19,7 +19,7 @@ export interface LFormItemPasswordProps extends LFormItemProps {
 const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   min = 8,
   max = 16,
-  disabledWhiteSpace = false,
+  disabledWhiteSpace = true,
   disabledPaste = true,
   disabledCopy = true,
   passwordProps = {},
