@@ -38,14 +38,25 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
       const input = e.target;
       let rawValue = input.value;
       // 手机类型银行卡只能输入数字
-      if (
-        (type === 'phone' || type === 'bankCard') &&
-        window.isNaN(input.value as unknown as any)
-      ) {
+      if (type === 'phone' && window.isNaN(input.value as unknown as any)) {
         rawValue = rawValue.replace(/.*/g, '');
       }
-      // 禁止输入空格
+
+      if (type === 'idCard') {
+        // /^\d{17}(\d|X|x)$/.test(input.value)
+        if (
+          rawValue.length === 18 &&
+          window.isNaN(rawValue?.at(-1) as unknown as any) &&
+          rawValue?.at(-1)?.toLocaleLowerCase() !== 'x'
+        ) {
+          rawValue = rawValue.slice(0, -1);
+        } else if (rawValue.length < 18 && window.isNaN(rawValue as unknown as any)) {
+          rawValue = rawValue.replace(/.*/g, '');
+        }
+      }
+
       if (isSpace) {
+        // 禁止输入空格
         rawValue = rawValue.replace(/\s+/g, '');
       }
 

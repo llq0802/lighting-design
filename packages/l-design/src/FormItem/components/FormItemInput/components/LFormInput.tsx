@@ -15,7 +15,7 @@ export interface LFormItemInputProps extends LFormItemProps {
 
 const LFormItemInput: FC<LFormItemInputProps> = ({
   type,
-  disabledWhiteSpace,
+  disabledWhiteSpace = true,
   inputProps = {},
   required,
   disabled,
