@@ -18,6 +18,8 @@ export interface LFormItemProps extends FormItemProps {
   contentAfter?: ReactNode;
   /** 传给children的额外属性 */
   contentProps?: ContentProps;
+  /** children是否为inline */
+  contentInline?: boolean;
   /** 组件最外层容器类名 */
   className?: string;
   /** 是否是选择类型的组件(内部使用) */
@@ -39,6 +41,7 @@ const LFormItem: FC<LFormItemProps> = ({
   contentAfter,
   alignItems,
   contentProps,
+  contentInline = false,
 
   name,
   required,
@@ -97,6 +100,7 @@ const LFormItem: FC<LFormItemProps> = ({
               after={contentAfter}
               trigger={trigger}
               alignItems={alignItems}
+              contentInline={contentInline}
               {...contentProps}
             >
               {renderField ? renderField(contentChildren as ReactElement) : contentChildren}
@@ -131,6 +135,7 @@ const LFormItem: FC<LFormItemProps> = ({
                 after={contentAfter}
                 trigger={trigger}
                 alignItems={alignItems}
+                contentInline={contentInline}
                 {...contentProps}
               >
                 {renderField ? renderField(contentChildren as ReactElement) : contentChildren}
@@ -156,6 +161,7 @@ const LFormItem: FC<LFormItemProps> = ({
         after={contentAfter}
         trigger={trigger}
         alignItems={alignItems}
+        contentInline={contentInline}
         {...contentProps}
       >
         {renderField ? renderField(children as ReactElement) : children}

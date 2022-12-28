@@ -10,12 +10,14 @@ export interface FormItemWrapperProps extends Record<string, any> {
   after?: ReactNode;
   trigger?: string;
   className?: string;
+  contentInline?: boolean;
 }
 
 const FormItemWrapper: FC<FormItemWrapperProps> = ({
   className,
   trigger = 'onChange',
   alignItems = null,
+  contentInline = false,
   after = null,
   before = null,
   children,
@@ -56,7 +58,11 @@ const FormItemWrapper: FC<FormItemWrapperProps> = ({
   } else {
     const beforeView = before && <div className={`${prefixCls}-before`}>{before}</div>;
     const afterView = after && <div className={`${prefixCls}-after`}>{after}</div>;
-    const contentView = <div className={`${prefixCls}-content`}>{childrenView}</div>;
+    const contentView = (
+      <div className={`${prefixCls}-content`} style={contentInline ? { flex: 'initial' } : {}}>
+        {childrenView}
+      </div>
+    );
     return (
       <div className={classNames(prefixCls, className)} style={alignItems ? { alignItems } : {}}>
         {beforeView}
