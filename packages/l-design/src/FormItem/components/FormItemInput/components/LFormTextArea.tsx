@@ -11,7 +11,7 @@ export interface LFormItemTextAreaProps extends LFormItemProps {
 }
 
 const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
-  disabledWhiteSpace = false,
+  disabledWhiteSpace = true,
   required = false,
   disabled = false,
   placeholder,

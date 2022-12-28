@@ -1,48 +1,34 @@
-import { Button, Form, message, Space } from 'antd';
-import { LFormItemCaptcha } from 'lighting-design';
+import { Form, message } from 'antd';
+import { LForm, LFormItemCaptcha } from 'lighting-design';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
 
   return (
     <>
-      <Form name="formCaptcha" form={form}>
+      <LForm name="formCaptcha" form={form}>
         <LFormItemCaptcha
           type="inline"
           tooltip="这是提示"
-          name="code"
-          label="验证码"
+          name="code1"
+          label="内联验证码"
           required
           onGetCaptcha={async () => true}
+          placeholder="请输入"
           onEnd={() => {
             message.info('倒计时完成');
           }}
         />
-      </Form>
-
-      <Space>
-        <Button
-          onClick={() => {
-            console.log(' form', form.getFieldsValue());
-          }}
-        >
-          获取
-        </Button>
-        <Button
-          onClick={() => {
-            form.setFieldsValue({ name: '1' });
-          }}
-        >
-          设置
-        </Button>
-        <Button
-          onClick={() => {
-            form.validateFields();
-          }}
-        >
-          校验
-        </Button>
-      </Space>
+        <LFormItemCaptcha tooltip="这是提示" name="code2" label="验证码" required />
+        <LFormItemCaptcha tooltip="这是提示" type="primary" name="code3" label="验证码" required />
+        <LFormItemCaptcha
+          tooltip="这是提示"
+          name="code4"
+          label="自定义文本"
+          initText="自定义文本"
+          required
+        />
+      </LForm>
     </>
   );
 };

@@ -12,16 +12,20 @@ export interface LFormItemCaptchaProps
       CodeInputProps,
       'onGetCaptcha' | 'type' | 'inputProps' | 'buttonProps' | 'autoClick' | 'autoFocusOnGetCaptcha'
     >,
-    Pick<LCaptchaButtonProps, 'cacheKey' | 'second' | 'disabledText' | 'onEnd'> {}
+    Pick<LCaptchaButtonProps, 'cacheKey' | 'second' | 'disabledText' | 'onEnd'> {
+  initText?: string;
+  maxLength?: number;
+}
 
 const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   cacheKey = '__FormItemCaptcha__',
   second,
   disabledText,
   onEnd,
-  type,
-
+  type = 'default',
+  maxLength = 6,
   autoClick,
+  initText = '获取验证码',
   autoFocusOnGetCaptcha,
   onGetCaptcha,
   inputProps = {},
@@ -40,6 +44,7 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   return (
     <LFormItem required={required} {...restProps}>
       <CaptchaInput
+        maxLength={maxLength}
         disabled={disabled}
         type={type}
         onGetCaptcha={onGetCaptcha}
@@ -52,6 +57,7 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
           cacheKey,
           disabledText,
           onEnd,
+          initText,
           ...buttonProps,
         }}
       />

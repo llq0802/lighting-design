@@ -1,4 +1,10 @@
-import { LForm, LFormItemInput, LFormItemNumber, LFormItemPassword } from 'lighting-design';
+import {
+  LForm,
+  LFormItemInput,
+  LFormItemNumber,
+  LFormItemPassword,
+  LFormItemTextArea,
+} from 'lighting-design';
 import IdentifyCode from './IdentifyCode';
 import renderFieldWithPopover from './renderFieldWithPopover';
 
@@ -39,6 +45,7 @@ const Demo = () => {
 
       <LFormItemNumber label="数字" name="LFormItemNumber" required contentAfter="$" />
       <LFormItemPassword label="密码" name="LFormPassword" required />
+      <LFormItemTextArea label="备注" name="LFormItemTextArea" />
 
       <LFormItemInput
         label="结合popover"
