@@ -1,4 +1,4 @@
-import { useCountDown, useLocalStorageState } from 'ahooks';
+import { useCountDown, useLocalStorageState, useUpdateEffect } from 'ahooks';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction, MouseEvent, Ref, RefObject } from 'react';
 import { forwardRef, useCallback, useEffect } from 'react';
@@ -14,6 +14,7 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
   ref,
 ) => {
   const {
+    start = true,
     second = 10,
     cacheKey = '__CaptchaButton__',
     disabledText = '重发',
@@ -45,12 +46,21 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useUpdateEffect(() => {
+    if (start) {
+      setTargetDate(Date.now() + second * 1000);
+    }
+  }, [start]);
+
   return (
     <Button
       ref={ref as Ref<HTMLElement> | undefined}
       {...buttonProps}
-      onClick={(e) => {
-        setTargetDate(Date.now() + second * 1000);
+      onClick={async (e) => {
+        if (start) {
+          setTargetDate(Date.now() + second * 1000);
+        }
         handleClick?.(e);
       }}
       disabled={countdown !== 0}

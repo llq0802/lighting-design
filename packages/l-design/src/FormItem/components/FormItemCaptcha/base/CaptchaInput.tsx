@@ -2,7 +2,7 @@ import { useMount } from 'ahooks';
 import type { ButtonProps, InputProps, InputRef } from 'antd';
 import { Divider, Input } from 'antd';
 import type { ChangeEvent, CSSProperties, FC } from 'react';
-import { useCallback, useImperativeHandle, useMemo, useRef } from 'react';
+import { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { LCaptchaButtonProps } from '../../../../CaptchaButton';
 import LCaptchaButton from '../../../../CaptchaButton';
 
@@ -11,11 +11,12 @@ export interface CodeInputProps extends Record<number | string, any> {
   onChange?: (value: any) => void;
   type?: ButtonProps['type'] | 'inline'; // 显示类型
   inputProps?: InputProps;
-  buttonProps?: LCaptchaButtonProps;
+  buttonProps?: LCaptchaButtonProps & { initText: string };
   autoClick?: boolean;
   autoFocusOnGetCaptcha?: true;
   placeholder?: string;
   disabled?: boolean;
+  maxLength?: number;
 
   // 发送验证码
   onGetCaptcha?: () => boolean | Promise<any>;
@@ -38,6 +39,7 @@ const CodeInput: FC<CodeInputProps> = ({
   onChange,
   placeholder,
   disabled,
+  maxLength,
 
   type = 'default',
   onGetCaptcha = () => true,
@@ -48,17 +50,26 @@ const CodeInput: FC<CodeInputProps> = ({
 
   ...restProps
 }) => {
+  const [loading, setLoading] = useState(false);
+  const [start, setStart] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { onClick, onEnd } = buttonProps;
+  const { onClick, onEnd, initText } = buttonProps;
   // 点击按钮
   const onButtonClick = useCallback(
     async (e: React.MouseEvent<HTMLElement>) => {
+      setLoading(true);
       onClick?.(e);
-      // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject() 表示验证失败或请求验证码失败。
-      await checkResult(onGetCaptcha);
-      if (autoFocusOnGetCaptcha) {
-        inputRef.current!.focus();
+      try {
+        // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject() 表示验证失败或请求验证码失败。
+        await checkResult(onGetCaptcha);
+        setLoading(false);
+        setStart(true); // 只有当获取验证码成功时才进行倒计时
+        if (autoFocusOnGetCaptcha) {
+          inputRef.current!.focus();
+        }
+      } catch (error) {
+        setLoading(false);
       }
     },
     [autoFocusOnGetCaptcha, onClick, onGetCaptcha],
@@ -101,13 +112,17 @@ const CodeInput: FC<CodeInputProps> = ({
 
   const captchaButtonDom = (
     <LCaptchaButton
+      loading={loading}
+      start={start}
       type={type === 'inline' || type === 'link' ? 'link' : type}
       {...buttonProps}
       onClick={onButtonClick}
       onEnd={handleEnd}
       ref={buttonRef as unknown as React.RefObject<React.RefObject<HTMLInputElement>>}
       style={buttonStyle}
-    />
+    >
+      {initText}
+    </LCaptchaButton>
   );
 
   useMount(() => {
@@ -134,6 +149,7 @@ const CodeInput: FC<CodeInputProps> = ({
         placeholder={placeholder}
         allowClear
         autoComplete="off"
+        maxLength={maxLength}
         ref={inputRef as unknown as React.Ref<InputRef> | undefined}
         {...restProps}
         {...inputProps}
