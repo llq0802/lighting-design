@@ -27,7 +27,7 @@ export interface LFormItemProps extends FormItemProps {
   /** 是否禁用 */
   disabled?: boolean;
   /** 组件的placeholder */
-  placeholder?: string;
+  placeholder?: string | string[];
 }
 
 const LFormItem: FC<LFormItemProps> = ({

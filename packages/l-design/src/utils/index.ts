@@ -39,7 +39,7 @@ export function uniqueId(prefix = '') {
 }
 
 export const usePlaceholder = (options: {
-  placeholder?: string;
+  placeholder?: string | string[];
   isSelectType?: boolean;
   restProps: Record<string, any>;
 }) => {

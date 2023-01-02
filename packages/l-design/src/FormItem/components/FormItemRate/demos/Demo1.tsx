@@ -1,53 +1,33 @@
-import { Button, Form } from 'antd';
-import { LFormItemInput, LFormItemRate } from 'lighting-design';
+import { Form } from 'antd';
+import { LForm, LFormItemRate } from 'lighting-design';
 
-const Index = () => {
+const Demo1 = () => {
   const [form] = Form.useForm();
 
   return (
-    <Form
+    <LForm
       name="LFormItemSelect"
       form={form}
       onValuesChange={(e) => {
         console.log(e);
       }}
     >
-      <LFormItemInput
-        name="userName"
-        label="名字"
-        required
-        tooltip="禁止空格"
-        disabledWhiteSpace
-        alignItems="end"
-        inputProps={{ placeholder: '请输入名字' }}
-      />
       <LFormItemRate
         label="评分"
-        name="rate"
+        name="rate1"
         initialValue={3.5}
-        disabled
         rateProps={{
           allowHalf: true,
         }}
       />
-
-      <Button
-        onClick={() => {
-          form.validateFields().then((res) => {
-            console.log(' res ', res);
-          });
+      <LFormItemRate
+        label="评分"
+        name="rate2"
+        rateProps={{
+          allowHalf: true,
         }}
-      >
-        验证
-      </Button>
-      <Button
-        onClick={() => {
-          console.log(' form.getFieldsValue()  ', form.getFieldsValue());
-        }}
-      >
-        获取
-      </Button>
-    </Form>
+      />
+    </LForm>
   );
 };
-export default Index;
+export default Demo1;

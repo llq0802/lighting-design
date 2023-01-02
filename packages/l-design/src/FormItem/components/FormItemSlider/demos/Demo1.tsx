@@ -1,30 +1,10 @@
-import { LForm, LFormItemInput, LFormItemSlider, LFormItemSwitch } from 'lighting-design';
+import { LForm, LFormItemSlider } from 'lighting-design';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
     <LForm name="LFormItemSelect" form={form}>
-      <LFormItemInput
-        name="userName"
-        label="名字"
-        required
-        tooltip="禁止空格"
-        disabledWhiteSpace
-        alignItems="end"
-        contentAfter={<div>后面</div>}
-        inputProps={{ placeholder: '请输入名字' }}
-      />
-      <LFormItemSwitch
-        name="state"
-        label="状态"
-        required
-        tooltip="禁止空格"
-        contentAfter={<div>后面</div>}
-        switchProps={{
-          className: 'abvs',
-        }}
-      />
       <LFormItemSlider
         name="slider"
         label="滑块"

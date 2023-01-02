@@ -8,8 +8,34 @@ nav:
 
 # LFormItemDatePicker
 
-LFormItemDatePicker
+日期选择与日期范围选择
 
-<mark>LFormItemDatePicker</mark>
+**特点**
 
-<code src='./demos/Demo1.tsx' />
+- 支持自定格式输出输入 无需在转化 `(时间戳 字符串 Moment) `
+- 动态快捷配置向前、后禁选范围
+- 支持`字符串 时间戳 Moment`格式的日期输入
+- 输出时自动转换为字符串格式
+
+**校验顺序**
+
+- 必填为空时提示：`请输入${label}`
+
+## 代码演示
+
+<code src='./demos/Demo1.tsx'>
+
+## API
+
+除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
+
+| 参数 | 说明 | 类型 | 默认值 |
+| --- | --- | --- | --- |
+| rangePicker | 是否是范围日期选择 | `boolean` | `false` |
+| dateValueType | 表单获取到的时间格式 | `'string' \| 'number' \| 'moment'` | `string` |
+| picker | 表单获取到的时间格式 | ` "date" \| "week" \| "month" \| "quarter" \| "year"` | `date` |
+| format | 同`antd`日期组件的格式 | `-` | `YYYY-MM-DD` |
+| showTime | 是否展示时间 | `boolean` | `false` |
+| disabledDateBefore | 禁用今天的前面的日期 为`0`时包括今天 | `number` | `-` |
+| disabledDateAfter | 禁用今天的后面的日期 为`0`时包括今天 | `number` | `-` |
+| pickerProps | `antd`日期组件的 Props | [PickerProps](https://4x.ant.design/components/date-picker-cn/#%E5%85%B1%E5%90%8C%E7%9A%84-API) | `-` |

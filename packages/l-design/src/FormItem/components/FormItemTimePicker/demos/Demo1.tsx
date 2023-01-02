@@ -1,14 +1,12 @@
-import { Button, Form } from 'antd';
-import { LFormItemColor, LFormItemTimePicker } from 'lighting-design';
+import { Form } from 'antd';
+import { LForm, LFormItemTimePicker } from 'lighting-design';
 import moment from 'moment';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
 
   return (
-    <Form name="LFormItemSelect" form={form}>
-      <LFormItemColor colorType="chrome" label="颜色选择" name="color" required />
-
+    <LForm name="LFormItemTimePicker" form={form}>
       <LFormItemTimePicker
         label="时间选择"
         name="date1"
@@ -24,24 +22,15 @@ const Demo1 = () => {
         required
         rangePicker
       />
-
-      <Button
-        onClick={() => {
-          form.validateFields().then((res) => {
-            console.log(' res ', res);
-          });
-        }}
-      >
-        验证
-      </Button>
-      <Button
-        onClick={() => {
-          console.log(' form.getFieldsValue()  ', form.getFieldsValue());
-        }}
-      >
-        获取
-      </Button>
-    </Form>
+      <LFormItemTimePicker
+        label="时间选择3"
+        name="date3"
+        format="HH:mm:ss"
+        initialValue={['15:08:23', '15:08:23', 'HH:mm:ss']}
+        required
+        rangePicker
+      />
+    </LForm>
   );
 };
 export default Demo1;

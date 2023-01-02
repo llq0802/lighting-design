@@ -1,23 +1,14 @@
-import { Button, Form } from 'antd';
-import { LFormItemColor, LFormItemDatePicker } from 'lighting-design';
+import { Form } from 'antd';
+import { LForm, LFormItemDatePicker } from 'lighting-design';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
 
   return (
-    <Form name="LFormItemSelect" form={form}>
-      <LFormItemColor label="颜色选择" name="color" required disabled />
-
-      <LFormItemDatePicker
-        label="日期选择"
-        name="date1"
-        required
-        disabledDateAfter={1}
-        dateValueType="string"
-
-        // disabledDateBefore={1}
-        // picker="quarter"
-      />
+    <LForm name="LFormItemSelect" form={form}>
+      <LFormItemDatePicker label="日期选择1" name="date0" required showTime />
+      <LFormItemDatePicker label="日期选择2" name="date1" required disabledDateAfter={1} />
+      <LFormItemDatePicker label="日期选择2" name="date12" required disabledDateAfter={0} />
       <LFormItemDatePicker
         label="月份选择"
         name="date3"
@@ -32,26 +23,18 @@ const Demo1 = () => {
         required
         disabledDateAfter={1}
         picker="quarter"
-        dateValueType="string"
+        placeholder="季度选择"
       />
-
-      <Button
-        onClick={() => {
-          form.validateFields().then((res) => {
-            console.log(' res ', res);
-          });
-        }}
-      >
-        验证
-      </Button>
-      <Button
-        onClick={() => {
-          console.log(' form.getFieldsValue()  ', form.getFieldsValue());
-        }}
-      >
-        获取
-      </Button>
-    </Form>
+      <LFormItemDatePicker
+        rangePicker
+        label="季度选择"
+        name="date22"
+        required
+        disabledDateAfter={1}
+        picker="quarter"
+        placeholder={['开始季度', '结束季度']}
+      />
+    </LForm>
   );
 };
 export default Demo1;

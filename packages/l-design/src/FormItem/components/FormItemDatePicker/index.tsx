@@ -86,6 +86,8 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
 
   disabled = false,
   required = false,
+
+  placeholder,
   ...restProps
 }) => {
   const currentPicker = useMemo(() => pickerProps.picker || picker, [pickerProps.picker, picker]);
@@ -115,9 +117,15 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
     [currentFormat, normalize, dateValueType],
   );
 
+  // const placeholderMessage = usePlaceholder({
+  //   placeholder,
+  //   restProps,
+  // });
+
   const Comp = useMemo(() => {
     return !rangePicker ? (
       <DatePickerWrapper
+        placeholder={placeholder}
         disabled={disabled}
         format={currentFormat}
         showTime={showTime}
@@ -127,6 +135,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
       />
     ) : (
       <RangePickerWrapper
+        placeholder={placeholder}
         format={currentFormat}
         showTime={showTime}
         picker={currentPicker}
@@ -141,6 +150,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
     currentPicker,
     disabled,
     pickerProps,
+    placeholder,
     rangePicker,
     showTime,
   ]);
