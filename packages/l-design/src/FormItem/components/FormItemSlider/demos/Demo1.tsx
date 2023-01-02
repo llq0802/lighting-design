@@ -1,13 +1,10 @@
-import { Button, Form } from 'antd';
-import { LFormItemInput, LFormItemSlider, LFormItemSwitch } from 'lighting-design';
-import { useState } from 'react';
+import { LForm, LFormItemInput, LFormItemSlider, LFormItemSwitch } from 'lighting-design';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
-  const [opts, setOpts] = useState([]);
+  const [form] = LForm.useForm();
 
   return (
-    <Form name="LFormItemSelect" form={form}>
+    <LForm name="LFormItemSelect" form={form}>
       <LFormItemInput
         name="userName"
         label="名字"
@@ -35,31 +32,42 @@ const Demo1 = () => {
         tooltip="禁止空格"
         contentAfter={<div>后面</div>}
       />
-
-      <Button
-        onClick={() => {
-          form.validateFields().then((res) => {
-            console.log(' res ', res);
-          });
+      <LFormItemSlider
+        max={300}
+        name="slider2"
+        label="滑块"
+        required
+        tooltip="禁止空格"
+        sliderProps={{
+          tooltip: { open: false },
         }}
-      >
-        验证
-      </Button>
-      <Button
-        onClick={() => {
-          console.log(' form.getFieldsValue()  ', form.getFieldsValue());
+        sliderStyle={{
+          width: 300,
+          height: 32,
+          display: 'flex',
+          alignItems: 'center',
+          margin: '0 6px 0',
         }}
-      >
-        获取
-      </Button>
-      <Button
-        onClick={() => {
-          setOpts([]);
+        handleStyle={{
+          width: 32,
+          height: 32,
+          backgroundColor: 'blue',
+          marginTop: 0,
+          borderRadius: 0,
+          transform: `translateX(0%)`,
+          border: 'none',
         }}
-      >
-        强制更新
-      </Button>
-    </Form>
+        trackStyle={{
+          backgroundColor: '#000',
+          height: 32,
+        }}
+        railStyle={{
+          backgroundColor: 'red',
+          height: 32,
+          width: 332,
+        }}
+      />
+    </LForm>
   );
 };
 export default Demo1;

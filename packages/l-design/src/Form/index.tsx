@@ -29,12 +29,7 @@ const LForm: FC<LFormProps> & {
               style={{ marginBottom: 0 }}
               wrapperCol={submitterProps?.wrapperCol}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: submitter?.buttonAlign ?? 'left',
-                }}
-              >
+              <div style={{ display: 'flex', justifyContent: submitter?.buttonAlign ?? 'left' }}>
                 {Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom}
               </div>
             </Form.Item>

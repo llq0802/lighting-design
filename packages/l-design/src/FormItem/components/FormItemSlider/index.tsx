@@ -1,31 +1,56 @@
 import type { SliderSingleProps } from 'antd';
 import { Slider } from 'antd';
 import type { SliderRangeProps } from 'antd/lib/slider';
-import * as React from 'react';
+import type { CSSProperties, FC } from 'react';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 
 export interface LFormItemSliderProps
   extends LFormItemProps,
-    Pick<SliderSingleProps, 'min' | 'max' | 'step' | 'marks'> {
+    Pick<SliderSingleProps, 'min' | 'max' | 'step' | 'marks' | 'handleStyle' | 'trackStyle'> {
   sliderProps?: SliderSingleProps | SliderRangeProps;
+  railStyle?: CSSProperties;
+  sliderStyle?: CSSProperties;
 }
 
-const LFormItemSlider: React.FC<LFormItemSliderProps> = ({
+const LFormItemSlider: FC<LFormItemSliderProps> = ({
   required,
   disabled,
   min,
   max,
   step,
   marks,
+  handleStyle,
+  trackStyle,
+  railStyle,
+  sliderStyle,
   sliderProps = {},
   ...restProps
 }) => {
   return (
     <LFormItem required={required} isSelectType {...restProps}>
-      <Slider min={min} max={max} step={step} marks={marks} disabled={disabled} {...sliderProps} />
+      <Slider
+        min={min}
+        max={max}
+        step={step}
+        marks={marks}
+        disabled={disabled}
+        handleStyle={handleStyle}
+        trackStyle={trackStyle}
+        // @ts-ignore
+        railStyle={railStyle}
+        style={sliderStyle}
+        {...sliderProps}
+      />
     </LFormItem>
   );
 };
 
 export default LFormItemSlider;
+
+// https://www.npmjs.com/package/rc-slider
+// trackStyle?: React.CSSProperties | React.CSSProperties[];
+// handleStyle?: React.CSSProperties | React.CSSProperties[];
+// railStyle?: React.CSSProperties;
+// dotStyle?: React.CSSProperties | ((dotValue: number) => React.CSSProperties);
+// activeDotStyle?: React.CSSProperties | ((dotValue: number) => React.CSSProperties);
