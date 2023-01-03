@@ -8,6 +8,8 @@ nav:
 
 # LFormItemSlider
 
+滑动条
+
 **特点**
 
 - 支持自定义样式

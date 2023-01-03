@@ -8,6 +8,8 @@ nav:
 
 # LFormItemInput
 
+输入框
+
 **特点**
 
 - 可配置过滤空格

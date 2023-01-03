@@ -8,6 +8,8 @@ nav:
 
 # LFormItemColor
 
+颜色选择
+
 **特点**
 
 - 支持多种模式的颜色选择
