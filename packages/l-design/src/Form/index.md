@@ -6,7 +6,9 @@ nav:
   path: /components
 ---
 
-# LForm-表单
+# LForm
+
+基于`ant Form`组件扩展的 LForm-表单
 
 ## 代码演示
 
