@@ -12,7 +12,7 @@ nav:
 
 **特点**
 
-- 支持多种模式的颜色选择
+- 支持自定义输入组件。
 
 **校验顺序**
 
@@ -28,5 +28,8 @@ nav:
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| colorType | 内置组件类型 | `'sketch' \| 'chrome' \| 'photoshop'` | `sketch` |
-| colorProps | `LColor`组件 Props | [colorProps](/components/color-pick#lcolorxxx-%E5%85%B1%E5%90%8C%E7%9A%84-api) | `-` |
+| options | 数据化配置选项内容 | `{ label, value }[]` | `-` |
+| renderInput | 自定义输入框 | `() => HTMLInputElement \| HTMLTextAreaElement \| React.ReactElement<InputProps>` | `<Input />` |
+| onSearch | 搜索补全项的时候调用 | `function(value)` | `-` |
+| onSelect | 被选中时调用，参数为选中项的 value 值 | `function(value, option)` | `-` |
+| autoCompleteProps | `antd`自动补全组件 Props | [AutoCompleteProps](https://4x.ant.design/components/auto-complete-cn/#API) | `-` |
