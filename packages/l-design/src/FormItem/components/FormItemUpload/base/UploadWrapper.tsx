@@ -63,18 +63,19 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
       // 检查是否支持文件类型
       const isSupportFileType = checkFileType(file, accept);
       if (!isSupportFileType && fileTypeMessage) {
-        message.error(fileTypeMessage.replace(/x/g, accept));
+        message.error(fileTypeMessage.replace(/x/gi, accept));
         return Upload.LIST_IGNORE;
       }
       // 检查是否超过文件大小
       const isLessThanFileSize = checkFileSize(file, maxSize);
       if (!isLessThanFileSize && fileSizeMessage) {
-        message.error(fileSizeMessage.replace(/x/g, maxSize / 1024 / 1024 + 'M'));
+        message.error(fileSizeMessage.replace(/x/gi, maxSize / 1024 / 1024 + 'M'));
         return Upload.LIST_IGNORE;
       }
       // 若返回 false 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，
       // 可以返回 Upload.LIST_IGNORE， 此时列表中将不展示此文件。
-      return beforeUpload ? beforeUpload(file, fileList) : !!action; // action没有传地址则停止上传(不会生产status,percent ,response等)
+      // action没有传地址则停止上传(不会生产status,percent ,response等)
+      return beforeUpload ? beforeUpload(file, fileList) : !!action;
     },
     [accept, maxSize, beforeUpload, action, fileTypeMessage, fileSizeMessage],
   );
@@ -190,10 +191,10 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
         return;
       }
 
-      if (onGetPreviewUrl) {
-        file.preview = await onGetPreviewUrl((file?.originFileObj || file) as File);
-      } else if (file.url || file.thumbUrl || file.preview) {
+      if (file.url || file.thumbUrl || file.preview) {
         file.preview = file.url || file.thumbUrl || file.preview;
+      } else if (onGetPreviewUrl) {
+        file.preview = await onGetPreviewUrl((file?.originFileObj || file) as File);
       } else if (!file.url || !file.thumbUrl || !file.preview) {
         if (file?.originFileObj instanceof File) {
           // base64 路径太大，可能导致卡顿问题

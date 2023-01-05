@@ -6,29 +6,17 @@ const Demo1 = () => {
 
   return (
     <LForm name="LFormItemSelect" form={form}>
-      {/* action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76', */}
-      {/* <UploadWrapper action="https://www.mocky.io/v2/5cc8019d300000980a055e76" accept=".jpg">
-        <Button>Click to Upload</Button>
-      </UploadWrapper> */}
-      {/* <UploadAvatar
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        // onChange={(info: UploadChangeParam) => {
-        //   const { file, fileList } = info;
-        //   console.log('UploadAvatar-onChange', file, fileList);
-        // }
-      /> */}
-
-      {/* <LFormItemUpload
+      <LFormItemUpload
         name="default"
         label="默认上传"
         accept=".jpg, .jpeg"
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        initialValue={[
-          {
-            name: 'meinv',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-          },
-        ]}
+        // initialValue={[
+        //   {
+        //     name: 'meinv',
+        //     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+        //   },
+        // ]}
         required
         rules={[
           {
@@ -45,7 +33,7 @@ const Demo1 = () => {
             },
           },
         ]}
-      /> */}
+      />
 
       <LFormItemUpload
         required
@@ -53,7 +41,6 @@ const Demo1 = () => {
         uploadType="avatar"
         name="avatar"
         label="头像上传"
-        accept=".jpg, .jpeg"
         // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         // initialValue={[
         //   {
@@ -106,18 +93,12 @@ const Demo1 = () => {
         ]}
       />
 
-      {/* <LFormItemUpload
+      <LFormItemUpload
         uploadType="dragger"
         name="dragger"
         label="拖动上传"
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        initialValue={[
-          {
-            name: 'meinv',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-          },
-        ]}
-      /> */}
+      />
     </LForm>
   );
 };

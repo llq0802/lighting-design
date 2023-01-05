@@ -36,12 +36,10 @@ const UploadDragger: FC<UploadDraggerrProps> = ({
   return (
     <UploadWrapper {...restProps} dragger showUploadList={currentShowUploadList}>
       <p className="ant-upload-drag-icon">{buttonIcon}</p>
-      <p className="ant-upload-text">{buttonText}</p>
-      <p className="ant-upload-hint">
-        {/* Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-        band files */}
+      <p className="ant-upload-text" style={{ marginBottom: 8 }}>
         {buttonText}
       </p>
+      {/* <p className="ant-upload-hint">{buttonText}</p> */}
     </UploadWrapper>
   );
 };
