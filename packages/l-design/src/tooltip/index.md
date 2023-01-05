@@ -6,9 +6,9 @@ nav:
   path: /components
 ---
 
-# LTooltip 文字提示
+# LTooltip
 
-用于页面和区块组件的加载状态。
+文字提示
 
 ## 基本用法
 

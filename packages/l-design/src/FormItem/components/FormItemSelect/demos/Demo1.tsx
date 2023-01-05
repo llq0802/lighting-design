@@ -1,41 +1,15 @@
-import { Button, Form } from 'antd';
-import { LFormItemInput, LFormItemSelect } from 'lighting-design';
-import { useState } from 'react';
+import { Form } from 'antd';
+import { LForm, LFormItemSelect } from 'lighting-design';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
-  const [opts, setOpts] = useState<any[]>([
-    { label: 'closed', value: 'closed' },
-    { label: 'processing', value: 'processing' },
-  ]);
-
-  const onChange = () => {
-    console.log(' onChange-++++');
-  };
 
   return (
-    <Form name="LFormItemSelect" form={form}>
-      <LFormItemInput
-        name="userName"
-        label="名字"
-        required
-        tooltip="禁止空格"
-        // disabledWhiteSpace
-        alignItems="end"
-        contentAfter={<div>后面</div>}
-        inputProps={{ placeholder: '请输入名字' }}
-      />
+    <LForm name="LFormItemSelect" form={form}>
       <LFormItemSelect
-        label="select选择"
-        name="select"
-        all
+        label="select1"
+        name="select1"
         required
-        // dependencies={['userName']}
-        debounceTime={300}
-        selectProps={{
-          onChange,
-          options: opts,
-        }}
         // request={async (params) => {
         //   console.log(' params', params);
         //   // if (!params) return [];
@@ -45,37 +19,33 @@ const Demo1 = () => {
         //     { label: 'processing', value: 'processing' },
         //   ];
         // }}
-        // options={[
-        //   { label: 'Unresolved', value: 'open' },
-        //   { label: 'Resolved', value: 'closed' },
-        //   { label: 'Resolving', value: 'processing' },
-        // ]}
+        options={[
+          { label: 'Unresolved', value: 'open' },
+          { label: 'Resolved', value: 'closed' },
+          { label: 'Resolving', value: 'processing' },
+        ]}
       />
-
-      <Button
-        onClick={() => {
-          form.validateFields().then((res) => {
-            console.log(' res ', res);
-          });
-        }}
-      >
-        验证
-      </Button>
-      <Button
-        onClick={() => {
-          console.log(' form.getFieldsValue()  ', form.getFieldsValue());
-        }}
-      >
-        获取
-      </Button>
-      <Button
-        onClick={() => {
-          setOpts([]);
-        }}
-      >
-        强制更新
-      </Button>
-    </Form>
+      <LFormItemSelect
+        label="select2"
+        name="select2"
+        required
+        // request={async (params) => {
+        //   console.log(' params', params);
+        //   // if (!params) return [];
+        //   return [
+        //     { label: 'open', value: 'open' },
+        //     { label: 'closed', value: 'closed' },
+        //     { label: 'processing', value: 'processing' },
+        //   ];
+        // }}
+        all
+        options={[
+          { label: 'Unresolved', value: 'open' },
+          { label: 'Resolved', value: 'closed' },
+          { label: 'Resolving', value: 'processing' },
+        ]}
+      />
+    </LForm>
   );
 };
 export default Demo1;

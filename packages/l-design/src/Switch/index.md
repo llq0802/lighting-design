@@ -6,7 +6,7 @@ nav:
   path: /components
 ---
 
-# LSwitch 开关
+# LSwitch
 
 开关选择器。
 

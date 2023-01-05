@@ -1,26 +1,23 @@
-import { Button, Form } from 'antd';
-import { LFormItemInput, LFormItemRadio } from 'lighting-design';
-import { useState } from 'react';
+import { LForm, LFormItemRadio } from 'lighting-design';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
-  const [opts, setOpts] = useState([]);
+  const [form] = LForm.useForm();
 
   return (
-    <Form name="LFormItemSelect" form={form}>
-      <LFormItemInput
-        name="userName"
-        label="名字"
+    <LForm name="LFormItemSelect" form={form}>
+      <LFormItemRadio
+        label="单选1"
+        name="LFormItemRadio1"
         required
-        tooltip="禁止空格"
-        disabledWhiteSpace
-        alignItems="end"
-        contentAfter={<div>后面</div>}
-        inputProps={{ placeholder: '请输入名字' }}
+        options={[
+          { label: 'Unresolved', value: 'open' },
+          { label: 'Resolved', value: 'closed' },
+          { label: 'Resolving', value: 'processing' },
+        ]}
       />
       <LFormItemRadio
-        label="选择"
-        name="select"
+        label="单选2"
+        name="LFormItemRadio1"
         all
         required
         // dependencies={['userName']}
@@ -41,31 +38,7 @@ const Demo1 = () => {
           { label: 'Resolving', value: 'processing' },
         ]}
       />
-
-      <Button
-        onClick={() => {
-          form.validateFields().then((res) => {
-            console.log(' res ', res);
-          });
-        }}
-      >
-        验证
-      </Button>
-      <Button
-        onClick={() => {
-          console.log(' form.getFieldsValue()  ', form.getFieldsValue());
-        }}
-      >
-        获取
-      </Button>
-      <Button
-        onClick={() => {
-          setOpts([]);
-        }}
-      >
-        强制更新
-      </Button>
-    </Form>
+    </LForm>
   );
 };
 export default Demo1;

@@ -6,11 +6,12 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type TreeSelectWrapperProps = Record<string, any> & {
   treeData?: TreeSelectProps['treeData'];
-  request?: (...args: any[]) => Promise<any>;
+  request?: (...depends: any[]) => Promise<any>;
   treeCheckable?: boolean;
   debounceTime?: number;
   treeSelectProps?: TreeSelectProps;
   dependencies?: string[];
+  loadData: TreeSelectProps['loadData'];
 };
 
 export type TreeSelectOption = {
@@ -36,6 +37,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   debounceTime,
   disabled,
   placeholder,
+  loadData,
   treeSelectProps = {},
   ...restProps // LFormItem传过来的其他值
 }) => {
@@ -125,6 +127,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
       dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
       style={{ width: '100%' }}
       treeCheckable={treeCheckable}
+      loadData={loadData}
       {...treeSelectProps}
       value={value}
       onChange={handleChange}

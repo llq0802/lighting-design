@@ -10,7 +10,7 @@ export interface LFormItemTreeSelectProps
   extends LFormItemProps,
     Pick<
       TreeSelectWrapperProps,
-      'treeData' | 'request' | 'treeSelectProps' | 'debounceTime' | 'treeCheckable'
+      'treeData' | 'request' | 'treeSelectProps' | 'debounceTime' | 'treeCheckable' | 'loadData'
     > {
   dependencies?: string[];
 }
@@ -19,6 +19,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   required,
   treeData = [],
   treeCheckable = false,
+  loadData,
   request,
   disabled,
   placeholder,
@@ -62,6 +63,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
         treeCheckable={treeCheckable}
         request={request}
         debounceTime={debounceTime}
+        loadData={loadData}
         treeSelectProps={treeSelectProps}
       />
     </LFormItem>

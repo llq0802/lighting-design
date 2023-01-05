@@ -25,7 +25,7 @@ nav:
 | submitText | 提交按钮文本 | `ReactNode` | `查询` |
 | resetText | 重置按钮文本 | `ReactNode` | `重置` |
 | isCollapsed | 默认状态下是否折叠超出的表单项 | `boolean` | `true` |
-| showColsNumber | 显示的表单控件数量，数量大于等于控件数量则隐藏展开按钮。 | `number` | - |
+| showColsNumber | 显示的表单控件数量，不能超过控件的总数量，为`0`时显示全部控件 | `number` | - |
 
 #### 支持响应式
 

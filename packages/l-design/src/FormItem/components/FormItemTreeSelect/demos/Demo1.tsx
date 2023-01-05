@@ -1,5 +1,7 @@
-import { Button, Form } from 'antd';
-import { LFormItemSelect, LFormItemTreeSelect } from 'lighting-design';
+import type { TreeSelectProps } from 'antd';
+import { Form } from 'antd';
+import type { DefaultOptionType } from 'antd/lib/select';
+import { LForm, LFormItemTreeSelect } from 'lighting-design';
 import { useState } from 'react';
 
 const treeData = [
@@ -53,57 +55,21 @@ const Demo1 = () => {
       }, 300);
     });
 
-  // const onChange = (newValue: string) => {
-  //   console.log(newValue);
-  //   setValue(newValue);
-  // };
-
   return (
-    <Form name="LFormItemSelect" form={form}>
-      <LFormItemSelect
-        label="select选择"
-        name="select"
-        all
-        required
-        options={[
-          { label: 'A', value: 'a' },
-          { label: 'B', value: 'b' },
-          { label: 'C', value: 'c' },
-        ]}
-      />
-
+    <LForm name="LFormItemSelect" form={form}>
       <LFormItemTreeSelect
         label="树形选择"
-        // name={['sheng', 'shi', 'qu']}
-        name={'tree'}
+        name="tree"
         required
         // options={options}
-        dependencies={['select']}
         treeData={treeData}
+        loadData={onLoadData}
         treeCheckable
         treeSelectProps={{
           treeDataSimpleMode: true,
-          loadData: onLoadData,
         }}
       />
-
-      <Button
-        onClick={() => {
-          form.validateFields().then((res) => {
-            console.log(' res ', res);
-          });
-        }}
-      >
-        验证
-      </Button>
-      <Button
-        onClick={() => {
-          console.log(' form.getFieldsValue()  ', form.getFieldsValue());
-        }}
-      >
-        获取
-      </Button>
-    </Form>
+    </LForm>
   );
 };
 export default Demo1;

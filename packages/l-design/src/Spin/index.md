@@ -6,7 +6,7 @@ nav:
   path: /components
 ---
 
-# LSpin 加载
+# LSpin
 
 用于页面和区块组件的加载状态。
 

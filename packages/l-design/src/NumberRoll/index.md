@@ -6,9 +6,9 @@ nav:
   path: /components
 ---
 
-# LNumberRoll 数值加载
+# LNumberRoll
 
-数值加载
+数值加载或者时间计时
 
 ## 基本用法
 

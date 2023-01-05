@@ -6,7 +6,9 @@ nav:
   path: /components
 ---
 
-# 水印
+# LWaterMark
+
+水印组件
 
 使用了 `MutationObserver` API 用户无法直接修改
 
