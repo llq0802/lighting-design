@@ -1,6 +1,4 @@
-import { Button, Form } from 'antd';
-import { LFormItemAddress, LFormItemCascader, LFormItemSelect } from 'lighting-design';
-import { useState } from 'react';
+import { LForm, LFormItemAddress, LFormItemCascader, LFormItemSelect } from 'lighting-design';
 
 const options: any[] = [
   {
@@ -38,15 +36,13 @@ const options: any[] = [
 ];
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
-  const [opts, setOpts] = useState([]);
+  const [form] = LForm.useForm();
 
   return (
-    <Form name="LFormItemSelect" form={form}>
+    <LForm name="LFormItemSelect" form={form}>
       <LFormItemSelect
-        label="select选择"
+        label="下拉选择"
         name="select"
-        all
         required
         options={[
           { label: 'A', value: 'a' },
@@ -54,21 +50,7 @@ const Demo1 = () => {
           { label: 'C', value: 'c' },
         ]}
       />
-
-      <LFormItemCascader
-        label="级联选择"
-        // name={['sheng', 'shi', 'qu']}
-        name={'cascader'}
-        required
-        // options={options}
-        dependencies={['select']}
-        debounceTime={300}
-        request={async (params) => {
-          console.log('request-params', params);
-          // if (!params) return [];
-          return options;
-        }}
-      />
+      <LFormItemCascader label="级联选择" name="cascader" required options={options} />
 
       <LFormItemAddress
         label="地址选择"
@@ -76,31 +58,7 @@ const Demo1 = () => {
         required
         options={options}
       />
-
-      <Button
-        onClick={() => {
-          form.validateFields().then((res) => {
-            console.log(' res ', res);
-          });
-        }}
-      >
-        验证
-      </Button>
-      <Button
-        onClick={() => {
-          console.log(' form.getFieldsValue()  ', form.getFieldsValue());
-        }}
-      >
-        获取
-      </Button>
-      <Button
-        onClick={() => {
-          setOpts([]);
-        }}
-      >
-        强制更新
-      </Button>
-    </Form>
+    </LForm>
   );
 };
 export default Demo1;

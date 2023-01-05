@@ -17,7 +17,7 @@ const Demo1 = () => {
       />
       <LFormItemRadio
         label="单选2"
-        name="LFormItemRadio1"
+        name="LFormItemRadio2"
         all
         required
         // dependencies={['userName']}

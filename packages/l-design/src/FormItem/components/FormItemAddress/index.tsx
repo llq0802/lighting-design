@@ -16,6 +16,20 @@ export interface LFormItemAddressProps<DataNodeType = any> extends Omit<LFormIte
   disabled?: boolean;
 }
 
+const colSpan1 = {
+  xs: 24,
+  md: 12,
+  lg: 6,
+  xxl: 8,
+};
+
+const colSpan2 = {
+  xs: 24,
+  md: 12,
+  lg: 18,
+  xxl: 16,
+};
+
 const LFormItemAddress: FC<LFormItemAddressProps> = ({
   names,
   label,
@@ -40,7 +54,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
       {...restProps}
     >
       <Row gutter={8}>
-        <Col span={24} md={12} lg={8} {...inputColProps}>
+        <Col {...colSpan1} {...inputColProps}>
           <LFormItem
             name={names[0]}
             rules={[
@@ -67,7 +81,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
             />
           </LFormItem>
         </Col>
-        <Col span={24} md={12} lg={16} {...cascaderColProps}>
+        <Col {...colSpan2} {...cascaderColProps}>
           <LFormItem
             name={names[1]}
             rules={[

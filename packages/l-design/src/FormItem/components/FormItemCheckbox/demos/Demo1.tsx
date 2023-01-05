@@ -1,11 +1,10 @@
-import { Button, Form } from 'antd';
-import { LFormItemCheckbox, LFormItemInput } from 'lighting-design';
+import { LForm, LFormItemCheckbox, LFormItemInput } from 'lighting-design';
 
 const Index = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
-    <Form
+    <LForm
       name="LFormItemSelect"
       form={form}
       onValuesChange={(e) => {
@@ -43,24 +42,7 @@ const Index = () => {
           },
         }}
       />
-
-      <Button
-        onClick={() => {
-          form.validateFields().then((res) => {
-            console.log(' res ', res);
-          });
-        }}
-      >
-        验证
-      </Button>
-      <Button
-        onClick={() => {
-          console.log(' form.getFieldsValue()  ', form.getFieldsValue());
-        }}
-      >
-        获取
-      </Button>
-    </Form>
+    </LForm>
   );
 };
 export default Index;
