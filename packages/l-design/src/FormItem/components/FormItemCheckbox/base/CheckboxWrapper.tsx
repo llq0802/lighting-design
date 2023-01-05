@@ -7,10 +7,25 @@ import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 type beforeAllProps = {
+  /**
+   * 标题 label
+   */
   label?: React.ReactNode;
+  /**
+   * 值 value
+   */
   value?: CheckboxValueType;
+  /**
+   * 样式
+   */
   style?: React.CSSProperties;
+  /**
+   * 失效状态
+   */
   disabled?: boolean;
+  /**
+   * 变化时的回调函数
+   */
   onChange?: (e: CheckboxValueType[]) => void;
 };
 
@@ -18,8 +33,10 @@ export type CheckboxWrapperProps = Record<string, any> &
   Partial<{
     request: (...args: any[]) => Promise<any>;
     debounceTimex: number;
+    /**
+     * 自定义全选
+     */
     beforeAll: beforeAllProps;
-
     checkboxProps: CheckboxGroupProps;
     dependencies: string[];
   }>;
@@ -110,7 +127,10 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     (e: CheckboxChangeEvent) => {
       let checkAllValue: CheckboxValueType[] = [];
       if (e.target.checked) {
-        checkAllValue = selectOptions.map((item: CheckboxOptionType) => item.value);
+        // 排除disabled为true的数据
+        checkAllValue = selectOptions
+          .filter((item: CheckboxOptionType) => !item.disabled)
+          .map((items: CheckboxOptionType) => items.value);
       }
       setIndeterminate(false);
       setCheckAll(e.target.checked);
@@ -121,15 +141,18 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   );
 
   const handleChange = useCallback(
-    (checkedValue: CheckboxValueType[]) => {
+    (checkedValue: CheckboxValueType[],) => {
       if (beforeAll) {
-        setIndeterminate(!!checkedValue.length && checkedValue.length < selectOptions.length);
-        setCheckAll(checkedValue.length === selectOptions.length);
+        // 排除disabled为true的数据
+        const optLength = selectOptions.filter((item: CheckboxOptionType) => !item.disabled).length;
+
+        setIndeterminate(!!checkedValue.length && checkedValue.length < optLength);
+        setCheckAll(checkedValue.length === optLength);
       }
       checkboxProps?.onChange?.(checkedValue);
       onChange(checkedValue);
     },
-    [beforeAll, checkboxProps, onChange, selectOptions.length],
+    [beforeAll, checkboxProps, onChange, selectOptions],
   );
   return (
     <>

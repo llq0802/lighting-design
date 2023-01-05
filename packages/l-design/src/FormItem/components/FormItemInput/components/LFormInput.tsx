@@ -9,6 +9,9 @@ import InputWrapper from '../base/InputWrapper';
 
 export interface LFormItemInputProps extends LFormItemProps {
   type?: InputWrapperProps['type'];
+  /**
+   * 禁止输入空格
+   */
   disabledWhiteSpace?: boolean;
   inputProps?: InputProps;
 }

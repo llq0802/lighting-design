@@ -37,6 +37,11 @@ const Index = () => {
           { label: '睡觉', value: '2' },
           { label: '打豆豆', value: '3' },
         ]}
+        checkboxProps={{
+          onChange(checkedValue) {
+            console.log(checkedValue);
+          },
+        }}
       />
 
       <Button
