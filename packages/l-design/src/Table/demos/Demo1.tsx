@@ -4,11 +4,12 @@ import { LFormItemInput } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
 import { LTable } from '..';
+import type { TableRefProps } from '../components/BaseTable';
 import { apiGetUserList, columns } from './utils';
 
 const Demo1: FC = () => {
   const formRef = useRef<FormInstance>();
-  const tableRef = useRef<null>(null);
+  const tableRef = useRef<TableRefProps>();
 
   // useEffect(() => {
   //   console.log('formRef', formRef);

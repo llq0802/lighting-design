@@ -80,7 +80,8 @@ export type RequestType = 'onSearch' | 'onReload' | 'onReset';
 ```
 
 ```ts
-export type MutableRefObject<TableRefProps> = {
+
+export type MutableRefObject<TableRefProps|undefined > = {
   // 根据条件，当前页、刷新数据
   onReload: () => void;
   // 重置数据，从第一页开始显示、查询数据

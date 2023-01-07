@@ -74,7 +74,7 @@ export type BaseTableProps = {
   /** 查询表单的实例 */
   formRef?: MutableRefObject<FormInstance | undefined> | ((ref: FormInstance) => void);
   /** 表格的实例 包含一些方法 */
-  tableRef?: MutableRefObject<TableRefProps>;
+  tableRef?: MutableRefObject<TableRefProps | undefined>;
   /** 是否占满剩余空间 */
   // fillSpace?: boolean;
   /** 表格最外层div类名 */
