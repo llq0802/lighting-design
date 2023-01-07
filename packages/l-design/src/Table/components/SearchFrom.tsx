@@ -39,6 +39,7 @@ const SearchForm = forwardRef(
         className={LIGHTD_CARD}
         bordered={false}
         {...cardProps}
+        style={{ borderRadius: 8, ...cardProps?.style }}
         bodyStyle={{
           paddingBottom: 0,
           marginBottom: 16,

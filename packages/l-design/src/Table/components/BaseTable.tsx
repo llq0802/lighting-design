@@ -13,6 +13,7 @@ import type {
   MutableRefObject,
   ReactElement,
   ReactNode,
+  RefObject,
   SetStateAction,
 } from 'react';
 import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
@@ -25,6 +26,36 @@ import ToolbarAction from './ToolBarAction';
 
 export type RequestType = 'onSearch' | 'onReload' | 'onReset';
 
+export type TableRefProps = {
+  // 根据条件，当前页、刷新数据
+  onReload: () => void;
+  // 重置数据，从第一页开始显示、查询数据
+  onReset: () => void;
+  // 根据条件，从第一页开始显示、查询数据
+  onSearch: () => void;
+  // 表格根标签div
+  rootRef: RefObject<HTMLDivElement>;
+  // 表格数据
+  tableData: Record<string, any>[];
+  // 页码信息
+  pagination: {
+    current: number;
+    pageSize: number;
+  };
+};
+
+export type TableRequest = (
+  /** 请求参数 */
+  params: {
+    current: number;
+    pageSize: number;
+    formValues?: Record<string, any>;
+    [key: string]: any;
+  },
+  /** 请求类型 */
+  requestType: RequestType,
+) => Promise<{ success: boolean; data: Record<string, any>[]; total: number }>;
+
 export type BaseTableProps = {
   /** 表格是否需要排序序号 */
   isSort?: boolean;
@@ -32,30 +63,20 @@ export type BaseTableProps = {
   isReady?: boolean;
   /** 全屏表格的背景颜色 */
   fullScreenBgColor?: string;
-  /** 表格内容是否换行 */
+  /** 表格宽度超过 100%自动处理横向滚动条。 */
   nowrap?: boolean;
   /** 异步请求函数额外参数 */
   requestParams: Record<string, any>;
   /** 异步请求函数 */
-  request: (
-    /** 请求参数 */
-    params: {
-      current: number;
-      pageSize: number;
-      formValues?: Record<string, any>;
-      [key: string]: any;
-    },
-    /** 请求类型 */
-    requestType: RequestType,
-  ) => Promise<{ success: boolean; data: Record<string, any>[]; total: number }>;
+  request: TableRequest;
   /** 是否自动请求 */
   autoRequest?: boolean;
   /** 查询表单的实例 */
   formRef?: MutableRefObject<FormInstance | undefined> | ((ref: FormInstance) => void);
   /** 表格的实例 包含一些方法 */
-  tableRef?: MutableRefObject<any | undefined>;
+  tableRef?: MutableRefObject<TableRefProps>;
   /** 是否占满剩余空间 */
-  isSpace?: boolean;
+  // fillSpace?: boolean;
   /** 表格最外层div类名 */
   rootClassName?: string;
   /** 表格额外类名 */
@@ -69,7 +90,7 @@ export type BaseTableProps = {
 
   /** 是否显示toolbar */
   showToolbar?: boolean;
-  /** 配置内置表格工具栏 与Space组件有相同属性 showToolbar为 true 时生效*/
+  /** 配置内置表格工具栏 继承Space组件的属性 showToolbar为 true 时生效*/
   toolbarActionConfig?: ToolbarActionConfigProps;
   /** 重新渲染toolBar 包括内置表格工具 */
   toolbarRender?: (ToolbarActionDom: ReactNode) => ReactNode;
@@ -95,7 +116,7 @@ export type BaseTableProps = {
   toolbarLeft?: ReactNode;
   /** 整个toolBar的右侧 在内置表格工具左侧 */
   toolbarRight?: ReactNode;
-  /** 表格上部区域 */
+  /** 表格内容上部区域 */
   tableExtra?: ReactNode;
   /** 表单查询框组 */
   formItems?: Exclude<ReactNode, string | number | boolean | null | undefined>[];
@@ -374,7 +395,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     // 表格根标签div
     rootRef: rootRef,
     // 表格数据
-    tableData: data?.list ?? (restProps?.dataSource || []),
+    tableData: data?.list ?? ((restProps?.dataSource || []) as Record<string, any>[]),
     // 页码信息
     pagination: {
       current: paginationAction.current,
@@ -423,7 +444,12 @@ const BaseTable: FC<BaseTableProps> = (props) => {
 
   const tableDom = (
     <Spin {...currentLoading} spinning={!!currentLoading?.spinning || requestLoading}>
-      <Card bordered={false} className={LIGHTD_CARD} {...tableCardProps}>
+      <Card
+        bordered={false}
+        className={LIGHTD_CARD}
+        style={{ borderRadius: 8, ...tableCardProps?.style }}
+        {...tableCardProps}
+      >
         {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
         <Table
           components={{

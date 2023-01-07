@@ -58,16 +58,14 @@ export type ToolbarActionConfigProps = {
   showFullscreen?: boolean;
   /** 图标样式 */
   style?: CSSProperties;
-};
-
-export type ToolbarActionProps = SpaceProps & ToolbarActionConfigProps;
+} & SpaceProps;
 
 /**
  * 内置工具栏
  * @param param0
  * @returns
  */
-const ToolbarAction: FC<ToolbarActionProps> = ({
+const ToolbarAction: FC<ToolbarActionConfigProps> = ({
   showReload = true,
   showColumnSetting = true,
   showDensity = true,
