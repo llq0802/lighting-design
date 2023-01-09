@@ -24,6 +24,22 @@ import './styles.less';
 import type { ToolbarActionConfigProps } from './ToolBarAction';
 import ToolbarAction from './ToolBarAction';
 
+export type tableRenderProps = (
+  optionsDom: {
+    /** 表单dom */
+    searchFormDom: ReactNode;
+    /** 工具栏dom */
+    toolbarDom: ReactNode;
+    /**   table上面额外Dom 如果没有配置则没有 */
+    tableExtraDom: ReactNode;
+    /**   table主体Dom 包含工具栏Dom  */
+    tableDom: ReactNode;
+    /** 整个表格Dom包含全部Dom */
+    finallyDom: ReactNode;
+  },
+  props: BaseTableProps,
+) => ReactElement;
+
 export type RequestType = 'onSearch' | 'onReload' | 'onReset';
 
 export type TableRefProps = {

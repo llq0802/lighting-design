@@ -73,6 +73,26 @@ export type TableRequest = (
 ) => Promise<{ success: boolean; data: Record<string, any>[]; total: number }>;
 ```
 
+#### TableRenderProps
+
+```ts
+export type TableRenderProps = (
+  optionsDom: {
+    /** 表单dom */
+    searchFormDom: ReactNode;
+    /** 工具栏dom */
+    toolbarDom: ReactNode;
+    /**   table上面额外Dom 如果没有配置则没有 */
+    tableExtraDom: ReactNode;
+    /**   table主体Dom 包含工具栏Dom  */
+    tableDom: ReactNode;
+    /** 整个表格Dom包含全部Dom */
+    finallyDom: ReactNode;
+  },
+  props: LTableProps,
+) => ReactElement;
+```
+
 #### RequestType
 
 ```ts
