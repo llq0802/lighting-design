@@ -39,12 +39,13 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
+    "antd": "4.25.0",
     "ahooks": "^3.7.2",
     "react-color": "^2.19.3"
   },
   "devDependencies": {},
   "peerDependencies": {
-    "antd": ">=4.20.0",
+    "antd": ">=4.25.0",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   }

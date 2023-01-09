@@ -82,7 +82,7 @@ export type TableRenderProps = (
     searchFormDom: ReactNode;
     /** 工具栏dom */
     toolbarDom: ReactNode;
-    /**   table上面额外Dom 如果没有配置则没有 */
+    /**   table内容上面额外Dom 如果没有配置则没有 */
     tableExtraDom: ReactNode;
     /**   table主体Dom 包含工具栏Dom  */
     tableDom: ReactNode;

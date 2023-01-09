@@ -24,12 +24,17 @@ export default {
       ],
     },
     {
+      title: '数据展示',
+      children: ['Table/index.md'],
+    },
+    {
       title: '数据录入',
       children: [
         'Form/index.md',
         'Form/components/MoadlForm/index.md',
         'Form/components/DrawerForm/index.md',
         'Form/components/QueryForm/index.md',
+        'Form/components/StepsForm/index.md',
         'FormItem/index.md',
         'FormItem/components/FormItemInput/index.md',
         'FormItem/components/FormItemInput/LFormNumber.md',
@@ -52,10 +57,6 @@ export default {
         'FormItem/components/FormItemUpload/index.md',
         'FormItem/components/FormItemColor/index.md',
       ],
-    },
-    {
-      title: '数据展示',
-      children: ['Table/index.md'],
     },
   ],
   //  hooks
