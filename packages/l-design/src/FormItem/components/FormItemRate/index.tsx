@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 import type { RateWrapperProps } from './base/RateWrapper';
@@ -17,10 +18,17 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   rateProps,
   required,
   disabled,
+  placeholder,
   ...restProps
 }) => {
+  const messageLabel = usePlaceholder({
+    placeholder,
+    restProps,
+    isSelectType: true,
+  });
+
   return (
-    <LFormItem required={required} isSelectType {...restProps}>
+    <LFormItem required={required} isSelectType placeholder={messageLabel} {...restProps}>
       <RateWrapper
         dependencies={restProps?.dependencies}
         disabled={disabled}

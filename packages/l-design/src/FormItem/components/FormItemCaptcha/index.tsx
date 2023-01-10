@@ -42,7 +42,7 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   });
 
   return (
-    <LFormItem required={required} {...restProps}>
+    <LFormItem required={required} placeholder={messageLabel} {...restProps}>
       <CaptchaInput
         maxLength={maxLength}
         disabled={disabled}

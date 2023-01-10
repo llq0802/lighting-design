@@ -52,8 +52,6 @@ const LFormItem: FC<LFormItemProps> = ({
   children,
   ...restFromItemProps
 }) => {
-  // console.log('LFormItem ', restFromItemProps);
-
   const messageLabel = usePlaceholder({
     restProps: restFromItemProps,
     isSelectType,

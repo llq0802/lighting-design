@@ -4,7 +4,7 @@ import './index.less';
 
 const prefixCls = 'lightd-login-form';
 
-export interface LoginFormProps {
+export interface LLoginFormProps {
   /**
    * @name form 顶部的一个提示配置，可以配置一些错误的提示信息
    * @example <caption>提示登录异常</caption>
@@ -42,7 +42,7 @@ export interface LoginFormProps {
   children: ReactNode;
 }
 
-const LoginForm: FC<LoginFormProps> = (props: LoginFormProps) => {
+const LoginForm: FC<LLoginFormProps> = (props) => {
   const {
     title,
     logo,

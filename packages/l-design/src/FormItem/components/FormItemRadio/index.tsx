@@ -1,7 +1,6 @@
 import type { SelectProps } from 'antd';
 import type { FC } from 'react';
-import { useMemo } from 'react';
-import { getFormItemLabel } from '../../../utils';
+import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 import type { RadioWrapperProps } from './base/RadioWrapper';
@@ -24,12 +23,17 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   options = [],
   disabled,
   radioProps = {},
+  placeholder,
 
   required,
   ...restProps
 }) => {
-  const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
-
+  // const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
+  const messageLabel = usePlaceholder({
+    placeholder,
+    restProps,
+    isSelectType: true,
+  });
   return (
     <LFormItem
       required={required}
@@ -40,7 +44,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
             let errMsg = '';
             const hasOptValue = options.find((item) => item?.value === value);
             if (!value && !hasOptValue && !(all && allValue === value)) {
-              errMsg = required ? `请选择${messageLabel}!` : '';
+              errMsg = required ? `${messageLabel}!` : '';
             }
             if (errMsg) {
               return Promise.reject(errMsg);

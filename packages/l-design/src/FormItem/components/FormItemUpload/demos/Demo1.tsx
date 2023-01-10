@@ -18,21 +18,21 @@ const Demo1 = () => {
         //   },
         // ]}
         required
-        rules={[
-          {
-            validator(rules, value) {
-              console.log('value ', value);
-              let errMsg = '';
-              if (!value || (Array.isArray(value) && value.length <= 0)) {
-                errMsg = '请上传';
-              }
-              if (errMsg) {
-                return Promise.reject(errMsg);
-              }
-              return Promise.resolve();
-            },
-          },
-        ]}
+        // rules={[
+        //   {
+        //     validator(rules, value) {
+        //       console.log('value ', value);
+        //       let errMsg = '';
+        //       if (!value || (Array.isArray(value) && value.length <= 0)) {
+        //         errMsg = '请上传';
+        //       }
+        //       if (errMsg) {
+        //         return Promise.reject(errMsg);
+        //       }
+        //       return Promise.resolve();
+        //     },
+        //   },
+        // ]}
       />
 
       <LFormItemUpload
@@ -48,20 +48,6 @@ const Demo1 = () => {
         //     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         //   },
         // ]}
-        rules={[
-          {
-            validator(rules, value) {
-              let errMsg = '';
-              if (!value || (Array.isArray(value) && value.length <= 0)) {
-                errMsg = '请上传';
-              }
-              if (errMsg) {
-                return Promise.reject(errMsg);
-              }
-              return Promise.resolve();
-            },
-          },
-        ]}
       />
 
       <LFormItemUpload
@@ -76,24 +62,10 @@ const Demo1 = () => {
             url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
           },
         ]}
-        rules={[
-          {
-            validator(rules, value) {
-              console.log('value ', value);
-              let errMsg = '';
-              if (!value || (Array.isArray(value) && value.length <= 0)) {
-                errMsg = '请上传';
-              }
-              if (errMsg) {
-                return Promise.reject(errMsg);
-              }
-              return Promise.resolve();
-            },
-          },
-        ]}
       />
 
       <LFormItemUpload
+        required
         uploadType="dragger"
         name="dragger"
         label="拖动上传"

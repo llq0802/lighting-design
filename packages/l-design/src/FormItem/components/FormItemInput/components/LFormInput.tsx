@@ -37,6 +37,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
 
   return (
     <LFormItem
+      placeholder={messageLabel}
       required={required}
       validateTrigger={isOnblur ? 'onBlur' : 'onChange'}
       {...restProps}

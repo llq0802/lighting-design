@@ -42,14 +42,14 @@ export const usePlaceholder = (options: {
   placeholder?: string | string[];
   isSelectType?: boolean;
   restProps: Record<string, any>;
-}) => {
+}): any => {
   const { placeholder, restProps, isSelectType = false } = options;
 
   if (placeholder) return placeholder;
 
   const res = useMemo(
-    () => `${isSelectType ? '请选择' : '请输入'}${placeholder || getFormItemLabel(restProps)}`,
-    [placeholder, restProps, isSelectType],
+    () => `${isSelectType ? '请选择' : '请输入'}${getFormItemLabel(restProps)}`,
+    [restProps, isSelectType],
   );
   return res;
 };

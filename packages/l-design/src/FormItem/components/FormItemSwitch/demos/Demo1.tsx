@@ -6,6 +6,7 @@ const Demo1 = () => {
   return (
     <LForm name="LFormItemSwitch" form={form}>
       <LFormItemSwitch
+        required
         name="state1"
         label="开关"
         tooltip="禁止空格"

@@ -22,7 +22,7 @@ const LFormItemTextArea: FC<LFormItemNumberProps> = ({
   });
 
   return (
-    <LFormItem required={required} {...restProps}>
+    <LFormItem required={required} placeholder={messageLabel} {...restProps}>
       <NumberWrapper disabled={disabled} placeholder={messageLabel} {...numberProps} />
     </LFormItem>
   );

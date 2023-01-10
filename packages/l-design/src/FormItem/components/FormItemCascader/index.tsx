@@ -27,7 +27,7 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
     isSelectType: true,
   });
   return (
-    <LFormItem required={required} isSelectType {...restProps}>
+    <LFormItem required={required} isSelectType placeholder={messageLabel} {...restProps}>
       <CascaderWrapper
         dependencies={restProps?.dependencies}
         options={options}

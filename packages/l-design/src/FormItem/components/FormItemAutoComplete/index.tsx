@@ -34,7 +34,7 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
   });
 
   return (
-    <LFormItem required={required} {...restProps}>
+    <LFormItem required={required} placeholder={messageLabel} {...restProps}>
       {!renderInput ? (
         <AutoComplete
           disabled={disabled}

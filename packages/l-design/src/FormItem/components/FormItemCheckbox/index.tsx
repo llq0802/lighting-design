@@ -1,7 +1,6 @@
 import type { CheckboxOptionType } from 'antd/lib/checkbox';
 import type { FC } from 'react';
-import { useMemo } from 'react';
-import { getFormItemLabel } from '../../../utils';
+import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 import type { CheckboxWrapperProps } from './base/CheckboxWrapper';
@@ -25,7 +24,13 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   required,
   ...restProps
 }) => {
-  const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
+  // const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
+
+  const messageLabel = usePlaceholder({
+    placeholder,
+    restProps,
+    isSelectType: true,
+  });
 
   return (
     <LFormItem
@@ -36,7 +41,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
           validator(rule, value) {
             let errMsg = '';
             if (!value || !value?.length) {
-              errMsg = required ? `请选择${messageLabel}!` : '';
+              errMsg = required ? `${messageLabel}!` : '';
             }
             if (errMsg) {
               return Promise.reject(errMsg);

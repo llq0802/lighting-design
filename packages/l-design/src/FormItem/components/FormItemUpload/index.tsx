@@ -1,7 +1,6 @@
 import type { ButtonProps, UploadProps } from 'antd';
 import type { FC, ReactNode } from 'react';
 import { useMemo } from 'react';
-import { getFormItemLabel } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 import UploadAvatar from './base/UploadAvatar';
@@ -9,6 +8,8 @@ import UploadDefault from './base/UploadDefault';
 import UploadDragger from './base/UploadDragger';
 import UploadImage from './base/UploadImage';
 import type { UploadWrapperProps } from './base/UploadWrapper';
+
+import { getFormItemLabel } from '../../../utils';
 
 const normFile = (value: any): any[] => {
   if (Array.isArray(value)) return value;
@@ -52,6 +53,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   action,
   accept,
   uploadProps,
+  placeholder,
 
   name, // formItem 字段
   required,
@@ -81,7 +83,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
           validator(rules, value) {
             let errMsg = '';
             if (!value || (Array.isArray(value) && value.length <= 0)) {
-              errMsg = required ? `请上传${getFormItemLabel(restProps)}!` : '';
+              errMsg = required ? `${placeholder || `请上传${getFormItemLabel(restProps)}`}!` : '';
             }
             if (errMsg) {
               return Promise.reject(errMsg);

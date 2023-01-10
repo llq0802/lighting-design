@@ -2,6 +2,7 @@ import type { SliderSingleProps } from 'antd';
 import { Slider } from 'antd';
 import type { SliderRangeProps } from 'antd/lib/slider';
 import type { CSSProperties, FC } from 'react';
+import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 
@@ -24,11 +25,18 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
   trackStyle,
   railStyle,
   sliderStyle,
+  placeholder,
   sliderProps = {},
   ...restProps
 }) => {
+  const messagePlaceholder = usePlaceholder({
+    placeholder,
+    restProps,
+    isSelectType: true,
+  });
+
   return (
-    <LFormItem required={required} isSelectType {...restProps}>
+    <LFormItem required={required} isSelectType placeholder={messagePlaceholder} {...restProps}>
       <Slider
         min={min}
         max={max}

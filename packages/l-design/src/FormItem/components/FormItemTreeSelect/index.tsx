@@ -1,6 +1,5 @@
 import type { FC } from 'react';
-import { useMemo } from 'react';
-import { getFormItemLabel, usePlaceholder } from '../../../utils';
+import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 import type { TreeSelectWrapperProps } from './base/TreeSelectWrapper';
@@ -27,8 +26,6 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   treeSelectProps = {},
   ...restProps
 }) => {
-  const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
-
   const messagePlaceholder = usePlaceholder({
     placeholder,
     restProps,
@@ -44,7 +41,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
           validator(rule, value) {
             let errMsg = '';
             if (!value || !value?.length) {
-              errMsg = required ? `请选择${messageLabel}!` : '';
+              errMsg = required ? `${messagePlaceholder}!` : '';
             }
             if (errMsg) {
               return Promise.reject(errMsg);

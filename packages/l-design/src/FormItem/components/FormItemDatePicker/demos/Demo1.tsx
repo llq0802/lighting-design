@@ -23,7 +23,7 @@ const Demo1 = () => {
         picker="month"
         rangePicker
       />
-      {/* <LFormItemDatePicker
+      <LFormItemDatePicker
         label="季度选择"
         name="date2"
         required
@@ -38,8 +38,8 @@ const Demo1 = () => {
         required
         disabledDateAfter={1}
         picker="quarter"
-        placeholder={['开始季度', '结束季度']}
-      /> */}
+        placeholder={['请选择开始季度', '结束季度']}
+      />
     </LForm>
   );
 };

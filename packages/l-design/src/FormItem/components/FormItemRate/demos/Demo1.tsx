@@ -19,6 +19,7 @@ const Demo1 = () => {
         rateProps={{
           allowHalf: true,
         }}
+        required
       />
       <LFormItemRate
         label="评分"
@@ -26,6 +27,7 @@ const Demo1 = () => {
         rateProps={{
           allowHalf: true,
         }}
+        required
       />
     </LForm>
   );

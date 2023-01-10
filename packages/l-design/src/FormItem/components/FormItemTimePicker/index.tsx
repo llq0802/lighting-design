@@ -5,7 +5,7 @@ import type { Moment } from 'moment';
 import 'moment/locale/zh-cn';
 import type { FC } from 'react';
 import { useMemo } from 'react';
-import { getFormItemLabel } from '../../../utils';
+import { usePlaceholder } from '../../../utils';
 import { timePickerMomentString, timePickerMomentVlaue } from '../../../utils/date';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
@@ -59,7 +59,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
   rangePicker = false,
   format = 'HH:mm:ss',
   timePickerProps = {},
-
+  placeholder,
   required = false,
   disabled = false,
   ...restProps
@@ -69,7 +69,10 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
     [format, restProps],
   );
 
-  const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
+  const messageLabel = usePlaceholder({
+    placeholder,
+    restProps,
+  });
 
   return (
     <LFormItem
@@ -80,7 +83,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
           validator(rule, value) {
             let errMsg = '';
             if (!value || (Array.isArray(value) && !value?.filter(Boolean)?.length)) {
-              errMsg = required ? `请选择${messageLabel}!` : '';
+              errMsg = required ? `${messageLabel}!` : '';
             }
             if (errMsg) {
               return Promise.reject(errMsg);

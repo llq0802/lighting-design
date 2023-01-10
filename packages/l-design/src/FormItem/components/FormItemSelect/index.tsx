@@ -1,7 +1,6 @@
 import type { SelectProps } from 'antd';
 import type { FC } from 'react';
-import { useMemo } from 'react';
-import { getFormItemLabel, usePlaceholder } from '../../../utils';
+import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 import type { SelectWrapperProps } from './base/SelectWrapper';
@@ -29,8 +28,6 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   placeholder,
   ...restProps
 }) => {
-  const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
-
   const messagePlaceholder = usePlaceholder({
     placeholder,
     restProps,
@@ -52,7 +49,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
                 value &&
                 value.length <= 0)
             ) {
-              errMsg = required ? `请选择${messageLabel}!` : '';
+              errMsg = required ? `${messagePlaceholder}!` : '';
             }
             if (errMsg) {
               return Promise.reject(errMsg);

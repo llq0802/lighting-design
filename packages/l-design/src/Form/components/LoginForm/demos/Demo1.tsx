@@ -11,7 +11,7 @@ import {
   LFormItemCaptcha,
   LFormItemInput,
   LFormItemPassword,
-  LoginForm,
+  LLoginForm,
 } from 'lighting-design';
 import type { CSSProperties } from 'react';
 import IdentifyCode from './IdentifyCode';
@@ -40,7 +40,7 @@ const AccountDom = () => (
       name="name"
       required
       disabledWhiteSpace
-      placeholder="请输入用户名"
+      // placeholder="请输入用户名"
       inputProps={{
         prefix: <UserOutlined />,
       }}
@@ -98,7 +98,7 @@ const Demo1 = () => {
   return (
     <>
       <div style={{ backgroundColor: 'white' }}>
-        <LoginForm
+        <LLoginForm
           // message={<Alert message="登录异常，请重试！" type="error" />}
           logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
           title="Lighting Design"
@@ -141,7 +141,7 @@ const Demo1 = () => {
               忘记密码
             </a>
           </div>
-        </LoginForm>
+        </LLoginForm>
       </div>
     </>
   );

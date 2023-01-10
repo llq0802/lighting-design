@@ -23,7 +23,7 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
     restProps,
   });
   return (
-    <LFormItem required={required} {...restProps}>
+    <LFormItem required={required} placeholder={messagePlaceholder} {...restProps}>
       <TextAreaWrapper
         disabled={disabled}
         disabledWhiteSpace={disabledWhiteSpace}

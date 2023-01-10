@@ -1,7 +1,6 @@
 import type { PasswordProps } from 'antd/lib/input/Password';
 import type { FC } from 'react';
-import { useMemo } from 'react';
-import { getFormItemLabel, usePlaceholder } from '../../../../utils';
+import { usePlaceholder } from '../../../../utils';
 import type { LFormItemProps } from '../../../base/BaseFromItem';
 import LFormItem from '../../../base/BaseFromItem';
 import PasswordWrapper from '../base/PasswordWrapper';
@@ -26,10 +25,10 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
 
   required,
   disabled,
-  placeholder,
+  placeholder = '请输入密码',
   ...restProps
 }) => {
-  const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
+  // const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
 
   const messagePlaceholder = usePlaceholder({
     placeholder,
@@ -38,15 +37,16 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
 
   return (
     <LFormItem
+      placeholder={messagePlaceholder}
       required={required}
       rules={[
         {
           validator(rule, value) {
             let errMsg = '';
             if (!value) {
-              errMsg = required ? `请输入${messageLabel}!` : '';
+              errMsg = required ? `${messagePlaceholder}!` : '';
             } else if (value.length < min || value.length > max) {
-              errMsg = `${messageLabel}为${min}～${max}位`;
+              errMsg = `${'密码'}为${min}～${max}位`;
             }
             if (errMsg) {
               return Promise.reject(errMsg);

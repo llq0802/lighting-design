@@ -1,12 +1,12 @@
 ---
-title: LoginForm
+title: LLoginForm
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# LoginForm-登录表单
+# LLoginForm-登录表单
 
 基于 LForm 扩展的登录表单。
 
