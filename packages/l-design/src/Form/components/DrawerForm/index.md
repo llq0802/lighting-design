@@ -23,7 +23,7 @@ nav:
 | title | `Drawer` 标题 | `ReactNode` | - |
 | placement | 抽屉的方向 | ` DrawerProps['placement']` | `right` |
 | actionBarDir | 抽屉默认操作栏位置 (只生效默认操作栏) | `'footer' \| 'extra'` | `'footer'` |
-| width | `Drawer` 宽度 | `number` | `600` |
+| width | `Drawer` 宽度 | `number \| string` | `600` |
 | trigger | 用于触发 `Drawer` 打开的 dom，一般是 Button 组件 | `ReactElement` | - |
 | open | 是否打开。<br/>设置后表示为 `受控组件`，可结合 `onOpenChange` 进行控制。 | `boolean` | - |
 | onOpenChange | `open` 改变时触发 | `(open: boolean) => void` | - |

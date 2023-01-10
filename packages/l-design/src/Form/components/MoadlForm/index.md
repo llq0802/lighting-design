@@ -22,7 +22,7 @@ nav:
 | --- | --- | --- | --- |
 | isDraggable | `Modal`能否拖动 | `boolean` | `false` |
 | title | `Modal` 标题 | `ReactNode` | - |
-| width | `Modal` 宽度 | `number` | `600` |
+| width | `Modal` 宽度 | `number \| string` | `600` |
 | trigger | 用于触发 `Modal` 打开的 dom，一般是 Button 组件 | `ReactElement` | - |
 | open | 是否打开。<br/>设置后表示为 `受控组件`，可结合 `onOpenChange` 进行控制。 | `boolean` | - |
 | onOpenChange | `open` 改变时触发 | `(open: boolean) => void` | - |
