@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import type { FC, JSXElementConstructor, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement, useCallback, useMemo } from 'react';
 import './styles.less';
+// import composeProps from 'rc-util/es/composeProps';
 
 const prefixCls = 'lightd-form-item-wrapper';
 
