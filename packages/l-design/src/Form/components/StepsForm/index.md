@@ -8,11 +8,11 @@ nav:
 
 # LStepsForm
 
-基于`ant Form`组件扩展的 LForm-表单
+步骤条表单
 
 ## 代码演示
 
-<code src='./demos/Demo1.tsx'>
+<code src='./demos/Demo2.tsx'>
 
 ## API
 
