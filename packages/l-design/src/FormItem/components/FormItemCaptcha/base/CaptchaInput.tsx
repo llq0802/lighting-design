@@ -54,7 +54,10 @@ const CodeInput: FC<CodeInputProps> = ({
   const [start, setStart] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { onClick, onEnd, initText } = buttonProps;
+  const { onClick, onEnd, initText, ...restButtonProps } = buttonProps as LCaptchaButtonProps & {
+    initText: string;
+  };
+
   // 点击按钮
   const onButtonClick = useCallback(
     async (e: React.MouseEvent<HTMLElement>) => {
@@ -115,7 +118,7 @@ const CodeInput: FC<CodeInputProps> = ({
       loading={loading}
       start={start}
       type={type === 'inline' || type === 'link' ? 'link' : type}
-      {...buttonProps}
+      {...restButtonProps}
       onClick={onButtonClick}
       onEnd={handleEnd}
       ref={buttonRef as unknown as React.RefObject<React.RefObject<HTMLInputElement>>}

@@ -30,6 +30,8 @@ export { default as LModalForm } from './Form/components/MoadlForm';
 export type { LModalFormProps } from './Form/components/MoadlForm';
 export { default as LQueryForm } from './Form/components/QueryForm';
 export type { LQueryFormProps } from './Form/components/QueryForm';
+export { default as LoginForm } from './Form/components/LoginForm';
+export type { LoginFormProps } from './Form/components/LoginForm';
 // ==========基础FormItem容器组件==========
 export { default as LFormItem } from './FormItem';
 export type { LFormItemProps } from './FormItem';

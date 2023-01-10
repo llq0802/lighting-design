@@ -13,7 +13,7 @@ export default {
       children: [
         'Spin/index.md',
         'Tooltip/index.md',
-        'Switch/index.md',
+        // 'Switch/index.md',
         'ColorPick/index.md',
         'Trigger/index.md',
         'WaterMark/index.md',
@@ -35,6 +35,7 @@ export default {
         'Form/components/DrawerForm/index.md',
         'Form/components/QueryForm/index.md',
         'Form/components/StepsForm/index.md',
+        'Form/components/LoginForm/index.md',
         'FormItem/index.md',
         'FormItem/components/FormItemInput/index.md',
         'FormItem/components/FormItemInput/LFormNumber.md',
