@@ -1,6 +1,7 @@
 import { useControllableValue } from 'ahooks';
 import { Steps } from 'antd';
-import type { FC } from 'react';
+import type { FC, ReactElement } from 'react';
+import { Children, useRef } from 'react';
 import StepsFormContext from './StepsFormContext';
 
 const prefixCls = 'lightd-steps-form';
@@ -8,23 +9,9 @@ const prefixCls = 'lightd-steps-form';
 export type LStepsFormProps = Record<string, any>;
 
 const StepsForm: FC<LStepsFormProps> = (props) => {
-  const { defaultCurrent = 0, children } = props;
-  console.log('Steps', Steps);
+  const { defaultCurrent = 0, stepsProps, children } = props;
 
-  const items = [
-    {
-      title: 'First',
-      content: 'First-content',
-    },
-    {
-      title: 'Second',
-      content: 'Second-content',
-    },
-    {
-      title: 'Last',
-      content: 'Last-content',
-    },
-  ];
+  const stepsConfigRef = useRef<any[]>([]); // 步骤条配置
 
   // 当前步骤
   const [stepNum, setStepNum] = useControllableValue(props, {
@@ -34,7 +21,21 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
     trigger: 'onCurrentChange',
   });
 
-  const returnDom = <Steps current={stepNum} items={items} />;
+  // 遍历子组件提取配置
+  const childs = Children.toArray(children);
+  childs.forEach((childItem: ReactElement, index: number) => {
+    const { title, subTitle, icon, description, stepProps } = childItem.props;
+    stepsConfigRef.current[index] = {
+      key: `${index}`,
+      title,
+      subTitle,
+      icon,
+      description,
+      ...stepProps,
+    };
+  });
+
+  const returnDom = <Steps {...stepsProps} current={stepNum} items={stepsConfigRef.current} />;
 
   return (
     <StepsFormContext.Provider value={{}}>
