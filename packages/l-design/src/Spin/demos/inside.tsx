@@ -1,5 +1,6 @@
-import { Alert } from 'antd';
-import { LSpin, LSwitch } from 'lighting-design';
+import { Alert,Switch } from 'antd';
+import {  } from 'dumi';
+import { LSpin } from 'lighting-design';
 import type { CSSProperties, FC } from 'react';
 import { useState } from 'react';
 
@@ -24,7 +25,7 @@ const Index: FC = () => {
       <br />
       <div style={flexCenter}>
         加载状态：
-        <LSwitch checked={loading} onChange={(checked) => setLoading(checked)} />
+        <Switch checked={loading} onChange={(checked) => setLoading(checked)} />
       </div>
     </div>
   );
