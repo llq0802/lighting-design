@@ -16,7 +16,7 @@ import {
 import type { CSSProperties } from 'react';
 import IdentifyCode from './IdentifyCode';
 import loginBg from './loginBg.png';
-import loginBoxBg from './loginBoxBg.svg';
+import loginBoxBg from './loginBoxBg.png';
 import style from './style.less';
 
 const iconStyles: CSSProperties = {
