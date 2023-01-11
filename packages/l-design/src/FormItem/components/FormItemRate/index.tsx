@@ -1,3 +1,4 @@
+import type { SpinProps } from 'antd';
 import type { FC } from 'react';
 import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
@@ -10,6 +11,7 @@ export interface LFormItemRateProps
     Pick<RateWrapperProps, 'rateProps' | 'request'> {
   dependencies?: string[];
   debounceTime?: number;
+  loading?: SpinProps;
 }
 
 const LFormItemRate: FC<LFormItemRateProps> = ({
@@ -19,6 +21,8 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   required,
   disabled,
   placeholder,
+  loading,
+
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -32,6 +36,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
       <RateWrapper
         dependencies={restProps?.dependencies}
         disabled={disabled}
+        outLoading={loading}
         request={request}
         debounceTime={debounceTime}
         rateProps={rateProps}

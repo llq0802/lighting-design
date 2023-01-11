@@ -8,6 +8,10 @@ const Demo1 = () => {
     <LForm form={form} submitter={false}>
       <LFormItemRate
         name="rate1"
+        label="评分"
+        // loading={{
+        //   spinning:true
+        // }}
         request={() => {
           return new Promise((resolve) => {
             setTimeout(() => {

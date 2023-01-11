@@ -4,11 +4,26 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemSelect" form={form}>
+    <LForm name="LFormItemSelect" form={form} submitter={false}>
       <LFormItemSegmented
-        label="选择"
-        required
-        name="segmented"
+        name="segmented1"
+        options={[
+          {
+            label: 'List',
+            value: 'List',
+          },
+          {
+            label: 'Kanban',
+            value: 'Kanban',
+          },
+          {
+            label: 'item',
+            value: 'item',
+          },
+        ]}
+      />
+      <LFormItemSegmented
+        name="segmented2"
         options={[
           {
             label: 'List',
@@ -22,10 +37,9 @@ const Demo1 = () => {
           },
         ]}
       />
+
       <LFormItemSegmented
-        label="选择"
-        required
-        name="segmented1"
+        name="segmented3"
         options={[
           {
             label: 'List',
@@ -34,6 +48,11 @@ const Demo1 = () => {
           {
             label: 'Kanban',
             value: 'Kanban',
+          },
+          {
+            label: 'item',
+            value: 'item',
+            disabled: true,
           },
         ]}
       />

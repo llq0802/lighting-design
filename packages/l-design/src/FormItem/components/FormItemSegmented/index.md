@@ -21,9 +21,17 @@ nav:
 
 - 必填为空时提示：`请输入${label}`
 
-## 代码演示
+## 基础使用
 
 <code src='./demos/Demo1.tsx'>
+
+## 异步请求
+
+<code src='./demos/Demo2.tsx'>
+
+## 自定义渲染
+
+<code src='./demos/Demo3.tsx'>
 
 ## API
 

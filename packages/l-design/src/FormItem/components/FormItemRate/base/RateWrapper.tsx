@@ -1,6 +1,6 @@
-import { useDeepCompareEffect, useRequest } from 'ahooks';
-import type { RateProps } from 'antd';
-import { Rate } from 'antd';
+import { useDeepCompareEffect, useRequest, useUpdateEffect } from 'ahooks';
+import type { RateProps, SpinProps } from 'antd';
+import { Rate, Spin } from 'antd';
 import type { FC } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
@@ -11,11 +11,13 @@ export type RateWrapperProps = Record<string, any> &
     debounceTimex: number;
     dependencies: string[];
     rateProps: RateProps;
+    outLoading: SpinProps;
   }>;
 
 const RateWrapper: FC<RateWrapperProps> = ({
   value = 0,
   onChange,
+  outLoading,
   dependencies = [],
   request,
   debounceTime,
@@ -24,6 +26,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   ...restProps
 }) => {
   const [reqValue, setReqvalue] = useState(0);
+  const [loading, setLoading] = useState<boolean>(outLoading?.spinning || false);
   const isFirst = useRef<boolean>(true);
   const { run } = useRequest(request || (async () => []), {
     manual: true,
@@ -35,6 +38,12 @@ const RateWrapper: FC<RateWrapperProps> = ({
       setReqvalue(0);
     },
   });
+
+  useUpdateEffect(() => {
+    if (typeof outLoading === 'object'){
+      setLoading(outLoading?.spinning || false);
+    }
+  }, [outLoading]);
 
   // 获取依赖项
   const depends = useMemo(
@@ -54,10 +63,13 @@ const RateWrapper: FC<RateWrapperProps> = ({
       isFirst.current = false;
       (async () => {
         try {
+          if (typeof outLoading !== 'object') setLoading(true);
           const newOptions = await request(...depends);
           setReqvalue(newOptions);
+          if (typeof outLoading !== 'object') setLoading(false);
         } catch (error) {
           setReqvalue(0);
+          if (typeof outLoading !== 'object') setLoading(false);
         }
       })();
     } else {
@@ -92,12 +104,16 @@ const RateWrapper: FC<RateWrapperProps> = ({
 
   return (
     <>
-      <Rate
-        disabled={disabled ?? isClearDepends}
-        {...rateProps}
-        value={selectValue}
-        onChange={handleChange}
-      />
+      {loading ? (
+        <Spin spinning style={{ marginLeft: 16 }} />
+      ) : (
+        <Rate
+          disabled={disabled ?? isClearDepends}
+          {...rateProps}
+          value={selectValue}
+          onChange={handleChange}
+        />
+      )}
     </>
   );
 };
