@@ -38,8 +38,17 @@ export interface LLoginFormProps {
    * actions={<a><Icon type="alipay" />跳转支付宝登录</a>}
    */
   actions?: ReactNode;
+  /**
+   * @name 表单内容样式对象
+   */
   contentStyle?: CSSProperties;
+  /**
+   * @name 登录表单样式对象
+   */
   style?: CSSProperties;
+  /**
+   * @name 登录表单样式类
+   */
   className?: string;
   children: ReactNode;
 }
@@ -54,9 +63,7 @@ const LoginForm: FC<LLoginFormProps> = (props) => {
     contentStyle,
     style,
     className,
-
     children,
-    // ...restProps
   } = props;
 
   /** 生成logo 的dom，如果是string 设置为图片 如果是个 dom 就原样保留 */
