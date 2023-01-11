@@ -12,11 +12,11 @@ nav:
 
 ## 基本用法
 
-<code src='./demos/Demo1.tsx'>
+<code src='./demos/Demo1.tsx'  >
 
 ## 左右布局
 
-<code src='./demos/Demo2.tsx'>
+<code src='./demos/Demo2.tsx' >
 
 ## API
 
