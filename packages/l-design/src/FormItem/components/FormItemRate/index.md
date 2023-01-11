@@ -14,11 +14,11 @@ nav:
 
 <code src='./demos/Demo1.tsx'>
 
-## 半星
+## 禁用
 
 <code src='./demos/Demo2.tsx'>
 
-## 禁用
+## 异步请求
 
 <code src='./demos/Demo3.tsx'>
 

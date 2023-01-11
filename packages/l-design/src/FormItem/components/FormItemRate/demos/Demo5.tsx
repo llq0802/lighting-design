@@ -14,11 +14,10 @@ const Demo1 = () => {
   const [form] = Form.useForm();
 
   return (
-    <LForm name="LFormItemSelect" form={form} submitter={false}>
+    <LForm form={form} submitter={false}>
       <LFormItemRate
         name="rate1"
         initialValue={3}
-        required
         rateProps={{
           character: ({ index }) => index + 1,
         }}
@@ -26,7 +25,6 @@ const Demo1 = () => {
       <LFormItemRate
         name="rate2"
         initialValue={3}
-        required
         rateProps={{
           character: ({ index }) => customIcons[index + 1],
         }}

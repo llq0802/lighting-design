@@ -6,11 +6,10 @@ const Demo1 = () => {
   const [form] = Form.useForm();
 
   return (
-    <LForm name="LFormItemSelect" form={form} submitter={false}>
+    <LForm form={form} submitter={false}>
       <LFormItemRate
         name="rate1"
         initialValue={3}
-        required
         rateProps={{
           character: '哈',
         }}
@@ -18,7 +17,6 @@ const Demo1 = () => {
       <LFormItemRate
         name="rate2"
         initialValue={3}
-        required
         rateProps={{
           character: <HeartOutlined />,
         }}
@@ -26,7 +24,6 @@ const Demo1 = () => {
       <LFormItemRate
         name="rate3"
         initialValue={3}
-        required
         rateProps={{
           character: 'B',
         }}
