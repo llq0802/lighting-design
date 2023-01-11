@@ -10,7 +10,7 @@ export interface LFormItemCheckboxProps
     Pick<CheckboxWrapperProps, 'checkboxProps' | 'request' | 'beforeAll'> {
   dependencies?: string[];
   debounceTime?: number;
-  options: CheckboxOptionType[];
+  options?: CheckboxOptionType[];
 }
 
 const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
