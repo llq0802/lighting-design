@@ -10,9 +10,25 @@ nav:
 
 评分
 
-## 代码演示
+## 基础使用
 
 <code src='./demos/Demo1.tsx'>
+
+## 半星
+
+<code src='./demos/Demo2.tsx'>
+
+## 禁用
+
+<code src='./demos/Demo3.tsx'>
+
+## 其他字符
+
+<code src='./demos/Demo4.tsx'>
+
+## 自定义字符
+
+<code src='./demos/Demo5.tsx'>
 
 ## API
 

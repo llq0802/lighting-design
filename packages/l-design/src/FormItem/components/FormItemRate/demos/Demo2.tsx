@@ -5,18 +5,13 @@ const Demo1 = () => {
   const [form] = Form.useForm();
 
   return (
-    <LForm
-      name="LFormItemSelect"
-      form={form}
-      submitter={false}
-      onValuesChange={(e) => {
-        console.log(e);
-      }}
-    >
+    <LForm name="LFormItemSelect" form={form} submitter={false}>
       <LFormItemRate
-        label="评分"
         name="rate1"
-        initialValue={3}
+        initialValue={3.5}
+        rateProps={{
+          allowHalf: true,
+        }}
         required
       />
     </LForm>
