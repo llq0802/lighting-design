@@ -30,7 +30,6 @@
   },
   "dependencies": {
     "antd": "^4.24.5",
-    "rc-switch": "~4.0.0",
     "react-color": "^2.19.3",
     "react-draggable": "^4.4.5"
   },

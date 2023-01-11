@@ -83,8 +83,6 @@ export type { LFormItemUploadProps } from './FormItem/components/FormItemUpload'
 export { default as LNumberRoll } from './NumberRoll';
 export { default as LSpin } from './Spin';
 export type { default as LSpinProps } from './Spin';
-export { default as LSwitch } from './Switch';
-export type { default as LSwitchProps } from './Switch';
 export { default as LTooltip } from './Tooltip';
 export type { default as LTooltipProps } from './Tooltip';
 // ==========基础组件==========

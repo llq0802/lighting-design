@@ -13,7 +13,6 @@ export default {
       children: [
         'Spin/index.md',
         'Tooltip/index.md',
-        // 'Switch/index.md',
         'ColorPick/index.md',
         'Trigger/index.md',
         'WaterMark/index.md',

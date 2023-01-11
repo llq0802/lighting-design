@@ -8,7 +8,7 @@ export interface LLoginFormProps {
   /**
    * @name form 顶部的一个提示配置，可以配置一些错误的提示信息
    * @example <caption>提示登录异常</caption>
-   * message={<Alert message="登录异常，请重试！" type="error" />}
+   * message={<Alert message="登录异常，请重试！" showIcon closable type="error" />}
    */
   message?: ReactNode | false;
   /**
@@ -38,7 +38,18 @@ export interface LLoginFormProps {
    * actions={<a><Icon type="alipay" />跳转支付宝登录</a>}
    */
   actions?: ReactNode;
+  /**
+   * @name 表单内容样式对象
+   */
   contentStyle?: CSSProperties;
+  /**
+   * @name 登录表单样式对象
+   */
+  style?: CSSProperties;
+  /**
+   * @name 登录表单样式类
+   */
+  className?: string;
   children: ReactNode;
 }
 
@@ -50,10 +61,9 @@ const LoginForm: FC<LLoginFormProps> = (props) => {
     actions,
     message,
     contentStyle,
-
+    style,
+    className,
     children,
-
-    // ...restProps
   } = props;
 
   /** 生成logo 的dom，如果是string 设置为图片 如果是个 dom 就原样保留 */
@@ -64,28 +74,26 @@ const LoginForm: FC<LLoginFormProps> = (props) => {
   }, [logo]);
 
   return (
-    <div className={`${prefixCls}`}>
-      <div className={`${prefixCls}-container`}>
-        <div className={`${prefixCls}-top`}>
-          {title || logoDom ? (
-            <div className={`${prefixCls}-header`}>
-              {logoDom && <span className={`${prefixCls}-logo`}>{logoDom}</span>}
-              {title && <span className={`${prefixCls}-title`}>{title}</span>}
-            </div>
-          ) : null}
-          {subTitle && <div className={`${prefixCls}-desc`}>{subTitle}</div>}
-        </div>
-        <div
-          className={`${prefixCls}-main`}
-          style={{
-            width: 328,
-            ...contentStyle,
-          }}
-        >
-          {message}
-          {children}
-          {actions && <div className={`${prefixCls}-other`}>{actions}</div>}
-        </div>
+    <div className={`${prefixCls}-container ${className || ''}`} style={style}>
+      <div className={`${prefixCls}-top`}>
+        {title || logoDom ? (
+          <div className={`${prefixCls}-header`}>
+            {logoDom && <span className={`${prefixCls}-logo`}>{logoDom}</span>}
+            {title && <span className={`${prefixCls}-title`}>{title}</span>}
+          </div>
+        ) : null}
+        {subTitle && <div className={`${prefixCls}-desc`}>{subTitle}</div>}
+      </div>
+      <div
+        className={`${prefixCls}-main`}
+        style={{
+          width: 328,
+          ...contentStyle,
+        }}
+      >
+        {message}
+        {children}
+        {actions && <div className={`${prefixCls}-other`}>{actions}</div>}
       </div>
     </div>
   );
