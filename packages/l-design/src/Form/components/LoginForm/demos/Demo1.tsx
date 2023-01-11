@@ -40,7 +40,7 @@ const AccountDom = () => (
       name="name"
       required
       disabledWhiteSpace
-      // placeholder="请输入用户名"
+      placeholder="请输入用户名"
       inputProps={{
         prefix: <UserOutlined />,
       }}
@@ -97,7 +97,7 @@ const PhoneDom = () => (
 const Demo1 = () => {
   return (
     <>
-      <div style={{ backgroundColor: 'white' }}>
+      <div style={{ minWidth: 400 }}>
         <LLoginForm
           // message={<Alert message="登录异常，请重试！" type="error" />}
           logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
@@ -127,19 +127,9 @@ const Demo1 = () => {
               },
             ]}
           />
-          <div
-            style={{
-              margin: '12px 0 24px',
-            }}
-          >
-            <Checkbox defaultChecked>自动登录</Checkbox>
-            <a
-              style={{
-                float: 'right',
-              }}
-            >
-              忘记密码
-            </a>
+          <div style={{ margin: '12px 0 24px' }}>
+            <Checkbox defaultChecked>记住密码</Checkbox>
+            <a style={{ float: 'right' }}>忘记密码</a>
           </div>
         </LLoginForm>
       </div>

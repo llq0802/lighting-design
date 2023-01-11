@@ -10,13 +10,17 @@ nav:
 
 基于 LForm 扩展的登录表单。
 
-## 代码演示
+## 基本用法
 
 <code src='./demos/Demo1.tsx'>
 
+## 左右布局
+
+<code src='./demos/Demo2.tsx'>
+
 ## API
 
-LoginForm 代表了比较常见的居中布局样式。
+LoginForm 代表了登录表单比较常见的布局样式。
 
 | 参数         | 说明                                                | 类型               | 默认值 |
 | ------------ | --------------------------------------------------- | ------------------ | ------ |
@@ -25,4 +29,6 @@ LoginForm 代表了比较常见的居中布局样式。
 | subTitle     | 二级标题，可以配置为空                              | `ReactNode`        | -      |
 | actions      | 自定义额外的登录功能                                | `ReactNode`        |
 | message      | form 顶部的一个提示配置，可以配置一些错误的提示信息 | `ReactNode`        |
-| contentStyle | 内容样式                                            | `CSSProperties `   | -      |
+| contentStyle | 表单内容样式对象                                    | `CSSProperties `   | -      |
+| className    | 登录表单样式类                                      | `string `          | -      |
+| style        | 登录表单样式对象                                    | `CSSProperties`    |
