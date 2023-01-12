@@ -42,7 +42,7 @@ function StepForm<Values = any>({
       ctx.formInstanceListRef.current[step as number] = outForm || form;
     }
     // Modal组件可能未加载时拿不到 form实例
-    ctx?.forgetUpdate();
+    // ctx?.forgetUpdate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
