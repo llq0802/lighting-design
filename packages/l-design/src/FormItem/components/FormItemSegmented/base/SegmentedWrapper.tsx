@@ -1,6 +1,6 @@
-import { useDeepCompareEffect, useRequest } from 'ahooks';
-import type { SegmentedProps } from 'antd';
-import { Segmented } from 'antd';
+import { useDeepCompareEffect, useRequest, useUpdateEffect } from 'ahooks';
+import type { SegmentedProps, SpinProps } from 'antd';
+import { Segmented, Spin } from 'antd';
 import type { SegmentedLabeledOption, SegmentedValue } from 'antd/lib/segmented';
 import type { FC } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
@@ -8,9 +8,10 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 export type SegmentedWrapperProps = Record<string, any> & {
   request?: (...args: any[]) => Promise<any>;
   debounceTime?: number;
+  options?: SegmentedProps['options'];
   segmentedProps?: SegmentedProps;
   dependencies?: string[];
-  options?: SegmentedProps['options'];
+  outLoading?: SpinProps;
 };
 
 const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
@@ -19,11 +20,15 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   dependencies = [],
   options: outOptions = [],
   request,
+  outLoading,
   debounceTime,
   segmentedProps = {},
+
   ...restProps
 }) => {
   const [optsRequest, setOpts] = useState<(SegmentedValue | SegmentedLabeledOption)[]>([]);
+  const [loading, setLoading] = useState<boolean>(outLoading?.spinning || false);
+
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
     manual: true,
@@ -35,6 +40,15 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
       setOpts([]);
     },
   });
+
+  const hasLoading = useMemo(
+    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    [outLoading],
+  );
+
+  useUpdateEffect(() => {
+    if (hasLoading) setLoading(outLoading?.spinning || false);
+  }, [outLoading]);
 
   // 获取依赖项
   const depends = useMemo(
@@ -61,10 +75,13 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
       isFirst.current = false;
       (async () => {
         try {
+          if (!hasLoading) setLoading(true);
           const newOptions = await request(...depends);
-          setOpts([...newOptions]);
+          setOpts(newOptions);
+          if (!hasLoading) setLoading(false);
         } catch (error) {
           setOpts([]);
+          if (!hasLoading) setLoading(false);
         }
       })();
     } else {
@@ -102,14 +119,20 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   );
 
   return (
-    // @ts-ignore
-    <Segmented
-      disabled={isClearDepends}
-      {...segmentedProps}
-      options={selectOptions}
-      value={value}
-      onChange={handleChange}
-    />
+    <>
+      {loading ? (
+        <Spin spinning style={{ marginLeft: 16 }} {...outLoading} />
+      ) : (
+        // @ts-ignore
+        <Segmented
+          disabled={isClearDepends}
+          {...segmentedProps}
+          options={selectOptions}
+          value={value}
+          onChange={handleChange}
+        />
+      )}
+    </>
   );
 };
 

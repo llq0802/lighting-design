@@ -9,9 +9,6 @@ const Demo1 = () => {
       <LFormItemRate
         name="rate1"
         label="评分"
-        // loading={{
-        //   spinning:true
-        // }}
         request={() => {
           return new Promise((resolve) => {
             setTimeout(() => {
@@ -21,6 +18,7 @@ const Demo1 = () => {
         }}
         rateProps={{
           allowHalf: true,
+          disabled:true
         }}
       />
     </LForm>

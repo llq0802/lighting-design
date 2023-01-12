@@ -11,7 +11,10 @@ export interface LFormItemRateProps
     Pick<RateWrapperProps, 'rateProps' | 'request'> {
   dependencies?: string[];
   debounceTime?: number;
-  loading?: SpinProps;
+  /**
+   * @name 自定义loading效果 具体参考(https://ant-design.gitee.io/components/spin-cn/#API)
+   */
+  spin?: SpinProps;
 }
 
 const LFormItemRate: FC<LFormItemRateProps> = ({
@@ -21,7 +24,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   required,
   disabled,
   placeholder,
-  loading,
+  spin,
 
   ...restProps
 }) => {
@@ -36,7 +39,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
       <RateWrapper
         dependencies={restProps?.dependencies}
         disabled={disabled}
-        outLoading={loading}
+        outLoading={spin}
         request={request}
         debounceTime={debounceTime}
         rateProps={rateProps}

@@ -42,6 +42,7 @@ nav:
 | options | 数据化配置选项内容 | ` string[] \| number[] \| Array<{ label: ReactNode value: string icon? ReactNode disabled?: boolean className?: string }>` | `[]` |
 | request | 请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
+| spin | 自定义 loading 效果 | [spinProps](https://ant-design.gitee.io/components/spin-cn/#API) | `-` |
 | segmentedProps | `antd`分段组件 Props | [SegmentedProps](https://4x.ant.design/components/segmented-cn/#API) | `-` |
 
 <mark>
