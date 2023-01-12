@@ -61,7 +61,7 @@ function StepForm<Values = any>({
         }
         // 只要onFinish不返回false 就触发自带的下一步和提交
         if (ret !== false) {
-          ctx?.onFormFinish(name, values);
+          ctx?.onFormFinish(name as string, values);
           if (ctx.total - 1 === stepNum) {
             // 最后一步触发提交
             ctx.submit();
