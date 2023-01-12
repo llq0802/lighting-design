@@ -105,7 +105,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
       // 防抖调用
       run(...depends);
     }
-  }, [{}]);
+  }, [restProps, allLabel, allValue, all]);
 
   // 依赖清除
   useDeepCompareEffect(() => {
