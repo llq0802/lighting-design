@@ -31,7 +31,6 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
   const formSubmitterRef = useRef<any[]>([]); // 操作配置
   const formInstanceListRef = useRef<FormInstance[]>([]); // 每个步骤的form实例
   const formDataRef = useRef({}); // 全部表单数据
-
   const [loading, setLoading] = useSafeState(false);
 
   // 手动触发更新
@@ -61,6 +60,7 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
       stepProps,
       submitter: childSubmitter,
     } = (childItem as ReactElement).props;
+
     // 配置Steps组件的item属性
     stepsConfigRef.current[index] = {
       key: `${index}`,
@@ -86,15 +86,15 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
   // 下一步
   const next = () => {
     if (stepNum < childs.length - 1) {
-      const currStep = stepNum + 1;
-      setStepNum(currStep);
+      const curStep = stepNum + 1;
+      setStepNum(curStep);
     }
   };
   // 上一步
   const prev = () => {
     if (stepNum > 0) {
-      const currStep = stepNum - 1;
-      setStepNum(currStep);
+      const curStep = stepNum - 1;
+      setStepNum(curStep);
     }
   };
 
@@ -121,65 +121,15 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
     }
   };
 
-  // 单个表单下一步/提交时触发，仅用于记录当前表单值
+  // 每个表单下一步/提交时触发,用于记录当前表单值
   const onFormFinish = (name: string, values: Record<string, any>) => {
     formDataRef.current[name] = values;
   };
 
-  const renderSubmitter = () => {
-    if (!Array.isArray(formSubmitterRef.current) || formSubmitterRef.current.length <= 0) {
-      return null;
-    }
-
-    const currentSubmitter = formSubmitterRef.current[stepNum]; // 当前from的配置
-
-    if (currentSubmitter === false) {
-      return null;
-    }
-
-    const initProps = {
-      prevButtonProps: {
-        disabled: loading || !isReady,
-        ...currentSubmitter?.prevButtonProps,
-      },
-      nextButtonProps: {
-        loading,
-        disabled: !isReady,
-        ...currentSubmitter?.nextButtonProps,
-      },
-      submitButtonProps: {
-        loading,
-        disabled: !isReady,
-        ...currentSubmitter?.submitButtonProps,
-      },
-      onPrev: (e) => {
-        prev();
-        currentSubmitter?.onPrev?.(e);
-      },
-      onNext: (e) => {
-        currentSubmitter?.onNext?.(e);
-      },
-      onSubmit: (e) => {
-        currentSubmitter?.onSubmit?.(e);
-      },
-    };
-
-    return (
-      <StepsSubmitter
-        total={stepsConfigRef.current.length}
-        current={stepNum}
-        {...initProps}
-        form={formInstanceListRef.current[stepNum]}
-      />
-    );
-  };
-
-  const submitterDom = renderSubmitter();
-
+  // 每个表单dom
   const formDom = childs.map((item: any, index) => {
     const isCurrentIndex = stepNum === index;
     const name = item.props?.name || index + ''; // 每个表单的name 没有则用index
-
     const config = {
       submitter: false, // 不渲染自带的提交重置按钮
       contentRender: (dom: ReactNode) => (
@@ -191,33 +141,23 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
         </>
       ),
     };
-
     return (
       <div
-        className={classNames(`${prefixCls}-item`, { [`${prefixCls}-active`]: isCurrentIndex })}
+        className={classNames(`${prefixCls}-item`, {
+          [`${prefixCls}-item-active`]: isCurrentIndex,
+        })}
         style={{ display: isCurrentIndex ? 'block' : 'none' }} // 只显示当前步骤条的form
         key={name}
       >
         {cloneElement(item, {
           ...config,
           ...formProps,
-          ...item.props,
-          name,
           step: index,
+          name,
         })}
       </div>
     );
   });
-
-  const renderStepsDom = () => {
-    if (!Array.isArray(stepsConfigRef.current) || stepsConfigRef.current.length <= 0) {
-      return null;
-    }
-    const dom = <Steps {...stepsProps} items={stepsConfigRef.current} current={stepNum} />;
-    return stepsRender ? stepsRender(stepsConfigRef.current, dom) : dom;
-  };
-
-  const stepsDom = renderStepsDom();
 
   useImperativeHandle(actionRef, () => ({
     formInstanceList: formInstanceListRef.current,
@@ -263,11 +203,71 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
     },
   }));
 
+  // 上一步 下一步 提交按钮
+  const renderSubmitter = () => {
+    if (!Array.isArray(formSubmitterRef.current) || formSubmitterRef.current.length <= 0) {
+      return null;
+    }
+
+    const currentSubmitter = formSubmitterRef.current[stepNum]; // 当前from的配置
+
+    if (currentSubmitter === false) {
+      return null;
+    }
+
+    const initProps = {
+      prevButtonProps: {
+        disabled: loading || !isReady,
+        ...currentSubmitter?.prevButtonProps,
+      },
+      nextButtonProps: {
+        loading,
+        disabled: !isReady,
+        ...currentSubmitter?.nextButtonProps,
+      },
+      submitButtonProps: {
+        loading,
+        disabled: !isReady,
+        ...currentSubmitter?.submitButtonProps,
+      },
+      onPrev: (e) => {
+        prev();
+        currentSubmitter?.onPrev?.(e);
+      },
+      onNext: (e) => {
+        currentSubmitter?.onNext?.(e);
+      },
+      onSubmit: (e) => {
+        currentSubmitter?.onSubmit?.(e);
+      },
+    };
+
+    return (
+      <StepsSubmitter
+        total={childs.length}
+        current={stepNum}
+        {...initProps}
+        form={formInstanceListRef.current[stepNum]}
+      />
+    );
+  };
+  const submitterDom = renderSubmitter();
+
+  // 步骤条
+  const renderStepsDom = () => {
+    if (!Array.isArray(stepsConfigRef.current) || stepsConfigRef.current.length <= 0) {
+      return null;
+    }
+    const dom = <Steps {...stepsProps} items={stepsConfigRef.current} current={stepNum} />;
+    return stepsRender ? stepsRender(dom, stepsConfigRef.current) : dom;
+  };
+  const stepsDom = renderStepsDom();
+
   return (
     <div className={`${prefixCls}-container`}>
       <StepsFormContext.Provider
         value={{
-          total: stepsConfigRef.current.length,
+          total: childs.length,
           formInstanceListRef,
           onFormFinish,
           next,
