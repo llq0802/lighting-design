@@ -25,7 +25,7 @@ nav:
 
 ## 代码演示
 
-<!-- <code src='./demos/Demo1.tsx'> -->
+<code src='./demos/Demo1.tsx'>
 
 ## 异步请求
 

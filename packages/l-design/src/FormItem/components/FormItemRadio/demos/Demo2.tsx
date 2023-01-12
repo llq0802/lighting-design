@@ -21,7 +21,7 @@ const Demo1 = () => {
           });
         }}
       />
-      {/* <LFormItemRadio
+      <LFormItemRadio
         label="单选2"
         name="LFormItemRadio2"
         all
@@ -38,7 +38,7 @@ const Demo1 = () => {
           });
         }}
         options={[{ label: 'A', value: 'a' }]}
-      /> */}
+      />
     </LForm>
   );
 };
