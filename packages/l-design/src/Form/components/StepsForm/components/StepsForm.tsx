@@ -222,7 +222,7 @@ const StepsForm: FC<LStepsFormProps> & {
 
   // 上一步 下一步 提交按钮
   const renderSubmitter = () => {
-    if (!Array.isArray(formSubmitterRef.current) || formSubmitterRef.current.length <= 0) {
+    if (formSubmitterRef.current?.length <= 0) {
       return null;
     }
 
