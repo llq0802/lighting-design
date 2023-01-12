@@ -1,4 +1,4 @@
-import { useDeepCompareEffect, useRequest, useUpdateEffect } from 'ahooks';
+import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
 import type { RateProps, SpinProps } from 'antd';
 import { Rate, Spin } from 'antd';
 import type { FC } from 'react';
@@ -8,7 +8,7 @@ export type RateWrapperProps = Record<string, any> &
   Partial<{
     request: (...args: any[]) => Promise<any>;
     disabled: boolean;
-    debounceTimex: number;
+    debounceTime: number;
     dependencies: string[];
     rateProps: RateProps;
     outLoading: SpinProps;
@@ -26,7 +26,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   ...restProps
 }) => {
   const [reqValue, setReqvalue] = useState(0);
-  const [loading, setLoading] = useState<boolean>(outLoading?.spinning || false);
+  const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
   const isFirst = useRef<boolean>(true);
   const { run } = useRequest(request || (async () => []), {
     manual: true,
@@ -107,16 +107,14 @@ const RateWrapper: FC<RateWrapperProps> = ({
 
   return (
     <>
-      {loading ? (
-        <Spin spinning style={{ marginLeft: 16 }} {...outLoading} />
-      ) : (
+      <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
         <Rate
           disabled={disabled ?? isClearDepends}
           {...rateProps}
           value={selectValue}
           onChange={handleChange}
         />
-      )}
+      </Spin>
     </>
   );
 };

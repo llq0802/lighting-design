@@ -1,4 +1,4 @@
-import type { SelectProps } from 'antd';
+import type { SelectProps, SpinProps } from 'antd';
 import type { FC } from 'react';
 import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
@@ -12,6 +12,10 @@ export interface LFormItemRadioProps
     Pick<SelectProps, 'options'> {
   dependencies?: string[];
   debounceTime?: number;
+    /**
+   * @name 自定义loading效果 具体参考(https://ant-design.gitee.io/components/spin-cn/#API)
+   */
+     spin?: SpinProps;
 }
 
 const LFormItemRadio: FC<LFormItemRadioProps> = ({
@@ -24,6 +28,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   disabled,
   radioProps = {},
   placeholder,
+  spin,
 
   required,
   ...restProps
@@ -61,6 +66,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
         request={request}
         disabled={disabled}
         debounceTime={debounceTime}
+        outLoading={spin}
         all={all}
         allValue={allValue}
         allLabel={allLabel}

@@ -27,6 +27,10 @@ nav:
 
 <code src='./demos/Demo1.tsx'>
 
+## 异步请求
+
+<code src='./demos/Demo2.tsx'>
+
 ## API
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
@@ -36,6 +40,7 @@ nav:
 | options | 数据化配置选项内容 | `SelectProps[options]` | `[]` |
 | request | 请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
+| spin | 自定义 loading 效果 | [spinProps](https://ant-design.gitee.io/components/spin-cn/#API) | `-` |
 | all | 是否需要全部选项 | `boolean ` | `false` |
 | allLabel | 全部选项的名称 | `string ` | `全部` |
 | allValue | 全部选项的值 | `string` | `''` |

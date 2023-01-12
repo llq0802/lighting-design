@@ -1,6 +1,6 @@
-import { useDeepCompareEffect, useRequest } from 'ahooks';
-import type { RadioChangeEvent, RadioGroupProps } from 'antd';
-import { Radio } from 'antd';
+import { useDeepCompareEffect, useRequest, useUpdateEffect,useSafeState } from 'ahooks';
+import type { RadioChangeEvent, RadioGroupProps, SpinProps } from 'antd';
+import { Radio, Spin } from 'antd';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
@@ -12,11 +12,13 @@ export type RadioWrapperProps = Record<string, any> & {
   allLabel?: ReactNode;
   radioProps?: RadioGroupProps;
   dependencies?: string[];
+  outLoading?: SpinProps;
 };
 
 const RadioWrapper: FC<RadioWrapperProps> = ({
   value,
   onChange,
+  outLoading,
   dependencies = [],
   disabled,
   options: outOptions = [],
@@ -31,6 +33,8 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   ...restProps
 }) => {
   const [optsRequest, setOpts] = useState<{ label: ReactNode; value: string | number }[]>([]);
+  const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
+
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
     manual: true,
@@ -46,6 +50,16 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
       setOpts([]);
     },
   });
+
+  const hasLoading = useMemo(
+    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    [outLoading],
+  );
+
+  useUpdateEffect(() => {
+    if (hasLoading) setLoading(outLoading?.spinning || false);
+  }, [outLoading]);
+
   // 获取依赖项
   const depends = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
@@ -74,21 +88,24 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
       isFirst.current = false;
       (async () => {
         try {
+          if (!hasLoading) setLoading(true);
           const newOptions = await request(...depends);
           if (all && newOptions?.length > 0) {
             setOpts([{ label: allLabel, value: allValue }, ...newOptions]);
           } else {
             setOpts([...newOptions]);
           }
+          if (!hasLoading) setLoading(false);
         } catch (error) {
           setOpts([]);
+          if (!hasLoading) setLoading(false);
         }
       })();
     } else {
       // 防抖调用
       run(...depends);
     }
-  }, [restProps, allLabel, allValue, all]);
+  }, [{}]);
 
   // 依赖清除
   useDeepCompareEffect(() => {
@@ -118,13 +135,15 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   );
 
   return (
-    <Radio.Group
-      options={selectOptions}
-      disabled={disabled ?? isClearDepends}
-      {...radioProps}
-      value={value}
-      onChange={handleChange}
-    />
+    <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
+      <Radio.Group
+        options={selectOptions}
+        disabled={disabled ?? isClearDepends}
+        {...radioProps}
+        value={value}
+        onChange={handleChange}
+      />
+    </Spin>
   );
 };
 
