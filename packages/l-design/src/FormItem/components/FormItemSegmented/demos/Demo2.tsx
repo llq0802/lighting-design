@@ -1,4 +1,6 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import { LForm, LFormItemSegmented } from 'lighting-design';
+
 const Demo1 = () => {
   const [form] = LForm.useForm();
 
@@ -8,6 +10,9 @@ const Demo1 = () => {
         contentInline
         label="选择"
         name="segmented"
+        spin={{
+          indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
+        }}
         initialValue={'List'}
         request={() => {
           return new Promise((resolve) => {

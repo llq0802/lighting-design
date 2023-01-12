@@ -39,10 +39,13 @@ const RateWrapper: FC<RateWrapperProps> = ({
     },
   });
 
+  const hasLoading = useMemo(
+    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    [outLoading],
+  );
+
   useUpdateEffect(() => {
-    if (typeof outLoading === 'object'){
-      setLoading(outLoading?.spinning || false);
-    }
+    if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
   // 获取依赖项
@@ -63,13 +66,13 @@ const RateWrapper: FC<RateWrapperProps> = ({
       isFirst.current = false;
       (async () => {
         try {
-          if (typeof outLoading !== 'object') setLoading(true);
+          if (!hasLoading) setLoading(true);
           const newOptions = await request(...depends);
           setReqvalue(newOptions);
-          if (typeof outLoading !== 'object') setLoading(false);
+          if (!hasLoading) setLoading(false);
         } catch (error) {
           setReqvalue(0);
-          if (typeof outLoading !== 'object') setLoading(false);
+          if (!hasLoading) setLoading(false);
         }
       })();
     } else {
@@ -105,7 +108,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   return (
     <>
       {loading ? (
-        <Spin spinning style={{ marginLeft: 16 }} />
+        <Spin spinning style={{ marginLeft: 16 }} {...outLoading} />
       ) : (
         <Rate
           disabled={disabled ?? isClearDepends}
