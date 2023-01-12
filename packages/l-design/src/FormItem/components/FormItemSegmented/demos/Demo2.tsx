@@ -7,7 +7,6 @@ const Demo1 = () => {
   return (
     <LForm name="LFormItemSelect" form={form} submitter={false}>
       <LFormItemSegmented
-        contentInline
         label="选择"
         name="segmented"
         spin={{

@@ -1,4 +1,4 @@
-import { useDeepCompareEffect, useRequest, useUpdateEffect } from 'ahooks';
+import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
 import type { SegmentedProps, SpinProps } from 'antd';
 import { Segmented, Spin } from 'antd';
 import type { SegmentedLabeledOption, SegmentedValue } from 'antd/lib/segmented';
@@ -9,7 +9,9 @@ export type SegmentedWrapperProps = Record<string, any> & {
   request?: (...args: any[]) => Promise<any>;
   debounceTime?: number;
   options?: SegmentedProps['options'];
-  segmentedProps?: SegmentedProps;
+  segmentedProps?:
+    | SegmentedProps
+    | { onChange?: (value: SegmentedValue) => void; options?: SegmentedProps['options'] };
   dependencies?: string[];
   outLoading?: SpinProps;
 };
@@ -27,7 +29,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   ...restProps
 }) => {
   const [optsRequest, setOpts] = useState<(SegmentedValue | SegmentedLabeledOption)[]>([]);
-  const [loading, setLoading] = useState<boolean>(outLoading?.spinning || false);
+  const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
 
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
@@ -110,7 +112,6 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   const handleChange = useCallback(
     (val: SegmentedValue) => {
       if (segmentedProps?.onChange) {
-        // @ts-ignore
         segmentedProps?.onChange(val);
       }
       onChange(val);
@@ -120,10 +121,8 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
 
   return (
     <>
-      {loading ? (
-        <Spin spinning style={{ marginLeft: 16 }} {...outLoading} />
-      ) : (
-        // @ts-ignore
+      <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
+        {/* @ts-ignore */}
         <Segmented
           disabled={isClearDepends}
           {...segmentedProps}
@@ -131,7 +130,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
           value={value}
           onChange={handleChange}
         />
-      )}
+      </Spin>
     </>
   );
 };

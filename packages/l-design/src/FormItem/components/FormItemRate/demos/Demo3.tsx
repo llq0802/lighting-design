@@ -18,7 +18,7 @@ const Demo1 = () => {
         }}
         rateProps={{
           allowHalf: true,
-          disabled:true
+          disabled: true,
         }}
       />
     </LForm>
