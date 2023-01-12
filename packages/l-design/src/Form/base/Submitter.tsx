@@ -5,6 +5,8 @@ import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { useCallback, useMemo } from 'react';
 
 export interface LFormSubmitterProps {
+  /** 表单的初始值 */
+  initFormValues?: Record<string, any>;
   /** 重置按钮名称*/
   resetText?: ReactNode;
   /** 提交按钮名称*/
@@ -33,6 +35,7 @@ export interface LFormSubmitterProps {
 
 const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const {
+    initFormValues,
     onSubmit = () => {},
     onReset = () => {},
     submitText = '提交',
@@ -48,12 +51,14 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
 
   const handleReset = useCallback(
     (e: MouseEvent<HTMLElement>) => {
-      form?.resetFields();
+      form?.setFieldsValue({ ...initFormValues });
+      // resetFields 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
+      // form?.resetFields();
       // 由于刚重置表单，使用异步可防止立即触发提交操作，导致数据过时而提交失败。
       // refs: https://github.com/ant-design/ant-design/issues/26747
       Promise.resolve().then(() => onReset?.(e));
     },
-    [form, onReset],
+    [form, initFormValues, onReset],
   );
 
   const handleSubmit = useCallback(

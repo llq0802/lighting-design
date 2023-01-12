@@ -3,7 +3,7 @@ import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
-import { Children, useMemo, useRef, useState } from 'react';
+import { Children, useEffect, useMemo, useRef, useState } from 'react';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
@@ -55,15 +55,23 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
 
   const [form] = Form.useForm();
   const formRef = useRef<FormInstance>(outForm || form);
-
   const [loading, setLoading] = useState(outLoading);
+  const [initFormValues, setInitFormValues] = useState({});
 
   useUpdateEffect(() => {
     // 准备完成后，重新设置初始值
     if (isReady) {
-      formRef.current?.resetFields?.();
+      formRef.current?.setFieldsValue({ ...initFormValues });
+      // resetFields 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
+      // formRef.current?.resetFields?.();
     }
   }, [isReady]);
+
+  useEffect(() => {
+    // 组件第一次加载的时候收集初始值
+    const values = formRef.current?.getFieldsValue();
+    setInitFormValues({ ...values });
+  }, []);
 
   useUpdateEffect(() => {
     setLoading(outLoading);
@@ -76,6 +84,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
   const submitterDom = useMemo(() => {
     return submitter ? (
       <Submitter
+        initFormValues={initFormValues}
         onReset={onReset}
         {...submitterProps}
         form={formRef?.current}
@@ -90,7 +99,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
         }}
       />
     ) : null;
-  }, [isReady, loading, onReset, submitter, submitterProps]);
+  }, [initFormValues, isReady, loading, onReset, submitter, submitterProps]);
 
   const formItems = Children.toArray(children);
 

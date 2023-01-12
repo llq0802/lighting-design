@@ -1,4 +1,4 @@
-import { useDeepCompareEffect, useRequest, useUpdateEffect,useSafeState } from 'ahooks';
+import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
 import type { RadioChangeEvent, RadioGroupProps, SpinProps } from 'antd';
 import { Radio, Spin } from 'antd';
 import type { FC, ReactNode } from 'react';
@@ -32,7 +32,9 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
 
   ...restProps
 }) => {
-  const [optsRequest, setOpts] = useState<{ label: ReactNode; value: string | number }[]>([]);
+  const [optsRequest, setOptsRequest] = useState<{ label: ReactNode; value: string | number }[]>(
+    [],
+  );
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
 
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
@@ -41,13 +43,13 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     debounceWait: debounceTime,
     onSuccess: (result) => {
       if (all && result?.length > 0) {
-        setOpts([{ label: allLabel, value: allValue }, ...result]);
+        setOptsRequest([{ label: allLabel, value: allValue }, ...result]);
       } else {
-        setOpts([...result]);
+        setOptsRequest([...result]);
       }
     },
     onError: () => {
-      setOpts([]);
+      setOptsRequest([]);
     },
   });
 
@@ -91,13 +93,13 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
           if (!hasLoading) setLoading(true);
           const newOptions = await request(...depends);
           if (all && newOptions?.length > 0) {
-            setOpts([{ label: allLabel, value: allValue }, ...newOptions]);
+            setOptsRequest([{ label: allLabel, value: allValue }, ...newOptions]);
           } else {
-            setOpts([...newOptions]);
+            setOptsRequest([...newOptions]);
           }
           if (!hasLoading) setLoading(false);
         } catch (error) {
-          setOpts([]);
+          setOptsRequest([]);
           if (!hasLoading) setLoading(false);
         }
       })();
@@ -114,7 +116,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     }
   }, [value, isClearDepends]);
 
-  const selectOptions = useMemo(() => {
+  const radioOptions = useMemo(() => {
     if (optsRequest?.length > 0) {
       return optsRequest;
     } else if (opts.length > 0) {
@@ -137,7 +139,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   return (
     <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
       <Radio.Group
-        options={selectOptions}
+        options={radioOptions}
         disabled={disabled ?? isClearDepends}
         {...radioProps}
         value={value}

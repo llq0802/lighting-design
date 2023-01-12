@@ -20,18 +20,6 @@ const Demo1 = () => {
         name="LFormItemRadio2"
         all
         required
-        // dependencies={['userName']}
-        // disabled
-        // debounceTime={300}
-        // request={async (params) => {
-        //   console.log(' params', params);
-        //   // if (!params) return [];
-        //   return [
-        //     { label: 'open', value: 'open' },
-        //     { label: 'closed', value: 'closed' },
-        //     { label: 'processing', value: 'processing' },
-        //   ];
-        // }}
         options={[
           { label: 'Unresolved', value: 'open' },
           { label: 'Resolved', value: 'closed' },
