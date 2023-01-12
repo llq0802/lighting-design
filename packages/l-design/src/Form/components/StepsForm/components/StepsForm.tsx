@@ -259,13 +259,7 @@ const StepsForm: FC<LStepsFormProps> & {
       },
     };
 
-    return (
-      <StepsSubmitter
-        current={stepNum}
-        {...initProps}
-        form={formInstanceListRef.current[stepNum]}
-      />
-    );
+    return <StepsSubmitter {...initProps} form={formInstanceListRef.current[stepNum]} />;
   };
   const submitterDom = renderSubmitter();
 
@@ -335,6 +329,7 @@ const StepsForm: FC<LStepsFormProps> & {
     <div className={`${prefixCls}-container`}>
       <StepsFormContext.Provider
         value={{
+          current: stepNum,
           total: childs.length,
           formInstanceListRef,
           onFormFinish,

@@ -10,8 +10,6 @@ export interface StepsFormSubmitterProps
     LFormSubmitterProps,
     'submitText' | 'submitButtonProps' | 'form' | 'wrapperCol' | 'buttonAlign'
   > {
-  /** 当前步骤 */
-  current?: number;
   /** 上一步按钮的文字 */
   prevText?: ReactNode;
   /** 点击上一步按钮的回调 */
@@ -46,8 +44,6 @@ export interface StepsFormSubmitterProps
 
 const StepsFormSubmitter: FC<StepsFormSubmitterProps> = (props) => {
   const {
-    current = 0,
-
     prevText = '上一步',
     prevButtonProps = {},
     onPrev = () => {},
@@ -70,7 +66,7 @@ const StepsFormSubmitter: FC<StepsFormSubmitterProps> = (props) => {
     render,
   } = props;
 
-  const { total = 0 } = useContext(StepsFormContext);
+  const { total = 0, current = 0 } = useContext(StepsFormContext);
 
   const handlePrev = (e) => {
     onPrev?.(e);
