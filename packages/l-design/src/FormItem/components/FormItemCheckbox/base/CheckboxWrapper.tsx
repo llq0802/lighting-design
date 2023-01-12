@@ -57,16 +57,18 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   const [indeterminate, setIndeterminate] = useState<boolean>(false);
   const [checkAll, setCheckAll] = useState<boolean>(false);
 
-  const [optsRequest, setOpts] = useState<{ label: ReactNode; value: string | number }[]>([]);
+  const [optsRequest, setOptsRequest] = useState<{ label: ReactNode; value: string | number }[]>(
+    [],
+  );
   const isFirst = useRef<boolean>(true);
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {
-      setOpts([...result]);
+      setOptsRequest([...result]);
     },
     onError: () => {
-      setOpts([]);
+      setOptsRequest([]);
     },
   });
 
@@ -95,9 +97,9 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       (async () => {
         try {
           const newOptions = await request(...depends);
-          setOpts([...newOptions]);
+          setOptsRequest([...newOptions]);
         } catch (error) {
-          setOpts([]);
+          setOptsRequest([]);
         }
       })();
     } else {
@@ -113,7 +115,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     }
   }, [value, isClearDepends]);
 
-  const selectOptions = useMemo(() => {
+  const checkboxOptions = useMemo(() => {
     if (optsRequest?.length > 0) {
       return optsRequest;
     } else if (opts.length > 0) {
@@ -128,7 +130,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       let checkAllValue: CheckboxValueType[] = [];
       if (e.target.checked) {
         // 排除disabled为true的数据
-        checkAllValue = selectOptions
+        checkAllValue = checkboxOptions
           .filter((item: CheckboxOptionType) => !item.disabled)
           .map((items: CheckboxOptionType) => items.value);
       }
@@ -137,14 +139,16 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       onChange(checkAllValue);
       beforeAll?.onChange?.(checkAllValue);
     },
-    [beforeAll, onChange, selectOptions],
+    [beforeAll, onChange, checkboxOptions],
   );
 
   const handleChange = useCallback(
-    (checkedValue: CheckboxValueType[],) => {
+    (checkedValue: CheckboxValueType[]) => {
       if (beforeAll) {
         // 排除disabled为true的数据
-        const optLength = selectOptions.filter((item: CheckboxOptionType) => !item.disabled).length;
+        const optLength = checkboxOptions.filter(
+          (item: CheckboxOptionType) => !item.disabled,
+        ).length;
 
         setIndeterminate(!!checkedValue.length && checkedValue.length < optLength);
         setCheckAll(checkedValue.length === optLength);
@@ -152,7 +156,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       checkboxProps?.onChange?.(checkedValue);
       onChange(checkedValue);
     },
-    [beforeAll, checkboxProps, onChange, selectOptions],
+    [beforeAll, checkboxProps, onChange, checkboxOptions],
   );
   return (
     <>
@@ -171,7 +175,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         </Checkbox>
       )}
       <Checkbox.Group
-        options={selectOptions}
+        options={checkboxOptions}
         disabled={disabled ?? isClearDepends}
         {...checkboxProps}
         value={value}

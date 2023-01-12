@@ -33,20 +33,22 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
 
   ...restProps
 }) => {
-  const [optsRequest, setOpts] = useState<{ label: ReactNode; value: string | number }[]>([]);
+  const [optsRequest, setOptsRequest] = useState<{ label: ReactNode; value: string | number }[]>(
+    [],
+  );
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {
       if (all && result?.length > 0) {
-        setOpts([{ label: allLabel, value: allValue }, ...result]);
+        setOptsRequest([{ label: allLabel, value: allValue }, ...result]);
       } else {
-        setOpts([...result]);
+        setOptsRequest([...result]);
       }
     },
     onError: () => {
-      setOpts([]);
+      setOptsRequest([]);
     },
   });
   // 获取依赖项
@@ -79,12 +81,12 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
         try {
           const newOptions = await request(...depends);
           if (all && newOptions?.length > 0) {
-            setOpts([{ label: allLabel, value: allValue }, ...newOptions]);
+            setOptsRequest([{ label: allLabel, value: allValue }, ...newOptions]);
           } else {
-            setOpts([...newOptions]);
+            setOptsRequest([...newOptions]);
           }
         } catch (error) {
-          setOpts([]);
+          setOptsRequest([]);
         }
       })();
     } else {

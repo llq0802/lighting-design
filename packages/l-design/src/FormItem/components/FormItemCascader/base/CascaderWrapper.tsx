@@ -34,16 +34,16 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   disabled,
   ...restProps // LFormItem传过来的其他值
 }) => {
-  const [optsRequest, setOpts] = useState<CascaderOption[]>([]);
+  const [optsRequest, setOptsRequest] = useState<CascaderOption[]>([]);
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {
-      setOpts([...result]);
+      setOptsRequest([...result]);
     },
     onError: () => {
-      setOpts([]);
+      setOptsRequest([]);
     },
   });
   // 获取依赖项
@@ -71,9 +71,9 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
       (async () => {
         try {
           const newOptions = await request(...depends);
-          setOpts([...newOptions]);
+          setOptsRequest([...newOptions]);
         } catch (error) {
-          setOpts([]);
+          setOptsRequest([]);
         }
       })();
     } else {

@@ -28,7 +28,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
 
   ...restProps
 }) => {
-  const [optsRequest, setOpts] = useState<(SegmentedValue | SegmentedLabeledOption)[]>([]);
+  const [optsRequest, setOptsRequest] = useState<(SegmentedValue | SegmentedLabeledOption)[]>([]);
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
 
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
@@ -36,10 +36,10 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {
-      setOpts([...result]);
+      setOptsRequest([...result]);
     },
     onError: () => {
-      setOpts([]);
+      setOptsRequest([]);
     },
   });
 
@@ -79,10 +79,10 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
         try {
           if (!hasLoading) setLoading(true);
           const newOptions = await request(...depends);
-          setOpts(newOptions);
+          setOptsRequest(newOptions);
           if (!hasLoading) setLoading(false);
         } catch (error) {
-          setOpts([]);
+          setOptsRequest([]);
           if (!hasLoading) setLoading(false);
         }
       })();
@@ -99,7 +99,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
     }
   }, [value, isClearDepends]);
 
-  const selectOptions = useMemo(() => {
+  const segmentedOptions = useMemo(() => {
     if (optsRequest?.length > 0) {
       return optsRequest;
     } else if (opts.length > 0) {
@@ -126,7 +126,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
         <Segmented
           disabled={isClearDepends}
           {...segmentedProps}
-          options={selectOptions}
+          options={segmentedOptions}
           value={value}
           onChange={handleChange}
         />
