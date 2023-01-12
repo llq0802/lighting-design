@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { StepProps } from 'antd';
 import { Form } from 'antd';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import type { BaseFormProps } from '../../../base/BaseForm';
 import BaseForm from '../../../base/BaseForm';
 import StepsFormContext from './StepsFormContext';
@@ -13,21 +13,23 @@ export interface StepFormProps<Values = any>
       'title' | 'onReset' | 'contentRender' | 'submitter' | 'ready'
     >,
     Pick<StepProps, 'title' | 'icon' | 'subTitle' | 'description'> {
-  stepProps?: StepProps;
+  /** antd Steps 组件的items属性*/
+  stepItemProps?: StepProps;
+  /** 上一步下一步提交按钮的配置 优先级比StepsForm的submitter高*/
   submitter?: Omit<StepsFormSubmitterProps, 'total' | 'current' | 'form'> | false;
-  readonly step?: number;
-  next: () => void;
+  /** 当前步骤 内部使用*/
+  readonly stepNum?: number;
 }
 
 function StepForm<Values = any>({
-  submitter,
-  step,
-  next,
   title,
-  icon,
   subTitle,
+  icon,
   description,
-  stepProps,
+  stepItemProps,
+  submitter,
+
+  stepNum,
 
   name,
   onFinish,
@@ -37,14 +39,8 @@ function StepForm<Values = any>({
   const ctx = useContext(StepsFormContext);
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    if (ctx && ctx?.formInstanceListRef) {
-      ctx.formInstanceListRef.current[step as number] = outForm || form;
-    }
-    // Modal组件可能未加载时拿不到 form实例
-    // ctx?.forgetUpdate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // 存储每个表单实例
+  ctx.formInstanceListRef.current[stepNum as number] = outForm || form;
 
   return (
     <BaseForm
@@ -66,11 +62,12 @@ function StepForm<Values = any>({
         // 只要onFinish不返回false 就触发自带的下一步和提交
         if (ret !== false) {
           ctx?.onFormFinish(name, values);
-          if (ctx.total - 1 === step) {
+          if (ctx.total - 1 === stepNum) {
             // 最后一步触发提交
             ctx.submit();
             return;
           }
+          // 表单验证通过到下一步
           ctx.next();
         }
       }}

@@ -1,33 +1,72 @@
 import { useControllableValue, useSafeState, useUpdate } from 'ahooks';
-import type { FormInstance } from 'antd';
+import type { FormInstance, StepProps, StepsProps } from 'antd';
 import { Form, Steps } from 'antd';
 import classNames from 'classnames';
 import type { FC, ReactElement, ReactNode } from 'react';
-import { Children, cloneElement, useImperativeHandle, useRef } from 'react';
+import { Children, cloneElement, useEffect, useImperativeHandle, useRef } from 'react';
+import type { BaseFormProps } from '../../../base/BaseForm';
+import StepForm from './StepForm';
 import StepsFormContext from './StepsFormContext';
+import type { StepsFormSubmitterProps } from './StepsSubmitter';
 import StepsSubmitter from './StepsSubmitter';
 import './styles.less';
 
 const prefixCls = 'lightd-steps-form';
 
-export type LStepsFormProps = Record<string, any>;
+export type StepItem = {
+  description?: ReactNode;
+  disabled?: boolean;
+  icon?: ReactNode;
+  status?: 'wait' | 'process' | 'finish' | 'error' | 'string' | 'wait';
+  subTitle?: ReactNode;
+  title: ReactNode;
+}[];
 
-const StepsForm: FC<LStepsFormProps> = (props) => {
+export type LStepsFormProps = {
+  /** 默认步骤 */
+  defaultCurrent?: number;
+  /** 是否将onFinish的得到的所有form数据合并 */
+  isMergeValues?: boolean;
+  /** 是否准备好 */
+  isReady?: boolean;
+  /** 实例包含一些方法和属性 */
+  actionRef?: any;
+  /** 表单最后一步提交成功触发，如果返回true就会自动重置表单(包括StepForm变回第一步) */
+  onFinish?: (valuse: Record<string, any>) => Promise<void | boolean>;
+  /** 上一步下一步提交按钮的配置 */
+  submitter?: StepsFormSubmitterProps;
+  /** antd Steps 组件的属性  */
+  stepsProps?: StepsProps;
+  /** LForm的属性 */
+  formProps?: Omit<BaseFormProps, 'title' | 'onReset' | 'contentRender' | 'submitter' | 'ready'>;
+  /** 重新渲染整个组件 */
+  stepsFormRender?: (stepsDom: ReactNode, formDom: ReactNode, submitterDom: ReactNode) => ReactNode;
+  /** 重新渲染表单组件 */
+  stepFormRender?: (dom: ReactNode, index: number) => ReactNode;
+  /** 重新渲染步骤组件 */
+  stepsRender?: (dom: ReactNode, items: StepProps[]) => ReactNode;
+  children: ReactElement[];
+};
+
+const StepsForm: FC<LStepsFormProps> & {
+  StepForm: typeof StepForm;
+} = (props) => {
   const {
+    isMergeValues = true,
+    isReady = true,
     defaultCurrent = 0,
-    stepsProps,
     actionRef,
     onFinish,
-    submitter,
-    isReady = true,
-    formProps,
+    stepsProps = {},
+    submitter = {},
+    formProps = {},
     stepsRender,
     stepFormRender,
     stepsFormRender,
     children,
   } = props;
 
-  const stepsConfigRef = useRef<any[]>([]); // 步骤条配置
+  const stepsConfigRef = useRef<StepProps[]>([]); // 步骤条配置
   const formSubmitterRef = useRef<any[]>([]); // 操作配置
   const formInstanceListRef = useRef<FormInstance[]>([]); // 每个步骤的form实例
   const formDataRef = useRef({}); // 全部表单数据
@@ -36,6 +75,7 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
   // 手动触发更新
   const update = useUpdate();
   const forgetUpdate = () => {
+    // 延迟到最后更新
     setTimeout(() => {
       update();
     });
@@ -57,7 +97,7 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
       subTitle,
       icon,
       description,
-      stepProps,
+      stepItemProps,
       submitter: childSubmitter,
     } = (childItem as ReactElement).props;
 
@@ -68,7 +108,7 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
       subTitle,
       icon,
       description,
-      ...stepProps,
+      ...stepItemProps,
     };
 
     // 获取每个表单组件的submitter属性并合并
@@ -79,6 +119,7 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
         ? { ...submitter, ...childSubmitter }
         : childSubmitter;
     } else {
+      // 默认是undefined
       formSubmitterRef.current[index] = submitter;
     }
   });
@@ -97,21 +138,34 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
       setStepNum(curStep);
     }
   };
+  // 重置
+  const reset = () => {
+    setStepNum(defaultCurrent);
+    formDataRef.current = {};
+    formInstanceListRef.current.forEach((item) => {
+      item?.resetFields();
+    });
+  };
 
   // 提交
   const submit = async () => {
     if (typeof onFinish === 'function') {
-      const values = formDataRef.current;
-      // 展开每个表单的值
-      // const values = Object.values<typeof formDataRef.current>(formDataRef.current).reduce(
-      //   (pre, cur) => ({ ...pre, ...cur }),
-      //   {},
-      // );
+      let values;
+      if (isMergeValues) {
+        // 合并每个表单的值
+        values = Object.values<typeof formDataRef.current>(formDataRef.current).reduce(
+          (pre, cur) => ({ ...pre, ...cur }),
+          {},
+        );
+      } else {
+        values = formDataRef.current;
+      }
       const ret = onFinish(values);
       if (ret instanceof Promise) {
         setLoading(true);
         try {
-          await ret;
+          const res = await ret;
+          if (res === true) reset(); // 如果返回true就会自动重置表单(包括StepForm变回第一步)
         } catch (err) {
           console.error(err); // eslint-disable-line
         } finally {
@@ -126,55 +180,21 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
     formDataRef.current[name] = values;
   };
 
-  // 每个表单dom
-  const formDom = childs.map((item: any, index) => {
-    const isCurrentIndex = stepNum === index;
-    const name = item.props?.name || index + ''; // 每个表单的name 没有则用index
-    const config = {
-      submitter: false, // 不渲染自带的提交重置按钮
-      contentRender: (dom: ReactNode) => (
-        <>
-          {/* 渲染form主体 */}
-          {stepFormRender ? stepFormRender(dom) : dom}
-          {/* 渲染操作上一步 下一步 提交按钮 */}
-          {!stepsFormRender && isCurrentIndex ? <Form.Item>{submitterDom}</Form.Item> : null}
-        </>
-      ),
-    };
-    return (
-      <div
-        className={classNames(`${prefixCls}-item`, {
-          [`${prefixCls}-item-active`]: isCurrentIndex,
-        })}
-        style={{ display: isCurrentIndex ? 'block' : 'none' }} // 只显示当前步骤条的form
-        key={name}
-      >
-        {cloneElement(item, {
-          ...config,
-          ...formProps,
-          step: index,
-          name,
-        })}
-      </div>
-    );
-  });
-
+  // 暴露方法和属性
   useImperativeHandle(actionRef, () => ({
     formInstanceList: formInstanceListRef.current,
     prev: () => {
-      if (!isReady) {
-        return;
-      }
+      if (!isReady) return;
+
       prev();
       const currentSubmitter = formSubmitterRef.current[stepNum];
       currentSubmitter?.onPrev();
     },
     // 是否触发当前表单提交验证
     // 部分情况下第二步提交，第三步为结果。提交之后无需再次触发当前表单提交校验
-    next: (submitted = true) => {
-      if (!isReady) {
-        return;
-      }
+    next: (submitted = false) => {
+      if (!isReady) return;
+
       if (submitted) {
         formInstanceListRef.current[stepNum].submit();
       } else {
@@ -183,23 +203,20 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
       const currentSubmitter = formSubmitterRef.current[stepNum];
       currentSubmitter?.onNext?.();
     },
-    submit: () => {
-      if (!isReady) {
-        return;
+    // 是否最后一步提交
+    submit: (isFinallySubmit = true) => {
+      if (!isReady) return;
+      if (!isFinallySubmit) {
+        formInstanceListRef.current[stepNum].submit();
+      } else {
+        submit();
       }
-      formInstanceListRef.current[stepNum].submit();
       const currentSubmitter = formSubmitterRef.current[stepNum];
       currentSubmitter?.onSubmit?.();
     },
     reset: () => {
-      if (!isReady) {
-        return;
-      }
-      setStepNum(defaultCurrent);
-      formDataRef.current = {};
-      formInstanceListRef.current.forEach((item) => {
-        item?.resetFields();
-      });
+      if (!isReady) return;
+      reset();
     },
   }));
 
@@ -244,7 +261,6 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
 
     return (
       <StepsSubmitter
-        total={childs.length}
         current={stepNum}
         {...initProps}
         form={formInstanceListRef.current[stepNum]}
@@ -253,6 +269,57 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
   };
   const submitterDom = renderSubmitter();
 
+  // 每个表单dom
+  const formDom = childs.map((itemFrom: any, index) => {
+    const isCurrentIndex = stepNum === index;
+    const name = itemFrom.props?.name || index + ''; // 每个表单的name 没有则用index
+    const currentSubmitter = formSubmitterRef.current[stepNum]; // 当前from的配置
+    const textAlignObj = { left: 'left', center: 'center', right: 'right' };
+    const config = {
+      submitter: false, // 不渲染LForm自带的提交重置按钮
+      contentRender: (dom: ReactNode) => (
+        <>
+          {/* 渲染form主体 */}
+          {stepFormRender ? stepFormRender(dom, index) : dom}
+          {/* 渲染操作上一步 下一步 提交按钮 */}
+          {!stepsFormRender && isCurrentIndex ? (
+            <Form.Item
+              wrapperCol={currentSubmitter?.wrapperCol}
+              style={
+                currentSubmitter?.buttonAlign
+                  ? { textAlign: textAlignObj[currentSubmitter.buttonAlign] }
+                  : {}
+              }
+            >
+              {submitterDom}
+            </Form.Item>
+          ) : null}
+        </>
+      ),
+    };
+    return (
+      <div
+        className={classNames(`${prefixCls}-item`, {
+          [`${prefixCls}-item-active`]: isCurrentIndex,
+        })}
+        style={{ display: isCurrentIndex ? 'block' : 'none' }} // 只显示当前步骤条的form
+        key={name}
+      >
+        {cloneElement(itemFrom, {
+          ...config,
+          ...formProps,
+          stepNum: index,
+          name,
+        })}
+      </div>
+    );
+  });
+
+  useEffect(() => {
+    // 强制更新一次 绑定每个步骤的form实例
+    forgetUpdate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   // 步骤条
   const renderStepsDom = () => {
     if (!Array.isArray(stepsConfigRef.current) || stepsConfigRef.current.length <= 0) {
@@ -295,3 +362,5 @@ const StepsForm: FC<LStepsFormProps> = (props) => {
 };
 
 export default StepsForm;
+
+StepsForm.StepForm = StepForm;

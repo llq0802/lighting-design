@@ -1,35 +1,37 @@
-import { LFormItemInput } from 'lighting-design';
-import StepForm from '../components/StepForm';
-import StepsForm from '../components/StepsForm';
+import { LFormItemInput, LStepsForm } from 'lighting-design';
+import { useEffect, useRef } from 'react';
 
 const Demo2 = () => {
+  const actionRef = useRef();
+
+  useEffect(() => {
+    // console.log('actionRef', actionRef.current);
+  }, []);
+
   return (
-    <StepsForm
-      onFinish={(valuse) => {
-        console.log('valuse', valuse);
+    <LStepsForm
+      actionRef={actionRef}
+      onFinish={async (valuse) => {
+        console.log('StepsForm-valuse', valuse);
+      }}
+      submitter={{
+        buttonAlign: 'center',
       }}
     >
-      <StepForm name="step1" title="步骤1">
+      <LStepsForm.StepForm title="步骤1">
+        <LFormItemInput name={['step1', 'name1']} label="名字1" required tooltip="禁止空格" />
+        <LFormItemInput name={['step1', 'name2']} label="名字2" required tooltip="禁止空格" />
+      </LStepsForm.StepForm>
+      <LStepsForm.StepForm title="步骤2">
         <LFormItemInput
-          name="name"
-          label="名字"
-          required
-          tooltip="禁止空格"
-          disabledWhiteSpace
-          alignItems="end"
-        />
-      </StepForm>
-      <StepForm name="step2" title="步骤2">
-        <LFormItemInput
-          name="phone"
+          name={['step2', 'phone']}
           label="手机号"
           required
           tooltip="禁止空格 只能输入数字"
           type="phone"
-          disabledWhiteSpace
         />
-      </StepForm>
-    </StepsForm>
+      </LStepsForm.StepForm>
+    </LStepsForm>
   );
 };
 

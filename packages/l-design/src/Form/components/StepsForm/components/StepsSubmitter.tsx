@@ -1,17 +1,17 @@
 import type { ButtonProps } from 'antd';
 import { Button, Space } from 'antd';
 import type { FC, FormEvent, ReactElement, ReactNode } from 'react';
+import { useContext } from 'react';
 import type { LFormSubmitterProps } from '../../../base/Submitter';
+import StepsFormContext from './StepsFormContext';
 
 export interface StepsFormSubmitterProps
-  extends Omit<
+  extends Pick<
     LFormSubmitterProps,
-    'render' | 'resetText' | 'resetButtonProps' | 'onReset' | 'noReset' | 'onSubmit'
+    'submitText' | 'submitButtonProps' | 'form' | 'wrapperCol' | 'buttonAlign'
   > {
-  /** 总长度 */
-  total: number;
   /** 当前步骤 */
-  current: number;
+  current?: number;
   /** 上一步按钮的文字 */
   prevText?: ReactNode;
   /** 点击上一步按钮的回调 */
@@ -28,6 +28,7 @@ export interface StepsFormSubmitterProps
   nextButtonProps?: ButtonProps;
   /** 是否显示下一步按钮 */
   showNext?: boolean;
+
   /** 点击提交按钮的回调 */
   onSubmit?: (event?: FormEvent<HTMLFormElement>) => void;
 
@@ -39,13 +40,12 @@ export interface StepsFormSubmitterProps
   forceShowSubmit?: boolean;
   /** 自定义渲染 */
   render?:
-    | ((props: StepsFormSubmitterProps, dom: ReactElement[]) => ReactNode[] | ReactNode | false)
+    | ((dom: ReactElement[], props: StepsFormSubmitterProps) => ReactNode[] | ReactNode | false)
     | false;
 }
 
 const StepsFormSubmitter: FC<StepsFormSubmitterProps> = (props) => {
   const {
-    total = 0,
     current = 0,
 
     prevText = '上一步',
@@ -70,19 +70,21 @@ const StepsFormSubmitter: FC<StepsFormSubmitterProps> = (props) => {
     render,
   } = props;
 
+  const { total = 0 } = useContext(StepsFormContext);
+
   const handlePrev = (e) => {
     onPrev?.(e);
     prevButtonProps?.onClick?.(e);
   };
 
   const handleNext = (e) => {
-    form?.submit();
+    form?.submit(); // 提交表单验证
     onNext?.(e);
     nextButtonProps?.onClick?.(e);
   };
 
   const handleSubmit = (e) => {
-    form?.submit();
+    form?.submit(); // 提交表单验证
     onSubmit?.(e);
     submitButtonProps?.onClick?.(e);
   };
@@ -125,7 +127,7 @@ const StepsFormSubmitter: FC<StepsFormSubmitterProps> = (props) => {
     return [prevView, nextView, submitView].filter((item) => !!item);
   };
 
-  const renderDom = render ? render(props, createDom()) : createDom();
+  const renderDom = render ? render(createDom() as any, props) : createDom();
 
   if (!renderDom) {
     return null;
