@@ -24,13 +24,9 @@ const LForm: FC<LFormProps> & {
       ? {
           render: (dom: ReactNode) => (
             <Form.Item
-              label=""
               colon={false}
               style={{
-                display: 'flex',
                 marginBottom: 0,
-                justifyContent:
-                  typeof submitter?.buttonAlign === 'string' ? submitter?.buttonAlign : 'initial',
                 paddingLeft:
                   typeof submitter?.buttonAlign === 'number' ? `${submitter?.buttonAlign}px` : 0,
               }}
@@ -44,7 +40,15 @@ const LForm: FC<LFormProps> & {
               // }}
               wrapperCol={submitterProps?.wrapperCol}
             >
-              {Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent:
+                    typeof submitter?.buttonAlign === 'string' ? submitter?.buttonAlign : 'initial',
+                }}
+              >
+                {Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom}
+              </div>
             </Form.Item>
           ),
           ...submitterProps,

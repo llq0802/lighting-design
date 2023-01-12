@@ -6,7 +6,7 @@ nav:
   path: /components
 ---
 
-# LMoadlForm-弹窗表单
+# LMoadlForm
 
 基于 LForm 扩展的弹窗表单。
 

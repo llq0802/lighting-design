@@ -6,7 +6,7 @@ nav:
   path: /components
 ---
 
-# LLoginForm-登录表单
+# LLoginForm
 
 基于 LForm 扩展的登录表单。
 
