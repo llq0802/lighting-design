@@ -285,6 +285,7 @@ const StepsForm: FC<LStepsFormProps> & {
           {!stepsFormRender && isCurrentIndex ? (
             <Form.Item
               wrapperCol={currentSubmitter?.wrapperCol}
+              className={`${prefixCls}-item-submitter`}
               style={
                 currentSubmitter?.buttonAlign
                   ? { textAlign: textAlignObj[currentSubmitter.buttonAlign] }
@@ -339,7 +340,6 @@ const StepsForm: FC<LStepsFormProps> & {
           onFormFinish,
           next,
           submit,
-          forgetUpdate,
           loading,
           setLoading,
         }}
