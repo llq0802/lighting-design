@@ -26,12 +26,25 @@ const LForm: FC<LFormProps> & {
             <Form.Item
               label=""
               colon={false}
-              style={{ marginBottom: 0 }}
+              style={{
+                display: 'flex',
+                marginBottom: 0,
+                justifyContent:
+                  typeof submitter?.buttonAlign === 'string' ? submitter?.buttonAlign : 'initial',
+                paddingLeft:
+                  typeof submitter?.buttonAlign === 'number' ? `${submitter?.buttonAlign}px` : 0,
+              }}
+              // labelCol={{
+              //   style: {
+              //     flex:
+              //       typeof submitter?.buttonAlign === 'number'
+              //         ? `0 0 ${submitter?.buttonAlign}px`
+              //         : 'initial',
+              //   },
+              // }}
               wrapperCol={submitterProps?.wrapperCol}
             >
-              <div style={{ display: 'flex', justifyContent: submitter?.buttonAlign ?? 'left' }}>
-                {Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom}
-              </div>
+              {Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom}
             </Form.Item>
           ),
           ...submitterProps,
@@ -53,7 +66,6 @@ const LForm: FC<LFormProps> & {
 };
 
 LForm.Item = LFormItem;
-LForm.List = Form.List;
 LForm.Provider = Form.Provider;
 LForm.ErrorList = Form.ErrorList;
 LForm.useForm = Form.useForm;

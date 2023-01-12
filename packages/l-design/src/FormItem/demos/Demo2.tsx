@@ -7,12 +7,13 @@ const Demo2 = () => {
   return (
     <>
       <LForm
+        // labelWidth={90}
         name="Form1"
         form={form}
         preserve={false}
-        submitter={{
-          wrapperCol: { offset: 4, span: 20 },
-        }}
+        // submitter={{
+        //   // wrapperCol: { offset: 4, span: 20 },
+        // }}
       >
         <LFormItem
           name="name"

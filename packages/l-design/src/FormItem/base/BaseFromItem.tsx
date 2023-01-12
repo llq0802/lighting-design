@@ -1,13 +1,16 @@
 import type { FormItemProps } from 'antd';
 import { Form } from 'antd';
 import type { FC, ReactElement, ReactNode } from 'react';
-import { cloneElement, isValidElement, useMemo } from 'react';
+import { cloneElement, isValidElement, useContext, useMemo } from 'react';
+import { LFormContext } from '../../Form/base/BaseForm';
 import { usePlaceholder } from '../../utils';
 import FormItemWrapper from './FormItemWrapper';
 
 type ContentProps = Record<string, any>;
 
 export interface LFormItemProps extends FormItemProps {
+  /** lable宽度 */
+  labelWidth?: number | 'auto';
   /** 重新渲染FormItem组件 */
   renderField?: (dom: ReactElement) => ReactElement;
   /** 当配置了contentBefore或者contentAfter时组件垂直的对齐方式 */
@@ -20,8 +23,8 @@ export interface LFormItemProps extends FormItemProps {
   contentProps?: ContentProps;
   /** children是否为inline */
   contentInline?: boolean;
-  /** 组件最外层容器类名 */
-  className?: string;
+  /** 被包裹组件的最外层容器类名 */
+  contentClassName?: string;
   /** 是否是选择类型的组件(内部使用) */
   isSelectType?: boolean;
   /** 是否禁用 */
@@ -35,13 +38,14 @@ const LFormItem: FC<LFormItemProps> = ({
   placeholder,
 
   renderField,
-  className,
 
+  labelWidth = 'auto',
+  contentClassName,
   contentBefore,
   contentAfter,
-  alignItems,
   contentProps,
   contentInline = false,
+  alignItems,
 
   name,
   required,
@@ -49,9 +53,13 @@ const LFormItem: FC<LFormItemProps> = ({
   dependencies = [],
   rules = [],
   trigger = 'onChange',
+  labelCol,
   children,
+
   ...restFromItemProps
 }) => {
+  const { layout, labelColProps: formLabelColProps } = useContext(LFormContext);
+
   const messageLabel = usePlaceholder({
     restProps: restFromItemProps,
     isSelectType,
@@ -79,9 +87,22 @@ const LFormItem: FC<LFormItemProps> = ({
     [messageLabel, required, rules],
   );
 
+  const labelColProps = useMemo(() => {
+    const labelFlex =
+      layout !== 'vertical' && labelWidth && labelWidth !== 'auto'
+        ? { flex: `0 0 ${labelWidth}px` }
+        : {};
+    return {
+      ...formLabelColProps,
+      ...labelFlex,
+      ...labelCol,
+    };
+  }, [layout, labelWidth, formLabelColProps, labelCol]);
+
   if (shouldUpdate) {
     return (
       <Form.Item
+        labelCol={labelColProps}
         name={name}
         required={required}
         shouldUpdate={shouldUpdate}
@@ -93,7 +114,7 @@ const LFormItem: FC<LFormItemProps> = ({
           const contentChildren = typeof children === 'function' ? children(form) : children;
           return (
             <FormItemWrapper
-              className={className}
+              className={contentClassName}
               before={contentBefore}
               after={contentAfter}
               trigger={trigger}
@@ -121,6 +142,7 @@ const LFormItem: FC<LFormItemProps> = ({
 
           return (
             <Form.Item
+              labelCol={labelColProps}
               name={name}
               required={required}
               trigger={trigger}
@@ -128,7 +150,7 @@ const LFormItem: FC<LFormItemProps> = ({
               {...restFromItemProps}
             >
               <FormItemWrapper
-                className={className}
+                className={contentClassName}
                 before={contentBefore}
                 after={contentAfter}
                 trigger={trigger}
@@ -147,6 +169,7 @@ const LFormItem: FC<LFormItemProps> = ({
 
   return (
     <Form.Item
+      labelCol={labelColProps}
       name={name}
       required={required}
       trigger={trigger}
@@ -154,7 +177,7 @@ const LFormItem: FC<LFormItemProps> = ({
       {...restFromItemProps}
     >
       <FormItemWrapper
-        className={className}
+        className={contentClassName}
         before={contentBefore}
         after={contentAfter}
         trigger={trigger}

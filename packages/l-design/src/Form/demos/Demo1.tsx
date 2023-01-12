@@ -53,8 +53,10 @@ const Demo1 = () => {
   return (
     <>
       <LForm
+        labelWidth={90}
         submitter={{
-          buttonAlign: 'center',
+          buttonAlign: 90,
+          // showReset: false,
         }}
         name="LForm"
         form={form}
@@ -132,7 +134,7 @@ const Demo1 = () => {
         />
 
         <LFormItemTimePicker label="时间选择" name="LFormItemTimePicker" required rangePicker />
-        <LFormItemTimePicker label="时间选择" name="LFormIteer" required />
+        <LFormItemTimePicker label="时间选择" name="LFormIteer" />
       </LForm>
     </>
   );

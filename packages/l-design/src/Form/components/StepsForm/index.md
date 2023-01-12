@@ -8,7 +8,7 @@ nav:
 
 # LStepsForm
 
-基于 LForm 的步骤条表单
+基于 LForm 扩展的步骤条表单
 
 ## 代码演示
 

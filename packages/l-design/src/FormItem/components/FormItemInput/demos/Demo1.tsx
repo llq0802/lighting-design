@@ -14,6 +14,8 @@ const Demo = () => {
   return (
     <LForm name="LFormItemInput" form={form}>
       <LFormItemInput
+        className="qwe"
+        contentClassName="asd"
         name="name"
         label="名字"
         required

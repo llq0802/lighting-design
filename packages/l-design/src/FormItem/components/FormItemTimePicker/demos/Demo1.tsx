@@ -13,6 +13,8 @@ const Demo1 = () => {
         format="HH:mm"
         required
         initialValue={'15:08'}
+        contentAfter={<div>后面</div>}
+        contentInline
       />
       <LFormItemTimePicker
         label="时间选择2"

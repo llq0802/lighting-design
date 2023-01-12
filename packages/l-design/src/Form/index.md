@@ -8,7 +8,7 @@ nav:
 
 # LForm
 
-基于`ant Form`组件扩展的 LForm-表单
+基于 antd Form 组件扩展的高级表单
 
 ## 代码演示
 
@@ -22,6 +22,7 @@ nav:
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
+| labelWidth | label 宽度 ,为 number 时 不建议与 labelCol 属性同时设置 | `number \| 'auto'` | `auto` |
 | onFinish | 提交数据时触发，和 antd Form 一样。如果返回异步，会自动管理 loading 。 | `(values) => any` | `-` |
 | onReset | 点击重置按钮的回调 | `(e) => void` | `-` |
 | submitter | 提交、重置按钮相关配置 | `false \| LFormSubmitterProps` | `-` |
@@ -45,5 +46,5 @@ nav:
 | resetButtonProps | 重置按钮属性，和 antd [Button](https://4x.ant.design/components/button-cn/#API) 一致 | [ButtonProps](https://4x.ant.design/components/button-cn/#API) | `-` |
 | wrapperCol | 只在`LForm`组件中生效 </br>效果和[ Form 的 wrapperCol](https://4x.ant.design/components/form-cn/#API)一致 | `ColProps` | `-` |
 | showReset | 是否渲染重置按钮 | `boolean` | `true` |
-| buttonAlign | 按钮位置 | `'left' \| 'right' \| 'center'` | `-` |
+| buttonAlign | 按钮位置 , 当为`number`类型时与`LForm`的`labelWidth`效果一致 | `'left' \| 'right' \| 'center'\| number` | `-` |
 | render | 自定义操作的渲染 | `false \| (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-` |

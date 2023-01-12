@@ -30,7 +30,7 @@ export interface LFormSubmitterProps {
     | ((dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode | false)
     | false;
   /** 按钮位置 */
-  buttonAlign?: 'left' | 'right' | 'center';
+  buttonAlign?: 'left' | 'right' | 'center' | number;
 }
 
 const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {

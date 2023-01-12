@@ -20,11 +20,6 @@ const Demo1 = () => {
         <LFormItemInput name="inpu1" required label="输入框" />
         <LFormItemInput name="input2" required label="输入框" />
         <LFormItemInput name="input3" required label="输入框" />
-        <LFormItemInput name="input4" required label="输入框" />
-        <LFormItemInput name="input5" required label="输入框" />
-        <LFormItemInput name="input6" required label="输入框" />
-        <LFormItemInput name="input7" required label="输入框" />
-        <LFormItemInput name="input8" required label="输入框" />
       </LQueryForm>
       <br />
       <br />
@@ -43,14 +38,12 @@ const Demo1 = () => {
         <LFormItemInput name="i7nput4" required label="输入框" />
         <LFormItemInput name="i7nput5" required label="输入框" />
         <LFormItemInput name="i7nput6" required label="输入框" />
-        <LFormItemInput name="i7nput7" required label="输入框" />
       </LQueryForm>
       <br />
       <br />
       <LQueryForm
-        isSpace
         form={form}
-        showColsNumber={3}
+        // showColsNumber={1}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
           message.success('提交成功');
@@ -64,7 +57,6 @@ const Demo1 = () => {
         <LFormItemInput name="inpu9t5" required label="输入框" />
         <LFormItemInput name="inpu9t6" required label="输入框" />
         <LFormItemInput name="inpu9t7" required label="输入框" />
-        <LFormItemInput name="inpu9t8" required label="输入框" />
       </LQueryForm>
     </>
   );

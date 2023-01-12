@@ -26,8 +26,11 @@ nav:
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
+| labelWidth | label 宽度 默认继承 `LForm`的 `labelWidth` 如果配置则以当前配置为准 | `number \| 'auto'` | `-` |
 | className | 组件最外层容器类名 | `string` | `-` |
+| style | 组件最外层容器样式 | `CSSProperties` | `-` |
 | renderField | 重新渲染 FormItem 组件 | `(dom: ReactElement) => ReactElement` | `-` |
+| contentClassName | 被包裹组件的最外层容器类名 | `string` | `-` |
 | contentBefore | 组件前面的内容 | `ReactNode` | `-` |
 | contentAfter | 组件后面的内容 | `ReactNode` | `-` |
 | contentProps | 传给 `children` 的额外属性 | `Record<string,any>` | `-` |

@@ -3,13 +3,15 @@ import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
-import { Children, useEffect, useMemo, useRef, useState } from 'react';
+import { Children, createContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
 const prefixCls = 'lightd-form';
 
 export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset' | 'title'> {
+  /** lable的宽度 */
+  labelWidth?: number | 'auto';
   /** 渲染Form组件的children */
   contentRender?: (
     formItemsDom: ReactNode[],
@@ -32,8 +34,16 @@ export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset' | 'tit
   children?: ReactNode;
 }
 
+export const LFormContext = createContext({
+  layout: 'horizontal',
+  labelColProps: {},
+});
+
 function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
   const {
+    layout = 'horizontal',
+    labelCol,
+    labelWidth = 'auto',
     contentRender,
     formRender,
     submitter = {},
@@ -77,6 +87,17 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     setLoading(outLoading);
   }, [outLoading]);
 
+  const labelColProps = useMemo(() => {
+    const labelFlex =
+      layout !== 'vertical' && labelWidth && labelWidth !== 'auto'
+        ? { flex: `0 0 ${labelWidth}px` }
+        : {};
+    return {
+      ...labelFlex,
+      ...labelCol,
+    };
+  }, [layout, labelWidth, labelCol]);
+
   const submitterProps = useMemo(() => {
     return typeof submitter === 'boolean' || !submitter ? {} : submitter;
   }, [submitter]);
@@ -108,29 +129,37 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     : formItems;
 
   const formDom = (
-    <Form
-      form={formRef.current}
-      initialValues={initialValues}
-      className={classnames(prefixCls, className)}
-      onValuesChange={onValuesChange}
-      onFinish={onFinish}
-      onKeyPress={(event) => {
-        const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
-        if (isEnterSubmit && buttonHtmlType !== 'submit' && event.key === 'Enter' && isReady) {
-          formRef.current?.submit();
-        }
+    <LFormContext.Provider
+      value={{
+        layout,
+        labelColProps,
       }}
-      {...restProps}
     >
-      <Form.Item noStyle shouldUpdate>
-        {(formInstance) => {
-          // 支持 fromRef，这里 ref 里面可以随时拿到最新的值
-          formRef.current = formInstance as FormInstance;
-          return null;
+      <Form
+        labelCol={labelColProps}
+        form={formRef.current}
+        initialValues={initialValues}
+        className={classnames(prefixCls, className)}
+        onValuesChange={onValuesChange}
+        onFinish={onFinish}
+        onKeyPress={(event) => {
+          const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
+          if (isEnterSubmit && buttonHtmlType !== 'submit' && event.key === 'Enter' && isReady) {
+            formRef.current?.submit();
+          }
         }}
-      </Form.Item>
-      {formContent}
-    </Form>
+        {...restProps}
+      >
+        <Form.Item noStyle shouldUpdate>
+          {(formInstance) => {
+            // 支持 fromRef，这里 ref 里面可以随时拿到最新的值
+            formRef.current = formInstance as FormInstance;
+            return null;
+          }}
+        </Form.Item>
+        {formContent}
+      </Form>
+    </LFormContext.Provider>
   );
 
   return (formRender ? formRender(formDom, submitterDom) : formDom) as JSX.Element;
