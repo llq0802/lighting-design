@@ -4,7 +4,8 @@
  * @param data
  * @returns
  */
-export function awaitTime(time = 2000, data?: any) {
+
+export function awaitTime(data?: any, time = 2000) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(data);
