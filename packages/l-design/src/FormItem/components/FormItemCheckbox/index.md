@@ -49,6 +49,7 @@ nav:
 | request | 请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | beforeAll | 自定义全选 | `BeforeAllProps ` |
+| spin | 自定义 loading 效果 | [spinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | checkboxProps | `antd`多选框组件 Props | [CheckboxProps](https://4x.ant.design/components/checkbox-cn/#API) | `-` |
 
 <mark>

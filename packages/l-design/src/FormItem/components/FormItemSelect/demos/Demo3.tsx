@@ -1,14 +1,16 @@
-import { LForm, LFormItemRadio } from 'lighting-design';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Form } from 'antd';
+import { LForm, LFormItemSelect } from 'lighting-design';
 import { awaitTime } from '../../../../_utils';
 
-const Demo2 = () => {
-  const [form] = LForm.useForm();
+const Index = () => {
+  const [form] = Form.useForm();
 
   return (
     <LForm name="LFormItemSelect" form={form}>
-      <LFormItemRadio
-        label="单选1"
-        name="LFormItemRadio1"
+      <LFormItemSelect
+        label="select1"
+        name="select1"
         required
         request={async () => {
           const result = await awaitTime([
@@ -21,11 +23,13 @@ const Demo2 = () => {
           }
         }}
       />
-      <LFormItemRadio
-        label="单选2"
-        name="LFormItemRadio2"
-        all
+      <LFormItemSelect
+        label="select2"
+        name="select2"
         required
+        spin={{
+          indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
+        }}
         request={async () => {
           const result = await awaitTime(
             [
@@ -35,11 +39,13 @@ const Demo2 = () => {
             ],
             3000,
           );
-          if (result.success) return result.data;
+          if (result.success) {
+            return result.data;
+          }
         }}
-        options={[{ label: 'A', value: 'a' }]}
+        all
       />
     </LForm>
   );
 };
-export default Demo2;
+export default Index;

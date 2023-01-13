@@ -3,14 +3,11 @@ import { Form } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import { LForm, LFormItemTreeSelect } from 'lighting-design';
 import { useState } from 'react';
+import { awaitTime } from '../../../../_utils';
 
 const Index = () => {
   const [form] = Form.useForm();
-  const [treeData, setTreeData] = useState<Omit<DefaultOptionType, 'label'>[]>([
-    { id: 1, pId: 0, value: '1', title: 'Expand to load' },
-    { id: 2, pId: 0, value: '2', title: 'Expand to load' },
-    { id: 3, pId: 0, value: '3', title: 'Tree Node', isLeaf: true },
-  ]);
+  const [treeData, setTreeData] = useState<Omit<DefaultOptionType, 'label'>[]>([]);
 
   const genTreeNode = (parentId: number, isLeaf = false) => {
     const random = Math.random().toString(36).substring(2, 6);
@@ -39,10 +36,19 @@ const Index = () => {
         label="树形选择"
         name="tree"
         required
-        // options={options}
         treeData={treeData}
         loadData={onLoadData}
         treeCheckable
+        request={async () => {
+          const result = await awaitTime([
+            { id: 1, pId: 0, value: '1', title: 'Expand to load' },
+            { id: 2, pId: 0, value: '2', title: 'Expand to load' },
+            { id: 3, pId: 0, value: '3', title: 'Tree Node', isLeaf: true },
+          ]);
+          if (result.success) {
+            setTreeData(result.data);
+          }
+        }}
         treeSelectProps={{
           treeDataSimpleMode: true,
         }}

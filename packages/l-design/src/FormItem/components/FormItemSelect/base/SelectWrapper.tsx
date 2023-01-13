@@ -1,6 +1,6 @@
-import { useDeepCompareEffect, useRequest } from 'ahooks';
-import type { SelectProps } from 'antd';
-import { Select } from 'antd';
+import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import type { SelectProps, SpinProps } from 'antd';
+import { Select, Spin } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
@@ -15,6 +15,7 @@ export type SelectWrapperProps = Record<string, any> & {
   allLabel?: ReactNode;
   selectProps?: SelectProps;
   dependencies?: string[];
+  outLoading?: SpinProps;
 };
 
 const SelectWrapper: FC<SelectWrapperProps> = ({
@@ -30,12 +31,15 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   allValue = '',
   allLabel = '全部',
   selectProps = {},
+  outLoading,
 
   ...restProps
 }) => {
   const [optsRequest, setOptsRequest] = useState<{ label: ReactNode; value: string | number }[]>(
     [],
   );
+  const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
+
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
     manual: true,
@@ -51,6 +55,16 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
       setOptsRequest([]);
     },
   });
+
+  const hasLoading = useMemo(
+    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    [outLoading],
+  );
+
+  useUpdateEffect(() => {
+    if (hasLoading) setLoading(outLoading?.spinning || false);
+  }, [outLoading]);
+
   // 获取依赖项
   const depends = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
@@ -79,6 +93,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
       isFirst.current = false;
       (async () => {
         try {
+          if (!hasLoading) setLoading(true);
           const newOptions = await request(...depends);
           if (all && newOptions?.length > 0) {
             setOptsRequest([{ label: allLabel, value: allValue }, ...newOptions]);
@@ -88,6 +103,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
         } catch (error) {
           setOptsRequest([]);
         }
+        if (!hasLoading) setLoading(false);
       })();
     } else {
       // 防抖调用
@@ -124,16 +140,18 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     [onChange, selectProps],
   );
   return (
-    <Select
-      disabled={disabled}
-      options={selectOptions}
-      placeholder={placeholder}
-      allowClear
-      style={{ width: '100%' }}
-      {...selectProps}
-      value={value}
-      onChange={handleChange}
-    />
+    <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
+      <Select
+        disabled={disabled}
+        options={selectOptions}
+        placeholder={placeholder}
+        allowClear
+        style={{ width: '100%' }}
+        {...selectProps}
+        value={value}
+        onChange={handleChange}
+      />
+    </Spin>
   );
 };
 

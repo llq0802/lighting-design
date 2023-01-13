@@ -1,3 +1,4 @@
+import type { SpinProps } from 'antd';
 import type { CheckboxOptionType } from 'antd/lib/checkbox';
 import type { FC } from 'react';
 import { usePlaceholder } from '../../../utils';
@@ -11,6 +12,10 @@ export interface LFormItemCheckboxProps
   dependencies?: string[];
   debounceTime?: number;
   options?: CheckboxOptionType[];
+  /**
+   * @name 自定义loading效果 具体参考(https://4x.ant.design/components/spin-cn/#API)
+   */
+  spin?: SpinProps;
 }
 
 const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
@@ -22,6 +27,8 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   placeholder,
   disabled,
   required,
+  spin,
+
   ...restProps
 }) => {
   // const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
@@ -58,6 +65,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
         request={request}
         disabled={disabled}
         debounceTime={debounceTime}
+        outLoading={spin}
         beforeAll={beforeAll}
         checkboxProps={checkboxProps}
       />

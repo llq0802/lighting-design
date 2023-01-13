@@ -1,6 +1,6 @@
-import { useDeepCompareEffect, useRequest } from 'ahooks';
-import type { CheckboxOptionType } from 'antd';
-import { Checkbox } from 'antd';
+import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import type { CheckboxOptionType, SpinProps } from 'antd';
+import { Checkbox, Spin } from 'antd';
 import type { CheckboxChangeEvent, CheckboxGroupProps } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import type { FC, ReactNode } from 'react';
@@ -39,6 +39,7 @@ export type CheckboxWrapperProps = Record<string, any> &
     beforeAll: beforeAllProps;
     checkboxProps: CheckboxGroupProps;
     dependencies: string[];
+    outLoading: SpinProps;
   }>;
 
 const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
@@ -51,11 +52,13 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   beforeAll,
   checkboxProps = {},
   disabled,
+  outLoading,
 
   ...restProps
 }) => {
   const [indeterminate, setIndeterminate] = useState<boolean>(false);
   const [checkAll, setCheckAll] = useState<boolean>(false);
+  const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
 
   const [optsRequest, setOptsRequest] = useState<{ label: ReactNode; value: string | number }[]>(
     [],
@@ -71,6 +74,15 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       setOptsRequest([]);
     },
   });
+
+  const hasLoading = useMemo(
+    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    [outLoading],
+  );
+
+  useUpdateEffect(() => {
+    if (hasLoading) setLoading(outLoading?.spinning || false);
+  }, [outLoading]);
 
   // 获取依赖项
   const depends = useMemo(
@@ -96,11 +108,13 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       isFirst.current = false;
       (async () => {
         try {
+          if (!hasLoading) setLoading(true);
           const newOptions = await request(...depends);
           setOptsRequest([...newOptions]);
         } catch (error) {
           setOptsRequest([]);
         }
+        if (!hasLoading) setLoading(false);
       })();
     } else {
       // 防抖调用
@@ -160,27 +174,29 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   );
   return (
     <>
-      {beforeAll && (
-        <Checkbox
-          indeterminate={indeterminate}
-          style={{
-            marginRight: '8px',
-            ...beforeAll?.style,
-          }}
-          disabled={disabled ?? (beforeAll?.disabled || isClearDepends)}
-          onChange={checkAllChange}
-          checked={checkAll}
-        >
-          {beforeAll?.label || '全选'}
-        </Checkbox>
-      )}
-      <Checkbox.Group
-        options={checkboxOptions}
-        disabled={disabled ?? isClearDepends}
-        {...checkboxProps}
-        value={value}
-        onChange={handleChange}
-      />
+      <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
+        {beforeAll && (
+          <Checkbox
+            indeterminate={indeterminate}
+            style={{
+              marginRight: '8px',
+              ...beforeAll?.style,
+            }}
+            disabled={disabled ?? (beforeAll?.disabled || isClearDepends)}
+            onChange={checkAllChange}
+            checked={checkAll}
+          >
+            {beforeAll?.label || '全选'}
+          </Checkbox>
+        )}
+        <Checkbox.Group
+          options={checkboxOptions}
+          disabled={disabled ?? isClearDepends}
+          {...checkboxProps}
+          value={value}
+          onChange={handleChange}
+        />
+      </Spin>
     </>
   );
 };

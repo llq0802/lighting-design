@@ -23,9 +23,13 @@ nav:
 - 必填为空时提示：`请输入${label}`
 - placeholder`请输入${label}`
 
-## 代码演示
+## 基础使用
 
 <code src='./demos/Demo1.tsx'>
+
+## 异步请求
+
+<code src='./demos/Demo3.tsx'>
 
 ## API
 
@@ -39,6 +43,7 @@ nav:
 | all | 是否需要全部选项 | `boolean ` | `false` |
 | allLabel | 全部选项的名称 | `string ` | `全部` |
 | allValue | 全部选项的值 | `string` | `''` |
+| spin | 自定义 loading 效果 | [spinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | selectProps | `antd`选择器组件 Props | [SelectProps](https://4x.ant.design/components/select-cn/#API) | `-` |
 
 <mark>

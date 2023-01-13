@@ -97,11 +97,10 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
           } else {
             setOptsRequest([...newOptions]);
           }
-          if (!hasLoading) setLoading(false);
         } catch (error) {
           setOptsRequest([]);
-          if (!hasLoading) setLoading(false);
         }
+        if (!hasLoading) setLoading(false);
       })();
     } else {
       // 防抖调用

@@ -1,6 +1,6 @@
-import { useDeepCompareEffect, useRequest } from 'ahooks';
-import type { CascaderProps } from 'antd';
-import { Cascader } from 'antd';
+import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import type { CascaderProps, SpinProps } from 'antd';
+import { Cascader, Spin } from 'antd';
 import type { FC } from 'react';
 import { useMemo, useRef, useState } from 'react';
 
@@ -10,6 +10,7 @@ export type CascaderWrapperProps = Record<string, any> & {
   debounceTime?: number;
   cascaderProps?: CascaderProps<any>;
   dependencies?: string[];
+  outLoading?: SpinProps;
 };
 
 export interface CascaderOption {
@@ -31,10 +32,13 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   debounceTime,
   cascaderProps = {},
   placeholder,
+  outLoading,
   disabled,
   ...restProps // LFormItem传过来的其他值
 }) => {
   const [optsRequest, setOptsRequest] = useState<CascaderOption[]>([]);
+  const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
+
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
     manual: true,
@@ -46,6 +50,16 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
       setOptsRequest([]);
     },
   });
+
+  const hasLoading = useMemo(
+    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    [outLoading],
+  );
+
+  useUpdateEffect(() => {
+    if (hasLoading) setLoading(outLoading?.spinning || false);
+  }, [outLoading]);
+
   // 获取依赖项
   const depends = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
@@ -70,11 +84,13 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
       isFirst.current = false;
       (async () => {
         try {
+          if (!hasLoading) setLoading(true);
           const newOptions = await request(...depends);
           setOptsRequest([...newOptions]);
         } catch (error) {
           setOptsRequest([]);
         }
+        if (!hasLoading) setLoading(false);
       })();
     } else {
       // 防抖调用
@@ -102,14 +118,16 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   }, [isClearDepends, opts, optsRequest]);
 
   return (
-    <Cascader
-      disabled={disabled}
-      placeholder={placeholder}
-      options={selectOptions}
-      {...cascaderProps}
-      value={value}
-      onChange={onChange}
-    />
+    <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
+      <Cascader
+        disabled={disabled}
+        placeholder={placeholder}
+        options={selectOptions}
+        {...cascaderProps}
+        value={value}
+        onChange={onChange}
+      />
+    </Spin>
   );
 };
 

@@ -1,7 +1,7 @@
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { LForm, LFormItemSegmented } from 'lighting-design';
-const Demo1 = () => {
+const Index = () => {
   const [form] = LForm.useForm();
 
   return (
@@ -42,4 +42,4 @@ const Demo1 = () => {
     </LForm>
   );
 };
-export default Demo1;
+export default Index;

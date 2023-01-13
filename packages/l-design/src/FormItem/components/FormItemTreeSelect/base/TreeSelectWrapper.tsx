@@ -1,6 +1,6 @@
-import { useDeepCompareEffect, useRequest } from 'ahooks';
-import type { TreeSelectProps } from 'antd';
-import { TreeSelect } from 'antd';
+import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import type { SpinProps, TreeSelectProps } from 'antd';
+import { Spin, TreeSelect } from 'antd';
 import type { FC } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
@@ -12,6 +12,7 @@ export type TreeSelectWrapperProps = Record<string, any> & {
   treeSelectProps?: TreeSelectProps;
   dependencies?: string[];
   loadData: TreeSelectProps['loadData'];
+  outLoading?: SpinProps;
 };
 
 export type TreeSelectOption = {
@@ -39,9 +40,12 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   placeholder,
   loadData,
   treeSelectProps = {},
+  outLoading,
+
   ...restProps // LFormItem传过来的其他值
 }) => {
   const [inTreeData, setInTreeData] = useState<TreeSelectOption[]>([]);
+  const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
 
   const isFirstRender = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
@@ -54,6 +58,16 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
       setInTreeData([]);
     },
   });
+
+  const hasLoading = useMemo(
+    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    [outLoading],
+  );
+
+  useUpdateEffect(() => {
+    if (hasLoading) setLoading(outLoading?.spinning || false);
+  }, [outLoading]);
+
   // 获取依赖项
   const depends = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
@@ -78,11 +92,13 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
       isFirstRender.current = false;
       (async () => {
         try {
+          if (!hasLoading) setLoading(true);
           const newData = await request(...depends);
           setInTreeData([...newData]);
         } catch (error) {
           setInTreeData([]);
         }
+        if (!hasLoading) setLoading(false);
       })();
     } else {
       // 防抖调用
@@ -120,18 +136,20 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   );
 
   return (
-    <TreeSelect
-      disabled={disabled}
-      placeholder={placeholder}
-      treeData={treeSelectData}
-      dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-      style={{ width: '100%' }}
-      treeCheckable={treeCheckable}
-      loadData={loadData}
-      {...treeSelectProps}
-      value={value}
-      onChange={handleChange}
-    />
+    <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
+      <TreeSelect
+        disabled={disabled}
+        placeholder={placeholder}
+        treeData={treeSelectData}
+        dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+        style={{ width: '100%' }}
+        treeCheckable={treeCheckable}
+        loadData={loadData}
+        {...treeSelectProps}
+        value={value}
+        onChange={handleChange}
+      />
+    </Spin>
   );
 };
 

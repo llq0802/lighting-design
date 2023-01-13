@@ -69,11 +69,10 @@ const RateWrapper: FC<RateWrapperProps> = ({
           if (!hasLoading) setLoading(true);
           const newOptions = await request(...depends);
           setReqvalue(newOptions);
-          if (!hasLoading) setLoading(false);
         } catch (error) {
           setReqvalue(0);
-          if (!hasLoading) setLoading(false);
         }
+        if (!hasLoading) setLoading(false);
       })();
     } else {
       run(...depends);

@@ -36,7 +36,7 @@ nav:
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| spin | 自定义 loading 效果 | [spinProps](https://ant-design.gitee.io/components/spin-cn/#API) | `-` |
+| spin | 自定义 loading 效果 | [spinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | rateProps | `antd`评分组件 Props | [rateProps](https://4x.ant.design/components/rate-cn/#API) | `-` |
 
 <mark>
