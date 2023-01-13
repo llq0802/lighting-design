@@ -1,7 +1,7 @@
 import { Form } from 'antd';
 import { LForm, LFormItemRate } from 'lighting-design';
 
-const Demo1 = () => {
+const Demo2 = () => {
   const [form] = Form.useForm();
 
   return (
@@ -17,4 +17,4 @@ const Demo1 = () => {
     </LForm>
   );
 };
-export default Demo1;
+export default Demo2;

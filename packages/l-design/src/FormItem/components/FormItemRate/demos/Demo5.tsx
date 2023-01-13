@@ -10,7 +10,7 @@ const customIcons: Record<number, React.ReactNode> = {
   5: <SmileOutlined />,
 };
 
-const Demo1 = () => {
+const Demo5 = () => {
   const [form] = Form.useForm();
 
   return (
@@ -32,4 +32,4 @@ const Demo1 = () => {
     </LForm>
   );
 };
-export default Demo1;
+export default Demo5;

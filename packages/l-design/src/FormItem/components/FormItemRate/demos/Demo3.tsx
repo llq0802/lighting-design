@@ -1,7 +1,8 @@
 import { Form } from 'antd';
 import { LForm, LFormItemRate } from 'lighting-design';
+import { awaitTime } from '../../../../_utils';
 
-const Demo1 = () => {
+const Demo3 = () => {
   const [form] = Form.useForm();
 
   return (
@@ -9,12 +10,11 @@ const Demo1 = () => {
       <LFormItemRate
         name="rate1"
         label="评分"
-        request={() => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(3);
-            }, 3000);
-          });
+        request={async () => {
+          const result = await awaitTime(3);
+          if (result.success) {
+            return result.data;
+          }
         }}
         rateProps={{
           allowHalf: true,
@@ -24,4 +24,4 @@ const Demo1 = () => {
     </LForm>
   );
 };
-export default Demo1;
+export default Demo3;

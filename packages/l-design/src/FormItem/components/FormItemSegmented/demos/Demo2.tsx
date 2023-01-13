@@ -1,7 +1,8 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { LForm, LFormItemSegmented } from 'lighting-design';
+import { awaitTime } from '../../../../_utils';
 
-const Demo1 = () => {
+const Index = () => {
   const [form] = LForm.useForm();
 
   return (
@@ -13,28 +14,27 @@ const Demo1 = () => {
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
         initialValue={'List'}
-        request={() => {
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve([
-                {
-                  label: 'List',
-                  value: 'List',
-                },
-                {
-                  label: 'Kanban',
-                  value: 'Kanban',
-                },
-                {
-                  label: 'item',
-                  value: 'item',
-                },
-              ]);
-            }, 3000);
-          });
+        request={async () => {
+          const result = await awaitTime([
+            {
+              label: 'List',
+              value: 'List',
+            },
+            {
+              label: 'Kanban',
+              value: 'Kanban',
+            },
+            {
+              label: 'item',
+              value: 'item',
+            },
+          ]);
+          if (result.success) {
+            return result.data;
+          }
         }}
       />
     </LForm>
   );
 };
-export default Demo1;
+export default Index;

@@ -1,8 +1,8 @@
+import { HeartOutlined } from '@ant-design/icons';
 import { Form } from 'antd';
 import { LForm, LFormItemRate } from 'lighting-design';
-import { HeartOutlined } from '@ant-design/icons'
 
-const Demo1 = () => {
+const Demo4 = () => {
   const [form] = Form.useForm();
 
   return (
@@ -31,4 +31,4 @@ const Demo1 = () => {
     </LForm>
   );
 };
-export default Demo1;
+export default Demo4;

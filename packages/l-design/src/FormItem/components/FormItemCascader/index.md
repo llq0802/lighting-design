@@ -26,6 +26,10 @@ nav:
 
 <code src='./demos/Demo1.tsx'>
 
+## 异步请求
+
+<code src='./demos/Demo3.tsx'>
+
 ## API
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
@@ -35,6 +39,7 @@ nav:
 | options | 数据化配置选项内容 | `Option` | `[]` |
 | request | 请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
+| spin | 自定义 loading 效果 | [spinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | cascaderProps | `antd`级联组件 Props | [CascaderProps](https://4x.ant.design/components/cascader-cn/#API) | `-` |
 
 <mark>

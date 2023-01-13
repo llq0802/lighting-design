@@ -1,3 +1,4 @@
+import { SpinProps } from 'antd';
 import type { FC } from 'react';
 import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
@@ -12,6 +13,10 @@ export interface LFormItemTreeSelectProps
       'treeData' | 'request' | 'treeSelectProps' | 'debounceTime' | 'treeCheckable' | 'loadData'
     > {
   dependencies?: string[];
+  /**
+   * @name 自定义loading效果 具体参考(https://4x.ant.design/components/spin-cn/#API)
+   */
+  spin?: SpinProps;
 }
 
 const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
@@ -23,7 +28,9 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   disabled,
   placeholder,
   debounceTime,
+  spin,
   treeSelectProps = {},
+
   ...restProps
 }) => {
   const messagePlaceholder = usePlaceholder({
@@ -59,6 +66,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
         treeData={treeData}
         treeCheckable={treeCheckable}
         request={request}
+        outLoading={spin}
         debounceTime={debounceTime}
         loadData={loadData}
         treeSelectProps={treeSelectProps}

@@ -80,11 +80,10 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
           if (!hasLoading) setLoading(true);
           const newOptions = await request(...depends);
           setOptsRequest(newOptions);
-          if (!hasLoading) setLoading(false);
         } catch (error) {
           setOptsRequest([]);
-          if (!hasLoading) setLoading(false);
         }
+        if (!hasLoading) setLoading(false);
       })();
     } else {
       // 防抖调用

@@ -12,7 +12,7 @@ export interface LFormItemRateProps
   dependencies?: string[];
   debounceTime?: number;
   /**
-   * @name 自定义loading效果 具体参考(https://ant-design.gitee.io/components/spin-cn/#API)
+   * @name 自定义loading效果 具体参考(https://4x.ant.design/components/spin-cn/#API)
    */
   spin?: SpinProps;
 }

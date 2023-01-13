@@ -1,3 +1,4 @@
+import { SpinProps } from 'antd';
 import type { FC } from 'react';
 import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
@@ -9,6 +10,10 @@ export interface LFormItemCascaderProps
   extends LFormItemProps,
     Pick<CascaderWrapperProps, 'options' | 'request' | 'cascaderProps' | 'debounceTime'> {
   dependencies?: string[];
+  /**
+   * @name 自定义loading效果 具体参考(https://4x.ant.design/components/spin-cn/#API)
+   */
+  spin?: SpinProps;
 }
 
 const LFormItemCascader: FC<LFormItemCascaderProps> = ({
@@ -18,6 +23,7 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   options = [],
   request,
   debounceTime,
+  spin,
   cascaderProps = {},
   ...restProps
 }) => {
@@ -32,6 +38,7 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
         dependencies={restProps?.dependencies}
         options={options}
         request={request}
+        outLoading={spin}
         debounceTime={debounceTime}
         cascaderProps={cascaderProps}
         disabled={disabled}
