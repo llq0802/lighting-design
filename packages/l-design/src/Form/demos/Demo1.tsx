@@ -56,7 +56,7 @@ const Demo1 = () => {
         labelWidth={90}
         submitter={{
           buttonAlign: 90,
-          // showReset: false,
+          showReset: false,
         }}
         name="LForm"
         form={form}

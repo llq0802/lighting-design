@@ -23,6 +23,7 @@ nav:
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | labelWidth | label 宽度 ,为 number 时 不建议与 labelCol 属性同时设置 | `number \| 'auto'` | `auto` |
+| transformValues | 在 onFinish 调用之前转化表单值 | `(values: Record<string, any>) => Record<string, any>` | `-` |
 | onFinish | 提交数据时触发，和 antd Form 一样。如果返回异步，会自动管理 loading 。 | `(values) => any` | `-` |
 | onReset | 点击重置按钮的回调 | `(e) => void` | `-` |
 | submitter | 提交、重置按钮相关配置 | `false \| LFormSubmitterProps` | `-` |

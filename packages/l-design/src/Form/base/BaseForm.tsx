@@ -30,6 +30,8 @@ export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset' | 'tit
   onReset?: (event: MouseEvent<HTMLElement>) => void;
   /** 是否按Enter键能提交表单 */
   isEnterSubmit?: boolean;
+  /** 在onFinish调用之前转化表单值 */
+  transformValues: (values: Record<string, any>) => Record<string, any>;
 
   children?: ReactNode;
 }
@@ -51,9 +53,10 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     isEnterSubmit = true,
     isReady = true,
 
+    transformValues,
+
     form: outForm,
     onFinish,
-    onFinishFailed,
     onReset,
     children,
     initialValues,
@@ -141,7 +144,25 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
         initialValues={initialValues}
         className={classnames(prefixCls, className)}
         onValuesChange={onValuesChange}
-        onFinish={onFinish}
+        onFinish={async (values) => {
+          if (typeof onFinish !== 'function') {
+            return;
+          }
+          const formValues = transformValues ? transformValues(values) ?? values : values;
+          const ret: unknown = onFinish(formValues);
+          if (ret instanceof Promise) {
+            setLoading(true);
+            return ret
+              .then((res) => {
+                setLoading(false);
+                return res;
+              })
+              .catch((err) => {
+                setLoading(false);
+                return Promise.reject(err);
+              });
+          }
+        }}
         onKeyPress={(event) => {
           const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
           if (isEnterSubmit && buttonHtmlType !== 'submit' && event.key === 'Enter' && isReady) {
