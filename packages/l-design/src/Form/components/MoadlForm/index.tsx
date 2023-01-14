@@ -2,7 +2,7 @@ import { useControllableValue } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal } from 'antd';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import { cloneElement, useRef, useState } from 'react';
+import { cloneElement, useCallback, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 import type { BaseFormProps } from '../../base/BaseForm';
@@ -13,6 +13,10 @@ export interface LModalFormProps<T = any>
     Pick<ModalProps, 'open'> {
   /** 弹窗标题 */
   title?: ReactNode;
+  /** 预渲染Modal内容 */
+  forceRender?: boolean;
+  /** 是否在关闭弹窗时重置表单到初始值 */
+  isResetFields?: boolean;
   /** 是否允许拖动 */
   isDraggable?: boolean;
   /** Moadl的宽 */
@@ -29,11 +33,13 @@ export interface LModalFormProps<T = any>
 
 const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const {
+    isResetFields = true,
     isDraggable = false,
     trigger,
 
     title = '标题',
     width = 600,
+    forceRender = false,
     modalProps = {},
     open: outOpen,
     onOpenChange: outOnOpenChange,
@@ -56,20 +62,24 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const formRef = useRef(outForm || form);
   const [disabled, setDisabled] = useState(false);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
-  const onStart = (_event: DraggableEvent, uiData: DraggableData) => {
+
+  const onStart = useCallback((_event: DraggableEvent, uiData: DraggableData) => {
     const { clientWidth, clientHeight } = window.document.documentElement;
     const targetRect = draggleRef.current?.getBoundingClientRect();
-    if (!targetRect) {
-      return;
-    }
+    if (!targetRect) return;
     setBounds({
       left: -targetRect.left + uiData.x,
       right: clientWidth - (targetRect.right - uiData.x),
       top: -targetRect.top + uiData.y,
       bottom: clientHeight - (targetRect.bottom - uiData.y),
     });
-  };
+  }, []);
+  const onStop = useCallback(
+    (_event: DraggableEvent, uiData: DraggableData) => setPosition({ x: uiData.x, y: uiData.y }),
+    [],
+  );
 
   const handleFinish = async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
@@ -82,7 +92,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   return (
     <>
       <BaseForm<any>
-        {...restProps}
+        // isReady={modalProps?.forceRender || open}
         loading={modalProps?.confirmLoading ?? loading}
         form={formRef.current}
         onFinish={handleFinish}
@@ -116,7 +126,9 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                     <div
                       style={{
                         display: 'flex',
-                        justifyContent: submitter?.buttonAlign || 'right',
+                        justifyContent:
+                          (typeof submitter?.buttonAlign === 'string' && submitter?.buttonAlign) ||
+                          'right',
                       }}
                     >
                       {submitterDom}
@@ -133,6 +145,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               width={width}
               footer={submitterDom}
               maskClosable={false}
+              forceRender={forceRender}
               {...modalProps}
               open={open}
               onCancel={(e) => {
@@ -140,7 +153,9 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                 modalProps?.onCancel?.(e);
               }}
               afterClose={() => {
-                formRef.current.resetFields(); // 弹窗关闭后重置表单
+                if (isResetFields) {
+                  formRef.current.resetFields(); // 弹窗关闭后重置表单
+                }
                 modalProps?.afterClose?.();
               }}
             >
@@ -151,7 +166,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               width={width}
               footer={submitterDom}
               maskClosable={false}
-              destroyOnClose
+              forceRender={forceRender}
               {...modalProps}
               open={open}
               onCancel={(e) => {
@@ -159,16 +174,21 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                 modalProps?.onCancel?.(e);
               }}
               afterClose={() => {
-                formRef.current.resetFields(); // 弹窗关闭后重置表单
+                if (isResetFields) {
+                  formRef.current.resetFields(); // 弹窗关闭后重置表单
+                }
+                setPosition({ x: 0, y: 0 });
                 modalProps?.afterClose?.();
               }}
-              modalRender={(modal) => (
+              modalRender={(modalDom) => (
                 <Draggable
                   disabled={disabled}
                   bounds={bounds}
+                  position={position}
                   onStart={(event, uiData) => onStart(event, uiData)}
+                  onStop={(event, uiData) => onStop(event, uiData)}
                 >
-                  <div ref={draggleRef}>{modalProps?.modalRender?.(modal) ?? modal}</div>
+                  <div ref={draggleRef}>{modalProps?.modalRender?.(modalDom) ?? modalDom}</div>
                 </Draggable>
               )}
               title={
@@ -197,7 +217,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
 
       {trigger &&
         cloneElement(trigger, {
-          ...trigger.props,
           onClick(e: MouseEvent<HTMLElement>) {
             setOpen(true);
             trigger.props?.onClick?.(e);

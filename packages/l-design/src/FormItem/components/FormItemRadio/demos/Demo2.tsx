@@ -37,7 +37,6 @@ const Demo2 = () => {
           );
           if (result.success) return result.data;
         }}
-        options={[{ label: 'A', value: 'a' }]}
       />
     </LForm>
   );

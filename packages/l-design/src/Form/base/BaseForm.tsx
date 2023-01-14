@@ -31,7 +31,7 @@ export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset' | 'tit
   /** 是否按Enter键能提交表单 */
   isEnterSubmit?: boolean;
   /** 在onFinish调用之前转化表单值 */
-  transformValues: (values: Record<string, any>) => Record<string, any>;
+  transformValues?: (values: Record<string, any>) => Record<string, any>;
 
   children?: ReactNode;
 }
@@ -81,9 +81,11 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
   }, [isReady]);
 
   useEffect(() => {
-    // 组件第一次加载的时候收集初始值
-    const values = formRef.current?.getFieldsValue();
-    setInitFormValues({ ...values });
+    // 组件第一次加载的时候并且form渲染完成收集初始值.
+    // 如果组件被包裹在弹窗或者抽屉组件中 没有预渲染的话则会提示form绑定失败 获取不到初始值
+    const initValues = formRef.current?.getFieldsValue();
+    setInitFormValues({ ...initValues });
+    // formRef.current?.setFieldsValue({ ...initValues });
   }, []);
 
   useUpdateEffect(() => {

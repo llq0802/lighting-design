@@ -37,6 +37,10 @@ export interface LDrawerFormProps<T = any>
    * 抽屉`props`,具体详见`antd Drawer`
    */
   drawerProps?: Omit<DrawerProps, 'open'>;
+  /** 关闭抽屉时是否重置表单到初始值 */
+  isResetFields?: boolean;
+  /** 是否预渲染`LDrawerForm`的内容 */
+  forceRender?: boolean;
   /**
    * 抽屉开关回调
    */
@@ -50,6 +54,8 @@ export interface LDrawerFormProps<T = any>
 const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
   const {
     trigger,
+    isResetFields = true,
+    forceRender = false,
     title = '标题',
     width = 600,
     placement = 'right',
@@ -122,13 +128,15 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             title={title}
             width={width}
             placement={placement}
+            forceRender={forceRender}
             footer={actionBarDir === 'footer' && submitterDom}
             extra={actionBarDir === 'extra' && submitterDom}
             maskClosable={false}
             {...drawerProps}
             footerStyle={{
               display: 'flex',
-              justifyContent: (submitter && submitter?.buttonAlign) || 'center',
+              justifyContent:
+                (typeof submitter?.buttonAlign === 'string' && submitter?.buttonAlign) || 'center',
               ...drawerProps.footerStyle,
             }}
             open={open}
@@ -139,7 +147,9 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             afterOpenChange={(flag) => {
               // 完全关闭后回调
               if (!flag) {
-                formRef.current.resetFields(); // 弹窗关闭后重置表单
+                if (isResetFields) {
+                  formRef.current.resetFields(); // 弹窗关闭后重置表单
+                }
                 drawerProps?.afterOpenChange?.(flag);
               }
             }}

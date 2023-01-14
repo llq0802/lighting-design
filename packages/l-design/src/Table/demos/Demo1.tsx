@@ -5,6 +5,7 @@ import type { FC } from 'react';
 import { useRef, useState } from 'react';
 import { LTable } from '..';
 import type { TableRefProps } from '../components/BaseTable';
+import AddEditModal from './components/AddEditModal';
 import { apiGetUserList, columns } from './utils';
 
 const Demo1: FC = () => {
@@ -50,7 +51,7 @@ const Demo1: FC = () => {
           >
             新增
           </Button>
-          <Button type="primary">导出</Button>
+          <AddEditModal />
         </>
       }
       // toolbarRight={

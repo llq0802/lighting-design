@@ -1,16 +1,16 @@
 import { Button } from 'antd';
 import { LForm, LFormItemInput, LFormItemRadio, LModalForm } from 'lighting-design';
-import { awaitTime } from '../../../../_utils';
 
-const Demo1 = () => {
+export default function MyModal() {
   const [form] = LForm.useForm();
 
   return (
     <>
       <LModalForm
+        forceRender
         isDraggable
         form={form}
-        title="弹窗"
+        title="新增"
         onFinish={(values) => {
           console.log('onFinish-values ', values);
           // message.success('提交成功');
@@ -24,21 +24,13 @@ const Demo1 = () => {
           name="LFormItemRadio2"
           all
           required
-          request={async () => {
-            const result = await awaitTime(
-              [
-                { label: 'Unresolved', value: 'open' },
-                { label: 'Resolved', value: 'closed' },
-                { label: 'Resolving', value: 'processing' },
-              ],
-              1000,
-            );
-            if (result.success) return result.data;
-          }}
+          options={[
+            { label: 'Unresolved', value: 'open' },
+            { label: 'Resolved', value: 'closed' },
+            { label: 'Resolving', value: 'processing' },
+          ]}
         />
       </LModalForm>
     </>
   );
-};
-
-export default Demo1;
+}

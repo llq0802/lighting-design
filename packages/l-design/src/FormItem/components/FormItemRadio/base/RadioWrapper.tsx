@@ -41,6 +41,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
+    defaultParams: [],
     onSuccess: (result) => {
       if (all && result?.length > 0) {
         setOptsRequest([{ label: allLabel, value: allValue }, ...result]);

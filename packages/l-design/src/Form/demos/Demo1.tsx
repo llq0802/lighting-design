@@ -54,10 +54,7 @@ const Demo1 = () => {
     <>
       <LForm
         labelWidth={90}
-        submitter={{
-          buttonAlign: 90,
-          showReset: false,
-        }}
+        submitter={{ buttonAlign: 90 }}
         name="LForm"
         form={form}
         onFinish={async (values) => {
