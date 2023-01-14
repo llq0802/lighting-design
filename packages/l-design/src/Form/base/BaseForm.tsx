@@ -1,9 +1,9 @@
-import { useUpdateEffect } from 'ahooks';
+import { useDeepCompareEffect, useSafeState, useUpdateEffect } from 'ahooks';
 import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
-import { Children, createContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Children, createContext, useMemo, useRef, useState } from 'react';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
@@ -67,26 +67,25 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
   } = props;
 
   const [form] = Form.useForm();
-  const formRef = useRef<FormInstance>(outForm || form);
-  const [loading, setLoading] = useState(outLoading);
-  const [initFormValues, setInitFormValues] = useState({});
+  const formRef = useRef(outForm || form);
+  const [loading, setLoading] = useSafeState(outLoading);
+  const [initFormValues, setInitFormValues] = useState(initialValues ?? {}); // 内部初始值
 
   useUpdateEffect(() => {
     // 准备完成后，重新设置初始值
     if (isReady) {
-      formRef.current?.setFieldsValue({ ...initFormValues });
+      formRef.current?.setFieldsValue({ ...initialValues });
       // resetFields 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
       // formRef.current?.resetFields?.();
     }
   }, [isReady]);
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
     // 组件第一次加载的时候并且form渲染完成收集初始值.
     // 如果组件被包裹在弹窗或者抽屉组件中 没有预渲染的话则会提示form绑定失败 获取不到初始值
-    const initValues = formRef.current?.getFieldsValue();
+    const initValues = initialValues || formRef.current?.getFieldsValue(); // 解决form实例与moadl绑定失败的问题
     setInitFormValues({ ...initValues });
-    // formRef.current?.setFieldsValue({ ...initValues });
-  }, []);
+  }, [initialValues]);
 
   useUpdateEffect(() => {
     setLoading(outLoading);
@@ -141,8 +140,8 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
       }}
     >
       <Form
-        labelCol={labelColProps}
         form={formRef.current}
+        labelCol={labelColProps}
         initialValues={initialValues}
         className={classnames(prefixCls, className)}
         onValuesChange={onValuesChange}

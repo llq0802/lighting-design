@@ -26,9 +26,7 @@ export interface LFormSubmitterProps {
   /** 同Form的wrapperCol */
   wrapperCol?: FormProps['wrapperCol'];
   /** 重新渲染函数 */
-  render?:
-    | ((dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode | false)
-    | false;
+  render?: (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode | false;
   /** 按钮位置 */
   buttonAlign?: 'left' | 'right' | 'center' | number;
 }

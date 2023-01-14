@@ -2,7 +2,7 @@ import { useControllableValue } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal } from 'antd';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import { cloneElement, useCallback, useRef, useState } from 'react';
+import { cloneElement, useCallback, useEffect, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 import type { BaseFormProps } from '../../base/BaseForm';
@@ -46,6 +46,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     children,
 
     form: outForm,
+    initialValues: outInitialValues,
     onFinish,
     loading,
     submitter,
@@ -60,6 +61,8 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
 
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
+  const [initialValues, setInitialValues] = useState(outInitialValues ?? {});
+
   const [disabled, setDisabled] = useState(false);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -89,10 +92,17 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     }
   };
 
+  useEffect(() => {
+    if (open) {
+      const openInitialValues = formRef.current?.getFieldsValue();
+      setInitialValues({ ...openInitialValues });
+    }
+  }, [open]);
+
   return (
     <>
       <BaseForm<any>
-        // isReady={modalProps?.forceRender || open}
+        initialValues={initialValues} // 解决form实例与moadl绑定失败的问题
         loading={modalProps?.confirmLoading ?? loading}
         form={formRef.current}
         onFinish={handleFinish}

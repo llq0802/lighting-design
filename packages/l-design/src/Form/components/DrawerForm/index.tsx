@@ -2,7 +2,7 @@ import { useControllableValue } from 'ahooks';
 import type { DrawerProps } from 'antd';
 import { Drawer, Form } from 'antd';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import { cloneElement, useRef } from 'react';
+import { cloneElement, useEffect, useRef, useState } from 'react';
 import type { BaseFormProps } from '../../base/BaseForm';
 import BaseForm from '../../base/BaseForm';
 
@@ -65,6 +65,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     onOpenChange: outOnOpenChange,
     children,
 
+    initialValues: outInitialValues,
     form: outForm,
     onFinish,
     loading,
@@ -80,6 +81,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
 
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
+  const [initialValues, setInitialValues] = useState(outInitialValues ?? {});
 
   const handleFinish = async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
@@ -87,10 +89,17 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     if (ret === true) setOpen(false);
   };
 
+  useEffect(() => {
+    if (open) {
+      const openInitialValues = formRef.current?.getFieldsValue();
+      setInitialValues({ ...openInitialValues });
+    }
+  }, [open]);
+
   return (
     <>
       <BaseForm<any>
-        {...restProps}
+        initialValues={initialValues}
         loading={loading}
         form={formRef.current}
         onFinish={handleFinish}
