@@ -14,6 +14,10 @@ nav:
 
 <code src='./demos/Demo1.tsx'>
 
+## 表单初始值通过异步获取
+
+<code src='./demos/Demo5.tsx'>
+
 ## API
 
 ### LForm
@@ -26,10 +30,10 @@ nav:
 | transformValues | 在 onFinish 调用之前转化表单值 | `(values: Record<string, any>) => Record<string, any>` | `-` |
 | onFinish | 提交数据时触发，和 antd Form 一样。如果返回异步，会自动管理 loading 。 | `(values) => any` | `-` |
 | onReset | 点击重置按钮的回调 | `(e) => void` | `-` |
-| submitter | 提交、重置按钮相关配置 | `false \| LFormSubmitterProps` | `-` |
+| submitter | 提交、重置按钮相关配置。为`false`将不会渲染 | `false \| LFormSubmitterProps` | `LFormSubmitterProps` |
 | isEnterSubmit | 是否开启回车键提交，注意不要与自定义的 `htmlType='submit'` 的按钮冲突。 | `boolean` | `true` |
 | loading | 设置提交、重置的加载/禁止状态。<br/>如果 `onFinish` 返回异步则无需设置，内部会自动更新。 | `boolean` | `false` |
-| isReady | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。 | `boolean` | `true` |
+| isReady | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。<br/>一般用于异步获取初始值`initialValues` | `boolean` | `true` |
 
 ### LFormSubmitterProps
 
@@ -46,4 +50,4 @@ nav:
 | wrapperCol | 只在`LForm`组件中生效 </br>效果和[ Form 的 wrapperCol](https://4x.ant.design/components/form-cn/#API)一致 | `ColProps` | `-` |
 | showReset | 是否渲染重置按钮 | `boolean` | `true` |
 | buttonAlign | 按钮位置 , 当为`number`类型时与`LForm`的`labelWidth`效果一致 | `'left' \| 'right' \| 'center'\| number` | `-` |
-| render | 自定义操作的渲染 | `false \| (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-` |
+| render | 自定义操作的渲染 | ` (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-` |

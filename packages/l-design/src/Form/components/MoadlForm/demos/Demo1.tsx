@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { LForm, LFormItemInput, LFormItemRadio, LModalForm } from 'lighting-design';
 import { awaitTime } from '../../../../_utils';
 
@@ -11,9 +11,10 @@ const Demo1 = () => {
         isDraggable
         form={form}
         title="弹窗"
-        onFinish={(values) => {
+        onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          // message.success('提交成功');
+          await awaitTime();
+          message.success('提交成功');
           return true;
         }}
         trigger={<Button type="primary">打开弹窗</Button>}
