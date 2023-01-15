@@ -33,8 +33,6 @@ export interface LFormSubmitterProps {
 
 const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    buttonAlign,
     initFormValues,
     onSubmit = () => {},
     onReset = () => {},

@@ -28,6 +28,7 @@ const LForm: FC<LFormProps> & {
             return (
               <Form.Item
                 colon={false}
+                className="lightd-form-submitter"
                 style={{
                   marginBottom: 0,
                   paddingLeft:

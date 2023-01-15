@@ -36,6 +36,7 @@ export interface StepsFormSubmitterProps
   forceShowNext?: boolean;
   /** 强制显示提交按钮 */
   forceShowSubmit?: boolean;
+
   /** 自定义渲染 */
   render?:
     | ((dom: ReactElement[], props: StepsFormSubmitterProps) => ReactNode[] | ReactNode | false)

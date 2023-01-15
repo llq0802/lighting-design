@@ -28,7 +28,7 @@ export interface LModalFormProps<T = any>
   /** 弹窗打开关闭的回调 */
   onOpenChange?: (open: boolean) => void;
   /** 表单提交 只有返回true时才关闭弹窗 */
-  onFinish: (values: Record<string, any>) => void | undefined | true | Promise<any>;
+  onFinish?: (values: Record<string, any>) => void | undefined | true | Promise<any>;
 }
 
 const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
@@ -62,7 +62,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
   const [initialValues, setInitialValues] = useState(outInitialValues ?? {});
-
   const [disabled, setDisabled] = useState(false);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -111,7 +110,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
             ? {
                 resetText: modalProps?.cancelText || '取消',
                 submitText: modalProps?.okText || '确认',
-
                 submitButtonProps: {
                   type: (modalProps?.okType as 'primary') || 'primary',
                   ...submitter?.submitButtonProps,
@@ -127,7 +125,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                     submitter?.resetButtonProps?.onClick?.(e);
                   },
                 },
-
                 render: (submitterDom, submitterProps) => {
                   return (
                     <div

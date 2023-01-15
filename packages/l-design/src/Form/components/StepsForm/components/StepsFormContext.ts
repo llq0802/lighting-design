@@ -17,6 +17,7 @@ export type StepsFormContextProps = {
   submit: () => void;
   loading: boolean;
   setLoading: Dispatch<React.SetStateAction<boolean>>;
+  forgetUpdate: () => void;
 };
 
 export default createContext<StepsFormContextProps>({});

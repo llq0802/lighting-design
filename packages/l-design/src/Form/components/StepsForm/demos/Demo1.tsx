@@ -1,141 +1,80 @@
-import { Form, message } from 'antd';
-import {
-  LForm,
-  LFormItemAddress,
-  LFormItemCascader,
-  LFormItemCheckbox,
-  LFormItemColor,
-  LFormItemDatePicker,
-  LFormItemInput,
-  LFormItemRadio,
-  LFormItemSelect,
-  LFormItemTextArea,
-  LFormItemTimePicker,
-} from 'lighting-design';
+import { Button, Modal } from 'antd';
+import { LFormItemInput, LStepsForm } from 'lighting-design';
+import { useEffect, useRef, useState } from 'react';
 
-const options: any[] = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
+const Demo2 = () => {
+  const actionRef = useRef();
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    // console.log('actionRef', actionRef.current);
+  }, []);
 
-const Demo1 = () => {
-  const [form] = Form.useForm();
   return (
     <>
-      <LForm
-        submitter={{
-          buttonAlign: 'center',
+      <Button type="primary" onClick={() => setOpen(true)}>
+        打开弹窗
+      </Button>
+
+      <LStepsForm
+        actionRef={actionRef}
+        onFinish={async (valuse) => {
+          console.log('StepsForm-valuse', valuse);
         }}
-        name="LForm"
-        form={form}
-        onFinish={async (values) => {
-          console.log('onFinish-values ', values);
-          message.success('提交成功');
-          return true;
+        stepsFormRender={(stepsDom, formDom, submitterDom) => {
+          return (
+            <Modal
+              title="分步表单"
+              open={open}
+              footer={submitterDom}
+              width={600}
+              onCancel={() => setOpen(false)}
+            >
+              {stepsDom}
+              {formDom}
+            </Modal>
+          );
         }}
       >
-        <LFormItemColor colorType="chrome" label="颜色选择" name="color" required />
-        <LFormItemInput name="input" required label="输入框" />
-        <LFormItemTextArea name="textAreaProps" required label="备注" />
-        <LFormItemSelect
-          label="select选择"
-          name="select"
-          all
-          required
-          options={[
-            { label: 'A', value: 'a' },
-            { label: 'B', value: 'b' },
-            { label: 'C', value: 'c' },
-          ]}
-        />
-        <LFormItemCheckbox
-          label="选择"
-          name="LFormItemCheckbox"
-          beforeAll={{
-            onChange(e) {
-              console.log(e);
-            },
+        <LStepsForm.StepForm title="步骤1">
+          <LFormItemInput name={['step1', 'name1']} label="名字1" required tooltip="禁止空格" />
+          <LFormItemInput name={['step1', 'name2']} label="名字2" required tooltip="禁止空格" />
+        </LStepsForm.StepForm>
+        <LStepsForm.StepForm title="步骤2">
+          <LFormItemInput
+            name={['step2', 'phone']}
+            label="手机号"
+            required
+            tooltip="禁止空格 只能输入数字"
+            type="phone"
+          />
+        </LStepsForm.StepForm>
+      </LStepsForm>
+      {/* 
+      <Modal title="分步表单" open={open} width={600} onCancel={() => setOpen(false)}>
+        <LStepsForm
+          actionRef={actionRef}
+          submitter={false}
+          onFinish={async (valuse) => {
+            console.log('StepsForm-valuse', valuse);
           }}
-          required
-          options={[
-            { label: '上班', value: '' },
-            { label: '睡觉', value: '2' },
-            { label: '打豆豆', value: '3' },
-          ]}
-        />
-        <LFormItemRadio
-          label="选择"
-          name="LFormItemRadio"
-          // all
-          required
-          options={[
-            { label: 'Unresolved', value: 'open' },
-            { label: 'Resolved', value: 'closed' },
-            { label: 'Resolving', value: 'processing' },
-            { label: '空', value: '' },
-          ]}
-        />
-
-        <LFormItemCascader label="级联选择" name="cascader" required options={options} />
-
-        <LFormItemAddress
-          label="地址选择"
-          names={['location', 'address']}
-          required
-          options={options}
-        />
-
-        <LFormItemDatePicker
-          label="日期选择"
-          name="date1"
-          required
-          disabledDateAfter={1}
-          rangePicker
-          // disabledDateBefore={1}
-        />
-        <LFormItemDatePicker
-          label="日期选择"
-          name="LFormItemDatePicker"
-          required
-          // disabledDateAfter={1}
-          disabledDateBefore={1}
-        />
-
-        <LFormItemTimePicker label="时间选择" name="LFormItemTimePicker" required rangePicker />
-        <LFormItemTimePicker label="时间选择" name="LFormIteer" required />
-      </LForm>
+        >
+          <LStepsForm.StepForm title="步骤1">
+            <LFormItemInput name={['step1', 'name1']} label="名字1" required tooltip="禁止空格" />
+            <LFormItemInput name={['step1', 'name2']} label="名字2" required tooltip="禁止空格" />
+          </LStepsForm.StepForm>
+          <LStepsForm.StepForm title="步骤2">
+            <LFormItemInput
+              name={['step2', 'phone']}
+              label="手机号"
+              required
+              tooltip="禁止空格 只能输入数字"
+              type="phone"
+            />
+          </LStepsForm.StepForm>
+        </LStepsForm>
+      </Modal> */}
     </>
   );
 };
 
-export default Demo1;
+export default Demo2;

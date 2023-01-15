@@ -1,9 +1,9 @@
 import { useControllableValue, useSafeState, useUpdate } from 'ahooks';
 import type { FormInstance, StepProps, StepsProps } from 'antd';
 import { Form, Steps } from 'antd';
-import classNames from 'classnames';
+import { default as classnames, default as classNames } from 'classnames';
 import type { FC, ReactElement, ReactNode } from 'react';
-import { Children, cloneElement, useEffect, useImperativeHandle, useRef } from 'react';
+import { Children, cloneElement, useImperativeHandle, useRef } from 'react';
 import type { BaseFormProps } from '../../../base/BaseForm';
 import StepForm from './StepForm';
 import StepsFormContext from './StepsFormContext';
@@ -11,7 +11,7 @@ import type { StepsFormSubmitterProps } from './StepsSubmitter';
 import StepsSubmitter from './StepsSubmitter';
 import './styles.less';
 
-const prefixCls = 'lightd-steps-form';
+const prefixCls = 'lightd-form-steps';
 
 export type StepItem = {
   description?: ReactNode;
@@ -23,6 +23,10 @@ export type StepItem = {
 }[];
 
 export type LStepsFormProps = {
+  /** 组件最外层容器类名 */
+  className?: string;
+  /** 表单外层容器的类名 */
+  contentClassName?: string;
   /** 默认步骤 */
   defaultCurrent?: number;
   /** 是否将onFinish的得到的所有form数据合并 */
@@ -34,11 +38,11 @@ export type LStepsFormProps = {
   /** 表单最后一步提交成功触发，如果返回true就会自动重置表单(包括StepForm变回第一步) */
   onFinish?: (valuse: Record<string, any>) => Promise<void | boolean>;
   /** 上一步下一步提交按钮的配置 */
-  submitter?: StepsFormSubmitterProps;
+  submitter?: StepsFormSubmitterProps | false;
   /** antd Steps 组件的属性  */
   stepsProps?: StepsProps;
   /** LForm的属性 */
-  formProps?: Omit<BaseFormProps, 'title' | 'onReset' | 'contentRender' | 'submitter' | 'ready'>;
+  formProps?: Omit<BaseFormProps, 'title' | 'onReset' | 'contentRender' | 'submitter' | 'isReady'>;
   /** 重新渲染整个组件 */
   stepsFormRender?: (stepsDom: ReactNode, formDom: ReactNode, submitterDom: ReactNode) => ReactNode;
   /** 重新渲染表单组件 */
@@ -52,6 +56,8 @@ const StepsForm: FC<LStepsFormProps> & {
   StepForm: typeof StepForm;
 } = (props) => {
   const {
+    className,
+    contentClassName,
     isMergeValues = true,
     isReady = true,
     defaultCurrent = 0,
@@ -112,14 +118,13 @@ const StepsForm: FC<LStepsFormProps> & {
     };
 
     // 获取每个表单组件的submitter属性并合并
-    if (childSubmitter === false || childSubmitter === null) {
+    if (childSubmitter === false || childSubmitter === null || submitter === false) {
       formSubmitterRef.current[index] = false;
     } else if (typeof childSubmitter === 'object') {
       formSubmitterRef.current[index] = submitter
         ? { ...submitter, ...childSubmitter }
         : childSubmitter;
     } else {
-      // 默认是undefined
       formSubmitterRef.current[index] = submitter;
     }
   });
@@ -228,7 +233,7 @@ const StepsForm: FC<LStepsFormProps> & {
 
     const currentSubmitter = formSubmitterRef.current[stepNum]; // 当前from的配置
 
-    if (currentSubmitter === false) {
+    if (currentSubmitter === false || currentSubmitter == null) {
       return null;
     }
 
@@ -268,7 +273,8 @@ const StepsForm: FC<LStepsFormProps> & {
     const isCurrentIndex = stepNum === index;
     const name = itemFrom.props?.name || index + ''; // 每个表单的name 没有则用index
     const currentSubmitter = formSubmitterRef.current[stepNum]; // 当前from的配置
-    const textAlignObj = { left: 'left', center: 'center', right: 'right' };
+    const buttonAlign = (submitter as Record<string, any>)?.buttonAlign;
+
     const config = {
       submitter: false, // 不渲染LForm自带的提交重置按钮
       contentRender: (dom: ReactNode) => (
@@ -280,13 +286,19 @@ const StepsForm: FC<LStepsFormProps> & {
             <Form.Item
               wrapperCol={currentSubmitter?.wrapperCol}
               className={`${prefixCls}-item-submitter`}
-              style={
-                currentSubmitter?.buttonAlign
-                  ? { textAlign: textAlignObj[currentSubmitter.buttonAlign] }
-                  : {}
-              }
+              style={{
+                marginBottom: 0,
+                paddingLeft: typeof buttonAlign === 'number' ? `${buttonAlign}px` : 0,
+              }}
             >
-              {submitterDom}
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: typeof buttonAlign === 'string' ? buttonAlign : 'initial',
+                }}
+              >
+                {submitterDom}
+              </div>
             </Form.Item>
           ) : null}
         </>
@@ -310,11 +322,12 @@ const StepsForm: FC<LStepsFormProps> & {
     );
   });
 
-  useEffect(() => {
-    // 强制更新一次 绑定每个步骤的form实例
-    forgetUpdate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   console.log('forgetUpdate ');
+  //   // 强制更新一次 绑定每个步骤的form实例
+  //   forgetUpdate();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
   // 步骤条
   const renderStepsDom = () => {
     if (!Array.isArray(stepsConfigRef.current) || stepsConfigRef.current.length <= 0) {
@@ -326,7 +339,7 @@ const StepsForm: FC<LStepsFormProps> & {
   const stepsDom = renderStepsDom();
 
   return (
-    <div className={`${prefixCls}-container`}>
+    <div className={classnames(`${prefixCls}-container`, className)}>
       <StepsFormContext.Provider
         value={{
           current: stepNum,
@@ -337,18 +350,19 @@ const StepsForm: FC<LStepsFormProps> & {
           submit,
           loading,
           setLoading,
+          forgetUpdate,
         }}
       >
         {stepsFormRender ? (
           stepsFormRender(
             <div className={`${prefixCls}-top`}> {stepsDom}</div>,
-            <div className={`${prefixCls}-content`}>{formDom}</div>,
+            <div className={classnames(`${prefixCls}-content`, contentClassName)}>{formDom}</div>,
             submitterDom,
           )
         ) : (
           <>
             <div className={`${prefixCls}-top`}> {stepsDom}</div>
-            <div className={`${prefixCls}-content`}>{formDom}</div>
+            <div className={classnames(`${prefixCls}-content`, contentClassName)}>{formDom}</div>
           </>
         )}
       </StepsFormContext.Provider>
@@ -356,6 +370,6 @@ const StepsForm: FC<LStepsFormProps> & {
   );
 };
 
-export default StepsForm;
-
 StepsForm.StepForm = StepForm;
+
+export default StepsForm;

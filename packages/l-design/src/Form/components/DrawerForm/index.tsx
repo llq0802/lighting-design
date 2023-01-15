@@ -48,7 +48,7 @@ export interface LDrawerFormProps<T = any>
   /**
    * 确定回调
    */
-  onFinish: (values: Record<string, any>) => void | undefined | true | Promise<any>;
+  onFinish?: (values: Record<string, any>) => void | undefined | true | Promise<any>;
 }
 
 const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {

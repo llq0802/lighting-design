@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { StepProps } from 'antd';
 import { Form } from 'antd';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import type { BaseFormProps } from '../../../base/BaseForm';
 import BaseForm from '../../../base/BaseForm';
 import StepsFormContext from './StepsFormContext';
@@ -10,7 +10,7 @@ import type { StepsFormSubmitterProps } from './StepsSubmitter';
 export interface StepFormProps<Values = any>
   extends Omit<
       BaseFormProps<Values>,
-      'title' | 'onReset' | 'contentRender' | 'submitter' | 'ready'
+      'title' | 'onReset' | 'contentRender' | 'submitter' | 'isReady'
     >,
     Pick<StepProps, 'title' | 'icon' | 'subTitle' | 'description'> {
   /** antd Steps 组件的items属性*/
@@ -39,8 +39,13 @@ function StepForm<Values = any>({
   const ctx = useContext(StepsFormContext);
   const [form] = Form.useForm();
 
-  // 存储每个表单实例
-  ctx.formInstanceListRef.current[stepNum as number] = outForm || form;
+  useEffect(() => {
+    // 存储每个表单实例
+    ctx.formInstanceListRef.current[stepNum as number] = outForm || form;
+    // 解决在modal 可能未加载时拿不到 form
+    ctx?.forgetUpdate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <BaseForm
@@ -59,6 +64,7 @@ function StepForm<Values = any>({
             ctx?.setLoading(false);
           }
         }
+
         // 只要onFinish不返回false 就触发自带的下一步和提交
         if (ret !== false) {
           ctx?.onFormFinish(name as string, values);
