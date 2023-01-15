@@ -48,14 +48,14 @@ const StepsFormSubmitter: FC<StepsFormSubmitterProps> = (props) => {
     prevText = '上一步',
     prevButtonProps = {},
     onPrev = () => {},
-    showPrev = false,
+    showPrev = true,
 
     nextText = '下一步',
     nextButtonProps = {},
     onNext = () => {},
-    showNext = false,
+    showNext = true,
 
-    submitText = '提交',
+    submitText = '确定',
     submitButtonProps = {},
     onSubmit = () => {},
 
@@ -105,8 +105,8 @@ const StepsFormSubmitter: FC<StepsFormSubmitterProps> = (props) => {
   );
 
   const createDom = () => {
-    let prevView = current !== 0 && !showPrev ? prevButton : null;
-    let nextView = current < total - 1 && !showNext ? nextButton : null;
+    let prevView = current !== 0 && showPrev ? prevButton : null;
+    let nextView = current < total - 1 && showNext ? nextButton : null;
     let submitView = current === total - 1 ? submitButton : null;
 
     if (forceShowPrev && !prevView) {

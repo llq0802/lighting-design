@@ -49,4 +49,4 @@ import { LModalForm } from 'lighting-design';
 | open | 是否打开。<br/>设置后表示为 `受控组件`，可结合 `onOpenChange` 进行控制。 | `boolean` | `-` |
 | onOpenChange | `open` 改变时触发 | `(open: boolean) => void` | `- ` |
 | modalProps | `Modal` 的 `props`，使用方式与 antd 相同。 | [ModalProps](https://ant.design/components/modal-cn/#API) | `-` |
-| onFinish | 提交数据时触发。如果返回 `true` 或 `Promise.resolve(true)` 表示提交成功，会关掉弹框。 | `async (values: any) => any` | `-` |
+| onFinish | 提交数据时触发。如果返回 `true` 或 `Promise.resolve(true)` 表示提交成功，会关闭弹框并且会自动管理`loading` | `async (values: any) => any` | `-` |

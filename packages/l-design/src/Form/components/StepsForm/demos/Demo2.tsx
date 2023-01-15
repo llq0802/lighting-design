@@ -6,7 +6,7 @@ const Demo2 = () => {
   const actionRef = useRef();
 
   useEffect(() => {
-    // console.log('actionRef', actionRef.current);
+    console.log('actionRef', actionRef.current);
   }, []);
 
   return (
@@ -22,16 +22,12 @@ const Demo2 = () => {
       submitter={{
         buttonAlign: 90,
       }}
-      stepsProps={{
-        className: 'LStepsForm99',
-      }}
     >
       <LStepsForm.StepForm
         title="步骤1"
         onFinish={async (values) => {
           await awaitTime();
           console.log('步骤1', values);
-          return false;
         }}
       >
         <LFormItemInput name={['step1', 'name1']} label="名字1" required tooltip="禁止空格" />

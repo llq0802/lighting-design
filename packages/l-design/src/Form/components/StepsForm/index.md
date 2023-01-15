@@ -20,6 +20,10 @@ nav:
 
 <code src='./demos/Demo1.tsx'>
 
+### 中间步骤提交
+
+<code src='./demos/Demo3.tsx'>
+
 ## API
 
 ```ts
@@ -40,9 +44,9 @@ const { StepForm } = LStepsForm;
 | stepsProps | `antd Steps` 的属性，去掉了 `current` 和 `onChange` | [StepsProps](https://4x.ant.design/components/steps-cn/#API) | `-` |
 | formProps | `LForm` 的属性，除了没有 `onReset` 和 `submitter` `isReady` | [LFormProps](/components/form) | `-` |
 | submitter | 上一步、下一步、提交按钮的配置 | `StepsFormSubmitterProps` | `-` |
-| actionRef | 常用操作引用，便于自定义触发 | `MutableRefObject<StepsFormActionType \| undefined>` | `-` |
+| actionRef | 常用操作引用，便于自定义触发 | `MutableRefObject<LStepsFormActionType \| undefined>` | `-` |
 | onCurrentChange | current 发生改变的事件 | `(current:number) => void` | `-` |
-| onFinish | 表单提交成功后调用 , 默认只在最后一步提交之后触发 , 会自动管理`loading` | `(values) => any` | `-` |
+| onFinish | 全部表单提交成功后调用 , 默认只在最后一步提交之后触发 , 会自动管理`loading` | `async(values) => any` | `-` |
 | stepsRender | 自定义步骤器 | `(stepsDom: ReactNode,items: StepsProps['item']) => ReactNode` | `-` |
 | stepFormRender | 自定义每个表单 | `(formDom: ReactNode,index:number) => ReactNode` | `-` |
 | stepsFormRender | 自定义整个组件 | `(stepsDom: ReactNode, formDom: ReactNode, submitterDom: ReactNode) => ReactNode` | `-` |
@@ -59,7 +63,7 @@ const { StepForm } = LStepsForm;
 | description | 步骤的详情描述，可选 | `ReactNode` | `-` |
 | stepItemProps | 步骤条内的当前步骤配置。与 `antd Steps`的`items`属性相同 | [StepsProps.items](https://4x.ant.design/components/steps-cn/#API) | `-` |
 | submitter | 上一步、下一步、提交按钮的配置。会与 LStepsForm 的 submitter 合并，优先级更高。 | `StepsFormSubmitterProps` | `-` |
-| onFinish | 当前表单提交成功后调用, 只要不返回`false`或者`Promise.resolve(false)`就触发下一步和提交 , 会自动管理`loading` | `(values) => any` | `-` |
+| onFinish | 当前表单提交成功后调用, 只要不返回`false`或者`Promise.resolve(false)`就会触发下一步或者最后一步的提交并且自动管理`loading` | `async(values) => any` | `-` |
 
 ### StepsFormSubmitterProps
 
@@ -76,7 +80,7 @@ const { StepForm } = LStepsForm;
 | showNext | 不显示下一步按钮 | `boolean` | `true` |
 | forceShowNext | 强制显示下一步按钮，优先级比 `showNext` 高 | `boolean` | `-` |
 | onSubmit | 点击提交按钮的回调 | `() => void` | - |
-| submitText | 提交按钮文本 | `ReactNode` | `提交` |
+| submitText | 提交按钮文本 | `ReactNode` | `确定` |
 | submitButtonProps | 提交按钮属性，和 antd [Button](https://4x.ant.design/components/button-cn/#API) 一致 | [ButtonProps](https://4x.ant.design/components/button-cn/#API) | - |
 | forceShowSubmit | 强制显示提交按钮 | `boolean` | `-` |
 | wrapperCol | 效果和[ Form 的 wrapperCol](https://4x.ant.design/components/form-cn/#API)一致 | `ColProps` | `-` |

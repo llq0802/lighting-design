@@ -2,7 +2,7 @@ import { useControllableValue, useSafeState, useUpdate } from 'ahooks';
 import type { FormInstance, StepProps, StepsProps } from 'antd';
 import { Form, Steps } from 'antd';
 import { default as classnames, default as classNames } from 'classnames';
-import type { FC, ReactElement, ReactNode } from 'react';
+import type { FC, MutableRefObject, ReactElement, ReactNode } from 'react';
 import { Children, cloneElement, useImperativeHandle, useRef } from 'react';
 import type { BaseFormProps } from '../../../base/BaseForm';
 import StepForm from './StepForm';
@@ -22,6 +22,14 @@ export type StepItem = {
   title: ReactNode;
 }[];
 
+export type LStepsFormActionType = {
+  formInstanceList: FormInstance<any>[];
+  prev: () => void;
+  next: (submitted?: boolean) => void;
+  submit: (isFinallySubmit?: boolean) => void;
+  reset: () => void;
+};
+
 export type LStepsFormProps = {
   /** 组件最外层容器类名 */
   className?: string;
@@ -34,7 +42,7 @@ export type LStepsFormProps = {
   /** 是否准备好 */
   isReady?: boolean;
   /** 实例包含一些方法和属性 */
-  actionRef?: any;
+  actionRef?: MutableRefObject<LStepsFormActionType | undefined>;
   /** 表单最后一步提交成功触发，如果返回true就会自动重置表单(包括StepForm变回第一步) */
   onFinish?: (valuse: Record<string, any>) => Promise<void | boolean>;
   /** 上一步下一步提交按钮的配置 */
@@ -82,9 +90,7 @@ const StepsForm: FC<LStepsFormProps> & {
   const update = useUpdate();
   const forgetUpdate = () => {
     // 延迟到最后更新
-    setTimeout(() => {
-      update();
-    });
+    setTimeout(() => update());
   };
 
   // 当前步骤
@@ -97,6 +103,7 @@ const StepsForm: FC<LStepsFormProps> & {
 
   // 遍历子组件提取配置
   const childs = Children.toArray(children);
+
   childs.forEach((childItem, index) => {
     const {
       title,
@@ -187,6 +194,7 @@ const StepsForm: FC<LStepsFormProps> & {
 
   // 暴露方法和属性
   useImperativeHandle(actionRef, () => ({
+    allFormValues: formDataRef.current,
     formInstanceList: formInstanceListRef.current,
     prev: () => {
       if (!isReady) return;
@@ -195,11 +203,10 @@ const StepsForm: FC<LStepsFormProps> & {
       const currentSubmitter = formSubmitterRef.current[stepNum];
       currentSubmitter?.onPrev();
     },
-    // 是否触发当前表单提交验证
+    // submitted是否不触发当前表单提交验证
     // 部分情况下第二步提交，第三步为结果。提交之后无需再次触发当前表单提交校验
     next: (submitted = false) => {
       if (!isReady) return;
-
       if (submitted) {
         formInstanceListRef.current[stepNum].submit();
       } else {
@@ -208,7 +215,7 @@ const StepsForm: FC<LStepsFormProps> & {
       const currentSubmitter = formSubmitterRef.current[stepNum];
       currentSubmitter?.onNext?.();
     },
-    // 是否最后一步提交
+    // 是否在最后一步触发提交
     submit: (isFinallySubmit = true) => {
       if (!isReady) return;
       if (!isFinallySubmit) {
@@ -264,7 +271,13 @@ const StepsForm: FC<LStepsFormProps> & {
       },
     };
 
-    return <StepsSubmitter {...initProps} form={formInstanceListRef.current[stepNum]} />;
+    return (
+      <StepsSubmitter
+        {...currentSubmitter}
+        form={formInstanceListRef.current[stepNum]}
+        {...initProps}
+      />
+    );
   };
   const submitterDom = renderSubmitter();
 
