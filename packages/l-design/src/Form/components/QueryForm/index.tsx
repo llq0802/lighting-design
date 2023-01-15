@@ -47,8 +47,10 @@ export interface LQueryFormProps<T = any> extends BaseFormProps<T> {
 
 const defualtColSpan = {
   xs: 24,
+  sm: 24,
   md: 12,
   lg: 8,
+  xl: 6,
   xxl: 6,
 };
 
@@ -66,8 +68,6 @@ function LQueryForm(props: LQueryFormProps) {
 
   const [collapsed, setCollapsed] = useState(isCollapsed);
 
-  console.log('LQueryForm', layout);
-
   return (
     <BaseForm
       layout={layout}
@@ -78,7 +78,7 @@ function LQueryForm(props: LQueryFormProps) {
       className={classnames(prefixCls, className)}
       contentRender={(formItemsDom, submitterDom) => {
         const enabledCollapse =
-          typeof showColsNumber === 'number' && showColsNumber < formItemsDom.length;
+          typeof showColsNumber === 'number' && showColsNumber < formItemsDom?.length;
         const colSpans = !isSpace
           ? {
               ...defualtColSpan,
