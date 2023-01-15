@@ -43,8 +43,6 @@ export const LFormContext = createContext({
 
 function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
   const {
-    layout = 'horizontal',
-    labelCol,
     labelWidth = 'auto',
     contentRender,
     formRender,
@@ -52,12 +50,13 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     loading: outLoading = false,
     isEnterSubmit = true,
     isReady = true,
-
+    onReset,
     transformValues,
 
+    layout = 'horizontal',
+    labelCol,
     form: outForm,
     onFinish,
-    onReset,
     children,
     initialValues,
     className,
@@ -140,6 +139,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
       }}
     >
       <Form
+        layout={layout}
         form={formRef.current}
         labelCol={labelColProps}
         initialValues={initialValues}

@@ -202,7 +202,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               )}
               title={
                 <div
-                  className="lightd-draggable-modal-header"
+                  className="lightd-form-modal-draggable-header"
                   style={{ width: '100%', cursor: 'move' }}
                   onMouseOver={() => {
                     if (disabled) {

@@ -24,14 +24,12 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
     <a
       onClick={handleCollapse}
       className={`${prefixCls}-collapse`}
-      style={{
-        whiteSpace: 'nowrap',
-      }}
+      style={{ whiteSpace: 'nowrap' }}
     >
       {collapsed ? '展开' : '收起'}
       <DownOutlined
         style={{
-          marginLeft: 6,
+          marginLeft: 5,
           transition: '0.3s all',
           transform: `rotate(${collapsed ? 0 : 180}deg)`,
         }}
@@ -65,7 +63,10 @@ function LQueryForm(props: LQueryFormProps) {
     isSpace = false,
     ...restProps
   } = props;
+
   const [collapsed, setCollapsed] = useState(isCollapsed);
+
+  console.log('LQueryForm', layout);
 
   return (
     <BaseForm
@@ -113,7 +114,7 @@ function LQueryForm(props: LQueryFormProps) {
                 justifyContent: 'flex-end',
               }}
             >
-              <LFormItem label="" colon={false}>
+              <LFormItem colon={false}>
                 <Space>
                   {submitterDom}
                   {enabledCollapse && <Collapse collapsed={collapsed} onToggle={setCollapsed} />}

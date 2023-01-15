@@ -12,21 +12,27 @@ nav:
 
 ## 代码演示
 
+### 基础代码
+
 <code src='./demos/Demo1.tsx'  title='基础代码' description='基础代码' >
 
-## 表单初始值通过异步获取
+### 表单初始值通过异步获取
 
 <code src='./demos/Demo5.tsx' title='表单初始值通过异步获取' description='表单初始值通过异步获取' >
 
-## 提交表单之前转化表单的值
+### 提交表单之前转化表单的值
 
 <code src='./demos/Demo2.tsx' title='提交表单之前转化表单的值' description='提交表单之前转化表单的值' >
 
-## 自定义提交/重置按钮
+### 自定义提交/重置按钮
 
 <code src='./demos/Demo3.tsx' title='自定义提交/重置按钮' description='自定义提交/重置按钮' >
 
 ## API
+
+```ts
+import { LForm } from 'lighting-design';
+```
 
 ### LForm
 
@@ -42,6 +48,8 @@ nav:
 | isReady | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。<br/>一般用于异步获取初始值`initialValues` | `boolean` | `true` |
 | onFinish | 提交数据时触发，和 `antd Form` 一样。如果返回异步，会自动管理 `loading` 无需再设置 `loading`。 | `(values) => any` | `-` |
 | onReset | 点击重置按钮的回调 | `(e) => void` | `-` |
+| formRender | 自定义渲染整个`LForm` | `(formDom: ReactElement, submitterDom: ReactNode) => ReactNode` | `-` |
+| contentRender | 自定义渲染`children` | `(formItemsDom: ReactNode[],submitterDom: ReactNode, form: FormInstance<T>) => ReactNode` | `-` |
 
 ### LFormSubmitterProps
 

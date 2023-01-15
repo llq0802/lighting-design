@@ -12,21 +12,27 @@ nav:
 
 ## 代码演示
 
+### 可拖动的弹窗
+
 <code src='./demos/Demo1.tsx'>
 
-## 自定义底部
-
-<code src='./demos/Demo2.tsx'>
-
-## 受控模式
+### 使用 open 受控方式
 
 <code src='./demos/Demo3.tsx'>
 
-## 关闭弹窗时不重置到初始值
+### 自定义底部按钮
+
+<code src='./demos/Demo2.tsx'>
+
+### 关闭弹窗时不重置到初始值
 
 <code src='./demos/Demo4.tsx'>
 
 ## API
+
+```ts
+import { LModalForm } from 'lighting-design';
+```
 
 除了以下参数，其余和 [LForm](/components/form#api) 一样。
 
