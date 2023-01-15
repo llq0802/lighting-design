@@ -1,12 +1,12 @@
 ---
-title: LFormTextArea
+title: LFormItemTextArea
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# LFormTextArea
+# LFormItemTextArea
 
 多行输入框
 

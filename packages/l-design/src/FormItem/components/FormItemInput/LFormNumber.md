@@ -1,12 +1,12 @@
 ---
-title: LFormNumber
+title: LFormItemNumber
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# LFormNumber
+# LFormItemNumber
 
 数字输入框
 

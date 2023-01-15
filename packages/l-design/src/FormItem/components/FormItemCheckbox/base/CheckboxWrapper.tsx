@@ -36,7 +36,7 @@ export type CheckboxWrapperProps = Record<string, any> &
     /**
      * 自定义全选
      */
-    beforeAll: beforeAllProps;
+    beforeAll: beforeAllProps | boolean;
     checkboxProps: CheckboxGroupProps;
     dependencies: string[];
     outLoading: SpinProps;

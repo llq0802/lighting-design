@@ -129,9 +129,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                 },
 
                 render: (submitterDom, submitterProps) => {
-                  if (typeof submitter?.render === 'function') {
-                    return submitter.render(submitterDom, submitterProps);
-                  }
                   return (
                     <div
                       style={{
@@ -141,7 +138,9 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                           'right',
                       }}
                     >
-                      {submitterDom}
+                      {submitter?.render
+                        ? submitter?.render(submitterDom, submitterProps)
+                        : submitterDom}
                     </div>
                   );
                 },

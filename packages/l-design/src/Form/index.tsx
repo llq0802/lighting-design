@@ -1,5 +1,5 @@
 import { Form, Space } from 'antd';
-import type { FC, ReactNode } from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
 import LFormItem from '../FormItem';
 import type { BaseFormProps } from './base/BaseForm';
 import BaseForm from './base/BaseForm';
@@ -18,40 +18,47 @@ const LForm: FC<LFormProps> & {
   useWatch: typeof Form.useWatch;
 } = ({ submitter, ...restProps }) => {
   const submitterProps = typeof submitter === 'boolean' || !submitter ? {} : submitter;
-
+  const { render, ...restSubmitterProps } = submitterProps;
   const submitterConfig =
     typeof submitter === 'undefined' || submitter
       ? {
-          render: (dom: ReactNode) => (
-            <Form.Item
-              colon={false}
-              style={{
-                marginBottom: 0,
-                paddingLeft:
-                  typeof submitter?.buttonAlign === 'number' ? `${submitter?.buttonAlign}px` : 0,
-              }}
-              // labelCol={{
-              //   style: {
-              //     flex:
-              //       typeof submitter?.buttonAlign === 'number'
-              //         ? `0 0 ${submitter?.buttonAlign}px`
-              //         : 'initial',
-              //   },
-              // }}
-              wrapperCol={submitterProps?.wrapperCol}
-            >
-              <div
+          render: (dom: ReactNode) => {
+            const newDom = Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom;
+
+            return (
+              <Form.Item
+                colon={false}
                 style={{
-                  display: 'flex',
-                  justifyContent:
-                    typeof submitter?.buttonAlign === 'string' ? submitter?.buttonAlign : 'initial',
+                  marginBottom: 0,
+                  paddingLeft:
+                    typeof submitter?.buttonAlign === 'number' ? `${submitter?.buttonAlign}px` : 0,
                 }}
+                // labelCol={{
+                //   style: {
+                //     flex:
+                //       typeof submitter?.buttonAlign === 'number'
+                //         ? `0 0 ${submitter?.buttonAlign}px`
+                //         : 'initial',
+                //   },
+                // }}
+                wrapperCol={submitterProps?.wrapperCol}
               >
-                {Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom}
-              </div>
-            </Form.Item>
-          ),
-          ...submitterProps,
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent:
+                      typeof submitter?.buttonAlign === 'string'
+                        ? submitter?.buttonAlign
+                        : 'initial',
+                  }}
+                >
+                  {render ? render(newDom as ReactElement[], submitterProps) : newDom}
+                </div>
+              </Form.Item>
+            );
+          },
+
+          ...restSubmitterProps,
         }
       : false;
 

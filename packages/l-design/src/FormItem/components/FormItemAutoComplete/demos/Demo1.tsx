@@ -9,7 +9,6 @@ const mockVal = (str: string, repeat = 1) => ({
 const Demo1 = () => {
   const [form] = LForm.useForm();
   const [options, setOptions] = useState<{ value: string; label: string }[]>([]);
-
   const onSearch = (searchText: string) => {
     setOptions(
       !searchText ? [] : [mockVal(searchText, 1), mockVal(searchText, 2), mockVal(searchText, 3)],

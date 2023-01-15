@@ -33,9 +33,9 @@ export function depsSame(oldDeps: DependencyList, deps: DependencyList): boolean
 // 生产唯一id
 const randomStr = Math.random().toString(16).substring(2);
 let _id = 1;
-export function uniqueId(prefix = '') {
+export function uniqueId(prefix = 'lightd') {
   ++_id;
-  return `${prefix}${randomStr}${_id}`;
+  return `${prefix}-${randomStr}-${_id}`;
 }
 
 export const usePlaceholder = (options: {

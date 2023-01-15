@@ -16,6 +16,7 @@ const Demo1 = () => {
         return true;
       }}
       submitter={{
+        buttonAlign: 'left',
         render(dom) {
           return (
             <>

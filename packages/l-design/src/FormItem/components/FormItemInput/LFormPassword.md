@@ -1,12 +1,12 @@
 ---
-title: LFormPassword
+title: LFormItemPassword
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# LFormPassword
+# LFormItemPassword
 
 密码输入框
 

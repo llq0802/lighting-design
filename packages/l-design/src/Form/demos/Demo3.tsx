@@ -1,24 +1,26 @@
+import { Button, Space } from 'antd';
 import { LForm, LFormItemInput } from 'lighting-design';
-import { useEffect, useState } from 'react';
 
 const Demo5 = () => {
   const [form] = LForm.useForm();
-  const [initialValues, setInitialValues] = useState({ name: '张三' });
-  const [isReady, setIsReady] = useState(false);
-
-  useEffect(() => {
-    setIsReady(true);
-    setInitialValues({ name: '李四' });
-  }, []);
 
   return (
     <>
       <LForm
-        isReady={isReady}
         labelWidth={90}
-        submitter={{ buttonAlign: 90 }}
-        name="LForm-InitialValues"
-        initialValues={initialValues}
+        submitter={{
+          buttonAlign: 90,
+          showReset: false,
+          render(dom) {
+            return (
+              <Space>
+                <Button>返回</Button>
+                {dom}
+              </Space>
+            );
+          },
+        }}
+        name="LForm-transformValues"
         form={form}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);

@@ -25,7 +25,8 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
   };
   return !rangePicker ? (
     <TimePicker
-      style={{ width: 169, ...style }}
+      // style={{ width: 169, ...style }}
+      style={{ width: '100%', ...style }}
       locale={locale}
       disabled={disabled}
       {...restProps}
