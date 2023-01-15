@@ -28,13 +28,6 @@ const Demo1 = () => {
             setOpen(false);
           }, 2000);
         }}
-        // actionBarDir="extra"
-        submitter={{
-          submitText: '提交',
-        }}
-        // drawerProps={{
-        //   footer: false,
-        // }}
       >
         <LFormItemColor
           colorType="chrome"

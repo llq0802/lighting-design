@@ -36,7 +36,7 @@ import { LModalForm } from 'lighting-design';
 
 除了以下参数，其余和 [LForm](/components/form#api) 一样。
 
-<mark>`LMoadlForm` 的提交丶取消 通过 `LForm` 的`submitter`属性配置</mark>
+<mark>`LMoadlForm` 的确定丶取消 通过 `LForm` 的`submitter`属性配置</mark>
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
