@@ -45,7 +45,7 @@ export type LStepsFormProps = {
   /** 是否准备好 */
   isReady?: boolean;
   /** 实例包含一些方法和属性 */
-  actionRef?: MutableRefObject<LStepsFormActionType | undefined>;
+  actionRef?: MutableRefObject<LStepsFormActionType>;
   /** 在哪一步为最后的提交操作,用于触发onFinish 默认为表单最后一步 */
   submitStepNum?: number;
   /** 默认表单最后一步提交成功触发，如果返回true就会自动重置表单(包括StepForm变回第一步) */
@@ -220,7 +220,6 @@ const StepsForm: FC<LStepsFormProps> & {
     toStep,
     prev: () => {
       if (!isReady) return;
-
       prev();
       const currentSubmitter = formSubmitterRef.current[stepNum];
       currentSubmitter?.onPrev();
@@ -373,35 +372,34 @@ const StepsForm: FC<LStepsFormProps> & {
   };
   const stepsDom = renderStepsDom();
 
+  const formContentDom = (
+    <div className={classnames(`${prefixCls}-content`, contentClassName)}>{formDom}</div>
+  );
+  const stepsContentDom = <div className={`${prefixCls}-top`}> {stepsDom}</div>;
+
   return (
-    <div className={classnames(`${prefixCls}-container`, className)}>
-      <StepsFormContext.Provider
-        value={{
-          current: stepNum,
-          total: submitStepNum,
-          formInstanceListRef,
-          onFormFinish,
-          next,
-          submit,
-          loading,
-          setLoading,
-          forgetUpdate,
-        }}
-      >
-        {stepsFormRender ? (
-          stepsFormRender(
-            <div className={`${prefixCls}-top`}> {stepsDom}</div>,
-            <div className={classnames(`${prefixCls}-content`, contentClassName)}>{formDom}</div>,
-            submitterDom,
-          )
-        ) : (
-          <>
-            <div className={`${prefixCls}-top`}> {stepsDom}</div>
-            <div className={classnames(`${prefixCls}-content`, contentClassName)}>{formDom}</div>
-          </>
-        )}
-      </StepsFormContext.Provider>
-    </div>
+    <StepsFormContext.Provider
+      value={{
+        current: stepNum,
+        total: submitStepNum,
+        formInstanceListRef,
+        onFormFinish,
+        next,
+        submit,
+        loading,
+        setLoading,
+        forgetUpdate,
+      }}
+    >
+      {stepsFormRender ? (
+        stepsFormRender(stepsContentDom, formContentDom, submitterDom)
+      ) : (
+        <div className={classnames(`${prefixCls}-container`, className)}>
+          {stepsContentDom}
+          {formContentDom}
+        </div>
+      )}
+    </StepsFormContext.Provider>
   );
 };
 

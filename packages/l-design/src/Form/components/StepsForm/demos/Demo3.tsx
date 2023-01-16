@@ -8,6 +8,8 @@ const Demo = () => {
 
   return (
     <LStepsForm
+      submitter={{ buttonAlign: 90 }}
+      formProps={{ labelWidth: 90 }}
       submitStepNum={2}
       onFinish={async (values) => {
         await awaitTime('', 1000);
@@ -34,8 +36,8 @@ const Demo = () => {
           console.log('步骤2', values);
         }}
         submitter={{
-          showNext: false,
-          forceShowSubmit: true,
+          showNext: false, // 隐藏下一步按钮
+          forceShowSubmit: true, // 强制渲染提交按钮
         }}
       >
         <LFormItemInput label="手机1" name="phone1" required />
@@ -55,8 +57,8 @@ const Demo = () => {
             </>
           }
           extra={[
-            <Button type="primary" key="back" onClick={() => message.info('点击返回')}>
-              返回
+            <Button type="primary" key="back" onClick={() => message.info('点击返回页面')}>
+              返回页面
             </Button>,
             <Button key="reset" onClick={() => actionRef.current.reset()}>
               再次创建

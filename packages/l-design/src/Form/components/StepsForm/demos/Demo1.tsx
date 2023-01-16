@@ -1,13 +1,11 @@
-import { Button, Modal } from 'antd';
+import { Button, message, Modal } from 'antd';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { awaitTime } from '../../../../_utils';
 
 const Demo2 = () => {
   const actionRef = useRef();
   const [open, setOpen] = useState(false);
-  useEffect(() => {
-    // console.log('actionRef', actionRef.current);
-  }, []);
 
   return (
     <>
@@ -18,12 +16,14 @@ const Demo2 = () => {
       <LStepsForm
         actionRef={actionRef}
         onFinish={async (valuse) => {
+          await awaitTime();
           console.log('StepsForm-valuse', valuse);
+          message.success('提交成功');
         }}
         stepsFormRender={(stepsDom, formDom, submitterDom) => {
           return (
             <Modal
-              title="分步表单"
+              title="弹窗中的步骤表单"
               open={open}
               footer={submitterDom}
               width={600}
@@ -49,6 +49,7 @@ const Demo2 = () => {
           />
         </LStepsForm.StepForm>
       </LStepsForm>
+
       {/* 
       <Modal title="分步表单" open={open} width={600} onCancel={() => setOpen(false)}>
         <LStepsForm
