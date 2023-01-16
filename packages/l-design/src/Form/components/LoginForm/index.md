@@ -10,7 +10,7 @@ nav:
 
 基于 LForm 扩展的登录表单。
 
-## 基本用法
+## 基础用法
 
 <code src='./demos/Demo1.tsx'  >
 

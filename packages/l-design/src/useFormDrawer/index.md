@@ -12,23 +12,13 @@ nav:
 
 ## 代码演示
 
+### 基础用法
+
 <code src='./demos/demo.tsx'>
 
 <API></API>
 
 ## API
-
-```ts
-const useFormDrawer: (
-  FormSlot: (props: FormDrawerSlotProps, ref: MutableRefObject<FormInstance<any>>) => JSX.Element,
-  modalProps?: DrawerModalProps,
-) => {
-  FormModal: (formSlotProps: FormSlotProps) => JSX.Element;
-  form: FormInstance;
-  onOpen: () => void;
-  onClose: () => void;
-};
-```
 
 ### Params
 
@@ -45,3 +35,15 @@ const useFormDrawer: (
 |    form    |    antd Form 实例    |                 `FormInstance`                  |
 |   onOpen   |       打开弹窗       |                  `() => void`                   |
 |  onClose   |       关闭弹窗       |                  `() => void`                   |
+
+```ts
+const useFormDrawer: (
+  FormSlot: (props: FormDrawerSlotProps, ref: MutableRefObject<FormInstance<any>>) => JSX.Element,
+  modalProps?: DrawerModalProps,
+) => {
+  FormModal: (formSlotProps: FormSlotProps) => JSX.Element;
+  form: FormInstance;
+  onOpen: () => void;
+  onClose: () => void;
+};
+```

@@ -12,23 +12,13 @@ nav:
 
 ## 代码演示
 
+### 基础用法
+
 <code src='./demos/demo1.tsx'>
 
 <API></API>
 
 ## API
-
-```ts
-const useFormModal: (
-  FormSlot: (props: FormSlotProps, ref: React.MutableRefObject<FormInstance<any>>) => JSX.Element,
-  modalProps?: DraggableModalProps,
-) => {
-  FormModal: (formSlotProps: FormSlotProps) => JSX.Element;
-  form: FormInstance;
-  onOpen: () => void;
-  onClose: () => void;
-};
-```
 
 ### Params
 
@@ -46,7 +36,17 @@ const useFormModal: (
 |  onOpen   |       打开弹窗       |                  `() => void`                   |
 |  onClose  |       关闭弹窗       |                  `() => void`                   |
 
-### 类型
+```ts
+const useFormModal: (
+  FormSlot: (props: FormSlotProps, ref: React.MutableRefObject<FormInstance<any>>) => JSX.Element,
+  modalProps?: DraggableModalProps,
+) => {
+  FormModal: (formSlotProps: FormSlotProps) => JSX.Element;
+  form: FormInstance;
+  onOpen: () => void;
+  onClose: () => void;
+};
+```
 
 ```ts
 export type DraggableModalProps = {

@@ -12,9 +12,9 @@ nav:
 
 ## 代码演示
 
-### 基础代码
+### 基础用法
 
-<code src='./demos/Demo1.tsx'  title='基础代码' description='基础代码' >
+<code src='./demos/Demo1.tsx'  title='基础用法' description='基础用法' >
 
 ### 表单初始值通过异步获取
 
