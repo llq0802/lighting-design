@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
 import { useEffect, useRef } from 'react';
 import { awaitTime } from '../../../../_utils';
@@ -15,6 +16,8 @@ const Demo2 = () => {
       actionRef={actionRef}
       onFinish={async (valuse) => {
         console.log('StepsForm-valuse', valuse);
+        await awaitTime();
+        message.success('提交成功');
       }}
       formProps={{
         labelWidth: 90,
@@ -36,7 +39,6 @@ const Demo2 = () => {
       <LStepsForm.StepForm
         title="步骤2"
         onFinish={async (values) => {
-          await awaitTime();
           console.log('步骤2', values);
         }}
       >

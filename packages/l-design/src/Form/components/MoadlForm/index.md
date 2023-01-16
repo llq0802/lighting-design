@@ -41,7 +41,7 @@ import { LModalForm } from 'lighting-design';
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | isDraggable | `Modal`能否拖动 | `boolean` | `false` |
-| isResetFields | 是否在关闭弹窗时重置表单到初始值 `会重新挂载子组件,子组件的异步请求会重新执行)`<br/>如果子组件有 `request` 请求属性 , 请将 `isResetFields` 设置为`false`并在关闭弹窗时手动调用`form.setFieldsValue()`将其重置 | `boolean` | `true` |
+| isResetFields | 是否在关闭弹窗时重置表单到初始值 `会重新挂载子组件,子组件的异步请求会重新执行)`<br/>如果子组件配置 `request` 请求属性 , 请将 `isResetFields` 设置为`false`并在关闭弹窗时手动调用`form.setFieldsValue()`将其重置 | `boolean` | `true` |
 | forceRender | 是否预渲染`LMoadlForm`的内容 | `boolean` | `false` |
 | title | `Modal` 标题 | `ReactNode` | `-` |
 | width | `Modal` 宽度 | `number \| string` | `600` |

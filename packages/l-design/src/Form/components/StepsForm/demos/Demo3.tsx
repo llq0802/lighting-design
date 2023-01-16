@@ -8,13 +8,12 @@ const Demo = () => {
 
   return (
     <LStepsForm
+      submitStepNum={2}
       onFinish={async (values) => {
-        await awaitTime('', 100);
-        console.log(values);
-        message.success('提交成功');
-
+        await awaitTime('', 1000);
+        console.log('onFinish-values', values);
         // 因为第二步已经提交，这里手动触发下一步
-        // actionRef.current!.next();
+        actionRef.current!.next();
       }}
       actionRef={actionRef}
     >
@@ -22,7 +21,7 @@ const Demo = () => {
         title="步骤1"
         onFinish={async (values) => {
           await awaitTime('', 100);
-          console.log(values);
+          console.log('步骤1', values);
         }}
       >
         <LFormItemInput label="名字1" name="name1" required />
@@ -32,32 +31,11 @@ const Demo = () => {
       <LStepsForm.StepForm
         title="步骤2"
         onFinish={async (values) => {
-          await awaitTime('', 1000);
-          console.log(values);
+          console.log('步骤2', values);
         }}
         submitter={{
           showNext: false,
           forceShowSubmit: true,
-          render: (dom, props) => {
-            console.log('dom-props ', dom, props);
-            return (
-              <Space>
-                {dom[0]}
-                <Button
-                  type="primary"
-                  {...props.submitButtonProps}
-                  onClick={() => {
-                    // actionRef.current.next(true);
-                    actionRef.current.submit(false);
-
-                    console.log(' allFormValues', actionRef.current.allFormValues);
-                  }}
-                >
-                  提交
-                </Button>
-              </Space>
-            );
-          },
         }}
       >
         <LFormItemInput label="手机1" name="phone1" required />

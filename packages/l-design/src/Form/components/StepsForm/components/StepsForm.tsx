@@ -24,6 +24,7 @@ export type StepItem = {
 
 export type LStepsFormActionType = {
   formInstanceList: FormInstance<any>[];
+  toStep: (num: number) => void;
   prev: () => void;
   next: (submitted?: boolean) => void;
   submit: (isFinallySubmit?: boolean) => void;
@@ -39,11 +40,15 @@ export type LStepsFormProps = {
   defaultCurrent?: number;
   /** 是否将onFinish的得到的所有form数据合并 */
   isMergeValues?: boolean;
+  /** 是否提交完成后需要重置 */
+  isResetFields?: boolean;
   /** 是否准备好 */
   isReady?: boolean;
   /** 实例包含一些方法和属性 */
   actionRef?: MutableRefObject<LStepsFormActionType | undefined>;
-  /** 表单最后一步提交成功触发，如果返回true就会自动重置表单(包括StepForm变回第一步) */
+  /** 在哪一步为最后的提交操作,用于触发onFinish 默认为表单最后一步 */
+  submitStepNum?: number;
+  /** 默认表单最后一步提交成功触发，如果返回true就会自动重置表单(包括StepForm变回第一步) */
   onFinish?: (valuse: Record<string, any>) => Promise<void | boolean>;
   /** 上一步下一步提交按钮的配置 */
   submitter?: StepsFormSubmitterProps | false;
@@ -67,6 +72,7 @@ const StepsForm: FC<LStepsFormProps> & {
     className,
     contentClassName,
     isMergeValues = true,
+    isResetFields = true,
     isReady = true,
     defaultCurrent = 0,
     actionRef,
@@ -79,6 +85,8 @@ const StepsForm: FC<LStepsFormProps> & {
     stepsFormRender,
     children,
   } = props;
+
+  let { submitStepNum } = props;
 
   const stepsConfigRef = useRef<StepProps[]>([]); // 步骤条配置
   const formSubmitterRef = useRef<any[]>([]); // 操作配置
@@ -103,7 +111,10 @@ const StepsForm: FC<LStepsFormProps> & {
 
   // 遍历子组件提取配置
   const childs = Children.toArray(children);
-
+  // 配置最终提交在哪一步触发
+  if (typeof submitStepNum !== 'number' || submitStepNum < 0) {
+    submitStepNum = childs.length;
+  }
   childs.forEach((childItem, index) => {
     const {
       title,
@@ -150,6 +161,14 @@ const StepsForm: FC<LStepsFormProps> & {
       setStepNum(curStep);
     }
   };
+
+  // 指定跳到哪一步
+  const toStep = (num: number) => {
+    if (num >= defaultCurrent && num <= childs.length - 1) {
+      setStepNum(num);
+    }
+  };
+
   // 重置
   const reset = () => {
     setStepNum(defaultCurrent);
@@ -177,7 +196,9 @@ const StepsForm: FC<LStepsFormProps> & {
         setLoading(true);
         try {
           const res = await ret;
-          if (res === true) reset(); // 如果返回true就会自动重置表单(包括StepForm变回第一步)
+          if (res === true && isResetFields) {
+            reset(); // 如果返回true就会自动重置表单(包括StepForm变回第一步)
+          }
         } catch (err) {
           console.error(err); // eslint-disable-line
         } finally {
@@ -196,6 +217,7 @@ const StepsForm: FC<LStepsFormProps> & {
   useImperativeHandle(actionRef, () => ({
     allFormValues: formDataRef.current,
     formInstanceList: formInstanceListRef.current,
+    toStep,
     prev: () => {
       if (!isReady) return;
 
@@ -203,8 +225,7 @@ const StepsForm: FC<LStepsFormProps> & {
       const currentSubmitter = formSubmitterRef.current[stepNum];
       currentSubmitter?.onPrev();
     },
-    // submitted是否不触发当前表单提交验证
-    // 部分情况下第二步提交，第三步为结果。提交之后无需再次触发当前表单提交校验
+    // submitted是否触发当前表单提交验证
     next: (submitted = false) => {
       if (!isReady) return;
       if (submitted) {
@@ -228,6 +249,7 @@ const StepsForm: FC<LStepsFormProps> & {
     },
     reset: () => {
       if (!isReady) return;
+      if (!isResetFields) return;
       reset();
     },
   }));
@@ -337,7 +359,7 @@ const StepsForm: FC<LStepsFormProps> & {
 
   // useEffect(() => {
   //   console.log('forgetUpdate ');
-  //   // 强制更新一次 绑定每个步骤的form实例
+  //   // 强制更新一次 绑定每个步骤的form实例 这种方法如果在Modal可能取不到form实例
   //   forgetUpdate();
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
@@ -356,7 +378,7 @@ const StepsForm: FC<LStepsFormProps> & {
       <StepsFormContext.Provider
         value={{
           current: stepNum,
-          total: childs.length,
+          total: submitStepNum,
           formInstanceListRef,
           onFormFinish,
           next,
