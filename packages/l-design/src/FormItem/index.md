@@ -13,12 +13,24 @@ nav:
 **特点**
 
 - 支持组件前后插入元素
+- 支持统一设置 `label` 的宽度
 - 支持 `dependencies` 依赖项的值自动传入子组件的 `props`
+- 支持必填为空时提示：`请输入${label}` 或者`请选择${label}`
+- 内置 `placeholder`：`请输入${label}` 或者`请选择${label}`
 
 ## 代码演示
 
-<!-- <code src='./demos/Demo1.tsx'> -->
+### 基础用法
+
 <code src='./demos/Demo2.tsx'>
+
+### 使用 shouldUpdate 依赖更新
+
+### 使用 dependencies 依赖更新
+
+### 使用 LForm.useWatch 依赖更新
+
+<!-- <code src='./demos/Demo1.tsx'> -->
 
 ## API
 
@@ -29,14 +41,14 @@ nav:
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | labelWidth | label 宽度 默认继承 `LForm`的 `labelWidth` 如果配置则以当前配置为准 | `number \| 'auto'` | `-` |
-| className | 组件最外层容器类名 | `string` | `-` |
-| style | 组件最外层容器样式 | `CSSProperties` | `-` |
-| renderField | 重新渲染 FormItem 组件 | `(dom: ReactElement) => ReactElement` | `-` |
-| contentClassName | 被包裹组件的最外层容器类名 | `string` | `-` |
+| className | 整个组件最外层容器类名 | `string` | `-` |
+| style | 整个组件最外层容器样式 | `CSSProperties` | `-` |
+| contentClassName | 被包裹组件的最外层容器类名 , 配置 `contentAfter` 或者 `contentBefore` 生效 | `string` | `-` |
 | contentBefore | 组件前面的内容 | `ReactNode` | `-` |
 | contentAfter | 组件后面的内容 | `ReactNode` | `-` |
 | contentProps | 传给 `children` 的额外属性 | `Record<string,any>` | `-` |
 | contentInline | `children` 外层的 div 是否为 `inline`行盒 . 为`false`占满 div , 为`true`不占满整个 div | `boolean` | `false` |
-| alignItems | 当配置了 `contentBefore` 或者 `contentAfter` 时组件垂直的对齐方式 | `center \| start \| end` | `center` |
+| alignItems | 当配置了 `contentBefore` 或者 `contentAfter` 时组件垂直的对齐方式 | `'center' \| 'start' \| 'end'` | `center` |
 | disabled | 是否禁用组件<br>如果自定义组件 则需要开发者自己控制内部`children`的禁用 | `boolean` | `false` |
-| placeholder | 组件的 placeholder<br>如果自定义组件 则需要开发者自己控制内部`children`的 placeholder | `string\|string[]` | `-` |
+| placeholder | 组件的 placeholder<br>如果自定义组件 则需要开发者自己控制内部`children`的 placeholder | `string\|string[]` |
+| renderField | 重新渲染 `FormItem` 的子组件 | `(dom: ReactElement, props: LFormItemProps) => ReactElement` | `-` |

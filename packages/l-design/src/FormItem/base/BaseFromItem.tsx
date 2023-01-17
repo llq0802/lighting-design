@@ -12,7 +12,7 @@ export interface LFormItemProps extends FormItemProps {
   /** lable宽度 */
   labelWidth?: number | 'auto';
   /** 重新渲染FormItem组件 */
-  renderField?: (dom: ReactElement) => ReactElement;
+  renderField?: (dom: ReactElement, props: LFormItemProps) => ReactElement;
   /** 当配置了contentBefore或者contentAfter时组件垂直的对齐方式 */
   alignItems?: 'center' | 'start' | 'end';
   /** 组件前面的内容 */
@@ -33,31 +33,33 @@ export interface LFormItemProps extends FormItemProps {
   placeholder?: string | string[];
 }
 
-const LFormItem: FC<LFormItemProps> = ({
-  isSelectType,
-  placeholder,
+const LFormItem: FC<LFormItemProps> = (props) => {
+  const {
+    isSelectType,
+    placeholder,
 
-  renderField,
+    renderField,
 
-  labelWidth = 'auto',
-  contentClassName,
-  contentBefore,
-  contentAfter,
-  contentProps,
-  contentInline = false,
-  alignItems,
+    labelWidth = 'auto',
+    contentClassName,
+    contentBefore,
+    contentAfter,
+    contentProps,
+    contentInline = false,
+    alignItems,
 
-  name,
-  required,
-  shouldUpdate,
-  dependencies = [],
-  rules = [],
-  trigger = 'onChange',
-  labelCol,
-  children,
+    name,
+    required,
+    shouldUpdate,
+    dependencies = [],
+    rules = [],
+    trigger = 'onChange',
+    labelCol,
+    children,
 
-  ...restFromItemProps
-}) => {
+    ...restFromItemProps
+  } = props;
+
   const { layout, labelColProps: formLabelColProps } = useContext(LFormContext);
 
   const messageLabel = usePlaceholder({
@@ -122,7 +124,7 @@ const LFormItem: FC<LFormItemProps> = ({
               contentInline={contentInline}
               {...contentProps}
             >
-              {renderField ? renderField(contentChildren as ReactElement) : contentChildren}
+              {renderField ? renderField(contentChildren as ReactElement, props) : contentChildren}
             </FormItemWrapper>
           );
         }}
@@ -158,7 +160,9 @@ const LFormItem: FC<LFormItemProps> = ({
                 contentInline={contentInline}
                 {...contentProps}
               >
-                {renderField ? renderField(contentChildren as ReactElement) : contentChildren}
+                {renderField
+                  ? renderField(contentChildren as ReactElement, props)
+                  : contentChildren}
               </FormItemWrapper>
             </Form.Item>
           );
@@ -185,7 +189,7 @@ const LFormItem: FC<LFormItemProps> = ({
         contentInline={contentInline}
         {...contentProps}
       >
-        {renderField ? renderField(children as ReactElement) : children}
+        {renderField ? renderField(children as ReactElement, props) : children}
       </FormItemWrapper>
     </Form.Item>
   );
