@@ -18,6 +18,7 @@ const NumberWrapper: FC<NumberWrapperProps> = (props) => {
   );
   return (
     <InputNumber
+      autoComplete="off"
       value={value}
       precision={2}
       style={{ width: '100%' }}

@@ -26,7 +26,11 @@ const AvatarContent: FC<{
   const isError = currentFile?.status === 'error';
 
   const getUrl = useCallback(async () => {
-    console.log('AvatarContent-currentFile', currentFile);
+    if (!currentFile) {
+      setImgUrl('');
+      return;
+    }
+
     if (currentFile?.originFileObj instanceof File) {
       const base64Url = await getBase64(currentFile.originFileObj as RcFile);
       setImgUrl(base64Url);
