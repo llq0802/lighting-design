@@ -24,15 +24,21 @@ nav:
 
 <code src='./demos/Demo2.tsx'>
 
-### 使用 shouldUpdate 依赖更新
+### 使用 shouldUpdate 动态渲染
+
+<code src='./demos/Demo1.tsx'>
+
+### 使用 useWatch 动态渲染
+
+<code src='./demos/Demo3.tsx'>
 
 ### 使用 dependencies 依赖更新
 
-### 使用 LForm.useWatch 依赖更新
-
-<!-- <code src='./demos/Demo1.tsx'> -->
+<code src='./demos/Demo4.tsx'>
 
 ## API
+
+> LFormItemXXX 组件均是通过此组件封装
 
 除了以下参数，其余和 [Form.Item](https://4x.ant.design/components/form-cn/#Form.Item) 一样。
 
@@ -48,7 +54,7 @@ nav:
 | contentAfter | 组件后面的内容 | `ReactNode` | `-` |
 | contentProps | 传给 `children` 的额外属性 | `Record<string,any>` | `-` |
 | contentInline | `children` 外层的 div 是否为 `inline`行盒 . 为`false`占满 div , 为`true`不占满整个 div | `boolean` | `false` |
-| alignItems | 当配置了 `contentBefore` 或者 `contentAfter` 时组件垂直的对齐方式 | `'center' \| 'start' \| 'end'` | `center` |
+| alignItems | 当配置了 `contentBefore` 或者 `contentAfter` 时组件垂直的对齐方式 | `'center' \| 'start' \| 'end'` | `'center'` |
 | disabled | 是否禁用组件<br>如果自定义组件 则需要开发者自己控制内部`children`的禁用 | `boolean` | `false` |
 | placeholder | 组件的 placeholder<br>如果自定义组件 则需要开发者自己控制内部`children`的 placeholder | `string\|string[]` |
 | renderField | 重新渲染 `FormItem` 的子组件 | `(dom: ReactElement, props: LFormItemProps) => ReactElement` | `-` |

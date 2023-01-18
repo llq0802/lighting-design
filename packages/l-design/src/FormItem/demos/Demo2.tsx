@@ -41,12 +41,13 @@ const Demo2 = () => {
         </LFormItem>
 
         <LFormItem
-          name="Switch"
+          valuePropName="checked"
+          name="switch"
           label="开关"
           contentAfter={<div>contentInline为true的效果</div>}
           contentInline={true}
         >
-          <Switch defaultChecked />
+          <Switch />
         </LFormItem>
 
         <LFormItem

@@ -1,62 +1,56 @@
-import { Button, Form, Input, Select, Space } from 'antd';
-import { LFormItem } from 'lighting-design';
+import { Input, Select } from 'antd';
+import { LForm, LFormItem } from 'lighting-design';
+import AgeSelect from './components/AgeSelect';
 
-const Demo1 = () => {
-  const [form] = Form.useForm();
-  // const nameValue = Form.useWatch('name', form);
+const Demo2 = () => {
+  const [form] = LForm.useForm();
   return (
     <>
-      <Form name="Form1" form={form} preserve={false}>
-        <LFormItem name="name" className="l-name" label="姓名" contentAfter={<div>后面</div>}>
-          <Input />
-        </LFormItem>
-
-        <LFormItem name="select" label="选择">
+      <LForm labelWidth={90} name="LForm2" form={form} submitter={{ buttonAlign: 90 }}>
+        <LFormItem name="sex" label="性别" required>
           <Select
-            placeholder="Search to Select"
+            placeholder="选择性别"
             options={[
-              { value: 'a', label: 'AA' },
-              { value: 'b', label: 'BB' },
-              { value: 'c', label: 'CC' },
+              { value: '1', label: '男' },
+              { value: '0', label: '女' },
             ]}
           />
         </LFormItem>
 
-        <LFormItem shouldUpdate={(prevV, curV) => prevV.select !== curV.select}>
-          {({ getFieldValue }) =>
-            getFieldValue('select') === 'a' ? (
-              <LFormItem
-                name="age"
-                className="l-age"
-                label="年龄"
-                alignItems="end"
-                contentAfter={<div>后面</div>}
-              >
-                <Input placeholder="年龄" />
-              </LFormItem>
-            ) : null
-          }
+        <LFormItem
+          required
+          name="age"
+          className="l-age"
+          label="年龄"
+          alignItems="end"
+          contentAfter={<div>岁</div>}
+          dependencies={['sex']}
+        >
+          <AgeSelect />
         </LFormItem>
-      </Form>
 
-      <Space>
-        <Button
-          onClick={() => {
-            console.log(' form', form.getFieldsValue());
-          }}
+        <LFormItem
+          noStyle
+          shouldUpdate={(prevValues, curValues) => prevValues.sex !== curValues.sex}
         >
-          获取
-        </Button>
-        <Button
-          onClick={() => {
-            form.setFieldsValue({ name: '1' });
+          {({ getFieldValue }) => {
+            return getFieldValue('sex') === '1' ? (
+              <LFormItem
+                label="信息"
+                name="l-info"
+                className="lightd-form-item-className1"
+                contentClassName="lightd-form-item-contentClassName1"
+                required
+                contentProps={{ placeholder: '输入信息' }}
+              >
+                <Input />
+              </LFormItem>
+            ) : null;
           }}
-        >
-          设置
-        </Button>
-      </Space>
+        </LFormItem>
+      </LForm>
     </>
   );
 };
 
-export default Demo1;
+export default Demo2;
