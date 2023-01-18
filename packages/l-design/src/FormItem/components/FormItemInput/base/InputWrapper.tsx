@@ -38,7 +38,10 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
       const input = e.target;
       let rawValue = input.value;
       // 手机类型银行卡只能输入数字
-      if (type === 'phone' && window.isNaN(input.value as unknown as any)) {
+      if (
+        (type === 'phone' || type === 'bankCard') &&
+        window.isNaN(input.value as unknown as any)
+      ) {
         rawValue = rawValue.replace(/.*/g, '');
       }
 

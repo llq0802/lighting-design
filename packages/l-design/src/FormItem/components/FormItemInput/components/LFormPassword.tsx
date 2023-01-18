@@ -39,6 +39,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
     <LFormItem
       placeholder={messagePlaceholder}
       required={required}
+      validateTrigger="onBlur"
       rules={[
         {
           validator(rule, value) {

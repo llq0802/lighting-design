@@ -8,19 +8,20 @@ nav:
 
 # LFormItemInput
 
-输入框
+基于 Input 与 LFormItem 扩展的输入框
 
 **特点**
 
 - 可配置过滤空格
-- 当有 `type` 值时：
   - 失焦校验
-  - 自动过滤空格、 `phone` 类型只能输入数字 11 位 、`idCard`类型 18 位
+  - 自动过滤空格
+  - `phone` 类型只能输入数字 11 位手机号
+  - `idCard`类型 18 数字位最后一位可大小写 `x`
+  - `bankCard`类型只能输入数字
 
-**校验顺序**
+## 代码演示
 
-- 必填为空时提示：`请输入${label}`
-- placeholder`请输入${label}`
+### 基础用法
 
 <code src='./demos/Demo1.tsx'>
 

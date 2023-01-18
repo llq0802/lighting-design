@@ -1,6 +1,5 @@
 import type { InputProps } from 'antd';
 import type { FC } from 'react';
-import { useMemo } from 'react';
 import { usePlaceholder } from '../../../../utils';
 import type { LFormItemProps } from '../../../base/BaseFromItem';
 import LFormItem from '../../../base/BaseFromItem';
@@ -25,11 +24,6 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   placeholder,
   ...restProps
 }) => {
-  const isOnblur = useMemo(
-    () => type === 'bankCard' || type === 'idCard' || type === 'phone',
-    [type],
-  );
-
   const messageLabel = usePlaceholder({
     placeholder,
     restProps,
@@ -39,7 +33,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
     <LFormItem
       placeholder={messageLabel}
       required={required}
-      validateTrigger={isOnblur ? 'onBlur' : 'onChange'}
+      validateTrigger="onBlur"
       {...restProps}
     >
       <InputWrapper

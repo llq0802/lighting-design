@@ -8,20 +8,18 @@ nav:
 
 # LFormItemNumber
 
-数字输入框
+基于 Input.Number 与 LFormItem 扩展的数字输入框
 
 **特点**
 
-- 支持数字输入框前后插入元素
 - 返回的值为类型数字
 - 自动补零两位 可修改配置
 
-**校验顺序**
+## 代码演示
 
-- 必填为空时提示：`请输入${label}`
-- placeholder`请输入${label}`
+### 基础用法
 
-<code src='./demos/Demo1.tsx'>
+<code src='./demos/Demo2.tsx'>
 
 ## API
 

@@ -1,10 +1,4 @@
-import {
-  LForm,
-  LFormItemInput,
-  LFormItemNumber,
-  LFormItemPassword,
-  LFormItemTextArea,
-} from 'lighting-design';
+import { LForm, LFormItemInput } from 'lighting-design';
 import IdentifyCode from './IdentifyCode';
 import renderFieldWithPopover from './renderFieldWithPopover';
 
@@ -12,48 +6,30 @@ const Demo = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemInput" form={form}>
+    <LForm name="LFormItemInput" form={form} submitter={{ buttonAlign: 'center' }}>
+      <LFormItemInput className="myLFormItemInput" name="name" label="名字" required />
       <LFormItemInput
-        className="qwe"
-        contentClassName="asd"
-        name="name"
-        label="名字"
+        name="name1"
+        label="启用空格"
+        disabledWhiteSpace={false}
         required
-        tooltip="禁止空格"
-        disabledWhiteSpace
-        alignItems="end"
-        contentAfter={<div>后面</div>}
+        tooltip="启用空格"
       />
       <LFormItemInput
-        dependencies={['name']}
         name="phone"
         label="手机号"
         required
-        tooltip="禁止空格 只能输入数字"
+        tooltip="只能输入11位数字"
         type="phone"
-        disabledWhiteSpace
-        contentAfter={<div>后面</div>}
       />
-      <LFormItemInput
-        name="idCard"
-        label="身份证"
-        required
-        type="idCard"
-        disabledWhiteSpace
-        contentAfter={<div>后面</div>}
-      />
-
+      <LFormItemInput name="idCard" type="idCard" label="身份证" required />
+      <LFormItemInput name="bankCard" label="银行卡" required type="bankCard" />
       <LFormItemInput label="图片验证码" name="code" required contentAfter={<IdentifyCode />} />
-
-      <LFormItemNumber label="数字" name="LFormItemNumber" required contentAfter="$" />
-      <LFormItemPassword label="密码" name="LFormPassword" required />
-      <LFormItemTextArea label="备注" name="LFormItemTextArea" />
-
       <LFormItemInput
-        label="结合popover"
+        label="自定义渲染"
         name="with-popover"
         tooltip="该方案可用于所有表单项"
-        renderField={renderFieldWithPopover({ content: '测试内容测试内容' })}
+        renderField={renderFieldWithPopover({ content: '该方案可用于所有表单项' })}
       />
     </LForm>
   );
