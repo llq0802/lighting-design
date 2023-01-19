@@ -40,11 +40,17 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   );
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
 
+  const hasLoading = useMemo(
+    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    [outLoading],
+  );
+
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {
+      if (!hasLoading) setLoading(false);
       if (all && result?.length > 0) {
         setOptsRequest([{ label: allLabel, value: allValue }, ...result]);
       } else {
@@ -53,31 +59,30 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     },
     onError: () => {
       setOptsRequest([]);
+      if (!hasLoading) setLoading(false);
     },
   });
-
-  const hasLoading = useMemo(
-    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
-    [outLoading],
-  );
 
   useUpdateEffect(() => {
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项
-  const depends = useMemo(
+  // 获取依赖项的值
+  const dependValue = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
     [dependencies, restProps],
   );
-  // 判断依赖项是否有空或undefined
+
+  // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
     () =>
-      depends.some((nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length),
-    [depends],
+      dependValue?.some(
+        (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
+      ),
+    [dependValue],
   );
 
-  const opts = useMemo(() => {
+  const options = useMemo(() => {
     const rawOptions = selectProps.options || outOptions;
     if (all && rawOptions?.length > 0) {
       const retOptions = [{ label: allLabel, value: allValue }, ...rawOptions];
@@ -85,16 +90,18 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     }
     return rawOptions;
   }, [all, allLabel, allValue, outOptions, selectProps.options]);
+  // console.log('isFirst.current', isFirst.current);
 
   useDeepCompareEffect(() => {
     if (!request) return;
     // 组件第一次加载时调用request
     if (isFirst.current) {
       isFirst.current = false;
+      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
-          const newOptions = await request(...depends);
+          const newOptions = await request(...dependValue);
           if (all && newOptions?.length > 0) {
             setOptsRequest([{ label: allLabel, value: allValue }, ...newOptions]);
           } else {
@@ -106,10 +113,13 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      // 防抖调用
-      run(...depends);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        // 防抖调用
+        run(...dependValue);
+      }
     }
-  }, [restProps, allLabel, allValue, all]);
+  }, [dependValue]);
 
   // 依赖清除
   useDeepCompareEffect(() => {
@@ -123,12 +133,12 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
       return [];
     } else if (optsRequest?.length > 0) {
       return optsRequest;
-    } else if (opts.length > 0) {
-      return opts;
+    } else if (options.length > 0) {
+      return options;
     } else {
       return [];
     }
-  }, [isClearDepends, opts, optsRequest]);
+  }, [isClearDepends, options, optsRequest]);
 
   const handleChange = useCallback(
     (val: string, items: DefaultOptionType | DefaultOptionType[]) => {
@@ -140,7 +150,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     [onChange, selectProps],
   );
   return (
-    <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
+    <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
       <Select
         disabled={disabled}
         options={selectOptions}
