@@ -108,7 +108,10 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
               .filter((item) => item.status !== 'removed')
               .map((item) => {
                 if (item.uid === uid) {
-                  const error = typeof err !== 'object' ? { message: err || '上传错误' } : err;
+                  const error =
+                    typeof err !== 'object'
+                      ? { message: err || '上传错误' }
+                      : { message: err?.message || err?.msg || '上传错误', ...err };
                   item.status = 'error';
                   item.percent = 0;
                   item.error = error;

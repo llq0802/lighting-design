@@ -1,10 +1,8 @@
 import { PictureOutlined } from '@ant-design/icons';
 import type { UploadFile } from 'antd';
-import type { RcFile } from 'antd/lib/upload';
 import classNames from 'classnames';
 import type { FC, ReactNode } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { getBase64 } from '../../../../utils/upload';
+import { useEffect, useMemo, useState } from 'react';
 import UploadButton from './UploadButton';
 import type { UploadWrapperProps } from './UploadWrapper';
 import UploadWrapper, { lightdUploadWrapper } from './UploadWrapper';
@@ -25,28 +23,39 @@ const AvatarContent: FC<{
   const uploading = currentFile?.status === 'uploading';
   const isError = currentFile?.status === 'error';
 
-  const getUrl = useCallback(async () => {
-    if (!currentFile) {
-      setImgUrl('');
-      return;
-    }
-
-    if (currentFile?.originFileObj instanceof File) {
-      const base64Url = await getBase64(currentFile.originFileObj as RcFile);
-      setImgUrl(base64Url);
-      currentFile.url = base64Url;
-    } else if (currentFile?.url) {
-      setImgUrl(currentFile?.url);
-    } else if (currentFile?.thumbUrl) {
-      setImgUrl(currentFile?.thumbUrl);
-    } else if (currentFile?.preview) {
-      setImgUrl(currentFile?.preview);
-    }
-  }, [currentFile]);
+  // const getUrl = useCallback(async () => {
+  //   if (!currentFile) {
+  //     setImgUrl('');
+  //     return;
+  //   }
+  //   if (currentFile?.originFileObj instanceof File) {
+  //     const base64Url = await getBase64(currentFile.originFileObj as RcFile);
+  //     setImgUrl(base64Url);
+  //     currentFile.url = base64Url;
+  //   } else if (currentFile?.url) {
+  //     setImgUrl(currentFile?.url);
+  //   } else if (currentFile?.thumbUrl) {
+  //     setImgUrl(currentFile?.thumbUrl);
+  //   } else if (currentFile?.preview) {
+  //     setImgUrl(currentFile?.preview);
+  //   }
+  // }, [currentFile]);
+  // useEffect(() => {
+  //   getUrl();
+  // }, [getUrl]);
 
   useEffect(() => {
-    getUrl();
-  }, [getUrl]);
+    if (currentFile && currentFile?.originFileObj instanceof File) {
+      if (!currentFile.thumbUrl && !currentFile.url && !currentFile.preview) {
+        currentFile.preview = URL.createObjectURL(
+          (currentFile?.originFileObj || currentFile) as File,
+        );
+      }
+      setImgUrl(currentFile.thumbUrl || currentFile.url || currentFile.preview || '');
+    } else {
+      setImgUrl('');
+    }
+  }, [currentFile]);
 
   const viewConent = useMemo(() => {
     if (isError) {

@@ -5,7 +5,13 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemSelect" form={form}>
+    <LForm
+      name="LFormItemUpload"
+      form={form}
+      onFinish={(values) => {
+        console.log('values', values);
+      }}
+    >
       <LFormItemUpload
         name="default"
         label="默认上传"
@@ -17,7 +23,7 @@ const Demo1 = () => {
         //     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
         //   },
         // ]}
-        required
+        // required
         // rules={[
         //   {
         //     validator(rules, value) {
@@ -55,7 +61,8 @@ const Demo1 = () => {
         label="图片上传"
         required
         uploadType="image"
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        onUpload={upload}
+        // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         initialValue={[
           {
             name: 'meinv',
@@ -65,7 +72,7 @@ const Demo1 = () => {
       />
 
       <LFormItemUpload
-        required
+        // required
         uploadType="dragger"
         name="dragger"
         label="拖动上传"
