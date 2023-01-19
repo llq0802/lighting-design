@@ -2,6 +2,8 @@ import type { AutoCompleteProps } from 'antd';
 import { AutoComplete } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import type { FC, ReactElement } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
@@ -28,7 +30,7 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
   autoCompleteProps,
   required,
   placeholder,
-  disabled = false,
+  disabled,
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -36,12 +38,13 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
     restProps,
     isSelectType: false,
   });
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem required={required} placeholder={messageLabel} {...restProps}>
       {!inputRender ? (
         <AutoComplete
-          disabled={disabled}
+          disabled={disabled ?? formDisabled}
           allowClear
           options={options}
           style={{ width: '100%' }}
@@ -54,7 +57,7 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
         />
       ) : (
         <AutoComplete
-          disabled={disabled}
+          disabled={disabled ?? formDisabled}
           allowClear
           options={options}
           style={{ width: '100%' }}

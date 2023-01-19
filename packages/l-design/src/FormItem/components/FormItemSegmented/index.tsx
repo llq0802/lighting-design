@@ -1,6 +1,8 @@
 import type { SpinProps } from 'antd';
 import type { SegmentedLabeledOption, SegmentedValue } from 'antd/lib/segmented';
 import type { FC } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 import type { SegmentedWrapperProps } from './base/SegmentedWrapper';
@@ -24,10 +26,13 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
   options = [],
   segmentedProps = {},
   spin,
+  disabled,
 
   required,
   ...restProps
 }) => {
+  const { disabled: formDisabled } = useContext(LFormContext);
+
   return (
     <LFormItem required={required} isSelectType {...restProps}>
       <SegmentedWrapper
@@ -35,6 +40,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
         options={options}
         request={request}
         outLoading={spin}
+        disabled={disabled ?? formDisabled}
         debounceTime={debounceTime}
         // @ts-ignore
         segmentedProps={segmentedProps}

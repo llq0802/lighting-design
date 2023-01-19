@@ -2,6 +2,8 @@ import type { SliderSingleProps } from 'antd';
 import { Slider } from 'antd';
 import type { SliderRangeProps } from 'antd/lib/slider';
 import type { CSSProperties, FC } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
@@ -34,6 +36,7 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
     restProps,
     isSelectType: true,
   });
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem required={required} isSelectType placeholder={messagePlaceholder} {...restProps}>
@@ -42,7 +45,7 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
         max={max}
         step={step}
         marks={marks}
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         handleStyle={handleStyle}
         trackStyle={trackStyle}
         // @ts-ignore

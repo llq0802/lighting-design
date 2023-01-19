@@ -1,7 +1,8 @@
 import type { SwitchProps } from 'antd';
 import { Switch } from 'antd';
 import type { FC } from 'react';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 
@@ -10,6 +11,7 @@ const SwitchWrapper = (
     Record<string, any>,
 ) => {
   const { checked, onChange, unCheckedBg, checkedBg, disabled, style, ...switchProps } = props;
+
   const styles = useMemo(() => {
     return checked
       ? { backgroundColor: checkedBg, ...style }
@@ -25,10 +27,11 @@ const SwitchWrapper = (
     },
     [onChange, switchProps],
   );
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <Switch
-      disabled={disabled}
+      disabled={disabled ?? formDisabled}
       {...switchProps}
       style={styles}
       checked={checked}

@@ -1,6 +1,8 @@
 import type { CascaderProps, ColProps, InputProps } from 'antd';
 import { Cascader, Col, Input, Row } from 'antd';
 import type { FC } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 
@@ -34,7 +36,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
   names,
   label,
   required = false,
-  disabled = false,
+  disabled,
   options = [],
   placeholder = ['省/市/区', '详细地址'],
   inputFormProps = {},
@@ -46,6 +48,8 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
   style,
   ...restProps
 }) => {
+  const { disabled: formDisabled } = useContext(LFormContext);
+
   return (
     <LFormItem
       required={required}
@@ -74,7 +78,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
             {...cascaderFormProps}
           >
             <Cascader
-              disabled={disabled}
+              disabled={disabled ?? formDisabled}
               options={options}
               placeholder={`请选择${placeholder[0]}`}
               {...cascaderProps}
@@ -101,7 +105,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
             {...inputFormProps}
           >
             <Input
-              disabled={disabled}
+              disabled={disabled ?? formDisabled}
               placeholder={`请输入${placeholder[1]}`}
               allowClear
               autoComplete="off"

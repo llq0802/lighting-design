@@ -2,7 +2,7 @@ import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker } from 'antd';
 import type { MonthPickerProps, RangePickerProps, WeekPickerProps } from 'antd/lib/date-picker';
 import type { FC } from 'react';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import type { DateValueType, Picker } from '../../../utils/date';
 import {
   createDisabledDate,
@@ -15,6 +15,7 @@ import LFormItem from '../../base/BaseFromItem';
 
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import 'moment/locale/zh-cn';
+import { LFormContext } from '../../../Form/base/BaseForm';
 
 const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps | any> = ({
   style,
@@ -84,12 +85,14 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
 
   pickerProps = {},
 
-  disabled = false,
+  disabled,
   required = false,
 
   placeholder,
   ...restProps
 }) => {
+  const { disabled: formDisabled } = useContext(LFormContext);
+
   const currentPicker = useMemo(() => pickerProps.picker || picker, [pickerProps.picker, picker]);
   const currentFormat = useMemo(
     () =>
@@ -126,7 +129,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
     return !rangePicker ? (
       <DatePickerWrapper
         placeholder={placeholder}
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         format={currentFormat}
         showTime={showTime}
         picker={currentPicker}
@@ -140,7 +143,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
         showTime={showTime}
         picker={currentPicker}
         disabledDate={currentDisabledDate}
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         {...pickerProps}
       />
     );
@@ -149,6 +152,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
     currentFormat,
     currentPicker,
     disabled,
+    formDisabled,
     pickerProps,
     placeholder,
     rangePicker,

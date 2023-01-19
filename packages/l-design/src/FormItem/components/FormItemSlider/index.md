@@ -14,12 +14,9 @@ nav:
 
 - 支持自定义样式
 
-**校验顺序**
-
-- 必填为空时提示：`请输入${label}`
-- placeholder`请输入${label}`
-
 ## 代码演示
+
+### 基础用法
 
 <code src='./demos/Demo1.tsx' />
 
@@ -36,4 +33,4 @@ nav:
 | trackStyle | 移动过的轨道样式 | `CSSProperties` | `-` |
 | railStyle | 整个轨道样式 | `CSSProperties` | `-` |
 | sliderStyle | Slider 组件根标签样式 | `CSSProperties` | `-` |
-| SliderProps | antd 滑块的属性 | [SliderProps](https://4x.ant.design/components/slider-cn/#API) | `-` |
+| sliderProps | antd 滑块的属性 | [SliderProps](https://4x.ant.design/components/slider-cn/#API) | `-` |

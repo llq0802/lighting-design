@@ -39,7 +39,6 @@ const Index = () => {
             return result.data;
           }
         }}
-        options={[{ label: '上班', value: '1' }]}
         required
       />
     </LForm>

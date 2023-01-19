@@ -1,6 +1,8 @@
 import type { ButtonProps, UploadProps } from 'antd';
 import type { FC, ReactNode } from 'react';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
+import { getFormItemLabel } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 import UploadAvatar from './base/UploadAvatar';
@@ -8,8 +10,6 @@ import UploadDefault from './base/UploadDefault';
 import UploadDragger from './base/UploadDragger';
 import UploadImage from './base/UploadImage';
 import type { UploadWrapperProps } from './base/UploadWrapper';
-
-import { getFormItemLabel } from '../../../utils';
 
 const normFile = (value: any): any[] => {
   if (Array.isArray(value)) return value;
@@ -48,7 +48,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   buttonProps,
   maxSize,
   maxCount,
-  disabled = false,
+  disabled,
   multiple = false,
   action,
   accept,
@@ -71,6 +71,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
     }
     return UploadDefault;
   }, [uploadType]);
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem
@@ -105,7 +106,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
         fileSizeMessage={fileSizeMessage}
         maxSize={maxSize}
         maxCount={maxCount}
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         multiple={multiple}
         {...uploadProps}
       />

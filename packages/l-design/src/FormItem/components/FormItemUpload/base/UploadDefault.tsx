@@ -39,7 +39,7 @@ const UploadDefault: FC<UploadDefaultProps> = ({
 
   return (
     <UploadWrapper {...restProps} showUploadList={currentShowUploadList}>
-      <Button icon={buttonIcon} {...buttonProps}>
+      <Button icon={buttonIcon} disabled={restProps.disabled} {...buttonProps}>
         {buttonTitle}
       </Button>
     </UploadWrapper>

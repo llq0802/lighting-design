@@ -28,35 +28,38 @@ const RateWrapper: FC<RateWrapperProps> = ({
   const [reqValue, setReqvalue] = useState(0);
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
   const isFirst = useRef<boolean>(true);
-  const { run } = useRequest(request || (async () => []), {
-    manual: true,
-    debounceWait: debounceTime,
-    onSuccess: (result: number) => {
-      setReqvalue(result);
-    },
-    onError: () => {
-      setReqvalue(0);
-    },
-  });
 
   const hasLoading = useMemo(
     (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
     [outLoading],
   );
 
+  const { run } = useRequest(request || (async () => []), {
+    manual: true,
+    debounceWait: debounceTime,
+    onSuccess: (result: number) => {
+      if (!hasLoading) setLoading(false);
+      setReqvalue(result);
+    },
+    onError: () => {
+      if (!hasLoading) setLoading(false);
+      setReqvalue(0);
+    },
+  });
+
   useUpdateEffect(() => {
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项
-  const depends = useMemo(
+  // 获取依赖项的值
+  const dependValues = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
     [dependencies, restProps],
   );
-  // 判断依赖项是否有空或undefined
+  // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
-    () => depends.some((nameValue) => nameValue === '' || nameValue == undefined),
-    [depends],
+    () => dependValues.some((nameValue) => nameValue === '' || nameValue == undefined),
+    [dependValues],
   );
 
   useDeepCompareEffect(() => {
@@ -64,10 +67,11 @@ const RateWrapper: FC<RateWrapperProps> = ({
     // 组件第一次加载时调用request
     if (isFirst.current) {
       isFirst.current = false;
+      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
-          const newOptions = await request(...depends);
+          const newOptions = await request(...dependValues);
           setReqvalue(newOptions);
         } catch (error) {
           setReqvalue(0);
@@ -75,9 +79,13 @@ const RateWrapper: FC<RateWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      run(...depends);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        // 防抖调用
+        run(...dependValues);
+      }
     }
-  }, [restProps]);
+  }, [dependValues]);
 
   // 依赖清除
   useDeepCompareEffect(() => {
@@ -105,16 +113,14 @@ const RateWrapper: FC<RateWrapperProps> = ({
   );
 
   return (
-    <>
-      <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
-        <Rate
-          disabled={disabled ?? isClearDepends}
-          {...rateProps}
-          value={selectValue}
-          onChange={handleChange}
-        />
-      </Spin>
-    </>
+    <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
+      <Rate
+        disabled={disabled ?? isClearDepends}
+        {...rateProps}
+        value={selectValue}
+        onChange={handleChange}
+      />
+    </Spin>
   );
 };
 

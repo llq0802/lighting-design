@@ -39,6 +39,7 @@ export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset' | 'tit
 export const LFormContext = createContext({
   layout: 'horizontal',
   labelColProps: {},
+  disabled: undefined,
 });
 
 function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
@@ -54,6 +55,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     transformValues,
 
     layout = 'horizontal',
+    disabled,
     labelCol,
     form: outForm,
     onFinish,
@@ -134,6 +136,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
   const formDom = (
     <LFormContext.Provider
       value={{
+        disabled,
         layout,
         labelColProps,
       }}

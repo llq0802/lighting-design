@@ -1,6 +1,8 @@
 import type { SpinProps } from 'antd';
 import type { CheckboxOptionType } from 'antd/lib/checkbox';
 import type { FC } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
@@ -38,6 +40,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
     restProps,
     isSelectType: true,
   });
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem
@@ -63,7 +66,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
         dependencies={restProps?.dependencies}
         options={options}
         request={request}
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         debounceTime={debounceTime}
         outLoading={spin}
         beforeAll={beforeAll}

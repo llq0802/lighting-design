@@ -1,5 +1,7 @@
 import type { PasswordProps } from 'antd/lib/input/Password';
 import type { FC } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../../utils';
 import type { LFormItemProps } from '../../../base/BaseFromItem';
 import LFormItem from '../../../base/BaseFromItem';
@@ -34,6 +36,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
     placeholder,
     restProps,
   });
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem
@@ -59,7 +62,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
       {...restProps}
     >
       <PasswordWrapper
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         disabledWhiteSpace={disabledWhiteSpace}
         disabledPaste={disabledPaste}
         disabledCopy={disabledCopy}

@@ -1,5 +1,7 @@
 import type { TextAreaProps } from 'antd/lib/input';
 import type { FC } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../../utils';
 import type { LFormItemProps } from '../../../base/BaseFromItem';
 import LFormItem from '../../../base/BaseFromItem';
@@ -13,7 +15,7 @@ export interface LFormItemTextAreaProps extends LFormItemProps {
 const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
   disabledWhiteSpace = true,
   required = false,
-  disabled = false,
+  disabled,
   placeholder,
   textAreaProps = {},
   ...restProps
@@ -22,6 +24,8 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
     placeholder,
     restProps,
   });
+  const { disabled: formDisabled } = useContext(LFormContext);
+
   return (
     <LFormItem
       required={required}
@@ -30,7 +34,7 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
       {...restProps}
     >
       <TextAreaWrapper
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         disabledWhiteSpace={disabledWhiteSpace}
         placeholder={messagePlaceholder}
         {...textAreaProps}

@@ -1,5 +1,7 @@
 import type { InputProps } from 'antd';
 import type { FC } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../../utils';
 import type { LFormItemProps } from '../../../base/BaseFromItem';
 import LFormItem from '../../../base/BaseFromItem';
@@ -28,6 +30,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
     placeholder,
     restProps,
   });
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem
@@ -37,7 +40,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
       {...restProps}
     >
       <InputWrapper
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         placeholder={messageLabel}
         type={type}
         disabledWhiteSpace={disabledWhiteSpace}

@@ -1,5 +1,7 @@
 import type { InputNumberProps } from 'antd';
 import type { FC } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../../utils';
 import type { LFormItemProps } from '../../../base/BaseFromItem';
 import LFormItem from '../../../base/BaseFromItem';
@@ -13,7 +15,7 @@ export interface LFormItemNumberProps extends LFormItemProps {
 
 const LFormItemTextArea: FC<LFormItemNumberProps> = ({
   required = false,
-  disabled = false,
+  disabled,
   min = 0,
   max = 100,
   numberProps = {},
@@ -24,6 +26,7 @@ const LFormItemTextArea: FC<LFormItemNumberProps> = ({
     placeholder,
     restProps,
   });
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem
@@ -33,7 +36,7 @@ const LFormItemTextArea: FC<LFormItemNumberProps> = ({
       {...restProps}
     >
       <NumberWrapper
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         placeholder={messageLabel}
         min={min}
         max={max}

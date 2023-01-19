@@ -64,36 +64,40 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     [],
   );
   const isFirst = useRef<boolean>(true);
-  const { run } = useRequest(request || (async () => []), {
-    manual: true,
-    debounceWait: debounceTime,
-    onSuccess: (result) => {
-      setOptsRequest([...result]);
-    },
-    onError: () => {
-      setOptsRequest([]);
-    },
-  });
 
   const hasLoading = useMemo(
     (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
     [outLoading],
   );
+  const { run } = useRequest(request || (async () => []), {
+    manual: true,
+    debounceWait: debounceTime,
+    onSuccess: (result) => {
+      if (!hasLoading) setLoading(false);
+      setOptsRequest([...result]);
+    },
+    onError: () => {
+      if (!hasLoading) setLoading(false);
+      setOptsRequest([]);
+    },
+  });
 
   useUpdateEffect(() => {
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项
-  const depends = useMemo(
+  // 获取依赖项的值
+  const dependValues = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
     [dependencies, restProps],
   );
-  // 判断依赖项是否有空或undefined
+  // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
     () =>
-      depends.some((nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length),
-    [depends],
+      dependValues.some(
+        (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
+      ),
+    [dependValues],
   );
 
   const opts = useMemo(() => {
@@ -106,10 +110,11 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     // 组件第一次加载时调用request
     if (isFirst.current) {
       isFirst.current = false;
+      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
-          const newOptions = await request(...depends);
+          const newOptions = await request(...dependValues);
           setOptsRequest([...newOptions]);
         } catch (error) {
           setOptsRequest([]);
@@ -117,10 +122,13 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      // 防抖调用
-      run(...depends);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        // 防抖调用
+        run(...dependValues);
+      }
     }
-  }, [restProps]);
+  }, [dependValues]);
 
   // 依赖清除
   useDeepCompareEffect(() => {
@@ -173,31 +181,29 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     [beforeAll, checkboxProps, onChange, checkboxOptions],
   );
   return (
-    <>
-      <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
-        {beforeAll && (
-          <Checkbox
-            indeterminate={indeterminate}
-            style={{
-              marginRight: '8px',
-              ...beforeAll?.style,
-            }}
-            disabled={disabled ?? (beforeAll?.disabled || isClearDepends)}
-            onChange={checkAllChange}
-            checked={checkAll}
-          >
-            {beforeAll?.label || '全选'}
-          </Checkbox>
-        )}
-        <Checkbox.Group
-          options={checkboxOptions}
-          disabled={disabled ?? isClearDepends}
-          {...checkboxProps}
-          value={value}
-          onChange={handleChange}
-        />
-      </Spin>
-    </>
+    <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
+      {beforeAll && (
+        <Checkbox
+          indeterminate={indeterminate}
+          style={{
+            marginRight: '8px',
+            ...beforeAll?.style,
+          }}
+          disabled={disabled ?? (beforeAll?.disabled || isClearDepends)}
+          onChange={checkAllChange}
+          checked={checkAll}
+        >
+          {beforeAll?.label || '全选'}
+        </Checkbox>
+      )}
+      <Checkbox.Group
+        options={checkboxOptions}
+        disabled={disabled ?? isClearDepends}
+        {...checkboxProps}
+        value={value}
+        onChange={handleChange}
+      />
+    </Spin>
   );
 };
 

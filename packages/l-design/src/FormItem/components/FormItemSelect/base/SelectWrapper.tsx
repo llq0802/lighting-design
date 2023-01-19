@@ -27,7 +27,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   request,
   debounceTime,
   all = false,
-  disabled = false,
+  disabled,
   allValue = '',
   allLabel = '全部',
   selectProps = {},

@@ -23,6 +23,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   options: outOptions = [],
   request,
   outLoading,
+  disabled,
   debounceTime,
   segmentedProps = {},
 
@@ -31,38 +32,41 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   const [optsRequest, setOptsRequest] = useState<(SegmentedValue | SegmentedLabeledOption)[]>([]);
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
 
+  const hasLoading = useMemo(
+    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    [outLoading],
+  );
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {
+      if (!hasLoading) setLoading(false);
       setOptsRequest([...result]);
     },
     onError: () => {
+      if (!hasLoading) setLoading(false);
       setOptsRequest([]);
     },
   });
-
-  const hasLoading = useMemo(
-    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
-    [outLoading],
-  );
 
   useUpdateEffect(() => {
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项
-  const depends = useMemo(
+  // 获取依赖项的值
+  const dependValues = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
     [dependencies, restProps],
   );
 
-  // 判断依赖项是否有空或undefined
+  // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
     () =>
-      depends.some((nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length),
-    [depends],
+      dependValues.some(
+        (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
+      ),
+    [dependValues],
   );
 
   const opts = useMemo(() => {
@@ -75,10 +79,11 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
     // 组件第一次加载时调用request
     if (isFirst.current) {
       isFirst.current = false;
+      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
-          const newOptions = await request(...depends);
+          const newOptions = await request(...dependValues);
           setOptsRequest(newOptions);
         } catch (error) {
           setOptsRequest([]);
@@ -86,10 +91,13 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      // 防抖调用
-      run(...depends);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        // 防抖调用
+        run(...dependValues);
+      }
     }
-  }, [restProps]);
+  }, [dependValues]);
 
   // 依赖清除
   useDeepCompareEffect(() => {
@@ -99,14 +107,16 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   }, [value, isClearDepends]);
 
   const segmentedOptions = useMemo(() => {
-    if (optsRequest?.length > 0) {
+    if (isClearDepends) {
+      return [];
+    } else if (optsRequest?.length > 0) {
       return optsRequest;
     } else if (opts.length > 0) {
       return opts;
     } else {
       return [];
     }
-  }, [opts, optsRequest]);
+  }, [isClearDepends, opts, optsRequest]);
 
   const handleChange = useCallback(
     (val: SegmentedValue) => {
@@ -119,18 +129,16 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   );
 
   return (
-    <>
-      <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
-        {/* @ts-ignore */}
-        <Segmented
-          disabled={isClearDepends}
-          {...segmentedProps}
-          options={segmentedOptions}
-          value={value}
-          onChange={handleChange}
-        />
-      </Spin>
-    </>
+    <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
+      {/* @ts-ignore */}
+      <Segmented
+        disabled={disabled ?? isClearDepends}
+        {...segmentedProps}
+        options={segmentedOptions}
+        value={value}
+        onChange={handleChange}
+      />
+    </Spin>
   );
 };
 

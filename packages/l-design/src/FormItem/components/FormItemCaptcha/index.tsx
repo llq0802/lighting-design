@@ -1,7 +1,9 @@
 import type { FC } from 'react';
+import { useContext } from 'react';
 import type { LFormItemProps } from '../..';
 import LFormItem from '../..';
 import type { LCaptchaButtonProps } from '../../../CaptchaButton';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../utils';
 import type { CodeInputProps } from './base/CaptchaInput';
 import CaptchaInput from './base/CaptchaInput';
@@ -40,12 +42,13 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
     placeholder,
     restProps,
   });
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem required={required} placeholder={messageLabel} {...restProps}>
       <CaptchaInput
         maxLength={maxLength}
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         type={type}
         onGetCaptcha={onGetCaptcha}
         autoClick={autoClick}

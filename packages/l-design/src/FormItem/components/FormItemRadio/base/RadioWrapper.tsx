@@ -36,6 +36,10 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     [],
   );
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
+  const hasLoading = useMemo(
+    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    [outLoading],
+  );
 
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
@@ -43,6 +47,8 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     debounceWait: debounceTime,
     defaultParams: [],
     onSuccess: (result) => {
+      if (!hasLoading) setLoading(false);
+
       if (all && result?.length > 0) {
         setOptsRequest([{ label: allLabel, value: allValue }, ...result]);
       } else {
@@ -50,29 +56,27 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
       }
     },
     onError: () => {
+      if (!hasLoading) setLoading(false);
       setOptsRequest([]);
     },
   });
-
-  const hasLoading = useMemo(
-    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
-    [outLoading],
-  );
 
   useUpdateEffect(() => {
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项
-  const depends = useMemo(
+  // 获取依赖项的注意
+  const dependValues = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
     [dependencies, restProps],
   );
-  // 判断依赖项是否有空或undefined
+  // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
     () =>
-      depends.some((nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length),
-    [depends],
+      dependValues.some(
+        (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
+      ),
+    [dependValues],
   );
 
   const opts = useMemo(() => {
@@ -89,10 +93,11 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     // 组件第一次加载时调用request
     if (isFirst.current) {
       isFirst.current = false;
+      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
-          const newOptions = await request(...depends);
+          const newOptions = await request(...dependValues);
           if (all && newOptions?.length > 0) {
             setOptsRequest([{ label: allLabel, value: allValue }, ...newOptions]);
           } else {
@@ -104,11 +109,13 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      // 防抖调用
-      run(...depends);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        // 防抖调用
+        run(...dependValues);
+      }
     }
-  }, [restProps, allLabel, allValue, all]);
-
+  }, [dependValues]);
   // 依赖清除
   useDeepCompareEffect(() => {
     if (isClearDepends && value != undefined) {
@@ -137,7 +144,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   );
 
   return (
-    <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
+    <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
       <Radio.Group
         options={radioOptions}
         disabled={disabled ?? isClearDepends}

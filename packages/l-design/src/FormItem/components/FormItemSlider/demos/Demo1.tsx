@@ -4,19 +4,17 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemSelect" form={form}>
-      <LFormItemSlider
-        name="slider"
-        label="滑块"
-        required
-        tooltip="禁止空格"
-        contentAfter={<div>后面</div>}
-      />
+    <LForm
+      name="LFormItemSlider"
+      form={form}
+      labelCol={{ flex: '90px' }}
+      submitter={{ buttonAlign: 'center' }}
+    >
+      <LFormItemSlider name="slider" label="滑块" tooltip="禁止空格" />
       <LFormItemSlider
         max={300}
         name="slider2"
         label="滑块"
-        required
         tooltip="禁止空格"
         sliderProps={{
           tooltip: { open: false },

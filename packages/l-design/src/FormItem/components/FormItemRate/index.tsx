@@ -1,5 +1,7 @@
 import type { SpinProps } from 'antd';
 import type { FC } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
@@ -34,11 +36,13 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
     isSelectType: true,
   });
 
+  const { disabled: formDisabled } = useContext(LFormContext);
+
   return (
     <LFormItem required={required} isSelectType placeholder={messageLabel} {...restProps}>
       <RateWrapper
         dependencies={restProps?.dependencies}
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         outLoading={spin}
         request={request}
         debounceTime={debounceTime}

@@ -1,5 +1,7 @@
-import { SpinProps } from 'antd';
+import type { SpinProps } from 'antd';
 import type { FC } from 'react';
+import { useContext } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../utils';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
@@ -38,6 +40,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
     restProps,
     isSelectType: true,
   });
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem
@@ -60,7 +63,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
       {...restProps}
     >
       <TreeSelectWrapper
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         placeholder={messagePlaceholder}
         dependencies={restProps?.dependencies}
         treeData={treeData}

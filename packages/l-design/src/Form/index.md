@@ -16,6 +16,10 @@ nav:
 
 <code src='./demos/Demo1.tsx'  title='基础用法' description='基础用法' >
 
+### 表单禁用
+
+<code src='./demos/Demo6.tsx'  title='表单禁用' description='表单禁用' >
+
 ### 表单初始值通过异步获取
 
 <code src='./demos/Demo5.tsx' title='表单初始值通过异步获取' description='表单初始值通过异步获取' >

@@ -14,12 +14,9 @@ nav:
 
 - 支持背景颜色的设置
 
-**校验顺序**
-
-- 必填为空时提示：`请输入${label}`
-- placeholder`请输入${label}`
-
 ## 代码演示
+
+## 基础用法
 
 <code src='./demos/Demo1.tsx'>
 

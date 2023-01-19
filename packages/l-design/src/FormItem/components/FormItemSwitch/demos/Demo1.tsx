@@ -4,13 +4,12 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemSwitch" form={form}>
+    <LForm name="LFormItemSwitch" form={form} labelWidth={85} submitter={{ buttonAlign: 85 }}>
       <LFormItemSwitch
         required
         name="state1"
         label="开关"
         tooltip="禁止空格"
-        contentAfter={<div>后面</div>}
         switchProps={{
           className: 'abvs',
         }}
@@ -21,10 +20,8 @@ const Demo1 = () => {
         name="state2"
         label="开关"
         tooltip="禁止空格"
+        contentInline
         contentAfter={<div>后面</div>}
-        switchProps={{
-          className: 'abvs',
-        }}
       />
     </LForm>
   );

@@ -72,7 +72,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项
+  // 获取依赖项的值
   const dependValues = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
     [dependencies, restProps],
@@ -146,7 +146,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   );
 
   return (
-    <Spin spinning={loading} style={{ marginLeft: 32, width: 'fit-content' }} {...outLoading}>
+    <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
       <TreeSelect
         disabled={disabled}
         placeholder={placeholder}

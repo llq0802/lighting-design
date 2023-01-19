@@ -4,7 +4,8 @@ import locale from 'antd/es/date-picker/locale/zh_CN';
 import type { Moment } from 'moment';
 import 'moment/locale/zh-cn';
 import type { FC } from 'react';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import { usePlaceholder } from '../../../utils';
 import { timePickerMomentString, timePickerMomentVlaue } from '../../../utils/date';
 import type { LFormItemProps } from '../../base/BaseFromItem';
@@ -62,7 +63,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
   timePickerProps = {},
   placeholder,
   required = false,
-  disabled = false,
+  disabled,
   ...restProps
 }) => {
   useMemo(
@@ -74,6 +75,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
     placeholder,
     restProps,
   });
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem
@@ -96,7 +98,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
       {...restProps}
     >
       <TimePickerWrapper
-        disabled={disabled}
+        disabled={disabled ?? formDisabled}
         format={format}
         showTime={showTime}
         rangePicker={rangePicker}

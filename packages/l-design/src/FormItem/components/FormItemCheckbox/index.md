@@ -8,7 +8,7 @@ nav:
 
 ## LFormItemCheckbox
 
-多选框。
+多选框
 
 **特点**
 
@@ -18,24 +18,21 @@ nav:
 - `request` 的参数为依赖项的值
 - 支持配置添加`beforeAll`自定义全选
 
-**校验顺序**
+## 代码演示
 
-- 必填为空时提示：`请输入${label}`
-- placeholder`请输入${label}`
-
-## 基础使用
+### 基础用法
 
 <code src='./demos/Demo1.tsx'>
 
-## 全选
+### 全选
 
 <code src='./demos/Demo2.tsx'>
 
-## 禁用
+### 禁用
 
 <code src='./demos/Demo3.tsx'>
 
-## 异步请求
+### 异步请求
 
 <code src='./demos/Demo4.tsx'>
 
@@ -43,18 +40,16 @@ nav:
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
+<mark>`depends` 为 LFormItem 组件 `dependencies` 属性依赖项的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除<mark/>
+
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | options | 指定可选项 | `string[]` `number[]` `Option[]` | `-` |
 | request | 请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | beforeAll | 自定义全选 | `BeforeAllProps ` |
-| spin | 自定义 loading 效果 | [spinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
+| spin | 自定义 loading 效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | checkboxProps | `antd`多选框组件 Props | [CheckboxProps](https://4x.ant.design/components/checkbox-cn/#API) | `-` |
-
-<mark>
-`depends` 为LFormItem组件 `dependencies` 属性依赖项的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除
-<mark/>
 
 #### Option
 
