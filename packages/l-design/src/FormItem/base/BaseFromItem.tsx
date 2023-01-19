@@ -53,7 +53,7 @@ const LFormItem: FC<LFormItemProps> = (props) => {
     shouldUpdate,
     dependencies = [],
     rules = [],
-    trigger = 'onChange',
+    // trigger = 'onChange',
     labelCol,
     children,
 
@@ -108,7 +108,7 @@ const LFormItem: FC<LFormItemProps> = (props) => {
         name={name}
         required={required}
         shouldUpdate={shouldUpdate}
-        trigger={trigger}
+        // trigger={trigger}
         rules={itemRules}
         {...restFromItemProps}
       >
@@ -119,7 +119,7 @@ const LFormItem: FC<LFormItemProps> = (props) => {
               className={contentClassName}
               before={contentBefore}
               after={contentAfter}
-              trigger={trigger}
+              // trigger={trigger}
               alignItems={alignItems}
               contentInline={contentInline}
               {...contentProps}
@@ -147,7 +147,7 @@ const LFormItem: FC<LFormItemProps> = (props) => {
               labelCol={labelColProps}
               name={name}
               required={required}
-              trigger={trigger}
+              // trigger={trigger}
               rules={itemRules}
               {...restFromItemProps}
             >
@@ -155,7 +155,7 @@ const LFormItem: FC<LFormItemProps> = (props) => {
                 className={contentClassName}
                 before={contentBefore}
                 after={contentAfter}
-                trigger={trigger}
+                // trigger={trigger}
                 alignItems={alignItems}
                 contentInline={contentInline}
                 {...contentProps}
@@ -176,7 +176,7 @@ const LFormItem: FC<LFormItemProps> = (props) => {
       labelCol={labelColProps}
       name={name}
       required={required}
-      trigger={trigger}
+      // trigger={trigger}
       rules={itemRules}
       {...restFromItemProps}
     >
@@ -184,7 +184,7 @@ const LFormItem: FC<LFormItemProps> = (props) => {
         className={contentClassName}
         before={contentBefore}
         after={contentAfter}
-        trigger={trigger}
+        // trigger={trigger}
         alignItems={alignItems}
         contentInline={contentInline}
         {...contentProps}

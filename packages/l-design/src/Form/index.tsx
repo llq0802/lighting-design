@@ -78,6 +78,7 @@ const LForm: FC<LFormProps> & {
 };
 
 LForm.Item = LFormItem;
+LForm.List = Form.List;
 LForm.Provider = Form.Provider;
 LForm.ErrorList = Form.ErrorList;
 LForm.useForm = Form.useForm;

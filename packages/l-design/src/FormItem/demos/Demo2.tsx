@@ -6,7 +6,20 @@ const Demo2 = () => {
   const [form] = LForm.useForm();
   return (
     <>
-      <LForm labelWidth={90} name="LForm1" form={form} submitter={{ buttonAlign: 90 }}>
+      <LForm
+        labelWidth={90}
+        name="LForm1"
+        form={form}
+        submitter={{ buttonAlign: 90 }}
+        transformValues={(val) => {
+          console.log('val-transformValues', val);
+          val.switch = +!!val.switch;
+          return val;
+        }}
+        onFinish={(values) => {
+          console.log('values', values);
+        }}
+      >
         <LFormItem
           label="姓名"
           name="l-name"
@@ -20,6 +33,9 @@ const Demo2 = () => {
         </LFormItem>
         <LFormItem name="l-sex" label="性别" required contentBefore={<>前面</>}>
           <Select
+            onChange={(val) => {
+              console.log('val-Select', val);
+            }}
             placeholder="选择性别"
             options={[
               { value: '1', label: '男' },

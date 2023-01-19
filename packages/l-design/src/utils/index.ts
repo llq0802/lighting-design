@@ -64,3 +64,35 @@ export function getTableRowKey(rowKey: unknown) {
   return (record: Record<string, any>, index?: number) =>
     typeof rowKey === 'string' ? record[rowKey] : record.key ?? index;
 }
+
+/**
+ *
+ * 合并组件props
+ * @export
+ * @template T
+ * @param {T} originProps
+ * @param {Partial<T>} patchProps
+ * @param {boolean} [isAll]
+ * @return {*}
+ */
+export function composeProps<T extends Record<string, any>>(
+  originProps: T,
+  patchProps: Partial<T>,
+  isAll?: boolean,
+) {
+  const composedProps: Record<string, any> = {
+    ...originProps,
+    ...(isAll ? patchProps : {}),
+  };
+
+  Object.keys(patchProps).forEach((key) => {
+    const func = patchProps[key];
+    if (typeof func === 'function') {
+      composedProps[key] = (...args: any[]) => {
+        func(...args);
+        return originProps[key]?.(...args);
+      };
+    }
+  });
+  return composedProps;
+}
