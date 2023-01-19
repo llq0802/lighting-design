@@ -13,7 +13,7 @@ export interface CodeInputProps extends Record<number | string, any> {
   inputProps?: InputProps;
   buttonProps?: LCaptchaButtonProps & { initText: string };
   autoClick?: boolean;
-  autoFocusOnGetCaptcha?: true;
+  autoFocusOnGetCaptcha?: boolean;
   placeholder?: string;
   disabled?: boolean;
   maxLength?: number;
@@ -64,7 +64,7 @@ const CodeInput: FC<CodeInputProps> = ({
       setLoading(true);
       onClick?.(e);
       try {
-        // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject() 表示验证失败或请求验证码失败。
+        // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。
         await checkResult(onGetCaptcha);
         setLoading(false);
         setStart(true); // 只有当获取验证码成功时才进行倒计时

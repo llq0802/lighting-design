@@ -17,11 +17,6 @@ nav:
 - 只有当获取验证码成功时才进行倒计时
 - 刷新页面也会继续计时
 
-**校验顺序**
-
-- 必填为空时提示：`请输入${label}`
-- placeholder`请输入${label}`
-
 <mark>当存在多个验证码组件时, 请设置不同的 `cacheKey` 值</mark>
 
 ## 代码演示
@@ -34,16 +29,16 @@ nav:
 
 | 参数 | 说明 | 类型 | 默认值 |
 | :-: | :-: | :-: | :-: |
-| type | 验证码组件类型 | `"link" \| "text" \| "inline" \| "ghost" \| "default" \| "primary" \| "dashed"` | `default` |
+| type | 验证码组件类型 | `"link" \| "text" \| "inline" \| "ghost" \| "default" \| "primary" \| "dashed"` | `'default'` |
 | maxLength | 验证码最大长度 | `number` | `6` |
 | second | 倒计时秒数 | `number` | `10` |
 | start | 是否点击按钮就开始发送 | `boolean` | `false` |
 | disabledText | 倒计时的文字, 会带上 second 秒 | `string` | `重发 ` |
 | initText | 按钮初始文本 | `string` | `获取验证码` |
 | cacheKey | 组件缓存 key 值 刷新页面也会继续计时 | `string` | `__FormItemCaptcha__` |
-| onEnd | 倒计时完成后触发 | `() => void` | `- ` |
-| onGetCaptcha | 点击按钮触发并请求获取验证码。<br/>如果返回 `false` 或 `Promise.reject()` 表示验证失败或请求验证码失败。 | `() => boolean \| Promise<any>` | `() => true` |
 | autoFocusOnGetCaptcha | `onGetCaptcha` 请求获取验证成功后，自动获取输入框焦点 | `boolean` | `true` |
 | autoClick | 组件挂载完成后，自动触发点击按钮。 | `boolean` | `false` |
 | inputProps | antd 输入框的属性 | [InputProps](https://4x.ant.design/components/button-cn/#API) | `-` |
 | buttonProps | antd 按钮的属性 | [ButtonProps](https://4x.ant.design/components/input-cn/#API) | `-` |
+| onEnd | 倒计时完成后触发 | `() => void` | `- ` |
+| onGetCaptcha | 点击按钮触发并请求获取验证码。<br/>如果返回 `false` 或 `Promise.reject(false)` 表示验证失败或请求验证码失败。 | `() => boolean \| Promise<any>` | `() => true` |
