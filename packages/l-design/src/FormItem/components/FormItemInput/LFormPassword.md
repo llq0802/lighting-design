@@ -22,7 +22,11 @@ nav:
 - 必填为空时提示：`请输入${label}`
 - placeholder`请输入${label}`
 
-<code src='./demos/Demo1.tsx'>
+## 代码演示
+
+### 基础用法
+
+<code src='./demos/Demo3.tsx'>
 
 ## API
 

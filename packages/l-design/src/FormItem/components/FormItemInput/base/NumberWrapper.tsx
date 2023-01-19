@@ -6,23 +6,24 @@ import { useCallback } from 'react';
 export type NumberWrapperProps = InputNumberProps;
 
 const NumberWrapper: FC<NumberWrapperProps> = (props) => {
-  const { value, onChange, ...restProps } = props;
+  const { value, onChange, min, max, ...restProps } = props;
 
   const handleChange = useCallback(
     (e: number | string | null) => {
       const rawValue = e as string;
-
       onChange?.(rawValue as any);
     },
     [onChange],
   );
   return (
     <InputNumber
+      min={min}
+      max={max}
       autoComplete="off"
-      value={value}
       precision={2}
       style={{ width: '100%' }}
       {...restProps}
+      value={value}
       onChange={handleChange}
     />
   );

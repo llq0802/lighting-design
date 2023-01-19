@@ -7,11 +7,15 @@ import NumberWrapper from '../base/NumberWrapper';
 
 export interface LFormItemNumberProps extends LFormItemProps {
   numberProps?: InputNumberProps;
+  min?: number;
+  max?: number;
 }
 
 const LFormItemTextArea: FC<LFormItemNumberProps> = ({
   required = false,
   disabled = false,
+  min = 0,
+  max = 100,
   numberProps = {},
   placeholder,
   ...restProps
@@ -28,7 +32,13 @@ const LFormItemTextArea: FC<LFormItemNumberProps> = ({
       validateTrigger="onBlur"
       {...restProps}
     >
-      <NumberWrapper disabled={disabled} placeholder={messageLabel} {...numberProps} />
+      <NumberWrapper
+        disabled={disabled}
+        placeholder={messageLabel}
+        min={min}
+        max={max}
+        {...numberProps}
+      />
     </LFormItem>
   );
 };

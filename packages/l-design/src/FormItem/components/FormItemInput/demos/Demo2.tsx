@@ -6,12 +6,42 @@ const Demo = () => {
 
   return (
     <LForm name="LFormItemNumber" form={form} submitter={{ buttonAlign: 'center' }}>
-      <LFormItemNumber name="number" label="金额1" required contentAfter={<div>$</div>} />
+      <LFormItemNumber name="number1" label="金额1" required contentAfter={<div>$</div>} />
 
       <LFormItemNumber
         label="金额2"
+        name="number2"
         numberProps={{
           prefix: '￥',
+        }}
+      />
+      <LFormItemNumber
+        label="数字"
+        name="number3"
+        max={1000}
+        numberProps={{
+          precision: undefined,
+        }}
+      />
+
+      <LFormItemNumber
+        name="number66"
+        label="格式化数字1"
+        numberProps={{
+          precision: undefined,
+          defaultValue: 1000,
+          formatter: (value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+          parser: (value) => value!.replace(/\$\s?|(,*)/g, ''),
+        }}
+      />
+      <LFormItemNumber
+        label="格式化数字2"
+        name="number77"
+        numberProps={{
+          precision: undefined,
+          defaultValue: 99,
+          formatter: (value) => `${value}%`,
+          parser: (value) => value!.replace('%', ','),
         }}
       />
 
