@@ -8,7 +8,7 @@ nav:
 
 # LFormItemNumber
 
-基于 Input.Number 与 LFormItem 扩展的数字输入框
+数字输入框
 
 **特点**
 

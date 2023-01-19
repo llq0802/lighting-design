@@ -12,15 +12,13 @@ nav:
 
 **特点**
 
-- 支持输入框前后插入元素
 - 支持禁用空格
 
-**校验顺序**
+## 代码演示
 
-- 必填为空时提示：`请输入${label}`
-- placeholder`请输入${label}`
+### 基础用法
 
-<code src='./demos/Demo1.tsx'>
+<code src='./demos/Demo4.tsx'>
 
 ## API
 

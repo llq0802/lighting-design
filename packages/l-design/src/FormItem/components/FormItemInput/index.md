@@ -8,7 +8,7 @@ nav:
 
 # LFormItemInput
 
-基于 Input 与 LFormItem 扩展的输入框
+输入框
 
 **特点**
 
