@@ -148,7 +148,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   return (
     <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
       <TreeSelect
-        disabled={disabled}
+        disabled={disabled ?? isClearDepends}
         placeholder={placeholder}
         treeData={treeSelectData}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}

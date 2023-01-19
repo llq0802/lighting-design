@@ -32,6 +32,8 @@ nav:
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
+<mark>`depends` 为 LFormItem 组件 `dependencies` 属性依赖项的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除或者禁用选择<mark/>
+
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | treeData | 数据化配置选项内容 | `Array<{value, title, children, [disabled, disableCheckbox, selectable, checkable]}>` | `[]` |
@@ -41,7 +43,3 @@ nav:
 | loadData | 异步加载数据 | `function(node)` | `-` |
 | spin | 自定义 loading 效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | treeSelectProps | `antd`树选择组件的 Props | [TreeSelectProps](https://4x.ant.design/components/tree-select-cn/#API) | `-` |
-
-<mark>
-`depends` 为LFormItem组件 `dependencies` 属性依赖项的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除
-<mark/>

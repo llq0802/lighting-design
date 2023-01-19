@@ -124,14 +124,16 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   }, [value, isClearDepends]);
 
   const radioOptions = useMemo(() => {
-    if (optsRequest?.length > 0) {
+    if (isClearDepends) {
+      return [];
+    } else if (optsRequest?.length > 0) {
       return optsRequest;
     } else if (opts.length > 0) {
       return opts;
     } else {
       return [];
     }
-  }, [opts, optsRequest]);
+  }, [isClearDepends, opts, optsRequest]);
 
   const handleChange = useCallback(
     (val: RadioChangeEvent) => {
@@ -145,13 +147,17 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
 
   return (
     <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
-      <Radio.Group
-        options={radioOptions}
-        disabled={disabled ?? isClearDepends}
-        {...radioProps}
-        value={value}
-        onChange={handleChange}
-      />
+      {isClearDepends ? (
+        <span>请先选择依赖项</span>
+      ) : (
+        <Radio.Group
+          options={radioOptions}
+          disabled={disabled ?? isClearDepends}
+          {...radioProps}
+          value={value}
+          onChange={handleChange}
+        />
+      )}
     </Spin>
   );
 };

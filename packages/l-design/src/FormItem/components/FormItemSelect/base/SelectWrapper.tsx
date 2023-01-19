@@ -152,7 +152,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   return (
     <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
       <Select
-        disabled={disabled}
+        disabled={disabled ?? isClearDepends}
         options={selectOptions}
         placeholder={placeholder}
         allowClear

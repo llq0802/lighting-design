@@ -28,6 +28,10 @@ nav:
 
 <code src='./demos/Demo2.tsx'>
 
+### 依赖项自动请求
+
+<code src='./demos/Demo3.tsx'>
+
 ## API
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
