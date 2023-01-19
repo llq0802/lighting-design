@@ -7,9 +7,11 @@ import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 
 export type LFormItemAutoCompleteProps = {
-  renderInput?: () => ReactElement;
+  inputRender?: () => ReactElement;
   onSelect?: AutoCompleteProps['onSelect'];
   onSearch?: AutoCompleteProps['onSearch'];
+  onFocus?: AutoCompleteProps['onFocus'];
+  onBlur?: AutoCompleteProps['onBlur'];
   options?: DefaultOptionType[];
   autoCompleteProps?: AutoCompleteProps;
   disabled?: boolean;
@@ -19,8 +21,10 @@ export type LFormItemAutoCompleteProps = {
 const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
   onSearch,
   onSelect,
+  onFocus,
+  onBlur,
   options,
-  renderInput,
+  inputRender,
   autoCompleteProps,
   required,
   placeholder,
@@ -30,12 +34,12 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
   const messageLabel = usePlaceholder({
     placeholder,
     restProps,
-    isSelectType: true,
+    isSelectType: false,
   });
 
   return (
     <LFormItem required={required} placeholder={messageLabel} {...restProps}>
-      {!renderInput ? (
+      {!inputRender ? (
         <AutoComplete
           disabled={disabled}
           allowClear
@@ -44,6 +48,8 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
           placeholder={messageLabel}
           onSelect={onSelect}
           onSearch={onSearch}
+          onFocus={onFocus}
+          onBlur={onBlur}
           {...autoCompleteProps}
         />
       ) : (
@@ -55,9 +61,11 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
           placeholder={messageLabel}
           onSelect={onSelect}
           onSearch={onSearch}
+          onFocus={onFocus}
+          onBlur={onBlur}
           {...autoCompleteProps}
         >
-          {renderInput()}
+          {inputRender()}
         </AutoComplete>
       )}
     </LFormItem>

@@ -12,21 +12,20 @@ const Demo5 = () => {
   }, []);
 
   return (
-    <>
-      <LForm
-        isReady={isReady}
-        labelWidth={90}
-        submitter={{ buttonAlign: 90 }}
-        name="LForm-InitialValues"
-        initialValues={initialValues}
-        form={form}
-        onFinish={async (values) => {
-          console.log('onFinish-values ', values);
-        }}
-      >
-        <LFormItemInput name="name" required label="姓名" />
-      </LForm>
-    </>
+    <LForm
+      isReady={isReady}
+      labelWrap
+      labelCol={{ flex: '90px' }}
+      submitter={{ buttonAlign: 90 }}
+      name="LForm-InitialValues"
+      initialValues={initialValues}
+      form={form}
+      onFinish={async (values) => {
+        console.log('onFinish-values ', values);
+      }}
+    >
+      <LFormItemInput name="name" required label="姓名姓名姓名姓名" />
+    </LForm>
   );
 };
 

@@ -41,4 +41,4 @@ nav:
 | inputProps | antd 输入框的属性 | [InputProps](https://4x.ant.design/components/button-cn/#API) | `-` |
 | buttonProps | antd 按钮的属性 | [ButtonProps](https://4x.ant.design/components/input-cn/#API) | `-` |
 | onEnd | 倒计时完成后触发 | `() => void` | `- ` |
-| onGetCaptcha | 点击按钮触发并请求获取验证码。<br/>如果返回 `false` 或 `Promise.reject(false)` 表示验证失败或请求验证码失败。 | `() => boolean \| Promise<any>` | `() => true` |
+| onGetCaptcha | 点击按钮触发并请求获取验证码。<br/>如果返回 `false` 或 `Promise.reject(false)` 表示验证失败或请求验证码失败。会自动管理`loading` | `() => boolean \| Promise<any>` | `() => true` |
