@@ -41,7 +41,7 @@ nav:
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | options | 数据化配置选项内容 | `SelectProps['options']` | `[]` |
-| request | 请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
+| request | 异步请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | all | 是否需要全部选项 | `boolean ` | `false` |
 | allLabel | 全部选项的名称 | `string ` | `全部` |

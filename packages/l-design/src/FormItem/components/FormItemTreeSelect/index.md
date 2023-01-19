@@ -18,16 +18,13 @@ nav:
 - `request` 的参数为依赖项的值
 - 支持异步加载数据
 
-**校验顺序**
+## 代码演示
 
-- 必填为空时提示：`请输入${label}`
-- placeholder`请输入${label}`
-
-## 基础使用
+### 基础用法
 
 <code src='./demos/Demo1.tsx'>
 
-## 异步请求
+### 异步请求
 
 <code src='./demos/Demo3.tsx'>
 
@@ -42,7 +39,7 @@ nav:
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | treeCheckable | 显示 Checkbox | `boolean ` | `false` |
 | loadData | 异步加载数据 | `function(node)` | `-` |
-| spin | 自定义 loading 效果 | [spinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
+| spin | 自定义 loading 效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | treeSelectProps | `antd`树选择组件的 Props | [TreeSelectProps](https://4x.ant.design/components/tree-select-cn/#API) | `-` |
 
 <mark>

@@ -39,7 +39,6 @@ const Index = () => {
         label="树形选择"
         name="tree"
         required
-        // options={options}
         treeData={treeData}
         loadData={onLoadData}
         treeCheckable

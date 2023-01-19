@@ -6,7 +6,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type TreeSelectWrapperProps = Record<string, any> & {
   treeData?: TreeSelectProps['treeData'];
-  request?: (...depends: any[]) => Promise<any>;
+  request?: (...dependValues: any[]) => Promise<any>;
   treeCheckable?: boolean;
   debounceTime?: number;
   treeSelectProps?: TreeSelectProps;
@@ -48,36 +48,42 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
 
   const isFirstRender = useRef<boolean>(true); // 组件是否第一次挂载
-  const { run } = useRequest(request || (async () => []), {
-    manual: true,
-    debounceWait: debounceTime,
-    onSuccess: (result) => {
-      setInTreeData([...result]);
-    },
-    onError: () => {
-      setInTreeData([]);
-    },
-  });
 
   const hasLoading = useMemo(
     (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
     [outLoading],
   );
 
+  const { run } = useRequest(request || (async () => []), {
+    manual: true,
+    debounceWait: debounceTime,
+    onSuccess: (result) => {
+      if (!hasLoading) setLoading(false);
+
+      setInTreeData([...result]);
+    },
+    onError: () => {
+      if (!hasLoading) setLoading(false);
+      setInTreeData([]);
+    },
+  });
+
   useUpdateEffect(() => {
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
   // 获取依赖项
-  const depends = useMemo(
+  const dependValues = useMemo(
     () => dependencies?.map((nameStr) => restProps[nameStr]),
     [dependencies, restProps],
   );
-  // 判断依赖项是否有空或undefined null或者空数组
+  // 判断依赖项的值是否有空或undefined null或者空数组
   const isClearDepends = useMemo(
     () =>
-      depends.some((nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length),
-    [depends],
+      dependValues.some(
+        (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
+      ),
+    [dependValues],
   );
 
   const memoTreeDate = useMemo(
@@ -90,10 +96,11 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
     // 组件第一次加载时调用request
     if (isFirstRender.current) {
       isFirstRender.current = false;
+      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
-          const newData = await request(...depends);
+          const newData = await request(...dependValues);
           setInTreeData([...newData]);
         } catch (error) {
           setInTreeData([]);
@@ -101,10 +108,13 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      // 防抖调用
-      run(...depends);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        // 防抖调用
+        run(...dependValues);
+      }
     }
-  }, [restProps]);
+  }, [dependValues]);
 
   // 依赖清除
   useDeepCompareEffect(() => {
