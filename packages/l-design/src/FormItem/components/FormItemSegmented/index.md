@@ -17,23 +17,25 @@ nav:
 - 支持请求防抖
 - `request` 的参数为依赖项的值
 
-## 基础使用
+## 代码演示
+
+### 基础用法
 
 <code src='./demos/Demo1.tsx'>
 
-## 异步请求
+### 异步请求
 
 <code src='./demos/Demo2.tsx'>
 
-## 依赖项改变自定异步请求
+### 依赖项改变自定异步请求
 
 <code src='./demos/Demo4.tsx'>
 
-## 自定义渲染
+### 自定义渲染
 
 <code src='./demos/Demo3.tsx'>
 
-## API
+### API
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 

@@ -38,7 +38,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
   required = false,
   disabled,
   options = [],
-  placeholder = ['省/市/区', '详细地址'],
+  placeholder = ['请选择省/市/区', '请输入详细地址'],
   inputFormProps = {},
   cascaderFormProps = {},
   cascaderProps = {},
@@ -49,7 +49,6 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
-
   return (
     <LFormItem
       required={required}
@@ -66,7 +65,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
                 validator(rule, value) {
                   let errMsg = '';
                   if (!value || value?.length <= 0) {
-                    errMsg = required ? `请选择${placeholder[0]}` : '';
+                    errMsg = required ? `${placeholder[0]}` : '';
                   }
                   if (errMsg) {
                     return Promise.reject(errMsg);
@@ -80,7 +79,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
             <Cascader
               disabled={disabled ?? formDisabled}
               options={options}
-              placeholder={`请选择${placeholder[0]}`}
+              placeholder={`${placeholder[0]}`}
               {...cascaderProps}
             />
           </LFormItem>
@@ -93,7 +92,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
                 validator(rule, value) {
                   let errMsg = '';
                   if (!value) {
-                    errMsg = required ? `请输入${placeholder[1]}` : '';
+                    errMsg = required ? `${placeholder[1]}` : '';
                   }
                   if (errMsg) {
                     return Promise.reject(errMsg);
@@ -106,7 +105,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
           >
             <Input
               disabled={disabled ?? formDisabled}
-              placeholder={`请输入${placeholder[1]}`}
+              placeholder={`${placeholder[1]}`}
               allowClear
               autoComplete="off"
               {...inputProps}

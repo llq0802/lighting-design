@@ -1,6 +1,7 @@
-import { LForm, LFormItemAddress, LFormItemCascader, LFormItemSelect } from 'lighting-design';
+import { LForm, LFormItemAddress } from 'lighting-design';
+import { useState } from 'react';
 
-const options: any[] = [
+const options1: any[] = [
   {
     value: 'zhejiang',
     label: 'Zhejiang',
@@ -38,25 +39,48 @@ const options: any[] = [
 const Demo1 = () => {
   const [form] = LForm.useForm();
 
-  return (
-    <LForm name="LFormItemSelect" form={form}>
-      <LFormItemSelect
-        label="下拉选择"
-        name="select"
-        required
-        options={[
-          { label: 'A', value: 'a' },
-          { label: 'B', value: 'b' },
-          { label: 'C', value: 'c' },
-        ]}
-      />
-      <LFormItemCascader label="级联选择" name="cascader" required options={options} />
+  const [options, setOptions] = useState(options1);
 
+  return (
+    <LForm
+      name="LFormItemAddress"
+      form={form}
+      submitter={{
+        buttonAlign: 'center',
+        resetText: '更新',
+        resetButtonProps: {
+          preventDefault: true,
+          onClick() {
+            setOptions((item) => [...item]);
+          },
+        },
+      }}
+      onValuesChange={(a, v) => {
+        console.log(' a', a);
+        console.log(' v', v);
+      }}
+    >
       <LFormItemAddress
         label="地址选择"
-        names={['location', 'address']}
         required
+        names={['location', 'address']}
         options={options}
+      />
+
+      <LFormItemAddress
+        label="开户银行"
+        required
+        names={['location1', 'address2']}
+        options={options}
+        placeholder={['请选择省市', '请输入银行支行']}
+      />
+      <LFormItemAddress
+        label="各占一半"
+        required
+        names={['location2', 'address1']}
+        options={options}
+        cascaderColProps={{ xs: 24, md: 12, lg: 12, xxl: 12 }}
+        inputColProps={{ xs: 24, md: 12, lg: 12, xxl: 12 }}
       />
     </LForm>
   );

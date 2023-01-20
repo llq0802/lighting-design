@@ -127,7 +127,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   return (
     <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
       <Cascader
-        disabled={disabled}
+        disabled={disabled ?? isClearDepends}
         placeholder={placeholder}
         options={selectOptions}
         {...cascaderProps}

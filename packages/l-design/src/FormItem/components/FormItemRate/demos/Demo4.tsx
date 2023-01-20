@@ -7,6 +7,7 @@ const Demo4 = () => {
   return (
     <LForm form={form}>
       <LFormItemRate
+        label="评分"
         name="rate1"
         initialValue={3}
         rateProps={{
@@ -14,6 +15,7 @@ const Demo4 = () => {
         }}
       />
       <LFormItemRate
+        label="评分"
         name="rate2"
         initialValue={3}
         rateProps={{
@@ -21,6 +23,7 @@ const Demo4 = () => {
         }}
       />
       <LFormItemRate
+        label="评分"
         name="rate3"
         initialValue={3}
         rateProps={{

@@ -40,6 +40,7 @@ export type CheckboxWrapperProps = Record<string, any> &
     checkboxProps: CheckboxGroupProps;
     dependencies: string[];
     outLoading: SpinProps;
+    notDependRender?: () => ReactNode;
   }>;
 
 const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
@@ -134,7 +135,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
 
   // 依赖清除
   useDeepCompareEffect(() => {
-    if (isClearDepends && value != undefined && value?.length > 0) {
+    if (isClearDepends && value?.length > 0 && value != undefined) {
       onChange(undefined);
     }
   }, [value, isClearDepends]);

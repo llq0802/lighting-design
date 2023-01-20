@@ -19,15 +19,23 @@ nav:
 
 ## 代码演示
 
+### 基础用法
+
 <code src='./demos/Demo1.tsx'>
 
-## 异步请求
+### 异步请求
 
 <code src='./demos/Demo3.tsx'>
 
-## API
+### 依赖更新自动请求
+
+<code src='./demos/Demo2.tsx'>
+
+### API
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
+
+<mark>`depends` 为 LFormItem 组件 `dependencies` 属性依赖项的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除<mark/>
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
@@ -36,10 +44,6 @@ nav:
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | spin | 自定义 loading 效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | cascaderProps | `antd`级联组件 Props | [CascaderProps](https://4x.ant.design/components/cascader-cn/#API) | `-` |
-
-<mark>
-`depends` 为LFormItem组件 `dependencies` 属性依赖项的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除
-<mark/>
 
 #### Option
 

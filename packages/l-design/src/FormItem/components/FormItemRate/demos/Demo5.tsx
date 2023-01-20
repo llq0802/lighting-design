@@ -16,6 +16,7 @@ const Demo5 = () => {
     <LForm form={form}>
       <LFormItemRate
         name="rate1"
+        label="评分"
         initialValue={3}
         rateProps={{
           character: ({ index }) => index + 1,
@@ -23,6 +24,7 @@ const Demo5 = () => {
       />
       <LFormItemRate
         name="rate2"
+        label="评分"
         initialValue={3}
         rateProps={{
           character: ({ index }) => customIcons[index + 1],

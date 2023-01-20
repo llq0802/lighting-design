@@ -4,7 +4,7 @@ const Index = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemSelect" form={form} submitter={false}>
+    <LForm name="LFormItemSelect" form={form}>
       <LFormItemCheckbox
         name="select"
         required

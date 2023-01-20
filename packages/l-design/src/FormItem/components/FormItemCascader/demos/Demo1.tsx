@@ -55,8 +55,6 @@ const Demo1 = () => {
         label="级联选择"
         name={'cascader'}
         required
-        dependencies={['select']}
-        debounceTime={1000}
         request={async (params) => {
           console.log('request-params', params);
           // if (!params) return [];
