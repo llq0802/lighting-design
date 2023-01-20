@@ -16,11 +16,6 @@ nav:
 - 可自定义上传行为
 - 内置上传之前校验
 
-**校验顺序**
-
-- 必填为空时提示：`请输入${label}`
-- placeholder`请输入${label}`
-
 ## 代码演示
 
 <code src='./demos/Demo1.tsx'>
