@@ -1,8 +1,7 @@
-import { Form } from 'antd';
 import { LForm, LFormItemDatePicker } from 'lighting-design';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
     <LForm

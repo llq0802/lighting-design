@@ -1,8 +1,7 @@
-import { Form } from 'antd';
 import { LForm, LFormItemSelect } from 'lighting-design';
 
 const Index = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
     <LForm

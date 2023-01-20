@@ -1,9 +1,8 @@
-import { Form } from 'antd';
 import { LForm, LFormItemTimePicker } from 'lighting-design';
 import moment from 'moment';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
     <LForm name="LFormItemTimePicker" form={form}>

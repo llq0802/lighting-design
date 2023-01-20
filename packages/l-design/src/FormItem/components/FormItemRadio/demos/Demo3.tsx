@@ -4,7 +4,7 @@ import { LForm, LFormItemRadio, LFormItemSelect } from 'lighting-design';
 import { awaitTime } from '../../../../_utils';
 
 const Index = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
     <LForm

@@ -1,10 +1,9 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { Form } from 'antd';
 import { LForm, LFormItemSelect } from 'lighting-design';
 import { awaitTime } from '../../../../_utils';
 
 const Demo2 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
     <LForm

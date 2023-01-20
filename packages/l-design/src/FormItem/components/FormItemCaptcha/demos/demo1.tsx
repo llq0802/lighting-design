@@ -1,9 +1,9 @@
-import { Form, message } from 'antd';
+import { message } from 'antd';
 import { LForm, LFormItemCaptcha } from 'lighting-design';
 import { awaitTime } from '../../../../_utils';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
     <LForm name="LFormItemCaptcha" form={form}>

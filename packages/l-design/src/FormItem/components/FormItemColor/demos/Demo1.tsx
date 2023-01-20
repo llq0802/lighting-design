@@ -1,8 +1,7 @@
-import { Form } from 'antd';
 import { LForm, LFormItemColor } from 'lighting-design';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
   return (
     <LForm name="LFormItemSelect" form={form}>
       <LFormItemColor colorType="chrome" label="颜色选择1" name="color1" required />
