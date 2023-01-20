@@ -99,7 +99,7 @@ const { StepForm } = LStepsForm;
 | prevText | 上一步按钮文本 | `ReactNode` | `上一步` |
 | prevButtonProps | 上一步按钮属性，和 antd [Button](https://4x.ant.design/components/button-cn/#API) 一致 | [ButtonProps](https://4x.ant.design/components/button-cn/#API) | `-` |
 | showPrev | 是否显示上一步按钮 | `boolean` | `true` |
-| forceShowPrev | 强制显示上一步按钮，优先级比 `showPrev` 高 | `boolean` | `-` |
+| forceShowPrev | 强制显示上一步按钮，优先级比 `showPrev` 高 | `boolean` | `false` |
 | onNext | 点击下一步按钮的回调 | `() => void` | `-` |
 | nextText | 下一步按钮文本 | `ReactNode` | `下一步` |
 | nextButtonProps | 提交按钮属性，和 antd [Button](https://4x.ant.design/components/button-cn/#API) 一致 | [ButtonProps](https://4x.ant.design/components/button-cn/#API) | - |
@@ -108,7 +108,7 @@ const { StepForm } = LStepsForm;
 | onSubmit | 点击提交按钮的回调 | `() => void` | - |
 | submitText | 提交按钮文本 | `ReactNode` | `确定` |
 | submitButtonProps | 提交按钮属性，和 antd [Button](https://4x.ant.design/components/button-cn/#API) 一致 | [ButtonProps](https://4x.ant.design/components/button-cn/#API) | - |
-| forceShowSubmit | 强制显示提交按钮 | `boolean` | `-` |
+| forceShowSubmit | 强制显示提交按钮 | `boolean` | `false` |
 | wrapperCol | 效果和[ Form 的 wrapperCol](https://4x.ant.design/components/form-cn/#API)一致 | `ColProps` | `-` |
 | buttonAlign | 按钮位置 , 为`number`类型时与`LForm`的`labelWidth`效果一致 | `'left' \| 'right' \| 'center'\| number` | `-` |
 | render | 自定义操作的渲染 | ` (dom:ReactElement[],props) => ReactNode[] \| false` | `-` |

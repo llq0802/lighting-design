@@ -1,12 +1,11 @@
 import { HeartOutlined } from '@ant-design/icons';
-import { Form } from 'antd';
 import { LForm, LFormItemRate } from 'lighting-design';
 
 const Demo4 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
-    <LForm form={form} submitter={false}>
+    <LForm form={form}>
       <LFormItemRate
         name="rate1"
         initialValue={3}

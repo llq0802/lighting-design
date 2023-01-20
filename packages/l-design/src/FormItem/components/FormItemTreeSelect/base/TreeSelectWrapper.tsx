@@ -11,7 +11,7 @@ export type TreeSelectWrapperProps = Record<string, any> & {
   debounceTime?: number;
   treeSelectProps?: TreeSelectProps;
   dependencies?: string[];
-  loadData: TreeSelectProps['loadData'];
+  loadData?: TreeSelectProps['loadData'];
   outLoading?: SpinProps;
 };
 
@@ -46,9 +46,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
 }) => {
   const [inTreeData, setInTreeData] = useState<TreeSelectOption[]>([]);
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
-
   const isFirstRender = useRef<boolean>(true); // 组件是否第一次挂载
-
   const hasLoading = useMemo(
     (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
     [outLoading],
@@ -73,17 +71,21 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   }, [outLoading]);
 
   // 获取依赖项的值
-  const dependValues = useMemo(
-    () => dependencies?.map((nameStr) => restProps[nameStr]),
-    [dependencies, restProps],
-  );
-  // 判断依赖项的值是否有空或undefined null或者空数组
+  const dependValues = useMemo(() => {
+    if (!dependencies.length) {
+      return [];
+    }
+    return dependencies?.map((nameStr) => restProps[nameStr]);
+  }, [dependencies, restProps]);
+
+  // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
     () =>
-      dependValues.some(
+      dependencies.length > 0 &&
+      dependValues?.some(
         (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
       ),
-    [dependValues],
+    [dependencies.length, dependValues],
   );
 
   const memoTreeDate = useMemo(
@@ -93,10 +95,10 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
 
   useDeepCompareEffect(() => {
     if (!request) return;
+    if (isClearDepends) return;
     // 组件第一次加载时调用request
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
@@ -108,11 +110,9 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (!isClearDepends) {
-        if (!hasLoading) setLoading(true);
-        // 防抖调用
-        run(...dependValues);
-      }
+      if (!hasLoading) setLoading(true);
+      // 防抖调用
+      run(...dependValues);
     }
   }, [dependValues]);
 
@@ -148,6 +148,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   return (
     <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
       <TreeSelect
+        allowClear
         disabled={disabled ?? isClearDepends}
         placeholder={placeholder}
         treeData={treeSelectData}

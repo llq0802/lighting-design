@@ -1,5 +1,4 @@
 import { FrownOutlined, MehOutlined, SmileOutlined } from '@ant-design/icons';
-import { Form } from 'antd';
 import { LForm, LFormItemRate } from 'lighting-design';
 
 const customIcons: Record<number, React.ReactNode> = {
@@ -11,10 +10,10 @@ const customIcons: Record<number, React.ReactNode> = {
 };
 
 const Demo5 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
-    <LForm form={form} submitter={false}>
+    <LForm form={form}>
       <LFormItemRate
         name="rate1"
         initialValue={3}

@@ -13,6 +13,7 @@ export type RadioWrapperProps = Record<string, any> & {
   radioProps?: RadioGroupProps;
   dependencies?: string[];
   outLoading?: SpinProps;
+  notDependRender?: () => ReactNode;
 };
 
 const RadioWrapper: FC<RadioWrapperProps> = ({
@@ -27,6 +28,8 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   all = false,
   allValue = '',
   allLabel = '全部',
+
+  notDependRender = () => <span>请先选择依赖项</span>,
 
   radioProps = {},
 
@@ -66,17 +69,20 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   }, [outLoading]);
 
   // 获取依赖项的注意
-  const dependValues = useMemo(
-    () => dependencies?.map((nameStr) => restProps[nameStr]),
-    [dependencies, restProps],
-  );
+  const dependValues = useMemo(() => {
+    if (!dependencies.length) {
+      return [];
+    }
+    return dependencies?.map((nameStr) => restProps[nameStr]);
+  }, [dependencies, restProps]);
   // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
     () =>
+      dependencies.length > 0 &&
       dependValues.some(
         (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
       ),
-    [dependValues],
+    [dependencies.length, dependValues],
   );
 
   const opts = useMemo(() => {
@@ -91,9 +97,9 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   useDeepCompareEffect(() => {
     if (!request) return;
     // 组件第一次加载时调用request
+    if (isClearDepends) return;
     if (isFirst.current) {
       isFirst.current = false;
-      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
@@ -109,11 +115,9 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (!isClearDepends) {
-        if (!hasLoading) setLoading(true);
-        // 防抖调用
-        run(...dependValues);
-      }
+      if (!hasLoading) setLoading(true);
+      // 防抖调用
+      run(...dependValues);
     }
   }, [dependValues]);
   // 依赖清除
@@ -145,19 +149,19 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     [onChange, radioProps],
   );
 
+  const radioDom = (
+    <Radio.Group
+      options={radioOptions}
+      disabled={disabled ?? isClearDepends}
+      {...radioProps}
+      value={value}
+      onChange={handleChange}
+    />
+  );
+
   return (
     <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
-      {isClearDepends ? (
-        <span>请先选择依赖项</span>
-      ) : (
-        <Radio.Group
-          options={radioOptions}
-          disabled={disabled ?? isClearDepends}
-          {...radioProps}
-          value={value}
-          onChange={handleChange}
-        />
-      )}
+      {isClearDepends ? notDependRender() : radioDom}
     </Spin>
   );
 };

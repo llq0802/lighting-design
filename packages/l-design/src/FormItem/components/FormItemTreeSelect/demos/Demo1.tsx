@@ -1,11 +1,10 @@
 import type { TreeSelectProps } from 'antd';
-import { Form } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import { LForm, LFormItemTreeSelect } from 'lighting-design';
 import { useState } from 'react';
 
-const Index = () => {
-  const [form] = Form.useForm();
+const Demo1 = () => {
+  const [form] = LForm.useForm();
   const [treeData, setTreeData] = useState<Omit<DefaultOptionType, 'label'>[]>([
     { id: 1, pId: 0, value: '1', title: 'Expand to load' },
     { id: 2, pId: 0, value: '2', title: 'Expand to load' },
@@ -34,7 +33,7 @@ const Index = () => {
     });
 
   return (
-    <LForm name="LFormItemSelect" form={form}>
+    <LForm name="LFormItemTreeSelect22" form={form}>
       <LFormItemTreeSelect
         label="树形选择"
         name="tree"
@@ -49,4 +48,4 @@ const Index = () => {
     </LForm>
   );
 };
-export default Index;
+export default Demo1;

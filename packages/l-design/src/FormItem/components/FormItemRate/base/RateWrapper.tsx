@@ -52,22 +52,26 @@ const RateWrapper: FC<RateWrapperProps> = ({
   }, [outLoading]);
 
   // 获取依赖项的值
-  const dependValues = useMemo(
-    () => dependencies?.map((nameStr) => restProps[nameStr]),
-    [dependencies, restProps],
-  );
+  const dependValues = useMemo(() => {
+    if (!dependencies?.length) {
+      return [];
+    }
+    return dependencies?.map((nameStr) => restProps[nameStr]);
+  }, [dependencies, restProps]);
   // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
-    () => dependValues.some((nameValue) => nameValue === '' || nameValue == undefined),
-    [dependValues],
+    () =>
+      dependencies.length > 0 &&
+      dependValues.some((nameValue) => nameValue === '' || nameValue == undefined),
+    [dependencies.length, dependValues],
   );
 
   useDeepCompareEffect(() => {
     if (!request) return;
     // 组件第一次加载时调用request
+    if (isClearDepends) return;
     if (isFirst.current) {
       isFirst.current = false;
-      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
@@ -79,11 +83,9 @@ const RateWrapper: FC<RateWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (!isClearDepends) {
-        if (!hasLoading) setLoading(true);
-        // 防抖调用
-        run(...dependValues);
-      }
+      if (!hasLoading) setLoading(true);
+      // 防抖调用
+      run(...dependValues);
     }
   }, [dependValues]);
 

@@ -8,7 +8,7 @@ nav:
 
 # LFormItemTreeSelect
 
-下拉选择器
+下拉树形选择器
 
 **特点**
 
@@ -27,6 +27,10 @@ nav:
 ### 异步请求
 
 <code src='./demos/Demo3.tsx'>
+
+### 依赖更新自动请求
+
+<code src='./demos/Demo2.tsx'>
 
 ## API
 

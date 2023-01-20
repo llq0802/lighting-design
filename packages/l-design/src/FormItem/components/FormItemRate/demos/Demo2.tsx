@@ -1,16 +1,15 @@
-import { Form } from 'antd';
 import { LForm, LFormItemRate } from 'lighting-design';
 
 const Demo2 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
     <LForm form={form} submitter={false}>
       <LFormItemRate
+        disabled
         name="rate1"
         initialValue={3.5}
         rateProps={{
-          disabled: true,
           allowHalf: true,
         }}
       />

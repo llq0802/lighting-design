@@ -53,6 +53,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   checkboxProps = {},
   disabled,
   outLoading,
+  notDependRender = () => <span>请先选择依赖项</span>,
 
   ...restProps
 }) => {
@@ -87,17 +88,20 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   }, [outLoading]);
 
   // 获取依赖项的值
-  const dependValues = useMemo(
-    () => dependencies?.map((nameStr) => restProps[nameStr]),
-    [dependencies, restProps],
-  );
+  const dependValues = useMemo(() => {
+    if (!dependencies.length) {
+      return [];
+    }
+    return dependencies?.map((nameStr) => restProps[nameStr]);
+  }, [dependencies, restProps]);
   // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
     () =>
+      dependencies.length > 0 &&
       dependValues.some(
-        (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
+        (nameValue) => nameValue == undefined || nameValue == '' || !nameValue?.length,
       ),
-    [dependValues],
+    [dependValues, dependencies.length],
   );
 
   const opts = useMemo(() => {
@@ -108,9 +112,9 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   useDeepCompareEffect(() => {
     if (!request) return;
     // 组件第一次加载时调用request
+    if (isClearDepends) return;
     if (isFirst.current) {
       isFirst.current = false;
-      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
@@ -122,30 +126,30 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (!isClearDepends) {
-        if (!hasLoading) setLoading(true);
-        // 防抖调用
-        run(...dependValues);
-      }
+      if (!hasLoading) setLoading(true);
+      // 防抖调用
+      run(...dependValues);
     }
   }, [dependValues]);
 
   // 依赖清除
   useDeepCompareEffect(() => {
-    if (isClearDepends && value != undefined) {
+    if (isClearDepends && value != undefined && value?.length > 0) {
       onChange(undefined);
     }
   }, [value, isClearDepends]);
 
   const checkboxOptions = useMemo(() => {
-    if (optsRequest?.length > 0) {
+    if (isClearDepends) {
+      return [];
+    } else if (optsRequest?.length > 0) {
       return optsRequest;
     } else if (opts.length > 0) {
       return opts;
     } else {
       return [];
     }
-  }, [opts, optsRequest]);
+  }, [isClearDepends, opts, optsRequest]);
 
   const checkAllChange = useCallback(
     (e: CheckboxChangeEvent) => {
@@ -180,8 +184,9 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     },
     [beforeAll, checkboxProps, onChange, checkboxOptions],
   );
-  return (
-    <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
+
+  const checkboxDom = (
+    <>
       {beforeAll && (
         <Checkbox
           indeterminate={indeterminate}
@@ -203,6 +208,12 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         value={value}
         onChange={handleChange}
       />
+    </>
+  );
+
+  return (
+    <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
+      {isClearDepends ? notDependRender() : checkboxDom}
     </Spin>
   );
 };

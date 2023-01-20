@@ -10,7 +10,7 @@ import type { CheckboxWrapperProps } from './base/CheckboxWrapper';
 import CheckboxWrapper from './base/CheckboxWrapper';
 export interface LFormItemCheckboxProps
   extends LFormItemProps,
-    Pick<CheckboxWrapperProps, 'checkboxProps' | 'request' | 'beforeAll'> {
+    Pick<CheckboxWrapperProps, 'checkboxProps' | 'request' | 'beforeAll' | 'notDependRender'> {
   dependencies?: string[];
   debounceTime?: number;
   options?: CheckboxOptionType[];
@@ -30,7 +30,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   disabled,
   required,
   spin,
-
+  notDependRender,
   ...restProps
 }) => {
   // const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
@@ -64,6 +64,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
     >
       <CheckboxWrapper
         dependencies={restProps?.dependencies}
+        notDependRender={notDependRender}
         options={options}
         request={request}
         disabled={disabled ?? formDisabled}

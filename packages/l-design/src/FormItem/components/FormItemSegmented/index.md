@@ -17,10 +17,6 @@ nav:
 - 支持请求防抖
 - `request` 的参数为依赖项的值
 
-**校验顺序**
-
-- 必填为空时提示：`请输入${label}`
-
 ## 基础使用
 
 <code src='./demos/Demo1.tsx'>
@@ -28,6 +24,10 @@ nav:
 ## 异步请求
 
 <code src='./demos/Demo2.tsx'>
+
+## 依赖项改变自定异步请求
+
+<code src='./demos/Demo4.tsx'>
 
 ## 自定义渲染
 
@@ -43,6 +43,7 @@ nav:
 | request | 请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | spin | 自定义 loading 效果 | [spinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
+| notDependRender | 依赖项的值为空时展示的内容 | `() => ReactNode` | `() => <span>请先选择依赖项</span>` |
 | segmentedProps | `antd`分段组件 Props | [SegmentedProps](https://4x.ant.design/components/segmented-cn/#API) | `-` |
 
 <mark>

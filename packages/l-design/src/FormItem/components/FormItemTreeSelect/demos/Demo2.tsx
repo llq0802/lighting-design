@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { Form } from 'antd';
-import { LForm, LFormItemRadio, LFormItemSelect } from 'lighting-design';
+import { LForm, LFormItemSelect, LFormItemTreeSelect } from 'lighting-design';
 import { awaitTime } from '../../../../_utils';
 
 const Index = () => {
@@ -8,7 +8,7 @@ const Index = () => {
 
   return (
     <LForm
-      name="LFormItemSelect3"
+      name="LFormItemTreeSelect"
       form={form}
       labelCol={{ flex: '80px' }}
       submitter={{
@@ -25,7 +25,7 @@ const Index = () => {
           { label: 'C', value: 'c' },
         ]}
       />
-      <LFormItemRadio
+      <LFormItemTreeSelect
         // debounceTime={200} 防抖更新
         dependencies={['select1']}
         label="select2"
@@ -34,18 +34,51 @@ const Index = () => {
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
-        notDependRender={() => <span>请先选择select1</span>}
         request={async (select1) => {
           console.log('select1 ', select1);
           let data: Record<string, any>[] = [];
           if (select1 === 'a') {
-            data = [{ label: 'A', value: 'a' }];
+            data = [
+              {
+                title: 'A',
+                value: 'a',
+                children: [
+                  {
+                    title: 'A-1',
+                    value: 'a-1',
+                  },
+                ],
+              },
+            ];
           }
           if (select1 === 'b') {
-            data = [{ label: 'B', value: 'b' }];
+            data = [
+              {
+                title: 'B',
+                value: 'b',
+                children: [
+                  {
+                    title: 'B-1',
+                    value: 'b-1',
+                  },
+                ],
+              },
+            ];
           }
           if (select1 === 'c') {
-            data = [{ label: 'C', value: 'c' }];
+            data = [
+              {
+                title: 'C',
+                value: 'c',
+
+                children: [
+                  {
+                    title: 'C-1',
+                    value: 'c-1',
+                  },
+                ],
+              },
+            ];
           }
           const result = await awaitTime(data);
           if (result.success) return result.data;

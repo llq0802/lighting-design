@@ -10,7 +10,10 @@ import RadioWrapper from './base/RadioWrapper';
 
 export interface LFormItemRadioProps
   extends LFormItemProps,
-    Pick<RadioWrapperProps, 'radioProps' | 'request' | 'all' | 'allValue' | 'allLabel'>,
+    Pick<
+      RadioWrapperProps,
+      'radioProps' | 'request' | 'all' | 'allValue' | 'allLabel' | 'notDependRender'
+    >,
     Pick<SelectProps, 'options'> {
   dependencies?: string[];
   debounceTime?: number;
@@ -31,6 +34,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   radioProps = {},
   placeholder,
   spin,
+  notDependRender,
 
   required,
   ...restProps
@@ -74,6 +78,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
         all={all}
         allValue={allValue}
         allLabel={allLabel}
+        notDependRender={notDependRender}
         radioProps={radioProps}
       />
     </LFormItem>

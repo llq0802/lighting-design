@@ -2,7 +2,7 @@ import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 
 import type { SegmentedProps, SpinProps } from 'antd';
 import { Segmented, Spin } from 'antd';
 import type { SegmentedLabeledOption, SegmentedValue } from 'antd/lib/segmented';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type SegmentedWrapperProps = Record<string, any> & {
@@ -13,13 +13,16 @@ export type SegmentedWrapperProps = Record<string, any> & {
     | SegmentedProps
     | { onChange?: (value: SegmentedValue) => void; options?: SegmentedProps['options'] };
   dependencies?: string[];
+
   outLoading?: SpinProps;
+  notDependRender?: () => ReactNode;
 };
 
 const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   value,
   onChange,
   dependencies = [],
+  notDependRender = () => <span>请先选择依赖项</span>,
   options: outOptions = [],
   request,
   outLoading,
@@ -55,18 +58,21 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   }, [outLoading]);
 
   // 获取依赖项的值
-  const dependValues = useMemo(
-    () => dependencies?.map((nameStr) => restProps[nameStr]),
-    [dependencies, restProps],
-  );
+  const dependValues = useMemo(() => {
+    if (!dependencies.length) {
+      return [];
+    }
+    return dependencies?.map((nameStr) => restProps[nameStr]);
+  }, [dependencies, restProps]);
 
   // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
     () =>
+      dependencies.length > 0 &&
       dependValues.some(
         (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
       ),
-    [dependValues],
+    [dependValues, dependencies.length],
   );
 
   const opts = useMemo(() => {
@@ -76,10 +82,10 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
 
   useDeepCompareEffect(() => {
     if (!request) return;
+    if (isClearDepends) return;
     // 组件第一次加载时调用request
     if (isFirst.current) {
       isFirst.current = false;
-      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
@@ -91,11 +97,9 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (!isClearDepends) {
-        if (!hasLoading) setLoading(true);
-        // 防抖调用
-        run(...dependValues);
-      }
+      if (!hasLoading) setLoading(true);
+      // 防抖调用
+      run(...dependValues);
     }
   }, [dependValues]);
 
@@ -128,16 +132,20 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
     [onChange, segmentedProps],
   );
 
+  const SegmentedDom = (
+    //  @ts-ignore
+    <Segmented
+      disabled={disabled ?? isClearDepends}
+      {...segmentedProps}
+      options={segmentedOptions}
+      value={value}
+      onChange={handleChange}
+    />
+  );
+
   return (
     <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
-      {/* @ts-ignore */}
-      <Segmented
-        disabled={disabled ?? isClearDepends}
-        {...segmentedProps}
-        options={segmentedOptions}
-        value={value}
-        onChange={handleChange}
-      />
+      {!isClearDepends ? SegmentedDom : notDependRender()}
     </Spin>
   );
 };

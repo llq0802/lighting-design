@@ -38,14 +38,16 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   const [optsRequest, setOptsRequest] = useState<{ label: ReactNode; value: string | number }[]>(
     [],
   );
+  const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
-
   const hasLoading = useMemo(
     (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
     [outLoading],
   );
+  useUpdateEffect(() => {
+    if (hasLoading) setLoading(outLoading?.spinning || false);
+  }, [outLoading]);
 
-  const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
@@ -63,23 +65,22 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     },
   });
 
-  useUpdateEffect(() => {
-    if (hasLoading) setLoading(outLoading?.spinning || false);
-  }, [outLoading]);
-
   // 获取依赖项的值
-  const dependValue = useMemo(
-    () => dependencies?.map((nameStr) => restProps[nameStr]),
-    [dependencies, restProps],
-  );
+  const dependValue = useMemo(() => {
+    if (!dependencies.length) {
+      return [];
+    }
+    return dependencies?.map((nameStr) => restProps[nameStr]);
+  }, [dependencies, restProps]);
 
   // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
     () =>
+      dependencies.length > 0 &&
       dependValue?.some(
         (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
       ),
-    [dependValue],
+    [dependencies.length, dependValue],
   );
 
   const options = useMemo(() => {
@@ -90,14 +91,13 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     }
     return rawOptions;
   }, [all, allLabel, allValue, outOptions, selectProps.options]);
-  // console.log('isFirst.current', isFirst.current);
 
   useDeepCompareEffect(() => {
     if (!request) return;
+    if (isClearDepends) return;
     // 组件第一次加载时调用request
     if (isFirst.current) {
       isFirst.current = false;
-      if (isClearDepends) return;
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
@@ -113,11 +113,9 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (!isClearDepends) {
-        if (!hasLoading) setLoading(true);
-        // 防抖调用
-        run(...dependValue);
-      }
+      if (!hasLoading) setLoading(true);
+      // 防抖调用
+      run(...dependValue);
     }
   }, [dependValue]);
 

@@ -10,7 +10,7 @@ import SegmentedWrapper from './base/SegmentedWrapper';
 
 export interface LFormItemSegmentedoProps
   extends LFormItemProps,
-    Pick<SegmentedWrapperProps, 'segmentedProps' | 'request'> {
+    Pick<SegmentedWrapperProps, 'segmentedProps' | 'request' | 'notDependRender'> {
   dependencies?: string[];
   debounceTime?: number;
   options?: (SegmentedValue | SegmentedLabeledOption)[];
@@ -27,6 +27,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
   segmentedProps = {},
   spin,
   disabled,
+  notDependRender,
 
   required,
   ...restProps
@@ -42,6 +43,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
         outLoading={spin}
         disabled={disabled ?? formDisabled}
         debounceTime={debounceTime}
+        notDependRender={notDependRender}
         // @ts-ignore
         segmentedProps={segmentedProps}
       />

@@ -36,6 +36,10 @@ nav:
 
 <code src='./demos/Demo4.tsx'>
 
+### 依赖更新自动请求
+
+<code src='./demos/Demo5.tsx'>
+
 ## API
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
@@ -49,6 +53,7 @@ nav:
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | beforeAll | 自定义全选 | `BeforeAllProps ` |
 | spin | 自定义 loading 效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
+| notDependRender | 依赖项的值为空时展示的内容 | `() => ReactNode` | `() => <span>请先选择依赖项</span>` |
 | checkboxProps | `antd`多选框组件 Props | [CheckboxProps](https://4x.ant.design/components/checkbox-cn/#API) | `-` |
 
 #### Option

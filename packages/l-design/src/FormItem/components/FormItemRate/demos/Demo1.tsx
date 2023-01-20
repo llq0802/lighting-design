@@ -1,13 +1,11 @@
-import { Form } from 'antd';
 import { LForm, LFormItemRate } from 'lighting-design';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
     <LForm
       form={form}
-      submitter={false}
       onValuesChange={(e) => {
         console.log(e);
       }}
@@ -16,9 +14,9 @@ const Demo1 = () => {
       <LFormItemRate
         label="半心"
         name="rate2"
-        initialValue={3.5}
         rateProps={{
           allowHalf: true,
+          count: 7,
         }}
         required
       />

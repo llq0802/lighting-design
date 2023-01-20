@@ -47,4 +47,5 @@ nav:
 | all | 是否需要全部选项 | `boolean ` | `false` |
 | allLabel | 全部选项的名称 | `string ` | `全部` |
 | allValue | 全部选项的值 | `string` | `''` |
+| notDependRender | 依赖项的值为空时展示的内容 | `() => ReactNode` | `() => <span>请先选择依赖项</span>` |
 | radioProps | `antd`单选组件 Props | [RadioProps](https://4x.ant.design/components/radio-cn/#API) | `-` |

@@ -1,12 +1,11 @@
-import { Form } from 'antd';
 import { LForm, LFormItemRate } from 'lighting-design';
 import { awaitTime } from '../../../../_utils';
 
 const Demo3 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
-    <LForm form={form} submitter={false}>
+    <LForm form={form}>
       <LFormItemRate
         name="rate1"
         label="评分"
@@ -18,7 +17,6 @@ const Demo3 = () => {
         }}
         rateProps={{
           allowHalf: true,
-          disabled: true,
         }}
       />
     </LForm>
