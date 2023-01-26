@@ -2,7 +2,19 @@ import { useCountDown, useLocalStorageState, useUpdateEffect } from 'ahooks';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction, MouseEvent, Ref, RefObject } from 'react';
 import { forwardRef, useCallback, useEffect } from 'react';
-import type { LCaptchaButtonProps } from './type.d';
+
+import type { ButtonProps } from 'antd';
+
+export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
+  second?: number;
+  start?: boolean;
+  disabledText?: string;
+  /**
+   * 缓存的 key、页面刷新后倒计时继续。
+   */
+  cacheKey: string;
+  onEnd?: () => void;
+}
 
 /**
  * 获取验证码按钮

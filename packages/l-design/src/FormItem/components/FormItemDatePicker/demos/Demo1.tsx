@@ -5,40 +5,21 @@ const Demo1 = () => {
 
   return (
     <LForm
+      // labelCol={{ flex: '90px' }}
+      labelWidth={110}
+      submitter={{ buttonAlign: 110 }}
       name="LFormItemDatePicker"
       form={form}
       onFinish={(values) => {
         console.log('values', values);
       }}
     >
-      {/* <LFormItemDatePicker label="日期选择1" name="date0" required showTime />
-      <LFormItemDatePicker label="日期选择2" name="date1" required disabledDateAfter={1} />
-      <LFormItemDatePicker label="日期选择2" name="date12" required disabledDateAfter={0} /> */}
-      <LFormItemDatePicker
-        label="月份选择"
-        name="date3"
-        required
-        disabledDateBefore={1}
-        picker="month"
-        rangePicker
-      />
-      <LFormItemDatePicker
-        label="季度选择"
-        name="date2"
-        required
-        disabledDateAfter={1}
-        picker="quarter"
-        placeholder="季度选择"
-      />
-      <LFormItemDatePicker
-        rangePicker
-        label="季度选择"
-        name="date22"
-        required
-        disabledDateAfter={1}
-        picker="quarter"
-        placeholder={['请选择开始季度', '结束季度']}
-      />
+      <LFormItemDatePicker label="日期选择" name="date1" required picker="date" />
+      <LFormItemDatePicker label="日期时间选择" name="date11" required picker="date" showTime />
+      <LFormItemDatePicker label="周选择" name="date2" required picker="week" />
+      <LFormItemDatePicker label="月份选择" name="date3" required picker="month" />
+      <LFormItemDatePicker label="季度选择" name="date5" required picker="quarter" />
+      <LFormItemDatePicker label="年选择" name="date6" required picker="year" />
     </LForm>
   );
 };

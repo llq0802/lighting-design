@@ -25,4 +25,4 @@ nav:
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | colorType | 内置组件类型 | `'sketch' \| 'chrome' \| 'photoshop'` | `'sketch'` |
-| colorProps | `LColor`组件 Props | [colorProps](/components/color-pick#lcolorxxx-%E5%85%B1%E5%90%8C%E7%9A%84-api) | `-` |
+| colorProps | `LColor`组件 Props | [ColorProps](/components/color-pick#lcolorxxx-%E5%85%B1%E5%90%8C%E7%9A%84-api) | `-` |

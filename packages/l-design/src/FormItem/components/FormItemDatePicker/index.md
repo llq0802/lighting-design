@@ -23,17 +23,33 @@ nav:
 
 <code src='./demos/Demo1.tsx'>
 
+### 日期范围
+
+<code src='./demos/Demo2.tsx'>
+
+### 禁用
+
+<code src='./demos/Demo3.tsx'>
+
+### 时间戳的值类型
+
+<code src='./demos/Demo4.tsx'>
+
+### 限制范围
+
+<code src='./demos/Demo5.tsx'>
+
 ## API
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| rangePicker | 是否是范围日期选择 | `boolean` | `false` |
-| dateValueType | 表单获取到的时间格式 | `'string' \| 'number' \| 'moment'` | `string` |
-| picker | 表单获取到的时间格式 | ` "date" \| "week" \| "month" \| "quarter" \| "year"` | `date` |
+| dateValueType | 表单获取到的时间格式 | `'string' \| 'number' \| 'moment'` | `'string'` |
+| picker | 日期的类型 | `"date" \| "week" \| "month" \| "quarter" \| "year"` | `'date'` |
 | format | 同`antd`日期组件的格式 | `-` | `YYYY-MM-DD` |
 | showTime | 是否展示时间 | `boolean` | `false` |
-| disabledDateBefore | 禁用今天的前面的日期 为`0`时包括今天 | `number` | `-` |
-| disabledDateAfter | 禁用今天的后面的日期 为`0`时包括今天 | `number` | `-` |
+| rangePicker | 是否是范围日期选择 | `boolean` | `false` |
+| disabledDateBefore | 禁用今天的前面的日期 , 为`0`时包括今天 | `number` | `-` |
+| disabledDateAfter | 禁用今天的后面的日期 , 为`0`时包括今天 | `number` | `-` |
 | pickerProps | `antd`日期组件的 Props | [PickerProps](https://4x.ant.design/components/date-picker-cn/#%E5%85%B1%E5%90%8C%E7%9A%84-API) | `-` |

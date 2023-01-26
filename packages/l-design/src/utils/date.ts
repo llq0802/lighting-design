@@ -111,7 +111,6 @@ export function timePickerMomentString(
 }
 
 // string number moment 转换为moment
-
 export function transformMomentValue(val?: string | number | Moment, format?: string): Moment;
 export function transformMomentValue(
   val?: (string | number | Moment)[],
@@ -124,8 +123,11 @@ export function transformMomentValue(
   if (Array.isArray(val)) {
     return val.map((item) => transformMomentValue(item, format));
   }
-  if (val && (typeof val === 'string' || typeof val === 'number')) {
+  if (typeof val === 'string') {
     return moment(val, format);
+  }
+  if (typeof val === 'number') {
+    return moment(val);
   }
   return val;
 }
