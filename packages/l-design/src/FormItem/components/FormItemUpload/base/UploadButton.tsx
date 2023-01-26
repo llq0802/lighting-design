@@ -14,7 +14,9 @@ const UploadImageButton: FC<{
   return (
     <div>
       {uploading ? <LoadingOutlined /> : buttonIcon}
-      <div style={{ marginTop: 8 }}>{text}</div>
+      <div className="lightd-upload-wrapper-button-text" style={{ marginTop: 8 }}>
+        {text}
+      </div>
     </div>
   );
 };

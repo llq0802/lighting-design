@@ -18,7 +18,13 @@ nav:
 
 ## 代码演示
 
+### 基础用法
+
 <code src='./demos/Demo1.tsx'>
+
+### 自定义上传
+
+<code src='./demos/Demo2.tsx'>
 
 ## API
 
@@ -27,19 +33,19 @@ nav:
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | uploadType | 上传组件内建类型样式。 | `'default' \| 'image' \| 'avatar' \| 'dragger'` | `'default'` |
-| onUpload | 自定义上传，添加文件时触发。<br/>内部自动处理上传中和失败状态。<br/>如果返回 `object` 将添加到 `UploadFile` 对象中的 `response` 属性中。 | `(file: File) => Promise<object \| undefined>` | - |
-| onGetPreviewUrl | 获取预览图片，点击预览时触发。<br/>（仅在没有 file.url file.thumbUrl file.preview 的情况下生效，执行成功后将预览图放在 file.preview） | `(file: File) => Promise<string>` | - |
-| maxSize | 单个文件限制大小，单位 `Byte`。 | `number` | `1024*1024*5` |
-| maxCount | 限制上传文件数量。<br/>当为 `1` 时，始终用最新上传的代替当前。 | `number` | - |
-| accept | 接受上传的文件类型。<br/>如果 `uploadType` 为 `image` 或 `avatar` ，默认为 `.jpg, .jpeg, .png` | `string` | - |
+| accept | 接受上传的文件类型。<br/>如果 `uploadType` 为 `image` 或 `avatar` ，默认为 `.jpg, .jpeg, .png` | `string` | `-` |
+| onUpload | 自定义上传，添加文件时触发。<br/>内部自动处理上传中和失败状态。<br/>如果返回 `object` 将添加到 `UploadFile` 对象中的 `response` 属性中。 | `(file: File) => Promise<Record<string, any>>` | `-` |
+| maxSize | 单个文件限制大小，单位 `Byte`。 | `number` | `1024 * 1024 * 5` |
+| maxCount | 限制上传文件数量。<br/>当为 `1` 时，始终用最新上传的代替当前。 | `number` | `-` |
 | fileTypeMessage | 文件类型错误时提示，包含 `x` 会自动替换为 `accept`。 | `string \| false` | `只支持上传 ${accept} 文件` |
 | fileSizeMessage | 文件超过最大尺寸时提示包含 `x` 会自动替换为 `${maxSize / 1024 / 1024}M`。 | `string \| false` | `文件必须小于${maxSize / 1024 / 1024}M` |
 | multiple | 是否支持多选文件，`ie10+` 支持。 | `boolean` | `false` |
-| buttonIcon | 按钮图标，不同内建类型有不一样的默认值。 | `ReactNode` | - |
-| buttonText | 按钮文本 在`uploadType为default或dragger时生效` | `ReactNode` | `'点击上传'\|'单击或拖动文件到此区域进行上传'` |
-| buttonProps | Button 的 Props 在`uploadType为default时生效` | [ButtonProps](https://4x.ant.design/components/button-cn/#API) | `-` |
-| previewModalProps | 内置预览弹窗的属性 | [ModalProps](https://4x.ant.design/components/modal-cn/#API) | - |
-| uploadProps | antd 上传组件的 Props | [UploadProps](https://4x.ant.design/components/upload-cn/#API) | - |
+| buttonIcon | 按钮图标，不同内建类型有不一样的默认值。 | `ReactNode` | `-` |
+| buttonText | 按钮文本 在`uploadType为'default'或'dragger'时生效` | `ReactNode` | `'点击上传'\|'单击或拖动文件到此区域进行上传'` |
+| buttonProps | Button 的 Props 在`uploadType为'default'时生效` | [ButtonProps](https://4x.ant.design/components/button-cn/#API) | `-` |
+| onGetPreviewUrl | 获取预览图片，点击预览时触发。<br/>（仅在没有 file.url file.thumbUrl file.preview 的情况下生效，执行成功后将预览图放在 file.preview） | `(file: File) => Promise<string>` | `-` |
+| previewModalProps | 内置预览弹窗的属性 | [ModalProps](https://4x.ant.design/components/modal-cn/#API) | `-` |
+| uploadProps | antd 上传组件的 Props | [UploadProps](https://4x.ant.design/components/upload-cn/#API) | `-` |
 
 #### UploadFile
 

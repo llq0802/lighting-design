@@ -30,6 +30,7 @@ export type LFormItemUploadProps = LFormItemProps &
     | 'maxCount'
     | 'onGetPreviewUrl'
     | 'previewModalProps'
+    // | 'buttonProps'
   > & {
     uploadType?: 'image' | 'default' | 'avatar' | 'dragger';
     uploadProps?: UploadProps;
@@ -54,7 +55,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   accept,
   uploadProps,
   placeholder,
-
+  previewModalProps,
   name, // formItem 字段
   required,
   ...restProps
@@ -99,6 +100,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
         buttonIcon={buttonIcon}
         buttonText={buttonText}
         buttonProps={buttonProps}
+        previewModalProps={previewModalProps}
         action={action}
         accept={accept}
         onUpload={onUpload}

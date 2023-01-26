@@ -13,13 +13,13 @@ const defaultShowUploadList = {
 type UploadDefaultProps = UploadWrapperProps & {
   buttonProps?: ButtonProps;
   buttonIcon?: ReactNode;
-  buttonTitle?: string;
+  buttonText?: string;
 };
 
 const UploadDefault: FC<UploadDefaultProps> = ({
   showUploadList,
   buttonIcon = <UploadOutlined />,
-  buttonTitle = '点击上传',
+  buttonText = '点击上传',
   buttonProps,
   ...restProps
 }) => {
@@ -40,7 +40,7 @@ const UploadDefault: FC<UploadDefaultProps> = ({
   return (
     <UploadWrapper {...restProps} showUploadList={currentShowUploadList}>
       <Button icon={buttonIcon} disabled={restProps.disabled} {...buttonProps}>
-        {buttonTitle}
+        {buttonText}
       </Button>
     </UploadWrapper>
   );

@@ -1,7 +1,8 @@
 import { LForm, LFormItemUpload } from 'lighting-design';
 import { upload } from './services';
+import './styles.less';
 
-const Demo1 = () => {
+const Demo2 = () => {
   const [form] = LForm.useForm();
 
   return (
@@ -15,11 +16,13 @@ const Demo1 = () => {
       }}
     >
       <LFormItemUpload
-        required
         name="default"
         label="默认上传"
         accept=".jpg, .jpeg"
-        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        onUpload={upload}
+        buttonProps={{
+          type: 'primary',
+        }}
         uploadProps={{ name: 'fileName' }}
       />
 
@@ -30,34 +33,19 @@ const Demo1 = () => {
         name="avatar"
         label="头像上传"
         uploadProps={{
-          className: 'my-avatar',
+          className: 'my-avatar2',
           name: 'fileName',
         }}
       />
 
       <LFormItemUpload
-        required
         name="image"
         label="图片上传"
         uploadType="image"
         onUpload={upload}
-        // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        initialValue={[
-          {
-            name: 'meinv',
-            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-          },
-        ]}
-        uploadProps={{ name: 'fileName' }}
-      />
-      <LFormItemUpload
-        required
-        uploadType="dragger"
-        name="dragger"
-        label="拖动上传"
         uploadProps={{ name: 'fileName' }}
       />
     </LForm>
   );
 };
-export default Demo1;
+export default Demo2;

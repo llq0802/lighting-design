@@ -4,6 +4,7 @@ import { ConfigProvider, message, Upload } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload';
 import classNames from 'classnames';
+import type { ButtonProps } from 'packages/l-design/es';
 import type { FC } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { uniqueId } from '../../../../utils';
@@ -21,12 +22,13 @@ export const lightdUploadWrapper = 'lightd-upload-wrapper';
 export interface UploadWrapperProps extends UploadProps {
   fileTypeMessage?: string | false; // 文件类型错误提示
   fileSizeMessage?: string | false; // 文件超过最大尺寸提示
-  onUpload?: (file: File) => Promise<object | undefined>; // 自定义文件上传
+  onUpload?: (file: File) => Promise<Record<string, any>>; // 自定义文件上传
   maxSize?: number; // 单个文件最大尺寸，用于校验
   dragger?: boolean; // 支持拖拽
   // 内置预览modal props
   previewModalProps?: ModalProps;
   onGetPreviewUrl?: (file: File) => Promise<string>; // 点击预览获取大图URL
+  buttonProps?: ButtonProps;
 }
 
 const UploadWrapper: FC<UploadWrapperProps> = (props) => {
@@ -46,6 +48,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     disabled,
     action,
     beforeUpload,
+    buttonProps,
     ...restProps
   } = props;
   // 当前组件唯一标识，用于缓存和释放 URL.createObjectURL
@@ -237,7 +240,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
         progress={{
           status: 'active',
           showInfo: false,
-          strokeWidth: 3,
+          strokeWidth: 2,
           format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
         }}
         {...restProps}
