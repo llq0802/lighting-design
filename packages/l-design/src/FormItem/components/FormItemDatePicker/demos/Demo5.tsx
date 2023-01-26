@@ -18,13 +18,7 @@ const Demo1 = () => {
         required
         disabledDateBefore={0}
       />
-      <LFormItemDatePicker
-        label="禁用今天和今天之后"
-        name="date2"
-        required
-        showTime
-        disabledDateAfter={0}
-      />
+      <LFormItemDatePicker label="禁用今天和今天之后" name="date2" required disabledDateAfter={0} />
       <LFormItemDatePicker
         label="禁用今天之前(不包括今天)"
         name="date3"

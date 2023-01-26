@@ -1,36 +1,37 @@
 import { LForm, LFormItemTimePicker } from 'lighting-design';
-import moment from 'moment';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemTimePicker" form={form}>
+    <LForm
+      name="LFormItemTimePicker"
+      form={form}
+      labelCol={{ flex: '90px' }}
+      submitter={{
+        buttonAlign: 'center',
+      }}
+      onFinish={(values) => {
+        console.log('values', values);
+      }}
+    >
       <LFormItemTimePicker
-        label="时间选择"
-        name="date1"
-        format="HH:mm"
+        label="时间选择1"
+        name="time1"
         required
-        initialValue={'15:08'}
         contentAfter={<div>后面</div>}
         contentInline
       />
       <LFormItemTimePicker
         label="时间选择2"
-        name="date2"
-        format="HH:mm:ss"
-        initialValue={[moment('15:08:23', 'HH:mm:ss'), moment('15:08:23', 'HH:mm:ss')]}
+        name="time2"
+        format="HH:mm"
         required
-        rangePicker
+        contentAfter={<div>后面</div>}
       />
-      <LFormItemTimePicker
-        label="时间选择3"
-        name="date3"
-        format="HH:mm:ss"
-        initialValue={['15:08:23', '15:08:23', 'HH:mm:ss']}
-        required
-        rangePicker
-      />
+      <LFormItemTimePicker label="时间选择3" name="time2" format="HH:mm" required disabled />
+      <LFormItemTimePicker label="时间选择3" name="time3" required rangePicker />
+      <LFormItemTimePicker label="时间选择4" name="time4" required rangePicker />
     </LForm>
   );
 };

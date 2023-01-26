@@ -28,5 +28,5 @@ nav:
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | rangePicker | 是否是范围时间选择 | `boolean` | `false` |
-| format | 同`antd`时间组件的格式 | `-` | `HH:mm:ss` |
+| format | 同`antd`时间组件的格式 | `配置参考antd时间组件` | `'HH:mm:ss'` |
 | timePickerProps | `antd`时间组件的 Props | [TimePickerProps](https://4x.ant.design/components/time-picker-cn/#API) | `-` |

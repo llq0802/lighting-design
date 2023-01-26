@@ -45,9 +45,9 @@ nav:
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| dateValueType | 表单获取到的时间格式 | `'string' \| 'number' \| 'moment'` | `'string'` |
+| dateValueType | 表单获取到的日期格式 | `'string' \| 'number' \| 'moment'` | `'string'` |
 | picker | 日期的类型 | `"date" \| "week" \| "month" \| "quarter" \| "year"` | `'date'` |
-| format | 同`antd`日期组件的格式 | `-` | `YYYY-MM-DD` |
+| format | 同`antd`日期组件的格式 | `配置参考antd日期组件` | `'YYYY-MM-DD'` |
 | showTime | 是否展示时间 | `boolean` | `false` |
 | rangePicker | 是否是范围日期选择 | `boolean` | `false` |
 | disabledDateBefore | 禁用今天的前面的日期 , 为`0`时包括今天 | `number` | `-` |
