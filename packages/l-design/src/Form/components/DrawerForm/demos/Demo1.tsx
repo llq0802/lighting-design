@@ -1,10 +1,10 @@
-import { Button, Form, message } from 'antd';
+import { Button, Form } from 'antd';
 import { LDrawerForm, LFormItemColor, LFormItemInput } from 'lighting-design';
 import { useState } from 'react';
+import { awaitTime } from '../../../../_utils';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
   return (
@@ -17,26 +17,19 @@ const Demo1 = () => {
           setOpen(false);
         }}
         placement="right"
-        title="弹窗"
-        loading={loading}
+        title="抽屉"
         onFinish={async (values) => {
-          setLoading(true);
           console.log('onFinish-values ', values);
-          setTimeout(() => {
-            message.success('提交成功');
-            setLoading(false);
-            setOpen(false);
-          }, 2000);
+          await awaitTime('', 1000);
+          return true;
+        }}
+        initialValues={{
+          color: '#666',
+          input: '寸金乃买寸光阴',
         }}
       >
-        <LFormItemColor
-          colorType="chrome"
-          initialValue="#666"
-          label="颜色选择"
-          name="color"
-          required
-        />
-        <LFormItemInput name="input" initialValue="寸金乃买寸光阴" required label="输入框" />
+        <LFormItemColor colorType="chrome" label="颜色选择" name="color" required />
+        <LFormItemInput name="input" required label="输入框" />
       </LDrawerForm>
       <Button type="primary" onClick={() => setOpen(true)}>
         打开抽屉

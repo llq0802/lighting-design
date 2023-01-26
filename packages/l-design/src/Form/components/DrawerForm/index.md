@@ -12,7 +12,25 @@ nav:
 
 ## 代码演示
 
+## 基础用法
+
+<code src='./demos/Demo4.tsx'>
+
+## 使用 open 受控
+
 <code src='./demos/Demo1.tsx'>
+
+## 编辑
+
+<code src='./demos/Demo3.tsx'>
+
+## 自定义按钮
+
+<code src='./demos/Demo2.tsx'>
+
+## 渲染在当前 DOM
+
+<code src='./demos/Demo5.tsx'>
 
 ## API
 
@@ -32,4 +50,4 @@ nav:
 | open | 是否打开。<br/>设置后表示为 `受控组件`，可结合 `onOpenChange` 进行控制。 | `boolean` | `-` |
 | onOpenChange | `open` 改变时触发 | `(open: boolean) => void` | `-` |
 | drawerProps | `Drawer` 的 `props`，使用方式与 antd 相同。 | [DrawerProps](https://4x.ant.design/components/drawer-cn/#API) | `-` |
-| onFinish | 提交数据时触发。如果返回 true 或 Promise.resolve(true) 表示提交成功，会关闭弹框并且会自动管理 loading | `async (values: any) => any` | `-` |
+| onFinish | 提交数据时触发。如果返回 `true` 或 `Promise.resolve(true)` 表示提交成功，会关闭弹框并且会自动管理 `loading` | `async (values: any) => any` | `-` |
