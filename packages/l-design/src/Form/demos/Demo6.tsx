@@ -67,7 +67,7 @@ const Demo1 = () => {
     <LForm
       disabled
       labelWidth={90}
-      submitter={{ buttonAlign: 90 }}
+      submitter={false}
       name="lform-demo"
       form={form}
       onFinish={async (values) => {
