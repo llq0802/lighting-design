@@ -2,27 +2,28 @@ import type { FormProps } from 'antd';
 import { Modal } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import type { ModalProps } from 'antd/lib/modal';
-import type { ForwardRefRenderFunction } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
+import type { ForwardRefRenderFunction, MutableRefObject } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 
 export interface FormSlotProps extends FormProps {
-  formValues?: Record<string, any> | null;
+  formValues?: Record<string, any>;
   submit?: (fields: Record<string, any>, form: FormInstance) => any;
+  [key: string]: any;
 }
 
 export type DraggableModalProps = { isDraggable: boolean } & ModalProps;
 
 const useFormModal = (
-  FormSlot: (props: FormSlotProps, ref: React.MutableRefObject<FormInstance<any>>) => JSX.Element,
+  FormSlot: (props: FormSlotProps, ref: MutableRefObject<FormInstance<any>>) => JSX.Element,
   modalProps?: DraggableModalProps,
 ) => {
   const [open, setOpen] = useState(false);
   const onOpen = () => setOpen(true);
   const onClose = () => setOpen(false);
-  const ref = React.useRef<FormInstance>(null);
-  const FormSlotCompoent = React.forwardRef(
+  const ref = useRef<FormInstance>(null);
+  const FormSlotCompoent = forwardRef(
     FormSlot as ForwardRefRenderFunction<FormInstance<any>, FormSlotProps>,
   );
 
@@ -106,8 +107,6 @@ const useFormModal = (
               }
             }}
             onMouseOut={() => setDisabled(true)}
-            onFocus={() => {}}
-            onBlur={() => {}}
           >
             {modalProps?.title || '弹窗'}
           </div>

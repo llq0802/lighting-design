@@ -1,10 +1,10 @@
-import { Tooltip } from 'lighting-design';
+import { LTooltip } from 'lighting-design';
 import type { FC } from 'react';
 import styles from './index2.less';
 
 const Index: FC = () => {
   return (
-    <Tooltip
+    <LTooltip
       className={styles.tooltip}
       tipClassName={styles.tooltipItem}
       title={
@@ -15,7 +15,7 @@ const Index: FC = () => {
             width={200}
             height={100}
             style={{
-              marginBottom: 10
+              marginBottom: 10,
             }}
           />
           自定义气泡
@@ -23,7 +23,7 @@ const Index: FC = () => {
       }
     >
       <div className={styles.content}>自定义气泡</div>
-    </Tooltip>
+    </LTooltip>
   );
 };
 

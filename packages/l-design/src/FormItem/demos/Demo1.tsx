@@ -1,44 +1,56 @@
-import { Button, Form, Input } from 'antd';
-import { LFormItem } from 'lighting-design';
+import { Input, Select } from 'antd';
+import { LForm, LFormItem } from 'lighting-design';
+import AgeSelect from './components/AgeSelect';
 
-const Demo1 = () => {
-  const [form] = Form.useForm();
-
+const Demo2 = () => {
+  const [form] = LForm.useForm();
   return (
     <>
-      <Form name="Form1" form={form}>
-        <LFormItem
-          className="zxc"
-          tooltip="这是提示"
-          name="name"
-          label="Description"
-          contentAfter={<div>789</div>}
-          renderField={(dom) => {
-            console.log('dom ', dom);
-
-            return <Input />;
-          }}
-        >
-          789
+      <LForm labelWidth={90} name="LForm2" form={form} submitter={{ buttonAlign: 90 }}>
+        <LFormItem name="sex" label="性别" required>
+          <Select
+            placeholder="选择性别"
+            options={[
+              { value: '1', label: '男' },
+              { value: '0', label: '女' },
+            ]}
+          />
         </LFormItem>
-      </Form>
 
-      <Button
-        onClick={() => {
-          console.log(' form', form.getFieldsValue());
-        }}
-      >
-        获取
-      </Button>
-      <Button
-        onClick={() => {
-          form.setFieldsValue({ name: '1' });
-        }}
-      >
-        设置
-      </Button>
+        <LFormItem
+          required
+          name="age"
+          className="l-age"
+          label="年龄"
+          alignItems="end"
+          contentAfter={<div>岁</div>}
+          dependencies={['sex']}
+        >
+          <AgeSelect />
+        </LFormItem>
+
+        <LFormItem
+          noStyle
+          shouldUpdate={(prevValues, curValues) => prevValues.sex !== curValues.sex}
+        >
+          {({ getFieldValue }) => {
+            return getFieldValue('sex') === '1' ? (
+              <LFormItem
+                label="信息"
+                name="l-info"
+                className="lightd-form-item-className1"
+                contentClassName="lightd-form-item-contentClassName1"
+                required
+                contentProps={{ placeholder: '输入信息' }}
+              >
+                <Input />
+              </LFormItem>
+            ) : null;
+          }}
+        </LFormItem>
+      </LForm>
     </>
   );
 };
 
-export default Demo1;
+export default Demo2;

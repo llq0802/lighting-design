@@ -1,31 +1,32 @@
 /* eslint-disable react/jsx-key */
 import classNames from 'classnames';
 import type { CSSProperties, FC } from 'react';
-import Loading1 from './component/loading1';
-import Loading2 from './component/loading2';
-import Loading3 from './component/loading3';
-import Loading4 from './component/loading4';
-import Loading5 from './component/loading5';
-import Loading6 from './component/loading6';
+import Loading1 from './component/spin-loading1';
+import Loading2 from './component/spin-loading2';
+import Loading3 from './component/spin-loading3';
+import Loading4 from './component/spin-loading4';
+import Loading5 from './component/spin-loading5';
+import Loading6 from './component/spin-loading6';
 import './index.less';
 
-interface LoadingProps {
+
+export interface LightdSpinProps {
+  /**
+   * 图标类型
+   */
+  mode: 'load1' | 'load2' | 'load3' | 'load4' | 'load5' | 'load6' | string;
+  /**
+   * 组件大小，可选值为 small default large
+   */
+  size: 'small' | 'default' | 'large' | string;
   /**
    * 样式
    */
   style: CSSProperties;
   /**
-   * 图标类型
-   */
-  mode: 'load1' | 'load2' | 'load3' | 'load4' | 'load5' | 'load6';
-  /**
    * 图标颜色
    */
   color: string;
-  /**
-   * 组件大小，可选值为 small default large
-   */
-  size: 'small' | 'default' | 'large';
   /**
    * 自定义描述文案
    */
@@ -43,7 +44,8 @@ interface LoadingProps {
    */
   children: React.ReactNode;
 }
-const Index: FC<Partial<LoadingProps>> = ({
+
+const Index: FC<Partial<LightdSpinProps>> = ({
   style,
   color = '#FF6700',
   size = 'default',

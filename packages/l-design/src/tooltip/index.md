@@ -1,29 +1,37 @@
 ---
-title: Tooltip
+title: LTooltip
 order: 2
 nav:
   order: 2
   path: /components
 ---
 
-# Tooltip 文字提示
+# LTooltip
 
-用于页面和区块组件的加载状态。
+文字提示
 
-## 基本用法
+## 代码演示
+
+### 基础用法
 
 <code src="./demos/base.tsx"/>
 
-## 多行隐藏
+### 多行隐藏
 
 <code src="./demos/rowHide.tsx"/>
 
-## 气泡位置
+### 气泡位置
 
 <code src="./demos/placement.tsx"/>
 
-## 自定义气泡
+### 自定义气泡
 
 <code src="./demos/customTitle.tsx"/>
+
+---
+
+```ts
+import { LTooltip } from 'lighting-design';
+```
 
 <API></API>

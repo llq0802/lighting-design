@@ -1,19 +1,32 @@
-import { useCountDown, useLocalStorageState } from 'ahooks';
+import { useCountDown, useLocalStorageState, useUpdateEffect } from 'ahooks';
 import { Button } from 'antd';
-import type { ForwardRefRenderFunction } from 'react';
-import React, { forwardRef, useCallback, useEffect } from 'react';
-import type { LCaptchaButtonProps } from './type.d';
+import type { ForwardRefRenderFunction, MouseEvent, Ref, RefObject } from 'react';
+import { forwardRef, useCallback, useEffect } from 'react';
+
+import type { ButtonProps } from 'antd';
+
+export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
+  second?: number;
+  start?: boolean;
+  disabledText?: string;
+  /**
+   * 缓存的 key、页面刷新后倒计时继续。
+   */
+  cacheKey: string;
+  onEnd?: () => void;
+}
 
 /**
  * 获取验证码按钮
  * @param CaptchaButtonProps
  * @returns
  */
-const LCaptchaButton: ForwardRefRenderFunction<
-  React.Ref<HTMLElement> | undefined,
-  LCaptchaButtonProps
-> = (props, ref) => {
+const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCaptchaButtonProps> = (
+  props,
+  ref,
+) => {
   const {
+    start = true,
     second = 10,
     cacheKey = '__CaptchaButton__',
     disabledText = '重发',
@@ -34,7 +47,7 @@ const LCaptchaButton: ForwardRefRenderFunction<
     },
   });
   const handleClick = useCallback(
-    (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    (e: MouseEvent<HTMLElement>) => {
       onClick?.(e);
     },
     [onClick],
@@ -45,12 +58,21 @@ const LCaptchaButton: ForwardRefRenderFunction<
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useUpdateEffect(() => {
+    if (start) {
+      setTargetDate(Date.now() + second * 1000);
+    }
+  }, [start]);
+
   return (
     <Button
-      ref={ref as React.Ref<HTMLElement> | undefined}
+      ref={ref as Ref<HTMLElement> | undefined}
       {...buttonProps}
-      onClick={(e) => {
-        setTargetDate(Date.now() + second * 1000);
+      onClick={async (e) => {
+        if (start) {
+          setTargetDate(Date.now() + second * 1000);
+        }
         handleClick?.(e);
       }}
       disabled={countdown !== 0}

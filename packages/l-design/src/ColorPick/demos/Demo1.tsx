@@ -8,10 +8,10 @@ import { LColor } from 'lighting-design';
 export default () => {
   return (
     <>
-      <LColor value="#e60000" size="small" />
+      <LColor value="#e60000" size="small" disabled />
       <br />
       <br />
-      <LColor value="#e60000" showText />
+      <LColor value="#e60000" showText disabled />
       <br />
       <br />
       <LColor value="#e60000" />

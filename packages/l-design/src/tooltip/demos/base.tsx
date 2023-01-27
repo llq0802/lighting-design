@@ -1,4 +1,4 @@
-import { Tooltip } from 'lighting-design';
+import { LTooltip } from 'lighting-design';
 import type { FC } from 'react';
 
 const center = {
@@ -7,9 +7,12 @@ const center = {
 };
 const Index: FC = () => {
   return (
-    <Tooltip style={center} title="基础用法">
+    <LTooltip
+      style={center}
+      title="这是一条很长很长很长很很长很长很长很长很长很长很很长很长很长很长很长的语句"
+    >
       基础用法
-    </Tooltip>
+    </LTooltip>
   );
 };
 

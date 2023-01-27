@@ -29,8 +29,7 @@
     ]
   },
   "dependencies": {
-    "antd": "^4.23.6",
-    "rc-switch": "~4.0.0",
+    "antd": "^4.24.5",
     "react-color": "^2.19.3",
     "react-draggable": "^4.4.5"
   },
@@ -62,6 +61,9 @@
     "platform": "github"
   },
   "license": "ISC",
+  "sideEffects": [
+    "*.less"
+  ],
   "workspaces": [
     "packages/*"
   ]

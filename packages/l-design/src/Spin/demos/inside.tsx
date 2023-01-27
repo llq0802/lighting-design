@@ -1,5 +1,6 @@
-import { Alert, Switch } from 'antd';
-import { Spin } from 'lighting-design';
+import { Alert,Switch } from 'antd';
+import {  } from 'dumi';
+import { LSpin } from 'lighting-design';
 import type { CSSProperties, FC } from 'react';
 import { useState } from 'react';
 
@@ -13,13 +14,13 @@ const Index: FC = () => {
 
   return (
     <div>
-      <Spin loading={loading} tip="玩命加载中...">
+      <LSpin loading={loading} tip="玩命加载中...">
         <Alert
           message="Alert message title"
           description="Further details about the context of this alert."
           type="info"
         />
-      </Spin>
+      </LSpin>
       <br />
       <br />
       <div style={flexCenter}>

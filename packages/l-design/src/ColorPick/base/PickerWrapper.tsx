@@ -2,7 +2,8 @@ import { useControllableValue } from 'ahooks';
 import type { PopoverProps, TooltipProps } from 'antd';
 import { Popover } from 'antd';
 import classNames from 'classnames';
-import React, { cloneElement, useCallback } from 'react';
+import type { FC, ReactElement } from 'react';
+import { cloneElement, useCallback } from 'react';
 import type { ColorResult } from 'react-color';
 import { transformColor } from '../utils';
 import BaseColor, { prefixCls } from './BaseColor';
@@ -12,6 +13,7 @@ export interface PickerCommonProps {
   className?: string;
   value?: string;
   showText?: boolean;
+  disabled?: boolean;
   trigger?: 'click' | 'hover' | string | string[];
   onChange?: (colorStr: string) => void;
   colorMode?: 'hex' | 'rgb';
@@ -21,17 +23,18 @@ export interface PickerCommonProps {
 }
 
 export interface PickerWrapperProps extends PickerCommonProps, PopoverProps {
-  children?: React.ReactElement | any;
+  children?: ReactElement | any;
   isNoChangeMethod?: boolean;
   [key: string]: any;
 }
 
-const PickerWrapper: React.FC<PickerWrapperProps> = ({
+const PickerWrapper: FC<PickerWrapperProps> = ({
   value,
   onChange,
   children,
   className,
   showText = false,
+  disabled = false,
   trigger = 'click',
   colorMode = 'hex',
   placement = 'bottomLeft',
@@ -58,25 +61,30 @@ const PickerWrapper: React.FC<PickerWrapperProps> = ({
     <BaseColor
       value={value}
       showText={showText}
+      disabled={disabled}
       size={size}
       className={classNames(`${prefixCls}-picker`, className)}
-      renderColor={(dom) => (
-        <Popover
-          content={
-            isNoChangeMethod
-              ? children
-              : cloneElement(children, { [changeMethod]: handleChange, color: value })
-          }
-          trigger={trigger}
-          open={open}
-          onOpenChange={setOpen}
-          placement={placement}
-          overlayClassName={`${prefixCls}-overlay-normalize`}
-          {...restProps}
-        >
-          {dom}
-        </Popover>
-      )}
+      renderColor={(dom) =>
+        disabled ? (
+          dom
+        ) : (
+          <Popover
+            content={
+              isNoChangeMethod
+                ? children
+                : cloneElement(children, { [changeMethod]: handleChange, color: value })
+            }
+            trigger={trigger}
+            open={open}
+            onOpenChange={setOpen}
+            placement={placement}
+            overlayClassName={`${prefixCls}-overlay-normalize`}
+            {...restProps}
+          >
+            {dom}
+          </Popover>
+        )
+      }
     />
   );
 };

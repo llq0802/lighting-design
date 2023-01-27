@@ -1,53 +1,62 @@
 import classNames from 'classnames';
-import * as React from 'react';
+import type { FC, ReactNode } from 'react';
+import { cloneElement, isValidElement } from 'react';
+import { composeProps } from '../../utils';
 import './styles.less';
 
 const prefixCls = 'lightd-form-item-wrapper';
 
 export interface FormItemWrapperProps extends Record<string, any> {
-  before?: React.ReactNode;
-  after?: React.ReactNode;
-  trigger?: string;
+  before?: ReactNode;
+  after?: ReactNode;
+  // trigger?: string;
   className?: string;
+  contentInline?: boolean;
 }
 
-const WrapperFormElement: React.FC<FormItemWrapperProps> = ({
+const FormItemWrapper: FC<FormItemWrapperProps> = ({
   className,
-  trigger = 'onChange',
+  // trigger = 'onChange',
   alignItems = null,
+  contentInline = false,
   after = null,
   before = null,
   children,
-  ...contentProps // {value,onChange,...}
+  ...formItemChildrenProps // {value,onChange,...}
 }) => {
-  // console.log('WrapperFormElement-children.props ', children?.props);
-  // console.log('WrapperFormElement-contentProps ', contentProps);
+  // console.log('FormItemWrapper-children.props ', children?.props);
+  // console.log('FormItemWrapper-formItemChildrenProps ', formItemChildrenProps);
 
   // 调用父组件的trigger事件 (一般是onChange事件或onInput事件)
-  const handleTrigger = React.useCallback(
-    (...args: any[]) => {
-      if (React.isValidElement(children)) {
-        children?.props?.[trigger]?.(...args);
-      }
-      contentProps?.[trigger]?.(...args);
-    },
-    [children, contentProps, trigger],
-  );
-  // 优化缓存事件
-  const triggerProp = React.useMemo(
-    () => (trigger ? { [trigger]: handleTrigger } : {}),
-    [handleTrigger, trigger],
-  );
-
+  // const handleTrigger = useCallback(
+  //   (...args: any[]) => {
+  //     if (isValidElement(children)) {
+  //       // 如果组件本身传入的props中有onChange
+  //       children?.props?.[trigger]?.(...args);
+  //     }
+  //     // 调用form组件传的onChange
+  //     formItemChildrenProps?.[trigger]?.(...args);
+  //   },
+  //   [children, formItemChildrenProps, trigger],
+  // );
+  // 优化缓存事件(默认onchange事件)
+  // const triggerProp = useMemo(
+  //   () => (trigger ? { [trigger]: handleTrigger } : {}),
+  //   [handleTrigger, trigger],
+  // );
   // 判断是不是dom元素比如(Input)
-  const childrenView = React.isValidElement(children)
-    ? React.cloneElement(
-        children as React.ReactElement<any, string | React.JSXElementConstructor<any>>,
-        {
-          ...contentProps, // 注册form其他属性或事件
-          ...triggerProp, // 默认调用onChange事件
-          style: { flex: 1, ...contentProps?.style },
-        },
+  // const childrenView = isValidElement(children)
+  //   ? cloneElement(children as ReactElement<any, string | JSXElementConstructor<any>>, {
+  //       ...formItemChildrenProps, // 注册form其他属性或事件
+  //       ...triggerProp, // 默认调用onChange事件(包括组件本身的onchange和form组件的onchange)
+  //     })
+  //   : (children as any);
+
+  // 合并子组件组件的props并触发相应事件函数
+  const childrenView = isValidElement(children)
+    ? cloneElement(
+        children,
+        composeProps(children?.props as Record<string, any>, formItemChildrenProps, true),
       )
     : (children as any);
 
@@ -57,14 +66,19 @@ const WrapperFormElement: React.FC<FormItemWrapperProps> = ({
   } else {
     const beforeView = before && <div className={`${prefixCls}-before`}>{before}</div>;
     const afterView = after && <div className={`${prefixCls}-after`}>{after}</div>;
+    const contentView = (
+      <div className={`${prefixCls}-content`} style={contentInline ? { flex: 'initial' } : {}}>
+        {childrenView}
+      </div>
+    );
     return (
       <div className={classNames(prefixCls, className)} style={alignItems ? { alignItems } : {}}>
         {beforeView}
-        {childrenView}
+        {contentView}
         {afterView}
       </div>
     );
   }
 };
 
-export default WrapperFormElement;
+export default FormItemWrapper;

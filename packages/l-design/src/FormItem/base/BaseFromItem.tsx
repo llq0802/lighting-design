@@ -1,78 +1,196 @@
 import type { FormItemProps } from 'antd';
 import { Form } from 'antd';
-import * as React from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
+import { cloneElement, isValidElement, useContext, useMemo } from 'react';
+import { LFormContext } from '../../Form/base/BaseForm';
+import { usePlaceholder } from '../../utils';
 import FormItemWrapper from './FormItemWrapper';
 
-type TransformFn<T = any> = (value: T, currentPathValues?: any) => T | any;
+type ContentProps = Record<string, any>;
 
-type ContentProps = {
-  style?: React.CSSProperties;
-};
 export interface LFormItemProps extends FormItemProps {
-  transform?: TransformFn;
-  renderField?: (dom: React.ReactElement) => React.ReactElement;
+  /** lable宽度 */
+  labelWidth?: number | 'auto';
+  /** 重新渲染FormItem组件 */
+  renderField?: (dom: ReactElement, props: LFormItemProps) => ReactElement;
+  /** 当配置了contentBefore或者contentAfter时组件垂直的对齐方式 */
   alignItems?: 'center' | 'start' | 'end';
-  contentBefore?: React.ReactNode;
-  contentAfter?: React.ReactNode;
+  /** 组件前面的内容 */
+  contentBefore?: ReactNode;
+  /** 组件后面的内容 */
+  contentAfter?: ReactNode;
+  /** 传给children的额外属性 */
   contentProps?: ContentProps;
-  className?: string;
+  /** children是否为inline */
+  contentInline?: boolean;
+  /** 被包裹组件的最外层容器类名 */
+  contentClassName?: string;
+  /** 是否是选择类型的组件(内部使用) */
+  isSelectType?: boolean;
+  /** 是否禁用 */
+  disabled?: boolean;
+  /** 组件的placeholder */
+  placeholder?: string | string[];
 }
 
-const LFormItem: React.FC<LFormItemProps> = ({
-  transform,
-  renderField,
-  className,
-  contentBefore,
-  contentAfter,
-  alignItems,
-  contentProps,
+const LFormItem: FC<LFormItemProps> = (props) => {
+  const {
+    isSelectType,
+    placeholder,
 
-  name,
-  label,
-  children,
-  shouldUpdate,
-  trigger = 'onChange',
-  ...restFromProps
-}) => {
-  // console.log('LFormItem-restFromProps ', restFromProps);
-  // console.log('LFormItem-contentProps ', contentProps);
+    renderField,
+
+    labelWidth = 'auto',
+    contentClassName,
+    contentBefore,
+    contentAfter,
+    contentProps,
+    contentInline = false,
+    alignItems,
+
+    name,
+    required,
+    shouldUpdate,
+    dependencies = [],
+    rules = [],
+    // trigger = 'onChange',
+    labelCol,
+    children,
+
+    ...restFromItemProps
+  } = props;
+
+  const { layout, labelColProps: formLabelColProps } = useContext(LFormContext);
+
+  const messageLabel = usePlaceholder({
+    restProps: restFromItemProps,
+    isSelectType,
+    placeholder,
+  });
+
+  const itemRules = useMemo(
+    () =>
+      rules.length > 0
+        ? rules
+        : [
+            {
+              validator(_: any, value: any) {
+                let errMsg = '';
+                if (!value) {
+                  errMsg = required ? `${messageLabel}!` : '';
+                }
+                if (errMsg) {
+                  return Promise.reject(errMsg);
+                }
+                return Promise.resolve();
+              },
+            },
+          ],
+    [messageLabel, required, rules],
+  );
+
+  const labelColProps = useMemo(() => {
+    const labelFlex =
+      layout !== 'vertical' && labelWidth && labelWidth !== 'auto'
+        ? { flex: `0 0 ${labelWidth}px` }
+        : {};
+    return {
+      ...formLabelColProps,
+      ...labelFlex,
+      ...labelCol,
+    };
+  }, [layout, labelWidth, formLabelColProps, labelCol]);
+
+  if (shouldUpdate) {
+    return (
+      <Form.Item
+        labelCol={labelColProps}
+        name={name}
+        required={required}
+        shouldUpdate={shouldUpdate}
+        // trigger={trigger}
+        rules={itemRules}
+        {...restFromItemProps}
+      >
+        {(form) => {
+          const contentChildren = typeof children === 'function' ? children(form) : children;
+          return (
+            <FormItemWrapper
+              className={contentClassName}
+              before={contentBefore}
+              after={contentAfter}
+              // trigger={trigger}
+              alignItems={alignItems}
+              contentInline={contentInline}
+              {...contentProps}
+            >
+              {renderField ? renderField(contentChildren as ReactElement, props) : contentChildren}
+            </FormItemWrapper>
+          );
+        }}
+      </Form.Item>
+    );
+  }
+
+  if (dependencies && dependencies?.length > 0) {
+    return (
+      <Form.Item noStyle dependencies={dependencies}>
+        {(form) => {
+          const depFields = form.getFieldsValue(dependencies);
+          const innerChildren = typeof children === 'function' ? children(form) : children;
+          const contentChildren = isValidElement(innerChildren)
+            ? cloneElement(innerChildren as ReactElement, { ...depFields })
+            : innerChildren;
+
+          return (
+            <Form.Item
+              labelCol={labelColProps}
+              name={name}
+              required={required}
+              // trigger={trigger}
+              rules={itemRules}
+              {...restFromItemProps}
+            >
+              <FormItemWrapper
+                className={contentClassName}
+                before={contentBefore}
+                after={contentAfter}
+                // trigger={trigger}
+                alignItems={alignItems}
+                contentInline={contentInline}
+                {...contentProps}
+              >
+                {renderField
+                  ? renderField(contentChildren as ReactElement, props)
+                  : contentChildren}
+              </FormItemWrapper>
+            </Form.Item>
+          );
+        }}
+      </Form.Item>
+    );
+  }
 
   return (
     <Form.Item
+      labelCol={labelColProps}
       name={name}
-      label={label}
-      shouldUpdate={shouldUpdate}
-      trigger={trigger}
-      {...restFromProps}
+      required={required}
+      // trigger={trigger}
+      rules={itemRules}
+      {...restFromItemProps}
     >
-      {shouldUpdate ? (
-        (...args) => {
-          const innerChildren = typeof children === 'function' ? children(...args) : children;
-          return (
-            <FormItemWrapper
-              className={className}
-              before={contentBefore}
-              after={contentAfter}
-              trigger={trigger}
-              alignItems={alignItems}
-              {...contentProps}
-            >
-              {renderField ? renderField(innerChildren as React.ReactElement) : innerChildren}
-            </FormItemWrapper>
-          );
-        }
-      ) : (
-        <FormItemWrapper
-          className={className}
-          before={contentBefore}
-          after={contentAfter}
-          trigger={trigger}
-          alignItems={alignItems}
-          {...contentProps}
-        >
-          {renderField ? renderField(children as React.ReactElement) : children}
-        </FormItemWrapper>
-      )}
+      <FormItemWrapper
+        className={contentClassName}
+        before={contentBefore}
+        after={contentAfter}
+        // trigger={trigger}
+        alignItems={alignItems}
+        contentInline={contentInline}
+        {...contentProps}
+      >
+        {renderField ? renderField(children as ReactElement, props) : children}
+      </FormItemWrapper>
     </Form.Item>
   );
 };

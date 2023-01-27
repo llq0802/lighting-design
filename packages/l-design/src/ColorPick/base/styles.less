@@ -22,7 +22,7 @@
     padding: 3px;
     line-height: 0;
     vertical-align: middle;
-    background: #fff;
+    background-color: #fff;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 3px;
 
@@ -35,6 +35,12 @@
       content: '';
       inset: 3px;
     }
+  }
+
+  &-disabled &-outer {
+    // background-color: #e0e0e0;
+    background-color: #f5f5f5;
+    cursor: no-drop;
   }
 
   &-inner {
@@ -50,6 +56,11 @@
   &-picker &-inner {
     cursor: pointer;
   }
+
+  &-disabled&-picker &-inner {
+    cursor: no-drop;
+  }
+
   // 默认尺寸
   &-middle &-outer {
     width: 32px;
