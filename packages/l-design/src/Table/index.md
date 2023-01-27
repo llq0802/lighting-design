@@ -67,19 +67,19 @@ import { LTable } from 'lighting-design';
 | fullScreenBgColor | 全屏时显示的背景颜色 | `string` | `#fff` |
 | nowrap | 表格宽度超过 100%自动处理横向滚动条。 | `boolean` | `true` |
 | requestParams | 异步请求函数额外参数 | `Record<string, any>` | `-` |
-| request | 异步请求函数 | `TableRequest` | `-` |
+| request | 异步请求函数 | `LTableRequest` | `-` |
 | autoRequest | 是否自动请求 | `boolean` | `true` |
 | formRef | 查询表单的实例 | `MutableRefObject<FormInstance \| undefined> \| ((ref: FormInstance) => void)` | `-` |
-| tableRef | 表格的实例 包含一些方法 | ` MutableRefObject<TableRefProps>` | `-` |
+| tableRef | 表格的实例 包含一些方法 | ` MutableRefObject<LTableInstance \| undefined>` | `-` |
 | rootClassName | 表格最外层 div 类名 | `string` | `-` |
 | tableClassName | `antd 表格`额外类名 | `string` | `-` |
 | tableStyle | `antd 表格`额外样式 | `CSSProperties` | `-` |
-| formCardProps | 查询表单外层的 `Card` 组件的 `CardProps` | [CardProps](https://4x.ant.design/components/card-cn/#API) | `{style:{ borderRadius: 8 },bodyStyle:{paddingBottom: 0, marginBottom: 16}}` |
-| tableCardProps | 表格外层的 `Card` 组件的 `CardProps` | [CardProps](https://4x.ant.design/components/card-cn/#API) | `{style:{ borderRadius: 8 }}` |
+| formCardProps | 查询表单外层的 `Card` 组件的 `CardProps` | [CardProps](https://4x.ant.design/components/card-cn/#API) | `{style:{ borderRadius: 0 },bodyStyle:{paddingBottom: 0, marginBottom: 16}}` |
+| tableCardProps | 表格外层的 `Card` 组件的 `CardProps` | [CardProps](https://4x.ant.design/components/card-cn/#API) | `{style:{ borderRadius: 0 }}` |
 | showToolbar | 是否显示整个 toolbar | `boolean` | `true` |
-| toolbarActionConfig | 配置内置表格工具栏 与 Space 组件有相同属性 showToolbar 为 true 时生效 | `ToolbarActionConfigProps` | `-` |
+| toolbarActionConfig | 配置内置表格工具栏 与 Space 组件有相同属性 showToolbar 为 true 时生效 | `LToolbarActionProps` | `-` |
 | toolbarRender | 重新渲染 toolBar 包括内置表格工具 | `(ToolbarActionDom: ReactNode) => ReactNode` | `-` |
-| tableRender | 重新渲染整个表格 | `TableRenderProps` | `-` |
+| tableRender | 重新渲染整个表格 | `LTableRenderProps` | `-` |
 | contentRender | 重新渲染表格内容 | `(data: Record<string, any>[]) => ReactNode` | `-` |
 | toolbarLeft | 整个 toolBar 的左侧 | `ReactNode` | `-` |
 | toolbarRight | 整个 toolBar 的右侧 在内置表格工具左侧 | `ReactNode` | `-` |
@@ -88,10 +88,10 @@ import { LTable } from 'lighting-design';
 | formInitialValues | 查询表单初始值 | `Record<string, any>` | `-` |
 | queryFormProps | 查询表单`LQueryFormProps` | [LQueryFormProps](/components/form/query-form) | `-` |
 
-#### TableRequest
+### LTableRequest
 
 ```ts
-export type TableRequest = (
+export type LTableRequest = (
   /** 请求参数 */
   params: {
     current: number;
@@ -104,10 +104,10 @@ export type TableRequest = (
 ) => Promise<{ success: boolean; data: Record<string, any>[]; total: number }>;
 ```
 
-#### TableRenderProps
+### LTableRenderProps
 
 ```ts
-export type TableRenderProps = (
+export type LTableRenderProps = (
   optionsDom: {
     /** 表单dom */
     searchFormDom: ReactNode;
@@ -124,15 +124,16 @@ export type TableRenderProps = (
 ) => ReactElement;
 ```
 
-#### RequestType
+### LTableRequestType
 
 ```ts
-export type RequestType = 'onSearch' | 'onReload' | 'onReset';
+export type LTableRequestType = 'onSearch' | 'onReload' | 'onReset';
 ```
 
-```ts
+### LTableInstance
 
-export type MutableRefObject<TableRefProps|undefined > = {
+```ts
+export type MutableRefObject<LTableInstance|undefined > = {
   // 根据条件，当前页、刷新数据
   onReload: () => void;
   // 重置数据，从第一页开始显示、查询数据
@@ -151,11 +152,11 @@ export type MutableRefObject<TableRefProps|undefined > = {
 };
 ```
 
-#### ToolbarActionConfigProps
+### LToolbarActionProps
 
 ```ts
 // 默认都显示
-export type ToolbarActionConfigProps = {
+export type LToolbarActionProps = {
   /** 是否显示刷新 */
   showReload?: boolean;
   /** 是否显示列设置 */

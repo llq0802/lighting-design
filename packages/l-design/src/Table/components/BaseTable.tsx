@@ -4,7 +4,7 @@ import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { Key } from 'antd/es/table/interface';
 import type { ColumnGroupType, ColumnsType, ColumnType, TableProps } from 'antd/lib/table';
-import classnames from 'classnames';
+import { default as classNames, default as classnames } from 'classnames';
 import type {
   CSSProperties,
   Dispatch,
@@ -158,6 +158,7 @@ const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
 const BaseTable: FC<LTableProps> = (props) => {
   const {
     isSort = false,
+    className,
     nowrap,
 
     formRef,
@@ -459,7 +460,7 @@ const BaseTable: FC<LTableProps> = (props) => {
               ? () => contentRender(data?.list ?? []) as unknown as any
               : undefined,
           }}
-          className={tableClassName}
+          className={classNames(tableClassName, className)}
           style={tableStyle}
           size={currentSize}
           columns={currentColumns as (ColumnGroupType<any> | ColumnType<any>)[]}

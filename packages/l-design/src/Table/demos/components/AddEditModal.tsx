@@ -1,29 +1,59 @@
-import { Button } from 'antd';
-import { LForm, LFormItemInput, LFormItemRadio, LModalForm } from 'lighting-design';
+import {
+  LForm,
+  LFormItemInput,
+  LFormItemRadio,
+  LFormItemSelect,
+  LModalForm,
+} from 'lighting-design';
+import { useEffect } from 'react';
+import { awaitTime } from '../../../_utils';
 
-export default function MyModal() {
+export default function AddEditModal({ data, onChange, open, ...restProps }) {
   const [form] = LForm.useForm();
+
+  useEffect(() => {
+    if (open && data) {
+      form.setFieldsValue(data);
+      // } else {
+      //   form.resetFields(); // 和 modalProps.destroyOnClose=true 效果一样
+    }
+  }, [open, data, form]);
 
   return (
     <LModalForm
+      labelWidth={84}
+      name="update-modal-form"
       isDraggable
+      isEnterSubmit={false}
+      open={open}
       form={form}
-      title="弹窗"
-      onFinish={(values) => {
+      title={data ? '修改' : '新增'}
+      onFinish={async (values) => {
+        await awaitTime(); // 发起请求
         console.log('onFinish-values ', values);
+        onChange(); // 响应成功后，刷新表格
         return true;
       }}
-      trigger={<Button type="primary">打开弹窗</Button>}
+      {...restProps}
     >
       <LFormItemInput name="input" required label="输入框" />
       <LFormItemRadio
         label="单选"
-        name="LFormItemRadio1"
+        name="radio"
         required
         options={[
-          { label: 'Unresolved', value: 'open' },
-          { label: 'Resolved', value: 'closed' },
-          { label: 'Resolving', value: 'processing' },
+          { label: 'AA', value: 'a' },
+          { label: 'BB', value: 'b' },
+          { label: 'CC', value: 'c' },
+        ]}
+      />
+      <LFormItemSelect
+        label="下拉框"
+        name="select"
+        required
+        options={[
+          { label: '有效', value: '1' },
+          { label: '无效', value: '0' },
         ]}
       />
     </LModalForm>

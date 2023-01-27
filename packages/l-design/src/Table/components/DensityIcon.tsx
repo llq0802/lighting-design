@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import TableContext from '../TableContext';
 
 const DensityIcon = () => {
-  const { size = 'middle', setSize, rootRef } = useContext(TableContext);
+  const { size, setSize, rootRef } = useContext(TableContext);
 
   return (
     <ConfigProvider getPopupContainer={() => rootRef!.current || document.body}>
