@@ -17,7 +17,7 @@ const Demo3 = () => {
     <div
       style={{
         position: 'relative',
-        height: '550px',
+        height: '600px',
         padding: '24px',
         overflow: 'hidden',
         background: '#fafafa',

@@ -145,7 +145,10 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             footerStyle={{
               display: 'flex',
               justifyContent:
-                (typeof submitter?.buttonAlign === 'string' && submitter?.buttonAlign) || 'center',
+                (submitter &&
+                  typeof submitter?.buttonAlign === 'string' &&
+                  submitter?.buttonAlign) ||
+                'center',
               ...drawerProps.footerStyle,
             }}
             open={open}

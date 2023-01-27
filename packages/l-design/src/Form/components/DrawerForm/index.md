@@ -34,6 +34,10 @@ nav:
 
 ## API
 
+```ts
+import { LDrawerForm } from 'lighting-design';
+```
+
 除了以下参数，其余和 [LForm](/components/form#api) 一样。
 
 <mark>`LDrawerForm` 的确定丶取消 通过 `LForm` 的`submitter`属性配置</mark>

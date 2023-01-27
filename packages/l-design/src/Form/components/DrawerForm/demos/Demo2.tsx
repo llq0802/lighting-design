@@ -7,6 +7,7 @@ const Demo1 = () => {
   const [form2] = LForm.useForm();
   const [form3] = LForm.useForm();
   const [form4] = LForm.useForm();
+  const [form5] = LForm.useForm();
 
   return (
     <Space>
@@ -92,6 +93,21 @@ const Demo1 = () => {
           },
         }}
         trigger={<Button type="primary">自定义按钮4</Button>}
+      >
+        <LFormItemInput name="name" required label="姓名" />
+      </LDrawerForm>
+      <LDrawerForm
+        name="LModalForm5"
+        actionBarDir="extra"
+        form={form5}
+        title="新增"
+        onFinish={async (values) => {
+          console.log('onFinish-values ', values);
+          await awaitTime();
+          message.success('提交成功');
+          return true;
+        }}
+        trigger={<Button type="primary">自定义按钮5</Button>}
       >
         <LFormItemInput name="name" required label="姓名" />
       </LDrawerForm>
