@@ -12,23 +12,23 @@ nav:
 
 ## 代码演示
 
-## 基础用法
+### 基础用法
 
 <code src='./demos/Demo4.tsx'>
 
-## 使用 open 受控
+### 使用 open 受控
 
 <code src='./demos/Demo1.tsx'>
 
-## 编辑
+### 编辑
 
 <code src='./demos/Demo3.tsx'>
 
-## 自定义按钮
+### 自定义按钮
 
 <code src='./demos/Demo2.tsx'>
 
-## 渲染在当前 DOM
+### 渲染在当前 DOM
 
 <code src='./demos/Demo5.tsx'>
 
