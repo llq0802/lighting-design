@@ -13,7 +13,7 @@ const ReloadIcon = () => {
   const { reload, rootRef } = useContext(TableContext);
   return (
     <ConfigProvider getPopupContainer={() => rootRef!.current || document.body}>
-      <Tooltip title="刷新重置">
+      <Tooltip title="刷新">
         <ReloadOutlined onClick={reload} />
       </Tooltip>
     </ConfigProvider>
@@ -47,7 +47,7 @@ const FullscreenIcon = () => {
   );
 };
 
-export type ToolbarActionConfigProps = {
+export type LToolbarActionProps = {
   /** 是否显示刷新 */
   showReload?: boolean;
   /** 是否显示列设置 */
@@ -65,7 +65,7 @@ export type ToolbarActionConfigProps = {
  * @param param0
  * @returns
  */
-const ToolbarAction: FC<ToolbarActionConfigProps> = ({
+const ToolbarAction: FC<LToolbarActionProps> = ({
   showReload = true,
   showColumnSetting = true,
   showDensity = true,
@@ -76,12 +76,10 @@ const ToolbarAction: FC<ToolbarActionConfigProps> = ({
 }) => {
   return (
     <Space size={12} {...restProps} style={{ fontSize: 16, ...style }}>
-      <>
-        {showReload && <ReloadIcon />}
-        {showDensity && <DensityIcon />}
-        {showFullscreen && <FullscreenIcon />}
-        {showColumnSetting && <ColumnSetting />}
-      </>
+      {showReload && <ReloadIcon />}
+      {showDensity && <DensityIcon />}
+      {showFullscreen && <FullscreenIcon />}
+      {showColumnSetting && <ColumnSetting />}
     </Space>
   );
 };

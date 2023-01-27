@@ -34,6 +34,10 @@ nav:
 
 ## API
 
+```ts
+import { LFormItemRate } from 'lighting-design';
+```
+
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
 <mark>`depends` 为 LFormItem 组件 `dependencies` 属性依赖项的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除<mark/>

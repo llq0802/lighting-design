@@ -1,7 +1,6 @@
 import { usePagination, useUpdateEffect } from 'ahooks';
 import type { CardProps, FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
-
 import zhCN from 'antd/es/locale/zh_CN';
 import type { Key } from 'antd/es/table/interface';
 import type { ColumnGroupType, ColumnsType, ColumnType, TableProps } from 'antd/lib/table';
@@ -21,10 +20,10 @@ import type { LQueryFormProps } from '../../Form/components/QueryForm';
 import TableContext from '../TableContext';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
 import './styles.less';
-import type { ToolbarActionConfigProps } from './ToolBarAction';
+import type { LToolbarActionProps } from './ToolBarAction';
 import ToolbarAction from './ToolBarAction';
 
-export type tableRenderProps = (
+export type LTableRenderProps = (
   optionsDom: {
     /** 表单dom */
     searchFormDom: ReactNode;
@@ -37,12 +36,12 @@ export type tableRenderProps = (
     /** 整个表格Dom包含全部Dom */
     finallyDom: ReactNode;
   },
-  props: BaseTableProps,
+  props: LTableProps,
 ) => ReactElement;
 
-export type RequestType = 'onSearch' | 'onReload' | 'onReset';
+export type LTableRequestType = 'onSearch' | 'onReload' | 'onReset';
 
-export type TableRefProps = {
+export type LTableInstance = {
   // 根据条件，当前页、刷新数据
   onReload: () => void;
   // 重置数据，从第一页开始显示、查询数据
@@ -60,7 +59,7 @@ export type TableRefProps = {
   };
 };
 
-export type TableRequest = (
+export type LTableRequest = (
   /** 请求参数 */
   params: {
     current: number;
@@ -69,10 +68,10 @@ export type TableRequest = (
     [key: string]: any;
   },
   /** 请求类型 */
-  requestType: RequestType,
+  requestType: LTableRequestType,
 ) => Promise<{ success: boolean; data: Record<string, any>[]; total: number }>;
 
-export type BaseTableProps = {
+export type LTableProps = {
   /** 表格是否需要排序序号 */
   isSort?: boolean;
   /** 表格 表单是否准备好 false时表格不会请求 表单不能提交查询 */
@@ -82,15 +81,15 @@ export type BaseTableProps = {
   /** 表格宽度超过 100%自动处理横向滚动条。 */
   nowrap?: boolean;
   /** 异步请求函数额外参数 */
-  requestParams: Record<string, any>;
+  requestParams?: Record<string, any>;
   /** 异步请求函数 */
-  request: TableRequest;
+  request: LTableRequest;
   /** 是否自动请求 */
   autoRequest?: boolean;
   /** 查询表单的实例 */
   formRef?: MutableRefObject<FormInstance | undefined> | ((ref: FormInstance) => void);
   /** 表格的实例 包含一些方法 */
-  tableRef?: MutableRefObject<TableRefProps | undefined>;
+  tableRef?: MutableRefObject<LTableInstance | undefined>;
   /** 是否占满剩余空间 */
   // fillSpace?: boolean;
   /** 表格最外层div类名 */
@@ -107,7 +106,7 @@ export type BaseTableProps = {
   /** 是否显示toolbar */
   showToolbar?: boolean;
   /** 配置内置表格工具栏 继承Space组件的属性 showToolbar为 true 时生效*/
-  toolbarActionConfig?: ToolbarActionConfigProps;
+  toolbarActionConfig?: LToolbarActionProps;
   /** 重新渲染toolBar 包括内置表格工具 */
   toolbarRender?: (ToolbarActionDom: ReactNode) => ReactNode;
   /** 重新渲染整个表格 */
@@ -124,7 +123,7 @@ export type BaseTableProps = {
       /** 整个表格Dom包含全部Dom */
       finallyDom: ReactNode;
     },
-    props: BaseTableProps,
+    props: LTableProps,
   ) => ReactElement;
   /** 重新渲染表格内容 */
   contentRender?: (data: Record<string, any>[]) => ReactNode;
@@ -156,7 +155,7 @@ const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
  * @param props
  * @returns
  */
-const BaseTable: FC<BaseTableProps> = (props) => {
+const BaseTable: FC<LTableProps> = (props) => {
   const {
     isSort = false,
     nowrap,
@@ -190,7 +189,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     rootClassName,
     tableClassName,
     tableStyle,
-    size: outSize = 'middle',
+    size: outSize,
     columns = [],
 
     formItems = [],
@@ -203,10 +202,10 @@ const BaseTable: FC<BaseTableProps> = (props) => {
   const [currentSize, setCurrentSize] = useState(outSize);
   const rootRef = useRef<HTMLDivElement>(null);
   const [isFullScreen, setFullScreen] = useState(false);
+
   const rootDefaultStyle = isFullScreen
     ? { background: fullScreenBgColor, overflow: 'auto', padding: 24 }
     : {};
-
   // 绑定SearchForm组件form实例在内部
   const queryFormRef = useRef<FormInstance | null>(null);
   // 绑定SearchForm组件form实例在外部
@@ -223,17 +222,17 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     },
     [formRef],
   );
-
+  // 默认从第一页
   const outPaginationCurrent = useMemo(() => {
     return (outPagination && (outPagination.defaultCurrent || outPagination.current)) || 1;
   }, [outPagination]);
-
+  // 默认一页10条
   const outPaginationPageSize = useMemo(() => {
     return (outPagination && (outPagination.defaultPageSize || outPagination.pageSize)) || 10;
   }, [outPagination]);
-
+  // 是否有查询框组
   const hasFromItems = useMemo(() => Array.isArray(formItems) && formItems.length > 0, [formItems]);
-
+  // loading
   const currentLoading = useMemo(() => {
     if (!outLoading || typeof outLoading === 'boolean') {
       return { spinning: outLoading };
@@ -246,26 +245,18 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     data,
     loading: requestLoading,
     run,
-    // refresh,
+    refresh,
     // mutate,
     params,
     pagination: paginationAction,
   } = usePagination(
     async (arg, requestType) => {
-      const res = await request(
-        {
-          ...arg,
-          ...requestParams,
-        },
-        requestType,
-      );
+      const res = await request({ ...arg, ...requestParams }, requestType);
+      // 必须设置success为true才会有数据
       if (!res?.success) {
         return { list: [], total: 0 };
       }
-      return {
-        list: res.data,
-        total: res.total,
-      };
+      return { list: res.data, total: res.total };
     },
     {
       // refreshDeps: requestParams,
@@ -274,6 +265,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
       defaultPageSize: outPaginationPageSize,
     },
   );
+
   // 存储外部columns 是否设置序号
   const outColumns = useMemo(() => {
     if (isSort) {
@@ -281,18 +273,17 @@ const BaseTable: FC<BaseTableProps> = (props) => {
         align: 'center',
         title: '序号',
         dataIndex: '_sortColumn_dataIndex',
-        width: 70,
+        width: 80,
         // fixed: 'left',
         render: (_: any, __: any, index: number) => (
           <>{(paginationAction?.current - 1) * (paginationAction?.pageSize || 0) + index + 1}</>
         ),
       };
-      return [sortColumn, ...columns];
+      return [sortColumn, ...columns] as (ColumnGroupType<any> | ColumnType<any>)[];
     }
     return columns;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns, isSort, paginationAction?.current, paginationAction?.pageSize]);
-
   // 表格展示的列
   const [currentColumns, setCurrentColumns] = useState(outColumns);
 
@@ -375,7 +366,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
   //   handleSearch('onReset');
   // }, [handleSearch]);
 
-  // 表格分页排序等改变时
+  // 表格分页页码丶排序等改变时触发
   const handleTableChange = useCallback(
     (pagination: Record<string, any>) => {
       // console.log('pagination ', pagination);
@@ -463,7 +454,7 @@ const BaseTable: FC<BaseTableProps> = (props) => {
       <Card
         bordered={false}
         className={LIGHTD_CARD}
-        style={{ borderRadius: 8, ...tableCardProps?.style }}
+        style={{ ...tableCardProps?.style }}
         {...tableCardProps}
       >
         {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
@@ -521,8 +512,8 @@ const BaseTable: FC<BaseTableProps> = (props) => {
     // 根节点注册
     <TableContext.Provider
       value={{
-        // reload: refresh,
-        reload: handleReset,
+        reload: refresh,
+        // reload: handleReset,
         size: currentSize,
         setSize: setCurrentSize,
         columns: outColumns as (ColumnGroupType<any> | ColumnType<any>)[],

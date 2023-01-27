@@ -22,6 +22,10 @@ nav:
 
 ## API
 
+```ts
+import { LColor } from 'lighting-design';
+```
+
 ### LColor
 
 | 参数      | 说明               | 类型                           | 默认值                  |
@@ -32,6 +36,10 @@ nav:
 | className | 新增一个根容器类名 | `string`                       | `lighting-design-color` |
 
 ### LColorXXX 共同的 API
+
+```ts
+import { LColorXXX } from 'lighting-design';
+```
 
 除了以下参数外，还支持各自 react-color 的 API，具体请查阅[react-color](http://casesandberg.github.io/react-color/)
 

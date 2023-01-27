@@ -22,6 +22,10 @@ nav:
 
 ## API
 
+```ts
+import { LFormItemSlider } from 'lighting-design';
+```
+
 除了以下参数，其余和 [LFormItem](/components/form-item#api) 一样。
 
 | 参数 | 说明 | 类型 | 默认值 |

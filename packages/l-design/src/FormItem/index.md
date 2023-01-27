@@ -38,6 +38,10 @@ nav:
 
 ## API
 
+```ts
+import { LFormItem } from 'lighting-design';
+```
+
 > LFormItemXXX 组件均是通过此组件封装
 
 除了以下参数，其余和 [Form.Item](https://4x.ant.design/components/form-cn/#Form.Item) 一样。

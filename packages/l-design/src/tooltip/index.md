@@ -28,4 +28,10 @@ nav:
 
 <code src="./demos/customTitle.tsx"/>
 
+---
+
+```ts
+import { LTooltip } from 'lighting-design';
+```
+
 <API></API>

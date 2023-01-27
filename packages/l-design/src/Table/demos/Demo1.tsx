@@ -1,20 +1,15 @@
 import type { FormInstance } from 'antd';
 import { Button } from 'antd';
-import { LFormItemInput } from 'lighting-design';
+import type { LTableInstance } from 'lighting-design';
+import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
-import { LTable } from '..';
-import type { TableRefProps } from '../components/BaseTable';
 import AddEditModal from './components/AddEditModal';
-import { apiGetUserList, columns } from './utils';
+import { apiGetUserList, columns } from './service';
 
 const Demo1: FC = () => {
   const formRef = useRef<FormInstance>();
-  const tableRef = useRef<TableRefProps>();
-
-  // useEffect(() => {
-  //   console.log('formRef', formRef);
-  // }, []);
+  const tableRef = useRef<LTableInstance>();
 
   const [state, setState] = useState({
     parentId: '0',
@@ -33,13 +28,15 @@ const Demo1: FC = () => {
       // toolbarActionConfig={{
       //   showFullscreen: false,
       // }}
+
       // showToolbar={false}
+      rowKey="key"
+      isSort
       loading={{ size: 'large' }}
       tableRef={tableRef}
       requestParams={state}
       queryFormProps={{
         showColsNumber: 3,
-        isSpace: false,
       }}
       toolbarLeft={
         <>
@@ -54,18 +51,9 @@ const Demo1: FC = () => {
           <AddEditModal />
         </>
       }
-      // toolbarRight={
-      //   <>
-      //     <Button type="primary">标记</Button>
-      //     <Button type="primary">导入</Button>
-      //   </>
-      // }
       formItems={formItems}
       formRef={formRef}
       columns={columns}
-      // formInitialValues={{
-      //   input4: '123123',
-      // }}
       request={async (params, requestType) => {
         // console.log('==params==', params);
         // console.log('requestType ', requestType);
@@ -78,17 +66,17 @@ const Demo1: FC = () => {
           total: res.total,
         };
       }}
-      expandable={{
-        onExpand: async (isOPen, record) => {
-          if (isOPen) {
-            // console.log('record', record);
-            await setState({
-              parentId: Math.random().toString(16).slice(2),
-            });
-            tableRef.current!.onReload();
-          }
-        },
-      }}
+      // expandable={{
+      //   onExpand: async (isOPen, record) => {
+      //     if (isOPen) {
+      //       // console.log('record', record);
+      //       await setState({
+      //         parentId: Math.random().toString(16).slice(2),
+      //       });
+      //       tableRef.current!.onReload();
+      //     }
+      //   },
+      // }}
       // contentRender={(data: any[]) => (
       //   <Row gutter={[8, 8]}>
       //     {data.map((d) => (

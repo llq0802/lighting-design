@@ -20,14 +20,32 @@ nav:
 
 ## 代码演示
 
+### 基础用法
+
  <code src='./demos/Demo1.tsx' background="#f5f5f5">
- <!-- <code src='./demos/Demo4.tsx' background="#f5f5f5"> -->
+
+### 简易表格
+
+ <code src='./demos/Demo2.tsx' background="#f5f5f5">
+
+### 配置内置操作栏
+
+ <code src='./demos/Demo3.tsx' background="#f5f5f5">
+ 
+ ### 异步初始值查询表单
+ <code src='./demos/Demo4.tsx' background="#f5f5f5">
 
 ## API
 
-<!-- | fillSpace | 表格外层 div 是否占满剩余空间 | `boolean` | `false` | -->
+```ts
+import { LTable } from 'lighting-design';
+```
+
+> 手动设置查询表单不改变查询表单的 formInitialValues，而是通过 formRef 设置表单值，再进行查询，这样不影响查询表单的重置操作。比如通过 URL 带一些默认查询参数。
 
 除了以下参数，其余和 [antd.Table](https://4x.ant.design/components/table-cn/#API) 一样。
+
+<!-- | fillSpace | 表格外层 div 是否占满剩余空间 | `boolean` | `false` | -->
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |

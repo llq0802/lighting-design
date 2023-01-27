@@ -18,6 +18,10 @@ nav:
 
 ## API
 
+```ts
+import { LTrigger } from 'lighting-design';
+```
+
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | fieldNames | 配置字段 label 为展示名称的字段 ,value.value 为字段的值 | `{ label: string; value: string; }` | `{ label: 'label' ,value: 'value' } ` |

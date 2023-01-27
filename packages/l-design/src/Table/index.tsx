@@ -1,2 +1,4 @@
-export { default as LTable } from './components/BaseTable';
-export type { BaseTableProps as LTableProps } from './components/BaseTable';
+export * from './components/BaseTable';
+export type { LToolbarActionProps } from './components/ToolBarAction';
+import LTable from './components/BaseTable';
+export default LTable;

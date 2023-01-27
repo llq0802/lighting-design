@@ -1,108 +1,74 @@
-import { Form, Typography } from 'antd';
-import React, { useRef, useState } from 'react';
-import EditTable from '../components/EditableTable';
+import type { FormInstance } from 'antd';
+import { Button } from 'antd';
+import type { LTableInstance } from 'lighting-design';
+import { LFormItemInput, LTable } from 'lighting-design';
+import type { FC } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { awaitTime } from '../../_utils';
+import AddEditModal from './components/AddEditModal';
+import { apiGetUserList, columns } from './service';
 
-interface Item {
-  id: string;
-  name: string;
-  age: number;
-  address: string;
-}
+const Demo4: FC = () => {
+  const formRef = useRef<FormInstance>();
+  const tableRef = useRef<LTableInstance>();
 
-const originData: Item[] = [];
-for (let i = 0; i < 100; i++) {
-  originData.push({
-    id: i.toString() + 'lightd',
-    name: `Edrward ${i}`,
-    age: 32,
-    address: `London Park no. ${i}`,
-  });
-}
+  const [isReady, setIsReady] = useState(false);
+  const [initialValues, setInitialValues] = useState<any>();
 
-const App: React.FC = () => {
-  const [form] = Form.useForm();
-  const editTableRef = useRef();
+  useEffect(() => {
+    // 异步获取表单初始值
+    (async () => {
+      await awaitTime();
+      setInitialValues({ input4: '初始值1' });
+      setIsReady(true);
+    })();
+  }, []);
 
-  const [editableKeys, setEditableKeys] = useState<string[]>([]);
-  const [data, setData] = useState(originData);
-
-  const edit = (record) => {
-    editTableRef.current.onEdit(record);
-  };
-
-  const cancel = (id) => {
-    editTableRef.current.onCancel(id);
-  };
-
-  const save = async (id) => {
-    editTableRef.current.onSave(id);
-  };
-
-  const columns = [
-    {
-      title: 'name',
-      dataIndex: 'name',
-      width: '25%',
-      editable: true,
-    },
-    {
-      title: 'age',
-      dataIndex: 'age',
-      width: '15%',
-      editable: true,
-    },
-    {
-      title: 'address',
-      dataIndex: 'address',
-      width: '40%',
-      editable: true,
-    },
-    {
-      title: 'operation',
-      dataIndex: 'operation',
-      render: (text: any, record: Item) => {
-        return editableKeys?.includes(record.id) ? (
-          <span>
-            <Typography.Link onClick={() => save(record.id)} style={{ marginRight: 8 }}>
-              保存
-            </Typography.Link>
-
-            <Typography.Link onClick={() => cancel(record.id)}>取消</Typography.Link>
-          </span>
-        ) : (
-          <Typography.Link onClick={() => edit(record)}>编辑</Typography.Link>
-        );
-      },
-    },
+  const formItems = [
+    <LFormItemInput key="0" name="input4" label="输入框" />,
+    <LFormItemInput key="1" name="input5" label="输入框" />,
+    <LFormItemInput key="2" name="input6" label="输入框" />,
+    <LFormItemInput key="3" name="input7" label="输入框" />,
+    <LFormItemInput key="4" name="input8" label="输入框" />,
   ];
 
   return (
-    <EditTable
-      rowKey="id"
-      editTableRef={editTableRef}
-      editTableProps={{
-        editKeys: editableKeys,
-        editKeysChange: setEditableKeys,
-        onSave: async (id, values) => {
-          console.log('id,values ', id, values);
-        },
-      }}
-      // dataSource={originData}
-      // autoRequest={false}
+    <LTable
+      isReady={isReady}
+      formInitialValues={initialValues}
+      rowKey="key"
+      isSort
+      tableRef={tableRef}
+      queryFormProps={{}}
+      toolbarLeft={
+        <>
+          <Button
+            type="primary"
+            onClick={() => {
+              console.log(' tableRef', tableRef);
+            }}
+          >
+            新增
+          </Button>
+          <AddEditModal />
+        </>
+      }
+      formItems={formItems}
+      formRef={formRef}
+      columns={columns}
       request={async (params, requestType) => {
-        console.log('==params==', params);
+        // console.log('==params==', params);
         // console.log('requestType ', requestType);
         // console.log('tableRef ', tableRef.current);
+        const res: Record<string, any> = await apiGetUserList();
         return {
           success: true,
-          data: originData,
-          total: originData.length,
+          data: res.data,
+          total: res.total,
         };
       }}
-      columns={columns}
-      rowClassName="editable-row"
     />
   );
 };
 
-export default App;
+export default Demo4;

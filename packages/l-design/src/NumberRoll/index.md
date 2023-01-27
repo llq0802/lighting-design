@@ -36,4 +36,10 @@ nav:
 
 <code src="./demos/size.tsx"/>
 
+---
+
+```ts
+import { LNumberRoll } from 'lighting-design';
+```
+
 <API></API>

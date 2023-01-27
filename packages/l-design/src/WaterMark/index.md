@@ -18,4 +18,10 @@ nav:
 
 <code src='./demos/base.tsx' />
 
+---
+
+```ts
+import { LWaterMark } from 'lighting-design';
+```
+
 <API></API>

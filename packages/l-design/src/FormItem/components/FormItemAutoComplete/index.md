@@ -20,6 +20,10 @@ nav:
 
 ## API
 
+```ts
+import { LFormItemAutoComplete } from 'lighting-design';
+```
+
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
 | 参数 | 说明 | 类型 | 默认值 |

@@ -8,7 +8,7 @@ type SizeType = TableProps<any>['size'];
 export type TableContextProps = {
   rootRef?: RefObject<HTMLDivElement>;
   size?: SizeType;
-  setSize?: Dispatch<SetStateAction<'small' | 'middle' | 'large'>>;
+  setSize?: Dispatch<SetStateAction<'small' | 'middle' | 'large' | undefined>>;
   columns?: TableProps<any>['columns'];
   setColumns?: Dispatch<SetStateAction<ColumnsType<Record<string, any>>>>;
   reload?: () => void;

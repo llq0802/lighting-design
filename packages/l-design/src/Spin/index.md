@@ -24,4 +24,10 @@ nav:
 
 <code src="./demos/inside.tsx"/>
  
+---
+
+```ts
+import { LSpin } from 'lighting-design';
+```
+
 <API></API>
