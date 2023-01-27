@@ -36,7 +36,11 @@ export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset' | 'tit
   children?: ReactNode;
 }
 
-export const LFormContext = createContext({
+export const LFormContext = createContext<{
+  layout: string;
+  labelColProps: Record<string, any>;
+  disabled?: boolean;
+}>({
   layout: 'horizontal',
   labelColProps: {},
   disabled: undefined,

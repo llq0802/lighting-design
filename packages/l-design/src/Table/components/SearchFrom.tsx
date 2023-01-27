@@ -47,11 +47,14 @@ const SearchForm = forwardRef(
         }}
       >
         <LQueryForm form={form} name={searchFormId} {...restProps}>
-          {items.map((item: any, index: number) =>
-            cloneElement(item, {
-              key: item?.key || item?.props?.key || item?.props?.name + index.toString(),
-            }),
-          )}
+          {useMemo(() => {
+            return items.map((item: any, index: number) =>
+              cloneElement(item, {
+                key: item?.key || item?.props?.key || item?.props?.name + index.toString(),
+              }),
+            );
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+          }, [])}
         </LQueryForm>
       </Card>
     );

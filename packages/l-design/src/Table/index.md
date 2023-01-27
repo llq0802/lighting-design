@@ -22,18 +22,31 @@ nav:
 
 ### 基础用法
 
+ <code src='./demos/Demo5.tsx' background="#f5f5f5">
+
+### 操作栏
+
  <code src='./demos/Demo1.tsx' background="#f5f5f5">
 
 ### 简易表格
 
  <code src='./demos/Demo2.tsx' background="#f5f5f5">
 
-### 配置内置操作栏
+### 表格额外信息
 
  <code src='./demos/Demo3.tsx' background="#f5f5f5">
+
+### 卡片形式
+
+ <code src='./demos/Demo6.tsx' background="#f5f5f5">
  
- ### 异步初始值查询表单
+ ### 异步表单初始值
+
  <code src='./demos/Demo4.tsx' background="#f5f5f5">
+
+### 手动设置查询表单
+
+ <code src='./demos/Demo7.tsx' background="#f5f5f5">
 
 ## API
 

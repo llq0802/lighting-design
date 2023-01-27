@@ -16,7 +16,7 @@ const DensityIcon = () => {
           style: { width: 80 },
           selectedKeys: [!size || size === 'large' ? 'default' : size],
           onClick({ key }) {
-            setSize?.(key as SetStateAction<'middle' | 'small' | 'large'>);
+            setSize?.(key as SetStateAction<'middle' | 'small' | 'large' | undefined>);
           },
           items: [
             { label: '默认', key: 'default' },

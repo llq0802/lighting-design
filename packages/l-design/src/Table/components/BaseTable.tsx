@@ -1,4 +1,4 @@
-import { usePagination, useUpdateEffect } from 'ahooks';
+import { usePagination } from 'ahooks';
 import type { CardProps, FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -272,7 +272,7 @@ const BaseTable: FC<LTableProps> = (props) => {
       const sortColumn = {
         align: 'center',
         title: '序号',
-        dataIndex: '_sortColumn_dataIndex',
+        dataIndex: '_sortColumn_dataIndex_',
         width: 80,
         // fixed: 'left',
         render: (_: any, __: any, index: number) => (
@@ -410,10 +410,6 @@ const BaseTable: FC<LTableProps> = (props) => {
     },
   }));
 
-  useUpdateEffect(() => {
-    setCurrentColumns(outColumns);
-  }, [outColumns]);
-
   // 初始化请求
   useEffect(() => {
     if (autoRequest && isReady) {
@@ -436,7 +432,7 @@ const BaseTable: FC<LTableProps> = (props) => {
       className={`${LIGHTD_TABLE}-toolbar-action`}
     />
   );
-  // contentRender
+
   const toolbarDom = showToolbar ? (
     <div className={`${LIGHTD_TABLE}-toolbar`}>
       <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>{<Space>{toolbarLeft}</Space>}</div>
@@ -448,7 +444,6 @@ const BaseTable: FC<LTableProps> = (props) => {
       </div>
     </div>
   ) : null;
-
   const tableDom = (
     <Spin {...currentLoading} spinning={!!currentLoading?.spinning || requestLoading}>
       <Card

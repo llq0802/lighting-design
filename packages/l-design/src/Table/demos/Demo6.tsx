@@ -1,28 +1,15 @@
 import type { FormInstance } from 'antd';
-import { Button } from 'antd';
+import { Button, Card, Col, Row } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { awaitTime } from '../../_utils';
+import { useRef } from 'react';
 import AddEditModal from './components/AddEditModal';
-import { apiGetUserList, columns } from './service';
+import { apiGetUserList } from './service';
 
-const Demo4: FC = () => {
+const Demo1: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
-
-  const [isReady, setIsReady] = useState(false);
-  const [initialValues, setInitialValues] = useState<any>();
-
-  useEffect(() => {
-    // 异步获取表单初始值
-    (async () => {
-      await awaitTime('', 3000);
-      setInitialValues({ input4: '初始值1' });
-      setIsReady(true);
-    })();
-  }, []);
 
   const formItems = [
     <LFormItemInput key="0" name="input4" label="输入框" />,
@@ -34,12 +21,9 @@ const Demo4: FC = () => {
 
   return (
     <LTable
-      isReady={isReady}
-      formInitialValues={initialValues}
-      rowKey="key"
-      isSort
       tableRef={tableRef}
-      queryFormProps={{}}
+      formRef={formRef}
+      queryFormProps={{ showColsNumber: 3 }}
       toolbarLeft={
         <>
           <Button
@@ -54,8 +38,6 @@ const Demo4: FC = () => {
         </>
       }
       formItems={formItems}
-      formRef={formRef}
-      columns={columns}
       request={async (params, requestType) => {
         // console.log('==params==', params);
         // console.log('requestType ', requestType);
@@ -64,11 +46,20 @@ const Demo4: FC = () => {
         return {
           success: true,
           data: res.data,
-          total: res.total,
+          total: 9,
         };
       }}
+      contentRender={(data: any[]) => (
+        <Row gutter={[10, 10]}>
+          {data.map((item) => (
+            <Col span={8} key={item.key}>
+              <Card title={item.name} />
+            </Col>
+          ))}
+        </Row>
+      )}
     />
   );
 };
 
-export default Demo4;
+export default Demo1;

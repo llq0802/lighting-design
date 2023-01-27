@@ -3,25 +3,23 @@ import { Button } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
-import { useEffect, useRef, useState } from 'react';
-import { awaitTime } from '../../_utils';
+import { useEffect, useRef } from 'react';
 import AddEditModal from './components/AddEditModal';
 import { apiGetUserList, columns } from './service';
 
-const Demo4: FC = () => {
+const Demo7: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
 
-  const [isReady, setIsReady] = useState(false);
-  const [initialValues, setInitialValues] = useState<any>();
-
   useEffect(() => {
-    // 异步获取表单初始值
-    (async () => {
-      await awaitTime('', 3000);
-      setInitialValues({ input4: '初始值1' });
-      setIsReady(true);
-    })();
+    // 也可以为URL的参数
+    formRef.current?.setFieldsValue({
+      input4: '输入框1',
+      input5: '输入框2',
+    });
+
+    // 手动发起请求
+    tableRef.current?.onSearch();
   }, []);
 
   const formItems = [
@@ -34,8 +32,8 @@ const Demo4: FC = () => {
 
   return (
     <LTable
-      isReady={isReady}
-      formInitialValues={initialValues}
+      // 关闭自动请求
+      autoRequest={false}
       rowKey="key"
       isSort
       tableRef={tableRef}
@@ -71,4 +69,4 @@ const Demo4: FC = () => {
   );
 };
 
-export default Demo4;
+export default Demo7;
