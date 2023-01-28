@@ -7,27 +7,24 @@ import { Children, cloneElement, useImperativeHandle, useRef } from 'react';
 import type { BaseFormProps } from '../../../base/BaseForm';
 import StepForm from './StepForm';
 import StepsFormContext from './StepsFormContext';
-import type { StepsFormSubmitterProps } from './StepsSubmitter';
+import type { LStepsFormSubmitterProps } from './StepsSubmitter';
 import StepsSubmitter from './StepsSubmitter';
 import './styles.less';
 
 const prefixCls = 'lightd-form-steps';
 
-export type StepItem = {
-  description?: ReactNode;
-  disabled?: boolean;
-  icon?: ReactNode;
-  status?: 'wait' | 'process' | 'finish' | 'error' | 'string' | 'wait';
-  subTitle?: ReactNode;
-  title: ReactNode;
-}[];
-
-export type LStepsFormActionType = {
+export type LStepsFormActionRef = {
+  /** 表单实例数组 */
   formInstanceList: FormInstance<any>[];
+  /** 到指定步骤 */
   toStep: (num: number) => void;
+  /** 上一步 */
   prev: () => void;
+  /** 下一步 */
   next: (submitted?: boolean) => void;
+  /** 提交 */
   submit: (isFinallySubmit?: boolean) => void;
+  /** 重置 */
   reset: () => void;
 };
 
@@ -45,13 +42,13 @@ export type LStepsFormProps = {
   /** 是否准备好 */
   isReady?: boolean;
   /** 实例包含一些方法和属性 */
-  actionRef?: MutableRefObject<LStepsFormActionType>;
+  actionRef?: MutableRefObject<LStepsFormActionRef | undefined>;
   /** 在哪一步为最后的提交操作,用于触发onFinish 默认为表单最后一步 */
   submitStepNum?: number;
   /** 默认表单最后一步提交成功触发，如果返回true就会自动重置表单(包括StepForm变回第一步) */
   onFinish?: (valuse: Record<string, any>) => Promise<void | boolean>;
   /** 上一步下一步提交按钮的配置 */
-  submitter?: StepsFormSubmitterProps | false;
+  submitter?: LStepsFormSubmitterProps | false;
   /** antd Steps 组件的属性  */
   stepsProps?: StepsProps;
   /** LForm的属性 */
@@ -404,5 +401,8 @@ const StepsForm: FC<LStepsFormProps> & {
 };
 
 StepsForm.StepForm = StepForm;
+
+export type { LStepFormProps } from './StepForm';
+export type { LStepsFormSubmitterProps } from './StepsSubmitter';
 
 export default StepsForm;

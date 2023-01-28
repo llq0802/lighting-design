@@ -6,17 +6,20 @@ export * from './ColorPick';
 /** 高级表单 */
 export * from './Form';
 export { default as LForm } from './Form';
-// ==========基础Form容器组件==========
+/** 抽屉表单 */
+export * from './Form/components/DrawerForm';
 export { default as LDrawerForm } from './Form/components/DrawerForm';
-export type { LDrawerFormProps } from './Form/components/DrawerForm';
 export { default as LLoginForm } from './Form/components/LoginForm';
 export type { LLoginFormProps } from './Form/components/LoginForm';
+/** 弹窗表单 */
+export * from './Form/components/MoadlForm';
 export { default as LModalForm } from './Form/components/MoadlForm';
-export type { LModalFormProps } from './Form/components/MoadlForm';
+/** 查询表单 */
+export * from './Form/components/QueryForm';
 export { default as LQueryForm } from './Form/components/QueryForm';
-export type { LQueryFormProps } from './Form/components/QueryForm';
+/** 步骤表单 */
+export * from './Form/components/StepsForm';
 export { default as LStepsForm } from './Form/components/StepsForm';
-export type { LStepsFormProps } from './Form/components/StepsForm';
 /** 表单项 */
 export * from './FormItem';
 export { default as LFormItem } from './FormItem';
@@ -56,7 +59,6 @@ export { default as LFormItemSelect } from './FormItem/components/FormItemSelect
 export type { LFormItemSelectProps } from './FormItem/components/FormItemSelect';
 export { default as LFormItemSlider } from './FormItem/components/FormItemSlider';
 export type { LFormItemSliderProps } from './FormItem/components/FormItemSlider';
-// ==========hooks方式使用弹窗组件==========
 export { default as LFormItemSwitch } from './FormItem/components/FormItemSwitch';
 export type { LFormItemSwitchProps } from './FormItem/components/FormItemSwitch';
 export { default as LFormItemTimePicker } from './FormItem/components/FormItemTimePicker';
@@ -81,6 +83,7 @@ export type { default as LTooltipProps } from './Tooltip';
 /** 弹出选择 */
 export * from './Trigger';
 export { default as LTrigger } from './Trigger';
+// ==========hooks方式使用弹窗组件==========
 export { default as useFormDrawer } from './useFormDrawer';
 export type { DrawerModalProps, DrawerSubmitProps, FormDrawerSlotProps } from './useFormDrawer';
 export { default as useFormModal } from './useFormModal';

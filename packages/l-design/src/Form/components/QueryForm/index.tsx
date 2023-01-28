@@ -10,7 +10,7 @@ import BaseForm from '../../base/BaseForm';
 
 const prefixCls = 'lightd-form-query';
 
-export interface CollapseProps {
+interface CollapseProps {
   collapsed: boolean;
   onToggle?: (collapsed: boolean) => void;
 }

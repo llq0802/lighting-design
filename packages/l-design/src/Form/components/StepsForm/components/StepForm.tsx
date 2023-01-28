@@ -7,7 +7,7 @@ import BaseForm from '../../../base/BaseForm';
 import StepsFormContext from './StepsFormContext';
 import type { StepsFormSubmitterProps } from './StepsSubmitter';
 
-export interface StepFormProps<Values = any>
+export interface LStepFormProps<Values = any>
   extends Omit<
       BaseFormProps<Values>,
       'title' | 'onReset' | 'contentRender' | 'submitter' | 'isReady'
@@ -35,7 +35,7 @@ function StepForm<Values = any>({
   onFinish,
   form: outForm,
   ...restProps
-}: StepFormProps<Values>) {
+}: LStepFormProps<Values>) {
   const ctx = useContext(StepsFormContext);
   const [form] = Form.useForm();
 

@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import type { LFormSubmitterProps } from '../../../base/Submitter';
 import StepsFormContext from './StepsFormContext';
 
-export interface StepsFormSubmitterProps
+export interface LStepsFormSubmitterProps
   extends Pick<
     LFormSubmitterProps,
     'submitText' | 'submitButtonProps' | 'form' | 'wrapperCol' | 'buttonAlign'
@@ -39,11 +39,11 @@ export interface StepsFormSubmitterProps
 
   /** 自定义渲染 */
   render?:
-    | ((dom: ReactElement[], props: StepsFormSubmitterProps) => ReactNode[] | ReactNode | false)
+    | ((dom: ReactElement[], props: LStepsFormSubmitterProps) => ReactNode[] | ReactNode | false)
     | false;
 }
 
-const StepsFormSubmitter: FC<StepsFormSubmitterProps> = (props) => {
+const StepsFormSubmitter: FC<LStepsFormSubmitterProps> = (props) => {
   const {
     prevText = '上一步',
     prevButtonProps = {},
