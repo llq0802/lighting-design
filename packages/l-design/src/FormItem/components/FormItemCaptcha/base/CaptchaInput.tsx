@@ -88,7 +88,7 @@ const CodeInput: FC<CodeInputProps> = ({
   const defaultStyle = useMemo(() => {
     let inputStyle: CSSProperties = {
       flex: 1,
-      transition: 'width 0.3s ease 0s',
+      transition: 'width 0.3s',
       marginRight: '8px',
     };
     let buttonStyle: CSSProperties = {};

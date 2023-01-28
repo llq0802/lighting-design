@@ -6,7 +6,13 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemCaptcha" form={form}>
+    <LForm
+      name="LFormItemCaptcha"
+      form={form}
+      submitter={{
+        buttonAlign: 'center',
+      }}
+    >
       <LFormItemCaptcha
         type="inline"
         tooltip="这是提示"
@@ -17,7 +23,6 @@ const Demo1 = () => {
         onGetCaptcha={async () => {
           await awaitTime();
         }}
-        placeholder="请输入"
         onEnd={() => {
           message.info('倒计时完成');
         }}
