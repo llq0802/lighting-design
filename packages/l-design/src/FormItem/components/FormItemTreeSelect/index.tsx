@@ -79,3 +79,5 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
 };
 
 export default LFormItemTreeSelect;
+
+export type { LTreeSelectOption } from './base/TreeSelectWrapper';

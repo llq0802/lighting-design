@@ -1,4 +1,4 @@
-/** 验证码*/
+/** 基础验证码*/
 export * from './CaptchaButton';
 export { default as LCaptchaButton } from './CaptchaButton';
 /** 颜色选择 */
@@ -25,10 +25,12 @@ export * from './FormItem';
 export { default as LFormItem } from './FormItem';
 export { default as LFormItemAddress } from './FormItem/components/FormItemAddress';
 export type { LFormItemAddressProps } from './FormItem/components/FormItemAddress';
+/** 联想输入框 */
+export * from './FormItem/components/FormItemAutoComplete';
 export { default as LFormItemAutoComplete } from './FormItem/components/FormItemAutoComplete';
-export type { LFormItemAutoCompleteProps } from './FormItem/components/FormItemAutoComplete';
+/** 验证码 */
+export * from './FormItem/components/FormItemCaptcha';
 export { default as LFormItemCaptcha } from './FormItem/components/FormItemCaptcha';
-export type { LFormItemCaptchaProps } from './FormItem/components/FormItemCaptcha';
 export { default as LFormItemCascader } from './FormItem/components/FormItemCascader';
 export type { LFormItemCascaderProps } from './FormItem/components/FormItemCascader';
 export { default as LFormItemCheckbox } from './FormItem/components/FormItemCheckbox';
@@ -37,26 +39,17 @@ export { default as LFormItemColor } from './FormItem/components/FormItemColor';
 export type { LFormItemColorProps } from './FormItem/components/FormItemColor';
 export { default as LFormItemDatePicker } from './FormItem/components/FormItemDatePicker';
 export type { LFormItemDatePickerProps } from './FormItem/components/FormItemDatePicker';
-export {
-  LFormItemInput,
-  LFormItemNumber,
-  LFormItemPassword,
-  LFormItemTextArea,
-} from './FormItem/components/FormItemInput';
-export type {
-  LFormItemInputProps,
-  LFormItemNumberProps,
-  LFormItemPasswordProps,
-  LFormItemTextAreaProps,
-} from './FormItem/components/FormItemInput';
+/** 输入框 多行输入框 数字框 密码框  */
+export * from './FormItem/components/FormItemInput';
 export { default as LFormItemRadio } from './FormItem/components/FormItemRadio';
 export type { LFormItemRadioProps } from './FormItem/components/FormItemRadio';
 export { default as LFormItemRate } from './FormItem/components/FormItemRate';
 export type { LFormItemRateProps } from './FormItem/components/FormItemRate';
 export { default as LFormItemSegmented } from './FormItem/components/FormItemSegmented';
 export type { LFormItemSegmentedoProps } from './FormItem/components/FormItemSegmented';
+/** 下拉框 */
+export * from './FormItem/components/FormItemSelect';
 export { default as LFormItemSelect } from './FormItem/components/FormItemSelect';
-export type { LFormItemSelectProps } from './FormItem/components/FormItemSelect';
 export { default as LFormItemSlider } from './FormItem/components/FormItemSlider';
 export type { LFormItemSliderProps } from './FormItem/components/FormItemSlider';
 export { default as LFormItemSwitch } from './FormItem/components/FormItemSwitch';

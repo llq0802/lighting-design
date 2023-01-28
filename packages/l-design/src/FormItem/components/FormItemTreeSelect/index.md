@@ -44,10 +44,27 @@ import { LFormItemTreeSelect } from 'lighting-design';
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| treeData | 数据化配置选项内容 | `Array<{value, title, children, [disabled, disableCheckbox, selectable, checkable]}>` | `[]` |
-| request | 请求数据函数 | `(...depends: any[]) => Promise<treeData[]>` | `-` |
+| treeData | 数据化配置选项内容 | `LTreeSelectOption[]` | `[]` |
+| request | 请求数据函数 | `(...depends: any[]) => Promise<LTreeSelectOption[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | treeCheckable | 显示 Checkbox | `boolean ` | `false` |
 | loadData | 异步加载数据 | `function(node)` | `-` |
 | spin | 自定义 loading 效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | treeSelectProps | `antd`树选择组件的 Props | [TreeSelectProps](https://4x.ant.design/components/tree-select-cn/#API) | `-` |
+
+### LTreeSelectOption
+
+```ts
+export type LTreeSelectOption = {
+  value: string;
+  title: string;
+  placeholder: string;
+  children: LTreeSelectOption[];
+  disabled: boolean;
+  disableCheckbox: boolean;
+  selectable: boolean;
+  checkable: boolean;
+  /** 设为 `false` 时会强制标记为父节点，即使当前节点没有 children，也会显示展开图标 */
+  isLeaf: boolean;
+};
+```
