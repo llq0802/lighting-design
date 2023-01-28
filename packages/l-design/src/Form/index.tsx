@@ -86,3 +86,4 @@ LForm.useFormInstance = Form.useFormInstance;
 LForm.useWatch = Form.useWatch;
 
 export default LForm;
+export type { LFormSubmitterProps } from './base/Submitter';

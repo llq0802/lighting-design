@@ -15,6 +15,16 @@ const configs = defineConfig({
       },
     ],
   ],
+  metas: [
+    {
+      name: 'keywords',
+      content: 'Lighting-Design, lighting-design',
+    },
+    {
+      name: 'description',
+      content: '🍙 让中后台开发更简单',
+    },
+  ],
   dynamicImport: {},
   publicPath: isDev ? '/' : '/lighting-design/',
   base: isDev ? '/' : '/lighting-design/',
@@ -37,18 +47,21 @@ const configs = defineConfig({
 
 if (!isDev) {
   configs.chunks = ['vendors', 'umi'];
-  configs.chainWebpack = function (config: any, { webpack }) {
+  configs.chainWebpack = function (config, { webpack }) {
     config.merge({
       optimization: {
-        minimize: true,
         splitChunks: {
+          chunks: 'all',
+          minSize: 30000,
+          minChunks: 3,
+          automaticNameDelimiter: '.',
           cacheGroups: {
             vendor: {
-              test: /node_modules/,
-              chunks: 'all',
               name: 'vendors',
-              priority: -10,
-              enforce: true,
+              test({ resource }) {
+                return /[\\/]node_modules[\\/]/.test(resource);
+              },
+              priority: 10,
             },
           },
         },
@@ -56,5 +69,26 @@ if (!isDev) {
     });
   };
 }
+// if (!isDev) {
+//   configs.chunks = ['vendors', 'umi'];
+//   configs.chainWebpack = function (config: any, { webpack }) {
+//     config.merge({
+//       optimization: {
+//         minimize: true,
+//         splitChunks: {
+//           cacheGroups: {
+//             vendor: {
+//               test: /node_modules/,
+//               chunks: 'all',
+//               name: 'vendors',
+//               priority: -10,
+//               enforce: true,
+//             },
+//           },
+//         },
+//       },
+//     });
+//   };
+// }
 
 export default configs;

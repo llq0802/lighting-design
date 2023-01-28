@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 interface DataType {
   key: React.Key;
@@ -52,13 +52,9 @@ const data: DataType[] = [
   },
 ];
 
-// rowSelection object indicates the need for row selection
-
 const Tables: React.FC = (props) => {
-  const { value, onChange, setOpen } = props;
-  useEffect(() => {
-    console.log('Tables-value ', value);
-  }, []);
+  const { value, onChange, open, setOpen } = props;
+
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
       console.log(`selectedRowKeys:`, selectedRowKeys, 'selectedRows: ', selectedRows);
@@ -76,6 +72,7 @@ const Tables: React.FC = (props) => {
 
   return (
     <Table
+      style={{ padding: 8 }}
       size="small"
       rowSelection={{
         selectedRowKeys: value ?? [],

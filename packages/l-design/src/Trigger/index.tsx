@@ -1,20 +1,21 @@
 import { useControllableValue } from 'ahooks';
 import type { SelectProps } from 'antd';
 import { Select } from 'antd';
+import classnames from 'classnames';
 import type { FC, ReactElement } from 'react';
 import { cloneElement, isValidElement } from 'react';
 
-export const prefixCls = 'lightd-trigger';
 export type LTriggerProps = {
   width: number | string;
   dropdownWidth: number;
-  dropdownClassName: string;
   /** 配置字段 label为展示名称的字段 value为字段的值*/
   fieldNames?: {
     label: string;
     value: string;
   };
+  className: string;
   children: ReactElement;
+  selectProps: SelectProps;
 } & Pick<
   SelectProps,
   | 'value'
@@ -25,20 +26,22 @@ export type LTriggerProps = {
   | 'placeholder'
   | 'style'
   | 'getPopupContainer'
-  | 'clearIcon'
   | 'size'
   | 'suffixIcon'
   | 'dropdownStyle'
+  | 'popupClassName'
 >;
+
+const prefixCls = 'lightd-trigger';
 
 const Trigger: FC<Partial<LTriggerProps>> = (props) => {
   const {
     width = 250,
     dropdownWidth = 500,
-    dropdownClassName,
+    popupClassName,
     allowClear,
     suffixIcon,
-    clearIcon,
+    className,
     size,
     getPopupContainer,
     fieldNames = { label: 'label', value: 'value' },
@@ -48,6 +51,7 @@ const Trigger: FC<Partial<LTriggerProps>> = (props) => {
     style,
     dropdownStyle,
     children,
+    selectProps,
     ...restprops // value onchange
   } = props;
 
@@ -55,7 +59,7 @@ const Trigger: FC<Partial<LTriggerProps>> = (props) => {
     defaultValue: false,
     defaultValuePropName: 'defaultOpen',
     valuePropName: 'open',
-    trigger: 'onDropdownVisibleChange',
+    trigger: 'onDropdownOpenChange',
   });
   const [state, setState] = useControllableValue<Record<string, any>>(restprops, {
     defaultValue: {},
@@ -67,7 +71,7 @@ const Trigger: FC<Partial<LTriggerProps>> = (props) => {
   const dropdownRender = !isComponent
     ? undefined
     : () => (
-        <div style={{ padding: 8 }} className={dropdownClassName}>
+        <div style={{ width: '100%' }} className={`${prefixCls}-popup`}>
           {cloneElement(children, {
             // @ts-ignore
             value: state?.[fieldNames.value],
@@ -80,24 +84,25 @@ const Trigger: FC<Partial<LTriggerProps>> = (props) => {
 
   return (
     <Select
-      fieldNames={fieldNames}
-      clearIcon={clearIcon}
-      suffixIcon={suffixIcon}
       size={size}
-      value={state?.[fieldNames.label]}
-      allowClear={allowClear}
-      getPopupContainer={getPopupContainer}
+      placeholder={placeholder}
       placement={placement}
       disabled={disabled}
-      popupClassName={prefixCls}
+      popupClassName={popupClassName}
+      className={classnames(prefixCls, className)}
       style={{ width: width, ...style }}
-      open={isOpen}
-      placeholder={placeholder}
       dropdownMatchSelectWidth={dropdownWidth}
-      onDropdownVisibleChange={setIsOpen}
       dropdownStyle={dropdownStyle}
+      suffixIcon={suffixIcon}
+      allowClear={allowClear}
+      fieldNames={fieldNames}
+      getPopupContainer={getPopupContainer}
+      {...selectProps}
       dropdownRender={dropdownRender}
       onChange={setState}
+      value={state?.[fieldNames.label]}
+      open={isOpen}
+      onDropdownVisibleChange={setIsOpen}
     />
   );
 };

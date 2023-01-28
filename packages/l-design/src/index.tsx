@@ -1,28 +1,11 @@
-// ==========基础验证码组件==========
+/** 验证码*/
+export * from './CaptchaButton';
 export { default as LCaptchaButton } from './CaptchaButton';
-export type { LCaptchaButtonProps } from './CaptchaButton';
-// ==========基础颜色选择组件==========
-export {
-  default as LColor,
-  LColorBlockPicker,
-  LColorChromePicker,
-  LColorCirclePicker,
-  LColorCompactPicker,
-  LColorPhotoshopPicker,
-  LColorSketchPicker,
-  LColorSliderPicker,
-} from './ColorPick';
-export type {
-  LColorBlockPickerProps,
-  LColorChromePickerProps,
-  LColorCompactPickerProps,
-  LColorPhotoshopPickerProps,
-  LColorProps,
-  LColorSketchPickerProps,
-  LColorSliderPickerProps,
-} from './ColorPick';
+/** 颜色选择 */
+export * from './ColorPick';
+/** 高级表单 */
+export * from './Form';
 export { default as LForm } from './Form';
-export type { LFormProps } from './Form';
 // ==========基础Form容器组件==========
 export { default as LDrawerForm } from './Form/components/DrawerForm';
 export type { LDrawerFormProps } from './Form/components/DrawerForm';
@@ -34,9 +17,9 @@ export { default as LQueryForm } from './Form/components/QueryForm';
 export type { LQueryFormProps } from './Form/components/QueryForm';
 export { default as LStepsForm } from './Form/components/StepsForm';
 export type { LStepsFormProps } from './Form/components/StepsForm';
-// ==========基础FormItem容器组件==========
+/** 表单项 */
+export * from './FormItem';
 export { default as LFormItem } from './FormItem';
-export type { LFormItemProps } from './FormItem';
 export { default as LFormItemAddress } from './FormItem/components/FormItemAddress';
 export type { LFormItemAddressProps } from './FormItem/components/FormItemAddress';
 export { default as LFormItemAutoComplete } from './FormItem/components/FormItemAutoComplete';
@@ -82,20 +65,26 @@ export { default as LFormItemTreeSelect } from './FormItem/components/FormItemTr
 export type { LFormItemTreeSelectProps } from './FormItem/components/FormItemTreeSelect';
 export { default as LFormItemUpload } from './FormItem/components/FormItemUpload';
 export type { LFormItemUploadProps } from './FormItem/components/FormItemUpload';
+/** 大屏数字动画 */
+export * from './NumberRoll';
 export { default as LNumberRoll } from './NumberRoll';
+/** loading */
+export * from './Spin';
 export { default as LSpin } from './Spin';
-export type { default as LSpinProps } from './Spin';
 /** 高级表格 */
 export * from './Table';
 export { default as LTable } from './Table';
+/** 提示 */
+export * from './Tooltip';
 export { default as LTooltip } from './Tooltip';
 export type { default as LTooltipProps } from './Tooltip';
-// ==========基础组件==========
+/** 弹出选择 */
+export * from './Trigger';
 export { default as LTrigger } from './Trigger';
-export type { default as LTriggerProps } from './Trigger';
 export { default as useFormDrawer } from './useFormDrawer';
 export type { DrawerModalProps, DrawerSubmitProps, FormDrawerSlotProps } from './useFormDrawer';
 export { default as useFormModal } from './useFormModal';
 export type { DraggableModalProps, FormSlotProps } from './useFormModal';
+/** 水印 */
+export * from './WaterMark';
 export { default as LWaterMark } from './WaterMark';
-export type { default as LWaterMarkProps } from './WaterMark';

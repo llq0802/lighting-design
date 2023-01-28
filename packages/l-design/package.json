@@ -39,14 +39,14 @@
     "tsc": "tsc --noEmit"
   },
   "dependencies": {
-    "antd": "^4.24.5",
     "ahooks": "^3.7.2",
+    "classnames": "^2.2.6",
     "react-draggable": "^4.4.5",
     "react-color": "^2.19.3"
   },
   "devDependencies": {},
   "peerDependencies": {
-    "antd": ">=4.20.0",
+    "antd": ">=4.23.0",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   }

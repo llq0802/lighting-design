@@ -3,7 +3,7 @@
  * desc: |
  *  支持设置颜色选择器位置、颜色模式（`rgb`、`hex`）。
  *
- *  其中 `ColorChromePicker` `ColorSketchPicker` 在颜色模式为 `rgb` 时，支持设置透明度。
+ *  其中 `LColorChromePicker` `LColorSketchPicker` 在颜色模式为 `rgb` 时，支持设置透明度。
  */
 
 import {
@@ -26,8 +26,15 @@ export default () => {
 
   return (
     <>
-      <h3>LColorBlockPicker</h3>
-      <LColorBlockPicker value={color1} onChange={setColor1} showText disabled />
+      <h3>LColorSketchPicker</h3>
+      <LColorSketchPicker
+        value={color6}
+        onChange={setColor6}
+        showText
+        colorMode="rgb"
+        placement="topLeft"
+        size="middle"
+      />
       <br />
       <br />
       <h3>LColorChromePicker</h3>
@@ -40,6 +47,10 @@ export default () => {
       />
       <br />
       <br />
+      <h3>LColorBlockPicker</h3>
+      <LColorBlockPicker value={color1} onChange={setColor1} showText disabled />
+      <br />
+      <br />
       <h3>LColorCompactPicker</h3>
       <LColorCompactPicker value={color3} onChange={setColor3} showText />
       <br />
@@ -48,25 +59,12 @@ export default () => {
       <LColorPhotoshopPicker value={color4} onChange={setColor4} showText placement="topLeft" />
       <br />
       <br />
-      {/* <h3>ColorSliderPicker</h3>
-      <ColorSliderPicker value={color4} onChange={setColor4} showText placement="topLeft" />
-      <br />
-      <br /> */}
       <h3>LColorCirclePicker</h3>
       <LColorCirclePicker value={color5} onChange={setColor5} showText placement="topLeft" />
-
       <br />
       <br />
-      <h3>LColorSketchPicker</h3>
-      <LColorSketchPicker
-        value={color6}
-        onChange={setColor6}
-        showText
-        colorMode="rgb"
-        placement="topLeft"
-        size="middle"
-      />
-      {/* <input type="color" /> */}
+      <h3>原生input</h3>
+      <input type="color" />
     </>
   );
 };
