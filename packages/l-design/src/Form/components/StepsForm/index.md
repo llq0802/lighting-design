@@ -69,7 +69,7 @@ const { StepForm } = LStepsForm;
 | isReady | 为 `false` 时，禁止上一步、下一步、提交操作。 | `boolean` | `true` |
 | stepsProps | `antd Steps` 的属性，去掉了 `current` 和 `onChange` | [StepsProps](https://4x.ant.design/components/steps-cn/#API) | `-` |
 | formProps | `LForm` 的属性，除了没有 `onReset` 和 `submitter` `isReady` | [LFormProps](/components/form) | `-` |
-| submitter | 上一步、下一步、提交按钮的配置 | `StepsFormSubmitterProps` | `-` |
+| submitter | 上一步、下一步、提交按钮的配置 为`false`不渲染 | `false \| LStepsFormSubmitterProps` | `-` |
 | actionRef | 常用操作引用，便于自定义触发 | `MutableRefObject<LStepsFormActionRef>` | `-` |
 | onCurrentChange | current 发生改变的事件 | `(current:number) => void` | `-` |
 | onFinish | 全部表单提交成功后调用 , 默认只在最后一步提交之后触发 , 如果配置`submitStepNum`则以在`submitStepNum`步骤时触发. <br>返回`true`或`Promise.resolve(true)`并且`isResetFields`为`true`会重置所有表单 步骤也会回到初始值 , 并且会自动管理`loading` | `async(values) => any` | `-` |
@@ -88,7 +88,7 @@ const { StepForm } = LStepsForm;
 | icon | 步骤图标的类型，可选 | `ReactNode` | `-` |
 | description | 步骤的详情描述，可选 | `ReactNode` | `-` |
 | stepItemProps | 步骤条内的当前步骤配置。与 `antd Steps`的`items`属性相同 | [StepsProps.Items](https://4x.ant.design/components/steps-cn/#API) | `-` |
-| submitter | 上一步、下一步、提交按钮的配置。会与 LStepsForm 的 submitter 合并，优先级更高。 | `LStepsFormSubmitterProps` | `-` |
+| submitter | 上一步、下一步、提交按钮的配置。会与 LStepsForm 的 submitter 合并，优先级更高。 为`false`不渲染 | `false \|LStepsFormSubmitterProps` | `-` |
 | onFinish | 当前表单提交成功后调用, 只要不返回`false`或者`Promise.resolve(false)`就会触发下一步或者最后一步的提交并且自动管理`loading` | `async(values) => any` | `-` |
 
 ### LStepsFormSubmitterProps
