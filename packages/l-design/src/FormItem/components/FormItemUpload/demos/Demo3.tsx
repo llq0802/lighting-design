@@ -40,7 +40,6 @@ const Demo3 = () => {
       <div style={{ display: 'none' }}>
         <Image.PreviewGroup
           preview={{
-            getContainer: document.body,
             visible,
             onVisibleChange: (open) => setVisible(open),
             current: previewCurrentRef.current,
