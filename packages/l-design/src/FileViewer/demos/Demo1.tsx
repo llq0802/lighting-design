@@ -1,21 +1,30 @@
-import { Button } from 'antd';
+import { Button, Space } from 'antd';
 import { LFileViewer } from 'lighting-design';
-import * as React from 'react';
+import { useState } from 'react';
+const isDev = process.env.NODE_ENV === 'development';
+const publicPath = isDev ? '/' : '/lighting-design/';
+const urls = [
+  'https://gw.alipayobjects.com/zos/antfincdn/LlvErxo8H9/photo-1503185912284-5271ff81b9a8.webp',
+  'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+  'https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg',
+];
 
 function Demo1() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [open2, setOpen2] = useState(false);
 
   return (
-    <div>
-      <Button onClick={() => setOpen(true)}>预览图片</Button>
+    <Space>
+      <Button onClick={() => setOpen(true)}>预览单张图片</Button>
+      <Button onClick={() => setOpen2(true)}>预览多张图片</Button>
       <LFileViewer
-        url="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-        fileName="美女头像"
         fileType="image"
+        url={[`${publicPath}test.jpg`]}
         open={open}
-        onCancel={() => setOpen(false)}
+        onOpenChange={setOpen}
       />
-    </div>
+      <LFileViewer fileType="image" url={urls} open={open2} onOpenChange={setOpen2} />
+    </Space>
   );
 }
 

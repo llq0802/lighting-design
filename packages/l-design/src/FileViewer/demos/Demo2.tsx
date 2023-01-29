@@ -1,15 +1,10 @@
 import { Button, Space } from 'antd';
 import { LFileViewer } from 'lighting-design';
-import * as React from 'react';
+import { useState } from 'react';
 const isDev = process.env.NODE_ENV === 'development';
 const publicPath = isDev ? '/' : '/lighting-design/';
 
 const data = {
-  image: {
-    url: `${publicPath}test.jpg`,
-    fileName: 'test.jpg',
-    fileType: 'image',
-  },
   audio: {
     url: `${publicPath}test.mp3`,
     fileName: 'test.mp3',
@@ -38,8 +33,8 @@ const data = {
 };
 
 function Demo2() {
-  const [open, setOpen] = React.useState(false);
-  const [previewInfo, setPreviewInfo] = React.useState<{
+  const [open, setOpen] = useState(false);
+  const [previewInfo, setPreviewInfo] = useState<{
     url: string;
     fileName: string;
     fileType: string;
@@ -55,7 +50,6 @@ function Demo2() {
 
   return (
     <Space>
-      <Button onClick={() => preview('image')}>预览图片</Button>
       <Button onClick={() => preview('audio')}>预览音频</Button>
       <Button onClick={() => preview('video')}>预览视频</Button>
       <Button onClick={() => preview('pdf')}>预览pdf</Button>
