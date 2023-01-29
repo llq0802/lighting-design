@@ -30,8 +30,8 @@ const FileView: React.FunctionComponent<FileViewProps> = ({ fileName, url, fileT
   }
 
   return (
-    <div>
-      <span>该文件不支持预览，你可尝试 </span>
+    <div className="lightd-file-viewer-download" style={{ textAlign: 'center' }}>
+      <span style={{ marginRight: 8 }}>该文件不支持预览，你可尝试</span>
       <a href={url} download={fileName}>
         点击下载
       </a>
