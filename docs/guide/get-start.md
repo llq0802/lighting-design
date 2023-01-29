@@ -12,8 +12,6 @@ nav:
 
 ## 安装
 
----
-
 ```shell
 npm i lighting-design
 
@@ -38,8 +36,6 @@ pnpm config set registry https://registry.npmmirror.com/
 ```
 
 ## 使用
-
----
 
 ```ts
 import { LColor } from 'lighting-design';
