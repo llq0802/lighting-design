@@ -1,35 +1,37 @@
 import { Button, Space } from 'antd';
 import { LFileViewer } from 'lighting-design';
 import * as React from 'react';
+const isDev = process.env.NODE_ENV === 'development';
+const publicPath = isDev ? '/' : '/lighting-design/';
 
 const data = {
   image: {
-    url: '/test.jpg',
+    url: `${publicPath}test.jpg`,
     fileName: 'test.jpg',
     fileType: 'image',
   },
   audio: {
-    url: '/test.mp3',
+    url: `${publicPath}test.mp3`,
     fileName: 'test.mp3',
     fileType: 'audio',
   },
   video: {
-    url: '/test.mp4',
+    url: `${publicPath}test.mp4`,
     fileName: 'test.mp4',
     fileType: 'video',
   },
   pdf: {
-    url: '/test.pdf',
+    url: `${publicPath}test.pdf`,
     fileName: 'test.pdf',
     fileType: 'pdf',
   },
   word: {
-    url: '/test.docx',
+    url: `${publicPath}test.docx`,
     fileName: 'test.docx',
     fileType: '',
   },
   excel: {
-    url: '/test.xlsx',
+    url: `${publicPath}test.xlsx`,
     fileName: 'test.xlsx',
     fileType: '',
   },
