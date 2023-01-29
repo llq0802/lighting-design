@@ -22,6 +22,10 @@ nav:
 - [useFormModal] - hooks 弹窗
 - [useFormDrawer] - hooks 抽屉
 
+## 数据展示
+
+- [LTable] - 高级表格
+
 ## 高级表单
 
 - [LForm] - 业务表单
@@ -92,3 +96,4 @@ nav:
 [lformitemcolor]: /components/form-item/form-item-color
 [lformitemrate]: /components/form-item/form-item-rate
 [lformitemsegmented]: /components/form-item/form-item-segmented
+[ltable]: /components/table
