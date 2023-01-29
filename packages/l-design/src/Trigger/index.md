@@ -16,6 +16,10 @@ nav:
 
 <code src='./demos/Demo1.tsx' />
 
+### 在 LForm 中使用
+
+<code src='./demos/Demo2.tsx' />
+
 ## API
 
 ```ts
