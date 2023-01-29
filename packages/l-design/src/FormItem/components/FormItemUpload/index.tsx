@@ -47,6 +47,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   buttonIcon,
   buttonText,
   buttonProps,
+  onGetPreviewUrl,
   maxSize,
   maxCount,
   disabled,
@@ -100,12 +101,13 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
         buttonIcon={buttonIcon}
         buttonText={buttonText}
         buttonProps={buttonProps}
-        previewModalProps={previewModalProps}
         action={action}
         accept={accept}
         onUpload={onUpload}
         fileTypeMessage={fileTypeMessage}
         fileSizeMessage={fileSizeMessage}
+        previewModalProps={previewModalProps}
+        onGetPreviewUrl={onGetPreviewUrl}
         maxSize={maxSize}
         maxCount={maxCount}
         disabled={disabled ?? formDisabled}

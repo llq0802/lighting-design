@@ -196,16 +196,15 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
         message.error('当前文件不支持预览!');
         return;
       }
-
-      if (file.url || file.thumbUrl || file.preview) {
-        file.preview = file.url || file.thumbUrl || file.preview;
-      } else if (onGetPreviewUrl) {
+      if (onGetPreviewUrl) {
         file.preview = await onGetPreviewUrl((file?.originFileObj || file) as File);
       } else if (!file.url || !file.thumbUrl || !file.preview) {
         if (file?.originFileObj instanceof File) {
           // base64 路径太大，可能导致卡顿问题
           file.preview = createFileUrl(uniqueKey, file.uid, (file?.originFileObj || file) as File);
         }
+      } else if (file.url || file.thumbUrl || file.preview) {
+        file.preview = file.url || file.thumbUrl || file.preview;
       }
 
       const previewUlr = file.preview || '';

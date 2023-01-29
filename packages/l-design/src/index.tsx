@@ -12,8 +12,8 @@ export { default as LForm } from './Form';
 /** 抽屉表单 */
 export * from './Form/components/DrawerForm';
 export { default as LDrawerForm } from './Form/components/DrawerForm';
+export * from './Form/components/LoginForm';
 export { default as LLoginForm } from './Form/components/LoginForm';
-export type { LLoginFormProps } from './Form/components/LoginForm';
 /** 弹窗表单 */
 export * from './Form/components/MoadlForm';
 export { default as LModalForm } from './Form/components/MoadlForm';

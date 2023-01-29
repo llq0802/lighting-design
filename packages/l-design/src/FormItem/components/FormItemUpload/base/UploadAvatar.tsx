@@ -109,11 +109,11 @@ const UploadAvatar: FC<UploadAvatarProps> = ({
 }) => {
   return (
     <UploadWrapper
+      showUploadList={false}
       {...restProps}
       listType="picture-card"
       accept={restProps?.accept || '.jpg, .jpeg, .png'}
       fileList={fileList}
-      showUploadList={false}
       multiple={false}
       maxCount={1}
       className={classNames(prefixCls, className)}

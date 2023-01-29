@@ -43,7 +43,13 @@ const Demo2 = () => {
         label="图片上传"
         uploadType="image"
         onUpload={upload}
-        uploadProps={{ name: 'fileName' }}
+        uploadProps={{
+          name: 'fileName',
+          async previewFile(file) {
+            // 解决文件较大时会卡顿
+            return URL.createObjectURL(file);
+          },
+        }}
       />
     </LForm>
   );

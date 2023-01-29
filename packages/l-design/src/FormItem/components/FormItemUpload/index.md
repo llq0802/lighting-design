@@ -22,9 +22,13 @@ nav:
 
 <code src='./demos/Demo1.tsx'>
 
-### 自定义上传
+### 通过 onUpload 上传
 
 <code src='./demos/Demo2.tsx'>
+
+### 自定义图片预览
+
+<code src='./demos/Demo3.tsx'>
 
 ## API
 
@@ -47,7 +51,7 @@ import { LFormItemUpload } from 'lighting-design';
 | buttonIcon | 按钮图标，不同内建类型有不一样的默认值。 | `ReactNode` | `-` |
 | buttonText | 按钮文本 在`uploadType为'default'或'dragger'时生效` | `ReactNode` | `'点击上传'\|'单击或拖动文件到此区域进行上传'` |
 | buttonProps | Button 的 Props 在`uploadType为'default'时生效` | [ButtonProps](https://4x.ant.design/components/button-cn/#API) | `-` |
-| onGetPreviewUrl | 获取预览图片，点击预览时触发。<br/>（仅在没有 file.url file.thumbUrl file.preview 的情况下生效，执行成功后将预览图放在 file.preview） | `(file: File) => Promise<string>` | `-` |
+| onGetPreviewUrl | 获取预览图片，点击预览时触发。预览图放在 file.preview | `(file: File) => Promise<string>` | `-` |
 | previewModalProps | 内置预览弹窗的属性 | [ModalProps](https://4x.ant.design/components/modal-cn/#API) | `-` |
 | uploadProps | antd 上传组件的 Props | [UploadProps](https://4x.ant.design/components/upload-cn/#API) | `-` |
 
