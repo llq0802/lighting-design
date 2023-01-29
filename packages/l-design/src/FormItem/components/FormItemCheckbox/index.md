@@ -52,31 +52,33 @@ import { LFormItemCheckbox } from 'lighting-design';
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| options | 指定可选项 | `string[]` `number[]` `Option[]` | `-` |
-| request | 请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
+| options | 指定可选项 | `string[]` `number[]` `LCheckboxOptions[]` | `-` |
+| request | 请求数据函数 | `(...depends: any[]) => Promise<LCheckboxOptions[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
-| beforeAll | 自定义全选 | `BeforeAllProps ` |
+| beforeAll | 自定义全选 | `LCheckboxBeforeAllProps ` | `-` |
 | spin | 自定义 loading 效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | notDependRender | 依赖项的值为空时展示的内容 | `() => ReactNode` | `() => <span>请先选择依赖项</span>` |
 | checkboxProps | `antd`多选框组件 Props | [CheckboxProps](https://4x.ant.design/components/checkbox-cn/#API) | `-` |
 
-#### Option
+### LCheckboxOptions
 
 ```ts
-interface Option {
-  label: string;
-  value: string;
+interface LCheckboxOptions {
+  label: React.ReactNode;
+  value: string | number | boolean;
+  style?: React.CSSProperties;
   disabled?: boolean;
+  onChange?: (e: CheckboxChangeEvent) => void;
 }
 ```
 
-#### BeforeAllProps
+### LCheckboxBeforeAllProps
 
 ```ts
-interface BeforeAllProps {
-  label?: React.ReactNode;
+interface LCheckboxBeforeAllProps {
+  label?: ReactNode;
   value?: string | number | boolean;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   disabled?: boolean;
   onChange?: (e: CheckboxValueType[]) => void;
 }

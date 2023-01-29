@@ -51,7 +51,7 @@ import { LFormItemUpload } from 'lighting-design';
 | previewModalProps | 内置预览弹窗的属性 | [ModalProps](https://4x.ant.design/components/modal-cn/#API) | `-` |
 | uploadProps | antd 上传组件的 Props | [UploadProps](https://4x.ant.design/components/upload-cn/#API) | `-` |
 
-#### UploadFile
+### UploadFile
 
 ```ts
 type UploadFile = {
@@ -61,7 +61,7 @@ type UploadFile = {
   url?: string; // 下载地址
   response?: any; // onUpload 或 action 上传成功后的返回值
   error?: any; // 失败状态时，输入移入提示 { message: string }
-  status: 'done'; // 状态有：uploading done error removed，被 beforeUpload 拦截的文件没有 status 属性
-  // ...
+  status?: 'done'; // 状态有：uploading done error removed，被 beforeUpload 拦截的文件没有 status 属性
+  // ...其他属性
 };
 ```

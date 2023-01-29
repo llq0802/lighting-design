@@ -78,3 +78,5 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
 };
 
 export default LFormItemCheckbox;
+
+export type { LCheckboxOptions } from './base/CheckboxWrapper';

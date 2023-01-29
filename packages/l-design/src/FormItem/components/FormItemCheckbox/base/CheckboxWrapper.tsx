@@ -3,31 +3,34 @@ import type { CheckboxOptionType, SpinProps } from 'antd';
 import { Checkbox, Spin } from 'antd';
 import type { CheckboxChangeEvent, CheckboxGroupProps } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import type { FC, ReactNode } from 'react';
+import type { CSSProperties, FC, ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
-type beforeAllProps = {
-  /**
-   * 标题 label
-   */
-  label?: React.ReactNode;
-  /**
-   * 值 value
-   */
-  value?: CheckboxValueType;
-  /**
-   * 样式
-   */
-  style?: React.CSSProperties;
-  /**
-   * 失效状态
-   */
-  disabled?: boolean;
-  /**
-   * 变化时的回调函数
-   */
-  onChange?: (e: CheckboxValueType[]) => void;
-};
+export type LCheckboxOptions = CheckboxOptionType;
+export type LCheckboxBeforeAllProps =
+  | {
+      /**
+       * 标题 label
+       */
+      label?: ReactNode;
+      /**
+       * 值 value
+       */
+      value?: CheckboxValueType;
+      /**
+       * 样式
+       */
+      style?: CSSProperties;
+      /**
+       * 失效状态
+       */
+      disabled?: boolean;
+      /**
+       * 变化时的回调函数
+       */
+      onChange?: (e: CheckboxValueType[]) => void;
+    }
+  | true;
 
 export type CheckboxWrapperProps = Record<string, any> &
   Partial<{
@@ -36,7 +39,7 @@ export type CheckboxWrapperProps = Record<string, any> &
     /**
      * 自定义全选
      */
-    beforeAll: beforeAllProps | boolean;
+    beforeAll: LCheckboxBeforeAllProps;
     checkboxProps: CheckboxGroupProps;
     dependencies: string[];
     outLoading: SpinProps;
@@ -62,9 +65,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   const [checkAll, setCheckAll] = useState<boolean>(false);
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
 
-  const [optsRequest, setOptsRequest] = useState<{ label: ReactNode; value: string | number }[]>(
-    [],
-  );
+  const [optsRequest, setOptsRequest] = useState<LCheckboxOptions[]>([]);
   const isFirst = useRef<boolean>(true);
 
   const hasLoading = useMemo(
@@ -152,6 +153,13 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     }
   }, [isClearDepends, opts, optsRequest]);
 
+  const outBeforeAll = useMemo(() => {
+    if (beforeAll == true) {
+      return {};
+    }
+    return beforeAll;
+  }, [beforeAll]);
+
   const checkAllChange = useCallback(
     (e: CheckboxChangeEvent) => {
       let checkAllValue: CheckboxValueType[] = [];
@@ -164,9 +172,9 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       setIndeterminate(false);
       setCheckAll(e.target.checked);
       onChange(checkAllValue);
-      beforeAll?.onChange?.(checkAllValue);
+      outBeforeAll?.onChange?.(checkAllValue);
     },
-    [beforeAll, onChange, checkboxOptions],
+    [onChange, outBeforeAll, checkboxOptions],
   );
 
   const handleChange = useCallback(
@@ -193,13 +201,13 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
           indeterminate={indeterminate}
           style={{
             marginRight: '8px',
-            ...beforeAll?.style,
+            ...outBeforeAll?.style,
           }}
-          disabled={disabled ?? (beforeAll?.disabled || isClearDepends)}
+          disabled={disabled ?? (outBeforeAll?.disabled || isClearDepends)}
           onChange={checkAllChange}
           checked={checkAll}
         >
-          {beforeAll?.label || '全选'}
+          {outBeforeAll?.label || '全选'}
         </Checkbox>
       )}
       <Checkbox.Group

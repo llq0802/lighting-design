@@ -33,7 +33,7 @@ import { LFormItemAddress } from 'lighting-design';
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | names | 同`Form.Itme的name属性` | `[string,string]` | `-` |
-| options | 左侧级联组件数据源 | `Option` | `[]` |
+| options | 左侧级联组件数据源 | `LCascaderOption[]` | `[]` |
 | placeholder | 组件的 placeholder | `[string,string]` | `['请选择省/市/区', '请输入详细地址']` |
 | cascaderProps | `antd`级联组件 Props | [CascaderProps](https://4x.ant.design/components/cascader-cn/#API) | `-` |
 | inputProps | `antd`输入框组件 Props | [InputProps](https://4x.ant.design/components/input-cn/#API) | `-` |
@@ -42,10 +42,10 @@ import { LFormItemAddress } from 'lighting-design';
 | cascaderColProps | 输入框外层`Col组件的 Props` | [ColProps](https://4x.ant.design/components/grid-cn/#Col) | `{ xs: 24, md: 12, lg: 6, xxl: 8, }` |
 | inputColProps | 输入框外层`Col 组件的 Props` | [ColProps](https://4x.ant.design/components/grid-cn/#Col) | `{ xs: 24, md: 12, lg: 18, xxl: 16, }` |
 
-#### Option
+### LCascaderOption
 
 ```ts
-interface Option {
+interface LCascaderOption {
   value: string | number;
   label?: React.ReactNode;
   disabled?: boolean;

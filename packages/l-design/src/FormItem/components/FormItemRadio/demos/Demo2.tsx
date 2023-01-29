@@ -3,7 +3,6 @@ import { awaitTime } from '../../../../_utils';
 
 const Demo2 = () => {
   const [form] = LForm.useForm();
-
   return (
     <LForm name="LFormItemSelect" form={form}>
       <LFormItemRadio

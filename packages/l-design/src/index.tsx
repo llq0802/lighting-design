@@ -3,6 +3,9 @@ export * from './CaptchaButton';
 export { default as LCaptchaButton } from './CaptchaButton';
 /** 颜色选择 */
 export * from './ColorPick';
+/** 预览器 */
+export * from './FileViewer';
+export { default as LFileViewer } from './FileViewer';
 /** 高级表单 */
 export * from './Form';
 export { default as LForm } from './Form';
@@ -23,43 +26,55 @@ export { default as LStepsForm } from './Form/components/StepsForm';
 /** 表单项 */
 export * from './FormItem';
 export { default as LFormItem } from './FormItem';
+/** 地址选择 */
+export * from './FormItem/components/FormItemAddress';
 export { default as LFormItemAddress } from './FormItem/components/FormItemAddress';
-export type { LFormItemAddressProps } from './FormItem/components/FormItemAddress';
 /** 联想输入框 */
 export * from './FormItem/components/FormItemAutoComplete';
 export { default as LFormItemAutoComplete } from './FormItem/components/FormItemAutoComplete';
 /** 验证码 */
 export * from './FormItem/components/FormItemCaptcha';
 export { default as LFormItemCaptcha } from './FormItem/components/FormItemCaptcha';
+/** 级联 */
+export * from './FormItem/components/FormItemCascader';
 export { default as LFormItemCascader } from './FormItem/components/FormItemCascader';
-export type { LFormItemCascaderProps } from './FormItem/components/FormItemCascader';
+/** 多选框 */
+export * from './FormItem/components/FormItemCheckbox';
 export { default as LFormItemCheckbox } from './FormItem/components/FormItemCheckbox';
-export type { LFormItemCheckboxProps } from './FormItem/components/FormItemCheckbox';
 export { default as LFormItemColor } from './FormItem/components/FormItemColor';
 export type { LFormItemColorProps } from './FormItem/components/FormItemColor';
+/** 日期选择 */
+export * from './FormItem/components/FormItemDatePicker';
 export { default as LFormItemDatePicker } from './FormItem/components/FormItemDatePicker';
-export type { LFormItemDatePickerProps } from './FormItem/components/FormItemDatePicker';
 /** 输入框 多行输入框 数字框 密码框  */
 export * from './FormItem/components/FormItemInput';
+/** 单选框 */
+export * from './FormItem/components/FormItemRadio';
 export { default as LFormItemRadio } from './FormItem/components/FormItemRadio';
-export type { LFormItemRadioProps } from './FormItem/components/FormItemRadio';
+/** 评分器 */
+export * from './FormItem/components/FormItemRate';
 export { default as LFormItemRate } from './FormItem/components/FormItemRate';
-export type { LFormItemRateProps } from './FormItem/components/FormItemRate';
+/** 分段器 */
+export * from './FormItem/components/FormItemSegmented';
 export { default as LFormItemSegmented } from './FormItem/components/FormItemSegmented';
-export type { LFormItemSegmentedoProps } from './FormItem/components/FormItemSegmented';
 /** 下拉框 */
 export * from './FormItem/components/FormItemSelect';
 export { default as LFormItemSelect } from './FormItem/components/FormItemSelect';
+/** 滑动条 */
+export * from './FormItem/components/FormItemSlider';
 export { default as LFormItemSlider } from './FormItem/components/FormItemSlider';
-export type { LFormItemSliderProps } from './FormItem/components/FormItemSlider';
+/** 开关按钮 */
+export * from './FormItem/components/FormItemSwitch';
 export { default as LFormItemSwitch } from './FormItem/components/FormItemSwitch';
-export type { LFormItemSwitchProps } from './FormItem/components/FormItemSwitch';
+/** 时间选择 */
+export * from './FormItem/components/FormItemTimePicker';
 export { default as LFormItemTimePicker } from './FormItem/components/FormItemTimePicker';
-export type { LFormItemTimePickerProps } from './FormItem/components/FormItemTimePicker';
+/** 树形选择 */
+export * from './FormItem/components/FormItemTreeSelect';
 export { default as LFormItemTreeSelect } from './FormItem/components/FormItemTreeSelect';
-export type { LFormItemTreeSelectProps } from './FormItem/components/FormItemTreeSelect';
+/** 文件上传 */
+export * from './FormItem/components/FormItemUpload';
 export { default as LFormItemUpload } from './FormItem/components/FormItemUpload';
-export type { LFormItemUploadProps } from './FormItem/components/FormItemUpload';
 /** 大屏数字动画 */
 export * from './NumberRoll';
 export { default as LNumberRoll } from './NumberRoll';
