@@ -15,6 +15,7 @@ nav:
 - 适用于多种场景，文件/图片/头像/封面图等等
 - 可自定义上传行为
 - 内置上传之前校验
+- 支持裁剪功能
 
 ## 代码演示
 
@@ -29,6 +30,10 @@ nav:
 ### 自定义图片预览
 
 <code src='./demos/Demo3.tsx'>
+
+### 图片裁剪
+
+<code src='./demos/Demo4.tsx'>
 
 ## API
 
@@ -47,6 +52,8 @@ import { LFormItemUpload } from 'lighting-design';
 | maxCount | 限制上传文件数量。<br/>当为 `1` 时，始终用最新上传的代替当前。 | `number` | `-` |
 | fileTypeMessage | 文件类型错误时提示，包含 `x` 会自动替换为 `accept`。 | `string \| false` | `只支持上传 ${accept} 文件` |
 | fileSizeMessage | 文件超过最大尺寸时提示包含 `x` 会自动替换为 `${maxSize / 1024 / 1024}M`。 | `string \| false` | `文件必须小于${maxSize / 1024 / 1024}M` |
+| isCrop | 图片是否需要裁剪 在`uploadType为'avatar'或'image'时生效` | `boolean` | `false` |
+| cropProps | 图片裁剪额外属性 | [CropProps](https://github.com/nanxiaobei/antd-img-crop#props) | `-` |
 | multiple | 是否支持多选文件，`ie10+` 支持。 | `boolean` | `false` |
 | buttonIcon | 按钮图标，不同内建类型有不一样的默认值。 | `ReactNode` | `-` |
 | buttonText | 按钮文本 在`uploadType为'default'或'dragger'时生效` | `ReactNode` | `'点击上传'\|'单击或拖动文件到此区域进行上传'` |

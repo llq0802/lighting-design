@@ -14,9 +14,12 @@ type UploadDefaultProps = UploadWrapperProps & {
   buttonProps?: ButtonProps;
   buttonIcon?: ReactNode;
   buttonText?: string;
+  isCrop?: boolean;
 };
 
 const UploadDefault: FC<UploadDefaultProps> = ({
+  isCrop,
+
   showUploadList,
   buttonIcon = <UploadOutlined />,
   buttonText = '点击上传',

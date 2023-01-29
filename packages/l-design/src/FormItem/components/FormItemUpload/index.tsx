@@ -37,10 +37,18 @@ export type LFormItemUploadProps = LFormItemProps &
     buttonProps?: ButtonProps;
     buttonIcon?: ReactNode;
     buttonText?: string;
+    /** 是否需要裁剪 */
+    isCrop?: boolean;
+    cropProps?: Record<string, any>;
   };
 
 const LFormItemUpload: FC<LFormItemUploadProps> = ({
   uploadType = 'default',
+  isCrop = false,
+  cropProps = {
+    modalOk: '确定',
+    modalCancel: '取消',
+  },
   onUpload,
   fileTypeMessage,
   fileSizeMessage,
@@ -98,6 +106,8 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
       {...restProps}
     >
       <UploadComp
+        isCrop={isCrop}
+        cropProps={cropProps}
         buttonIcon={buttonIcon}
         buttonText={buttonText}
         buttonProps={buttonProps}

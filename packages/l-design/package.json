@@ -41,6 +41,7 @@
   "dependencies": {
     "ahooks": "^3.7.2",
     "classnames": "^2.2.6",
+    "antd-img-crop": "^4.6.0",
     "react-draggable": "^4.4.5",
     "react-color": "^2.19.3"
   },
