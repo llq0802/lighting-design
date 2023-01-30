@@ -41,8 +41,9 @@ export { default as LFormItemCascader } from './FormItem/components/FormItemCasc
 /** 多选框 */
 export * from './FormItem/components/FormItemCheckbox';
 export { default as LFormItemCheckbox } from './FormItem/components/FormItemCheckbox';
+/** 颜色选择 */
+export * from './FormItem/components/FormItemColor';
 export { default as LFormItemColor } from './FormItem/components/FormItemColor';
-export type { LFormItemColorProps } from './FormItem/components/FormItemColor';
 /** 日期选择 */
 export * from './FormItem/components/FormItemDatePicker';
 export { default as LFormItemDatePicker } from './FormItem/components/FormItemDatePicker';
