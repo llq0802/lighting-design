@@ -23,11 +23,12 @@ const Demo1: FC = () => {
   return (
     <>
       <LTable
+        tableLayout="fixed"
         rootClassName="my-table-root"
         tableClassName="my-table"
         rowKey="key"
         isSort
-        loading={{ size: 'large' }}
+        loading={{ size: 'large', tip: '加载中...' }}
         tableRef={tableRef}
         queryFormProps={{
           showColsNumber: 3,

@@ -4,6 +4,7 @@ import { Form } from 'antd';
 import classnames from 'classnames';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
 import { Children, createContext, useMemo, useRef, useState } from 'react';
+import { uniqueId } from '../../utils';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
@@ -58,6 +59,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     onReset,
     transformValues,
 
+    name,
     layout = 'horizontal',
     disabled,
     labelCol,
@@ -137,6 +139,8 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     ? contentRender(formItems, submitterDom, formRef?.current)
     : formItems;
 
+  const formId = useMemo(() => name || uniqueId('lightd-form'), [name]);
+
   const formDom = (
     <LFormContext.Provider
       value={{
@@ -146,6 +150,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
       }}
     >
       <Form
+        name={formId}
         layout={layout}
         form={formRef.current}
         labelCol={labelColProps}

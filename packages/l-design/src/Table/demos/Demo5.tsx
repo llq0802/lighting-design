@@ -19,6 +19,7 @@ const Demo5: FC = () => {
 
   return (
     <LTable
+      sticky
       rowKey="key"
       tableRef={tableRef}
       queryFormProps={{
