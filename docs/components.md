@@ -53,7 +53,7 @@ nav:
 - [LFormItemDatePicker] - 日期选择
 - [LFormItemTimePicker] - 时间选择
 - [LFormItemUpload] - 上传文件
-- [FormItemSwitch] - 开关按钮
+- [LFormItemSwitch] - 开关按钮
 - [LFormItemSlider] - 滑动条
 - [LFormItemColor] - 高级颜色选择
 - [LFormItemRate] - 评分器
@@ -91,7 +91,7 @@ nav:
 [lformitemdatepicker]: /components/form-item/form-item-date-picker
 [lformitemtimepicker]: /components/form-item/form-item-time-picker
 [lformitemupload]: /components/form-item/form-item-upload
-[formitemswitch]: /components/form-item/form-item-switch
+[lformitemswitch]: /components/form-item/form-item-switch
 [lformitemslider]: /components/form-item/form-item-slider
 [lformitemcolor]: /components/form-item/form-item-color
 [lformitemrate]: /components/form-item/form-item-rate

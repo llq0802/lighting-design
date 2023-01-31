@@ -6,7 +6,7 @@ nav:
   path: /components
 ---
 
-# FormItemSwitch
+# LFormItemSwitch
 
 需要表示开关状态/两种状态之间的切换时
 

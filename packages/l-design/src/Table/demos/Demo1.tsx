@@ -24,6 +24,7 @@ const Demo1: FC = () => {
     <>
       <LTable
         tableLayout="fixed"
+        rowClassName="lightd-table-row"
         rootClassName="my-table-root"
         tableClassName="my-table"
         rowKey="key"
