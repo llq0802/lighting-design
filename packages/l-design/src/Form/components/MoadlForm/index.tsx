@@ -61,6 +61,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
 
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
+  const _lformRef = useRef<Record<string, any>>();
   const [initialValues, setInitialValues] = useState(outInitialValues ?? {});
   const [disabled, setDisabled] = useState(false);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
@@ -101,6 +102,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   return (
     <>
       <BaseForm<any>
+        _lformRef={_lformRef}
         initialValues={initialValues} // 解决form实例与moadl绑定失败的问题
         loading={modalProps?.confirmLoading ?? loading}
         form={formRef.current}
@@ -160,7 +162,10 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               }}
               afterClose={() => {
                 if (isResetFields) {
-                  formRef.current.resetFields(); // 弹窗关闭后重置表单
+                  // formRef.current.resetFields(); // 弹窗关闭后重置表单
+                  formRef.current.setFieldsValue({
+                    ..._lformRef.current,
+                  }); // 弹窗关闭后重置表单
                 }
                 modalProps?.afterClose?.();
               }}
@@ -181,7 +186,10 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               }}
               afterClose={() => {
                 if (isResetFields) {
-                  formRef.current.resetFields(); // 弹窗关闭后重置表单
+                  // formRef.current.resetFields(); // 弹窗关闭后重置表单
+                  formRef.current.setFieldsValue({
+                    ..._lformRef.current,
+                  }); // 弹窗关闭后重置表单
                 }
                 setPosition({ x: 0, y: 0 });
                 modalProps?.afterClose?.();
