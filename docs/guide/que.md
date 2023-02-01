@@ -10,7 +10,16 @@ nav:
 
 ## 为何调用 form.resetFields 为何子组件的异步请求会重新发送？
 
-`form.resetFields() 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。`[问题说明](https://4x.ant.design/components/form-cn/#%E4%B8%BA%E4%BB%80%E4%B9%88-resetFields-%E4%BC%9A%E9%87%8D%E6%96%B0-mount-%E7%BB%84%E4%BB%B6%EF%BC%9F)
+`form.resetFields() 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。请手动调用form.setFieldsValue()将其重置`[问题说明](https://4x.ant.design/components/form-cn/#%E4%B8%BA%E4%BB%80%E4%B9%88-resetFields-%E4%BC%9A%E9%87%8D%E6%96%B0-mount-%E7%BB%84%E4%BB%B6%EF%BC%9F)
+
+```ts
+// 比如
+form.setFieldsValue({
+  name: undefined,
+  age: undefined,
+  // ... 其他属性同理
+});
+```
 
 ## 为何在 LMoadlForm LDrawerForm Modal Drawer 中调用 form 控制台会报错？
 
