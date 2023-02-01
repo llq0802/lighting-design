@@ -200,6 +200,7 @@ const BaseTable: FC<LTableProps> = (props) => {
 
   const [currentSize, setCurrentSize] = useState(outSize);
   const rootRef = useRef<HTMLDivElement>(null);
+  const _lformRef = useRef<Record<string, any>>();
   const [isFullScreen, setFullScreen] = useState(false);
 
   const rootDefaultStyle = isFullScreen
@@ -295,8 +296,10 @@ const BaseTable: FC<LTableProps> = (props) => {
   // 重置数据，从第一页开始显示、查询数据
   const handleReset = useCallback(() => {
     if (hasFromItems) {
-      queryFormRef.current?.resetFields();
-      const formValues = queryFormRef.current?.getFieldsValue();
+      // queryFormRef.current?.resetFields();
+      // const formValues = queryFormRef.current?.getFieldsValue();
+      const formValues = _lformRef.current;
+      queryFormRef.current?.setFieldsValue({ ...formValues });
       return run(
         {
           current: 1,
@@ -511,6 +514,7 @@ const BaseTable: FC<LTableProps> = (props) => {
       // onReset={handleSearchFormReset}
       formItems={formItems}
       initialValues={formInitialValues}
+      _lformRef={_lformRef}
       {...queryFormProps}
     />
   );

@@ -8,9 +8,7 @@ nav:
 
 ## 贡献人
 
-<a href='https://github.com/llq0802'><img src="https://avatars.githubusercontent.com/u/88568209?v=4" width=80/> llq0802 </a>
-
-<a href='https://github.com/Nicik1334'><img src="https://avatars.githubusercontent.com/u/61864855?v=4/" width=80/> Nicik1334 </a>
+<a href='https://github.com/llq0802'></a><img src="https://avatars.githubusercontent.com/u/88568209?v=4" width=80/> llq0802 </a> <a href='https://github.com/Nicik1334'><img src="https://avatars.githubusercontent.com/u/61864855?v=4/" width=80/> Nicik1334 </a>
 
 ## 联系我
 

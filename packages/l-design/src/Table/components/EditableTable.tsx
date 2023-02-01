@@ -1,6 +1,6 @@
 import { Form, Input } from 'antd';
 import type { FC } from 'react';
-import { useCallback, useEffect, useImperativeHandle, useMemo } from 'react';
+import { useCallback, useImperativeHandle, useMemo } from 'react';
 import { getTableRowKey } from '../../utils';
 import BaseTable from './BaseTable';
 
@@ -63,8 +63,6 @@ const LEditTable = (props) => {
   } = editTableProps;
 
   const [form] = Form.useForm();
-
-  useEffect(() => {}, []);
 
   // 当前行是否正在编辑
   const isEditing = useCallback(
