@@ -47,7 +47,7 @@ import { LDrawerForm } from 'lighting-design';
 | title | `Drawer` 标题 | `ReactNode` | `-` |
 | placement | 抽屉的方向 | ` DrawerProps['placement']` | `'right'` |
 | actionBarDir | 抽屉默认操作栏位置 (只生效默认操作栏) | `'footer' \| 'extra'` | `'footer'` |
-| isResetFields | 是否在关闭弹窗时重置表单到初始值 `会重新挂载子组件,子组件的异步请求会重新执行)`<br/>如果子组件有 `request` 请求属性 , 请将 `isResetFields` 设置为`false`并在关闭弹窗时手动调用`form.setFieldsValue()`将其重置 | `boolean` | `true` |
+| isResetFields | 是否在关闭抽屉时重置表单到初始值 | `boolean` | `true` |
 | forceRender | 是否预渲染`LDrawerForm`的内容 | `boolean` | `false` |
 | width | `Drawer` 宽度 | `number \| string` | `600` |
 | trigger | 用于触发 `Drawer` 打开的 dom，一般是 Button 组件 | `ReactElement` | `-` |

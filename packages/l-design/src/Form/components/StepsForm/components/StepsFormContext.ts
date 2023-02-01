@@ -9,6 +9,7 @@ export type StepsFormContextProps = {
   total: number;
   /** 所有form实例数组 */
   formInstanceListRef: MutableRefObject<FormInstance<any>[]>;
+  formInitialValues: MutableRefObject<any[]>;
   /** 获取单个form的数据 */
   onFormFinish: (name: string, values: Record<string, any>) => void;
   /** 下一步 */

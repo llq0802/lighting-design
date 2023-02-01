@@ -98,6 +98,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     // 组件第一次加载的时候并且form渲染完成收集初始值.
     // 如果组件被包裹在弹窗或者抽屉组件中 没有预渲染的话则会提示form绑定失败 获取不到初始值
     const initValues = initialValues || formRef.current?.getFieldsValue(); // 解决form实例与moadl绑定失败的问题
+    // console.log('initValues', initValues);
     setInitFormValues({ ...initValues });
   }, [initialValues]);
 
@@ -105,7 +106,9 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     setLoading(outLoading);
   }, [outLoading]);
 
-  useImperativeHandle(_lformRef, () => initFormValues, [initFormValues]);
+  useImperativeHandle(_lformRef, () => {
+    return initFormValues;
+  });
 
   const labelColProps = useMemo(() => {
     const labelFlex =

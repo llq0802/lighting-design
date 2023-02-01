@@ -53,6 +53,8 @@ const { StepForm } = LStepsForm;
 
 ### LStepsForm
 
+<!-- | isResetFields | `onFinish`返回`true`或`Promise.resolve(true)`时是否可以重置所有表单到初始值和步骤初始值 `会重新挂载子组件,子组件的异步请求会重新执行`<br/>如果子组件配置了`request`请求属性 , 请将 `isResetFields` 设置为`false`并在步骤完成时手动调用每个表单的`form.setFieldsValue()`将其重置 | `boolean` | `true` | -->
+
 > isMergeValues 为 false 收集到的值将不合并 此时如果 LStepsForm.StepForm 设置了 name 属性则以 name 作为键
 >
 > 如果 LStepsForm.StepForm 没有设置 name 属性则以每个 LStepsForm.StepForm 的索引作为键
@@ -63,7 +65,7 @@ const { StepForm } = LStepsForm;
 | contentClassName | 表单外层容器的类名 | `string` | `-` |
 | defaultCurrent | 默认步骤 | `number` | `0` |
 | current | 设置后变为受控模式。当前表单的步骤数。 | `number` | `-` |
-| isResetFields | `onFinish`返回`true`或`Promise.resolve(true)`时是否可以重置所有表单到初始值和步骤初始值 `会重新挂载子组件,子组件的异步请求会重新执行`<br/>如果子组件配置了`request`请求属性 , 请将 `isResetFields` 设置为`false`并在步骤完成时手动调用每个表单的`form.setFieldsValue()`将其重置 | `boolean` | `true` |
+| isResetFields | `onFinish`返回`true`或`Promise.resolve(true)`时是否可以重置所有表单到初始值和步骤初始值 | `boolean` | `true` |
 | isMergeValues | 是否将每个表单的值合并后再传入到 `onFinish`的参数中 | `boolean` | `true` |
 | submitStepNum | 在哪一步为最后的提交操作 , 用于触发 `onFinish` 默认为表单最后一步 | `number` | `children.length` |
 | isReady | 为 `false` 时，禁止上一步、下一步、提交操作。 | `boolean` | `true` |

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { StepProps } from 'antd';
 import { Form } from 'antd';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import type { BaseFormProps } from '../../../base/BaseForm';
 import BaseForm from '../../../base/BaseForm';
 import StepsFormContext from './StepsFormContext';
@@ -38,17 +38,24 @@ function StepForm<Values = any>({
 }: LStepFormProps<Values>) {
   const ctx = useContext(StepsFormContext);
   const [form] = Form.useForm();
+  const _lformRef = useRef<Record<string, any>>();
 
   useEffect(() => {
     // 存储每个表单实例
     ctx.formInstanceListRef.current[stepNum as number] = outForm || form;
     // 解决在modal 可能未加载时拿不到 form
-    ctx?.forgetUpdate();
+    setTimeout(() => {
+      ctx?.forgetUpdate();
+      // 存储每个表单的初始值
+      ctx.formInitialValues.current[stepNum as number] = _lformRef.current;
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <BaseForm
+      _lformRef={_lformRef}
       name={name}
       form={outForm || form}
       onFinish={async (values) => {

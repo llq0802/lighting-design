@@ -88,14 +88,15 @@ const StepsForm: FC<LStepsFormProps> & {
   const stepsConfigRef = useRef<StepProps[]>([]); // 步骤条配置
   const formSubmitterRef = useRef<any[]>([]); // 操作配置
   const formInstanceListRef = useRef<FormInstance[]>([]); // 每个步骤的form实例
-  const formDataRef = useRef({}); // 全部表单数据
+  const formInitialValues = useRef<Record<string, any>[]>([]); // 全部表单初始数据
+  const formDataRef = useRef({}); // 全部表单最终数据
   const [loading, setLoading] = useSafeState(false);
 
   // 手动触发更新
   const update = useUpdate();
   const forgetUpdate = () => {
     // 延迟到最后更新
-    setTimeout(() => update());
+    update();
   };
 
   // 当前步骤
@@ -170,8 +171,12 @@ const StepsForm: FC<LStepsFormProps> & {
   const reset = () => {
     setStepNum(defaultCurrent);
     formDataRef.current = {};
-    formInstanceListRef.current.forEach((item) => {
-      item?.resetFields();
+    console.log(' formInitialValues.current', formInitialValues.current);
+    formInstanceListRef.current.forEach((item, i) => {
+      // item?.resetFields();
+      item?.setFieldsValue({
+        ...formInitialValues.current[i],
+      });
     });
   };
 
@@ -354,7 +359,7 @@ const StepsForm: FC<LStepsFormProps> & {
   });
 
   // useEffect(() => {
-  //   console.log('forgetUpdate ');
+  //   // console.log('forgetUpdate ');
   //   // 强制更新一次 绑定每个步骤的form实例 这种方法如果在Modal可能取不到form实例
   //   forgetUpdate();
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -380,6 +385,7 @@ const StepsForm: FC<LStepsFormProps> & {
         current: stepNum,
         total: submitStepNum,
         formInstanceListRef,
+        formInitialValues,
         onFormFinish,
         next,
         submit,
