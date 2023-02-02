@@ -23,6 +23,7 @@ const LForm: FC<LFormProps> & {
     typeof submitter === 'undefined' || submitter
       ? {
           render: (dom: ReactNode) => {
+            //  默认配置的dom
             const newDom = Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom;
 
             return (
@@ -53,7 +54,7 @@ const LForm: FC<LFormProps> & {
                         : 'initial',
                   }}
                 >
-                  {render ? render(newDom as ReactElement[], submitterProps) : newDom}
+                  {render ? <>{render(newDom as ReactElement[], submitterProps)}</> : newDom}
                 </div>
               </Form.Item>
             );

@@ -9,11 +9,12 @@ const Demo5 = () => {
       <LForm
         labelWidth={90}
         submitter={{
-          buttonAlign: 90,
+          buttonAlign: 'center',
           showReset: false,
           render(dom) {
             return (
               <Space>
+                <Button>自定义按钮</Button>
                 <Button>返回</Button>
                 {dom}
               </Space>
