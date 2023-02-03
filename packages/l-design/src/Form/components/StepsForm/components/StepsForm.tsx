@@ -171,7 +171,6 @@ const StepsForm: FC<LStepsFormProps> & {
   const reset = () => {
     setStepNum(defaultCurrent);
     formDataRef.current = {};
-    console.log(' formInitialValues.current', formInitialValues.current);
     formInstanceListRef.current.forEach((item, i) => {
       // item?.resetFields();
       item?.setFieldsValue({
@@ -250,7 +249,7 @@ const StepsForm: FC<LStepsFormProps> & {
     },
     reset: () => {
       if (!isReady) return;
-      if (!isResetFields) return;
+      // if (!isResetFields) return;
       reset();
     },
   }));

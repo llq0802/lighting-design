@@ -132,7 +132,7 @@ interface LStepsFormActionRef {
   // isFinallySubmit为false触发当前表单校验onFinish方法，isFinallySubmit为true提交所有表单值触发LStepsForm的onFinish方法
   // 默认isFinallySubmit为true
   submit: (isFinallySubmit?: boolean) => void;
-  // 重置所有表单和值，将步骤恢复初始步骤  isResetFields为true时生效
+  // 重置所有表单和值，将步骤恢复初始步骤
   reset: () => void;
 }
 ```

@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { LFormItemInput, LStepsForm } from 'lighting-design';
+import { LFormItemInput, LStepsForm, LStepsFormActionRef } from 'lighting-design';
 import { useEffect, useRef } from 'react';
 import { awaitTime } from '../../../../_utils';
 
@@ -11,7 +11,8 @@ const formValue = {
 };
 
 const Demo4 = () => {
-  const actionRef = useRef<any>();
+  const actionRef = useRef<LStepsFormActionRef>();
+
   useEffect(() => {
     actionRef.current.formInstanceList.forEach((item, index) => {
       item.setFieldsValue(formValue);
