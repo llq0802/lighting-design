@@ -22,7 +22,6 @@ const Demo4 = () => {
         name="avatar"
         label="头像上传"
         uploadProps={{
-          className: 'my-avatar2',
           name: 'fileName',
         }}
       />

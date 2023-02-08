@@ -33,7 +33,7 @@ const Demo2 = () => {
         name="avatar"
         label="头像上传"
         uploadProps={{
-          className: 'my-avatar2',
+          className: 'my-avatar',
           name: 'fileName',
         }}
       />
