@@ -5,6 +5,10 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const configs = defineConfig({
   // ssr: {},
+  nodeModulesTransform: {
+    type: 'none',
+    exclude: [],
+  },
   extraBabelPlugins: [
     [
       'babel-plugin-import',
@@ -26,6 +30,7 @@ const configs = defineConfig({
     },
   ],
   dynamicImport: {},
+  hash: true,
   publicPath: isDev ? '/' : '/lighting-design/',
   base: isDev ? '/' : '/lighting-design/',
   title: 'Lighting-Design',
@@ -45,30 +50,32 @@ const configs = defineConfig({
   // more config: https://d.umijs.org/config
 });
 
-if (!isDev) {
-  configs.chunks = ['vendors', 'umi'];
-  configs.chainWebpack = function (config, { webpack }) {
-    config.merge({
-      optimization: {
-        splitChunks: {
-          chunks: 'all',
-          minSize: 30000,
-          minChunks: 3,
-          automaticNameDelimiter: '.',
-          cacheGroups: {
-            vendor: {
-              name: 'vendors',
-              test({ resource }) {
-                return /[\\/]node_modules[\\/]/.test(resource);
-              },
-              priority: 10,
+configs.chunks = ['vendors', 'umi'];
+configs.chainWebpack = function (config: any, { env, webpack, createCSSRule }: any) {
+  // console.log('config ', config);
+  // console.log('env ', env);
+  // console.log('webpack ', webpack);
+  // console.log('createCSSRule ', createCSSRule);
+  config.merge({
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        minSize: 30000,
+        minChunks: 3,
+        automaticNameDelimiter: '.',
+        cacheGroups: {
+          vendor: {
+            name: 'vendors',
+            test({ resource }: any) {
+              return /[\\/]node_modules[\\/]/.test(resource);
             },
+            priority: 10,
           },
         },
       },
-    });
-  };
-}
+    },
+  });
+};
 // if (!isDev) {
 //   configs.chunks = ['vendors', 'umi'];
 //   configs.chainWebpack = function (config: any, { webpack }) {

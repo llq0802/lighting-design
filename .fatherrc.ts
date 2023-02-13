@@ -51,13 +51,15 @@ const config =
         esm: {
           input: 'packages/l-design/src',
           output: 'packages/l-design/es',
-          transformer: 'babel',
+          platform: 'browser', // 默认构建为 Browser 环境的产物
+          transformer: 'babel', // 默认使用 babel 以提供更好的兼容性
           ignores: [],
         },
         cjs: {
           input: 'packages/l-design/src',
           output: 'packages/l-design/lib',
-          transformer: 'babel',
+          platform: 'node', // 默认构建为 Node.js 环境的产物
+          transformer: 'esbuild', // 默认使用 esbuild 以获得更快的构建速度
           ignores: [],
         },
       });
