@@ -61,8 +61,6 @@ yarn workspace awesome-package add antd --dev
 yarn add packageName -W -D
 ``` -->
 
----
-
 ## 🖥 浏览器兼容性
 
 - 现代浏览器和 Internet Explorer 11 (with [polyfills](https://stackoverflow.com/questions/57020976/polyfills-in-2019-for-ie11))
