@@ -4,7 +4,8 @@ import { useRef, useState } from 'react';
 import { awaitTime } from '../../../../_utils';
 
 const Demo2 = () => {
-  const actionRef = useRef();
+  const actionRef = useRef<LStepsFormActionRef>();
+
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
 

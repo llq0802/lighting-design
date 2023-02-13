@@ -57,8 +57,8 @@ import { LFormItem } from 'lighting-design';
 | contentBefore | 组件前面的内容 | `ReactNode` | `-` |
 | contentAfter | 组件后面的内容 | `ReactNode` | `-` |
 | contentProps | 传给 `children` 的额外属性 | `Record<string,any>` | `-` |
-| contentInline | `children` 外层的 div 是否为 `inline`行盒 . 为`false`占满 div , 为`true`不占满整个 div | `boolean` | `false` |
-| alignItems | 当配置了 `contentBefore` 或者 `contentAfter` 时组件垂直的对齐方式 | `'center' \| 'start' \| 'end'` | `'center'` |
+| contentInline | 当配置了 `contentBefore` 或 `contentAfter` 时 `children` 外层的 div 是否为 `inline`行盒 没有配置`contentBefore` 或 `contentAfter`或者为`false`占满 div , 为`true`不占满整个 div | `boolean` | `false` |
+| alignItems | 当配置了 `contentBefore` 或 `contentAfter` 时组件垂直的对齐方式 | `'center' \| 'start' \| 'end'` | `'center'` |
 | disabled | 是否禁用组件<br>如果自定义组件 则需要开发者自己控制内部`children`的禁用 | `boolean` | `false` |
-| placeholder | 组件的 placeholder<br>如果自定义组件 则需要开发者自己控制内部`children`的 placeholder | `string\|string[]` |
+| placeholder | 组件的 placeholder<br>如果自定义组件 则需要开发者自己控制内部`children`的 placeholder | `string\|string[]` | `-` |
 | renderField | 重新渲染 `FormItem` 的子组件 | `(dom: ReactElement, props: LFormItemProps) => ReactElement` | `-` |

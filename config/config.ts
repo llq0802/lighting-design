@@ -5,6 +5,10 @@ const isDev = process.env.NODE_ENV === 'development';
 
 const configs = defineConfig({
   // ssr: {},
+  nodeModulesTransform: {
+    type: 'none',
+    exclude: [],
+  },
   extraBabelPlugins: [
     [
       'babel-plugin-import',
@@ -15,7 +19,18 @@ const configs = defineConfig({
       },
     ],
   ],
+  metas: [
+    {
+      name: 'keywords',
+      content: 'Lighting-Design, lighting-design',
+    },
+    {
+      name: 'description',
+      content: '🍙 让中后台开发更简单',
+    },
+  ],
   dynamicImport: {},
+  hash: true,
   publicPath: isDev ? '/' : '/lighting-design/',
   base: isDev ? '/' : '/lighting-design/',
   title: 'Lighting-Design',
@@ -35,26 +50,52 @@ const configs = defineConfig({
   // more config: https://d.umijs.org/config
 });
 
-if (!isDev) {
-  configs.chunks = ['vendors', 'umi'];
-  configs.chainWebpack = function (config: any, { webpack }) {
-    config.merge({
-      optimization: {
-        minimize: true,
-        splitChunks: {
-          cacheGroups: {
-            vendor: {
-              test: /node_modules/,
-              chunks: 'all',
-              name: 'vendors',
-              priority: -10,
-              enforce: true,
+configs.chunks = ['vendors', 'umi'];
+configs.chainWebpack = function (config: any, { env, webpack, createCSSRule }: any) {
+  // console.log('config ', config);
+  // console.log('env ', env);
+  // console.log('webpack ', webpack);
+  // console.log('createCSSRule ', createCSSRule);
+  config.merge({
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        minSize: 30000,
+        minChunks: 3,
+        automaticNameDelimiter: '.',
+        cacheGroups: {
+          vendor: {
+            name: 'vendors',
+            test({ resource }: any) {
+              return /[\\/]node_modules[\\/]/.test(resource);
             },
+            priority: 10,
           },
         },
       },
-    });
-  };
-}
+    },
+  });
+};
+// if (!isDev) {
+//   configs.chunks = ['vendors', 'umi'];
+//   configs.chainWebpack = function (config: any, { webpack }) {
+//     config.merge({
+//       optimization: {
+//         minimize: true,
+//         splitChunks: {
+//           cacheGroups: {
+//             vendor: {
+//               test: /node_modules/,
+//               chunks: 'all',
+//               name: 'vendors',
+//               priority: -10,
+//               enforce: true,
+//             },
+//           },
+//         },
+//       },
+//     });
+//   };
+// }
 
 export default configs;

@@ -11,9 +11,11 @@ const defaultShowUploadList = {
 type UploadDraggerrProps = Omit<UploadWrapperProps, 'dragger'> & {
   buttonIcon?: ReactNode;
   buttonText?: string;
+  isCrop?: boolean;
 };
 
 const UploadDragger: FC<UploadDraggerrProps> = ({
+  isCrop,
   showUploadList,
   buttonIcon = <InboxOutlined />,
   buttonText = '单击或拖动文件到此区域进行上传',

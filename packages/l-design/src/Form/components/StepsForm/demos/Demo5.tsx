@@ -15,7 +15,8 @@ const formValue = {
 };
 
 const Demo2 = () => {
-  const actionRef = useRef();
+  const actionRef = useRef<LStepsFormActionRef>();
+
   const [open, setOpen] = useState(false);
   useEffect(() => {
     if (open) {

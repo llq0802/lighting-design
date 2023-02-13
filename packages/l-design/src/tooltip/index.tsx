@@ -2,7 +2,7 @@
 import type { CSSProperties, FC } from 'react';
 import './index.less';
 
-export interface LightdTooltipProps {
+export interface LTooltipProps {
   /**
    * 气泡位置
    */
@@ -60,7 +60,10 @@ export interface LightdTooltipProps {
    */
   children: React.ReactNode;
 }
-const Index: FC<Partial<LightdTooltipProps>> = ({
+
+const prefixCls = 'lightd-tooltip';
+
+const LTooltip: FC<Partial<LTooltipProps>> = ({
   className,
   style,
   tipClassName,
@@ -73,8 +76,6 @@ const Index: FC<Partial<LightdTooltipProps>> = ({
   zIndex = 9999,
   children,
 }) => {
-  const prefixCls = 'lightd-tooltip';
-
   return (
     <div className={`${prefixCls} ${className || ''}`} style={style}>
       <div className={`${prefixCls}-controller ${placement}`}>
@@ -98,4 +99,4 @@ const Index: FC<Partial<LightdTooltipProps>> = ({
   );
 };
 
-export default Index;
+export default LTooltip;

@@ -1,10 +1,25 @@
 import type { FC } from 'react';
-import { NumberRoll_DaterArray } from '..';
+
+export const NumberRoll_DaterArray = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  ':',
+  ' ',
+  '-',
+];
 
 interface PropsType {
   num: string;
 }
-export const prefixCls = 'lightd-numberRoll';
+const prefixCls = 'lightd-numberRoll';
 const Index: FC<PropsType> = ({ num }) => {
   const isDel = (item: string) => item === '-' || item === ' ' || item === ':';
 

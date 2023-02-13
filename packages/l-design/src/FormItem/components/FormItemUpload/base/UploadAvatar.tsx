@@ -1,5 +1,6 @@
 import { PictureOutlined } from '@ant-design/icons';
 import type { UploadFile } from 'antd';
+import ImgCrop from 'antd-img-crop';
 import classNames from 'classnames';
 import type { FC, ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
@@ -99,27 +100,40 @@ const AvatarContent: FC<{
 type UploadAvatarProps = UploadWrapperProps & {
   buttonIcon?: ReactNode;
   buttonText?: string;
+  isCrop?: boolean;
+  cropProps?: Record<string, any>;
 };
 const UploadAvatar: FC<UploadAvatarProps> = ({
+  isCrop,
+  cropProps,
   fileList,
   className,
   buttonIcon,
   buttonText,
+
   ...restProps
 }) => {
-  return (
+  const dom = (
     <UploadWrapper
+      showUploadList={false}
       {...restProps}
       listType="picture-card"
       accept={restProps?.accept || '.jpg, .jpeg, .png'}
       fileList={fileList}
-      showUploadList={false}
       multiple={false}
       maxCount={1}
       className={classNames(prefixCls, className)}
     >
       <AvatarContent fileList={fileList} buttonText={buttonText} buttonIcon={buttonIcon} />
     </UploadWrapper>
+  );
+
+  return isCrop ? (
+    <ImgCrop rotate {...cropProps}>
+      {dom}
+    </ImgCrop>
+  ) : (
+    dom
   );
 };
 

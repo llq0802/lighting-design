@@ -81,6 +81,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
 
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
+  const _lformRef = useRef<Record<string, any>>();
   const [initialValues, setInitialValues] = useState(outInitialValues ?? {});
 
   const handleFinish = async (values: Record<string, any>) => {
@@ -99,6 +100,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
   return (
     <>
       <BaseForm<any>
+        _lformRef={_lformRef}
         initialValues={initialValues}
         loading={loading}
         form={formRef.current}
@@ -160,7 +162,10 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
               // 完全关闭后回调
               if (!flag) {
                 if (isResetFields) {
-                  formRef.current.resetFields(); // 弹窗关闭后重置表单
+                  // formRef.current.resetFields(); // 弹窗关闭后重置表单
+                  formRef.current.setFieldsValue({
+                    ..._lformRef.current,
+                  });
                 }
                 drawerProps?.afterOpenChange?.(flag);
               }

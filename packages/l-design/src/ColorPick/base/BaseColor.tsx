@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import type { FC, HTMLAttributes, ReactNode } from 'react';
+import type { CSSProperties, FC, HTMLAttributes, ReactNode } from 'react';
 import { useMemo } from 'react';
 import './styles.less';
 
@@ -7,6 +7,7 @@ export const prefixCls = 'lightd-color';
 
 export interface ColorProps extends HTMLAttributes<HTMLSpanElement> {
   className?: string;
+  style?: CSSProperties;
   value?: string;
   disabled?: boolean;
   showText?: boolean;
@@ -16,6 +17,7 @@ export interface ColorProps extends HTMLAttributes<HTMLSpanElement> {
 
 const Color: FC<ColorProps> = ({
   className,
+  style,
   value,
   size = 'middle',
   disabled = false,
@@ -42,11 +44,10 @@ const Color: FC<ColorProps> = ({
       className={classNames(
         prefixCls,
         `${prefixCls}-${size}`,
-        {
-          [`${prefixCls}-disabled`]: disabled,
-        },
+        { [`${prefixCls}-disabled`]: disabled },
         className,
       )}
+      style={style}
     >
       {colorView}
       {textView}

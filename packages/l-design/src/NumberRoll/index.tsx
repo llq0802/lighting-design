@@ -3,11 +3,11 @@ import type { DOMAttributes, FC, ReactElement, ReactNode } from 'react';
 import React, { useCallback, useEffect, useRef } from 'react';
 import type { Container } from 'react-dom';
 import { render } from 'react-dom';
-import DataChildren from './components/dataChildren';
-import ItemChildren from './components/itemChildren';
+import DataChildren, { NumberRoll_DaterArray } from './components/dataChildren';
+import ItemChildren, { NumberRoll_NumberArray } from './components/itemChildren';
 import './index.less';
 
-interface NumberRollPropsType {
+export interface LNumberRollProps {
   /**
    * 默认值
    */
@@ -49,25 +49,9 @@ interface NumberRollPropsType {
    */
   onFinish: (value: number | string) => void;
 }
-export const prefixCls = 'lightd-numberRoll';
+const prefixCls = 'lightd-numberRoll';
 
-export const NumberRoll_NumberArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
-export const NumberRoll_DaterArray = [
-  '0',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  ':',
-  ' ',
-  '-',
-];
-const Index: FC<Partial<NumberRollPropsType>> = ({
+const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
   className = '',
   style,
   type = 'number',
@@ -235,4 +219,4 @@ const Index: FC<Partial<NumberRollPropsType>> = ({
 
   return <div className={`${prefixCls} ${className}`} style={style} ref={domRef} />;
 };
-export default Index;
+export default LNumberRoll;

@@ -1,9 +1,8 @@
 import { useCountDown, useLocalStorageState, useUpdateEffect } from 'ahooks';
+import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction, MouseEvent, Ref, RefObject } from 'react';
 import { forwardRef, useCallback, useEffect } from 'react';
-
-import type { ButtonProps } from 'antd';
 
 export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   second?: number;
@@ -85,4 +84,3 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
 };
 
 export default forwardRef(LCaptchaButton);
-export type { LCaptchaButtonProps } from './type.d';

@@ -6,7 +6,7 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type TreeSelectWrapperProps = Record<string, any> & {
   treeData?: TreeSelectProps['treeData'];
-  request?: (...dependValues: any[]) => Promise<any>;
+  request?: (...dependValues: any[]) => Promise<LTreeSelectOption[]>;
   treeCheckable?: boolean;
   debounceTime?: number;
   treeSelectProps?: TreeSelectProps;
@@ -15,11 +15,11 @@ export type TreeSelectWrapperProps = Record<string, any> & {
   outLoading?: SpinProps;
 };
 
-export type TreeSelectOption = {
+export type LTreeSelectOption = {
   value: string;
   title: string;
   placeholder: string;
-  children: TreeSelectOption[];
+  children: LTreeSelectOption[];
   disabled: boolean;
   disableCheckbox: boolean;
   selectable: boolean;
@@ -44,7 +44,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
 
   ...restProps // LFormItem传过来的其他值
 }) => {
-  const [inTreeData, setInTreeData] = useState<TreeSelectOption[]>([]);
+  const [inTreeData, setInTreeData] = useState<LTreeSelectOption[]>([]);
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
   const isFirstRender = useRef<boolean>(true); // 组件是否第一次挂载
   const hasLoading = useMemo(

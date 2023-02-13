@@ -3,7 +3,8 @@ import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
-import { Children, createContext, useMemo, useRef, useState } from 'react';
+import { Children, createContext, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { uniqueId } from '../../utils';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
@@ -34,6 +35,9 @@ export interface BaseFormProps<T = any> extends Omit<FormProps, 'onReset' | 'tit
   transformValues?: (values: Record<string, any>) => Record<string, any>;
 
   children?: ReactNode;
+
+  /** 内部使用 */
+  _lformRef?: any;
 }
 
 export const LFormContext = createContext<{
@@ -48,6 +52,8 @@ export const LFormContext = createContext<{
 
 function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
   const {
+    _lformRef,
+
     labelWidth = 'auto',
     contentRender,
     formRender,
@@ -58,6 +64,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     onReset,
     transformValues,
 
+    name,
     layout = 'horizontal',
     disabled,
     labelCol,
@@ -80,21 +87,28 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     // 准备完成后，重新设置初始值
     if (isReady) {
       formRef.current?.setFieldsValue({ ...initialValues });
+      // setInitFormValues({ ...initialValues });
       // resetFields 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
       // formRef.current?.resetFields?.();
     }
   }, [isReady]);
 
+  // 深度比较 优化性能
   useDeepCompareEffect(() => {
     // 组件第一次加载的时候并且form渲染完成收集初始值.
     // 如果组件被包裹在弹窗或者抽屉组件中 没有预渲染的话则会提示form绑定失败 获取不到初始值
     const initValues = initialValues || formRef.current?.getFieldsValue(); // 解决form实例与moadl绑定失败的问题
+    // console.log('initValues', initValues);
     setInitFormValues({ ...initValues });
   }, [initialValues]);
 
   useUpdateEffect(() => {
     setLoading(outLoading);
   }, [outLoading]);
+
+  useImperativeHandle(_lformRef, () => {
+    return initFormValues;
+  });
 
   const labelColProps = useMemo(() => {
     const labelFlex =
@@ -137,6 +151,8 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
     ? contentRender(formItems, submitterDom, formRef?.current)
     : formItems;
 
+  const formId = useMemo(() => name || uniqueId('lightd-form'), [name]);
+
   const formDom = (
     <LFormContext.Provider
       value={{
@@ -146,6 +162,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
       }}
     >
       <Form
+        name={formId}
         layout={layout}
         form={formRef.current}
         labelCol={labelColProps}

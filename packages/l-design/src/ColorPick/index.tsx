@@ -12,8 +12,6 @@ import type { ColorPhotoshopPickerProps } from './components/PhotoshopPicker';
 import ColorPhotoshopPicker from './components/PhotoshopPicker';
 import type { ColorSketchPickerProps } from './components/SketchPicker';
 import ColorSketchPicker from './components/SketchPicker';
-import type { ColorSliderPickerProps } from './components/SliderPicker';
-import ColorSliderPicker from './components/SliderPicker';
 
 export type {
   ColorProps as LColorProps,
@@ -21,7 +19,6 @@ export type {
   ColorChromePickerProps as LColorChromePickerProps,
   ColorCompactPickerProps as LColorCompactPickerProps,
   ColorPhotoshopPickerProps as LColorPhotoshopPickerProps,
-  ColorSliderPickerProps as LColorSliderPickerProps,
   ColorSketchPickerProps as LColorSketchPickerProps,
   ColorCirclePickerProps as LColorCirclePickerProps,
 };
@@ -32,8 +29,5 @@ export {
   ColorCompactPicker as LColorCompactPicker,
   ColorPhotoshopPicker as LColorPhotoshopPicker,
   ColorSketchPicker as LColorSketchPicker,
-  ColorSliderPicker as LColorSliderPicker,
   ColorCirclePicker as LColorCirclePicker,
 };
-
-export default LColor;

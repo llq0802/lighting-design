@@ -54,3 +54,4 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
 };
 
 export default LFormItemCascader;
+export type { LCascaderOption } from './base/CascaderWrapper';

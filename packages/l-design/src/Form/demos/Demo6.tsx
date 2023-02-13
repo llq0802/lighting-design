@@ -67,7 +67,7 @@ const Demo1 = () => {
     <LForm
       disabled
       labelWidth={90}
-      submitter={{ buttonAlign: 90 }}
+      submitter={false}
       name="lform-demo"
       form={form}
       onFinish={async (values) => {
@@ -83,7 +83,13 @@ const Demo1 = () => {
       />
       <LFormItemPassword name="LFormItemPassword" required label="密码框" />
       <LFormItemTextArea name="LFormItemTextArea" required label="备注" />
-      <LFormItemCaptcha name="LFormItemCaptcha" required label="验证码" type="inline" />
+      <LFormItemCaptcha
+        name="LFormItemCaptcha"
+        required
+        label="验证码"
+        type="inline"
+        cacheKey="LFormItemCaptcha001"
+      />
       <LFormItemAutoComplete
         name="LFormItemAutoComplete"
         required

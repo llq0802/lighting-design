@@ -9,8 +9,7 @@ import Loading5 from './component/spin-loading5';
 import Loading6 from './component/spin-loading6';
 import './index.less';
 
-
-export interface LightdSpinProps {
+export interface LSpinProps {
   /**
    * 图标类型
    */
@@ -45,7 +44,7 @@ export interface LightdSpinProps {
   children: React.ReactNode;
 }
 
-const Index: FC<Partial<LightdSpinProps>> = ({
+const LSpin: FC<Partial<LSpinProps>> = ({
   style,
   color = '#FF6700',
   size = 'default',
@@ -107,4 +106,4 @@ const Index: FC<Partial<LightdSpinProps>> = ({
   return spinElement;
 };
 
-export default Index;
+export default LSpin;

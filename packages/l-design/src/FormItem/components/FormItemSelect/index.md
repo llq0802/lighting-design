@@ -44,11 +44,21 @@ import { LFormItemSelect } from 'lighting-design';
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| options | 数据化配置选项内容 | `SelectProps['options']` | `[]` |
-| request | 异步请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
+| options | 数据化配置选项内容 同`antd Select 的 options` | `LSelectOptions[]` | `[]` |
+| request | 异步请求数据函数 | `(...depends: any[]) => Promise<LSelectOptions[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | all | 是否需要全部选项 | `boolean ` | `false` |
 | allLabel | 全部选项的名称 | `string ` | `全部` |
 | allValue | 全部选项的值 | `string` | `''` |
 | spin | 配置`request`时自定义`loading`效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | selectProps | `antd`选择器组件 Props | [SelectProps](https://4x.ant.design/components/select-cn/#API) | `-` |
+
+### LSelectOptions
+
+```ts
+export interface LSelectOptions {
+  label: ReactNode;
+  value: string | number;
+  disabled?: boolean;
+}
+```

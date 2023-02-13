@@ -1,9 +1,10 @@
 import type { FormInstance } from 'antd';
 import { Button, ConfigProvider } from 'antd';
 import type { LTableInstance } from 'lighting-design';
-import { LFormItemInput, LTable } from 'lighting-design';
+import { LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
+import { awaitTime } from '../../_utils';
 import AddEditModal from './components/AddEditModal';
 import { apiGetUserList, columns } from './service';
 
@@ -14,6 +15,19 @@ const Demo1: FC = () => {
   const [editableRecord, setEditablRecord] = useState<Record<string, any>>();
 
   const formItems = [
+    <LFormItemSelect
+      label="下拉框"
+      name="select1"
+      key="select1"
+      request={async () => {
+        const result = await awaitTime([
+          { label: 'Unresolved', value: 'open' },
+          { label: 'Resolved', value: 'closed' },
+          { label: 'Resolving', value: 'processing' },
+        ]);
+        if (result.success) return result.data;
+      }}
+    />,
     <LFormItemInput key="0" name="input4" label="输入框" />,
     <LFormItemInput key="1" name="input5" label="输入框" />,
     <LFormItemInput key="2" name="input6" label="输入框" />,
@@ -23,11 +37,13 @@ const Demo1: FC = () => {
   return (
     <>
       <LTable
+        tableLayout="fixed"
+        rowClassName="lightd-table-row"
         rootClassName="my-table-root"
         tableClassName="my-table"
         rowKey="key"
         isSort
-        loading={{ size: 'large' }}
+        loading={{ size: 'large', tip: '加载中...' }}
         tableRef={tableRef}
         queryFormProps={{
           showColsNumber: 3,
@@ -59,7 +75,11 @@ const Demo1: FC = () => {
             </Button>
           </>
         }
-        toolbarRight={<Button type="primary">导出</Button>}
+        toolbarRight={
+          <Button type="primary" onClick={() => tableRef.current?.onReset()}>
+            重置表单并重新请求
+          </Button>
+        }
         formItems={formItems}
         formRef={formRef}
         columns={columns}

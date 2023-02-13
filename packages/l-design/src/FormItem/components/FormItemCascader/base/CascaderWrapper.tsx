@@ -1,7 +1,7 @@
 import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
 import type { CascaderProps, SpinProps } from 'antd';
 import { Cascader, Spin } from 'antd';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { useMemo, useRef, useState } from 'react';
 
 export type CascaderWrapperProps = Record<string, any> & {
@@ -13,11 +13,11 @@ export type CascaderWrapperProps = Record<string, any> & {
   outLoading?: SpinProps;
 };
 
-export interface CascaderOption {
+export interface LCascaderOption {
   value: string | number;
-  label?: React.ReactNode;
+  label?: ReactNode;
   disabled?: boolean;
-  children?: CascaderOption[];
+  children?: LCascaderOption[];
   // 标记是否为叶子节点，设置了 `loadData` 时有效
   // 设为 `false` 时会强制标记为父节点，即使当前节点没有 children，也会显示展开图标
   isLeaf?: boolean;
@@ -36,7 +36,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   disabled,
   ...restProps // LFormItem传过来的其他值
 }) => {
-  const [optsRequest, setOptsRequest] = useState<CascaderOption[]>([]);
+  const [optsRequest, setOptsRequest] = useState<LCascaderOption[]>([]);
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
   const hasLoading = useMemo(
     (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
@@ -103,7 +103,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
       // 防抖调用
       run(...dependValues);
     }
-  }, [restProps]);
+  }, [dependValues]);
 
   // 依赖清除
   useDeepCompareEffect(() => {
@@ -112,7 +112,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
     }
   }, [value, isClearDepends]);
 
-  const selectOptions = useMemo(() => {
+  const selectOptions = useMemo<LCascaderOption[]>(() => {
     if (isClearDepends) {
       return [];
     } else if (optsRequest?.length > 0) {

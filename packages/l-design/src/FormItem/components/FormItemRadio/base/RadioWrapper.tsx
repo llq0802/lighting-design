@@ -1,11 +1,11 @@
 import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
-import type { RadioChangeEvent, RadioGroupProps, SpinProps } from 'antd';
+import type { CheckboxOptionType, RadioChangeEvent, RadioGroupProps, SpinProps } from 'antd';
 import { Radio, Spin } from 'antd';
 import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type RadioWrapperProps = Record<string, any> & {
-  request?: (...args: any[]) => Promise<any>;
+  request?: (...depends: any[]) => Promise<LRadioOptions[]>;
   debounceTime?: number;
   all?: boolean;
   allValue?: number | string;
@@ -15,6 +15,7 @@ export type RadioWrapperProps = Record<string, any> & {
   outLoading?: SpinProps;
   notDependRender?: () => ReactNode;
 };
+export type LRadioOptions = CheckboxOptionType;
 
 const RadioWrapper: FC<RadioWrapperProps> = ({
   value,
@@ -35,9 +36,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
 
   ...restProps
 }) => {
-  const [optsRequest, setOptsRequest] = useState<{ label: ReactNode; value: string | number }[]>(
-    [],
-  );
+  const [optsRequest, setOptsRequest] = useState<LRadioOptions[]>([]);
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
   const hasLoading = useMemo(
     (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),

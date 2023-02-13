@@ -29,6 +29,7 @@ export interface PickerWrapperProps extends PickerCommonProps, PopoverProps {
 }
 
 const PickerWrapper: FC<PickerWrapperProps> = ({
+  style,
   value,
   onChange,
   children,
@@ -60,6 +61,7 @@ const PickerWrapper: FC<PickerWrapperProps> = ({
   return (
     <BaseColor
       value={value}
+      style={style}
       showText={showText}
       disabled={disabled}
       size={size}

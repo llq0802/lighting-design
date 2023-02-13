@@ -6,7 +6,9 @@ import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type SelectWrapperProps = Record<string, any> & {
-  request?: (...args: any[]) => Promise<any>;
+  request?: (
+    ...depends: any[]
+  ) => Promise<{ label: ReactNode; value: string | number; [key: string]: any }[]>;
   debounceTime?: number;
   disabled?: boolean;
   placeholder?: string;
@@ -17,6 +19,12 @@ export type SelectWrapperProps = Record<string, any> & {
   dependencies?: string[];
   outLoading?: SpinProps;
 };
+
+export interface LSelectOptions {
+  label: ReactNode;
+  value: string | number;
+  disabled?: boolean;
+}
 
 const SelectWrapper: FC<SelectWrapperProps> = ({
   value,
@@ -35,9 +43,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
 
   ...restProps
 }) => {
-  const [optsRequest, setOptsRequest] = useState<{ label: ReactNode; value: string | number }[]>(
-    [],
-  );
+  const [optsRequest, setOptsRequest] = useState<LSelectOptions[]>([]);
   const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
   const hasLoading = useMemo(
@@ -83,7 +89,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     [dependencies.length, dependValue],
   );
 
-  const options = useMemo(() => {
+  const options = useMemo<LSelectOptions[]>(() => {
     const rawOptions = selectProps.options || outOptions;
     if (all && rawOptions?.length > 0) {
       const retOptions = [{ label: allLabel, value: allValue }, ...rawOptions];

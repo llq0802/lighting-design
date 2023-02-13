@@ -6,8 +6,16 @@ const Index = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm form={form} submitter={false}>
+    <LForm
+      form={form}
+      labelCol={{ flex: '80px' }}
+      submitter={{
+        buttonAlign: 80,
+      }}
+      initialValues={['3']}
+    >
       <LFormItemCheckbox
+        label="多选1"
         name="checkbox1"
         request={async () => {
           const result = await awaitTime([
@@ -19,9 +27,9 @@ const Index = () => {
             return result.data;
           }
         }}
-        initialValue={['3']}
       />
       <LFormItemCheckbox
+        label="多选2"
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}

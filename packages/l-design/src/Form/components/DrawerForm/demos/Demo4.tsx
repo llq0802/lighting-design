@@ -9,7 +9,6 @@ const Demo4 = () => {
     <>
       <LDrawerForm
         initialValues={{ name: '张三' }}
-        isResetFields={false}
         form={form}
         title="新增"
         onFinish={async (values) => {

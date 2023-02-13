@@ -16,7 +16,7 @@ function Demo() {
 
   return (
     <div>
-      <p>点击 {count} 次</p>
+      <p>点击 {latestCount.current} 次</p>
       <Space>
         <Button type="primary" onClick={() => setCount(count + 1)}>
           点我

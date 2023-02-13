@@ -1,10 +1,11 @@
 import { message } from 'antd';
+import type { LStepsFormActionRef } from 'lighting-design';
 import { LFormItemInput, LFormItemRadio, LStepsForm } from 'lighting-design';
 import { useRef } from 'react';
 import { awaitTime } from '../../../../_utils';
 
 const Demo8 = () => {
-  const actionRef = useRef();
+  const actionRef = useRef<LStepsFormActionRef>();
 
   return (
     <LStepsForm
@@ -15,8 +16,8 @@ const Demo8 = () => {
         await awaitTime();
         message.success('提交成功');
         // 手动重置;
-        actionRef.current.toStep(0);
-        actionRef.current.formInstanceList.forEach((item) => {
+        actionRef.current?.toStep(0);
+        actionRef.current?.formInstanceList.forEach((item) => {
           item.setFieldsValue({
             radio: undefined,
             name1: undefined,
@@ -36,7 +37,7 @@ const Demo8 = () => {
       <LStepsForm.StepForm
         title="步骤1"
         onFinish={async (values) => {
-          await awaitTime();
+          // await awaitTime();
           console.log('步骤1', values);
         }}
       >

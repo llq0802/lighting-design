@@ -36,7 +36,7 @@ const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps
 
 const { RangePicker } = DatePicker;
 
-export type RangePickerWrapperProps = any & RangePickerProps;
+type RangePickerWrapperProps = any & RangePickerProps;
 
 const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
   style,

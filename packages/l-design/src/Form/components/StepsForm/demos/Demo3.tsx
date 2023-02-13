@@ -1,10 +1,11 @@
 import { Button, message, Result, Space } from 'antd';
+import type { LStepsFormActionRef } from 'lighting-design';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
 import { useRef } from 'react';
 import { awaitTime } from '../../../../_utils';
 
 const Demo = () => {
-  const actionRef = useRef(null);
+  const actionRef = useRef<LStepsFormActionRef>();
 
   return (
     <LStepsForm

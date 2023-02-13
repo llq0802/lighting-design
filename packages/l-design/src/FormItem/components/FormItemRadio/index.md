@@ -44,8 +44,8 @@ import { LFormItemRadio } from 'lighting-design';
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| options | 数据化配置选项内容 | `SelectProps[options]` | `[]` |
-| request | 请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
+| options | 数据化配置选项内容 | `LRadioOptions[]` | `[]` |
+| request | 请求数据函数 | `(...depends: any[]) => Promise<LRadioOptions[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | spin | 自定义 loading 效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | all | 是否需要全部选项 | `boolean ` | `false` |
@@ -53,3 +53,15 @@ import { LFormItemRadio } from 'lighting-design';
 | allValue | 全部选项的值 | `string` | `''` |
 | notDependRender | 依赖项的值为空时展示的内容 | `() => ReactNode` | `() => <span>请先选择依赖项</span>` |
 | radioProps | `antd`单选组件 Props | [RadioProps](https://4x.ant.design/components/radio-cn/#API) | `-` |
+
+### LRadioOptions
+
+```ts
+export interface LRadioOptions {
+  label: ReactNode;
+  value: string | number | boolean;
+  style?: CSSProperties;
+  disabled?: boolean;
+  onChange?: (e: CheckboxChangeEvent) => void;
+}
+```

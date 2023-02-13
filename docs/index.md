@@ -6,9 +6,9 @@ hero:
   title: Lighting-Design
   desc: 🏆 让中后台开发更简单
   actions:
-    - text: 🏮🏮 快速开始 Hooks →
+    - text: 快速上手 Hooks →
       link: /hooks/start
-    - text: 🏮🏮 快速开始 组件库 →
+    - text: 快速上手 组件库 →
       link: /guide/get-start
 features:
   - icon: https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/q48YQ5X4ytAAAAAAAAAAAAAAFl94AQBr

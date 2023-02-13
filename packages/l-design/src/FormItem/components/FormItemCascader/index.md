@@ -43,16 +43,16 @@ import { LFormItemCascader } from 'lighting-design';
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
-| options | 数据化配置选项内容 | `Option` | `[]` |
-| request | 请求数据函数 | `(...depends: any[]) => Promise<Options[]>` | `-` |
+| options | 数据化配置选项内容 | `LCascaderOption[]` | `[]` |
+| request | 请求数据函数 | `(...depends: any[]) => Promise<LCascaderOption[]>` | `-` |
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | spin | 自定义 loading 效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | cascaderProps | `antd`级联组件 Props | [CascaderProps](https://4x.ant.design/components/cascader-cn/#API) | `-` |
 
-#### Option
+### LCascaderOption
 
 ```ts
-interface Option {
+interface LCascaderOption {
   value: string | number;
   label?: React.ReactNode;
   disabled?: boolean;

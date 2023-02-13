@@ -86,3 +86,5 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
 };
 
 export default LFormItemSelect;
+
+export type { LSelectOptions } from './base/SelectWrapper';

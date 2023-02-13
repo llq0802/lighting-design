@@ -1,10 +1,9 @@
 import { useUnmount } from 'ahooks';
-import type { ModalProps, UploadProps } from 'antd';
+import type { ButtonProps, ModalProps, UploadProps } from 'antd';
 import { ConfigProvider, message, Upload } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload';
 import classNames from 'classnames';
-import type { ButtonProps } from 'packages/l-design/es';
 import type { FC } from 'react';
 import { useCallback, useMemo, useState } from 'react';
 import { uniqueId } from '../../../../utils';
@@ -29,6 +28,7 @@ export interface UploadWrapperProps extends UploadProps {
   previewModalProps?: ModalProps;
   onGetPreviewUrl?: (file: File) => Promise<string>; // 点击预览获取大图URL
   buttonProps?: ButtonProps;
+  cropProps?: Record<string, any>;
 }
 
 const UploadWrapper: FC<UploadWrapperProps> = (props) => {
@@ -39,6 +39,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     maxSize = 1024 * 1024 * 5,
     onUpload,
     previewModalProps = {},
+    cropProps,
     onGetPreviewUrl,
 
     onChange,
@@ -196,16 +197,15 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
         message.error('当前文件不支持预览!');
         return;
       }
-
-      if (file.url || file.thumbUrl || file.preview) {
-        file.preview = file.url || file.thumbUrl || file.preview;
-      } else if (onGetPreviewUrl) {
+      if (onGetPreviewUrl) {
         file.preview = await onGetPreviewUrl((file?.originFileObj || file) as File);
       } else if (!file.url || !file.thumbUrl || !file.preview) {
         if (file?.originFileObj instanceof File) {
           // base64 路径太大，可能导致卡顿问题
           file.preview = createFileUrl(uniqueKey, file.uid, (file?.originFileObj || file) as File);
         }
+      } else if (file.url || file.thumbUrl || file.preview) {
+        file.preview = file.url || file.thumbUrl || file.preview;
       }
 
       const previewUlr = file.preview || '';

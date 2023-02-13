@@ -55,8 +55,7 @@ const data: DataType[] = [
 // rowSelection object indicates the need for row selection
 
 const Tables: React.FC = (props) => {
-  const { value, onChange, setOpen } = props;
-  console.log('Tables-value ', value);
+  const { value, onChange, open, setOpen } = props;
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
@@ -66,14 +65,15 @@ const Tables: React.FC = (props) => {
         value: selectedRowKeys,
       });
     },
-    getCheckboxProps: (record: DataType) => ({
-      disabled: record.name === 'Disabled User', // Column configuration not to be checked
-      name: record.name,
-    }),
+    // getCheckboxProps: (record: DataType) => ({
+    //   disabled: record.name === 'Disabled User',
+    //   name: record.name,
+    // }),
   };
 
   return (
     <Table
+      style={{ padding: 8 }}
       size="small"
       rowSelection={{
         selectedRowKeys: value ?? [],

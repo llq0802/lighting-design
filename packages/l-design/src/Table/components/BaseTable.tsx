@@ -96,6 +96,8 @@ export type LTableProps = {
   rootClassName?: string;
   /** 表格额外类名 */
   tableClassName?: string;
+  /** 表格最外层div样式 */
+  rootStyle?: CSSProperties;
   /** 表格额外style */
   tableStyle?: CSSProperties;
   /** 查询表单外层的CardProps*/
@@ -143,13 +145,6 @@ export type LTableProps = {
 
 export const LIGHTD_TABLE = 'lightd-table';
 
-// 显示数据总量
-const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
-  <span
-    className={`${LIGHTD_TABLE}-pagination-showTotal`}
-  >{`当前显示${range[0]}-${range[1]} 条，共 ${total} 条数据`}</span>
-);
-
 /**
  * 表格组件
  * @param props
@@ -189,9 +184,12 @@ const BaseTable: FC<LTableProps> = (props) => {
 
     rootClassName,
     tableClassName,
+    rootStyle,
     tableStyle,
     size: outSize,
     columns = [],
+    components,
+    style,
 
     formItems = [],
 
@@ -202,6 +200,7 @@ const BaseTable: FC<LTableProps> = (props) => {
 
   const [currentSize, setCurrentSize] = useState(outSize);
   const rootRef = useRef<HTMLDivElement>(null);
+  const _lformRef = useRef<Record<string, any>>();
   const [isFullScreen, setFullScreen] = useState(false);
 
   const rootDefaultStyle = isFullScreen
@@ -233,13 +232,6 @@ const BaseTable: FC<LTableProps> = (props) => {
   }, [outPagination]);
   // 是否有查询框组
   const hasFromItems = useMemo(() => Array.isArray(formItems) && formItems.length > 0, [formItems]);
-  // loading
-  const currentLoading = useMemo(() => {
-    if (!outLoading || typeof outLoading === 'boolean') {
-      return { spinning: outLoading };
-    }
-    return outLoading;
-  }, [outLoading]);
 
   // request请求
   const {
@@ -267,6 +259,19 @@ const BaseTable: FC<LTableProps> = (props) => {
     },
   );
 
+  // loading
+  const currentLoading = useMemo(() => {
+    if (outLoading == undefined) {
+      return { spinning: requestLoading };
+    } else if (typeof outLoading === 'boolean') {
+      return { spinning: outLoading };
+    }
+    return {
+      ...outLoading,
+      spinning: requestLoading,
+    };
+  }, [outLoading, requestLoading]);
+
   // 存储外部columns 是否设置序号
   const outColumns = useMemo(() => {
     if (isSort) {
@@ -291,8 +296,10 @@ const BaseTable: FC<LTableProps> = (props) => {
   // 重置数据，从第一页开始显示、查询数据
   const handleReset = useCallback(() => {
     if (hasFromItems) {
-      queryFormRef.current?.resetFields();
-      const formValues = queryFormRef.current?.getFieldsValue();
+      // queryFormRef.current?.resetFields();
+      // const formValues = queryFormRef.current?.getFieldsValue();
+      const formValues = _lformRef.current;
+      queryFormRef.current?.setFieldsValue({ ...formValues });
       return run(
         {
           current: 1,
@@ -425,6 +432,16 @@ const BaseTable: FC<LTableProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoRequest, hasFromItems, isReady]);
 
+  // 显示数据总量
+  const showTotal = useCallback(
+    (total: number, range: [value0: Key, value1: Key]) => (
+      <span
+        className={`${LIGHTD_TABLE}-pagination-showTotal`}
+      >{`当前显示${range[0]}-${range[1]} 条，共 ${total} 条数据`}</span>
+    ),
+    [],
+  );
+
   const ToolbarActionDom = (
     <ToolbarAction
       {...toolbarActionConfig}
@@ -446,7 +463,7 @@ const BaseTable: FC<LTableProps> = (props) => {
     </div>
   ) : null;
   const tableDom = (
-    <Spin {...currentLoading} spinning={!!currentLoading?.spinning || requestLoading}>
+    <Spin {...currentLoading}>
       <Card
         bordered={false}
         className={LIGHTD_CARD}
@@ -456,15 +473,15 @@ const BaseTable: FC<LTableProps> = (props) => {
         {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
         <Table
           components={{
+            ...components,
             table: contentRender
               ? () => contentRender(data?.list ?? []) as unknown as any
               : undefined,
           }}
           className={classNames(tableClassName, className)}
-          style={tableStyle}
+          style={{ ...tableStyle, ...style }}
           size={currentSize}
           columns={currentColumns as (ColumnGroupType<any> | ColumnType<any>)[]}
-          // loading={!!currentLoading?.spinning || requestLoading}
           dataSource={data?.list || []}
           onChange={handleTableChange}
           pagination={
@@ -490,13 +507,14 @@ const BaseTable: FC<LTableProps> = (props) => {
   const searchFormDom = (
     <SearchForm
       isReady={isReady}
-      loading={!!currentLoading?.spinning || requestLoading}
+      loading={currentLoading.spinning}
       ref={handleFormRef}
       cardProps={formCardProps}
       onFinish={handleSearchFormFinish}
       // onReset={handleSearchFormReset}
       formItems={formItems}
       initialValues={formInitialValues}
+      _lformRef={_lformRef}
       {...queryFormProps}
     />
   );
@@ -520,7 +538,7 @@ const BaseTable: FC<LTableProps> = (props) => {
     >
       <div
         ref={rootRef}
-        style={rootDefaultStyle}
+        style={{ ...rootDefaultStyle, ...rootStyle }}
         className={classnames(LIGHTD_TABLE, rootClassName, {
           [`${LIGHTD_TABLE}-fullScreen`]: isFullScreen,
         })}

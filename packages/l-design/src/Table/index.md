@@ -55,6 +55,8 @@ import { LTable } from 'lighting-design';
 ```
 
 > 手动设置查询表单不改变查询表单的 formInitialValues，而是通过 formRef 设置表单值，再进行查询，这样不影响查询表单的重置操作。比如通过 URL 带一些默认查询参数。
+>
+> 当表格全屏时无法显示 Modal 等组件? 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal 等组件 的 getPopupContainer 设置为了 table 的区域
 
 除了以下参数，其余和 [antd.Table](https://4x.ant.design/components/table-cn/#API) 一样。
 
@@ -71,9 +73,10 @@ import { LTable } from 'lighting-design';
 | autoRequest | 是否自动请求 | `boolean` | `true` |
 | formRef | 查询表单的实例 | `MutableRefObject<FormInstance \| undefined> \| ((ref: FormInstance) => void)` | `-` |
 | tableRef | 表格的实例 包含一些方法 | ` MutableRefObject<LTableInstance \| undefined>` | `-` |
-| rootClassName | 表格最外层 div 类名 | `string` | `-` |
+| rootClassName | 表格最外层根 div 类名 | `string` | `-` |
 | tableClassName | `antd 表格`额外类名 | `string` | `-` |
 | tableStyle | `antd 表格`额外样式 | `CSSProperties` | `-` |
+| rootStyle | `表格最外层根 div 样式 | `CSSProperties` | `-` |
 | formCardProps | 查询表单外层的 `Card` 组件的 `CardProps` | [CardProps](https://4x.ant.design/components/card-cn/#API) | `{style:{ borderRadius: 0 },bodyStyle:{paddingBottom: 0, marginBottom: 16}}` |
 | tableCardProps | 表格外层的 `Card` 组件的 `CardProps` | [CardProps](https://4x.ant.design/components/card-cn/#API) | `{style:{ borderRadius: 0 }}` |
 | showToolbar | 是否显示整个 toolbar | `boolean` | `true` |

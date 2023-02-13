@@ -54,17 +54,8 @@ export interface LLoginFormProps {
 }
 
 const LoginForm: FC<LLoginFormProps> = (props) => {
-  const {
-    title,
-    logo,
-    subTitle,
-    actions,
-    message,
-    contentStyle,
-    style,
-    className,
-    children,
-  } = props;
+  const { title, logo, subTitle, actions, message, contentStyle, style, className, children } =
+    props;
 
   /** 生成logo 的dom，如果是string 设置为图片 如果是个 dom 就原样保留 */
   const logoDom = useMemo(() => {

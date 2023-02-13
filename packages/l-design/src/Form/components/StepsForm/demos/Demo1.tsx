@@ -1,10 +1,11 @@
 import { Button, message, Modal } from 'antd';
+import type { LStepsFormActionRef } from 'lighting-design';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
 import { useRef, useState } from 'react';
 import { awaitTime } from '../../../../_utils';
 
 const Demo2 = () => {
-  const actionRef = useRef();
+  const actionRef = useRef<LStepsFormActionRef>();
   const [open, setOpen] = useState(false);
 
   return (

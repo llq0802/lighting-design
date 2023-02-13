@@ -86,3 +86,5 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
 };
 
 export default LFormItemRadio;
+
+export type { LRadioOptions } from './base/RadioWrapper';

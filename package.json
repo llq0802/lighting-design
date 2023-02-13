@@ -1,11 +1,12 @@
 {
   "name": "l-design",
-  "version": "0.0.1-beta",
+  "version": "0.0.1-beta.2",
   "private": true,
   "scripts": {
     "start": "dumi dev",
     "docs:build": "dumi build",
     "docs:deploy": "gh-pages -d docs-dist",
+    "father:dev": "father dev",
     "build": "father build",
     "build:hooks": "cross-env BUILD_TYPE=hooks father build",
     "deploy": "npm run docs:build && npm run docs:deploy",
@@ -30,6 +31,7 @@
   },
   "dependencies": {
     "antd": "^4.24.5",
+    "antd-img-crop": "^4.6.0",
     "react-color": "^2.19.3",
     "react-draggable": "^4.4.5"
   },
