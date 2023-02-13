@@ -1,6 +1,6 @@
 {
   "name": "l-design",
-  "version": "0.0.1-beta1",
+  "version": "0.0.1-beta.2",
   "private": true,
   "scripts": {
     "start": "dumi dev",
