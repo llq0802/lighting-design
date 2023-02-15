@@ -1,5 +1,6 @@
 import { defineConfig } from 'dumi';
 import menus from './menus';
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -17,6 +18,15 @@ const configs = defineConfig({
         libraryDirectory: 'es',
         style: true,
       },
+    ],
+    [
+      'babel-plugin-import',
+      {
+        libraryName: '@ant-design/icons',
+        libraryDirectory: 'es/icons',
+        camel2DashComponentName: false,
+      },
+      '@ant-design/icons',
     ],
   ],
   metas: [
@@ -57,6 +67,12 @@ configs.chainWebpack = function (config: any, { env, webpack, createCSSRule }: a
   // console.log('webpack ', webpack);
   // console.log('createCSSRule ', createCSSRule);
   config.merge({
+    plugin: {
+      MomentLocalesPlugin: {
+        plugin: MomentLocalesPlugin,
+        args: [{ localesToKeep: ['zh-cn'] }],
+      },
+    },
     optimization: {
       splitChunks: {
         chunks: 'all',

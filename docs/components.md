@@ -61,7 +61,7 @@ nav:
 
 [lspin]: /components/spin
 [ltooltip]: /components/tooltip
-[lcolor]: /components/colorPick
+[lcolor]: /components/color-pick
 [ltrigger]: /components/trigger
 [lfileviewer]: /components/file-viewer
 [lwatermark]: /components/water-mark

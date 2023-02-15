@@ -1,6 +1,6 @@
 # Lighting-Design
 
-Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以显著的提升制作 CRUD 页面的效率。
+🚀 Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以显著的提升制作 CRUD 页面的效率。
 
 ## 特性
 
@@ -61,6 +61,10 @@ yarn workspace awesome-package add antd --dev
 yarn add packageName -W -D
 ``` -->
 
+## 依赖版本
+
+必须要项目中安装 antd 的版本>=4.23.0
+
 ## 🖥 浏览器兼容性
 
 - 现代浏览器和 Internet Explorer 11 (with [polyfills](https://stackoverflow.com/questions/57020976/polyfills-in-2019-for-ie11))
@@ -72,7 +76,7 @@ yarn add packageName -W -D
 
 ## 提交规范
 
-`(revert: )?(feat|fix|docs|UI|refactor|perf|workflow|build|CI|typos|chore|tests|types|wip|release|dep|locale)` `
+`(revert: )?(feat|fix|docs|UI|refactor|perf|workflow|build|CI|typos|chore|tests|types|wip|release|dep|locale)`
 
 - feat: 添加了个功能
 - fix: 修复了一些 bug
