@@ -13,7 +13,8 @@
     "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
     "test": "umi-test",
     "test:coverage": "umi-test --coverage",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "analyze": "cross-env ANALYZE=1 dumi dev"
   },
   "files": [
     "dist"
@@ -52,6 +53,7 @@
     "gh-pages": "^4.0.0",
     "lerna": "^5.5.1",
     "lint-staged": "^10.0.7",
+    "moment-locales-webpack-plugin": "^1.2.0",
     "prettier": "^2.2.1",
     "stylelint": "~13.0.0",
     "yorkie": "^2.0.0"
