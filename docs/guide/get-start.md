@@ -12,6 +12,8 @@ nav:
 
 ## 安装
 
+> 项目中安装 `antd` 的版本 `>=4.23.0`
+
 ```shell
 npm i lighting-design
 
