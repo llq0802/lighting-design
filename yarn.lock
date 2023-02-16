@@ -16085,7 +16085,7 @@ typedarray@^0.0.6:
 
 typeit-react@^2.6.4:
   version "2.6.4"
-  resolved "https://registry.yarnpkg.com/typeit-react/-/typeit-react-2.6.4.tgz#e90f3176f5df790d8015a733280fd11a940bef6b"
+  resolved "https://registry.npmmirror.com/typeit-react/-/typeit-react-2.6.4.tgz#e90f3176f5df790d8015a733280fd11a940bef6b"
   integrity sha512-ZFx7MYYirvQ1P6qvzN+ONMOWzkktuw2skBln/GQc5xpzqfSA48J2Fn5De/KtVkYbWOuLfKBPTwzJTH+clbAsAA==
   dependencies:
     react ">=17.0.0"
