@@ -1,5 +1,6 @@
 import { defineConfig } from 'dumi';
 import menus from './menus';
+
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -7,8 +8,8 @@ const isDev = process.env.NODE_ENV === 'development';
 const configs = defineConfig({
   // ssr: {},
   nodeModulesTransform: {
-    type: 'none',
-    exclude: [],
+    type: isDev ? 'none' : 'all',
+    exclude: ['typeit-react', 'typeit'],
   },
   extraBabelPlugins: [
     [
@@ -32,7 +33,7 @@ const configs = defineConfig({
   metas: [
     {
       name: 'keywords',
-      content: 'Lighting-Design, lighting-design',
+      content: 'Lighting-Design, lighting-design, lightd, antd',
     },
     {
       name: 'description',
@@ -40,7 +41,6 @@ const configs = defineConfig({
     },
   ],
   dynamicImport: {},
-  hash: true,
   publicPath: isDev ? '/' : '/lighting-design/',
   base: isDev ? '/' : '/lighting-design/',
   title: 'Lighting-Design',
@@ -58,57 +58,31 @@ const configs = defineConfig({
   ],
   menus,
   // more config: https://d.umijs.org/config
-
-  // mfsu: {},
-  // webpack5: {},
 });
 
-// configs.chunks = ['vendors', 'umi'];
-configs.chainWebpack = function (config: any, { env, webpack, createCSSRule }: any) {
-  // console.log('config ', config);
-  // console.log('env ', env);
-  // console.log('webpack ', webpack);
-  // console.log('createCSSRule ', createCSSRule);
-  config.merge({
-    plugin: {
-      MomentLocalesPlugin: {
-        plugin: MomentLocalesPlugin,
-        args: [{ localesToKeep: ['zh-cn'] }],
-      },
-    },
-    // optimization: {
-    //   splitChunks: {
-    //     chunks: 'all',
-    //     minSize: 30000,
-    //     minChunks: 3,
-    //     automaticNameDelimiter: '.',
-    //     cacheGroups: {
-    //       vendor: {
-    //         name: 'vendors',
-    //         test({ resource }: any) {
-    //           return /[\\/]node_modules[\\/]/.test(resource);
-    //         },
-    //         priority: 10,
-    //       },
-    //     },
-    //   },
-    // },
-  });
-};
 if (!isDev) {
   configs.chunks = ['vendors', 'umi'];
-  configs.chainWebpack = function (config: any, { webpack }) {
+  configs.chainWebpack = function (config, { webpack }) {
     config.merge({
+      plugin: {
+        MomentLocalesPlugin: {
+          plugin: MomentLocalesPlugin,
+          args: [{ localesToKeep: ['zh-cn'] }],
+        },
+      },
       optimization: {
-        minimize: true,
         splitChunks: {
+          chunks: 'all',
+          minSize: 30000,
+          minChunks: 3,
+          automaticNameDelimiter: '.',
           cacheGroups: {
             vendor: {
-              test: /node_modules/,
-              chunks: 'all',
               name: 'vendors',
-              priority: -10,
-              enforce: true,
+              test({ resource }) {
+                return /[\\/]node_modules[\\/]/.test(resource);
+              },
+              priority: 10,
             },
           },
         },
@@ -116,5 +90,26 @@ if (!isDev) {
     });
   };
 }
+// if (!isDev) {
+//   configs.chunks = ['vendors', 'umi'];
+//   configs.chainWebpack = function (config: any, { webpack }) {
+//     config.merge({
+//       optimization: {
+//         minimize: true,
+//         splitChunks: {
+//           cacheGroups: {
+//             vendor: {
+//               test: /node_modules/,
+//               chunks: 'all',
+//               name: 'vendors',
+//               priority: -10,
+//               enforce: true,
+//             },
+//           },
+//         },
+//       },
+//     });
+//   };
+// }
 
 export default configs;
