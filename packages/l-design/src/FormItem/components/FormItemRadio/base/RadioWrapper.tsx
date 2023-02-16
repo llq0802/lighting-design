@@ -5,7 +5,7 @@ import type { FC, ReactNode } from 'react';
 import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type RadioWrapperProps = Record<string, any> & {
-  request?: (...depends: any[]) => Promise<LRadiOptions[]>;
+  request?: (...depends: any[]) => Promise<LRadioOptions[]>;
   debounceTime?: number;
   all?: boolean;
   allValue?: number | string;

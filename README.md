@@ -1,6 +1,15 @@
-# l-design
+# Lighting-Design
 
-## Getting Started
+🚀 Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以显著的提升制作 CRUD 页面的效率。
+
+## 特性
+
+- 💎 简单易用 - 基于 Ant Design 进行封装
+- 📦 场景丰富 - 面向常见业务场景封装
+- 💡 TypeScript - 提供 TypeScript 类型定义
+- 🎨 更少的代码 - 多种配置减少代码的书写
+
+## 快速开始
 
 Install dependencies,
 
@@ -32,7 +41,7 @@ Build library via `father`,
 $ npm run build
 ```
 
-添加子包间依赖，@cube/components 依赖@cube/util
+<!-- 添加子包间依赖，@cube/components 依赖@cube/util
 
 > 必须添加版本号不然会报错（lerna 添加不会自动添加包的版本号）
 
@@ -50,13 +59,24 @@ yarn workspace awesome-package add antd --dev
 
 ```shell
 yarn add packageName -W -D
-```
+``` -->
 
-### 提交规范
+## 依赖版本
 
-```shell
-(revert: )?(feat|fix|docs|UI|refactor|perf|workflow|build|CI|typos|chore|tests|types|wip|release|dep|locale)
-```
+必须要项目中安装 antd 的版本>=4.23.0
+
+## 🖥 浏览器兼容性
+
+- 现代浏览器和 Internet Explorer 11 (with [polyfills](https://stackoverflow.com/questions/57020976/polyfills-in-2019-for-ie11))
+- [Electron](https://www.electronjs.org/)
+
+| [![edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png)](http://godban.github.io/browsers-support-badges/) | [![Edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png)](http://godban.github.io/browsers-support-badges/) | [![chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png)](http://godban.github.io/browsers-support-badges/) | [![safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)](http://godban.github.io/browsers-support-badges/) | [![electron_48x48](https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png)](http://godban.github.io/browsers-support-badges/) |
+| --- | --- | --- | --- | --- |
+| Edge | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
+
+## 提交规范
+
+`(revert: )?(feat|fix|docs|UI|refactor|perf|workflow|build|CI|typos|chore|tests|types|wip|release|dep|locale)`
 
 - feat: 添加了个功能
 - fix: 修复了一些 bug

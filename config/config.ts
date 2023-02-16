@@ -1,10 +1,15 @@
 import { defineConfig } from 'dumi';
 import menus from './menus';
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
 
 const configs = defineConfig({
   // ssr: {},
+  nodeModulesTransform: {
+    type: 'none',
+    exclude: [],
+  },
   extraBabelPlugins: [
     [
       'babel-plugin-import',
@@ -13,6 +18,15 @@ const configs = defineConfig({
         libraryDirectory: 'es',
         style: true,
       },
+    ],
+    [
+      'babel-plugin-import',
+      {
+        libraryName: '@ant-design/icons',
+        libraryDirectory: 'es/icons',
+        camel2DashComponentName: false,
+      },
+      '@ant-design/icons',
     ],
   ],
   metas: [
@@ -26,6 +40,7 @@ const configs = defineConfig({
     },
   ],
   dynamicImport: {},
+  hash: true,
   publicPath: isDev ? '/' : '/lighting-design/',
   base: isDev ? '/' : '/lighting-design/',
   title: 'Lighting-Design',
@@ -43,32 +58,43 @@ const configs = defineConfig({
   ],
   menus,
   // more config: https://d.umijs.org/config
+
+  // mfsu: {},
+  // webpack5: {},
 });
 
-if (!isDev) {
-  configs.chunks = ['vendors', 'umi'];
-  configs.chainWebpack = function (config, { webpack }) {
-    config.merge({
-      optimization: {
-        splitChunks: {
-          chunks: 'all',
-          minSize: 30000,
-          minChunks: 3,
-          automaticNameDelimiter: '.',
-          cacheGroups: {
-            vendor: {
-              name: 'vendors',
-              test({ resource }) {
-                return /[\\/]node_modules[\\/]/.test(resource);
-              },
-              priority: 10,
+configs.chunks = ['vendors', 'umi'];
+configs.chainWebpack = function (config: any, { env, webpack, createCSSRule }: any) {
+  // console.log('config ', config);
+  // console.log('env ', env);
+  // console.log('webpack ', webpack);
+  // console.log('createCSSRule ', createCSSRule);
+  config.merge({
+    plugin: {
+      MomentLocalesPlugin: {
+        plugin: MomentLocalesPlugin,
+        args: [{ localesToKeep: ['zh-cn'] }],
+      },
+    },
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        minSize: 30000,
+        minChunks: 3,
+        automaticNameDelimiter: '.',
+        cacheGroups: {
+          vendor: {
+            name: 'vendors',
+            test({ resource }: any) {
+              return /[\\/]node_modules[\\/]/.test(resource);
             },
+            priority: 10,
           },
         },
       },
-    });
-  };
-}
+    },
+  });
+};
 // if (!isDev) {
 //   configs.chunks = ['vendors', 'umi'];
 //   configs.chainWebpack = function (config: any, { webpack }) {
