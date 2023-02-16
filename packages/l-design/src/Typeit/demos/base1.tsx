@@ -6,7 +6,6 @@ const Index: FC = () => {
     <>
       <LTypeit
         options={{
-          cursor: true,
           loop: true,
         }}
         style={{

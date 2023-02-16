@@ -3,9 +3,9 @@ import type { FC } from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import type { Container } from 'react-dom';
 import { render } from 'react-dom';
-
+let timer: NodeJS.Timeout;
 const Index: FC = () => {
-  const domRef = useRef<Container | any>(null);
+  const domRef = useRef<Container | any>(<></>);
 
   const TypertDom = useCallback((val: string): any => {
     return (
@@ -19,7 +19,7 @@ const Index: FC = () => {
   }, []);
 
   const onLoad = () => {
-    setTimeout(() => {
+    timer = setTimeout(() => {
       const result = '这是一段异步调用文案。';
       render(TypertDom(result), domRef.current);
     }, 3000);
@@ -27,6 +27,9 @@ const Index: FC = () => {
 
   useEffect(() => {
     onLoad();
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
