@@ -63,7 +63,7 @@ const configs = defineConfig({
   // webpack5: {},
 });
 
-configs.chunks = ['vendors', 'umi'];
+// configs.chunks = ['vendors', 'umi'];
 configs.chainWebpack = function (config: any, { env, webpack, createCSSRule }: any) {
   // console.log('config ', config);
   // console.log('env ', env);
@@ -76,45 +76,45 @@ configs.chainWebpack = function (config: any, { env, webpack, createCSSRule }: a
         args: [{ localesToKeep: ['zh-cn'] }],
       },
     },
-    optimization: {
-      splitChunks: {
-        chunks: 'all',
-        minSize: 30000,
-        minChunks: 3,
-        automaticNameDelimiter: '.',
-        cacheGroups: {
-          vendor: {
-            name: 'vendors',
-            test({ resource }: any) {
-              return /[\\/]node_modules[\\/]/.test(resource);
+    // optimization: {
+    //   splitChunks: {
+    //     chunks: 'all',
+    //     minSize: 30000,
+    //     minChunks: 3,
+    //     automaticNameDelimiter: '.',
+    //     cacheGroups: {
+    //       vendor: {
+    //         name: 'vendors',
+    //         test({ resource }: any) {
+    //           return /[\\/]node_modules[\\/]/.test(resource);
+    //         },
+    //         priority: 10,
+    //       },
+    //     },
+    //   },
+    // },
+  });
+};
+if (!isDev) {
+  configs.chunks = ['vendors', 'umi'];
+  configs.chainWebpack = function (config: any, { webpack }) {
+    config.merge({
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          cacheGroups: {
+            vendor: {
+              test: /node_modules/,
+              chunks: 'all',
+              name: 'vendors',
+              priority: -10,
+              enforce: true,
             },
-            priority: 10,
           },
         },
       },
-    },
-  });
-};
-// if (!isDev) {
-//   configs.chunks = ['vendors', 'umi'];
-//   configs.chainWebpack = function (config: any, { webpack }) {
-//     config.merge({
-//       optimization: {
-//         minimize: true,
-//         splitChunks: {
-//           cacheGroups: {
-//             vendor: {
-//               test: /node_modules/,
-//               chunks: 'all',
-//               name: 'vendors',
-//               priority: -10,
-//               enforce: true,
-//             },
-//           },
-//         },
-//       },
-//     });
-//   };
-// }
+    });
+  };
+}
 
 export default configs;

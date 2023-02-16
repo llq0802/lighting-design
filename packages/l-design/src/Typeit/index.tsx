@@ -1,9 +1,8 @@
-/* eslint-disable react/jsx-key */
 import type { CSSProperties, FC } from 'react';
 import type { TypeItOptions } from 'typeit';
 import type { TypeItProps } from 'typeit-react';
 import TypeIt from 'typeit-react';
-import './index.less';
+// import './index.less';
 
 export interface LTypeitProps {
   /**
