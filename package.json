@@ -32,6 +32,7 @@
     "antd": "^4.24.5",
     "antd-img-crop": "^4.6.0",
     "react-color": "^2.19.3",
+    "typeit-react":"^2.6.4",
     "react-draggable": "^4.4.5"
   },
   "devDependencies": {
