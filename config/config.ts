@@ -58,6 +58,9 @@ const configs = defineConfig({
   ],
   menus,
   // more config: https://d.umijs.org/config
+
+  // mfsu: {},
+  // webpack5: {},
 });
 
 configs.chunks = ['vendors', 'umi'];
