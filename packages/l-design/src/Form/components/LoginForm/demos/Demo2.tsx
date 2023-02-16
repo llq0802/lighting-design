@@ -82,6 +82,14 @@ const PhoneDom = () => (
       type="phone"
       disabledWhiteSpace
       placeholder="请输入手机号"
+      rules={[
+        {
+          required: true,
+          message: '手机号格式错误!',
+          pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
+          min: 11,
+        },
+      ]}
       inputProps={{
         prefix: <UserOutlined />,
       }}
@@ -93,6 +101,7 @@ const PhoneDom = () => (
       second={60}
       onGetCaptcha={async () => true}
       placeholder="请输入验证码"
+      cacheKey="CAPTCHA_1"
     />
   </LForm>
 );
@@ -105,6 +114,7 @@ const Demo1 = () => {
           background: `url(${loginBg}) no-repeat`,
           display: 'flex',
           height: '100%',
+          justifyContent: 'center',
         }}
       >
         <Col flex="1" className={style.login_col}>
@@ -122,7 +132,7 @@ const Demo1 = () => {
           </div>
         </Col>
 
-        <Col flex="520px" style={{ minWidth: 400 }}>
+        <Col style={{ minWidth: '36%' }} className={style.login_from_col}>
           <LLoginForm
             message={<Alert message="登录异常，请重试！" showIcon closable type="error" />}
             logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
