@@ -8,7 +8,8 @@ const isDev = process.env.NODE_ENV === 'development';
 const configs = defineConfig({
   // ssr: {},
   nodeModulesTransform: {
-    type: isDev ? 'none' : 'all',
+    // type: isDev ? 'none' : 'all',
+    type: 'none',
     exclude: ['typeit-react', 'typeit'],
   },
   extraBabelPlugins: [
