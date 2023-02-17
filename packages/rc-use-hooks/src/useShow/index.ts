@@ -52,7 +52,7 @@ export default function useShow(
       },
 
       onHide: function (data) {
-        if (opsOnHide) opsOnHide(data);
+        if (opsOnHide) opsOnHide(_cloneDeep(data));
       },
 
       getChildData: function () {
