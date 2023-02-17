@@ -29,6 +29,12 @@ const Demo1 = () => {
         uploadType="avatar"
         name="avatar"
         label="头像上传"
+        initialValue={[
+          {
+            name: 'meinv',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          },
+        ]}
         uploadProps={{
           className: 'my-avatar',
           name: 'fileName',
