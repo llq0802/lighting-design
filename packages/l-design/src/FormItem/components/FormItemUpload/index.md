@@ -25,15 +25,15 @@ nav:
 
 ### 通过 onUpload 上传
 
-<!-- <code src='./demos/Demo2.tsx'> -->
+<code src='./demos/Demo2.tsx'>
 
 ### 自定义图片预览
 
-<!-- <code src='./demos/Demo3.tsx'> -->
+<code src='./demos/Demo3.tsx'>
 
 ### 图片裁剪
 
-<!-- <code src='./demos/Demo4.tsx'> -->
+<code src='./demos/Demo4.tsx'>
 
 ## API
 
@@ -76,3 +76,7 @@ type UploadFile = {
   // ...其他属性
 };
 ```
+
+> beforeUpload 若返回 false 不会生产 status,percent ,response
+>
+> beforeUpload 若返回 Upload.LIST_IGNORE， 此时列表中将不展示此文件。
