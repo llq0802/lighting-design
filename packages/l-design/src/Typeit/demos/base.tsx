@@ -13,6 +13,7 @@ const Index: FC = () => {
           afterComplete: (instance: { destroy: () => void }) => {
             instance.destroy();
           },
+          speed: 30,
         }}
         getBeforeInit={(instance) => {
           instance
