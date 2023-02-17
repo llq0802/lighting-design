@@ -53,10 +53,12 @@ const AvatarContent: FC<{
         );
       }
       setImgUrl(currentFile.thumbUrl || currentFile.url || currentFile.preview || '');
+    } else if (currentFile && (currentFile.thumbUrl || currentFile.url || currentFile.preview)) {
+      setImgUrl(currentFile.thumbUrl || currentFile.url || currentFile.preview || '');
     } else {
       setImgUrl('');
     }
-  }, [currentFile]);
+  }, [currentFile, fileList]);
 
   const viewConent = useMemo(() => {
     if (isError) {
