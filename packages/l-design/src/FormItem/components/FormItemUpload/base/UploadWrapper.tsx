@@ -2,10 +2,10 @@ import { useUnmount } from 'ahooks';
 import type { ButtonProps, ModalProps, UploadProps } from 'antd';
 import { ConfigProvider, message, Upload } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
-import type { RcFile, UploadChangeParam, UploadFile } from 'antd/lib/upload';
+import type { RcFile, UploadFile } from 'antd/lib/upload';
 import classNames from 'classnames';
 import type { FC } from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { uniqueId } from '../../../../utils';
 import {
   checkFileSize,
@@ -42,7 +42,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     cropProps,
     onGetPreviewUrl,
 
-    onChange,
+    // onChange,
     maxCount,
     accept = '*',
     className,
@@ -50,8 +50,12 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     action,
     beforeUpload,
     buttonProps,
+    customRequest,
     ...restProps
   } = props;
+
+  // 标识正在上传
+  const uploadingRef = useRef(false);
   // 当前组件唯一标识，用于缓存和释放 URL.createObjectURL
   const uniqueKey = useMemo(() => uniqueId(lightdUploadWrapper), []);
 
@@ -79,93 +83,141 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
       // 若返回 false 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，
       // 可以返回 Upload.LIST_IGNORE， 此时列表中将不展示此文件。
       // action没有传地址则停止上传(不会生产status,percent ,response等)
-      return beforeUpload ? beforeUpload(file, fileList) : !!action;
+      return beforeUpload
+        ? beforeUpload(file, fileList)
+        : !!action || !!onUpload || !!customRequest;
     },
-    [accept, maxSize, beforeUpload, action, fileTypeMessage, fileSizeMessage],
+    [
+      accept,
+      fileTypeMessage,
+      maxSize,
+      fileSizeMessage,
+      beforeUpload,
+      action,
+      onUpload,
+      customRequest,
+    ],
   );
 
   // 处理自定义上传
-  const handleUpload = useCallback(
-    (file: UploadFile, fileList: UploadFile[]) => {
-      const { uid } = file;
-      const uploadRet = onUpload?.((file?.originFileObj || file) as File);
-      if (uploadRet instanceof Promise) {
-        uploadRet
-          .then((res) => {
-            const cloneFileList = fileList
-              .filter((itemF) => itemF?.status !== 'removed')
-              .map((item) => {
-                if (item.uid === uid) {
-                  item.status = 'done';
-                  item.percent = 100;
-                  item.response = res; // 将响应数据挂载到 response 上
-                }
-                return item;
-              });
-            onChange?.({
-              file,
-              fileList: cloneFileList,
-            });
-          })
-          .catch((err) => {
-            const cloneFileList = fileList
-              .filter((item) => item.status !== 'removed')
-              .map((item) => {
-                if (item.uid === uid) {
-                  const error =
-                    typeof err !== 'object'
-                      ? { message: err || '上传错误' }
-                      : { message: err?.message || err?.msg || '上传错误', ...err };
-                  item.status = 'error';
-                  item.percent = 0;
-                  item.error = error;
-                  item.response = undefined;
-                }
-                return item;
-              });
-            onChange?.({
-              file,
-              fileList: cloneFileList,
-            });
-          });
-      } else {
-        const cloneFileList = fileList.map((fileItem) => {
-          if (fileItem.uid === uid) {
-            fileItem.percent = 100;
-            fileItem.status = 'done';
-          }
-          return fileItem;
-        });
-        onChange?.({
-          file,
-          fileList: cloneFileList,
-        });
-      }
-    },
-    [onChange, onUpload],
-  );
+  // const handleUpload = useCallback(
+  //   (file: UploadFile, fileList: UploadFile[]) => {
+  //     const { uid } = file;
+  //     const uploadRet = onUpload?.((file?.originFileObj || file) as File);
+  //     if (uploadRet instanceof Promise) {
+  //       uploadRet
+  //         .then((res) => {
+  //           const cloneFileList = fileList
+  //             .filter((itemF) => itemF?.status !== 'removed')
+  //             .map((item) => {
+  //               if (item.uid === uid) {
+  //                 item.status = 'done';
+  //                 item.percent = 100;
+  //                 item.response = res; // 将响应数据挂载到 response 上
+  //               }
+  //               return item;
+  //             });
+  //           onChange?.({
+  //             file,
+  //             fileList: cloneFileList,
+  //           });
+  //         })
+  //         .catch((err) => {
+  //           const cloneFileList = fileList
+  //             .filter((item) => item.status !== 'removed')
+  //             .map((item) => {
+  //               if (item.uid === uid) {
+  //                 const error =
+  //                   typeof err !== 'object'
+  //                     ? { message: err || '上传错误' }
+  //                     : { message: err?.message || err?.msg || '上传错误', ...err };
+  //                 item.status = 'error';
+  //                 item.percent = 0;
+  //                 item.error = error;
+  //                 item.response = undefined;
+  //               }
+  //               return item;
+  //             });
+  //           onChange?.({
+  //             file,
+  //             fileList: cloneFileList,
+  //           });
+  //         });
+  //     } else {
+  //       const cloneFileList = fileList.map((fileItem) => {
+  //         if (fileItem.uid === uid) {
+  //           fileItem.percent = 100;
+  //           fileItem.status = 'done';
+  //         }
+  //         return fileItem;
+  //       });
+  //       onChange?.({
+  //         file,
+  //         fileList: cloneFileList,
+  //       });
+  //     }
+  //   },
+  //   [onChange, onUpload],
+  // );
 
   // 处理change事件
-  const handleChange = useCallback(
-    ({ file, fileList }: UploadChangeParam) => {
-      let cloneFileList = fileList.slice();
-      if (!action && typeof onUpload === 'function') {
-        cloneFileList = cloneFileList.map((fileItem) => {
-          if (fileItem.uid === file.uid) {
-            fileItem.status = 'uploading';
-            fileItem.percent = 99.9;
-          }
-          return fileItem;
-        });
-        handleUpload(file, cloneFileList);
+  // const handleChange = useCallback(
+  //   ({ file, fileList }: UploadChangeParam) => {
+  //     let cloneFileList = fileList.slice();
+  //     if (!action && typeof onUpload === 'function') {
+  //       cloneFileList = cloneFileList.map((fileItem) => {
+  //         if (fileItem.uid === file.uid) {
+  //           fileItem.status = 'uploading';
+  //           fileItem.percent = 99.9;
+  //         }
+  //         return fileItem;
+  //       });
+  //       handleUpload(file, cloneFileList);
+  //     }
+
+  //     onChange?.({
+  //       file,
+  //       fileList: cloneFileList,
+  //     });
+  //   },
+  //   [onChange, action, onUpload, handleUpload],
+  // );
+
+  // 自定义上传
+  const internalCustomRequest = useCallback(
+    (obj: any) => {
+      if (customRequest) {
+        return customRequest(obj);
+      }
+      let timer: any = null;
+      // 队列上传
+      function queueUpload() {
+        if (!uploadingRef.current) {
+          uploadingRef.current = true;
+          clearTimeout(timer);
+          setTimeout(() => {
+            obj.onProgress?.({ percent: 99 });
+            const uploadRet = onUpload?.(obj.file);
+            if (uploadRet instanceof Promise) {
+              uploadRet
+                .then(obj.onSuccess)
+                .catch(obj.onError)
+                .finally(() => {
+                  uploadingRef.current = false;
+                });
+            } else {
+              obj.onSuccess(uploadRet);
+              uploadingRef.current = false;
+            }
+          });
+        } else {
+          timer = setTimeout(queueUpload, 100);
+        }
       }
 
-      onChange?.({
-        file,
-        fileList: cloneFileList,
-      });
+      queueUpload();
     },
-    [onChange, action, onUpload, handleUpload],
+    [customRequest, onUpload],
   );
 
   // 是否支持预览
@@ -199,12 +251,10 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
       }
       if (onGetPreviewUrl) {
         file.preview = await onGetPreviewUrl((file?.originFileObj || file) as File);
-      } else if (!file.url || !file.thumbUrl || !file.preview) {
-        if (file?.originFileObj instanceof File) {
-          // base64 路径太大，可能导致卡顿问题
-          file.preview = createFileUrl(uniqueKey, file.uid, (file?.originFileObj || file) as File);
-        }
-      } else if (file.url || file.thumbUrl || file.preview) {
+      } else if (file?.originFileObj instanceof File) {
+        // base64 路径太大，可能导致卡顿问题
+        file.preview = createFileUrl(uniqueKey, file.uid, (file?.originFileObj || file) as File);
+      } else {
         file.preview = file.url || file.thumbUrl || file.preview;
       }
 
@@ -229,11 +279,12 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
   return (
     <ConfigProvider locale={zhCN}>
       <UploadContent
+        customRequest={!action ? internalCustomRequest : undefined}
         className={classNames(lightdUploadWrapper, className)}
         accept={accept}
         action={action}
         beforeUpload={handleBeforeUpload}
-        onChange={handleChange}
+        // onChange={handleChange}
         onPreview={handlePreview}
         disabled={disabled}
         maxCount={maxCount}
@@ -241,7 +292,10 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
           status: 'active',
           showInfo: false,
           strokeWidth: 2,
-          format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
+          // strokeColor: {
+          //   '0%': '#108ee9',
+          //   '100%': '#87d068',
+          // },
         }}
         {...restProps}
       />

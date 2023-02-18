@@ -15,7 +15,6 @@ const Demo1 = () => {
       }}
     >
       <LFormItemUpload
-        required
         name="default"
         label="默认上传"
         accept=".jpg, .jpeg"
@@ -24,6 +23,7 @@ const Demo1 = () => {
       />
 
       <LFormItemUpload
+        tooltip="头像上传,不支持预览"
         required
         onUpload={upload}
         uploadType="avatar"
@@ -37,12 +37,11 @@ const Demo1 = () => {
         ]}
         uploadProps={{
           className: 'my-avatar',
-          name: 'fileName',
+          name: 'avatarName',
         }}
       />
 
       <LFormItemUpload
-        required
         name="image"
         label="图片上传"
         uploadType="image"
@@ -57,7 +56,6 @@ const Demo1 = () => {
         uploadProps={{ name: 'fileName' }}
       />
       <LFormItemUpload
-        required
         uploadType="dragger"
         name="dragger"
         label="拖动上传"
