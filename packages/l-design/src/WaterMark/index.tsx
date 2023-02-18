@@ -3,7 +3,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 
 export interface LWaterMarkProps {
+  /** 水印体宽度 */
   width?: number;
+  /** 水印体高度 */
   height?: number;
   /**
    * 旋转角度
@@ -13,74 +15,82 @@ export interface LWaterMarkProps {
    * 水印内容文字
    */
   content: string;
-  /**
-   * 文字填充类型
-   */
+  /** 水印层级 */
+  zIndex?: number;
+  /** 文字填充类型 */
   contentType?: 'fill' | 'stroke';
+
   /**
-   * 文字颜色
-   */
-  fontColor?: string | CanvasGradient | CanvasPattern;
-  /**
-   * 文字大小
-   */
-  fontSize?: number;
-  /**
-   * 左侧偏移
+   * 相对于水印体左侧偏移
    */
   offsetLeft?: number;
   /**
-   * 上侧偏移
+   * 相对于水印体上侧偏移
    */
   offsetTop?: number;
   /**
-   * 容器样式
+   * 水印div样式
    */
   style?: React.CSSProperties;
   /**
-   * 容器类名
+   * 水印div类名
    */
   className?: string;
+  /** 根div样式 */
+  rootStyle?: React.CSSProperties;
+  /** 字体样式*/
+  font?: {
+    color: string;
+    fontWeight: string;
+    fontFamily: string;
+    fontStyle: string;
+    fontSize: number;
+  };
   children?: React.ReactNode;
 }
 
 const WaterMark: React.FC<LWaterMarkProps> = ({
-  content,
+  content = 'Lighting-Design',
   contentType = 'fill',
   width = 200,
   height = 200,
-  rotate = 0,
-  fontColor = 'rgba(0,0,0,.15)',
-  fontSize = 16,
-  offsetLeft = 25,
-  offsetTop = 25,
+  rotate = 30,
+  offsetLeft = 30,
+  offsetTop = 30,
+  zIndex = 9,
   style,
+  rootStyle,
   className,
+  font = {},
   children,
 }) => {
+  const {
+    color = 'rgba(0,0,0,.15)',
+    fontSize = 16,
+    fontWeight = 'normal',
+    fontStyle = 'normal',
+    fontFamily = 'sans-serif',
+  } = font;
+
   let backgroundStr = '';
+
+  const ratio = window.devicePixelRatio;
   const [date, setDate] = useState<Date>(new Date());
   const containerRef = useRef<HTMLDivElement>(null);
 
   const createWaterMark = () => {
     const canvas = document.createElement('canvas');
-    canvas.style.position = 'absolute';
-    canvas.style.left = '0px';
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = width * ratio;
+    canvas.height = height * ratio;
     const context = canvas.getContext('2d') as CanvasRenderingContext2D;
     if (context) {
-      context.font = `${fontSize}px Microsoft Yahei`;
-      context.fillStyle = fontColor;
+      context.font = `${fontStyle} normal ${fontWeight} ${fontSize * ratio}px ${fontFamily}`;
+      context.fillStyle = color;
       context.rotate((Math.PI * rotate) / 180);
       context[`${contentType}Text`]?.(content, offsetLeft, offsetTop);
-      // if(contentType === 'fill') {
-      //   context.fillText(content, offsetLeft, offsetTop)
-      // }else {
-      //   context.strokeText(content, offsetLeft, offsetTop);
-      // }
       const base64Url = canvas.toDataURL();
       containerRef.current!.style!.backgroundImage = `url(${base64Url})`;
+      containerRef.current!.style!.backgroundSize = `${width}px ${height}px`;
       backgroundStr = `url(${base64Url})`;
     }
   };
@@ -95,6 +105,7 @@ const WaterMark: React.FC<LWaterMarkProps> = ({
           setDate(new Date());
         }
       });
+
       mo.observe(containerRef.current!, {
         attributes: true,
         subtree: true,
@@ -112,8 +123,13 @@ const WaterMark: React.FC<LWaterMarkProps> = ({
   }, [date]);
 
   return (
-    <div className={classNames('lightd-water-mark', className)} style={style} ref={containerRef}>
+    <div style={{ ...rootStyle, position: 'relative' }}>
       {children}
+      <div
+        className={classNames('lightd-water-mark', className)}
+        style={{ zIndex, ...style }}
+        ref={containerRef}
+      />
     </div>
   );
 };
