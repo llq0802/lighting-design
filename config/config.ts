@@ -34,7 +34,7 @@ const configs = defineConfig({
   metas: [
     {
       name: 'keywords',
-      content: 'Lighting-Design, lighting-design, lightd, antd',
+      content: 'Lighting-Design, lighting-design, lightd, antd, react组件库',
     },
     {
       name: 'description',

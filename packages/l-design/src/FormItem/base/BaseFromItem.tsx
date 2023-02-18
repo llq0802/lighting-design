@@ -70,7 +70,7 @@ const LFormItem: FC<LFormItemProps> = (props) => {
 
   const itemRules = useMemo(
     () =>
-      rules.length > 0
+      rules?.length > 0
         ? rules
         : [
             {
