@@ -78,7 +78,7 @@ nav:
 [lstepsform]: /components/form/steps-form
 [lloginform]: /components/form/login-form
 [lformitem]: /components/form-item
-[lformiteminput]: /components/form-item-input
+[lformiteminput]: components/form-item/form-item-input
 [lformitemnumber]: /components/form-item/form-item-input/lform-number
 [lformitempassword]: /components/form-item/form-item-input/lform-password
 [lformitemtextarea]: /components/form-item/form-item-input/lform-text-area
