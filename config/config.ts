@@ -6,7 +6,15 @@ const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 
 const configs = defineConfig({
-  // ssr: {},
+  targets: isDev
+    ? undefined
+    : {
+        ie: 11,
+        chrome: 80,
+      },
+  webpack5: {},
+  hash: true,
+  ignoreMomentLocale: true,
   nodeModulesTransform: {
     // type: isDev ? 'none' : 'all',
     type: 'none',

@@ -69,3 +69,7 @@ form.setFieldsValue({
   style={{ display: 'none' }}
 />
 ```
+
+## 其他常见问题
+
+更多常见问题请参考 antd 问答 [其他常见问题](https://ant.design/docs/react/faq-cn)

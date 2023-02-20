@@ -15,13 +15,11 @@ const config =
           input: 'packages/rc-use-hooks/src',
           output: 'packages/rc-use-hooks/es',
           transformer: 'babel',
-          ignores: [],
         },
         cjs: {
           input: 'packages/rc-use-hooks/src',
           output: 'packages/rc-use-hooks/lib',
           transformer: 'babel',
-          ignores: [],
         },
       })
     : defineConfig({
