@@ -4,6 +4,7 @@ export type {
   LTableProps,
   LTableRenderProps,
   LTableRequest,
+  LTableRequestParams,
   LTableRequestType,
 } from './components/BaseTable';
 export type { LToolbarActionProps } from './components/ToolBarAction';

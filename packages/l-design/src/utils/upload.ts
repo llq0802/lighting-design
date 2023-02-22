@@ -14,7 +14,7 @@ export function checkFileType(file: File, accept?: string) {
   // .map((item) => item.trim())
   // .filter(Boolean);
 
-  // 第二种方法 (?:x)表示不存储匹配的值x 在正则分割字符串为数组的时候，可以使用/(?:)/来分隔单个字符
+  // 第二种方法 (?:x)表示不存储匹配的值x(只匹配不捕获) 在正则分割字符串为数组的时候()，可以使用/(?:)/来分隔单个字符
   const types = accept.toLowerCase().split(/,(?:\s+)?/);
   // .doc .docx .jpg .png
   types.some((type) => {

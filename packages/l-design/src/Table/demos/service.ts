@@ -202,7 +202,7 @@ for (let i = 0; i < 100; i++) {
 }
 
 export function apiGetUserList(): Promise<Record<string, any>> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve({
         data: data,
