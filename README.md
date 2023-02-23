@@ -63,9 +63,10 @@ yarn add packageName -W -D
 
 ## 依赖版本
 
-必须要项目中安装 antd 的版本>=4.23.0
+- 必须要项目中安装 `antd` 的版本>=4.23.0
+- 目前暂不支持 `antd5.0` 后续版本将会支持
 
-## 🖥 浏览器兼容性
+## 浏览器兼容性
 
 - 现代浏览器和 Internet Explorer 11 (with [polyfills](https://stackoverflow.com/questions/57020976/polyfills-in-2019-for-ie11))
 - [Electron](https://www.electronjs.org/)
