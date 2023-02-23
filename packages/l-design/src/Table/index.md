@@ -71,7 +71,8 @@ import { LTable } from 'lighting-design';
 | nowrap | 表格宽度超过 100%自动处理横向滚动条。 | `boolean` | `true` |
 | autoRequest | 是否自动请求 | `boolean` | `true` |
 | defaultRequestParams | 异步请求函数第一次额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) | `Record<string, any>` | `-` |
-| request | 异步请求函数 | `LTableRequest` | `-` |
+| request | 异步请求函数，用于获取表格数据 | `LTableRequest` | `-` |
+| requestOptions | `useRequest`的配置 建议只配置`onError onSuccess回调` 其他不建议配置 | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options) | `-` |
 | formRef | 查询表单的实例 | `MutableRefObject<FormInstance \| undefined> \| ((ref: FormInstance) => void)` | `-` |
 | tableRef | 表格的实例 包含一些方法 | ` MutableRefObject<LTableInstance \| undefined>` | `-` |
 | rootClassName | 表格最外层根 div 类名 | `string` | `-` |
@@ -182,6 +183,15 @@ export type LToolbarActionProps = {
   showDensity?: boolean;
   /** 是否显示全屏 */
   showFullscreen?: boolean;
+  /** 点击刷新图标的回调 */
+  onReloadIconChange?: () => void;
+  /** 内置图标的排序 */
+  orders?: {
+    reload: number;
+    density: number;
+    fullscreen: number;
+    columnSetting: number;
+  };
   /** 图标样式 */
   style?: CSSProperties; // 默认字体大小16px 字体颜色黑色
 } & SpaceProps;

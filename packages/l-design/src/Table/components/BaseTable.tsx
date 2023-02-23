@@ -463,7 +463,7 @@ const BaseTable: FC<LTableProps> = (props) => {
       {...toolbarActionConfig}
       showColumnSetting={contentRender ? false : toolbarActionConfig?.showColumnSetting}
       showDensity={contentRender ? false : toolbarActionConfig?.showDensity}
-      className={`${LIGHTD_TABLE}-toolbar-action`}
+      className={`${LIGHTD_TABLE}-toolbar-action ${toolbarActionConfig.className}`}
     />
   );
 

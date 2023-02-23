@@ -39,7 +39,7 @@ const Demo5: FC = () => {
       queryFormProps={{
         showColsNumber: 3,
       }}
-      showToolbar={false}
+      // showToolbar={false}
       className="my-lightd-row-111"
       rowClassName="my-lightd-row-999"
       formItems={formItems}
