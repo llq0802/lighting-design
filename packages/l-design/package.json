@@ -14,11 +14,13 @@
   },
   "keywords": [
     "lighting-design",
-    "react",
-    "react-components",
+    "light-design",
     "lighting",
     "antd",
-    "lightd"
+    "lightd",
+    "react",
+    "react-ui",
+    "react-components"
   ],
   "directories": {
     "lib": "lib",
