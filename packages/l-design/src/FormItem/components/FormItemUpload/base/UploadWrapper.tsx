@@ -29,6 +29,7 @@ export interface UploadWrapperProps extends UploadProps {
   onGetPreviewUrl?: (file: File) => Promise<string>; // 点击预览获取大图URL
   buttonProps?: ButtonProps;
   cropProps?: Record<string, any>;
+  isSerial?: boolean;
 }
 
 const UploadWrapper: FC<UploadWrapperProps> = (props) => {
@@ -41,6 +42,8 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     previewModalProps = {},
     cropProps,
     onGetPreviewUrl,
+
+    isSerial,
 
     // onChange,
     maxCount,
@@ -189,35 +192,51 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
       if (customRequest) {
         return customRequest(obj);
       }
-      let timer: any = null;
-      // 队列上传
-      function queueUpload() {
-        if (!uploadingRef.current) {
-          uploadingRef.current = true;
-          clearTimeout(timer);
-          setTimeout(() => {
-            obj.onProgress?.({ percent: 99 });
-            const uploadRet = onUpload?.(obj.file);
-            if (uploadRet instanceof Promise) {
-              uploadRet
-                .then(obj.onSuccess)
-                .catch(obj.onError)
-                .finally(() => {
-                  uploadingRef.current = false;
-                });
-            } else {
-              obj.onSuccess(uploadRet);
+      if (isSerial) {
+        let timer: any = null;
+        // 队列串行上传
+        function queueUpload() {
+          if (!uploadingRef.current) {
+            uploadingRef.current = true;
+            clearTimeout(timer);
+            setTimeout(() => {
+              obj.onProgress?.({ percent: 99 });
+              const uploadRet = onUpload?.(obj.file);
+              if (uploadRet instanceof Promise) {
+                uploadRet
+                  .then(obj.onSuccess)
+                  .catch(obj.onError)
+                  .finally(() => {
+                    uploadingRef.current = false;
+                  });
+              } else {
+                obj.onSuccess(uploadRet);
+                uploadingRef.current = false;
+              }
+            });
+          } else {
+            timer = setTimeout(queueUpload, 100);
+          }
+        }
+        queueUpload();
+      } else {
+        // 并行上传
+        obj.onProgress?.({ percent: 99 });
+        const uploadRet = onUpload?.(obj.file);
+        if (uploadRet instanceof Promise) {
+          uploadRet
+            .then(obj.onSuccess)
+            .catch(obj.onError)
+            .finally(() => {
               uploadingRef.current = false;
-            }
-          });
+            });
         } else {
-          timer = setTimeout(queueUpload, 100);
+          obj.onSuccess(uploadRet);
+          uploadingRef.current = false;
         }
       }
-
-      queueUpload();
     },
-    [customRequest, onUpload],
+    [customRequest, isSerial, onUpload],
   );
 
   // 是否支持预览

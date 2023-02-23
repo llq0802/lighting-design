@@ -1,5 +1,5 @@
 const IMG_URL = 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';
-const sleep = (time = 1000) => {
+const sleep = (time = 5000) => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(IMG_URL);

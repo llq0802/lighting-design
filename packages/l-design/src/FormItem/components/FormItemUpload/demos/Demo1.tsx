@@ -42,6 +42,7 @@ const Demo1 = () => {
       />
 
       <LFormItemUpload
+      isSerial={false}
         name="image"
         label="图片上传"
         uploadType="image"
