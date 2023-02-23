@@ -65,23 +65,35 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
 }) => {
   const domRef = useRef<HTMLDivElement | Container | any>(null);
   const setNumDom = useCallback((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
-    const numberDom: any[] = []; // 整数位数
+    const decimalFlag = newStr.join('').indexOf('.') === -1; // 判断是否有小数
     const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
+    const numberDom: any[] = []; // 整数位数
     newStr.forEach((o, i) => {
-      // 设置分隔符 不是第0个，必须整数，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
-      if (
-        i != 0 &&
-        i <= newStr.length - decimal &&
-        (newStr.length - decimal - i) % 3 == 0 &&
-        symbol != '' &&
-        symbol != '.' &&
-        o != '.'
-      ) {
-        numberDom.push((key: React.Key | null | undefined) => (
-          <div className={`${prefixCls}-animate-dot`} key={key}>
-            <span>{symbol}</span>
-          </div>
-        ));
+      if (decimalFlag) {
+        // 设置分隔符 不是第0个，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
+        if (i != 0 && (newStr.length - i) % 3 == 0 && symbol != '' && symbol != '.' && o != '.') {
+          numberDom.push((key: React.Key | null | undefined) => (
+            <div className={`${prefixCls}-animate-dot`} key={key}>
+              <span>{symbol}</span>
+            </div>
+          ));
+        }
+      } else {
+        // 设置分隔符 不是第0个，必须整数，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
+        if (
+          i != 0 &&
+          i <= newStr.length - decimal &&
+          (newStr.length - decimal - i) % 3 == 0 &&
+          symbol != '' &&
+          symbol != '.' &&
+          o != '.'
+        ) {
+          numberDom.push((key: React.Key | null | undefined) => (
+            <div className={`${prefixCls}-animate-dot`} key={key}>
+              <span>{symbol}</span>
+            </div>
+          ));
+        }
       }
       if (type === 'date') {
         numberDom.push((key: React.Key) => <DataChildren num={o} key={key} />);
@@ -89,6 +101,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
         numberDom.push((key: React.Key) => <ItemChildren num={o} key={key} />);
       }
     });
+
     return (
       <div className={`${prefixCls}-animate`} style={{ transform: `scale(${scale})` }}>
         {numberDom.map((item, index: number) => item(index))}
