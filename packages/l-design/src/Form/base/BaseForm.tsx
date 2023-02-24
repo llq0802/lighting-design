@@ -1,4 +1,4 @@
-import { useDeepCompareEffect, useSafeState, useUpdateEffect } from 'ahooks';
+import { useDeepCompareEffect, useMemoizedFn, useSafeState, useUpdateEffect } from 'ahooks';
 import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
@@ -153,6 +153,26 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
 
   const formId = useMemo(() => name || uniqueId('lightd-form'), [name]);
 
+  const handleOnFinish = useMemoizedFn(async (values) => {
+    if (typeof onFinish !== 'function') {
+      return;
+    }
+    const formValues = transformValues ? transformValues(values) ?? values : values;
+    const ret: unknown = onFinish(formValues);
+    if (ret instanceof Promise) {
+      setLoading(true);
+      return ret
+        .then((res) => {
+          setLoading(false);
+          return res;
+        })
+        .catch((err) => {
+          setLoading(false);
+          return Promise.reject(err);
+        });
+    }
+  });
+
   const formDom = (
     <LFormContext.Provider
       value={{
@@ -169,25 +189,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
         initialValues={initialValues}
         className={classnames(prefixCls, className)}
         onValuesChange={onValuesChange}
-        onFinish={async (values) => {
-          if (typeof onFinish !== 'function') {
-            return;
-          }
-          const formValues = transformValues ? transformValues(values) ?? values : values;
-          const ret: unknown = onFinish(formValues);
-          if (ret instanceof Promise) {
-            setLoading(true);
-            return ret
-              .then((res) => {
-                setLoading(false);
-                return res;
-              })
-              .catch((err) => {
-                setLoading(false);
-                return Promise.reject(err);
-              });
-          }
-        }}
+        onFinish={handleOnFinish}
         onKeyPress={(event) => {
           const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
           if (isEnterSubmit && buttonHtmlType !== 'submit' && event.key === 'Enter' && isReady) {

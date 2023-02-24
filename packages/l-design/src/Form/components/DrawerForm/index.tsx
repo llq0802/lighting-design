@@ -1,4 +1,4 @@
-import { useControllableValue } from 'ahooks';
+import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { DrawerProps } from 'antd';
 import { Drawer, Form } from 'antd';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
@@ -88,11 +88,11 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
   const _lformRef = useRef<Record<string, any>>();
   const [initialValues, setInitialValues] = useState(outInitialValues ?? {});
 
-  const handleFinish = async (values: Record<string, any>) => {
+  const handleFinish = useMemoizedFn(async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
     // 如果表单提交函数返回true 则关闭弹窗
     if (ret === true) setOpen(false);
-  };
+  });
 
   useEffect(() => {
     if (open) {

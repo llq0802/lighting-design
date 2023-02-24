@@ -1,4 +1,4 @@
-import { useControllableValue } from 'ahooks';
+import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal } from 'antd';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
@@ -79,18 +79,17 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
       bottom: clientHeight - (targetRect.bottom - uiData.y),
     });
   }, []);
-  const onStop = useCallback(
-    (_event: DraggableEvent, uiData: DraggableData) => setPosition({ x: uiData.x, y: uiData.y }),
-    [],
+  const onStop = useMemoizedFn((_event: DraggableEvent, uiData: DraggableData) =>
+    setPosition({ x: uiData.x, y: uiData.y }),
   );
 
-  const handleFinish = async (values: Record<string, any>) => {
+  const handleFinish = useMemoizedFn(async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
     // 如果表单提交函数返回true 则关闭弹窗
     if (ret === true) {
       setOpen(false);
     }
-  };
+  });
 
   useEffect(() => {
     if (open) {

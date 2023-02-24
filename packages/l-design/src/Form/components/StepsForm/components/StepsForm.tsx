@@ -1,4 +1,4 @@
-import { useControllableValue, useSafeState, useUpdate } from 'ahooks';
+import { useControllableValue, useMemoizedFn, useSafeState, useUpdate } from 'ahooks';
 import type { FormInstance, StepProps, StepsProps } from 'antd';
 import { Form, Steps } from 'antd';
 import { default as classnames, default as classNames } from 'classnames';
@@ -168,7 +168,7 @@ const StepsForm: FC<LStepsFormProps> & {
   };
 
   // 重置
-  const reset = () => {
+  const reset = useMemoizedFn(() => {
     setStepNum(defaultCurrent);
     formDataRef.current = {};
     formInstanceListRef.current.forEach((item, i) => {
@@ -177,10 +177,10 @@ const StepsForm: FC<LStepsFormProps> & {
         ...formInitialValues.current[i],
       });
     });
-  };
+  });
 
   // 提交
-  const submit = async () => {
+  const submit = useMemoizedFn(async () => {
     if (typeof onFinish === 'function') {
       let values;
       if (isMergeValues) {
@@ -207,7 +207,7 @@ const StepsForm: FC<LStepsFormProps> & {
         }
       }
     }
-  };
+  });
 
   // 每个表单下一步/提交时触发,用于记录当前表单值
   const onFormFinish = (name: string, values: Record<string, any>) => {

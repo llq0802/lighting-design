@@ -1,9 +1,15 @@
-import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import {
+  useDeepCompareEffect,
+  useMemoizedFn,
+  useRequest,
+  useSafeState,
+  useUpdateEffect,
+} from 'ahooks';
 import type { SelectProps, SpinProps } from 'antd';
 import { Select, Spin } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import type { FC, ReactNode } from 'react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 export type SelectWrapperProps = Record<string, any> & {
   request?: (
@@ -144,14 +150,13 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     }
   }, [isClearDepends, options, optsRequest]);
 
-  const handleChange = useCallback(
+  const handleChange = useMemoizedFn(
     (val: string, items: DefaultOptionType | DefaultOptionType[]) => {
       if (selectProps?.onChange) {
         selectProps?.onChange(val, items);
       }
       onChange(val);
     },
-    [onChange, selectProps],
   );
   return (
     <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>

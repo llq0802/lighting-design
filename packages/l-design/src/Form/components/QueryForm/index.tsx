@@ -1,9 +1,10 @@
 import { DownOutlined } from '@ant-design/icons';
+import { useMemoizedFn } from 'ahooks';
 import type { ColProps } from 'antd';
 import { Col, Row, Space } from 'antd';
 import classnames from 'classnames';
 import type { FC } from 'react';
-import { cloneElement, memo, useCallback, useState } from 'react';
+import { cloneElement, memo, useState } from 'react';
 import LFormItem from '../../../FormItem';
 import type { BaseFormProps } from '../../base/BaseForm';
 import BaseForm from '../../base/BaseForm';
@@ -16,9 +17,9 @@ interface CollapseProps {
 }
 
 const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
-  const handleCollapse = useCallback(() => {
+  const handleCollapse = useMemoizedFn(() => {
     onToggle?.(!collapsed);
-  }, [collapsed, onToggle]);
+  });
 
   return (
     <a

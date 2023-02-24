@@ -1,8 +1,8 @@
-import { useCountDown, useLocalStorageState, useUpdateEffect } from 'ahooks';
+import { useCountDown, useLocalStorageState, useMemoizedFn, useUpdateEffect } from 'ahooks';
 import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction, MouseEvent, Ref, RefObject } from 'react';
-import { forwardRef, useCallback, useEffect } from 'react';
+import { forwardRef, useEffect } from 'react';
 
 export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   second?: number;
@@ -45,12 +45,9 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
       onEnd?.();
     },
   });
-  const handleClick = useCallback(
-    (e: MouseEvent<HTMLElement>) => {
-      onClick?.(e);
-    },
-    [onClick],
-  );
+  const handleClick = useMemoizedFn((e: MouseEvent<HTMLElement>) => {
+    onClick?.(e);
+  });
   useEffect(() => {
     return () => {
       setTargetDate(undefined);

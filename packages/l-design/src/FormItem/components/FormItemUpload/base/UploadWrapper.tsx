@@ -1,11 +1,11 @@
-import { useUnmount } from 'ahooks';
+import { useMemoizedFn, useUnmount } from 'ahooks';
 import type { ButtonProps, ModalProps, UploadProps } from 'antd';
 import { ConfigProvider, message, Upload } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { RcFile, UploadFile } from 'antd/lib/upload';
 import classNames from 'classnames';
 import type { FC } from 'react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { uniqueId } from '../../../../utils';
 import {
   checkFileSize,
@@ -69,38 +69,24 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
   });
 
   // 上传前验证
-  const handleBeforeUpload = useCallback(
-    (file: RcFile, fileList: RcFile[]) => {
-      // 检查是否支持文件类型
-      const isSupportFileType = checkFileType(file, accept);
-      if (!isSupportFileType && fileTypeMessage) {
-        message.error(fileTypeMessage.replace(/x/gi, accept));
-        return Upload.LIST_IGNORE;
-      }
-      // 检查是否超过文件大小
-      const isLessThanFileSize = checkFileSize(file, maxSize);
-      if (!isLessThanFileSize && fileSizeMessage) {
-        message.error(fileSizeMessage.replace(/x/gi, maxSize / 1024 / 1024 + 'M'));
-        return Upload.LIST_IGNORE;
-      }
-      // 若返回 false 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，
-      // 可以返回 Upload.LIST_IGNORE， 此时列表中将不展示此文件。
-      // action没有传地址则停止上传(不会生产status,percent ,response等)
-      return beforeUpload
-        ? beforeUpload(file, fileList)
-        : !!action || !!onUpload || !!customRequest;
-    },
-    [
-      accept,
-      fileTypeMessage,
-      maxSize,
-      fileSizeMessage,
-      beforeUpload,
-      action,
-      onUpload,
-      customRequest,
-    ],
-  );
+  const handleBeforeUpload = useMemoizedFn((file: RcFile, fileList: RcFile[]) => {
+    // 检查是否支持文件类型
+    const isSupportFileType = checkFileType(file, accept);
+    if (!isSupportFileType && fileTypeMessage) {
+      message.error(fileTypeMessage.replace(/x/gi, accept));
+      return Upload.LIST_IGNORE;
+    }
+    // 检查是否超过文件大小
+    const isLessThanFileSize = checkFileSize(file, maxSize);
+    if (!isLessThanFileSize && fileSizeMessage) {
+      message.error(fileSizeMessage.replace(/x/gi, maxSize / 1024 / 1024 + 'M'));
+      return Upload.LIST_IGNORE;
+    }
+    // 若返回 false 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，
+    // 可以返回 Upload.LIST_IGNORE， 此时列表中将不展示此文件。
+    // action没有传地址则停止上传(不会生产status,percent ,response等)
+    return beforeUpload ? beforeUpload(file, fileList) : !!action || !!onUpload || !!customRequest;
+  });
 
   // 处理自定义上传
   // const handleUpload = useCallback(
@@ -187,57 +173,54 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
   // );
 
   // 自定义上传
-  const internalCustomRequest = useCallback(
-    (obj: any) => {
-      if (customRequest) {
-        return customRequest(obj);
-      }
-      if (isSerial) {
-        let timer: any = null;
-        // 队列串行上传
-        function queueUpload() {
-          if (!uploadingRef.current) {
-            uploadingRef.current = true;
-            clearTimeout(timer);
-            setTimeout(() => {
-              obj.onProgress?.({ percent: 99 });
-              const uploadRet = onUpload?.(obj.file);
-              if (uploadRet instanceof Promise) {
-                uploadRet
-                  .then(obj.onSuccess)
-                  .catch(obj.onError)
-                  .finally(() => {
-                    uploadingRef.current = false;
-                  });
-              } else {
-                obj.onSuccess(uploadRet);
-                uploadingRef.current = false;
-              }
-            });
-          } else {
-            timer = setTimeout(queueUpload, 100);
-          }
-        }
-        queueUpload();
-      } else {
-        // 并行上传
-        obj.onProgress?.({ percent: 99 });
-        const uploadRet = onUpload?.(obj.file);
-        if (uploadRet instanceof Promise) {
-          uploadRet
-            .then(obj.onSuccess)
-            .catch(obj.onError)
-            .finally(() => {
+  const internalCustomRequest = useMemoizedFn((obj: any) => {
+    if (customRequest) {
+      return customRequest(obj);
+    }
+    if (isSerial) {
+      let timer: any = null;
+      // 队列串行上传
+      function queueUpload() {
+        if (!uploadingRef.current) {
+          uploadingRef.current = true;
+          clearTimeout(timer);
+          setTimeout(() => {
+            obj.onProgress?.({ percent: 99 });
+            const uploadRet = onUpload?.(obj.file);
+            if (uploadRet instanceof Promise) {
+              uploadRet
+                .then(obj.onSuccess)
+                .catch(obj.onError)
+                .finally(() => {
+                  uploadingRef.current = false;
+                });
+            } else {
+              obj.onSuccess(uploadRet);
               uploadingRef.current = false;
-            });
+            }
+          });
         } else {
-          obj.onSuccess(uploadRet);
-          uploadingRef.current = false;
+          timer = setTimeout(queueUpload, 100);
         }
       }
-    },
-    [customRequest, isSerial, onUpload],
-  );
+      queueUpload();
+    } else {
+      // 并行上传
+      obj.onProgress?.({ percent: 99 });
+      const uploadRet = onUpload?.(obj.file);
+      if (uploadRet instanceof Promise) {
+        uploadRet
+          .then(obj.onSuccess)
+          .catch(obj.onError)
+          .finally(() => {
+            uploadingRef.current = false;
+          });
+      } else {
+        obj.onSuccess(uploadRet);
+        uploadingRef.current = false;
+      }
+    }
+  });
 
   // 是否支持预览
   const isShowPreview = useMemo(() => {
@@ -252,41 +235,38 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
   }, [restProps?.showUploadList]);
 
   // 关闭预览
-  const handlePreviewCancel = useCallback(() => {
+  const handlePreviewCancel = useMemoizedFn(() => {
     setPreviewProps({
       ...previewProps,
       open: false,
     });
-  }, [previewProps]);
+  });
 
   // 打开预览
-  const handlePreview = useCallback(
-    async (file: UploadFile) => {
-      if (!isShowPreview) return;
+  const handlePreview = useMemoizedFn(async (file: UploadFile) => {
+    if (!isShowPreview) return;
 
-      if (!file?.url && !file?.thumbUrl && !file?.preview) {
-        message.error('当前文件不支持预览!');
-        return;
-      }
-      if (onGetPreviewUrl) {
-        file.preview = await onGetPreviewUrl((file?.originFileObj || file) as File);
-      } else if (file?.originFileObj instanceof File) {
-        // base64 路径太大，可能导致卡顿问题
-        file.preview = createFileUrl(uniqueKey, file.uid, (file?.originFileObj || file) as File);
-      } else {
-        file.preview = file.url || file.thumbUrl || file.preview;
-      }
+    if (!file?.url && !file?.thumbUrl && !file?.preview) {
+      message.error('当前文件不支持预览!');
+      return;
+    }
+    if (onGetPreviewUrl) {
+      file.preview = await onGetPreviewUrl((file?.originFileObj || file) as File);
+    } else if (file?.originFileObj instanceof File) {
+      // base64 路径太大，可能导致卡顿问题
+      file.preview = createFileUrl(uniqueKey, file.uid, (file?.originFileObj || file) as File);
+    } else {
+      file.preview = file.url || file.thumbUrl || file.preview;
+    }
 
-      const previewUlr = file.preview || '';
-      const previewTitle = file.name || previewUlr.substring(previewUlr.lastIndexOf('/') + 1);
-      setPreviewProps({
-        open: true,
-        imgUrl: previewUlr,
-        title: previewTitle,
-      });
-    },
-    [isShowPreview, onGetPreviewUrl, uniqueKey],
-  );
+    const previewUlr = file.preview || '';
+    const previewTitle = file.name || previewUlr.substring(previewUlr.lastIndexOf('/') + 1);
+    setPreviewProps({
+      open: true,
+      imgUrl: previewUlr,
+      title: previewTitle,
+    });
+  });
 
   const UploadContent = useMemo(() => (dragger ? Upload.Dragger : Upload), [dragger]);
 

@@ -1,8 +1,14 @@
-import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import {
+  useDeepCompareEffect,
+  useMemoizedFn,
+  useRequest,
+  useSafeState,
+  useUpdateEffect,
+} from 'ahooks';
 import type { CheckboxOptionType, RadioChangeEvent, RadioGroupProps, SpinProps } from 'antd';
 import { Radio, Spin } from 'antd';
 import type { FC, ReactNode } from 'react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 export type RadioWrapperProps = Record<string, any> & {
   request?: (...depends: any[]) => Promise<LRadioOptions[]>;
@@ -138,15 +144,12 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     }
   }, [isClearDepends, opts, optsRequest]);
 
-  const handleChange = useCallback(
-    (val: RadioChangeEvent) => {
-      if (radioProps?.onChange) {
-        radioProps?.onChange(val);
-      }
-      onChange(val);
-    },
-    [onChange, radioProps],
-  );
+  const handleChange = useMemoizedFn((val: RadioChangeEvent) => {
+    if (radioProps?.onChange) {
+      radioProps?.onChange(val);
+    }
+    onChange(val);
+  });
 
   const radioDom = (
     <Radio.Group
