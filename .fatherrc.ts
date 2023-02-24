@@ -29,6 +29,7 @@ const config =
             { libraryName: 'antd', libraryDirectory: 'es', style: true },
             'antd',
           ],
+
           [
             'babel-plugin-import',
             {
