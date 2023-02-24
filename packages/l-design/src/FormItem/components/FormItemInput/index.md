@@ -12,12 +12,14 @@ nav:
 
 **特点**
 
-- 可配置过滤空格
-  - 失焦校验
-  - 自动过滤空格
-  - `phone` 类型只能输入数字 11 位手机号
-  - `idCard`类型 18 数字位最后一位可大小写 `x`
-  - `bankCard`类型只能输入数字
+- 默认失焦校验
+- 默认自动过滤空格
+- 内置常见正则校验
+  - `phone` 类型 只能输入以 1 开头的 11 位手机号
+  - `idCard`类型 支持 1/2 代(15 位/18 位数字)最后一位可为数字或字符大小写`X`
+  - `bankCard`类型 只能输入 10 到 30 位数字，覆盖对公/私账户
+  - `email`类型 覆盖绝大多数邮箱校验
+  - `url`类型 覆盖绝大多数 URL 校验
 
 ## 代码演示
 
@@ -37,4 +39,4 @@ import { LFormItemInput } from 'lighting-design';
 | --- | --- | --- | --- |
 | inputProps | `Input`的属性 | [InputProps](https://4x.ant.design/components/input-cn/#API) | `-` |
 | disabledWhiteSpace | 是否禁用输入空格 | `boolean` | `true` |
-| type | `内置输入框类型` | `InputProps['type'] \| 'bankCard' \| 'idCard' \| 'phone'` | `text` |
+| type | `内置输入框类型` | `InputProps['type'] \| 'bankCard' \| 'idCard' \| 'phone' \| 'url' \| 'email'` | `text` |

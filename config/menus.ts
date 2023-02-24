@@ -15,6 +15,7 @@ export default {
         'Tooltip/index.md',
         'ColorPick/index.md',
         'Trigger/index.md',
+        'Typeit/index.md',
         'FileViewer/index.md',
         'WaterMark/index.md',
         'NumberRoll/index.md',

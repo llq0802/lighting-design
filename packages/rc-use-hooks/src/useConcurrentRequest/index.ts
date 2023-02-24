@@ -32,7 +32,6 @@ export default function useConcurrentRequest(asyncFns: AsyncFnsType, max: number
           result[i] = ret;
         } catch (err) {
           result[i] = err;
-          setLoading(false);
           reject(err);
         } finally {
           count++;

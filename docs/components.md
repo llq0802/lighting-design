@@ -15,6 +15,7 @@ nav:
 - [LTooltip] - 提示器
 - [LColor] - 颜色显示/选择
 - [LTrigger] - 高级弹出选择
+- [LTypeit] - 打字机
 - [LFileViewer] - 文件预览器
 - [LWaterMark] - 水印
 - [LNumberRoll] - 数字滚动
@@ -59,6 +60,7 @@ nav:
 - [LFormItemRate] - 评分器
 - [LFormItemSegmented] - 分段器
 
+[ltypeit]: /components/typeit
 [lspin]: /components/spin
 [ltooltip]: /components/tooltip
 [lcolor]: /components/color-pick
@@ -76,7 +78,7 @@ nav:
 [lstepsform]: /components/form/steps-form
 [lloginform]: /components/form/login-form
 [lformitem]: /components/form-item
-[lformiteminput]: /components/form-item-input
+[lformiteminput]: components/form-item/form-item-input
 [lformitemnumber]: /components/form-item/form-item-input/lform-number
 [lformitempassword]: /components/form-item/form-item-input/lform-password
 [lformitemtextarea]: /components/form-item/form-item-input/lform-text-area

@@ -1,5 +1,5 @@
 {
-  "name": "l-design",
+  "name": "lignting-design",
   "version": "0.0.1-beta.2",
   "private": true,
   "scripts": {
@@ -34,7 +34,8 @@
     "antd": "^4.24.5",
     "antd-img-crop": "^4.6.0",
     "react-color": "^2.19.3",
-    "react-draggable": "^4.4.5"
+    "react-draggable": "^4.4.5",
+    "typeit-react": "^2.6.4"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.1",

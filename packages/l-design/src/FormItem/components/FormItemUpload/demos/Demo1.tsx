@@ -15,7 +15,6 @@ const Demo1 = () => {
       }}
     >
       <LFormItemUpload
-        required
         name="default"
         label="默认上传"
         accept=".jpg, .jpeg"
@@ -24,19 +23,26 @@ const Demo1 = () => {
       />
 
       <LFormItemUpload
+        tooltip="头像上传,不支持预览"
         required
         onUpload={upload}
         uploadType="avatar"
         name="avatar"
         label="头像上传"
+        initialValue={[
+          {
+            name: 'meinv',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          },
+        ]}
         uploadProps={{
           className: 'my-avatar',
-          name: 'fileName',
+          name: 'avatarName',
         }}
       />
 
       <LFormItemUpload
-        required
+      isSerial={false}
         name="image"
         label="图片上传"
         uploadType="image"
@@ -51,7 +57,6 @@ const Demo1 = () => {
         uploadProps={{ name: 'fileName' }}
       />
       <LFormItemUpload
-        required
         uploadType="dragger"
         name="dragger"
         label="拖动上传"

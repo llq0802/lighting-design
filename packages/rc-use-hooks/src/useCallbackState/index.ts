@@ -18,18 +18,14 @@ export default function useCallbackState<T>(
     callBackRef?.current?.(data);
   }, [data]);
 
-  const setState = useCallback(function (newState: SetStateAction<T>, cb?: (val: T) => void) {
+  const setState = useCallback((newState: SetStateAction<T>, cb?: (val: T) => void) => {
     if (isFunction(cb)) {
       callBackRef.current = cb;
     }
-    if (isFunction(newState)) {
-      setData((prevState: T) => {
-        const ret = (newState as Function)?.(prevState);
-        return ret;
-      });
-    } else {
-      setData(newState as T);
-    }
+    setData((prevState: T) => {
+      const ret = isFunction(newState) ? (newState as Function)?.(prevState) : newState;
+      return ret;
+    });
   }, []);
 
   return [data, setState];

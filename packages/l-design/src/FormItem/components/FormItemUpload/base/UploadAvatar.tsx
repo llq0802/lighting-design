@@ -15,7 +15,7 @@ const AvatarContent: FC<{
   buttonText?: ReactNode;
   buttonIcon?: ReactNode;
 }> = ({ fileList, buttonText, buttonIcon }) => {
-  const [imgUrl, setImgUrl] = useState('');
+  const [imgUrl, setImgUrl] = useState<undefined | string>('');
 
   const currentFile = useMemo(
     () => (Array.isArray(fileList) && fileList.length > 0 ? fileList[0] : null),
@@ -23,7 +23,6 @@ const AvatarContent: FC<{
   );
   const uploading = currentFile?.status === 'uploading';
   const isError = currentFile?.status === 'error';
-
   // const getUrl = useCallback(async () => {
   //   if (!currentFile) {
   //     setImgUrl('');
@@ -46,17 +45,29 @@ const AvatarContent: FC<{
   // }, [getUrl]);
 
   useEffect(() => {
-    if (currentFile && currentFile?.originFileObj instanceof File) {
+    // if (currentFile && currentFile?.originFileObj instanceof File) {
+    //   if (!currentFile.thumbUrl && !currentFile.url && !currentFile.preview) {
+    //     currentFile.preview = URL.createObjectURL(
+    //       (currentFile?.originFileObj || currentFile) as File,
+    //     );
+    //   }
+    //   setImgUrl(currentFile.thumbUrl || currentFile.url || currentFile.preview || '');
+    // } else if (currentFile && (currentFile.thumbUrl || currentFile.url || currentFile.preview)) {
+    //   setImgUrl(currentFile.thumbUrl || currentFile.url || currentFile.preview || '');
+    // } else {
+    //   setImgUrl('');
+    // }
+    if (currentFile) {
       if (!currentFile.thumbUrl && !currentFile.url && !currentFile.preview) {
         currentFile.preview = URL.createObjectURL(
           (currentFile?.originFileObj || currentFile) as File,
         );
       }
-      setImgUrl(currentFile.thumbUrl || currentFile.url || currentFile.preview || '');
+      setImgUrl(currentFile.thumbUrl || currentFile.url || currentFile.preview);
     } else {
       setImgUrl('');
     }
-  }, [currentFile]);
+  }, [currentFile, fileList]);
 
   const viewConent = useMemo(() => {
     if (isError) {

@@ -13,10 +13,11 @@ nav:
 **特点**
 
 - 支持请求获取数据
+- 自动捕获请求错误
 - 自动管理 loading
 - 支持卡片形式的表格
-- 内置表格工具
-- 可自定义配置
+- 内置表格工具，内置排序
+- 可自定义各种配置，样式等
 
 ## 代码演示
 
@@ -39,8 +40,8 @@ nav:
 ### 卡片形式
 
  <code src='./demos/Demo6.tsx' background="#f5f5f5">
- 
- ### 异步表单初始值
+
+### 异步表单初始值
 
  <code src='./demos/Demo4.tsx' background="#f5f5f5">
 
@@ -68,9 +69,10 @@ import { LTable } from 'lighting-design';
 | isReady | 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询 | `boolean` | `true` |
 | fullScreenBgColor | 全屏时显示的背景颜色 | `string` | `#fff` |
 | nowrap | 表格宽度超过 100%自动处理横向滚动条。 | `boolean` | `true` |
-| requestParams | 异步请求函数额外参数 | `Record<string, any>` | `-` |
-| request | 异步请求函数 | `LTableRequest` | `-` |
 | autoRequest | 是否自动请求 | `boolean` | `true` |
+| defaultRequestParams | 异步请求函数第一次额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) | `Record<string, any>` | `-` |
+| request | 异步请求函数，用于获取表格数据 | `LTableRequest` | `-` |
+| requestOptions | `useRequest`的配置 建议只配置`onError onSuccess回调` 其他不建议配置 | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options) | `-` |
 | formRef | 查询表单的实例 | `MutableRefObject<FormInstance \| undefined> \| ((ref: FormInstance) => void)` | `-` |
 | tableRef | 表格的实例 包含一些方法 | ` MutableRefObject<LTableInstance \| undefined>` | `-` |
 | rootClassName | 表格最外层根 div 类名 | `string` | `-` |
@@ -96,15 +98,25 @@ import { LTable } from 'lighting-design';
 ```ts
 export type LTableRequest = (
   /** 请求参数 */
-  params: {
-    current: number;
-    pageSize: number;
-    formValues?: Record<string, any>;
-    [key: string]: any;
-  },
+  params: LTableRequestParams,
   /** 请求类型 */
-  requestType: RequestType,
+  requestType: LTableRequestType,
 ) => Promise<{ success: boolean; data: Record<string, any>[]; total: number }>;
+```
+
+### LTableRequestParams
+
+```ts
+export type LTableRequestParams = {
+  /** 当前页 */
+  current: number;
+  /** 一页多少条 */
+  pageSize: number;
+  /** 表单数据 */
+  formValues?: Record<string, any>;
+  /** 其他参数 */
+  [key: string]: any;
+};
 ```
 
 ### LTableRenderProps
@@ -130,7 +142,10 @@ export type LTableRenderProps = (
 ### LTableRequestType
 
 ```ts
-export type LTableRequestType = 'onSearch' | 'onReload' | 'onReset';
+// autoRequest 为 true 时才有 onInit;
+// 查询按钮请求为 'onSearch'
+// 表格分页查询为 'onReload'
+export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset';
 ```
 
 ### LTableInstance
@@ -168,6 +183,15 @@ export type LToolbarActionProps = {
   showDensity?: boolean;
   /** 是否显示全屏 */
   showFullscreen?: boolean;
+  /** 点击刷新图标的回调 */
+  onReloadIconChange?: () => void;
+  /** 内置图标的排序 */
+  orders?: {
+    reload: number;
+    density: number;
+    fullscreen: number;
+    columnSetting: number;
+  };
   /** 图标样式 */
   style?: CSSProperties; // 默认字体大小16px 字体颜色黑色
 } & SpaceProps;

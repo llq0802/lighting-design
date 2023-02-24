@@ -27,7 +27,7 @@ nav:
 ```ts
 const funRef = useRef<OnShowInstance>(null);
 funRef.current?.onShow(data); // 触发子组件方法onShow
-funRef.current?.onHide(); // 触发子组件方法onHide
+funRef.current?.onHide(data); // 触发子组件方法onHide
 funRef.current?.getChildData(); // 获取子组件数据
 
 <ChildModel funcRef={funRef} />;
@@ -42,8 +42,8 @@ funRef.current?.getChildData(); // 获取子组件数据
  **/
 const { parentData, setParentData } = useShow(funRef, {
   onShow: (parentData: Record<string, any>) => void, // 父组件执行onShow的时候触发
-  onHide: (parentData: Record<string, any>) => void, // 父组件执行onShow的时候触发
-  onFormart: (parentData:Record<string,any>) => any, // 格式化父组件调用onShow传入的参数
+  onHide: (parentData: Record<string, any>) => void, // 父组件执行onHide的时候触发
+  onFormart: (parentData:Record<string,any>) => any, // 格式化父组件调用onShow传入的参数parentData
 });
 ```
 

@@ -16,11 +16,15 @@ nav:
 
 <code src='./demos/Demo4.tsx'>
 
+### 全屏抽屉
+
+<code src='./demos/Demo6.tsx'>
+
 ### 使用 open 受控
 
 <code src='./demos/Demo1.tsx'>
 
-### 编辑
+### 编辑回显
 
 <code src='./demos/Demo3.tsx'>
 

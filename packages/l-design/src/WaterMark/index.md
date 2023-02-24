@@ -16,7 +16,11 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/base.tsx' />
+<code src='./demos/Demo1.tsx' />
+
+### 包裹其他组件
+
+<code src='./demos/Demo2.tsx' />
 
 ---
 

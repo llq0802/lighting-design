@@ -40,11 +40,14 @@ export type LFormItemUploadProps = LFormItemProps &
     /** 是否需要裁剪 */
     isCrop?: boolean;
     cropProps?: Record<string, any>;
+    /** 是否是串行上传 为true为串行 为false为并行 */
+    isSerial?: boolean;
   };
 
 const LFormItemUpload: FC<LFormItemUploadProps> = ({
   uploadType = 'default',
   isCrop = false,
+  isSerial = true,
   cropProps = {
     modalOk: '确定',
     modalCancel: '取消',
@@ -106,6 +109,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
       {...restProps}
     >
       <UploadComp
+        isSerial={isSerial}
         isCrop={isCrop}
         cropProps={cropProps}
         buttonIcon={buttonIcon}

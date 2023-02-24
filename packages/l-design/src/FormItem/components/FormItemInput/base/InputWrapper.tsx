@@ -3,7 +3,7 @@ import { Input } from 'antd';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback, useMemo } from 'react';
 
-export type InputType = InputProps['type'] | 'bankCard' | 'idCard' | 'phone';
+export type InputType = InputProps['type'] | 'bankCard' | 'idCard' | 'phone' | 'email' | 'url';
 
 export interface InputWrapperProps extends InputProps {
   type?: InputType;

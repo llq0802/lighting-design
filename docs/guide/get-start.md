@@ -12,6 +12,8 @@ nav:
 
 ## 安装
 
+> 项目中安装 `antd` 的版本 `>=4.23.0`，`v1` 版本暂不支持`antd5.0`，计划 `v2` 版本支持。
+
 ```shell
 npm i lighting-design
 

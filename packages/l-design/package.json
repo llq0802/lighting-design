@@ -1,6 +1,6 @@
 {
   "name": "lighting-design",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.6",
   "description": "🎨 Lighting Design 是一款使用 TypeScript + React 编写的实用业务组件库。",
   "author": "llq0802 <958614130@qq.com>",
   "homepage": "https://llq0802.github.io/lighting-design/",
@@ -14,11 +14,13 @@
   },
   "keywords": [
     "lighting-design",
-    "react",
-    "react-components",
+    "light-design",
     "lighting",
     "antd",
-    "lightd"
+    "lightd",
+    "react",
+    "react-ui",
+    "react-components"
   ],
   "directories": {
     "lib": "lib",
@@ -44,7 +46,8 @@
     "classnames": "^2.2.6",
     "antd-img-crop": "^4.6.0",
     "react-draggable": "^4.4.5",
-    "react-color": "^2.19.3"
+    "react-color": "^2.19.3",
+    "typeit-react": "^2.6.4"
   },
   "devDependencies": {},
   "peerDependencies": {

@@ -15,15 +15,11 @@ const Demo = () => {
         required
         tooltip="启用空格"
       />
-      <LFormItemInput
-        name="phone"
-        label="手机号"
-        required
-        tooltip="只能输入11位数字"
-        type="phone"
-      />
+      <LFormItemInput name="phone" label="手机号" type="phone" required />
+      <LFormItemInput name="email" type="email" label="邮箱" required />
       <LFormItemInput name="idCard" type="idCard" label="身份证" required />
       <LFormItemInput name="bankCard" label="银行卡" required type="bankCard" />
+      <LFormItemInput name="url" label="URL网址" required type="url" />
       <LFormItemInput label="图片验证码" name="code" required contentAfter={<IdentifyCode />} />
       <LFormItemInput
         label="自定义渲染"

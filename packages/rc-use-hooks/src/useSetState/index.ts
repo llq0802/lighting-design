@@ -14,6 +14,7 @@ const useSetState = <S extends Record<string, any>>(
   initialState: S | (() => S),
 ): [S, SetState<S>] => {
   const [state, setState] = useState<S>(initialState);
+
   const setMergeState = useCallback((patch: any) => {
     setState((prevState) => {
       const newState = isFunction(patch) ? patch(prevState) : patch;

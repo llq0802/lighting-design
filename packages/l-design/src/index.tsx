@@ -92,6 +92,9 @@ export type { default as LTooltipProps } from './Tooltip';
 /** 弹出选择 */
 export * from './Trigger';
 export { default as LTrigger } from './Trigger';
+/** 打字机 */
+export * from './Typeit';
+export { default as LTypeit } from './Typeit';
 // ==========hooks方式使用弹窗组件==========
 export { default as useFormDrawer } from './useFormDrawer';
 export type { DrawerModalProps, DrawerSubmitProps, FormDrawerSlotProps } from './useFormDrawer';
