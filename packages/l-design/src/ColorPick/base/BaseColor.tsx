@@ -29,7 +29,7 @@ const Color: FC<ColorProps> = ({
       <span className={classNames(`${prefixCls}-outer`)} title={value}>
         <span
           className={classNames(`${prefixCls}-inner`)}
-          style={{ backgroundColor: value || 'none' }}
+          style={{ backgroundColor: value || 'initial' }}
         />
       </span>
     ),
