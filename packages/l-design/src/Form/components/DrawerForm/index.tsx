@@ -110,7 +110,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
         form={formRef.current}
         onFinish={handleFinish}
         submitter={
-          typeof submitter == 'undefined' || submitter
+          typeof submitter === 'undefined' || submitter
             ? {
                 resetText: '取消',
                 submitText: '确认',

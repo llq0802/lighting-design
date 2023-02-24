@@ -72,7 +72,9 @@ function LQueryForm(props: LQueryFormProps) {
   return (
     <BaseForm
       layout={layout}
-      submitter={{ submitText: '查询', ...submitter }}
+      submitter={
+        submitter == undefined || submitter ? { submitText: '查询', ...submitter } : submitter
+      }
       className={classnames(prefixCls, className)}
       contentRender={(formItemsDom, submitterDom) => {
         const enabledCollapse =

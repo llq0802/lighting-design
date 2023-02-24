@@ -107,7 +107,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
         form={formRef.current}
         onFinish={handleFinish}
         submitter={
-          typeof submitter == 'undefined' || submitter
+          typeof submitter === 'undefined' || submitter
             ? {
                 resetText: modalProps?.cancelText || '取消',
                 submitText: modalProps?.okText || '确认',
