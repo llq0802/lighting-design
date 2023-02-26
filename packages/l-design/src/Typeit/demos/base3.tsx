@@ -1,12 +1,12 @@
 import { LTypeit } from 'lighting-design';
 import type { FC } from 'react';
+import { awaitTime } from '../../_utils';
 
 const Index: FC = () => {
   const promiseSum = () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve('');
-      }, 3000);
+    return new Promise(async (resolve) => {
+      await awaitTime(3000);
+      resolve('');
     });
   };
 
@@ -15,9 +15,7 @@ const Index: FC = () => {
       <LTypeit
         style={{ fontFamily: 'cursive' }}
         options={{
-          afterComplete: (instance: { destroy: () => void }) => {
-            instance.destroy();
-          },
+          cursor: false,
           loop: true,
         }}
         getBeforeInit={(instance) => {

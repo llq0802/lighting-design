@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useCallback, useEffect, useRef } from 'react';
 import type { Container } from 'react-dom';
 import { render } from 'react-dom';
-let timer: NodeJS.Timeout;
+import { awaitTime } from '../../_utils';
 const Index: FC = () => {
   const domRef = useRef<Container | any>(<></>);
 
@@ -18,18 +18,13 @@ const Index: FC = () => {
     );
   }, []);
 
-  const onLoad = () => {
-    timer = setTimeout(() => {
-      const result = '这是一段异步调用文案。';
-      render(TypertDom(result), domRef.current);
-    }, 3000);
+  const onLoad = async () => {
+    await awaitTime(3000);
+    render(TypertDom('这是一段异步调用文案。'), domRef.current);
   };
 
   useEffect(() => {
     onLoad();
-    return () => {
-      clearTimeout(timer);
-    };
   }, []);
 
   return (
