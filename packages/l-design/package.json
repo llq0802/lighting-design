@@ -1,6 +1,6 @@
 {
   "name": "lighting-design",
-  "version": "0.0.1-alpha.7",
+  "version": "0.0.1-alpha.8",
   "description": "🎨 Lighting Design 是一款使用 TypeScript + React 编写的实用业务组件库。",
   "author": "llq0802 <958614130@qq.com>",
   "homepage": "https://llq0802.github.io/lighting-design/",
@@ -43,7 +43,6 @@
   },
   "dependencies": {
     "ahooks": "^3.7.2",
-    "classnames": "^2.2.6",
     "antd-img-crop": "^4.6.0",
     "react-draggable": "^4.4.5",
     "react-color": "^2.19.3",

@@ -15,7 +15,7 @@ import type {
   RefObject,
   SetStateAction,
 } from 'react';
-import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { LQueryFormProps } from '../../Form/components/QueryForm';
 import TableContext from '../TableContext';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
@@ -90,6 +90,7 @@ export type LTableProps = {
   defaultRequestParams?: Record<string, any>;
   /**
    * ahooks的useRequest的options
+   * @version v3
    *  @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
    */
   requestOptions?: {
@@ -235,19 +236,16 @@ const BaseTable: FC<LTableProps> = (props) => {
   // 绑定SearchForm组件form实例在内部
   const queryFormRef = useRef<FormInstance | null>(null);
   // 绑定SearchForm组件form实例在外部
-  const handleFormRef = useCallback(
-    (refValue: FormInstance) => {
-      queryFormRef.current = refValue;
-      if (formRef) {
-        if (typeof formRef === 'function') {
-          formRef(refValue);
-        } else {
-          formRef.current = refValue;
-        }
+  const handleFormRef = useMemoizedFn((refValue: FormInstance) => {
+    queryFormRef.current = refValue;
+    if (formRef) {
+      if (typeof formRef === 'function') {
+        formRef(refValue);
+      } else {
+        formRef.current = refValue;
       }
-    },
-    [formRef],
-  );
+    }
+  });
   // 默认从第一页
   const outPaginationCurrent = useMemo(() => {
     return (outPagination && (outPagination.defaultCurrent || outPagination.current)) || 1;
@@ -396,10 +394,6 @@ const BaseTable: FC<LTableProps> = (props) => {
 
   // 表格分页页码丶排序等改变时触发
   const handleTableChange = useMemoizedFn((pagination, filters, sorter, extra) => {
-    // console.log('pagination ', pagination);
-    // console.log('filters ', filters);
-    // console.log('sorter ', sorter);
-    // console.log('extra ', extra);
     onChange?.(pagination, filters, sorter, extra);
     if (hasFromItems) {
       const formValues = queryFormRef.current?.getFieldsValue();
@@ -482,9 +476,9 @@ const BaseTable: FC<LTableProps> = (props) => {
     <Spin {...currentLoading}>
       <Card
         bordered={false}
-        className={LIGHTD_CARD}
-        style={{ ...tableCardProps?.style }}
         {...tableCardProps}
+        style={{ ...tableCardProps?.style }}
+        className={classNames(`${LIGHTD_CARD}`, tableCardProps?.className)}
       >
         {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
         <Table
@@ -521,20 +515,31 @@ const BaseTable: FC<LTableProps> = (props) => {
     </Spin>
   );
 
-  const searchFormDom = (
-    <SearchForm
-      isReady={isReady}
-      loading={currentLoading.spinning}
-      ref={handleFormRef}
-      cardProps={formCardProps}
-      onFinish={handleSearchFormFinish}
-      // onReset={handleSearchFormReset}
-      formItems={formItems}
-      initialValues={formInitialValues}
-      _lformRef={_lformRef}
-      {...queryFormProps}
-    />
-  );
+  const searchFormDom = useMemo(() => {
+    return (
+      <SearchForm
+        isReady={isReady}
+        loading={currentLoading.spinning}
+        ref={handleFormRef}
+        cardProps={formCardProps}
+        onFinish={handleSearchFormFinish}
+        // onReset={handleSearchFormReset}
+        formItems={formItems}
+        initialValues={formInitialValues}
+        _lformRef={_lformRef}
+        {...queryFormProps}
+      />
+    );
+  }, [
+    isReady,
+    currentLoading.spinning,
+    formCardProps,
+    formInitialValues,
+    formItems,
+    queryFormProps,
+    handleFormRef,
+    handleSearchFormFinish,
+  ]);
 
   // const renderTableDom = () => (tableRender ? tableRender(tableDom, props) : tableDom);
   // const TableConentDom = contentRender ? contentRender(data?.list ?? []) : tableDom;

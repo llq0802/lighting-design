@@ -1,5 +1,6 @@
 import type { CardProps, FormInstance } from 'antd';
 import { Card } from 'antd';
+import classNames from 'classnames';
 import type { ReactNode } from 'react';
 import { cloneElement, forwardRef, useImperativeHandle, useMemo } from 'react';
 import LForm from '../../Form';
@@ -34,11 +35,17 @@ const SearchForm = forwardRef(
 
     useImperativeHandle(ref, () => form, [form]);
 
+    const dom = items.map((item: any, index: number) =>
+      cloneElement(item, {
+        key: item?.key || item?.props?.key || item?.props?.name + index.toString(),
+      }),
+    );
+
     return (
       <Card
-        className={LIGHTD_CARD}
         bordered={false}
         {...cardProps}
+        className={classNames(`${LIGHTD_CARD}`, cardProps?.className)}
         style={{ ...cardProps?.style }}
         bodyStyle={{
           paddingBottom: 0,
@@ -47,14 +54,7 @@ const SearchForm = forwardRef(
         }}
       >
         <LQueryForm form={form} name={searchFormId} {...restProps}>
-          {useMemo(() => {
-            return items.map((item: any, index: number) =>
-              cloneElement(item, {
-                key: item?.key || item?.props?.key || item?.props?.name + index.toString(),
-              }),
-            );
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-          }, [])}
+          {dom}
         </LQueryForm>
       </Card>
     );

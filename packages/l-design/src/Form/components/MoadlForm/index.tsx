@@ -29,6 +29,11 @@ export interface LModalFormProps<T = any>
   onOpenChange?: (open: boolean) => void;
   /** 表单提交 只有返回true时才关闭弹窗 */
   onFinish?: (values: Record<string, any>) => void | undefined | true | Promise<any>;
+
+  /**
+   * @deprecated `visible` is deprecated which will be removed in next major version. Please use
+   *   `open` instead.
+   */
 }
 
 const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
