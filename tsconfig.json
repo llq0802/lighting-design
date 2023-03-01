@@ -29,7 +29,6 @@
     ".eslintrc.js",
     "tests",
     "jest.config.js",
-    "**/fixtures",
-    "packages/l-design/src/Button/.demo"
+    "**/fixtures"
   ]
 }

@@ -5,13 +5,13 @@ import { awaitTime } from '../../../../_utils';
 
 const Demo3 = () => {
   const [form] = LForm.useForm();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if (open) {
       form.setFieldsValue({ name: '法外狂徒' });
     }
-  }, [open]);
+  }, [form, open]);
 
   return (
     <>

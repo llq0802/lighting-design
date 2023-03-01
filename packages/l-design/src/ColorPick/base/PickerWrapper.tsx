@@ -45,8 +45,8 @@ const PickerWrapper: FC<PickerWrapperProps> = ({
   ...restProps
 }) => {
   const [open, setOpen] = useControllableValue<boolean>(restProps, {
-    defaultValuePropName: 'defaultOpen',
     defaultValue: void 0,
+    defaultValuePropName: 'defaultOpen',
     valuePropName: 'open',
     trigger: 'onOpenChange',
   });

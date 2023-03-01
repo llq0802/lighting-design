@@ -15,7 +15,7 @@ export interface ColorProps extends HTMLAttributes<HTMLSpanElement> {
   renderColor?: (dom: JSX.Element) => ReactNode;
 }
 
-const Color: FC<ColorProps> = ({
+const BaseColor: FC<ColorProps> = ({
   className,
   style,
   value,
@@ -55,4 +55,4 @@ const Color: FC<ColorProps> = ({
   );
 };
 
-export default Color;
+export default BaseColor;

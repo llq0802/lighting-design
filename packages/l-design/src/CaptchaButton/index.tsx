@@ -1,10 +1,17 @@
-import { useCountDown, useLocalStorageState, useMemoizedFn, useUpdateEffect } from 'ahooks';
+import {
+  useCountDown,
+  useLocalStorageState,
+  useMemoizedFn,
+  useUnmount,
+  useUpdateEffect,
+} from 'ahooks';
 import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction, MouseEvent, Ref, RefObject } from 'react';
-import { forwardRef, useEffect } from 'react';
+import { forwardRef } from 'react';
 
 export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
+  /** 倒计时秒数 */
   second?: number;
   start?: boolean;
   disabledText?: string;
@@ -12,7 +19,14 @@ export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
    * 缓存的 key、页面刷新后倒计时继续。
    */
   cacheKey: string;
+  /**
+   *
+   * @returns
+   */
   onEnd?: () => void;
+  /**
+   * @see {@link  https://ant.design/components/button-cn/}
+   */
 }
 
 /**
@@ -26,7 +40,7 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
 ) => {
   const {
     start = true,
-    second = 10,
+    second = 60,
     cacheKey = '__CaptchaButton__',
     disabledText = '重发',
     onEnd,
@@ -48,16 +62,15 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
   const handleClick = useMemoizedFn((e: MouseEvent<HTMLElement>) => {
     onClick?.(e);
   });
-  useEffect(() => {
-    return () => {
-      setTargetDate(undefined);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
+  useUnmount(() => {
+    setTargetDate(undefined);
+  });
 
   useUpdateEffect(() => {
     if (start) {
-      setTargetDate(Date.now() + second * 1000);
+      const date = Date.now() + second * 1000;
+      setTargetDate(date);
     }
   }, [start]);
 
@@ -67,7 +80,8 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
       {...buttonProps}
       onClick={async (e) => {
         if (start) {
-          setTargetDate(Date.now() + second * 1000);
+          const date = Date.now() + second * 1000;
+          setTargetDate(date);
         }
         handleClick?.(e);
       }}

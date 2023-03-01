@@ -2,7 +2,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal } from 'antd';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import { cloneElement, useCallback, useEffect, useRef, useState } from 'react';
+import { cloneElement, useEffect, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 import type { BaseFormProps } from '../../base/BaseForm';
@@ -73,7 +73,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
 
-  const onStart = useCallback((_event: DraggableEvent, uiData: DraggableData) => {
+  const onStart = useMemoizedFn((_event: DraggableEvent, uiData: DraggableData) => {
     const { clientWidth, clientHeight } = window.document.documentElement;
     const targetRect = draggleRef.current?.getBoundingClientRect();
     if (!targetRect) return;
@@ -83,7 +83,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
       top: -targetRect.top + uiData.y,
       bottom: clientHeight - (targetRect.bottom - uiData.y),
     });
-  }, []);
+  });
   const onStop = useMemoizedFn((_event: DraggableEvent, uiData: DraggableData) =>
     setPosition({ x: uiData.x, y: uiData.y }),
   );

@@ -169,6 +169,13 @@ export type LTableProps = {
 
 export const LIGHTD_TABLE = 'lightd-table';
 
+// 显示数据总量
+const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
+  <span
+    className={`${LIGHTD_TABLE}-pagination-showTotal`}
+  >{`当前显示${range[0]}-${range[1]} 条，共 ${total} 条数据`}</span>
+);
+
 /**
  * 表格组件
  * @param props
@@ -444,13 +451,6 @@ const BaseTable: FC<LTableProps> = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoRequest, isReady]);
-
-  // 显示数据总量
-  const showTotal = useMemoizedFn((total: number, range: [value0: Key, value1: Key]) => (
-    <span
-      className={`${LIGHTD_TABLE}-pagination-showTotal`}
-    >{`当前显示${range[0]}-${range[1]} 条，共 ${total} 条数据`}</span>
-  ));
 
   const ToolbarActionDom = (
     <ToolbarAction

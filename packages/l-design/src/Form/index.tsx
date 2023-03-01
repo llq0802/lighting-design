@@ -35,14 +35,6 @@ const LForm: FC<LFormProps> & {
                   paddingLeft:
                     typeof submitter?.buttonAlign === 'number' ? `${submitter?.buttonAlign}px` : 0,
                 }}
-                // labelCol={{
-                //   style: {
-                //     flex:
-                //       typeof submitter?.buttonAlign === 'number'
-                //         ? `0 0 ${submitter?.buttonAlign}px`
-                //         : 'initial',
-                //   },
-                // }}
                 wrapperCol={submitterProps?.wrapperCol}
               >
                 <div

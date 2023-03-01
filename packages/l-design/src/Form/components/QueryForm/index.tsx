@@ -41,8 +41,11 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
 
 export interface LQueryFormProps<T = any> extends BaseFormProps<T> {
   isCollapsed?: boolean;
+  /** 显示多少项 */
   showColsNumber?: number;
+  /** 配置响应式 */
   itemColProps?: ColProps;
+  /** 是否水平紧凑 */
   isSpace?: boolean;
 }
 
