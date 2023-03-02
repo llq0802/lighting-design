@@ -89,8 +89,6 @@ const Trigger: FC<Partial<LTriggerProps>> = (props) => {
       placement={placement}
       disabled={disabled}
       popupClassName={popupClassName}
-      className={classnames(prefixCls, className)}
-      style={{ width: width, ...style }}
       dropdownMatchSelectWidth={dropdownWidth}
       dropdownStyle={dropdownStyle}
       suffixIcon={suffixIcon}
@@ -98,6 +96,8 @@ const Trigger: FC<Partial<LTriggerProps>> = (props) => {
       fieldNames={fieldNames}
       getPopupContainer={getPopupContainer}
       {...selectProps}
+      style={{ width: width, ...style }}
+      className={classnames(prefixCls, className)}
       dropdownRender={dropdownRender}
       onChange={setState}
       value={state?.[fieldNames.label]}

@@ -54,9 +54,9 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
   });
   const [countdown] = useCountDown({
     targetDate,
-    onEnd: () => {
-      setTargetDate(undefined);
+    onEnd() {
       onEnd?.();
+      setTargetDate(undefined);
     },
   });
   const handleClick = useMemoizedFn((e: MouseEvent<HTMLElement>) => {

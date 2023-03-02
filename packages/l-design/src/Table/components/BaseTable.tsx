@@ -4,7 +4,7 @@ import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { Key } from 'antd/es/table/interface';
 import type { ColumnGroupType, ColumnsType, ColumnType, TableProps } from 'antd/lib/table';
-import { default as classNames, default as classnames } from 'classnames';
+import classnames from 'classnames';
 import type {
   CSSProperties,
   Dispatch,
@@ -478,7 +478,7 @@ const BaseTable: FC<LTableProps> = (props) => {
         bordered={false}
         {...tableCardProps}
         style={{ ...tableCardProps?.style }}
-        className={classNames(`${LIGHTD_CARD}`, tableCardProps?.className)}
+        className={classnames(`${LIGHTD_CARD}`, tableCardProps?.className)}
       >
         {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
         <Table
@@ -488,8 +488,8 @@ const BaseTable: FC<LTableProps> = (props) => {
               ? () => contentRender(data?.list ?? []) as unknown as any
               : undefined,
           }}
-          className={classNames(tableClassName, className)}
-          rowClassName={classNames(`${LIGHTD_TABLE}-row`, rowClassName)}
+          className={classnames(tableClassName, className)}
+          rowClassName={classnames(`${LIGHTD_TABLE}-row`, rowClassName)}
           style={{ ...tableStyle, ...style }}
           size={currentSize}
           columns={currentColumns as (ColumnGroupType<any> | ColumnType<any>)[]}

@@ -3,6 +3,7 @@ import { ConfigProvider, Dropdown, Tooltip } from 'antd';
 import type { SetStateAction } from 'react';
 import { useContext } from 'react';
 import TableContext from '../TableContext';
+import { LIGHTD_TABLE } from './BaseTable';
 
 const DensityIcon = () => {
   const { size, setSize, rootRef } = useContext(TableContext);
@@ -10,6 +11,7 @@ const DensityIcon = () => {
   return (
     <ConfigProvider getPopupContainer={() => rootRef!.current || document.body}>
       <Dropdown
+        overlayClassName={`${LIGHTD_TABLE}-density-icon-overlay`}
         placement="bottom"
         trigger={['click']}
         menu={{

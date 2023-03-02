@@ -19,7 +19,6 @@ export interface LWaterMarkProps {
   zIndex?: number;
   /** 文字填充类型 */
   contentType?: 'fill' | 'stroke';
-
   /**
    * 相对于水印体左侧偏移
    */
