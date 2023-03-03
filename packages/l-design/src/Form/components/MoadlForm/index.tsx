@@ -1,6 +1,7 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal } from 'antd';
+import classnames from 'classnames';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { cloneElement, useEffect, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
@@ -35,6 +36,7 @@ export interface LModalFormProps<T = any>
    *   `open` instead.
    */
 }
+const prefixCls = 'lightd-form-modal';
 
 const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const {
@@ -50,6 +52,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     onOpenChange: outOnOpenChange,
     children,
 
+    className,
     form: outForm,
     initialValues: outInitialValues,
     onFinish,
@@ -107,6 +110,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     <>
       <BaseForm<any>
         _lformRef={_lformRef}
+        className={classnames(prefixCls, className)}
         initialValues={initialValues} // 解决form实例与moadl绑定失败的问题
         loading={modalProps?.confirmLoading ?? loading}
         form={formRef.current}
@@ -159,6 +163,8 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               maskClosable={false}
               forceRender={forceRender}
               {...modalProps}
+              className={classnames('lightd-modal', modalProps.className)}
+              wrapClassName={classnames('lightd-modal-wrap', modalProps.wrapClassName)}
               open={open}
               onCancel={(e) => {
                 setOpen(false);
@@ -183,6 +189,8 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               maskClosable={false}
               forceRender={forceRender}
               {...modalProps}
+              className={classnames('lightd-modal', modalProps.className)}
+              wrapClassName={classnames('lightd-modal-wrap', modalProps.wrapClassName)}
               open={open}
               onCancel={(e) => {
                 setOpen(false);
@@ -200,6 +208,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               }}
               modalRender={(modalDom) => (
                 <Draggable
+                  defaultClassName="lightd-draggable"
                   disabled={disabled}
                   bounds={bounds}
                   position={position}
@@ -211,7 +220,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               )}
               title={
                 <div
-                  className="lightd-form-modal-draggable-header"
+                  className="lightd-modal-draggable-header"
                   style={{ width: '100%', cursor: 'move' }}
                   onMouseOver={() => {
                     if (disabled) {

@@ -1,13 +1,12 @@
 import type { FormItemProps } from 'antd';
 import { Form } from 'antd';
+import classnames from 'classnames';
 import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement, useContext, useMemo } from 'react';
 import { LFormContext } from '../../Form/base/BaseForm';
 import { usePlaceholder } from '../../utils';
 import FormItemWrapper from './FormItemWrapper';
-
 type ContentProps = Record<string, any>;
-
 export interface LFormItemProps extends FormItemProps {
   /** lable宽度 */
   labelWidth?: number | 'auto';
@@ -53,7 +52,7 @@ const LFormItem: FC<LFormItemProps> = (props) => {
     shouldUpdate,
     dependencies = [],
     rules = [],
-    // trigger = 'onChange',
+    className,
     labelCol,
     children,
 
@@ -67,6 +66,8 @@ const LFormItem: FC<LFormItemProps> = (props) => {
     isSelectType,
     placeholder,
   });
+
+  const itemClassnames = useMemo(() => classnames('ligthd-from-item', className), [className]);
 
   const itemRules = useMemo(
     () =>
@@ -108,8 +109,8 @@ const LFormItem: FC<LFormItemProps> = (props) => {
         name={name}
         required={required}
         shouldUpdate={shouldUpdate}
-        // trigger={trigger}
         rules={itemRules}
+        className={itemClassnames}
         {...restFromItemProps}
       >
         {(form) => {
@@ -119,7 +120,6 @@ const LFormItem: FC<LFormItemProps> = (props) => {
               className={contentClassName}
               before={contentBefore}
               after={contentAfter}
-              // trigger={trigger}
               alignItems={alignItems}
               contentInline={contentInline}
               {...contentProps}
@@ -147,15 +147,14 @@ const LFormItem: FC<LFormItemProps> = (props) => {
               labelCol={labelColProps}
               name={name}
               required={required}
-              // trigger={trigger}
               rules={itemRules}
+              className={itemClassnames}
               {...restFromItemProps}
             >
               <FormItemWrapper
                 className={contentClassName}
                 before={contentBefore}
                 after={contentAfter}
-                // trigger={trigger}
                 alignItems={alignItems}
                 contentInline={contentInline}
                 {...contentProps}
@@ -176,15 +175,14 @@ const LFormItem: FC<LFormItemProps> = (props) => {
       labelCol={labelColProps}
       name={name}
       required={required}
-      // trigger={trigger}
       rules={itemRules}
+      className={itemClassnames}
       {...restFromItemProps}
     >
       <FormItemWrapper
         className={contentClassName}
         before={contentBefore}
         after={contentAfter}
-        // trigger={trigger}
         alignItems={alignItems}
         contentInline={contentInline}
         {...contentProps}

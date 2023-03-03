@@ -1,6 +1,7 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { DrawerProps } from 'antd';
 import { Drawer, Form } from 'antd';
+import classnames from 'classnames';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { cloneElement, useEffect, useRef, useState } from 'react';
 import type { BaseFormProps } from '../../base/BaseForm';
@@ -54,6 +55,7 @@ export interface LDrawerFormProps<T = any>
    */
   onFinish?: (values: Record<string, any>) => void | undefined | true | Promise<any>;
 }
+const prefixCls = 'lightd-form-drawer';
 
 const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
   const {
@@ -69,6 +71,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     onOpenChange: outOnOpenChange,
     children,
 
+    className,
     initialValues: outInitialValues,
     form: outForm,
     onFinish,
@@ -105,6 +108,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     <>
       <BaseForm<any>
         _lformRef={_lformRef}
+        className={classnames(prefixCls, className)}
         initialValues={initialValues}
         loading={loading}
         form={formRef.current}
@@ -148,6 +152,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             extra={actionBarDir === 'extra' && submitterDom}
             maskClosable={false}
             {...drawerProps}
+            className={classnames('lightd-drawer', drawerProps.className)}
             footerStyle={{
               display: 'flex',
               justifyContent:
