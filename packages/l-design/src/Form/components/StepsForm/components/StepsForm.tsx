@@ -11,8 +11,6 @@ import type { LStepsFormSubmitterProps } from './StepsSubmitter';
 import StepsSubmitter from './StepsSubmitter';
 import './styles.less';
 
-const prefixCls = 'lightd-form-steps';
-
 export type LStepsFormActionRef = {
   /** 表单实例数组 */
   formInstanceList: FormInstance<any>[];
@@ -61,6 +59,8 @@ export type LStepsFormProps = {
   stepsRender?: (dom: ReactNode, items: StepProps[]) => ReactNode;
   children: ReactElement[];
 };
+
+const prefixCls = 'lightd-form-steps';
 
 const StepsForm: FC<LStepsFormProps> & {
   StepForm: typeof StepForm;
@@ -396,7 +396,7 @@ const StepsForm: FC<LStepsFormProps> & {
       {stepsFormRender ? (
         stepsFormRender(stepsContentDom, formContentDom, submitterDom)
       ) : (
-        <div className={classnames(`${prefixCls}-container`, className)}>
+        <div className={classnames(prefixCls, className)}>
           {stepsContentDom}
           {formContentDom}
         </div>

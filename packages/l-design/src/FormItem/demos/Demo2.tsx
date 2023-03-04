@@ -23,8 +23,8 @@ const Demo2 = () => {
         <LFormItem
           label="姓名"
           name="l-name"
-          className="lightd-form-item-className"
-          contentClassName="lightd-form-item-contentClassName"
+          className="lightd-form-item-classname"
+          contentClassName="lightd-form-item-content-classname"
           contentAfter={<div>后面</div>}
           required
           contentProps={{ placeholder: '输入姓名' }}

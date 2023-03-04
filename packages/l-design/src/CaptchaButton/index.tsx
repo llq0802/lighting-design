@@ -13,15 +13,16 @@ import { forwardRef } from 'react';
 export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   /** 倒计时秒数 */
   second?: number;
+  /** 是否开始发送 */
   start?: boolean;
+  /** 倒计时的文字, 会带上 second 秒 */
   disabledText?: string;
   /**
    * 缓存的 key、页面刷新后倒计时继续。
    */
   cacheKey: string;
   /**
-   *
-   * @returns
+   *倒计时完成后触发
    */
   onEnd?: () => void;
   /**

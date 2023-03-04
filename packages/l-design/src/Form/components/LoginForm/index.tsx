@@ -1,8 +1,7 @@
+import classnames from 'classnames';
 import type { CSSProperties, FC, ReactNode } from 'react';
 import { useMemo } from 'react';
 import './index.less';
-
-const prefixCls = 'lightd-login-form';
 
 export interface LLoginFormProps {
   /**
@@ -53,6 +52,8 @@ export interface LLoginFormProps {
   children: ReactNode;
 }
 
+const prefixCls = 'lightd-login-form';
+
 const LoginForm: FC<LLoginFormProps> = (props) => {
   const { title, logo, subTitle, actions, message, contentStyle, style, className, children } =
     props;
@@ -60,12 +61,14 @@ const LoginForm: FC<LLoginFormProps> = (props) => {
   /** 生成logo 的dom，如果是string 设置为图片 如果是个 dom 就原样保留 */
   const logoDom = useMemo(() => {
     if (!logo) return null;
-    if (typeof logo === 'string') return <img src={logo} />;
+    if (typeof logo === 'string') {
+      return <img className={`${prefixCls}-img`} src={logo} alt="logo" />;
+    }
     return logo;
   }, [logo]);
 
   return (
-    <div className={`${prefixCls}-container ${className || ''}`} style={style}>
+    <div className={classnames(`${prefixCls}-container`, className)} style={style}>
       <div className={`${prefixCls}-top`}>
         {title || logoDom ? (
           <div className={`${prefixCls}-header`}>
@@ -84,7 +87,7 @@ const LoginForm: FC<LLoginFormProps> = (props) => {
       >
         {message}
         {children}
-        {actions && <div className={`${prefixCls}-other`}>{actions}</div>}
+        {actions && <div className={`${prefixCls}-actions`}>{actions}</div>}
       </div>
     </div>
   );

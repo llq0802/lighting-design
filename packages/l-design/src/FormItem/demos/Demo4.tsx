@@ -8,7 +8,7 @@ const Demo4 = () => {
 
   return (
     <>
-      <LForm labelWidth={90} name="LForm3" form={form} submitter={{ buttonAlign: 90 }}>
+      <LForm labelCol={{ flex: '90px' }} name="LForm3" form={form} submitter={{ buttonAlign: 90 }}>
         <LFormItem name="sex" label="性别" required>
           <Select
             placeholder="选择性别"

@@ -20,6 +20,7 @@ const MediaViewer: FunctionComponent<MediaViewerProps> = ({ url, mediaType }) =>
   }, []);
 
   return createElement(mediaType, {
+    className: `lightd-file-viewer-${mediaType}`,
     src: url,
     controls: true,
     style: { width: '100%' },

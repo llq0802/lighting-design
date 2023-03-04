@@ -26,11 +26,15 @@ nav:
 import { LTrigger } from 'lighting-design';
 ```
 
+> 如果在 LForm 中使用，默认接收到的值必须是`{ label: string; value: string; }` fieldNames 可配置为其他字段名
+>
+> children 组件会接受到 `open`，`setOpen`，`value`，`onChange` 必须在 children 组件中绑定 `value，onChange` 才会收集到数据
+
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | width | 组件宽度 | `number\|string` | `250` |
-| fieldNames | 配置字段 label 为展示名称的字段 ,value.value 为字段的值 | `{ label: string; value: string; }` | `{ label: 'label' ,value: 'value' } ` |
-| children | children 会接受到 `open`,`setOpen`,`value`,`onChange` | `ReactElement` | `-` |
+| fieldNames | 配置字段 label 字段名，value 字段的名 | `{ label: string; value: string; }` | `{ label: 'label' ,value: 'value' } ` |
+| children | children 组件会接受到 `open`，`setOpen`，`value`，`onChange` | `ReactElement` | `-` |
 | size | 选择框大小 | `'small' \| 'middle'\|'large'` | `'middle'` |
 | allowClear | 支持清除 | `boolean` | `true` |
 | placement | 选择框弹出的位置 | `'bottomLef't 'bottomRight' 'topLeft' 'topRight'` | `'bottomLeft'` |

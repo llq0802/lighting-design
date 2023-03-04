@@ -72,7 +72,14 @@ const FormItemWrapper: FC<FormItemWrapperProps> = ({
       </div>
     );
     return (
-      <div className={classNames(prefixCls, className)} style={alignItems ? { alignItems } : {}}>
+      <div
+        className={classNames(prefixCls, className)}
+        style={
+          alignItems
+            ? { alignItems: alignItems === 'center' ? alignItems : `flex-${alignItems}` }
+            : {}
+        }
+      >
         {beforeView}
         {contentView}
         {afterView}

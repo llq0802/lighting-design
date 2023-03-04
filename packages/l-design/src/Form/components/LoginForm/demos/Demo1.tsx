@@ -87,9 +87,9 @@ const PhoneDom = () => (
       type="inline"
       name="code1"
       required
-      second={60}
       onGetCaptcha={async () => true}
       placeholder="请输入验证码"
+      cacheKey="_loginFormCacheKey_1"
     />
   </LForm>
 );
@@ -127,9 +127,9 @@ const Demo1 = () => {
               },
             ]}
           />
-          <div style={{ margin: '12px 0 24px' }}>
+          <div style={{ margin: '12px 0 24px', display: 'flex', justifyContent: 'space-between' }}>
             <Checkbox defaultChecked>记住密码</Checkbox>
-            <a style={{ float: 'right' }}>忘记密码</a>
+            <a>忘记密码</a>
           </div>
         </LLoginForm>
       </div>

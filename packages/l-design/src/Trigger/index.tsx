@@ -6,7 +6,9 @@ import type { FC, ReactElement } from 'react';
 import { cloneElement, isValidElement } from 'react';
 
 export type LTriggerProps = {
+  /** 宽度 */
   width: number | string;
+  /** 弹窗宽度 */
   dropdownWidth: number;
   /** 配置字段 label为展示名称的字段 value为字段的值*/
   fieldNames?: {

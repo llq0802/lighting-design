@@ -17,7 +17,7 @@ export interface LSpinProps {
   /**
    * 组件大小，可选值为 small default large
    */
-  size: 'small' | 'default' | 'large' | string;
+  size: 'small' | 'default' | 'large';
   /**
    * 样式
    */
@@ -46,12 +46,12 @@ export interface LSpinProps {
 
 const LSpin: FC<Partial<LSpinProps>> = ({
   style,
-  color = '#FF6700',
+  color = '#1890ff',
+  tipColor = '#1890ff',
   size = 'default',
   mode = 'load1',
   tip,
   loading,
-  tipColor = '#666',
   children,
 }) => {
   const props = { fill: color, size };

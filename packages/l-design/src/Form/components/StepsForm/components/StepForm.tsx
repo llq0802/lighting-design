@@ -2,6 +2,7 @@
 import { useMemoizedFn } from 'ahooks';
 import type { StepProps } from 'antd';
 import { Form } from 'antd';
+import classnames from 'classnames';
 import { useContext, useEffect, useRef } from 'react';
 import type { BaseFormProps } from '../../../base/BaseForm';
 import BaseForm from '../../../base/BaseForm';
@@ -21,6 +22,7 @@ export interface LStepFormProps<Values = any>
   /** 当前步骤 内部使用*/
   readonly stepNum?: number;
 }
+const prefixCls = 'lightd-form-step';
 
 function StepForm<Values = any>({
   title,
@@ -33,6 +35,7 @@ function StepForm<Values = any>({
   stepNum,
 
   name,
+  className,
   onFinish,
   form: outForm,
   ...restProps
@@ -84,6 +87,7 @@ function StepForm<Values = any>({
     <BaseForm
       _lformRef={_lformRef}
       name={name}
+      className={classnames(prefixCls, className)}
       form={outForm || form}
       onFinish={handleFinsh}
       {...restProps}

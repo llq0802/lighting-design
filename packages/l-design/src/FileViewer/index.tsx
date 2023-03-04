@@ -1,7 +1,7 @@
 import { useControllableValue } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Image, Modal } from 'antd';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import type { ReactNode } from 'react';
 import type { FileViewProps } from './FileView';
 import FileView from './FileView';
@@ -69,7 +69,7 @@ function LFileViewer({
       footer={null}
       {...restProps}
       style={{ maxWidth: '90%', ...restProps.style }}
-      className={classNames('lightd-file-viewer', className)}
+      className={classnames('lightd-file-viewer', className)}
     >
       <FileView url={url as string} fileType={fileType} fileName={fileName} />
     </Modal>
