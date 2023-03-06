@@ -18,13 +18,14 @@ const Index: FC = () => {
     );
   }, []);
 
-  const onLoad = async () => {
-    await awaitTime(3000);
-    render(TypertDom('这是一段异步调用文案。'), domRef.current);
-  };
-
   useEffect(() => {
-    onLoad();
+    (async () => {
+      await awaitTime(3000);
+      if (domRef.current) {
+        render(TypertDom('这是一段异步调用文案。'), domRef.current);
+      }
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
