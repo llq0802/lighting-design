@@ -87,9 +87,9 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
       bottom: clientHeight - (targetRect.bottom - uiData.y),
     });
   });
-  const onStop = useMemoizedFn((_event: DraggableEvent, uiData: DraggableData) =>
-    setPosition({ x: uiData.x, y: uiData.y }),
-  );
+  const onStop = useMemoizedFn((_event: DraggableEvent, uiData: DraggableData) => {
+    setPosition({ x: uiData.x, y: uiData.y });
+  });
 
   const handleFinish = useMemoizedFn(async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
@@ -212,6 +212,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                   disabled={disabled}
                   bounds={bounds}
                   position={position}
+                  handle=".ant-modal-header"
                   onStart={(event, uiData) => onStart(event, uiData)}
                   onStop={(event, uiData) => onStop(event, uiData)}
                 >
