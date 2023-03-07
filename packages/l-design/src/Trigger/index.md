@@ -33,7 +33,7 @@ import { LTrigger } from 'lighting-design';
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
 | width | 组件宽度 | `number\|string` | `250` |
-| fieldNames | 配置字段 label 字段名，value 字段的名 | `{ label: string; value: string; }` | `{ label: 'label' ,value: 'value' } ` |
+| fieldNames | 配置字段 label 字段名，value 字段的名 | `{ label: string; value: string; }` | `{ label: 'label',value: 'value' } ` |
 | children | children 组件会接受到 `open`，`setOpen`，`value`，`onChange` | `ReactElement` | `-` |
 | size | 选择框大小 | `'small' \| 'middle'\|'large'` | `'middle'` |
 | allowClear | 支持清除 | `boolean` | `true` |
@@ -48,7 +48,8 @@ import { LTrigger } from 'lighting-design';
 | open | 是否展开下拉菜单 | `boolean` | `-` |
 | getPopupContainer | 菜单渲染父节点。默认渲染到 body 上 | `function(triggerNode)` | `() => document.body ` |
 | suffixIcon | 自定义的选择框后缀图标 | `ReactNode` | `-` |
-| value | 值 | `{ label: string; value: string\| string[]; }` | `-` |
+| clearIcon | 自定义清除图标 | `ReactNode` | `-` |
+| value | 值 | 默认为`{ label: string; value: string\| string[] }` 与`fieldNames`配置有关 | `-` |
 | onDropdownOpenChange | 展开下拉菜单的回调 | `function(open) ` | `-` |
 | onChange | value 变化时，调用此函数 | `function(value) ` | `-` |
 | selectProps | `antd`选择器组件 Props | [SelectProps](https://4x.ant.design/components/select-cn/#API) | `-` |

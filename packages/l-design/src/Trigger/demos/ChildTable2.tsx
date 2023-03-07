@@ -52,10 +52,9 @@ const data: DataType[] = [
   },
 ];
 
-// rowSelection object indicates the need for row selection
-
 const Tables: React.FC = (props) => {
   const { value, onChange, open, setOpen } = props;
+  console.log('value', value);
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
