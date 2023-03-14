@@ -19,7 +19,7 @@ export const NumberRoll_DaterArray = [
 interface PropsType {
   num: string;
 }
-const prefixCls = 'lightd-numberRoll';
+const prefixCls = 'lightd-number-roll';
 const Index: FC<PropsType> = ({ num }) => {
   const isDel = (item: string) => item === '-' || item === ' ' || item === ':';
 

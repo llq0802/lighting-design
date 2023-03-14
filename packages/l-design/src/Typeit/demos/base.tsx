@@ -10,10 +10,8 @@ const Index: FC = () => {
       <LTypeit
         style={{ fontFamily: 'cursive' }}
         options={{
-          afterComplete: (instance: { destroy: () => void }) => {
-            instance.destroy();
-          },
           speed: 30,
+          cursor: false,
         }}
         getBeforeInit={(instance) => {
           instance

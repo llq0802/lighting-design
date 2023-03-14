@@ -1,5 +1,6 @@
 import type { DependencyList } from 'react';
 import { useMemo } from 'react';
+import type { LTreeTableData } from '../TreeTable/types';
 
 /**
  * 获取Form组价的label名称
@@ -95,4 +96,30 @@ export function composeProps<T extends Record<string, any>>(
     }
   });
   return composedProps;
+}
+
+/**
+ * 获取树形结构最大层级(最大有多少个children)
+ * @param {Array}
+ * @returns {Number}
+ */
+export function getMaxLevel(treeData: LTreeTableData): number {
+  let maxLevel = 0;
+
+  (function callBack(arr, level) {
+    let count = level;
+    count++;
+    maxLevel = Math.max(count, maxLevel);
+
+    for (let i = 0; i < arr.length; i++) {
+      const item = arr[i];
+      if (Array.isArray(item.children) && item.children.length > 0) {
+        callBack(item.children as LTreeTableData, count);
+      } else {
+        continue;
+      }
+    }
+  })(treeData, -1);
+
+  return maxLevel;
 }

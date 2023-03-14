@@ -82,14 +82,6 @@ const PhoneDom = () => (
       type="phone"
       disabledWhiteSpace
       placeholder="请输入手机号"
-      rules={[
-        {
-          required: true,
-          message: '手机号格式错误!',
-          pattern: /^(?:(?:\+|00)86)?1[3-9]\d{9}$/,
-          min: 11,
-        },
-      ]}
       inputProps={{
         prefix: <UserOutlined />,
       }}
@@ -98,25 +90,17 @@ const PhoneDom = () => (
       type="inline"
       name="code1"
       required
-      second={60}
       onGetCaptcha={async () => true}
       placeholder="请输入验证码"
-      cacheKey="CAPTCHA_1"
+      cacheKey="_loginFormCacheKey_2"
     />
   </LForm>
 );
 
-const Demo1 = () => {
+const Demo2 = () => {
   return (
-    <div style={{ height: 960 }}>
-      <Row
-        style={{
-          background: `url(${loginBg}) no-repeat`,
-          display: 'flex',
-          height: '100%',
-          justifyContent: 'center',
-        }}
-      >
+    <div style={{ height: 900 }}>
+      <Row style={{ background: `url(${loginBg}) no-repeat`, height: '100%' }}>
         <Col flex="1" className={style.login_col}>
           <div className={style.login_intro}>
             <h1>Lighting Design</h1>
@@ -131,9 +115,9 @@ const Demo1 = () => {
             </div>
           </div>
         </Col>
-
-        <Col style={{ minWidth: '36%' }} className={style.login_from_col}>
+        <Col style={{ minWidth: '36%', flexWrap: 'nowrap' }} className={style.login_from_col}>
           <LLoginForm
+            style={{ background: '#fff' }}
             message={<Alert message="登录异常，请重试！" showIcon closable type="error" />}
             logo="https://github.githubassets.com/images/modules/logos_page/Octocat.png"
             title="Lighting Design"
@@ -146,26 +130,19 @@ const Demo1 = () => {
                 <WeiboCircleOutlined style={iconStyles} />
               </Space>
             }
-            style={{ background: '#fff' }}
           >
             <Tabs
               centered
               items={[
-                {
-                  label: '账号密码登录',
-                  key: 'account',
-                  children: <AccountDom />,
-                },
-                {
-                  label: '手机号登录',
-                  key: 'phone',
-                  children: <PhoneDom />,
-                },
+                { label: '账号密码登录', key: 'account', children: <AccountDom /> },
+                { label: '手机号登录', key: 'phone', children: <PhoneDom /> },
               ]}
             />
-            <div style={{ margin: '12px 0 24px' }}>
+            <div
+              style={{ margin: '12px 0 24px', display: 'flex', justifyContent: 'space-between' }}
+            >
               <Checkbox defaultChecked>记住密码</Checkbox>
-              <a style={{ float: 'right' }}>忘记密码</a>
+              <a>忘记密码</a>
             </div>
           </LLoginForm>
         </Col>
@@ -174,4 +151,4 @@ const Demo1 = () => {
   );
 };
 
-export default Demo1;
+export default Demo2;

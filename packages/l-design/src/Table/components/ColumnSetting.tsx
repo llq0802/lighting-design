@@ -1,9 +1,9 @@
 import { SettingOutlined } from '@ant-design/icons';
-import { useUpdateEffect } from 'ahooks';
+import { useMemoizedFn, useUpdateEffect } from 'ahooks';
 import type { TableColumnType } from 'antd';
 import { Checkbox, ConfigProvider, Popover, Tooltip, Tree } from 'antd';
 import type { Key, ReactNode } from 'react';
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import TableContext from '../TableContext';
 import { LIGHTD_TABLE } from './BaseTable';
 
@@ -48,19 +48,18 @@ const ColumnSetting = () => {
     });
   }, [outColumns, columnsKey]);
 
-  const onCheckAllChange = useCallback(() => {
+  const onCheckAllChange = useMemoizedFn(() => {
     if (selectedKey.length === outColumns.length) {
       setSelectedKey([]);
     } else {
       setSelectedKey([...columnsKey]);
     }
-  }, [selectedKey.length, outColumns.length, columnsKey]);
+  });
 
-  const handleTreeCheck = useCallback(
+  const handleTreeCheck = useMemoizedFn(
     (checkedKeys: Key[] | { checked: Key[]; halfChecked: Key[] }) => {
       setSelectedKey(checkedKeys as Key[]);
     },
-    [],
   );
 
   return (
@@ -84,12 +83,13 @@ const ColumnSetting = () => {
             onCheck={handleTreeCheck}
             checkedKeys={selectedKey}
             treeData={treeData}
-            className={`${LIGHTD_TABLE}-column-setting`}
+            className={`${LIGHTD_TABLE}-column-setting-tree`}
           />
         }
         arrowPointAtCenter
         placement="bottomRight"
         trigger={['click']}
+        overlayClassName={`${LIGHTD_TABLE}-column-setting-overlay`}
       >
         <Tooltip title="列设置">
           <SettingOutlined />

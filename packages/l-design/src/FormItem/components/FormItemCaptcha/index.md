@@ -35,7 +35,7 @@ import { LFormItemCaptcha } from 'lighting-design';
 | :-: | :-: | :-: | :-: |
 | type | 验证码组件类型 | `"link" \| "text" \| "inline" \| "ghost" \| "default" \| "primary" \| "dashed"` | `'default'` |
 | maxLength | 验证码最大长度 | `number` | `6` |
-| second | 倒计时秒数 | `number` | `10` |
+| second | 倒计时秒数 | `number` | `60` |
 | disabledText | 倒计时的文字, 会带上 second 秒 | `string` | `重发 ` |
 | initText | 按钮初始文本 | `string` | `获取验证码` |
 | cacheKey | 组件缓存 key 值 刷新页面也会继续计时 | `string` | `__FormItemCaptcha__` |

@@ -6,7 +6,10 @@ import type { FC, ReactElement } from 'react';
 import { cloneElement, isValidElement } from 'react';
 
 export type LTriggerProps = {
+  open: boolean;
+  /** 宽度 */
   width: number | string;
+  /** 弹窗宽度 */
   dropdownWidth: number;
   /** 配置字段 label为展示名称的字段 value为字段的值*/
   fieldNames?: {
@@ -15,6 +18,9 @@ export type LTriggerProps = {
   };
   className: string;
   children: ReactElement;
+  /** 自定义清除图标 */
+  clearIcon: SelectProps['clearIcon'];
+  onDropdownOpenChange: SelectProps['onDropdownVisibleChange'];
   selectProps: SelectProps;
 } & Pick<
   SelectProps,
@@ -39,8 +45,9 @@ const Trigger: FC<Partial<LTriggerProps>> = (props) => {
     width = 250,
     dropdownWidth = 500,
     popupClassName,
-    allowClear,
+    allowClear = true,
     suffixIcon,
+    clearIcon,
     className,
     size,
     getPopupContainer,
@@ -52,25 +59,25 @@ const Trigger: FC<Partial<LTriggerProps>> = (props) => {
     dropdownStyle,
     children,
     selectProps,
-    ...restprops // value onchange
   } = props;
 
-  const [isOpen, setIsOpen] = useControllableValue<boolean>(restprops, {
+  const [isOpen, setIsOpen] = useControllableValue<boolean>(props, {
     defaultValue: false,
     defaultValuePropName: 'defaultOpen',
     valuePropName: 'open',
     trigger: 'onDropdownOpenChange',
   });
-  const [state, setState] = useControllableValue<Record<string, any>>(restprops, {
+  const [state, setState] = useControllableValue<Record<string, any>>(props, {
     defaultValue: {},
     defaultValuePropName: 'defaultValue',
     valuePropName: 'value',
     trigger: 'onChange',
   });
+
   const isComponent = isValidElement(children);
   const dropdownRender = !isComponent
     ? undefined
-    : () => (
+    : (e) => (
         <div style={{ width: '100%' }} className={`${prefixCls}-popup`}>
           {cloneElement(children, {
             // @ts-ignore
@@ -85,24 +92,25 @@ const Trigger: FC<Partial<LTriggerProps>> = (props) => {
   return (
     <Select
       size={size}
+      clearIcon={clearIcon}
+      allowClear={allowClear}
+      suffixIcon={suffixIcon}
       placeholder={placeholder}
       placement={placement}
       disabled={disabled}
       popupClassName={popupClassName}
-      className={classnames(prefixCls, className)}
-      style={{ width: width, ...style }}
-      dropdownMatchSelectWidth={dropdownWidth}
       dropdownStyle={dropdownStyle}
-      suffixIcon={suffixIcon}
-      allowClear={allowClear}
       fieldNames={fieldNames}
       getPopupContainer={getPopupContainer}
+      dropdownMatchSelectWidth={dropdownWidth}
       {...selectProps}
+      style={{ width: width, ...style }}
+      className={classnames(prefixCls, className)}
       dropdownRender={dropdownRender}
       onChange={setState}
       value={state?.[fieldNames.label]}
       open={isOpen}
-      onDropdownVisibleChange={setIsOpen}
+      onDropdownVisibleChange={(visible) => setIsOpen(visible)}
     />
   );
 };

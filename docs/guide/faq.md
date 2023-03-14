@@ -11,13 +11,13 @@ nav:
 
 # 介绍
 
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-     
-  <img src="https://img.shields.io/badge/npm-0.12-orange.svg" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" style='margin-right:8px'/>
 
-  <img src="https://img.shields.io/github/issues/crazylxr/3dtagcloudforeact.svg" />
+  <img src="https://img.shields.io/badge/npm-0.12-orange.svg" style='margin-right:8px'/>
 
-  <img src="https://img.shields.io/github/forks/crazylxr/3dtagcloudforeact.svg" />
+  <img src="https://img.shields.io/github/issues/crazylxr/3dtagcloudforeact.svg" style='margin-right:8px'/>
+
+  <img src="https://img.shields.io/github/forks/crazylxr/3dtagcloudforeact.svg" style='margin-right:8px'/>
 
   <img src="https://img.shields.io/github/stars/crazylxr/3dtagcloudforeact.svg" />
 
@@ -32,4 +32,6 @@ Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以显著�
 
 ## 精选 React 插件
 
-to do...
+[部分精选插件](https://ant.design/docs/react/recommendation-cn)
+
+TO DO...

@@ -1,12 +1,6 @@
 import type { FC } from 'react';
 import type { SpinLoadingProps } from './spin-loading1';
-import { SpinSizeArr } from './spin-loading1';
-
-const SpinSizeObj = {
-  small: 18,
-  default: 24,
-  large: 42,
-};
+import { SpinSizeArr, SpinSizeObj } from './spin-loading1';
 
 const loading3: FC<SpinLoadingProps> = ({ fill, size }) => {
   return (

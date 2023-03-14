@@ -1,10 +1,16 @@
-import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import {
+  useDeepCompareEffect,
+  useMemoizedFn,
+  useRequest,
+  useSafeState,
+  useUpdateEffect,
+} from 'ahooks';
 import type { CheckboxOptionType, SpinProps } from 'antd';
 import { Checkbox, Spin } from 'antd';
 import type { CheckboxChangeEvent, CheckboxGroupProps } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import type { CSSProperties, FC, ReactNode } from 'react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 export type LCheckboxOptions = CheckboxOptionType;
 export type LCheckboxBeforeAllProps =
@@ -160,39 +166,31 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     return beforeAll;
   }, [beforeAll]);
 
-  const checkAllChange = useCallback(
-    (e: CheckboxChangeEvent) => {
-      let checkAllValue: CheckboxValueType[] = [];
-      if (e.target.checked) {
-        // 排除disabled为true的数据
-        checkAllValue = checkboxOptions
-          .filter((item: CheckboxOptionType) => !item.disabled)
-          .map((items: CheckboxOptionType) => items.value);
-      }
-      setIndeterminate(false);
-      setCheckAll(e.target.checked);
-      onChange(checkAllValue);
-      outBeforeAll?.onChange?.(checkAllValue);
-    },
-    [onChange, outBeforeAll, checkboxOptions],
-  );
+  const checkAllChange = useMemoizedFn((e: CheckboxChangeEvent) => {
+    let checkAllValue: CheckboxValueType[] = [];
+    if (e.target.checked) {
+      // 排除disabled为true的数据
+      checkAllValue = checkboxOptions
+        .filter((item: CheckboxOptionType) => !item.disabled)
+        .map((items: CheckboxOptionType) => items.value);
+    }
+    setIndeterminate(false);
+    setCheckAll(e.target.checked);
+    onChange(checkAllValue);
+    outBeforeAll?.onChange?.(checkAllValue);
+  });
 
-  const handleChange = useCallback(
-    (checkedValue: CheckboxValueType[]) => {
-      if (beforeAll) {
-        // 排除disabled为true的数据
-        const optLength = checkboxOptions.filter(
-          (item: CheckboxOptionType) => !item.disabled,
-        ).length;
+  const handleChange = useMemoizedFn((checkedValue: CheckboxValueType[]) => {
+    if (beforeAll) {
+      // 排除disabled为true的数据
+      const optLength = checkboxOptions.filter((item: CheckboxOptionType) => !item.disabled).length;
 
-        setIndeterminate(!!checkedValue.length && checkedValue.length < optLength);
-        setCheckAll(checkedValue.length === optLength);
-      }
-      checkboxProps?.onChange?.(checkedValue);
-      onChange(checkedValue);
-    },
-    [beforeAll, checkboxProps, onChange, checkboxOptions],
-  );
+      setIndeterminate(!!checkedValue.length && checkedValue.length < optLength);
+      setCheckAll(checkedValue.length === optLength);
+    }
+    checkboxProps?.onChange?.(checkedValue);
+    onChange(checkedValue);
+  });
 
   const checkboxDom = (
     <>

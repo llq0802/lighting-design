@@ -1,5 +1,6 @@
 import type { FormInstance } from 'antd';
-import { Button, ConfigProvider } from 'antd';
+import { ConfigProvider } from 'antd';
+import { Button } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
 import type { FC } from 'react';
@@ -96,15 +97,15 @@ const Demo1: FC = () => {
       />
       {/* 如果没有使用表格的全屏toolbarActionConfig.showFullscreen ，就不用包裹 ConfigProvider */}
       <ConfigProvider getPopupContainer={() => tableRef.current?.rootRef.current || document.body}>
-        <AddEditModal
-          open={open}
-          onOpenChange={setOpen}
-          data={editableRecord}
-          onChange={() => {
-            // 数据变动后，重新加载数据
-            tableRef.current?.onReload();
-          }}
-        />
+      <AddEditModal
+        open={open}
+        onOpenChange={setOpen}
+        data={editableRecord}
+        onChange={() => {
+          // 数据变动后，重新加载数据
+          tableRef.current?.onReload();
+        }}
+      />
       </ConfigProvider>
     </>
   );

@@ -1,8 +1,8 @@
-import { useMount } from 'ahooks';
+import { useMemoizedFn, useMount } from 'ahooks';
 import type { ButtonProps, InputProps, InputRef } from 'antd';
 import { Divider, Input } from 'antd';
 import type { ChangeEvent, CSSProperties, FC } from 'react';
-import { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { LCaptchaButtonProps } from '../../../../CaptchaButton';
 import LCaptchaButton from '../../../../CaptchaButton';
 
@@ -59,28 +59,25 @@ const CodeInput: FC<CodeInputProps> = ({
   };
 
   // 点击按钮
-  const onButtonClick = useCallback(
-    async (e: React.MouseEvent<HTMLElement>) => {
-      setLoading(true);
-      onClick?.(e);
-      try {
-        // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。
-        await checkResult(onGetCaptcha);
-        setLoading(false);
-        setStart(true); // 只有当获取验证码成功时才进行倒计时
-        if (autoFocusOnGetCaptcha) {
-          inputRef.current!.focus();
-        }
-      } catch (error) {
-        setLoading(false);
+  const onButtonClick = useMemoizedFn(async (e: React.MouseEvent<HTMLElement>) => {
+    setLoading(true);
+    onClick?.(e);
+    try {
+      // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。
+      await checkResult(onGetCaptcha);
+      setLoading(false);
+      setStart(true); // 只有当获取验证码成功时才进行倒计时
+      if (autoFocusOnGetCaptcha) {
+        inputRef.current!.focus();
       }
-    },
-    [autoFocusOnGetCaptcha, onClick, onGetCaptcha],
-  );
+    } catch (error) {
+      setLoading(false);
+    }
+  });
 
-  const handleEnd = useCallback(() => {
+  const handleEnd = useMemoizedFn(() => {
     onEnd?.();
-  }, [onEnd]);
+  });
 
   // @ts-ignore
   useImperativeHandle(buttonProps?.ref, () => buttonRef.current, [buttonRef]);
@@ -134,16 +131,13 @@ const CodeInput: FC<CodeInputProps> = ({
     }
   });
 
-  const handleOnChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const input = e.target;
-      if (inputProps?.onChange) {
-        inputProps?.onChange(input.value as any);
-      }
-      onChange?.(input.value);
-    },
-    [inputProps, onChange],
-  );
+  const handleOnChange = useMemoizedFn((e: ChangeEvent<HTMLInputElement>) => {
+    const input = e.target;
+    if (inputProps?.onChange) {
+      inputProps?.onChange(input.value as any);
+    }
+    onChange?.(input.value);
+  });
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>

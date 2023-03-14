@@ -1,6 +1,7 @@
-import { useControllableValue } from 'ahooks';
+import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { DrawerProps } from 'antd';
 import { Drawer, Form } from 'antd';
+import classnames from 'classnames';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { cloneElement, useEffect, useRef, useState } from 'react';
 import type { BaseFormProps } from '../../base/BaseForm';
@@ -14,7 +15,7 @@ export interface LDrawerFormProps<T = any>
    * @see
    * @author
    * @return
-   * @params
+   * @param
    */
   title?: ReactNode;
   /**
@@ -54,6 +55,7 @@ export interface LDrawerFormProps<T = any>
    */
   onFinish?: (values: Record<string, any>) => void | undefined | true | Promise<any>;
 }
+const prefixCls = 'lightd-form-drawer';
 
 const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
   const {
@@ -69,6 +71,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     onOpenChange: outOnOpenChange,
     children,
 
+    className,
     initialValues: outInitialValues,
     form: outForm,
     onFinish,
@@ -88,11 +91,11 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
   const _lformRef = useRef<Record<string, any>>();
   const [initialValues, setInitialValues] = useState(outInitialValues ?? {});
 
-  const handleFinish = async (values: Record<string, any>) => {
+  const handleFinish = useMemoizedFn(async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
     // 如果表单提交函数返回true 则关闭弹窗
     if (ret === true) setOpen(false);
-  };
+  });
 
   useEffect(() => {
     if (open) {
@@ -105,12 +108,13 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     <>
       <BaseForm<any>
         _lformRef={_lformRef}
+        className={classnames(prefixCls, className)}
         initialValues={initialValues}
         loading={loading}
         form={formRef.current}
         onFinish={handleFinish}
         submitter={
-          typeof submitter == 'undefined' || submitter
+          typeof submitter === 'undefined' || submitter
             ? {
                 resetText: '取消',
                 submitText: '确认',
@@ -148,6 +152,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             extra={actionBarDir === 'extra' && submitterDom}
             maskClosable={false}
             {...drawerProps}
+            className={classnames('lightd-drawer', drawerProps.className)}
             footerStyle={{
               display: 'flex',
               justifyContent:

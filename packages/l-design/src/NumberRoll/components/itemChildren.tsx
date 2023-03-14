@@ -5,7 +5,7 @@ export const NumberRoll_NumberArray = ['0', '1', '2', '3', '4', '5', '6', '7', '
 interface PropsType {
   num: string;
 }
-const prefixCls = 'lightd-numberRoll';
+const prefixCls = 'lightd-number-roll';
 const Index: FC<PropsType> = ({ num }) => {
   const isDel = (item: string) => item === '.';
 

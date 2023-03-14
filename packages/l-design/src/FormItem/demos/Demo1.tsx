@@ -2,7 +2,7 @@ import { Input, Select } from 'antd';
 import { LForm, LFormItem } from 'lighting-design';
 import AgeSelect from './components/AgeSelect';
 
-const Demo2 = () => {
+const Demo1 = () => {
   const [form] = LForm.useForm();
   return (
     <>
@@ -53,4 +53,4 @@ const Demo2 = () => {
   );
 };
 
-export default Demo2;
+export default Demo1;

@@ -1,8 +1,14 @@
-import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import {
+  useDeepCompareEffect,
+  useMemoizedFn,
+  useRequest,
+  useSafeState,
+  useUpdateEffect,
+} from 'ahooks';
 import type { SpinProps, TreeSelectProps } from 'antd';
 import { Spin, TreeSelect } from 'antd';
 import type { FC } from 'react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 export type TreeSelectWrapperProps = Record<string, any> & {
   treeData?: TreeSelectProps['treeData'];
@@ -135,14 +141,13 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
     }
   }, [isClearDepends, memoTreeDate, inTreeData]);
 
-  const handleChange = useCallback(
+  const handleChange = useMemoizedFn(
     (vals: string | string[], labelList: React.ReactNode[], extra: any) => {
       if (treeSelectProps?.onChange) {
         treeSelectProps.onChange(vals, labelList, extra);
       }
       onChange(vals);
     },
-    [onChange, treeSelectProps],
   );
 
   return (

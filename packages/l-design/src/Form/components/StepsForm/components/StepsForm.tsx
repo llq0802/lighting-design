@@ -1,4 +1,4 @@
-import { useControllableValue, useSafeState, useUpdate } from 'ahooks';
+import { useControllableValue, useMemoizedFn, useSafeState, useUpdate } from 'ahooks';
 import type { FormInstance, StepProps, StepsProps } from 'antd';
 import { Form, Steps } from 'antd';
 import { default as classnames, default as classNames } from 'classnames';
@@ -10,8 +10,6 @@ import StepsFormContext from './StepsFormContext';
 import type { LStepsFormSubmitterProps } from './StepsSubmitter';
 import StepsSubmitter from './StepsSubmitter';
 import './styles.less';
-
-const prefixCls = 'lightd-form-steps';
 
 export type LStepsFormActionRef = {
   /** 表单实例数组 */
@@ -61,6 +59,8 @@ export type LStepsFormProps = {
   stepsRender?: (dom: ReactNode, items: StepProps[]) => ReactNode;
   children: ReactElement[];
 };
+
+const prefixCls = 'lightd-form-steps';
 
 const StepsForm: FC<LStepsFormProps> & {
   StepForm: typeof StepForm;
@@ -168,7 +168,7 @@ const StepsForm: FC<LStepsFormProps> & {
   };
 
   // 重置
-  const reset = () => {
+  const reset = useMemoizedFn(() => {
     setStepNum(defaultCurrent);
     formDataRef.current = {};
     formInstanceListRef.current.forEach((item, i) => {
@@ -177,10 +177,10 @@ const StepsForm: FC<LStepsFormProps> & {
         ...formInitialValues.current[i],
       });
     });
-  };
+  });
 
   // 提交
-  const submit = async () => {
+  const submit = useMemoizedFn(async () => {
     if (typeof onFinish === 'function') {
       let values;
       if (isMergeValues) {
@@ -207,7 +207,7 @@ const StepsForm: FC<LStepsFormProps> & {
         }
       }
     }
-  };
+  });
 
   // 每个表单下一步/提交时触发,用于记录当前表单值
   const onFormFinish = (name: string, values: Record<string, any>) => {
@@ -396,7 +396,7 @@ const StepsForm: FC<LStepsFormProps> & {
       {stepsFormRender ? (
         stepsFormRender(stepsContentDom, formContentDom, submitterDom)
       ) : (
-        <div className={classnames(`${prefixCls}-container`, className)}>
+        <div className={classnames(prefixCls, className)}>
           {stepsContentDom}
           {formContentDom}
         </div>

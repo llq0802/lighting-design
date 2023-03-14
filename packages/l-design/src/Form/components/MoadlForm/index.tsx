@@ -1,8 +1,9 @@
-import { useControllableValue } from 'ahooks';
+import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal } from 'antd';
+import classnames from 'classnames';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import { cloneElement, useCallback, useEffect, useRef, useState } from 'react';
+import { cloneElement, useEffect, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 import type { BaseFormProps } from '../../base/BaseForm';
@@ -29,7 +30,13 @@ export interface LModalFormProps<T = any>
   onOpenChange?: (open: boolean) => void;
   /** 表单提交 只有返回true时才关闭弹窗 */
   onFinish?: (values: Record<string, any>) => void | undefined | true | Promise<any>;
+
+  /**
+   * @deprecated `visible` is deprecated which will be removed in next major version. Please use
+   *   `open` instead.
+   */
 }
+const prefixCls = 'lightd-form-modal';
 
 const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const {
@@ -45,6 +52,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     onOpenChange: outOnOpenChange,
     children,
 
+    className,
     form: outForm,
     initialValues: outInitialValues,
     onFinish,
@@ -68,7 +76,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
 
-  const onStart = useCallback((_event: DraggableEvent, uiData: DraggableData) => {
+  const onStart = useMemoizedFn((_event: DraggableEvent, uiData: DraggableData) => {
     const { clientWidth, clientHeight } = window.document.documentElement;
     const targetRect = draggleRef.current?.getBoundingClientRect();
     if (!targetRect) return;
@@ -78,19 +86,18 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
       top: -targetRect.top + uiData.y,
       bottom: clientHeight - (targetRect.bottom - uiData.y),
     });
-  }, []);
-  const onStop = useCallback(
-    (_event: DraggableEvent, uiData: DraggableData) => setPosition({ x: uiData.x, y: uiData.y }),
-    [],
-  );
+  });
+  const onStop = useMemoizedFn((_event: DraggableEvent, uiData: DraggableData) => {
+    setPosition({ x: uiData.x, y: uiData.y });
+  });
 
-  const handleFinish = async (values: Record<string, any>) => {
+  const handleFinish = useMemoizedFn(async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
     // 如果表单提交函数返回true 则关闭弹窗
     if (ret === true) {
       setOpen(false);
     }
-  };
+  });
 
   useEffect(() => {
     if (open) {
@@ -103,12 +110,13 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     <>
       <BaseForm<any>
         _lformRef={_lformRef}
+        className={classnames(prefixCls, className)}
         initialValues={initialValues} // 解决form实例与moadl绑定失败的问题
         loading={modalProps?.confirmLoading ?? loading}
         form={formRef.current}
         onFinish={handleFinish}
         submitter={
-          typeof submitter == 'undefined' || submitter
+          typeof submitter === 'undefined' || submitter
             ? {
                 resetText: modalProps?.cancelText || '取消',
                 submitText: modalProps?.okText || '确认',
@@ -155,6 +163,8 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               maskClosable={false}
               forceRender={forceRender}
               {...modalProps}
+              className={classnames('lightd-modal', modalProps.className)}
+              wrapClassName={classnames('lightd-modal-wrap', modalProps.wrapClassName)}
               open={open}
               onCancel={(e) => {
                 setOpen(false);
@@ -179,6 +189,8 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               maskClosable={false}
               forceRender={forceRender}
               {...modalProps}
+              className={classnames('lightd-modal', modalProps.className)}
+              wrapClassName={classnames('lightd-modal-wrap', modalProps.wrapClassName)}
               open={open}
               onCancel={(e) => {
                 setOpen(false);
@@ -196,9 +208,11 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               }}
               modalRender={(modalDom) => (
                 <Draggable
+                  defaultClassName="lightd-draggable"
                   disabled={disabled}
                   bounds={bounds}
                   position={position}
+                  handle=".ant-modal-header"
                   onStart={(event, uiData) => onStart(event, uiData)}
                   onStop={(event, uiData) => onStop(event, uiData)}
                 >
@@ -207,7 +221,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               )}
               title={
                 <div
-                  className="lightd-form-modal-draggable-header"
+                  className="lightd-modal-draggable-header"
                   style={{ width: '100%', cursor: 'move' }}
                   onMouseOver={() => {
                     if (disabled) {

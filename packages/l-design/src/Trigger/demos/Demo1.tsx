@@ -4,7 +4,7 @@ import ChildTable2 from './ChildTable2';
 
 const Demo1 = () => {
   return (
-    <>
+    <div>
       <h3>单选</h3>
       <LTrigger allowClear>
         <ChildTable1 />
@@ -16,7 +16,7 @@ const Demo1 = () => {
       <LTrigger allowClear placement="topLeft">
         <ChildTable2 />
       </LTrigger>
-    </>
+    </div>
   );
 };
 export default Demo1;

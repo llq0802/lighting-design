@@ -8,7 +8,7 @@ nav:
 
 # LFileViewer
 
-文件预览器，目前已支持 `image` `audoi` `video` `pdf` 等文件类型预览，其他文件类型会提供点击下载提示。
+文件预览器，目前已支持 `image` `audio` `video` `pdf` 等文件类型预览，其他文件类型会提供点击下载提示。
 
 ## 代码演示
 

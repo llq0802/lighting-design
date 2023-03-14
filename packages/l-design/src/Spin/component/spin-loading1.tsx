@@ -11,11 +11,16 @@ export interface SpinLoadingProps {
 }
 
 export const SpinSizeArr = {
-  small: 24,
+  small: 32,
   default: 40,
-  large: 58,
+  large: 48,
 };
 
+export const SpinSizeObj = {
+  small: 18,
+  default: 24,
+  large: 42,
+};
 const loading2: FC<SpinLoadingProps> = ({ fill, size }) => {
   return (
     <svg width={SpinSizeArr[size]} height={SpinSizeArr[size]} viewBox="0 0 50 50">

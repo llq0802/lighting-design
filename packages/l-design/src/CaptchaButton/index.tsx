@@ -1,18 +1,33 @@
-import { useCountDown, useLocalStorageState, useUpdateEffect } from 'ahooks';
+import {
+  useCountDown,
+  useLocalStorageState,
+  useMemoizedFn,
+  useUnmount,
+  useUpdateEffect,
+} from 'ahooks';
 import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction, MouseEvent, Ref, RefObject } from 'react';
-import { forwardRef, useCallback, useEffect } from 'react';
+import { forwardRef } from 'react';
 
 export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
+  /** 倒计时秒数 */
   second?: number;
+  /** 是否开始发送 */
   start?: boolean;
+  /** 倒计时的文字, 会带上 second 秒 */
   disabledText?: string;
   /**
    * 缓存的 key、页面刷新后倒计时继续。
    */
   cacheKey: string;
+  /**
+   *倒计时完成后触发
+   */
   onEnd?: () => void;
+  /**
+   * @see {@link  https://ant.design/components/button-cn/}
+   */
 }
 
 /**
@@ -26,7 +41,7 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
 ) => {
   const {
     start = true,
-    second = 10,
+    second = 60,
     cacheKey = '__CaptchaButton__',
     disabledText = '重发',
     onEnd,
@@ -40,27 +55,23 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
   });
   const [countdown] = useCountDown({
     targetDate,
-    onEnd: () => {
-      setTargetDate(undefined);
+    onEnd() {
       onEnd?.();
+      setTargetDate(undefined);
     },
   });
-  const handleClick = useCallback(
-    (e: MouseEvent<HTMLElement>) => {
-      onClick?.(e);
-    },
-    [onClick],
-  );
-  useEffect(() => {
-    return () => {
-      setTargetDate(undefined);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleClick = useMemoizedFn((e: MouseEvent<HTMLElement>) => {
+    onClick?.(e);
+  });
+
+  useUnmount(() => {
+    setTargetDate(undefined);
+  });
 
   useUpdateEffect(() => {
     if (start) {
-      setTargetDate(Date.now() + second * 1000);
+      const date = Date.now() + second * 1000;
+      setTargetDate(date);
     }
   }, [start]);
 
@@ -70,7 +81,8 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
       {...buttonProps}
       onClick={async (e) => {
         if (start) {
-          setTargetDate(Date.now() + second * 1000);
+          const date = Date.now() + second * 1000;
+          setTargetDate(date);
         }
         handleClick?.(e);
       }}

@@ -4,7 +4,7 @@ import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { Key } from 'antd/es/table/interface';
 import type { ColumnGroupType, ColumnsType, ColumnType, TableProps } from 'antd/lib/table';
-import { default as classNames, default as classnames } from 'classnames';
+import classnames from 'classnames';
 import type {
   CSSProperties,
   Dispatch,
@@ -15,7 +15,7 @@ import type {
   RefObject,
   SetStateAction,
 } from 'react';
-import { useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { LQueryFormProps } from '../../Form/components/QueryForm';
 import TableContext from '../TableContext';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
@@ -90,7 +90,8 @@ export type LTableProps = {
   defaultRequestParams?: Record<string, any>;
   /**
    * ahooks的useRequest的options
-   *  @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
+   * @version v3.7.4
+   * @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
    */
   requestOptions?: {
     /** 首次默认执行时，传递给 service 的参数 */
@@ -107,7 +108,7 @@ export type LTableProps = {
     [key: string]: any;
   };
   /** 异步请求函数 */
-  request: LTableRequest;
+  request?: LTableRequest;
   /** 是否自动请求 */
   autoRequest?: boolean;
   /** 查询表单的实例 */
@@ -168,12 +169,19 @@ export type LTableProps = {
 
 export const LIGHTD_TABLE = 'lightd-table';
 
+// 显示数据总量
+const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
+  <span
+    className={`${LIGHTD_TABLE}-pagination-showTotal`}
+  >{`当前显示${range[0]}-${range[1]} 条，共 ${total} 条数据`}</span>
+);
+
 /**
  * 表格组件
  * @param props
  * @returns
  */
-const BaseTable: FC<LTableProps> = (props) => {
+const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const {
     isSort = false,
     className,
@@ -185,7 +193,7 @@ const BaseTable: FC<LTableProps> = (props) => {
     fullScreenBgColor = '#fff',
     defaultRequestParams = {},
     requestOptions = {},
-    request,
+    request = async () => {},
     autoRequest = true,
     formInitialValues,
     queryFormProps,
@@ -235,19 +243,16 @@ const BaseTable: FC<LTableProps> = (props) => {
   // 绑定SearchForm组件form实例在内部
   const queryFormRef = useRef<FormInstance | null>(null);
   // 绑定SearchForm组件form实例在外部
-  const handleFormRef = useCallback(
-    (refValue: FormInstance) => {
-      queryFormRef.current = refValue;
-      if (formRef) {
-        if (typeof formRef === 'function') {
-          formRef(refValue);
-        } else {
-          formRef.current = refValue;
-        }
+  const handleFormRef = useMemoizedFn((refValue: FormInstance) => {
+    queryFormRef.current = refValue;
+    if (formRef) {
+      if (typeof formRef === 'function') {
+        formRef(refValue);
+      } else {
+        formRef.current = refValue;
       }
-    },
-    [formRef],
-  );
+    }
+  });
   // 默认从第一页
   const outPaginationCurrent = useMemo(() => {
     return (outPagination && (outPagination.defaultCurrent || outPagination.current)) || 1;
@@ -396,10 +401,6 @@ const BaseTable: FC<LTableProps> = (props) => {
 
   // 表格分页页码丶排序等改变时触发
   const handleTableChange = useMemoizedFn((pagination, filters, sorter, extra) => {
-    // console.log('pagination ', pagination);
-    // console.log('filters ', filters);
-    // console.log('sorter ', sorter);
-    // console.log('extra ', extra);
     onChange?.(pagination, filters, sorter, extra);
     if (hasFromItems) {
       const formValues = queryFormRef.current?.getFieldsValue();
@@ -451,13 +452,6 @@ const BaseTable: FC<LTableProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoRequest, isReady]);
 
-  // 显示数据总量
-  const showTotal = useMemoizedFn((total: number, range: [value0: Key, value1: Key]) => (
-    <span
-      className={`${LIGHTD_TABLE}-pagination-showTotal`}
-    >{`当前显示${range[0]}-${range[1]} 条，共 ${total} 条数据`}</span>
-  ));
-
   const ToolbarActionDom = (
     <ToolbarAction
       {...toolbarActionConfig}
@@ -482,9 +476,9 @@ const BaseTable: FC<LTableProps> = (props) => {
     <Spin {...currentLoading}>
       <Card
         bordered={false}
-        className={LIGHTD_CARD}
-        style={{ ...tableCardProps?.style }}
         {...tableCardProps}
+        style={{ ...tableCardProps?.style }}
+        className={classnames(`${LIGHTD_CARD}`, tableCardProps?.className)}
       >
         {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
         <Table
@@ -494,8 +488,8 @@ const BaseTable: FC<LTableProps> = (props) => {
               ? () => contentRender(data?.list ?? []) as unknown as any
               : undefined,
           }}
-          className={classNames(tableClassName, className)}
-          rowClassName={classNames(`${LIGHTD_TABLE}-row`, rowClassName)}
+          className={classnames(tableClassName, className)}
+          rowClassName={classnames(`${LIGHTD_TABLE}-row`, rowClassName)}
           style={{ ...tableStyle, ...style }}
           size={currentSize}
           columns={currentColumns as (ColumnGroupType<any> | ColumnType<any>)[]}
@@ -521,20 +515,31 @@ const BaseTable: FC<LTableProps> = (props) => {
     </Spin>
   );
 
-  const searchFormDom = (
-    <SearchForm
-      isReady={isReady}
-      loading={currentLoading.spinning}
-      ref={handleFormRef}
-      cardProps={formCardProps}
-      onFinish={handleSearchFormFinish}
-      // onReset={handleSearchFormReset}
-      formItems={formItems}
-      initialValues={formInitialValues}
-      _lformRef={_lformRef}
-      {...queryFormProps}
-    />
-  );
+  const searchFormDom = useMemo(() => {
+    return (
+      <SearchForm
+        isReady={isReady}
+        loading={currentLoading.spinning}
+        ref={handleFormRef}
+        cardProps={formCardProps}
+        onFinish={handleSearchFormFinish}
+        // onReset={handleSearchFormReset}
+        formItems={formItems}
+        initialValues={formInitialValues}
+        _lformRef={_lformRef}
+        {...queryFormProps}
+      />
+    );
+  }, [
+    isReady,
+    currentLoading.spinning,
+    formCardProps,
+    formInitialValues,
+    formItems,
+    queryFormProps,
+    handleFormRef,
+    handleSearchFormFinish,
+  ]);
 
   // const renderTableDom = () => (tableRender ? tableRender(tableDom, props) : tableDom);
   // const TableConentDom = contentRender ? contentRender(data?.list ?? []) : tableDom;
@@ -583,6 +588,7 @@ const BaseTable: FC<LTableProps> = (props) => {
   if (!toolbarActionConfig?.showFullscreen) {
     return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
   }
+
   return (
     // 处理表格在全屏状态下 ant一些弹出层组件(Modal)无法显示问题
     // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域

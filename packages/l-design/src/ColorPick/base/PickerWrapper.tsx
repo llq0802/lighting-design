@@ -1,9 +1,9 @@
-import { useControllableValue } from 'ahooks';
+import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { PopoverProps, TooltipProps } from 'antd';
 import { Popover } from 'antd';
 import classNames from 'classnames';
 import type { FC, ReactElement } from 'react';
-import { cloneElement, useCallback } from 'react';
+import { cloneElement } from 'react';
 import type { ColorResult } from 'react-color';
 import { transformColor } from '../utils';
 import BaseColor, { prefixCls } from './BaseColor';
@@ -45,18 +45,15 @@ const PickerWrapper: FC<PickerWrapperProps> = ({
   ...restProps
 }) => {
   const [open, setOpen] = useControllableValue<boolean>(restProps, {
-    defaultValuePropName: 'defaultOpen',
     defaultValue: void 0,
+    defaultValuePropName: 'defaultOpen',
     valuePropName: 'open',
     trigger: 'onOpenChange',
   });
 
-  const handleChange = useCallback(
-    (color: ColorResult) => {
-      onChange?.(transformColor(color, colorMode));
-    },
-    [colorMode, onChange],
-  );
+  const handleChange = useMemoizedFn((color: ColorResult) => {
+    onChange?.(transformColor(color, colorMode));
+  });
 
   return (
     <BaseColor

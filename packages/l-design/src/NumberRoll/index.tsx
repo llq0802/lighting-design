@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import classnames from 'classnames';
 import type { DOMAttributes, FC, ReactElement, ReactNode } from 'react';
 import React, { useCallback, useEffect, useRef } from 'react';
 import type { Container } from 'react-dom';
@@ -49,10 +50,10 @@ export interface LNumberRollProps {
    */
   onFinish: (value: number | string) => void;
 }
-const prefixCls = 'lightd-numberRoll';
+const prefixCls = 'lightd-number-roll';
 
 const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
-  className = '',
+  className,
   style,
   type = 'number',
   minLength = 1,
@@ -150,9 +151,10 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
     for (const o of $dom) {
       const dataNum = o.getAttribute('data-num') || 0;
       const _height = o.offsetHeight / NumberRoll_NumberArray.length;
-      o.style.transform =
+      const itemStyle = o.style;
+      itemStyle.transform =
         'translateY(' + (dataNum == '.' ? -10 * _height : -dataNum * _height) + 'px)';
-      o.style.transition = (dataNum == '.' ? 0 : speed / 1000) + 's';
+      itemStyle.transition = (dataNum == '.' ? 0 : speed / 1000) + 's';
     }
   }, []);
 
@@ -162,7 +164,9 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
     for (const o of $dom) {
       const dataNum = o.getAttribute('data-num') || 0;
       const _height = o.offsetHeight / NumberRoll_DaterArray.length;
-      o.style.transform =
+      const itemStyle = o.style;
+
+      itemStyle.transform =
         'translateY(' +
         (dataNum == ':'
           ? -10 * _height
@@ -172,7 +176,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
           ? -12 * _height
           : -dataNum * _height) +
         'px)';
-      o.style.transition = (dataNum == ':' || dataNum == ' ' ? 0 : speed / 1000) + 's';
+      itemStyle.transition = (dataNum == ':' || dataNum == ' ' ? 0 : speed / 1000) + 's';
     }
   }, []);
 
@@ -230,6 +234,6 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
     }
   }, [value]);
 
-  return <div className={`${prefixCls} ${className}`} style={style} ref={domRef} />;
+  return <div className={classnames(prefixCls, className)} style={style} ref={domRef} />;
 };
 export default LNumberRoll;

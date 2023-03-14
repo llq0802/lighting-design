@@ -16,6 +16,7 @@ export default {
         'ColorPick/index.md',
         'Trigger/index.md',
         'Typeit/index.md',
+        // 'TreeTable/index.md',
         'FileViewer/index.md',
         'WaterMark/index.md',
         'NumberRoll/index.md',

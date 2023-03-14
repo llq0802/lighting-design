@@ -1,8 +1,12 @@
+import { useMemoizedFn } from 'ahooks';
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker } from 'antd';
+import locale from 'antd/es/date-picker/locale/zh_CN';
 import type { MonthPickerProps, RangePickerProps, WeekPickerProps } from 'antd/lib/date-picker';
+import 'moment/locale/zh-cn';
 import type { FC } from 'react';
-import { useCallback, useContext, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
+import { LFormContext } from '../../../Form/base/BaseForm';
 import type { DateValueType, Picker } from '../../../utils/date';
 import {
   createDisabledDate,
@@ -12,10 +16,6 @@ import {
 } from '../../../utils/date';
 import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
-
-import locale from 'antd/es/date-picker/locale/zh_CN';
-import 'moment/locale/zh-cn';
-import { LFormContext } from '../../../Form/base/BaseForm';
 
 const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps | any> = ({
   style,
@@ -109,16 +109,13 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
     [currentPicker, disabledDateBefore, disabledDateAfter],
   );
 
-  const handleTransform = useCallback(
-    (...args: any[]) => {
-      if (typeof normalize === 'function') {
-        // @ts-ignore
-        return normalize(...args);
-      }
-      return transformDate(args[0], currentFormat, dateValueType);
-    },
-    [currentFormat, normalize, dateValueType],
-  );
+  const handleTransform = useMemoizedFn((...args: any[]) => {
+    if (typeof normalize === 'function') {
+      // @ts-ignore
+      return normalize(...args);
+    }
+    return transformDate(args[0], currentFormat, dateValueType);
+  });
 
   // const placeholderMessage = usePlaceholder({
   //   placeholder,
