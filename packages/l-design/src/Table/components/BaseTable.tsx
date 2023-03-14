@@ -90,8 +90,8 @@ export type LTableProps = {
   defaultRequestParams?: Record<string, any>;
   /**
    * ahooks的useRequest的options
-   * @version v3
-   *  @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
+   * @version v3.7.4
+   * @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
    */
   requestOptions?: {
     /** 首次默认执行时，传递给 service 的参数 */
@@ -108,7 +108,7 @@ export type LTableProps = {
     [key: string]: any;
   };
   /** 异步请求函数 */
-  request: LTableRequest;
+  request?: LTableRequest;
   /** 是否自动请求 */
   autoRequest?: boolean;
   /** 查询表单的实例 */
@@ -181,7 +181,7 @@ const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
  * @param props
  * @returns
  */
-const BaseTable: FC<LTableProps> = (props) => {
+const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const {
     isSort = false,
     className,
@@ -193,7 +193,7 @@ const BaseTable: FC<LTableProps> = (props) => {
     fullScreenBgColor = '#fff',
     defaultRequestParams = {},
     requestOptions = {},
-    request,
+    request = async () => {},
     autoRequest = true,
     formInitialValues,
     queryFormProps,
@@ -588,6 +588,7 @@ const BaseTable: FC<LTableProps> = (props) => {
   if (!toolbarActionConfig?.showFullscreen) {
     return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
   }
+
   return (
     // 处理表格在全屏状态下 ant一些弹出层组件(Modal)无法显示问题
     // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域
