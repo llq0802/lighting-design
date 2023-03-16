@@ -160,7 +160,8 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
 
   // 设置动画
   const loadAnimateDate = useCallback(($parent: any) => {
-    const $dom = $parent.querySelectorAll(`.${prefixCls}-animate-dom`);
+    const $dom = $parent?.querySelectorAll(`.${prefixCls}-animate-dom`);
+    if (!$dom) return;
     for (const o of $dom) {
       const dataNum = o.getAttribute('data-num') || 0;
       const _height = o.offsetHeight / NumberRoll_DaterArray.length;
