@@ -1,77 +1,98 @@
 ---
-title: 组件总览
-order: 0
+title: 组件描述
+order: 1
+toc: false
 ---
 
-# 架构设计
+# 总览
 
-ProComponents 是基于 Ant Design 而开发的模板组件，提供了更高级别的抽象支持，开箱即用。可以显著的提升制作 CRUD 页面的效率，更加专注于页面。
+## 基础组件
 
-- [ProLayout](/components/layout) 解决布局的问题，提供开箱即用的菜单和面包屑功能
-- [ProTable](/components/table) 表格模板组件，抽象网络请求和表格格式化
-- [ProForm](/components/form) 表单模板组件，预设常见布局和行为
-- [ProCard](/components/card) 提供卡片切分以及栅格布局能力
-- [ProDescriptions](/components/descriptions) 定义列表模板组件，ProTable 的配套组件
-- [ProSkeleton](/components/skeleton) 页面级别的骨架屏
+- [LSpin] - 加载器
+- [LTooltip] - 提示器
+- [LColor] - 颜色显示/选择
+- [LTrigger] - 高级弹出选择
+- [LTypeit] - 打字机
+- [LFileViewer] - 文件预览器
+- [LWaterMark] - 水印
+- [LNumberRoll] - 数字滚动
+- [LCaptchaButton] - 基础验证码
+- [useFormModal] - hooks 弹窗
+- [useFormDrawer] - hooks 抽屉
 
-> 如果您是阿里内网用户，欢迎尝试使用 [TechUI](https://techui.alipay.com)。TechUI 在封装 ProComponents 的基础上还提供了丰富的 Ant Design 扩展组件。
+## 数据展示
 
-## 与网络请求库配置使用
+- [LTable] - 高级表格
 
-ProTable，ProList 使用了新的数据结构，如果你使用了我们约定的参数使用起来会非常简单。
+## 高级表单
 
-```tsx | pure
-const msg: {
-  data: T[];
-  page: number;
-  success: boolean;
-  total: number;
-} = {
-  data: [],
-  page: 1,
-  success: true,
-  total: 0,
-};
-```
+- [LForm] - 业务表单
+- [LMoadlForm] - 弹窗表单
+- [LDrawerForm] - 抽屉表单
+- [LQueryForm] - 查询表单
+- [LStepsForm] - 步骤表单
+- [LLoginForm] - 登录表单
 
-如果你的后端数据使用了自己熟悉的 url，虽然我们可以用 umi 的 request 来转化，但是每个 table 都需要配置就比较麻烦。如果你使用 umi 的 request，我们可以定义一个全局的转化器。我们需要在 app.tsx 中配置
+## 数据录入
 
-```tsx | pure
-import { request, RequestConfig } from 'umi';
+- [LFormItem] - 基础表单项
+- [LFormItemInput] - 输入框
+- [LFormItemNumber] - 数字输入框
+- [LFormItemPassword] - 密码框
+- [LFormItemTextArea] - 多行输入框
+- [LFormItemAutoComplete] - 自动联想输入
+- [LFormItemCaptcha] - 高级验证码
+- [LFormItemSelect] - 下拉框
+- [LFormItemRadio] - 单选框
+- [LFormItemCheckbox] - 多选框
+- [LFormItemTreeSelect] - 树形选择框
+- [LFormItemCascader] - 级联选择框
+- [LFormItemAddress] - 地址选择
+- [LFormItemDatePicker] - 日期选择
+- [LFormItemTimePicker] - 时间选择
+- [LFormItemUpload] - 上传文件
+- [LFormItemSwitch] - 开关按钮
+- [LFormItemSlider] - 滑动条
+- [LFormItemColor] - 高级颜色选择
+- [LFormItemRate] - 评分器
+- [LFormItemSegmented] - 分段器
 
-export const request: RequestConfig = {
-  errorConfig: {
-    adaptor: (resData) => {
-      // resData 是我们自己的数据
-      return {
-        ...resData,
-        total: resData.sum,
-        success: resData.ok,
-        errorMessage: resData.message,
-      };
-    },
-  },
-};
-
-<ProTable request={request('/list')} />;
-```
-
-如果使用了 fetch ，可以对 fetch 进行自定义。
-
-```tsx | pure
-const request = (url, options) => {
-  return fetch(url, options)
-    .then((res) => res.json())
-    .then((resData) => {
-      return Promise.resolve({
-        ...resData,
-        total: resData.sum,
-        success: resData.ok,
-        errorMessage: resData.message,
-      });
-    });
-};
-
-// 使用时
-<ProTable request={request('/list')} />;
-```
+[ltypeit]: /components/typeit
+[lspin]: /components/spin
+[ltooltip]: /components/tooltip
+[lcolor]: /components/color-pick
+[ltrigger]: /components/trigger
+[lfileviewer]: /components/file-viewer
+[lwatermark]: /components/water-mark
+[lnumberroll]: /components/number-roll
+[lcaptchabutton]: /components/captcha-button
+[useformmodal]: /components/use-form-modal
+[useformdrawer]: /components/use-form-drawer
+[lform]: /components/form
+[lmoadlform]: /components/form/moadl-form
+[ldrawerform]: /components/form/drawer-form
+[lqueryform]: /components/form/query-form
+[lstepsform]: /components/form/steps-form
+[lloginform]: /components/form/login-form
+[lformitem]: /components/form-item
+[lformiteminput]: components/form-item/form-item-input
+[lformitemnumber]: /components/form-item/form-item-input/lform-number
+[lformitempassword]: /components/form-item/form-item-input/lform-password
+[lformitemtextarea]: /components/form-item/form-item-input/lform-text-area
+[lformitemautocomplete]: /components/form-item/form-item-auto-complete
+[lformitemcaptcha]: /components/form-item/form-item-captcha
+[lformitemselect]: /components/form-item/form-item-select
+[lformitemradio]: /components/form-item/form-item-radio
+[lformitemcheckbox]: /components/form-item/form-item-checkbox
+[lformitemtreeselect]: /components/form-item/form-item-tree-select
+[lformitemcascader]: /components/form-item/form-item-cascader
+[lformitemaddress]: /components/form-item/form-item-address
+[lformitemdatepicker]: /components/form-item/form-item-date-picker
+[lformitemtimepicker]: /components/form-item/form-item-time-picker
+[lformitemupload]: /components/form-item/form-item-upload
+[lformitemswitch]: /components/form-item/form-item-switch
+[lformitemslider]: /components/form-item/form-item-slider
+[lformitemcolor]: /components/form-item/form-item-color
+[lformitemrate]: /components/form-item/form-item-rate
+[lformitemsegmented]: /components/form-item/form-item-segmented
+[ltable]: /components/table

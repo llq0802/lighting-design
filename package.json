@@ -38,13 +38,14 @@
       "prettier --write"
     ],
     "*.{js,jsx}": [
-      "eslint --fix",
       "prettier --write"
     ],
     "*.{ts,tsx}": [
-      "eslint --fix",
       "prettier --parser=typescript --write"
     ]
+  },
+  "dependencies": {
+    "ahooks": "^3.7.6"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",

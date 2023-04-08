@@ -1,12 +1,14 @@
 import { defineConfig } from 'dumi';
 const isDev = process.env.NODE_ENV === 'development';
 
+const logo = isDev
+  ? '/lighting-design.png'
+  : '/lighting-design/lighting-design-192x192.png';
+
 export default defineConfig({
   themeConfig: {
     name: 'lighting-design',
-    logo: isDev
-      ? '/lighting-design.png'
-      : '/lighting-design/lighting-design-192x192.png',
+    logo,
     footer: 'Open-source MIT Licensed | Copyright © 2020',
     socialLinks: {
       github: 'https://github.com/llq0802',
@@ -18,24 +20,19 @@ export default defineConfig({
     sidebar: {
       '/components': [
         {
-          title: '架构设计',
           children: [
             {
-              title: 'Components - 组件设计',
-              link: 'components',
-            },
-            {
-              title: 'Schema - 通用配置',
-              link: '/components/schema',
+              title: '组件总览',
+              link: '/components',
             },
           ],
         },
         {
-          title: '布局',
+          title: '基础组件',
           children: [
             {
-              title: 'ProLayout - 高级布局',
-              link: '/components/layout',
+              title: '高级弹出选择',
+              link: '/components/Trigger',
             },
             {
               title: 'PageContainer - 页容器',

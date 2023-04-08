@@ -9,24 +9,24 @@ hero:
     - text: GitHub
       link: https://github.com/llq0802/lighting-design/tree/v2
 features:
-  - title: 简单易用1
+  - title: 简单易用
     emoji: 💡
     description: 在 Ant Design 上进行了自己的封装，更加易用
-  - title: 简单易用2
+  - title: Ant Design
     emoji: 💎
-    description: Put hello description here
-  - title: 简单易用3
+    description: 与 Ant Design 设计体系一脉相承，无缝对接 antd 项目
+  - title: 预设样式
     emoji: 🌈
-    description: Put world description here
-  - title: 简单易用4
+    description: 样式风格与 antd 一脉相承，无需魔改，浑然天成
+  - title: 预设行为
     emoji: 🚀
-    description: Put ! description here
-  - title: 场景丰富1
+    description: 更少的代码，更少的 Bug
+  - title: TypeScript
     emoji: 📦
-    description: 面向业务场景封装
-  - title: 场景丰富2
+    description: 使用 TypeScript 开发，提供完整的类型定义文件
+  - title: 国际化
     emoji: 🚥
-    description: 面向业务场景封装
+    description: 提供完备的国际化，与 Ant Design 体系打通
 ---
 
 ## 🖥 浏览器兼容性
