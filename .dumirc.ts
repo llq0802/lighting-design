@@ -7,8 +7,7 @@ export default defineConfig({
     logo: isDev
       ? '/lighting-design.png'
       : '/lighting-design/lighting-design-192x192.png',
-    footer:
-      'Open-source MIT Licensed | Copyright © 2023<br />Powered by [llq0802](https://github.com/llq0802)',
+    footer: 'Open-source MIT Licensed | Copyright © 2020',
     socialLinks: {
       github: 'https://github.com/llq0802',
     },
@@ -130,6 +129,16 @@ export default defineConfig({
     },
   },
 
+  metas: [
+    {
+      name: 'keywords',
+      content: 'Lighting-Design, lighting-design, lightd, antd, react组件库',
+    },
+    {
+      name: 'description',
+      content: '🍙 让中后台开发更简单',
+    },
+  ],
   outputPath: 'docs-dist',
   hash: true,
   ignoreMomentLocale: true,
