@@ -31,7 +31,7 @@ export default defineConfig({
           title: '基础组件',
           children: [
             {
-              title: 'LCaptchaButton-按钮验证码',
+              title: 'LCaptchaButton-按钮倒计时',
               link: '/components/captcha-button',
             },
             {
@@ -43,20 +43,16 @@ export default defineConfig({
               link: '/components/number-roll',
             },
             {
-              title: 'LCollapseCard-折叠卡片',
-              link: '/components/collapse-card',
-            },
-            {
               title: 'LTrigger-弹出选择',
               link: '/components/Trigger',
             },
             {
-              title: 'LCardGroup-卡片选择',
-              link: '/components/card-group',
-            },
-            {
               title: 'LColorPick-颜色选择',
               link: '/components/Color-Pick',
+            },
+            {
+              title: 'LCardGroup-卡片选择',
+              link: '/components/card-group',
             },
             {
               title: 'LTagGroup-标签选择',
@@ -89,12 +85,12 @@ export default defineConfig({
           title: '数据展示',
           children: [
             {
-              title: 'ProTable - 高级表格',
+              title: 'LTable - 高级表格',
               link: '/components/table',
             },
             {
-              title: 'EditableProTable - 可编辑表格',
-              link: '/components/editable-table',
+              title: 'LCollapseCard-折叠卡片',
+              link: '/components/collapse-card',
             },
           ],
         },
