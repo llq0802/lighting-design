@@ -11,11 +11,11 @@ toc: content
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx' ></code>
+<code src='./demos/Demo1.tsx'></code>
 
 ### 在 LForm 中使用
 
-<!-- <code src='./demos/Demo2.tsx' ></code> -->
+<!-- <code src='./demos/Demo2.tsx' >在 LForm 中使用</code> -->
 
 ## API
 
@@ -23,7 +23,7 @@ toc: content
 import { LTrigger } from 'lighting-design';
 ```
 
-> 如果在 LForm 中使用，默认接收到的值必须是`{ label: string; value: string; }` fieldNames 可配置为其他字段名
+> 如果在 `LForm`或 `Form`中使用，默认接收到的值必须是`{ label: string; value: string; }` fieldNames 可配置为其他字段名
 >
 > children 组件会接受到 `open`，`setOpen`，`value`，`onChange` 必须在 children 组件中绑定 `value，onChange` 才会收集到数据
 

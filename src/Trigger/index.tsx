@@ -3,9 +3,10 @@ import type { SelectProps } from 'antd';
 import { Select } from 'antd';
 import classnames from 'classnames';
 import type { FC, ReactElement } from 'react';
-import React, { cloneElement, isValidElement } from 'react';
+import { cloneElement, isValidElement } from 'react';
 
 export type LTriggerProps = {
+  /**是否打开 */
   open: boolean;
   /** 宽度 */
   width: number | string;
@@ -77,7 +78,7 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
   const isComponent = isValidElement(children);
   const dropdownRender = !isComponent
     ? undefined
-    : (e) => (
+    : () => (
         <div style={{ width: '100%' }} className={`${prefixCls}-popup`}>
           {cloneElement(children, {
             // @ts-ignore
