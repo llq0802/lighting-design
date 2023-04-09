@@ -1,3 +1,13 @@
-export { default as Foo } from './Foo';
+export * from './CaptchaButton';
+export { default as LCaptchaButton } from './CaptchaButton';
+export * from './CardGroup';
+export { default as LCardGroup } from './CardGroup';
+export * from './CollapseCard';
+export { default as LCollapseCard } from './CollapseCard';
+export * from './ColorPick';
+export * from './FileViewer';
+export { default as LFileViewer } from './FileViewer';
+export * from './TagGroup';
+export { default as LTagGroup } from './TagGroup';
 export * from './Trigger';
 export { default as LTrigger } from './Trigger';
