@@ -31,28 +31,36 @@ export default defineConfig({
           title: '基础组件',
           children: [
             {
-              title: '高级弹出选择',
+              title: 'LCaptchaButton-按钮验证码',
+              link: '/components/captcha-button',
+            },
+            {
+              title: 'LFileViewer-文件预览器',
+              link: '/components/file-viewer',
+            },
+            {
+              title: 'LNumberRoll-数值加载器',
+              link: '/components/number-roll',
+            },
+            {
+              title: 'LCollapseCard-折叠卡片',
+              link: '/components/collapse-card',
+            },
+            {
+              title: 'LTrigger-弹出选择',
               link: '/components/Trigger',
             },
             {
-              title: 'PageContainer - 页容器',
-              link: '/components/page-container',
+              title: 'LCardGroup-卡片选择',
+              link: '/components/card-group',
             },
             {
-              title: 'ProCard - 高级卡片',
-              link: '/components/card',
+              title: 'LColorPick-颜色选择',
+              link: '/components/Color-Pick',
             },
             {
-              title: 'WaterMark - 水印组件',
-              link: '/components/water-mark',
-            },
-            {
-              title: 'StatisticCard - 指标卡',
-              link: '/components/statistic-card',
-            },
-            {
-              title: 'CheckCard - 多选卡片',
-              link: '/components/check-card',
+              title: 'LTagGroup-标签选择',
+              link: '/components/tag-group',
             },
           ],
         },
@@ -75,26 +83,6 @@ export default defineConfig({
               title: 'ProFormDependency - 数据联动',
               link: '/components/dependency',
             },
-            {
-              title: 'Schema Form - JSON 表单',
-              link: '/components/schema-form',
-            },
-            {
-              title: ' Query/LightFilter - 筛选表单',
-              link: '/components/query-filter',
-            },
-            {
-              title: 'StepsForm - 分步表单',
-              link: '/components/steps-form',
-            },
-            {
-              title: 'Modal/Drawer - 浮层表单',
-              link: '/components/modal-form',
-            },
-            {
-              title: 'LoginForm/Page - 登录表单',
-              link: '/components/login-form',
-            },
           ],
         },
         {
@@ -107,18 +95,6 @@ export default defineConfig({
             {
               title: 'EditableProTable - 可编辑表格',
               link: '/components/editable-table',
-            },
-            {
-              title: ' DragSortTable - 拖动排序表格',
-              link: '/components/drag-sort-table',
-            },
-            {
-              title: 'ProList - 高级列表',
-              link: '/components/list',
-            },
-            {
-              title: 'ProDescriptions - 定义列表',
-              link: '/components/descriptions',
             },
           ],
         },

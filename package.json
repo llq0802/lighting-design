@@ -34,15 +34,12 @@
       "prettier --write --no-error-on-unmatched-pattern"
     ],
     "*.{css,less}": [],
-    "*.{js,jsx}": [
-      "prettier --write"
-    ],
-    "*.{ts,tsx}": [
-      "prettier --parser=typescript --write"
-    ]
+    "*.{js,jsx}": [],
+    "*.{ts,tsx}": []
   },
   "dependencies": {
-    "ahooks": "^3.7.6"
+    "ahooks": "^3.7.6",
+    "react-color": "^2.19.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-export const NumberRoll_DaterArray = [
+export const NumberRoll_NumberArray = [
   '0',
   '1',
   '2',
@@ -11,17 +11,15 @@ export const NumberRoll_DaterArray = [
   '7',
   '8',
   '9',
-  ':',
-  ' ',
-  '-',
+  '.',
 ];
 
 interface PropsType {
   num: string;
 }
 const prefixCls = 'lightd-number-roll';
-const DataChildren: FC<PropsType> = ({ num }) => {
-  const isDel = (item: string) => item === '-' || item === ' ' || item === ':';
+const ItemChildren: FC<PropsType> = ({ num }) => {
+  const isDel = (item: string) => item === '.';
 
   return (
     <div
@@ -30,7 +28,7 @@ const DataChildren: FC<PropsType> = ({ num }) => {
       }`}
       data-num={num}
     >
-      {NumberRoll_DaterArray.map((item, i) => (
+      {NumberRoll_NumberArray.map((item, i) => (
         <span
           className={`${prefixCls}-animate-span ${
             isDel(item) ? `${prefixCls}-animate-span-del` : ''
@@ -43,4 +41,4 @@ const DataChildren: FC<PropsType> = ({ num }) => {
     </div>
   );
 };
-export default DataChildren;
+export default ItemChildren;
