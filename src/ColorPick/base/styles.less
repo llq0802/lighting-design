@@ -1,0 +1,125 @@
+@prefix-cls: ~'lightd-color';
+
+.@{prefix-cls} {
+  display: inline-block;
+  vertical-align: middle;
+
+  &-text {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 13px;
+    line-height: 24px;
+    vertical-align: middle;
+  }
+
+  &-outer {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 24px; // 小尺寸
+    height: 24px;
+    padding: 3px;
+    line-height: 0;
+    vertical-align: middle;
+    background-color: #fff;
+    border: 1px solid rgb(0 0 0 / 10%);
+    border-radius: 3px;
+
+    &::after {
+      position: absolute;
+      z-index: 0;
+      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=');
+      background-position: 0 0;
+      background-size: 8px;
+      content: '';
+      inset: 3px;
+    }
+  }
+
+  &-disabled &-outer {
+    // background-color: #e0e0e0;
+    background-color: #f5f5f5;
+    cursor: no-drop;
+  }
+
+  &-inner {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+  }
+
+  // picker组件选中时小手指
+  &-picker &-inner {
+    cursor: pointer;
+  }
+
+  &-disabled&-picker &-inner {
+    cursor: no-drop;
+  }
+
+  // 默认尺寸
+  &-middle &-outer {
+    width: 32px;
+    height: 32px;
+    padding: 4px;
+
+    &::after {
+      background-size: 9px;
+      inset: 4px;
+    }
+  }
+
+  &-middle &-text {
+    font-size: 14px;
+  }
+  // 大号尺寸
+  &-large &-outer {
+    width: 40px;
+    height: 40px;
+    padding: 4px;
+  }
+
+  &-large &-text {
+    font-size: 15px;
+  }
+
+  &-overlay-normalize {
+    .ant-popover-inner {
+      padding: 0;
+    }
+
+    .sketch-picker input,
+    .compact-picker input {
+      box-sizing: border-box;
+      width: 100% !important;
+    }
+
+    .sketch-picker input,
+    .photoshop-picker > .flexbox-fix .flexbox-fix,
+    .photoshop-picker > .flexbox-fix .flexbox-fix input {
+      color: rgb(0 0 0 / 85%);
+    }
+
+    .circle-picker {
+      gap: 5px;
+      width: 270px !important;
+      margin-right: 0 !important;
+      margin-bottom: 0 !important;
+      padding: 5px;
+
+      & > span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      & > span > div {
+        margin-right: 0 !important;
+        margin-bottom: 0 !important;
+      }
+    }
+  }
+}
