@@ -3,7 +3,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { CardProps } from 'antd';
 import { Card } from 'antd';
 import classnames from 'classnames';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import './index.less';
 
 const prefixCls = 'lightd-collapse-card';
@@ -27,6 +27,7 @@ export default function LCollapseCard(props: LCollapseCardProps) {
     ...restProps
   } = props;
 
+  const refDom = useRef<HTMLDivElement>(null);
   const [collapsed, setCollapsed] = useControllableValue(props, {
     defaultValue: false,
     defaultValuePropName: 'defaultCollapsed',
@@ -35,6 +36,33 @@ export default function LCollapseCard(props: LCollapseCardProps) {
   });
 
   const toggleCollapsed = useMemoizedFn(() => {
+    console.log('collapsed', collapsed);
+    const cardBody = refDom.current?.querySelector('.ant-card-body');
+
+    if (!collapsed) {
+      cardBody.style.transition = 'none';
+      cardBody.style.paddingTop = '24px';
+      cardBody.style.paddingBottom = '24px';
+      cardBody.style.height = 'auto';
+      const _height = cardBody.offsetHeight;
+
+      console.log('_height', _height);
+      cardBody.style.height = 0;
+      cardBody.style.paddingTop = 0;
+      cardBody.style.paddingBottom = 0;
+      cardBody.offsetHeight;
+
+      cardBody.style.transition = '0.3s';
+
+      cardBody.style.height = `${_height}px`;
+      cardBody.style.paddingTop = '24px';
+      cardBody.style.paddingBottom = '24px';
+    } else {
+      cardBody.style.height = 0;
+      cardBody.style.paddingTop = 0;
+      cardBody.style.paddingBottom = 0;
+    }
+
     setCollapsed(!collapsed);
   });
 
@@ -50,6 +78,7 @@ export default function LCollapseCard(props: LCollapseCardProps) {
 
   return (
     <Card
+      ref={refDom}
       {...restProps}
       className={classnames(
         prefixCls,
