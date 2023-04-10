@@ -1,59 +1,70 @@
-import { SelectProps, Tag } from 'antd';
+import { useControllableValue } from 'ahooks';
+import { Tag } from 'antd';
 import classnames from 'classnames';
-const { CheckableTag } = Tag;
+import type { ReactNode } from 'react';
 
-type LTagGroupOptions = SelectProps['options'];
+export type LTagGroupOptions = {
+  label: ReactNode;
+  value: string;
+  disabled?: boolean;
+}[];
 
 export interface LTagGroupProps {
-  value: string | string[];
-  onChange: (values: string | string[] | undefined) => void;
-  /**容器类名 */
+  value?: string | string[];
+  defaultValue?: string | string[];
+  onChange?: (values: string | string[] | undefined) => void;
+  /** 容器类名 */
   className?: string;
-  /**每一项的类名 */
+  /** 每一项的类名 */
   itemClassName?: string;
-  /**全选时的值 */
+  /** 全选时的值 */
   allValue?: string;
   /** 是否多选 */
   multiple?: boolean;
   /** 选项 */
-  options?: LTagGroupOptions;
+  options: LTagGroupOptions;
   /** 是否展示全部 */
   showAllChecked?: boolean;
   /** 全部文字类型 */
   allCheckedText?: string;
   /** 是否只读 */
-  readonly?: boolean;
+  disabled?: boolean;
   /** 是否可以取消选中 */
   cancelable?: boolean;
 }
 const prefixCls = 'lightd-tag-group';
+
+const { CheckableTag } = Tag;
 
 export default function LTagGroup(props: LTagGroupProps) {
   let {
     className,
     itemClassName,
     allValue = 'all',
-    value,
-    onChange,
     multiple,
     options = [],
     showAllChecked = true,
     allCheckedText = '全部',
-    readonly,
+    disabled,
     cancelable = false,
   } = props;
 
+  const [value, onChange] = useControllableValue<string | string[]>(props, {
+    defaultValue: multiple ? [] : undefined,
+  });
+
   // 如果是多选，且没有默认值，则默认值视为空数组
-  if (multiple && value === undefined) {
-    value = [];
-  }
+  // if (multiple && value === undefined) {
+  //   value=[]
+  // }
+
   // 是否是多选
   const isMultiple = multiple && Array.isArray(value);
 
   // 是否是空值
   const isEmpty = isMultiple
     ? value?.length === options.length
-    : value === allValue;
+    : (value as unknown as string) === allValue;
 
   const triggerChange = (newValue: any) => {
     if (onChange) {
@@ -63,7 +74,7 @@ export default function LTagGroup(props: LTagGroupProps) {
 
   /** 全选 */
   const handleAllSelect = (bool: boolean) => {
-    if (readonly) return;
+    if (disabled) return;
     let newValue: any;
     if (isMultiple) {
       if (bool) {
@@ -87,7 +98,7 @@ export default function LTagGroup(props: LTagGroupProps) {
    * @param option 当前选项
    */
   const handleTagSelect = (checked: boolean, curItem: any) => {
-    if (readonly || curItem.disabled) {
+    if (disabled || curItem.disabled) {
       return;
     }
 
@@ -121,18 +132,19 @@ export default function LTagGroup(props: LTagGroupProps) {
           key="all"
           checked={isEmpty}
           onChange={handleAllSelect}
-          className={classnames(prefixCls + '-item-all', itemClassName)}
+          className={classnames(`${prefixCls}-item-all`, itemClassName)}
         >
           {allCheckedText}
         </CheckableTag>
       )}
       {(options || []).map((item: any) => (
         <CheckableTag
-          className={classnames(prefixCls + '-item', itemClassName)}
+          className={classnames(`${prefixCls}-item`, itemClassName)}
           key={item.value}
           checked={
             isMultiple
-              ? value !== undefined && value.includes(item.value)
+              ? value !== undefined &&
+                value.includes(item.value as unknown as string)
               : value === item.value
           }
           onChange={(checked) => handleTagSelect(checked, item)}

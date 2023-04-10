@@ -1,8 +1,6 @@
 import { LCardGroup } from 'lighting-design';
-import { useState } from 'react';
 
 export default function Demo() {
-  const [value, setValue] = useState<string>('');
   return (
     <div>
       <LCardGroup
@@ -21,11 +19,7 @@ export default function Demo() {
             disabled: true,
           },
         ]}
-        value={value}
-        onChange={setValue}
       />
-
-      <p>当前值：{value}</p>
     </div>
   );
 }

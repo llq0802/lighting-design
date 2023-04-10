@@ -1,5 +1,11 @@
 import classnames from 'classnames';
-import type { DOMAttributes, FC, ReactElement, ReactNode } from 'react';
+import type {
+  CSSProperties,
+  DOMAttributes,
+  FC,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import React, { useCallback, useEffect, useRef } from 'react';
 import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
 import ItemChildren, {
@@ -147,7 +153,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
       try {
         newStr = val.toFixed(dot).split('');
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       }
     }
 
@@ -172,8 +178,8 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
       const _height = itemDom.offsetHeight / NumberRoll_NumberArray.length;
       const itemStyle = itemDom.style;
       const y = dataNum === '.' ? -10 * _height : -dataNum * _height;
-      itemStyle.transform = 'translateY(' + y + 'px)';
-      itemStyle.transition = (dataNum === '.' ? 0 : speed / 1000) + 's';
+      itemStyle.transform = `translateY(${y}px)`;
+      itemStyle.transition = `${dataNum === '.' ? 0 : speed / 1000}s`;
     }
   }, []);
 
@@ -197,9 +203,10 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
           ? -12 * _height
           : -dataNum * _height;
 
-      itemStyle.transform = 'translateY(' + y + 'px)';
-      itemStyle.transition =
-        (dataNum === ':' || dataNum === ' ' ? 0 : speed / 1000) + 's';
+      itemStyle.transform = `translateY(${y}px)`;
+      itemStyle.transition = `${
+        dataNum === ':' || dataNum === ' ' ? 0 : speed / 1000
+      }s`;
     }
   }, []);
 
