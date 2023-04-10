@@ -4,8 +4,6 @@ import { useState } from 'react';
 export default function Demo() {
   const [value, setValue] = useState<string[]>([]);
 
-  console.log('value-Demo2', value);
-
   return (
     <div>
       <LTagGroup

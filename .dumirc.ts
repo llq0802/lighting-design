@@ -1,13 +1,17 @@
+import { theme } from 'antd';
 import { defineConfig } from 'dumi';
+
+const { defaultAlgorithm, defaultSeed } = theme;
+const mapToken = defaultAlgorithm(defaultSeed);
+
 const isDev = process.env.NODE_ENV === 'development';
 
-const logo = isDev
-  ? '/lighting-design.png'
-  : '/lighting-design/lighting-design-192x192.png';
+const logo = isDev ? '/logo.png' : '/lighting-design/logo.png';
+const targets = isDev ? void 0 : { ie: 11, chrome: 80 };
 
 export default defineConfig({
   themeConfig: {
-    name: 'lighting-design',
+    name: 'Lighting Design',
     logo,
     footer: 'Open-source MIT Licensed | Copyright © 2021',
     socialLinks: {
@@ -108,12 +112,17 @@ export default defineConfig({
       content: '🍙 让中后台开发更简单',
     },
   ],
+  lessLoader: {
+    modifyVars: mapToken,
+  },
+  targets,
+  apiParser: {},
+  resolve: {
+    // 配置入口文件路径，API 解析将从这里开始
+    entryFile: './src/index.ts',
+  },
   outputPath: 'docs-dist',
-  hash: true,
-  ignoreMomentLocale: true,
-  favicons: isDev
-    ? ['/lighting-design.png']
-    : ['/lighting-design/lighting-design.png'],
+  favicons: isDev ? ['/logo.png'] : ['/lighting-design/logo.png'],
 
   styles: [
     `

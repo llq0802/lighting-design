@@ -5,13 +5,13 @@
   flex-wrap: wrap;
 
   &-item {
-    border: solid 1px #d9d9d9;
+    border: solid 1px @colorBorder;
     cursor: pointer;
     transition: 300ms;
     min-width: 200px;
 
     &-active {
-      border-color: #3890fe;
+      // border-color: #3890fe;
 
       &::after {
         display: block;
@@ -20,7 +20,7 @@
         right: 2px;
         width: 12px;
         height: 12px;
-        border: 6px solid #3890fe;
+        border: 6px solid @colorPrimary;
         border-left: 6px solid transparent;
         border-bottom: 6px solid transparent;
         position: absolute;
@@ -29,13 +29,13 @@
     }
 
     &-disabled {
-      background-color: #f5f5f5;
+      background-color: @colorBgLayout;
       cursor: not-allowed;
-      color: rgb(0 0 0 / 30%);
+      color: @colorTextQuaternary;
     }
 
     &:hover:not(.@{prefix-cls}-item-disabled) {
-      border-color: #3890fe;
+      border-color: @colorPrimaryBorderHover;
     }
   }
 }

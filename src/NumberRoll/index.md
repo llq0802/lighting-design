@@ -1,8 +1,7 @@
 ---
 title: LNumberRoll
-order: 2
+toc: content
 nav:
-  order: 2
   path: /components
 ---
 
@@ -42,4 +41,4 @@ nav:
 import { LNumberRoll } from 'lighting-design';
 ```
 
-<API></API>
+<API id='LNumberRoll'></API>

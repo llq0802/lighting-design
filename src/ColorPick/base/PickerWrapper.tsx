@@ -1,5 +1,6 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
-import { ConfigProvider, Popover, PopoverProps, TooltipProps } from 'antd';
+import type { PopoverProps, TooltipProps } from 'antd';
+import { Popover } from 'antd';
 import classNames from 'classnames';
 import type { FC, ReactElement } from 'react';
 import { cloneElement } from 'react';
@@ -65,33 +66,25 @@ const PickerWrapper: FC<PickerWrapperProps> = ({
         disabled ? (
           dom
         ) : (
-          <ConfigProvider
-            theme={{
-              token: {
-                paddingSM: 40,
-              },
-            }}
+          <Popover
+            arrow={false}
+            content={
+              isNoChangeMethod
+                ? children
+                : cloneElement(children, {
+                    [changeMethod]: handleChange,
+                    color: value,
+                  })
+            }
+            trigger={trigger}
+            open={open}
+            onOpenChange={setOpen}
+            placement={placement}
+            overlayClassName={`${prefixCls}-overlay-normalize`}
+            {...restProps}
           >
-            <Popover
-              arrow={false}
-              content={
-                isNoChangeMethod
-                  ? children
-                  : cloneElement(children, {
-                      [changeMethod]: handleChange,
-                      color: value,
-                    })
-              }
-              trigger={trigger}
-              open={open}
-              onOpenChange={setOpen}
-              placement={placement}
-              overlayClassName={`${prefixCls}-overlay-normalize`}
-              {...restProps}
-            >
-              {dom}
-            </Popover>
-          </ConfigProvider>
+            {dom}
+          </Popover>
         )
       }
     />

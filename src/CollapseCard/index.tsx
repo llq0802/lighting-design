@@ -1,6 +1,7 @@
 import { DownOutlined } from '@ant-design/icons';
 import { useControllableValue, useMemoizedFn } from 'ahooks';
-import { Card, CardProps } from 'antd';
+import type { CardProps } from 'antd';
+import { Card } from 'antd';
 import classnames from 'classnames';
 import { useMemo } from 'react';
 import './index.less';
@@ -40,7 +41,7 @@ export default function LCollapseCard(props: LCollapseCardProps) {
   const iconDom = useMemo(() => {
     return collapsible ? (
       <DownOutlined
-        className={classnames(prefixCls + '-collapsePosition-icon')}
+        className={classnames(`${prefixCls}-collapsePosition-icon`)}
         style={{ transform: `rotate(${collapsed ? 0 : 180}deg)` }}
         onClick={toggleCollapsed}
       />
