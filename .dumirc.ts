@@ -9,7 +9,7 @@ export default defineConfig({
   themeConfig: {
     name: 'lighting-design',
     logo,
-    footer: 'Open-source MIT Licensed | Copyright © 2020',
+    footer: 'Open-source MIT Licensed | Copyright © 2021',
     socialLinks: {
       github: 'https://github.com/llq0802',
     },
