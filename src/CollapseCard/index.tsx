@@ -27,6 +27,7 @@ export default function LCollapseCard(props: LCollapseCardProps) {
     ...restProps
   } = props;
 
+  const refDom = useRef<HTMLDivElement>(null);
   const [collapsed, setCollapsed] = useControllableValue(props, {
     defaultValue: false,
     defaultValuePropName: 'defaultCollapsed',
@@ -34,21 +35,32 @@ export default function LCollapseCard(props: LCollapseCardProps) {
     trigger: 'onCollapsed',
   });
 
-  const domRef = useRef<HTMLDivElement>(null);
-
   const toggleCollapsed = useMemoizedFn(() => {
-    const cardBodyDom = domRef.current!.querySelector('.ant-card-body');
+    const cardBody = refDom.current?.querySelector(
+      '.ant-card-body',
+    ) as HTMLDivElement;
+    if (!collapsed) {
+      cardBody.style.transition = 'none';
+      cardBody.style.paddingTop = '24px';
+      cardBody.style.paddingBottom = '24px';
+      cardBody.style.height = 'auto';
+      const _height = cardBody.offsetHeight;
 
-    // console.log('   cardBodyDom.offsetHeight', cardBodyDom.offsetHeight);
-    cardBodyDom.style.transtion = 'none';
-    cardBodyDom.style.height = 'auto';
+      cardBody.style.height = '0px';
+      cardBody.style.paddingTop = '0px';
+      cardBody.style.paddingBottom = '0px';
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      cardBody.offsetHeight;
 
-    const height = cardBodyDom.offsetHeight;
-    cardBodyDom.style.height = 0;
-
-    cardBodyDom.offsetHeight;
-    cardBodyDom.style.transtion = '1s';
-    cardBodyDom.style.height = `${height}px`;
+      cardBody.style.transition = '0.3s';
+      cardBody.style.height = `${_height}px`;
+      cardBody.style.paddingTop = '24px';
+      cardBody.style.paddingBottom = '24px';
+    } else {
+      cardBody.style.height = '0px';
+      cardBody.style.paddingTop = '0px';
+      cardBody.style.paddingBottom = '0px';
+    }
 
     setCollapsed(!collapsed);
   });
@@ -65,7 +77,7 @@ export default function LCollapseCard(props: LCollapseCardProps) {
 
   return (
     <Card
-      ref={domRef}
+      ref={refDom}
       {...restProps}
       className={classnames(
         prefixCls,
