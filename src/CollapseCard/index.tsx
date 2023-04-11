@@ -3,7 +3,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { CardProps } from 'antd';
 import { Card } from 'antd';
 import classnames from 'classnames';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import './index.less';
 
 const prefixCls = 'lightd-collapse-card';
@@ -34,7 +34,22 @@ export default function LCollapseCard(props: LCollapseCardProps) {
     trigger: 'onCollapsed',
   });
 
+  const domRef = useRef<HTMLDivElement>(null);
+
   const toggleCollapsed = useMemoizedFn(() => {
+    const cardBodyDom = domRef.current!.querySelector('.ant-card-body');
+
+    // console.log('   cardBodyDom.offsetHeight', cardBodyDom.offsetHeight);
+    cardBodyDom.style.transtion = 'none';
+    cardBodyDom.style.height = 'auto';
+
+    const height = cardBodyDom.offsetHeight;
+    cardBodyDom.style.height = 0;
+
+    cardBodyDom.offsetHeight;
+    cardBodyDom.style.transtion = '1s';
+    cardBodyDom.style.height = `${height}px`;
+
     setCollapsed(!collapsed);
   });
 
@@ -50,6 +65,7 @@ export default function LCollapseCard(props: LCollapseCardProps) {
 
   return (
     <Card
+      ref={domRef}
       {...restProps}
       className={classnames(
         prefixCls,
@@ -57,20 +73,16 @@ export default function LCollapseCard(props: LCollapseCardProps) {
         restProps.className,
       )}
       title={
-        title ? (
-          <>
-            {collapsePosition === 'title' ? iconDom : null}
-            {title}
-          </>
-        ) : null
+        <>
+          {collapsePosition === 'title' ? iconDom : null}
+          {title}
+        </>
       }
       extra={
-        title ? (
-          <>
-            {extra}
-            {collapsePosition === 'extra' ? iconDom : null}
-          </>
-        ) : null
+        <>
+          {extra}
+          {collapsePosition === 'extra' ? iconDom : null}
+        </>
       }
     >
       {children}
