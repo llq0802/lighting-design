@@ -13,6 +13,10 @@ toc: content
 
 <code src='./demos/Demo1.tsx'></code>
 
+### 受控
+
+<code src='./demos/Demo4.tsx'></code>
+
 ### 多选
 
 <code src='./demos/Demo2.tsx'></code>
