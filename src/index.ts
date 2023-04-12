@@ -7,6 +7,8 @@ export { default as LCollapseCard } from './CollapseCard';
 export * from './ColorPick';
 export * from './FileViewer';
 export { default as LFileViewer } from './FileViewer';
+export * from './FormItem';
+export { default as LFormItem } from './FormItem';
 export * from './NumberRoll';
 export { default as LNumberRoll } from './NumberRoll';
 export * from './TagGroup';

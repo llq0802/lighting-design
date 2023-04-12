@@ -1,5 +1,6 @@
 import { theme } from 'antd';
 import { defineConfig } from 'dumi';
+import sidebar from './sidebar';
 
 const { defaultAlgorithm, defaultSeed } = theme;
 const mapToken = defaultAlgorithm(defaultSeed);
@@ -21,85 +22,7 @@ export default defineConfig({
       { title: '指南', link: '/guide' },
       { title: '组件', link: '/components' },
     ],
-    sidebar: {
-      '/components': [
-        {
-          children: [
-            {
-              title: '组件总览',
-              link: '/components',
-            },
-          ],
-        },
-        {
-          title: '基础组件',
-          children: [
-            {
-              title: 'LCaptchaButton-按钮倒计时',
-              link: '/components/captcha-button',
-            },
-            {
-              title: 'LFileViewer-文件预览器',
-              link: '/components/file-viewer',
-            },
-            {
-              title: 'LNumberRoll-数值加载器',
-              link: '/components/number-roll',
-            },
-            {
-              title: 'LTrigger-弹出选择',
-              link: '/components/Trigger',
-            },
-            {
-              title: 'LColorPick-颜色选择',
-              link: '/components/Color-Pick',
-            },
-            {
-              title: 'LCardGroup-卡片选择',
-              link: '/components/card-group',
-            },
-            {
-              title: 'LTagGroup-标签选择',
-              link: '/components/tag-group',
-            },
-          ],
-        },
-        {
-          title: '数据录入',
-          children: [
-            {
-              title: 'ProForm - 高级表单',
-              link: '/components/form',
-            },
-            {
-              title: 'ProFormFields - 表单项',
-              link: '/components/field-set',
-            },
-            {
-              title: 'ProFormList - 数据结构化',
-              link: '/components/group',
-            },
-            {
-              title: 'ProFormDependency - 数据联动',
-              link: '/components/dependency',
-            },
-          ],
-        },
-        {
-          title: '数据展示',
-          children: [
-            {
-              title: 'LTable - 高级表格',
-              link: '/components/table',
-            },
-            {
-              title: 'LCollapseCard-折叠卡片',
-              link: '/components/collapse-card',
-            },
-          ],
-        },
-      ],
-    },
+    sidebar,
   },
 
   metas: [
