@@ -7,7 +7,7 @@ nav:
 
 # LFormItem
 
-对 `Form.Item` 进一步的封装, 简化代码, 根据此组件可自定义任意表单项组件。
+对 `Form.Item` 进一步的封装，简化代码，根据此组件可自定义任意表单项组件。
 
 **特点**
 
@@ -41,7 +41,7 @@ nav:
 import { LFormItem } from 'lighting-design';
 ```
 
-> 配置了`required`属性将开启内置验证是否为空数据 , 不需要开发者传`rules`属性 , 如果业务验证有其他检验规则则传入 `rules`
+> 配置了`required`属性将开启内置验证是否为空数据或空数组 , 大多数情况不需要开发者传`rules`属性 ，如果业务验证有其他检验规则则传入 `rules`
 >
 > `LFormItemXXX` 组件均是通过此组件二次封装
 

@@ -40,4 +40,4 @@ ReactDOM.render(<LColor />, mountNode);
 
 ### 按需加载
 
-`lighting-design 默认支持基于 ES modules 的 tree shaking，对于 js 部分，直接引入 import { LColor } from 'lighting-design' 就会有按需加载的效果`
+lighting-design 默认支持基于 ES modules 的 tree shaking，对于 js 部分，直接引入 import { LColor } from 'lighting-design' 就会有按需加载的效果
