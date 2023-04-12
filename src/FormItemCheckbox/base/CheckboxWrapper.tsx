@@ -148,12 +148,14 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       onChange(undefined);
     }
   }, [value, isClearDepends]);
+
   const outBeforeAll = useMemo(() => {
     if (beforeAll === true) {
       return {};
     }
     return beforeAll;
   }, [beforeAll]);
+
   const checkboxOptions = useMemo(() => {
     if (isClearDepends) {
       return [];

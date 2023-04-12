@@ -1,21 +1,16 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { LForm, LFormItemCheckbox } from 'lighting-design';
-import { awaitTime } from 'lighting-design/_test';
+import { awaitTime } from '../../_test';
 
-const Index = () => {
+const Demo4 = () => {
   const [form] = LForm.useForm();
 
   return (
     <LForm
-      initialValues={{
-        checkbox1: '1',
-        checkbox2: '1',
-      }}
+      initialValues={{ checkbox1: '1', checkbox2: '1' }}
       form={form}
       labelCol={{ flex: '80px' }}
-      submitter={{
-        buttonAlign: 80,
-      }}
+      submitter={{ buttonAlign: 80 }}
     >
       <LFormItemCheckbox
         required
@@ -53,4 +48,4 @@ const Index = () => {
     </LForm>
   );
 };
-export default Index;
+export default Demo4;

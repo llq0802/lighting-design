@@ -69,6 +69,10 @@ export default {
           title: 'LFormItemCheckbox-多选框',
           link: '/components/Form-Item-Checkbox',
         },
+        {
+          title: 'LFormItemRadio-单选框',
+          link: '/components/Form-Item-Radio',
+        },
       ],
     },
     {

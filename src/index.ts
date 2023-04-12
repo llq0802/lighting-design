@@ -19,6 +19,8 @@ export * from './FormItemCaptcha';
 export { default as LFormItemCaptcha } from './FormItemCaptcha';
 export * from './FormItemCheckbox';
 export { default as LFormItemCheckbox } from './FormItemCheckbox';
+export * from './FormItemRadio';
+export { default as LFormItemRadio } from './FormItemRadio';
 export * from './NumberRoll';
 export { default as LNumberRoll } from './NumberRoll';
 export * from './TagGroup';
