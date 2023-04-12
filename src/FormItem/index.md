@@ -43,7 +43,7 @@ import { LFormItem } from 'lighting-design';
 
 > 配置了`required`属性将开启内置验证是否为空数据 , 不需要开发者传`rules`属性 , 如果业务验证有其他检验规则则传入 `rules`
 >
-> LFormItemXXX 组件均是通过此组件封装
+> `LFormItemXXX` 组件均是通过此组件二次封装
 
 除了以下参数，其余和 [Form.Item](https://ant.design/components/form-cn#formitem) 一样。
 

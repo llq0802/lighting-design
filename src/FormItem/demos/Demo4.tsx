@@ -1,14 +1,14 @@
-import { Form, Select } from 'antd';
-import { LFormItem } from 'lighting-design';
+import { Select } from 'antd';
+import { LForm, LFormItem } from 'lighting-design';
 import AgeSelect from './components/AgeSelect';
 import DepInout from './components/DepInout';
 
 const Demo4 = () => {
-  const [form] = Form.useForm<{ name: string; age: number }>();
+  const [form] = LForm.useForm<{ name: string; age: number }>();
 
   return (
     <>
-      <Form
+      <LForm
         labelCol={{ flex: '90px' }}
         name="LForm3"
         form={form}
@@ -52,7 +52,7 @@ const Demo4 = () => {
             return <DepInout />;
           }} */}
         </LFormItem>
-      </Form>
+      </LForm>
     </>
   );
 };

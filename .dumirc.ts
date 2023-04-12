@@ -18,6 +18,7 @@ export default defineConfig({
     socialLinks: {
       github: 'https://github.com/llq0802',
     },
+    rtl: true,
     nav: [
       { title: '指南', link: '/guide' },
       { title: '组件', link: '/components' },
@@ -72,7 +73,13 @@ export default defineConfig({
     .dumi-default-header-left .dumi-default-logo{
       color: #5581a6
     }
+    .dumi-default-header .dumi-default-header-content{
+      max-width: 1500px
+    }
 
+   #root .dumi-default-doc-layout > main{
+      max-width: 1500px
+    }
   `,
   ],
 });

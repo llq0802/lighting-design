@@ -2,8 +2,8 @@ import type { FormItemProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
 import type { FC, ReactElement, ReactNode } from 'react';
-import { cloneElement, isValidElement, useMemo } from 'react';
-// import { LFormContext } from '../../Form/base/BaseForm';
+import { cloneElement, isValidElement, useContext, useMemo } from 'react';
+import { LFormContext } from '../../Form/base/BaseForm';
 import { usePlaceholder } from '../../_utils';
 import FormItemWrapper from './FormItemWrapper';
 
@@ -63,7 +63,7 @@ const LFormItem: FC<LFormItemProps> = (props) => {
     ...restFromItemProps
   } = props;
 
-  // const { layout, labelColProps: formLabelColProps } = useContext(LFormContext);
+  const { layout, labelColProps: formLabelColProps } = useContext(LFormContext);
 
   const messageLabel = usePlaceholder({
     restProps: restFromItemProps,
@@ -97,11 +97,16 @@ const LFormItem: FC<LFormItemProps> = (props) => {
   );
 
   const labelColProps = useMemo(() => {
+    const labelFlex =
+      layout !== 'vertical' && labelWidth && labelWidth !== 'auto'
+        ? { flex: `0 0 ${labelWidth}px` }
+        : {};
     return {
-      // ...formLabelColProps,
+      ...formLabelColProps,
+      ...labelFlex,
       ...labelCol,
     };
-  }, [labelWidth, labelCol]);
+  }, [layout, labelWidth, formLabelColProps, labelCol]);
 
   if (shouldUpdate) {
     return (

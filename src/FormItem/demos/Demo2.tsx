@@ -1,16 +1,17 @@
-import { Form, Input, Select, Switch } from 'antd';
-import { LFormItem } from 'lighting-design';
+import { Input, Select, Switch } from 'antd';
+import { LForm, LFormItem } from 'lighting-design';
 import AgeSelect from './components/AgeSelect';
 import MyCheckbox from './components/MyCheckbox';
 
 const Demo2 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
   return (
     <>
-      <Form
+      <LForm
         name="LForm"
         form={form}
         labelCol={{ flex: '90px' }}
+        submitter={{ buttonAlign: 90 }}
         onFinish={(fields) => {
           console.log('fields', fields);
         }}
@@ -76,7 +77,7 @@ const Demo2 = () => {
           contentClassName="lightd-form-item-contentClassName2"
           renderField={(dom) => <Input placeholder="自定义渲染" />}
         />
-      </Form>
+      </LForm>
     </>
   );
 };

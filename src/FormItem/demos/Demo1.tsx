@@ -1,12 +1,17 @@
-import { Form, Input, Select } from 'antd';
-import {  LFormItem } from 'lighting-design';
+import { Input, Select } from 'antd';
+import { LForm, LFormItem } from 'lighting-design';
 import AgeSelect from './components/AgeSelect';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
   return (
     <>
-      <Form name="LForm2" form={form} >
+      <LForm
+        name="LForm2"
+        form={form}
+        labelWidth={90}
+        submitter={{ buttonAlign: 90 }}
+      >
         <LFormItem name="sex" label="性别" required>
           <Select
             placeholder="选择性别"
@@ -31,7 +36,9 @@ const Demo1 = () => {
 
         <LFormItem
           noStyle
-          shouldUpdate={(prevValues, curValues) => prevValues.sex !== curValues.sex}
+          shouldUpdate={(prevValues, curValues) =>
+            prevValues.sex !== curValues.sex
+          }
         >
           {({ getFieldValue }) => {
             return getFieldValue('sex') === '1' ? (
@@ -48,7 +55,7 @@ const Demo1 = () => {
             ) : null;
           }}
         </LFormItem>
-      </Form>
+      </LForm>
     </>
   );
 };

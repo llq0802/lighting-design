@@ -1,14 +1,19 @@
-import { Form, Input, Select } from 'antd';
-import { LFormItem } from 'lighting-design';
+import { Input, Select } from 'antd';
+import { LForm, LFormItem } from 'lighting-design';
 import AgeSelect from './components/AgeSelect';
 
 const Demo3 = () => {
-  const [form] = Form.useForm<{ name: string; age: number }>();
-  const newSex = Form.useWatch('sex', form);
+  const [form] = LForm.useForm<{ name: string; age: number }>();
+  const newSex = LForm.useWatch('sex', form);
 
   return (
     <>
-      <Form name="LForm3" form={form}>
+      <LForm
+        name="LForm3"
+        form={form}
+        labelWidth={90}
+        submitter={{ buttonAlign: 90 }}
+      >
         <LFormItem name="sex" label="性别" required>
           <Select
             placeholder="选择性别"
@@ -43,7 +48,7 @@ const Demo3 = () => {
             <Input />
           </LFormItem>
         ) : null}
-      </Form>
+      </LForm>
     </>
   );
 };

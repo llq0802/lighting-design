@@ -45,12 +45,25 @@ export default {
       title: '数据录入',
       children: [
         {
-          title: 'LForm - 高级表单',
-          link: '/components/from',
+          title: 'LForm-高级表单',
+          link: '/components/form',
         },
         {
-          title: 'LFormItem - 高级表单项',
+          title: 'LFormItem-高级表单项',
           link: '/components/form-item',
+        },
+
+        {
+          title: 'LFormItemAddress-地址选择',
+          link: '/components/form-item-address',
+        },
+        {
+          title: 'LFormItemAutoComplete-自动联想输入框',
+          link: '/components/form-item-auto-complete',
+        },
+        {
+          title: 'LFormItemCaptcha-验证码输入框',
+          link: '/components/Form-Item-Captcha',
         },
       ],
     },
