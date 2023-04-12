@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useRef } from 'react';
 
 /**
  * 合并组件 props
@@ -45,6 +45,7 @@ export function getFormItemLabel(props: Record<string, any>): string {
   return ret;
 }
 
+// 获取表单项的 placeholder
 export const usePlaceholder = (options: {
   placeholder?: string | string[];
   isSelectType?: boolean;
@@ -54,11 +55,7 @@ export const usePlaceholder = (options: {
 
   if (placeholder) return placeholder;
 
-  const res = useMemo(
-    () => `${isSelectType ? '请选择' : '请输入'}${getFormItemLabel(restProps)}`,
-    [restProps, isSelectType],
-  );
-  return res;
+  return `${isSelectType ? '请选择' : '请输入'}${getFormItemLabel(restProps)}`;
 };
 
 // 生产唯一id
@@ -68,3 +65,15 @@ export function uniqueId(prefix = 'lightd') {
   ++_id;
   return `${prefix}-${randomStr}-${_id}`;
 }
+
+// 是否时第一次渲染组件
+export const useIsFirstRender = (): boolean => {
+  const isFirst = useRef<boolean>(true);
+  const { current } = isFirst;
+  // 如果是第一次，改变状态并返回true
+  if (current) {
+    isFirst.current = false;
+    return true;
+  }
+  return current;
+};

@@ -65,6 +65,10 @@ export default {
           title: 'LFormItemCaptcha-验证码输入框',
           link: '/components/Form-Item-Captcha',
         },
+        {
+          title: 'LFormItemCheckbox-多选框',
+          link: '/components/Form-Item-Checkbox',
+        },
       ],
     },
     {
