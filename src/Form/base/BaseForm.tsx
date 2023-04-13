@@ -62,7 +62,7 @@ export const LFormContext = createContext<{
   disabled: undefined,
 });
 
-function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
+function BaseForm(props: BaseFormProps): JSX.Element {
   const {
     _lformRef,
 
@@ -193,6 +193,7 @@ function BaseForm<T = any>(props: BaseFormProps<T>): JSX.Element {
         disabled,
         layout,
         labelColProps,
+        formInstance: formRef.current,
       }}
     >
       <Form

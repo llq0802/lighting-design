@@ -1,19 +1,22 @@
 import type { SpinProps } from 'antd';
+import { LFormContext } from 'lighting-design/Form/base/BaseForm';
+import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
+import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import { usePlaceholder } from 'lighting-design/_utils';
 import type { FC } from 'react';
 import { useContext } from 'react';
-import { LFormContext } from '../../../Form/base/BaseForm';
-import { usePlaceholder } from '../../../utils';
-import type { LFormItemProps } from '../../base/BaseFromItem';
-import LFormItem from '../../base/BaseFromItem';
 import type { CascaderWrapperProps } from './base/CascaderWrapper';
 import CascaderWrapper from './base/CascaderWrapper';
 
 export interface LFormItemCascaderProps
   extends LFormItemProps,
-    Pick<CascaderWrapperProps, 'options' | 'request' | 'cascaderProps' | 'debounceTime'> {
+    Pick<
+      CascaderWrapperProps,
+      'options' | 'request' | 'cascaderProps' | 'debounceTime'
+    > {
   dependencies?: string[];
   /**
-   * @name 自定义loading效果 具体参考(https://4x.ant.design/components/spin-cn/#API)
+   * @name 自定义loading效果 具体参考(https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
 }
@@ -38,7 +41,12 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem required={required} isSelectType placeholder={messageLabel} {...restProps}>
+    <LFormItem
+      required={required}
+      placeholder={messageLabel}
+      _isSelectType
+      {...restProps}
+    >
       <CascaderWrapper
         dependencies={restProps?.dependencies}
         options={options}

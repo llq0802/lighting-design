@@ -1,8 +1,15 @@
-import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
+import {
+  useDeepCompareEffect,
+  useRequest,
+  useSafeState,
+  useUpdateEffect,
+} from 'ahooks';
 import type { CascaderProps, SpinProps } from 'antd';
 import { Cascader, Spin } from 'antd';
+import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
+import { useIsFirstRender } from 'lighting-design/_utils';
 import type { FC, ReactNode } from 'react';
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export type CascaderWrapperProps = Record<string, any> & {
   options?: CascaderProps<any>['options'];
@@ -32,17 +39,19 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   debounceTime,
   cascaderProps = {},
   placeholder,
-  outLoading,
+  outLoading = {},
   disabled,
   ...restProps // LFormItem传过来的其他值
 }) => {
   const [optsRequest, setOptsRequest] = useState<LCascaderOption[]>([]);
-  const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
+  const [loading, setLoading] = useSafeState<boolean>(
+    outLoading?.spinning || false,
+  );
   const hasLoading = useMemo(
-    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    () => Reflect.has(outLoading, 'spinning'),
     [outLoading],
   );
-  const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
+  const isFirst = useIsFirstRender(); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
@@ -60,7 +69,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项
+  // 获取依赖项的值
   const dependValues = useMemo(() => {
     if (!dependencies.length) {
       return [];
@@ -72,7 +81,8 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
     () =>
       dependencies.length > 0 &&
       dependValues.some(
-        (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
+        (nameValue) =>
+          nameValue === '' || nameValue === undefined || !nameValue?.length,
       ),
     [dependValues, dependencies.length],
   );
@@ -86,8 +96,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
     if (!request) return;
     if (isClearDepends) return;
     // 组件第一次加载时调用request
-    if (isFirst.current) {
-      isFirst.current = false;
+    if (isFirst) {
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
@@ -107,10 +116,10 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
 
   // 依赖清除
   useDeepCompareEffect(() => {
-    if (isClearDepends && value != undefined) {
+    if (isClearDepends && value !== undefined) {
       onChange(undefined);
     }
-  }, [value, isClearDepends]);
+  }, [isClearDepends]);
 
   const selectOptions = useMemo<LCascaderOption[]>(() => {
     if (isClearDepends) {
@@ -125,7 +134,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   }, [isClearDepends, opts, optsRequest]);
 
   return (
-    <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
+    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       <Cascader
         disabled={disabled ?? isClearDepends}
         placeholder={placeholder}

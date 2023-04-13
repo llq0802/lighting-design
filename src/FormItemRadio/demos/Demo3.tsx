@@ -13,6 +13,9 @@ const Index = () => {
       submitter={{
         buttonAlign: 80,
       }}
+      onFinish={(values) => {
+        console.log('values', values);
+      }}
     >
       <LFormItemSelect
         label="select1"
@@ -35,7 +38,6 @@ const Index = () => {
         }}
         notDependRender={() => <span>请先选择select1</span>}
         request={async (select1) => {
-          console.log('select1 ', select1);
           let data: Record<string, any>[] = [];
           if (select1 === 'a') {
             data = [{ label: 'A', value: 'a' }];

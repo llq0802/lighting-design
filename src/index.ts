@@ -17,6 +17,8 @@ export * from './FormItemAutoComplete';
 export { default as LFormItemAutoComplete } from './FormItemAutoComplete';
 export * from './FormItemCaptcha';
 export { default as LFormItemCaptcha } from './FormItemCaptcha';
+export * from './FormItemCascader';
+export { default as LFormItemCascader } from './FormItemCascader';
 export * from './FormItemCheckbox';
 export { default as LFormItemCheckbox } from './FormItemCheckbox';
 export * from './FormItemRadio';

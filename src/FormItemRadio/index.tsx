@@ -49,7 +49,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
     restProps,
     isSelectType: true,
   });
-  const { disabled: formDisabled } = useContext(LFormContext);
+  const { disabled: formDisabled, formInstance } = useContext(LFormContext);
 
   return (
     <LFormItem
@@ -74,6 +74,8 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
       {...restProps}
     >
       <RadioWrapper
+        name={restProps.name}
+        formInstance={formInstance}
         dependencies={restProps?.dependencies}
         options={options}
         request={request}

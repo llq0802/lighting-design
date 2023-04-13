@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { LForm, LFormItemCascader } from 'lighting-design';
-import { awaitTime } from '../../../../_utils';
+import { awaitTime } from '../../_test';
 
 const options: any[] = [
   {

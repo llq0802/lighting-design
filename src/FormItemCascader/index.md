@@ -1,8 +1,7 @@
 ---
 title: LFormItemCascader
-order: 2
+toc: content
 nav:
-  order: 2
   path: /components
 ---
 
@@ -21,15 +20,15 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'>
+<code src='./demos/Demo1.tsx'></code>
 
 ### 异步请求
 
-<code src='./demos/Demo3.tsx'>
+<code src='./demos/Demo3.tsx'></code>
 
 ### 依赖更新自动请求
 
-<code src='./demos/Demo2.tsx'>
+<code src='./demos/Demo2.tsx'></code>
 
 ### API
 

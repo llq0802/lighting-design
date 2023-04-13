@@ -77,6 +77,10 @@ export default {
           title: 'LFormItemRadio-单选框',
           link: '/components/Form-Item-Radio',
         },
+        {
+          title: 'LFormItemCascader-级联选择',
+          link: '/components/Form-Item-Cascader',
+        },
       ],
     },
     {
