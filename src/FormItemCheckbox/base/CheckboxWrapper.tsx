@@ -12,6 +12,7 @@ import type {
   CheckboxGroupProps,
 } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import { useIsFirstRender } from 'lighting-design/_utils';
 import type { CSSProperties, FC, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
@@ -23,10 +24,6 @@ export type LCheckboxBeforeAllProps =
        * 标题 label
        */
       label?: ReactNode;
-      /**
-       * 值 value
-       */
-      value?: CheckboxValueType;
       /**
        * 样式
        */
@@ -49,7 +46,7 @@ export type CheckboxWrapperProps = Record<string, any> &
     /**
      * 自定义全选
      */
-    beforeAll: LCheckboxBeforeAllProps;
+    beforeAll: LCheckboxBeforeAllProps | boolean;
     checkboxProps: CheckboxGroupProps;
     dependencies: string[];
     outLoading: SpinProps;
@@ -66,7 +63,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   beforeAll,
   checkboxProps = {},
   disabled,
-  outLoading,
+  outLoading = {},
   notDependRender = () => <span>请先选择依赖项</span>,
 
   ...restProps
@@ -80,8 +77,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   const isFirst = useIsFirstRender();
 
   const hasLoading = useMemo(
-    (): boolean =>
-      Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
+    () => Reflect.has(outLoading, 'spinning'),
     [outLoading],
   );
   const { run } = useRequest(request || (async () => []), {
@@ -123,8 +119,8 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   }, [outOptions, checkboxProps.options]);
   useDeepCompareEffect(() => {
     if (!request) return;
-    // 组件第一次加载时调用request
     if (isClearDepends) return;
+    // 组件第一次加载时调用request
     if (isFirst) {
       (async () => {
         try {
@@ -147,10 +143,10 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     if (isClearDepends && value?.length > 0 && value !== undefined) {
       onChange(undefined);
     }
-  }, [value, isClearDepends]);
+  }, [isClearDepends]);
 
   const outBeforeAll = useMemo(() => {
-    if (beforeAll === true) {
+    if (typeof beforeAll === 'boolean') {
       return {};
     }
     return beforeAll;
@@ -208,7 +204,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       {beforeAll && (
         <Checkbox
           indeterminate={indeterminate}
-          style={{ marginRight: '8px', ...outBeforeAll?.style }}
+          style={{ marginRight: 8, ...outBeforeAll?.style }}
           disabled={disabled ?? (outBeforeAll?.disabled || isClearDepends)}
           onChange={checkAllChange}
           checked={checkAll}
@@ -227,11 +223,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   );
 
   return (
-    <Spin
-      spinning={loading}
-      style={{ marginLeft: 40, width: 'fit-content' }}
-      {...outLoading}
-    >
+    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       {isClearDepends ? notDependRender() : checkboxDom}
     </Spin>
   );

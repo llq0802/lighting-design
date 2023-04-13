@@ -1,6 +1,6 @@
 import { LForm, LFormItemCheckbox } from 'lighting-design';
 
-const Index = () => {
+const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
@@ -18,4 +18,4 @@ const Index = () => {
     </LForm>
   );
 };
-export default Index;
+export default Demo1;

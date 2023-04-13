@@ -5,66 +5,73 @@ import {
   useSafeState,
   useUpdateEffect,
 } from 'ahooks';
-import type {
-  CheckboxOptionType,
-  RadioChangeEvent,
-  RadioGroupProps,
-  SpinProps,
-} from 'antd';
-import { Radio, Spin } from 'antd';
+import type { SelectProps, SpinProps } from 'antd';
+import { Select, Spin } from 'antd';
+import type { DefaultOptionType } from 'antd/lib/select';
+import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import { useIsFirstRender } from 'lighting-design/_utils';
 import type { FC, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
-export type RadioWrapperProps = Record<string, any> & {
-  request?: (...depends: any[]) => Promise<LRadioOptions[]>;
+export type SelectWrapperProps = Record<string, any> & {
+  request?: (
+    ...depends: any[]
+  ) => Promise<
+    { label: ReactNode; value: string | number; [key: string]: any }[]
+  >;
   debounceTime?: number;
+  disabled?: boolean;
+  placeholder?: string;
   all?: boolean;
   allValue?: number | string;
   allLabel?: ReactNode;
-  radioProps?: RadioGroupProps;
+  selectProps?: SelectProps;
   dependencies?: string[];
   outLoading?: SpinProps;
-  notDependRender?: () => ReactNode;
 };
-export type LRadioOptions = CheckboxOptionType;
 
-export const publicSpinStyle = { marginLeft: 40, width: 'fit-content' };
+export interface LSelectOptions {
+  label: ReactNode;
+  value: string | number;
+  disabled?: boolean;
+}
 
-const RadioWrapper: FC<RadioWrapperProps> = ({
+const SelectWrapper: FC<SelectWrapperProps> = ({
   value,
   onChange,
-  outLoading = {},
   dependencies = [],
-  disabled,
+  placeholder,
   options: outOptions = [],
   request,
   debounceTime,
   all = false,
-  allValue = 'all',
+  disabled,
+  allValue = '',
   allLabel = '全部',
-
-  notDependRender = () => <span>请先选择依赖项</span>,
-
-  radioProps = {},
+  selectProps = {},
+  outLoading = {},
 
   ...restProps
 }) => {
-  const [optsRequest, setOptsRequest] = useState<LRadioOptions[]>([]);
-  const [loading, setLoading] = useSafeState(outLoading?.spinning || false);
+  const [optsRequest, setOptsRequest] = useState<LSelectOptions[]>([]);
   const isFirst = useIsFirstRender(); // 组件是否第一次挂载
 
+  const [loading, setLoading] = useSafeState<boolean>(
+    outLoading?.spinning || false,
+  );
   const hasLoading = useMemo(
     () => Reflect.has(outLoading, 'spinning'),
     [outLoading],
   );
+  useUpdateEffect(() => {
+    if (hasLoading) setLoading(outLoading?.spinning || false);
+  }, [outLoading]);
 
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {
       if (!hasLoading) setLoading(false);
-
       if (all && result?.length > 0) {
         setOptsRequest([{ label: allLabel, value: allValue }, ...result]);
       } else {
@@ -72,53 +79,48 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
       }
     },
     onError: () => {
-      if (!hasLoading) setLoading(false);
       setOptsRequest([]);
+      if (!hasLoading) setLoading(false);
     },
   });
 
-  useUpdateEffect(() => {
-    if (hasLoading) setLoading(outLoading?.spinning || false);
-  }, [outLoading]);
-
   // 获取依赖项的值
-  const dependValues = useMemo(() => {
+  const dependValue = useMemo(() => {
     if (!dependencies.length) {
       return [];
     }
     return dependencies?.map((nameStr) => restProps[nameStr]);
   }, [dependencies, restProps]);
-  // 判断依赖项的值是否有空或undefined或者空数组
+
+  // 判断依赖项的值是否有空或undefined
   const isClearDepends = useMemo(
     () =>
       dependencies.length > 0 &&
-      dependValues.some(
+      dependValue?.some(
         (nameValue) =>
           nameValue === '' || nameValue === undefined || !nameValue?.length,
       ),
-    [dependencies.length, dependValues],
+    [dependencies.length, dependValue],
   );
 
-  const opts = useMemo(() => {
-    const rawOptions = radioProps.options || outOptions;
+  const options = useMemo<LSelectOptions[]>(() => {
+    const rawOptions = selectProps.options || outOptions;
     if (all && rawOptions?.length > 0) {
       const retOptions = [{ label: allLabel, value: allValue }, ...rawOptions];
       return retOptions;
     }
     return rawOptions;
-  }, [all, allLabel, allValue, outOptions, radioProps.options]);
+  }, [all, allLabel, allValue, outOptions, selectProps.options]);
 
   useDeepCompareEffect(() => {
-    // 没有请求函数
     if (!request) return;
-    // 依赖项的值为空数据
     if (isClearDepends) return;
     // 组件第一次加载时调用request
     if (isFirst) {
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
-          const newOptions = await request(...dependValues);
+          const newOptions = await request(...dependValue);
           if (all && newOptions?.length > 0) {
             setOptsRequest([
               { label: allLabel, value: allValue },
@@ -135,9 +137,10 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     } else {
       if (!hasLoading) setLoading(true);
       // 防抖调用
-      run(...dependValues);
+      run(...dependValue);
     }
-  }, [dependValues]);
+  }, [dependValue]);
+
   // 依赖清除
   useDeepCompareEffect(() => {
     if (isClearDepends && value !== undefined) {
@@ -145,40 +148,40 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     }
   }, [isClearDepends]);
 
-  const radioOptions = useMemo(() => {
+  const selectOptions = useMemo(() => {
     if (isClearDepends) {
       return [];
     } else if (optsRequest?.length > 0) {
       return optsRequest;
-    } else if (opts.length > 0) {
-      return opts;
+    } else if (options.length > 0) {
+      return options;
     } else {
       return [];
     }
-  }, [isClearDepends, opts, optsRequest]);
+  }, [isClearDepends, options, optsRequest]);
 
-  const handleChange = useMemoizedFn((val: RadioChangeEvent) => {
-    if (radioProps?.onChange) {
-      radioProps?.onChange(val);
-    }
-    onChange(val);
-  });
-
-  const radioDom = (
-    <Radio.Group
-      options={radioOptions}
-      disabled={disabled ?? isClearDepends}
-      {...radioProps}
-      value={value}
-      onChange={handleChange}
-    />
+  const handleChange = useMemoizedFn(
+    (val: string, items: DefaultOptionType | DefaultOptionType[]) => {
+      if (selectProps?.onChange) {
+        selectProps?.onChange(val, items);
+      }
+      onChange(val);
+    },
   );
-
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
-      {isClearDepends ? notDependRender() : radioDom}
+      <Select
+        disabled={disabled ?? isClearDepends}
+        options={selectOptions}
+        placeholder={placeholder}
+        allowClear
+        style={{ width: '100%' }}
+        {...selectProps}
+        value={value}
+        onChange={handleChange}
+      />
     </Spin>
   );
 };
 
-export default RadioWrapper;
+export default SelectWrapper;

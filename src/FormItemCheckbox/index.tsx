@@ -17,7 +17,7 @@ export interface LFormItemCheckboxProps
   debounceTime?: number;
   options?: CheckboxOptionType[];
   /**
-   * @name 自定义loading效果 具体参考(https://4x.ant.design/components/spin-cn/#API)
+   * @see 自定义loading效果 具体参考(https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
 }
@@ -53,6 +53,9 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   );
 };
 
-export default LFormItemCheckbox;
+export type {
+  LCheckboxBeforeAllProps,
+  LCheckboxOptions,
+} from './base/CheckboxWrapper';
 
-export type { LCheckboxOptions } from './base/CheckboxWrapper';
+export default LFormItemCheckbox;

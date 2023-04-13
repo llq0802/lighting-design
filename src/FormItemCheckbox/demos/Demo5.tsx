@@ -1,8 +1,8 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { LForm, LFormItemCheckbox } from 'lighting-design';
+import { LForm, LFormItemCheckbox, LFormItemSelect } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
 
-const Index = () => {
+const Demo5 = () => {
   const [form] = LForm.useForm();
 
   return (
@@ -14,7 +14,7 @@ const Index = () => {
         buttonAlign: 80,
       }}
     >
-      {/* <LFormItemSelect
+      <LFormItemSelect
         label="select1"
         name="select1"
         required
@@ -23,10 +23,10 @@ const Index = () => {
           { label: 'B', value: 'b' },
           { label: 'C', value: 'c' },
         ]}
-      /> */}
+      />
       <LFormItemCheckbox
-        // debounceTime={200} 防抖更新
-        // dependencies={['select1']}
+        debounceTime={200} // 防抖更新
+        dependencies={['select1']}
         label="select2"
         name="select2"
         required
@@ -51,4 +51,4 @@ const Index = () => {
     </LForm>
   );
 };
-export default Index;
+export default Demo5;

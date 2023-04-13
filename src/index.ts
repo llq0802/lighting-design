@@ -21,6 +21,8 @@ export * from './FormItemCheckbox';
 export { default as LFormItemCheckbox } from './FormItemCheckbox';
 export * from './FormItemRadio';
 export { default as LFormItemRadio } from './FormItemRadio';
+export * from './FormItemSelect';
+export { default as LFormItemSelect } from './FormItemSelect';
 export * from './NumberRoll';
 export { default as LNumberRoll } from './NumberRoll';
 export * from './TagGroup';

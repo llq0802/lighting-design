@@ -1,5 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { LForm, LFormItemRadio, LFormItemSelect } from 'lighting-design';
+import { LForm, LFormItemSelect } from 'lighting-design';
 import { awaitTime } from '../../_test';
 
 const Index = () => {
@@ -24,7 +24,7 @@ const Index = () => {
           { label: 'C', value: 'c' },
         ]}
       />
-      <LFormItemRadio
+      <LFormItemSelect
         // debounceTime={200} 防抖更新
         dependencies={['select1']}
         label="select2"
@@ -33,9 +33,11 @@ const Index = () => {
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
-        notDependRender={() => <span>请先选择select1</span>}
         request={async (select1) => {
           console.log('select1 ', select1);
+          // if (!select1) {
+          //   return [];
+          // }
           let data: Record<string, any>[] = [];
           if (select1 === 'a') {
             data = [{ label: 'A', value: 'a' }];

@@ -66,6 +66,10 @@ export default {
           link: '/components/Form-Item-Captcha',
         },
         {
+          title: 'LFormItemSelect-下拉框',
+          link: '/components/Form-Item-Select',
+        },
+        {
           title: 'LFormItemCheckbox-多选框',
           link: '/components/Form-Item-Checkbox',
         },
