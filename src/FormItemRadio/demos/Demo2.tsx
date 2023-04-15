@@ -9,7 +9,8 @@ const Demo2 = () => {
         label="单选1"
         name="LFormItemRadio1"
         required
-        request={async () => {
+        request={async (re) => {
+          console.log('re', re);
           const result = await awaitTime([
             { label: 'Unresolved', value: 'open' },
             { label: 'Resolved', value: 'closed' },

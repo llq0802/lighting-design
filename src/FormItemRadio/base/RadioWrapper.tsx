@@ -12,7 +12,11 @@ import type {
   SpinProps,
 } from 'antd';
 import { Form, Radio, Spin } from 'antd';
-import { useIsFirstRender } from 'lighting-design/_utils';
+import {
+  useDependValues,
+  useIsClearDependValues,
+  useIsFirstRender,
+} from 'lighting-design/_utils';
 import type { FC, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
@@ -49,12 +53,12 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
 
   radioProps = {},
 
-  formInstance,
   ...restProps
 }) => {
   const [optsRequest, setOptsRequest] = useState<LRadioOptions[]>([]);
   const [loading, setLoading] = useSafeState(outLoading?.spinning || false);
   const isFirst = useIsFirstRender(); // 组件是否第一次挂载
+  const form = Form.useFormInstance();
 
   const hasLoading = useMemo(
     () => Reflect.has(outLoading, 'spinning'),
@@ -65,23 +69,49 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项的值
-  const dependValues = useMemo(() => {
-    if (!dependencies.length) {
-      return [];
-    }
-    return dependencies?.map((nameStr) => restProps[nameStr]);
-  }, [dependencies, restProps]);
-  // 判断依赖项的值是否有空或undefined或者空数组
-  const isClearDepends = useMemo(
-    () =>
-      dependencies.length &&
-      dependValues.some(
-        (nameValue) =>
-          nameValue === undefined || nameValue === '' || !nameValue?.length,
-      ),
-    [dependencies.length, dependValues],
-  );
+  const dependValues = useDependValues(dependencies, restProps);
+  const isClearDepends = useIsClearDependValues(dependValues);
+
+  // // 获取依赖项的值
+  // const dependValues = useMemo(() => {
+  //   if (!dependencies.length) {
+  //     return [];
+  //   }
+  //   return dependencies?.map((nameStr) => restProps[nameStr]);
+  // }, [dependencies, restProps]);
+
+  // // 判断依赖项的值是否有空或undefined或者空数组
+  // const isClearDepends = useMemo(() => {
+  //   if (!dependValues.length) return false;
+
+  //   if (dependValues.length === 1) {
+  //     return dependValues.some(
+  //       (nameValue) =>
+  //         nameValue === undefined ||
+  //         nameValue === null ||
+  //         nameValue === '' ||
+  //         !nameValue?.length,
+  //     );
+  //   }
+  //   return dependValues.every(
+  //     (nameValue) =>
+  //       nameValue === undefined ||
+  //       nameValue === null ||
+  //       nameValue === '' ||
+  //       !nameValue?.length,
+  //   );
+  // }, [dependValues]);
+
+  // const dependValues = Form.useWatch(dependencies, form);
+  // // 判断依赖项的值是否有空或undefined或者空数组
+  // const isClearDepends = useMemo(
+  //   () =>
+  //     dependencies.length &&
+  //     (dependValues === undefined ||
+  //       dependValues === '' ||
+  //       !dependValues.length),
+  //   [dependValues],
+  // );
 
   const opts = useMemo(() => {
     const rawOptions = radioProps.options || outOptions;
@@ -110,7 +140,6 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     },
   });
 
-  const form = Form.useFormInstance();
   useDeepCompareEffect(() => {
     // 没有请求函数
     if (!request) return;
@@ -138,20 +167,14 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     } else {
       if (value !== undefined) {
         // formInstance.setFieldValue(name, undefined);
-        form.resetFields([name]);
+        // form.resetFields([name]);
+        form.setFieldValue(name, undefined);
       }
       if (!hasLoading) setLoading(true);
       // 防抖调用
       run(...dependValues);
     }
   }, [dependValues]);
-
-  // 依赖清除
-  // useDeepCompareEffect(() => {
-  //   if (isClearDepends && value !== undefined) {
-  //     onChange(undefined);
-  //   }
-  // }, [isClearDepends]);
 
   const radioOptions = useMemo(() => {
     if (isClearDepends) {

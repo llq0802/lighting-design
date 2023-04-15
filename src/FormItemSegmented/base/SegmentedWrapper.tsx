@@ -4,59 +4,63 @@ import {
   useSafeState,
   useUpdateEffect,
 } from 'ahooks';
-import type { CascaderProps, SpinProps } from 'antd';
-import { Cascader, Form, Spin } from 'antd';
-import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
+import type { SegmentedProps, SpinProps } from 'antd';
+import { Form, Segmented, Spin } from 'antd';
+import type {
+  SegmentedLabeledOption,
+  SegmentedValue,
+} from 'antd/lib/segmented';
 import {
   useDependValues,
   useIsClearDependValues,
   useIsFirstRender,
 } from 'lighting-design/_utils';
 import type { FC, ReactNode } from 'react';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-export type CascaderWrapperProps = Record<string, any> & {
-  options?: CascaderProps<any>['options'];
+export type SegmentedWrapperProps = Record<string, any> & {
   request?: (...args: any[]) => Promise<any>;
   debounceTime?: number;
-  cascaderProps?: CascaderProps<any>;
+  options?: SegmentedProps['options'];
+  segmentedProps?:
+    | SegmentedProps
+    | {
+        onChange?: (value: SegmentedValue) => void;
+        options?: SegmentedProps['options'];
+      };
   dependencies?: string[];
+
   outLoading?: SpinProps;
+  notDependRender?: () => ReactNode;
 };
 
-export interface LCascaderOption {
-  value: string | number;
-  label?: ReactNode;
-  disabled?: boolean;
-  children?: LCascaderOption[];
-  // 标记是否为叶子节点，设置了 `loadData` 时有效
-  // 设为 `false` 时会强制标记为父节点，即使当前节点没有 children，也会显示展开图标
-  isLeaf?: boolean;
-}
-
-const CascaderWrapper: FC<CascaderWrapperProps> = ({
+const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   value,
   onChange,
   dependencies = [],
+  notDependRender = () => <span>请先选择依赖项</span>,
   options: outOptions = [],
   request,
-  debounceTime,
-  cascaderProps = {},
-  placeholder,
   outLoading = {},
   disabled,
+  debounceTime,
+  segmentedProps = {},
   name,
-  ...restProps // LFormItem传过来的其他值
+  ...restProps
 }) => {
-  const [optsRequest, setOptsRequest] = useState<LCascaderOption[]>([]);
+  const [optsRequest, setOptsRequest] = useState<
+    (SegmentedValue | SegmentedLabeledOption)[]
+  >([]);
   const [loading, setLoading] = useSafeState<boolean>(
     outLoading?.spinning || false,
   );
+
   const hasLoading = useMemo(
     () => Reflect.has(outLoading, 'spinning'),
     [outLoading],
   );
   const isFirst = useIsFirstRender(); // 组件是否第一次挂载
+
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
@@ -78,10 +82,10 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   const dependValues = useDependValues(dependencies, restProps);
   const isClearDepends = useIsClearDependValues(dependValues);
 
-  const opts = useMemo(
-    () => cascaderProps.options || outOptions,
-    [cascaderProps.options, outOptions],
-  );
+  const opts = useMemo(() => {
+    const rawOptions = segmentedProps?.options || outOptions;
+    return rawOptions;
+  }, [outOptions, segmentedProps?.options]);
 
   useDeepCompareEffect(() => {
     if (!request) return;
@@ -92,14 +96,14 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
         try {
           if (!hasLoading) setLoading(true);
           const newOptions = await request(...dependValues);
-          setOptsRequest([...newOptions]);
+          setOptsRequest(newOptions);
         } catch (error) {
           setOptsRequest([]);
         }
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (value?.length) {
+      if (value !== void 0) {
         form.setFieldValue(name, void 0);
       }
       if (!hasLoading) setLoading(true);
@@ -108,7 +112,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
     }
   }, [dependValues]);
 
-  const selectOptions = useMemo<LCascaderOption[]>(() => {
+  const segmentedOptions = useMemo(() => {
     if (isClearDepends) {
       return [];
     } else if (optsRequest?.length > 0) {
@@ -120,18 +124,36 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
     }
   }, [isClearDepends, opts, optsRequest]);
 
+  const handleChange = useCallback(
+    (val: SegmentedValue) => {
+      if (segmentedProps?.onChange) {
+        segmentedProps?.onChange(val);
+      }
+      onChange(val);
+    },
+    [onChange, segmentedProps],
+  );
+
+  const SegmentedDom = (
+    //  @ts-ignore
+    <Segmented
+      disabled={disabled ?? isClearDepends}
+      {...segmentedProps}
+      options={segmentedOptions}
+      value={value}
+      onChange={handleChange}
+    />
+  );
+
   return (
-    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
-      <Cascader
-        disabled={disabled ?? isClearDepends}
-        placeholder={placeholder}
-        options={selectOptions}
-        {...cascaderProps}
-        value={value}
-        onChange={onChange}
-      />
+    <Spin
+      spinning={loading}
+      style={{ marginLeft: 40, width: 'fit-content' }}
+      {...outLoading}
+    >
+      {!isClearDepends ? SegmentedDom : notDependRender()}
     </Spin>
   );
 };
 
-export default CascaderWrapper;
+export default SegmentedWrapper;

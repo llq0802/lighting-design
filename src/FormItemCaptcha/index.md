@@ -22,11 +22,11 @@ nav:
 
 ## API
 
+> 当存在多个验证码输入框组件时, 请设置不同的 `cacheKey` 值
+
 ```ts
 import { LFormItemCaptcha } from 'lighting-design';
 ```
-
-> 当存在多个验证码输入框组件时, 请设置不同的 `cacheKey` 值
 
 除了以下参数，其余和 [LFormItem](/components/form-item#api) 一样。
 

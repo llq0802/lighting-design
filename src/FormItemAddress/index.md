@@ -21,11 +21,11 @@ nav:
 
 ## API
 
+> 地址选择和输入框，该表单项由 2 个表单项组合而成，所以不要配置 `name`，但必须配置 `names`
+
 ```ts
 import { LFormItemAddress } from 'lighting-design';
 ```
-
-> 地址选择和输入框，该表单项由 2 个表单项组合而成，所以不要配置 name，但必须配置 names
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 

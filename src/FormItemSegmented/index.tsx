@@ -1,62 +1,61 @@
 import type { SpinProps } from 'antd';
-import type { CheckboxOptionType } from 'antd/lib/checkbox';
+import type {
+  SegmentedLabeledOption,
+  SegmentedValue,
+} from 'antd/lib/segmented';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import type { FC } from 'react';
 import { useContext } from 'react';
-import type { CheckboxWrapperProps } from './base/CheckboxWrapper';
-import CheckboxWrapper from './base/CheckboxWrapper';
-export interface LFormItemCheckboxProps
+import type { SegmentedWrapperProps } from './base/SegmentedWrapper';
+import SegmentedWrapper from './base/SegmentedWrapper';
+
+export interface LFormItemSegmentedoProps
   extends LFormItemProps,
     Pick<
-      CheckboxWrapperProps,
-      'checkboxProps' | 'request' | 'beforeAll' | 'notDependRender'
+      SegmentedWrapperProps,
+      'segmentedProps' | 'request' | 'notDependRender'
     > {
   dependencies?: string[];
   debounceTime?: number;
-  options?: CheckboxOptionType[];
+  options?: (SegmentedValue | SegmentedLabeledOption)[];
   /**
-   * @see 自定义loading效果 具体参考(https://ant.design/components/spin-cn/#api)
+   * @name 自定义loading效果 具体参考(https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
 }
 
-const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
+const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
   request,
-  beforeAll,
-  options = [],
-  checkboxProps = {},
   debounceTime,
-  disabled,
-  required,
+  options = [],
+  segmentedProps = {},
   spin,
+  disabled,
   notDependRender,
+
+  required,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem required={required} _isSelectType {...restProps}>
-      <CheckboxWrapper
+      <SegmentedWrapper
         name={restProps.name}
         dependencies={restProps?.dependencies}
-        notDependRender={notDependRender}
         options={options}
         request={request}
+        outLoading={spin}
         disabled={disabled ?? formDisabled}
         debounceTime={debounceTime}
-        outLoading={spin}
-        beforeAll={beforeAll}
-        checkboxProps={checkboxProps}
+        notDependRender={notDependRender}
+        // @ts-ignore
+        segmentedProps={segmentedProps}
       />
     </LFormItem>
   );
 };
 
-export type {
-  LCheckboxBeforeAllProps,
-  LCheckboxOptions,
-} from './base/CheckboxWrapper';
-
-export default LFormItemCheckbox;
+export default LFormItemSegmented;

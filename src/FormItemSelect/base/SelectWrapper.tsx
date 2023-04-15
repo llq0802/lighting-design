@@ -6,10 +6,14 @@ import {
   useUpdateEffect,
 } from 'ahooks';
 import type { SelectProps, SpinProps } from 'antd';
-import { Select, Spin } from 'antd';
+import { Form, Select, Spin } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import { useIsFirstRender } from 'lighting-design/_utils';
+import {
+  useDependValues,
+  useIsClearDependValues,
+  useIsFirstRender,
+} from 'lighting-design/_utils';
 import type { FC, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
@@ -50,7 +54,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   allLabel = '全部',
   selectProps = {},
   outLoading = {},
-
+  name,
   ...restProps
 }) => {
   const [optsRequest, setOptsRequest] = useState<LSelectOptions[]>([]);
@@ -84,24 +88,8 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     },
   });
 
-  // 获取依赖项的值
-  const dependValue = useMemo(() => {
-    if (!dependencies.length) {
-      return [];
-    }
-    return dependencies?.map((nameStr) => restProps[nameStr]);
-  }, [dependencies, restProps]);
-
-  // 判断依赖项的值是否有空或undefined
-  const isClearDepends = useMemo(
-    () =>
-      dependencies.length > 0 &&
-      dependValue?.some(
-        (nameValue) =>
-          nameValue === '' || nameValue === undefined || !nameValue?.length,
-      ),
-    [dependencies.length, dependValue],
-  );
+  const dependValues = useDependValues(dependencies, restProps);
+  const isClearDepends = useIsClearDependValues(dependValues);
 
   const options = useMemo<LSelectOptions[]>(() => {
     const rawOptions = selectProps.options || outOptions;
@@ -112,6 +100,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     return rawOptions;
   }, [all, allLabel, allValue, outOptions, selectProps.options]);
 
+  const form = Form.useFormInstance();
   useDeepCompareEffect(() => {
     if (!request) return;
     if (isClearDepends) return;
@@ -120,7 +109,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
-          const newOptions = await request(...dependValue);
+          const newOptions = await request(...dependValues);
           if (all && newOptions?.length > 0) {
             setOptsRequest([
               { label: allLabel, value: allValue },
@@ -135,18 +124,14 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
+      if (value !== void 0) {
+        form.setFieldValue(name, void 0);
+      }
       if (!hasLoading) setLoading(true);
       // 防抖调用
-      run(...dependValue);
+      run(...dependValues);
     }
-  }, [dependValue]);
-
-  // 依赖清除
-  useDeepCompareEffect(() => {
-    if (isClearDepends && value !== undefined) {
-      onChange(undefined);
-    }
-  }, [isClearDepends]);
+  }, [dependValues]);
 
   const selectOptions = useMemo(() => {
     if (isClearDepends) {

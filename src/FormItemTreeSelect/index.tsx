@@ -5,14 +5,19 @@ import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import type { FC } from 'react';
 import { useContext } from 'react';
-import type { CascaderWrapperProps } from './base/CascaderWrapper';
-import CascaderWrapper from './base/CascaderWrapper';
+import type { TreeSelectWrapperProps } from './base/TreeSelectWrapper';
+import TreeSelectWrapper from './base/TreeSelectWrapper';
 
-export interface LFormItemCascaderProps
+export interface LFormItemTreeSelectProps
   extends LFormItemProps,
     Pick<
-      CascaderWrapperProps,
-      'options' | 'request' | 'cascaderProps' | 'debounceTime'
+      TreeSelectWrapperProps,
+      | 'treeData'
+      | 'request'
+      | 'treeSelectProps'
+      | 'debounceTime'
+      | 'treeCheckable'
+      | 'loadData'
     > {
   dependencies?: string[];
   /**
@@ -21,46 +26,46 @@ export interface LFormItemCascaderProps
   spin?: SpinProps;
 }
 
-const LFormItemCascader: FC<LFormItemCascaderProps> = ({
+const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   required,
+  treeData = [],
+  treeCheckable = false,
+  loadData,
+  request,
   disabled,
   placeholder,
-  options = [],
-  request,
   debounceTime,
   spin,
-  cascaderProps = {},
+  treeSelectProps = {},
+
   ...restProps
 }) => {
-  const messageLabel = usePlaceholder({
+  const messagePlaceholder = usePlaceholder({
     placeholder,
     restProps,
     isSelectType: true,
   });
-
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem
-      required={required}
-      placeholder={messageLabel}
-      _isSelectType
-      {...restProps}
-    >
-      <CascaderWrapper
-        name={restProps.name}
+    <LFormItem required={required} _isSelectType {...restProps}>
+      <TreeSelectWrapper
+        disabled={disabled ?? formDisabled}
+        placeholder={messagePlaceholder}
         dependencies={restProps?.dependencies}
-        options={options}
+        treeData={treeData}
+        treeCheckable={treeCheckable}
         request={request}
         outLoading={spin}
         debounceTime={debounceTime}
-        cascaderProps={cascaderProps}
-        disabled={disabled ?? formDisabled}
-        placeholder={messageLabel}
+        loadData={loadData}
+        treeSelectProps={treeSelectProps}
+        name={restProps.name}
       />
     </LFormItem>
   );
 };
 
-export default LFormItemCascader;
-export type { LCascaderOption } from './base/CascaderWrapper';
+export default LFormItemTreeSelect;
+
+export type { LTreeSelectOption } from './base/TreeSelectWrapper';

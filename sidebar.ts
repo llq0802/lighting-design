@@ -81,6 +81,30 @@ export default {
           title: 'LFormItemCascader-级联选择',
           link: '/components/Form-Item-Cascader',
         },
+        {
+          title: 'LFormItemTreeSelect-树形选择',
+          link: '/components/Form-Item-Tree-Select',
+        },
+        {
+          title: 'LFormItemColor-颜色选择',
+          link: '/components/Form-Item-Color',
+        },
+        {
+          title: 'LFormItemSegmented-分段器选择',
+          link: '/components/Form-Item-Segmented',
+        },
+        {
+          title: 'LFormItemSwitch-开关选择',
+          link: '/components/Form-Item-Switch',
+        },
+        {
+          title: 'LFormItemSlider-滑动条选择',
+          link: '/components/Form-Item-Slider',
+        },
+        {
+          title: 'LFormItemRate-评分选择',
+          link: '/components/Form-Item-Rate',
+        },
       ],
     },
     {

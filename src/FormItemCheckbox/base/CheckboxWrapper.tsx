@@ -6,14 +6,18 @@ import {
   useUpdateEffect,
 } from 'ahooks';
 import type { CheckboxOptionType, SpinProps } from 'antd';
-import { Checkbox, Spin } from 'antd';
+import { Checkbox, Form, Spin } from 'antd';
 import type {
   CheckboxChangeEvent,
   CheckboxGroupProps,
 } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import { useIsFirstRender } from 'lighting-design/_utils';
+import {
+  useDependValues,
+  useIsClearDependValues,
+  useIsFirstRender,
+} from 'lighting-design/_utils';
 import type { CSSProperties, FC, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
@@ -66,6 +70,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   outLoading = {},
   notDependRender = () => <span>请先选择依赖项</span>,
 
+  name,
   ...restProps
 }) => {
   const [indeterminate, setIndeterminate] = useState<boolean>(false);
@@ -96,27 +101,15 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   useUpdateEffect(() => {
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
-  // 获取依赖项的值
-  const dependValues = useMemo(() => {
-    if (!dependencies.length) {
-      return [];
-    }
-    return dependencies?.map((nameStr) => restProps[nameStr]);
-  }, [dependencies, restProps]);
-  // 判断依赖项的值是否有空或undefined
-  const isClearDepends = useMemo(
-    () =>
-      dependencies.length > 0 &&
-      dependValues.some(
-        (nameValue) =>
-          nameValue === undefined || nameValue === '' || !nameValue?.length,
-      ),
-    [dependValues, dependencies.length],
-  );
+  const form = Form.useFormInstance();
+  const dependValues = useDependValues(dependencies, restProps);
+  const isClearDepends = useIsClearDependValues(dependValues);
+
   const opts = useMemo(() => {
     const rawOptions = checkboxProps.options || outOptions;
     return rawOptions;
   }, [outOptions, checkboxProps.options]);
+
   useDeepCompareEffect(() => {
     if (!request) return;
     if (isClearDepends) return;
@@ -133,17 +126,15 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
+      if (value?.length) {
+        form.setFieldValue(name, void 0);
+      }
+
       if (!hasLoading) setLoading(true);
       // 防抖调用
       run(...dependValues);
     }
   }, [dependValues]);
-  // 依赖清除
-  useDeepCompareEffect(() => {
-    if (isClearDepends && value?.length > 0 && value !== undefined) {
-      onChange(undefined);
-    }
-  }, [isClearDepends]);
 
   const outBeforeAll = useMemo(() => {
     if (typeof beforeAll === 'boolean') {

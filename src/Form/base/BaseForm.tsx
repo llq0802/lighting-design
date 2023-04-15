@@ -193,7 +193,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         disabled,
         layout,
         labelColProps,
-        formInstance: formRef.current,
+        // formInstance: formRef.current,
       }}
     >
       <Form
