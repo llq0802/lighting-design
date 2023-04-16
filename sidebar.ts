@@ -105,6 +105,26 @@ export default {
           title: 'LFormItemRate-评分选择',
           link: '/components/Form-Item-Rate',
         },
+        {
+          title: 'LFormItemInput-输入框',
+          link: '/components/Form-Item-Input',
+        },
+        {
+          title: 'LFormItmeNumber-数字输入框',
+          link: '/components/Form-Item-Number',
+        },
+        {
+          title: 'LFormItemPassword-密码输入框',
+          link: '/components/Form-Item-Password',
+        },
+        {
+          title: 'LFormItemTextArea-多行输入框',
+          link: '/components/Form-Item-Text-Area',
+        },
+        {
+          title: 'LFormItemUpload-文件上传',
+          link: '/components/Form-Item-Upload',
+        },
       ],
     },
     {

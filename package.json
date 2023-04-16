@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "ahooks": "^3.7.6",
+    "antd-img-crop": "^4.12.2",
     "react-color": "^2.19.3"
   },
   "devDependencies": {
