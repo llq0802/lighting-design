@@ -125,6 +125,10 @@ export default {
           title: 'LFormItemUpload-文件上传',
           link: '/components/Form-Item-Upload',
         },
+        {
+          title: 'LFormItemDatePicker-日期选择',
+          link: '/components/Form-Item-Date-Picker',
+        },
       ],
     },
     {

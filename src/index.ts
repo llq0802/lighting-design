@@ -23,6 +23,8 @@ export * from './FormItemCheckbox';
 export { default as LFormItemCheckbox } from './FormItemCheckbox';
 export * from './FormItemColor';
 export { default as LFormItemColor } from './FormItemColor';
+export * from './FormItemDatePicker';
+export { default as LFormItemDatePicker } from './FormItemDatePicker';
 export * from './FormItemInput';
 export { default as LFormItemInput } from './FormItemInput';
 export * from './FormItemNumber';
