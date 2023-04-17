@@ -16,9 +16,10 @@ import { usePlaceholder } from 'lighting-design/_utils';
 import type { DateValueType, Picker } from 'lighting-design/_utils/date';
 import {
   createDisabledDate,
+  DateFormat,
+  formatDayjs,
   getDateFormat,
   transform2Dayjs,
-  transformDate,
 } from 'lighting-design/_utils/date';
 import type { FC } from 'react';
 import { useContext, useMemo } from 'react';
@@ -33,9 +34,16 @@ const DatePickerWrapper: FC<
   return (
     <DatePicker
       locale={locale}
-      format={format}
+      // format={format}
+      // value={value}
+      format={format === DateFormat.quarter ? void 0 : format}
       {...restProps}
-      value={transform2Dayjs(value)}
+      value={transform2Dayjs(value, format)}
+      // onChange={(date: dayjs, dateString: string) => {
+      //   console.log('date', date);
+      //   console.log('dateString', dateString);
+      //   onChange(date);
+      // }}
       style={{ width: '100%', ...style }}
     />
   );
@@ -52,7 +60,7 @@ const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
       locale={locale}
       format={format}
       {...restProps}
-      value={value}
+      value={transform2Dayjs(value, format)}
       style={{ width: '100%', ...style }}
     />
   );
@@ -71,7 +79,14 @@ export interface LFormItemDatePickerProps extends LFormItemProps {
   dateValueType?: DateValueType;
   /** 日期类型 */
   picker?: Picker;
-  pickerProps?: DatePickerProps | MonthPickerProps | WeekPickerProps | any;
+
+  pickerProps?:
+    | DatePickerProps
+    | MonthPickerProps
+    | WeekPickerProps
+    | RangePickerProps
+    | any;
+
   /** 是否是范围日期选择 */
   rangePicker?: boolean;
 }
@@ -129,30 +144,30 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
       if (typeof normalize === 'function') {
         return normalize(value, prevValue, allValues);
       }
-      return transformDate(value, currentFormat, dateValueType);
+      return formatDayjs(value, currentFormat, dateValueType);
     },
   );
 
   const dom = useMemo(() => {
     return !rangePicker ? (
       <DatePickerWrapper
-        placeholder={placeholderMessage}
-        disabled={disabled ?? formDisabled}
-        format={currentFormat}
-        showTime={showTime}
-        picker={currentPicker}
         disabledDate={currentDisabledDate}
         {...pickerProps}
+        showTime={showTime}
+        format={currentFormat}
+        placeholder={placeholderMessage}
+        disabled={disabled ?? formDisabled}
+        picker={currentPicker}
       />
     ) : (
       <RangePickerWrapper
+        disabledDate={currentDisabledDate}
+        {...pickerProps}
         placeholder={placeholderMessage}
         format={currentFormat}
         showTime={showTime}
         picker={currentPicker}
-        disabledDate={currentDisabledDate}
         disabled={disabled ?? formDisabled}
-        {...pickerProps}
       />
     );
   }, [

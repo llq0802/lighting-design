@@ -1,5 +1,5 @@
-import type { Dayjs } from 'dayjs';
-import dayjs from 'dayjs';
+import type { Dayjs } from './day';
+import dayjs from './day';
 
 // DatePicker picker值
 export type Picker = 'date' | 'week' | 'month' | 'quarter' | 'year';
@@ -16,12 +16,15 @@ export enum DayjsEnum {
 }
 
 // 日期格式
+const InternalQuarterFormat = 'YYYY-qQ';
 export enum DateFormat {
+  time = ' HH:mm:ss',
   year = 'YYYY',
   month = 'YYYY-MM',
   date = 'YYYY-MM-DD',
   week = 'YYYY-wo',
   quarter = 'YYYY-\\QQ',
+  // quarter = 'YYYY-qQ',
 }
 
 type CreateDisabledDateOptions = {
@@ -42,8 +45,8 @@ export function getDateFormat(
   showTime = false,
 ) {
   if (format) return format;
-  const timeFormatStr = picker === 'date' && showTime ? ' HH:mm:ss' : '';
-  const ret = DateFormat[picker] + timeFormatStr || 'YYYY-MM-DD';
+  const timeFormatStr = picker === 'date' && showTime ? DateFormat.time : '';
+  const ret = DateFormat[picker] + timeFormatStr || DateFormat.date;
   return ret;
 }
 
@@ -102,25 +105,53 @@ export function createDisabledDate(
   };
 }
 
+// 格式化，年-季
+export function formatQuarter(value: string | Dayjs) {
+  return dayjs(value).format(InternalQuarterFormat).toUpperCase();
+}
+
+// 年-季字符串转换为Dayjs
+export function transformQuarter(value: string | Dayjs) {
+  if (dayjs.isDayjs(value)) return value;
+  const ret = dayjs((value || '').replace('Q', ''), 'YYYY-Q');
+  return ret;
+}
 /**
- * string number dayjs 转换为 dayjs类型值
- * @param val
+ * 转化string number dayjs 转换为 dayjs类型值
+ * @param value
  * @param format
  */
-export function transform2Dayjs(val?: string | number | Dayjs): Dayjs;
 export function transform2Dayjs(
-  val?: (string | number | Dayjs)[],
+  value?: string | number | Dayjs,
+  format?: string,
+): Dayjs;
+export function transform2Dayjs(
+  value?: (string | number | Dayjs)[],
+  format?: string,
 ): [Dayjs, Dayjs];
 export function transform2Dayjs(
-  val?: string | number | Dayjs | (string | number | Dayjs)[],
+  value?: string | number | Dayjs | (string | number | Dayjs)[],
+  format?: string,
 ) {
-  if (Array.isArray(val)) {
-    return val.map((item) => transform2Dayjs(item));
+  console.log('value', value);
+
+  if (dayjs.isDayjs(value)) {
+    return value;
   }
-  if (typeof val === 'string' || typeof val === 'number') {
-    return dayjs(val);
+  if (Array.isArray(value)) {
+    return value.map((item) => transform2Dayjs(item, format));
   }
-  return val;
+
+  if (typeof value === 'string') {
+    return format === DateFormat.quarter
+      ? transformQuarter(value)
+      : dayjs(value, format);
+  }
+  if (typeof value === 'number') {
+    return dayjs(value);
+  }
+
+  return value;
 }
 
 /**
@@ -129,35 +160,42 @@ export function transform2Dayjs(
  * @param format
  * @param dateValueType
  */
-export function transformDate(
+export function formatDayjs(
   date: Dayjs,
   format: string,
   dateValueType: DateValueType,
 ): string | number | Dayjs;
 
-export function transformDate(
+export function formatDayjs(
   date: [Dayjs, Dayjs],
   format: string,
   dateValueType: DateValueType,
 ): [string | number | Dayjs, string | number | Dayjs];
 
-export function transformDate(
+export function formatDayjs(
   date: Dayjs | Dayjs[],
   format: string,
   dateValueType: DateValueType,
 ): string | number | Dayjs | (string | number | Dayjs)[] {
+  console.log('date', date);
+  console.log('date-format', format);
+  console.log('dateValueType', dateValueType);
+
   if (Array.isArray(date) && date.length > 0) {
-    return date.map((item) => transformDate(item, format, dateValueType));
+    return date.map((item) => formatDayjs(item, format, dateValueType));
   }
 
   if (date && dateValueType === 'string') {
-    return dayjs(date as Dayjs).format(format);
+    return format === DateFormat.quarter
+      ? formatQuarter(date as Dayjs)
+      : (date as Dayjs).format(format);
+    // return (date as Dayjs).format(format);
   }
   if (date && dateValueType === 'dayjs') {
     return date;
   }
   if (date && dateValueType === 'number') {
-    return dayjs(date as Dayjs).valueOf();
+    return (date as Dayjs).valueOf();
   }
 
   return date;
