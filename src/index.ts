@@ -51,6 +51,8 @@ export * from './FormItemUpload';
 export { default as LFormItemUpload } from './FormItemUpload';
 export * from './NumberRoll';
 export { default as LNumberRoll } from './NumberRoll';
+export * from './Table';
+export { default as LTable } from './Table';
 export * from './TagGroup';
 export { default as LTagGroup } from './TagGroup';
 export * from './Trigger';

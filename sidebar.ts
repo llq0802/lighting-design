@@ -135,7 +135,7 @@ export default {
       title: '数据展示',
       children: [
         {
-          title: 'LTable - 高级表格',
+          title: 'LTable-高级表格',
           link: '/components/table',
         },
         {
