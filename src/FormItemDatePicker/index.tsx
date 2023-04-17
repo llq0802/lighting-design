@@ -30,20 +30,14 @@ type RangePickerWrapperProps = any & RangePickerProps;
 
 const DatePickerWrapper: FC<
   DatePickerProps | MonthPickerProps | WeekPickerProps | any
-> = ({ style, value, format, ...restProps }) => {
+> = ({ style, value, format, picker, ...restProps }) => {
   return (
     <DatePicker
+      picker={picker}
       locale={locale}
-      // format={format}
-      // value={value}
       format={format === DateFormat.quarter ? void 0 : format}
       {...restProps}
-      value={transform2Dayjs(value, format)}
-      // onChange={(date: dayjs, dateString: string) => {
-      //   console.log('date', date);
-      //   console.log('dateString', dateString);
-      //   onChange(date);
-      // }}
+      value={transform2Dayjs(value, format, picker)}
       style={{ width: '100%', ...style }}
     />
   );
@@ -53,14 +47,16 @@ const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
   style,
   value,
   format,
+  picker,
   ...restProps
 }) => {
   return (
     <RangePicker
+      picker={picker}
       locale={locale}
-      format={format}
+      format={format === DateFormat.quarter ? void 0 : format}
       {...restProps}
-      value={transform2Dayjs(value, format)}
+      value={transform2Dayjs(value, format, picker)}
       style={{ width: '100%', ...style }}
     />
   );
@@ -163,7 +159,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
       <RangePickerWrapper
         disabledDate={currentDisabledDate}
         {...pickerProps}
-        placeholder={placeholderMessage}
+        placeholder={placeholder}
         format={currentFormat}
         showTime={showTime}
         picker={currentPicker}

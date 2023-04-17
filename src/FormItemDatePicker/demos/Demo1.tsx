@@ -11,20 +11,14 @@ const Demo1 = () => {
       name="LFormItemDatePicker"
       form={form}
       onFinish={(values) => {
-        values.date5 = values.date5.format('YYYY-Q');
-        values.date3 = values.date3.format('YYYY-wo');
         console.log('values', values);
       }}
-      // initialValues={
-      //   {
-      //     // date5: '2023-Q1',
-      //     // date1: '2023-04-20',
-      //     // date3: '2023-3th',
-      //     // date4: '2023-05',
-      //   }
-      // }
+      initialValues={{
+        date5: '2023-Q1',
+        date4: '2023-05',
+      }}
     >
-      {/* <LFormItemDatePicker
+      <LFormItemDatePicker
         label="日期选择"
         name="date1"
         picker="date"
@@ -44,21 +38,19 @@ const Demo1 = () => {
         //  required
       />
 
-      <LFormItemDatePicker label="月份选择" name="date4" picker="month" /> */}
+      <LFormItemDatePicker label="月份选择" name="date4" picker="month" />
 
       <LFormItemDatePicker
         label="季度选择"
         name="date5"
         // required
         picker="quarter"
-        // dateValueType="number"
       />
       <LFormItemDatePicker
         label="周选择"
         name="date3"
         // required
         picker="week"
-        // dateValueType="number"
       />
     </LForm>
   );

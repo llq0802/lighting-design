@@ -124,28 +124,41 @@ export function transformQuarter(value: string | Dayjs) {
 export function transform2Dayjs(
   value?: string | number | Dayjs,
   format?: string,
+  picker?: Picker,
 ): Dayjs;
 export function transform2Dayjs(
   value?: (string | number | Dayjs)[],
   format?: string,
+  picker?: Picker,
 ): [Dayjs, Dayjs];
 export function transform2Dayjs(
   value?: string | number | Dayjs | (string | number | Dayjs)[],
   format?: string,
+  picker?: Picker,
 ) {
-  console.log('value', value);
-
   if (dayjs.isDayjs(value)) {
     return value;
   }
   if (Array.isArray(value)) {
-    return value.map((item) => transform2Dayjs(item, format));
+    return value.map((item) => transform2Dayjs(item, format, picker));
   }
 
   if (typeof value === 'string') {
-    return format === DateFormat.quarter
-      ? transformQuarter(value)
-      : dayjs(value, format);
+    if (picker === 'quarter') {
+      return format === DateFormat.quarter
+        ? dayjs().quarter(+value.slice(-1))
+        : dayjs().quarter(+value.slice(5, 6));
+    }
+
+    if (picker === 'week') {
+      return dayjs().week(+value.slice(5, -2));
+    }
+
+    return dayjs(value, format);
+
+    // return format === DateFormat.quarter
+    //   ? transformQuarter(value)
+    //   : dayjs(value, format);
   }
   if (typeof value === 'number') {
     return dayjs(value);
@@ -177,10 +190,6 @@ export function formatDayjs(
   format: string,
   dateValueType: DateValueType,
 ): string | number | Dayjs | (string | number | Dayjs)[] {
-  console.log('date', date);
-  console.log('date-format', format);
-  console.log('dateValueType', dateValueType);
-
   if (Array.isArray(date) && date.length > 0) {
     return date.map((item) => formatDayjs(item, format, dateValueType));
   }
@@ -191,9 +200,11 @@ export function formatDayjs(
       : (date as Dayjs).format(format);
     // return (date as Dayjs).format(format);
   }
+
   if (date && dateValueType === 'dayjs') {
     return date;
   }
+
   if (date && dateValueType === 'number') {
     return (date as Dayjs).valueOf();
   }
