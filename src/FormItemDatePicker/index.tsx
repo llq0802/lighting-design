@@ -3,12 +3,13 @@ import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import type { Store } from 'antd/es/form/interface';
+import 'dayjs/locale/zh-cn';
+
 import type {
   MonthPickerProps,
   RangePickerProps,
   WeekPickerProps,
 } from 'antd/lib/date-picker';
-import 'dayjs/locale/zh-cn';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';

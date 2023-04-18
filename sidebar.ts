@@ -129,6 +129,10 @@ export default {
           title: 'LFormItemDatePicker-日期选择',
           link: '/components/Form-Item-Date-Picker',
         },
+        {
+          title: 'LFormItemTimePicker-时间选择',
+          link: '/components/Form-Item-Time-Picker',
+        },
       ],
     },
     {

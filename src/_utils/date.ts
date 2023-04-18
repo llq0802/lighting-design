@@ -164,7 +164,7 @@ export function transform2Dayjs(
     return dayjs(value);
   }
 
-  return value;
+  return value || void 0;
 }
 
 /**
