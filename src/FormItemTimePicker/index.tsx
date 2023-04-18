@@ -53,6 +53,7 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
   value,
   rangePicker,
   format,
+  placeholder,
   onChange,
   ...restProps
 }) => {
@@ -71,6 +72,7 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
 
   return !rangePicker ? (
     <TimePicker
+      placeholder={placeholder}
       format={format}
       style={{ width: '100%', ...style }}
       locale={locale}
@@ -156,6 +158,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
 
   const dom = (
     <TimePickerWrapper
+      placeholder={messageLabel}
       disabledHourBefore={disabledHourBefore}
       disabledHourAfter={disabledHourAfter}
       disabledTime={currentDisabledTime}
