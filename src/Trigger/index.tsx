@@ -6,7 +6,7 @@ import type { FC, ReactElement } from 'react';
 import { cloneElement, isValidElement } from 'react';
 
 export type LTriggerProps = {
-  /**是否打开 */
+  /** 是否打开 */
   open: boolean;
   /** 宽度 */
   width: number | string;

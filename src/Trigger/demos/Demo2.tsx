@@ -22,12 +22,12 @@ const Demo2 = () => {
       }}
     >
       <LFormItemInput name="input" label="输入框" />
-      <LFormItem required name="trigger1" label="弹出表格1">
+      <LFormItem required name="trigger1" label="单选表格">
         <LTrigger>
           <ChildTable1 />
         </LTrigger>
       </LFormItem>
-      <LFormItem required name="trigger2" label="弹出表格2">
+      <LFormItem required name="trigger2" label="多选表格">
         <LTrigger style={{ width: '100%' }}>
           <ChildTable2 />
         </LTrigger>

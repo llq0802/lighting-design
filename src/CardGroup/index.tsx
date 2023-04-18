@@ -13,9 +13,9 @@ export type LCardGroupOptions = {
   label: ReactNode;
   value: string;
   disabled?: boolean;
-  /** 卡片样式 */
+  /** 卡片属性 */
   cardProps?: CardProps;
-}[];
+};
 
 export interface LCardGroupProps {
   value?: any;
@@ -23,7 +23,7 @@ export interface LCardGroupProps {
   /** 是否支持多选 */
   multiple?: boolean;
   /** 选项 */
-  options?: LCardGroupOptions;
+  options?: LCardGroupOptions[];
   /** 是否禁用全部 */
   disabled?: boolean;
   /** 是否可以取消 */
@@ -32,6 +32,10 @@ export interface LCardGroupProps {
   gap?: number;
   className?: string;
   style?: CSSProperties;
+  /** 卡片的样式  比每一项中的cardProps.bodyStyle优先级高*/
+  cardBodyStyle?: CSSProperties;
+  /** 卡片的样式  比每一项中的cardProps.style优先级高*/
+  cardStyle?: CSSProperties;
 }
 
 const prefixCls = 'lightd-card-group';
@@ -45,12 +49,14 @@ export default function LCardGroup(props: LCardGroupProps) {
     gap = 8,
     className,
     style,
+    cardBodyStyle = {},
+    cardStyle = {},
   } = props;
 
   const { token } = useToken();
 
-  const [value, onChange] = useControllableValue(props, {
-    defaultValue: [],
+  const [value, onChange] = useControllableValue<string[] | string>(props, {
+    defaultValue: multiple ? [] : undefined,
   });
 
   if (disabled) {
@@ -71,12 +77,12 @@ export default function LCardGroup(props: LCardGroupProps) {
       return;
     }
 
-    if (multiple && Array.isArray(value)) {
+    if (multiple) {
       // 多选
-      if (value.includes(itemCard.value)) {
-        triggerChange(value.filter((v) => v !== itemCard.value));
+      if (value?.includes(itemCard.value)) {
+        triggerChange(value?.filter((v) => v !== itemCard.value));
       } else {
-        triggerChange([...value, itemCard.value]);
+        triggerChange([...(value || []), itemCard.value]);
       }
     } else {
       // 单选
@@ -106,7 +112,7 @@ export default function LCardGroup(props: LCardGroupProps) {
           className={classNames(
             `${prefixCls}-item`,
             item.disabled && `${prefixCls}-item-disabled`,
-            (multiple ? value.includes(item.value) : value === item.value) &&
+            (multiple ? value?.includes(item.value) : value === item.value) &&
               `${prefixCls}-item-active`,
 
             item.cardProps?.className,
@@ -118,9 +124,16 @@ export default function LCardGroup(props: LCardGroupProps) {
           }}
           style={{
             borderColor:
-              (multiple ? value.includes(item.value) : value === item.value) &&
+              (multiple ? value?.includes(item.value) : value === item.value) &&
               token.colorPrimary,
+
             ...item.cardProps?.style,
+
+            ...cardStyle,
+          }}
+          bodyStyle={{
+            ...item?.cardProps?.bodyStyle,
+            ...cardBodyStyle,
           }}
         >
           {item.label}

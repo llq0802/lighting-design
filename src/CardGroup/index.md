@@ -21,24 +21,30 @@ toc: content
 
 <code src='./demos/Demo2.tsx'></code>
 
+### 在 LForm 中使用
+
+<code src='./demos/Demo4.tsx'></code>
+
 ## API
 
 ```ts
 import { LCardGroup } from 'lighting-design';
 ```
 
-|     参数     |                  说明                  |                              类型                              | 默认值  |
-| :----------: | :------------------------------------: | :------------------------------------------------------------: | :-----: |
-|   options    |                  数据                  | [LCardGroupOptions](/components/card-group/#lcardgroupoptions) |   `-`   |
-|    value     |                   值                   |                       `string\|string[]`                       |   `-`   |
-| defaultValue |                 默认值                 |                       `string\|string[]`                       |   `-`   |
-|     gap      |                卡片间隔                |                            `number`                            |   `8`   |
-|  className   |                容器类名                |                            `string`                            |   `-`   |
-|    style     |                容器样式                |                        `CSSProperties`                         |   `-`   |
-|   multiple   |                是否多选                |                           `boolean`                            | `false` |
-|   disabled   |                是否禁用                |                           `boolean`                            | `false` |
-|  cancelable  | 单选时，是否可以点击选中的元素取消选中 |                           `boolean`                            | `false` |
-|   onChange   |        受控时 value 值变化事件         |               `(val:string \| string[]) => void`               |  `- `   |
+|     参数      |                               说明                               |                类型                | 默认值  |
+| :-----------: | :--------------------------------------------------------------: | :--------------------------------: | :-----: |
+|    options    |                               数据                               |       `LCardGroupOptions[]`        |   `-`   |
+|     value     |                                值                                |         `string\|string[]`         |   `-`   |
+| defaultValue  |                              默认值                              |         `string\|string[]`         |   `-`   |
+|      gap      |                             卡片间隔                             |              `number`              |   `8`   |
+|   className   |                             容器类名                             |              `string`              |   `-`   |
+|     style     |                             容器样式                             |          `CSSProperties`           |   `-`   |
+| cardBodyStyle | 统一设置卡片 body 样式 比每一项中的 cardProps.bodyStyle 优先级高 |          `CSSProperties`           |   `-`   |
+|   cardStyle   |      统一设置卡片样式 比每一项中的 cardProps.style 优先级高      |          `CSSProperties`           |   `-`   |
+|   multiple    |                             是否多选                             |             `boolean`              | `false` |
+|   disabled    |                             是否禁用                             |             `boolean`              | `false` |
+|  cancelable   |              单选时，是否可以点击选中的元素取消选中              |             `boolean`              | `false` |
+|   onChange    |                     受控时 value 值变化事件                      | `(val:string \| string[]) => void` |  `- `   |
 
 ### LCardGroupOptions
 
@@ -49,5 +55,5 @@ export type LCardGroupOptions = {
   disabled?: boolean;
   /** antd Card组件属性 */
   cardProps?: CardProps;
-}[];
+};
 ```

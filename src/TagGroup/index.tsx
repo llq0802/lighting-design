@@ -7,7 +7,7 @@ export type LTagGroupOptions = {
   label: ReactNode;
   value: string;
   disabled?: boolean;
-}[];
+};
 
 export interface LTagGroupProps {
   value?: string | string[];
@@ -22,7 +22,7 @@ export interface LTagGroupProps {
   /** 是否多选 */
   multiple?: boolean;
   /** 选项 */
-  options: LTagGroupOptions;
+  options: LTagGroupOptions[];
   /** 是否展示全部 */
   showAllChecked?: boolean;
   /** 全部文字类型 */
@@ -59,7 +59,7 @@ export default function LTagGroup(props: LTagGroupProps) {
   // }
 
   // 是否是多选
-  const isMultiple = multiple && Array.isArray(value);
+  const isMultiple = multiple;
 
   // 是否是空值
   const isEmpty = isMultiple
@@ -106,15 +106,17 @@ export default function LTagGroup(props: LTagGroupProps) {
     // 选中时
     if (checked) {
       if (isMultiple) {
-        newValue = [...value, curItem.value];
+        newValue = [...(value || []), curItem.value];
       } else {
         newValue = curItem.value;
       }
+
       triggerChange(newValue);
     } else {
       // 没有选中时
       if (isMultiple) {
         newValue = value.filter((v: any) => v !== curItem.value);
+        console.log('newValue--', newValue);
         triggerChange(newValue);
       } else {
         if (cancelable) {
