@@ -16,6 +16,7 @@ const Demo1 = () => {
       }}
     >
       <LFormItemTimePicker
+        placeholder="请选择时间1"
         label="时间选择1"
         name="time1"
         required
@@ -42,6 +43,7 @@ const Demo1 = () => {
         name="time4"
         required
         rangePicker
+        placeholder={['开始时间1', '开始时间2']}
       />
       <LFormItemTimePicker label="时间选择4" name="time5" rangePicker />
       <LFormItemTimePicker

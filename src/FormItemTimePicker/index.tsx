@@ -70,26 +70,49 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
     },
   );
 
-  return !rangePicker ? (
-    <TimePicker
-      placeholder={placeholder}
-      format={format}
-      style={{ width: '100%', ...style }}
-      locale={locale}
-      {...restProps}
-      value={transform2Dayjs(value || void 0, format)}
-      onChange={handleChange}
-    />
-  ) : (
-    <TimePicker.RangePicker
-      format={format}
-      style={{ width: '100%', ...style }}
-      locale={locale}
-      {...restProps}
-      value={transform2Dayjs(value || void 0, format)}
-      onChange={handleChange}
-    />
-  );
+  if (!placeholder) {
+    return !rangePicker ? (
+      <TimePicker
+        format={format}
+        style={{ width: '100%', ...style }}
+        locale={locale}
+        {...restProps}
+        value={transform2Dayjs(value || void 0, format)}
+        onChange={handleChange}
+      />
+    ) : (
+      <TimePicker.RangePicker
+        format={format}
+        style={{ width: '100%', ...style }}
+        locale={locale}
+        {...restProps}
+        value={transform2Dayjs(value || void 0, format)}
+        onChange={handleChange}
+      />
+    );
+  } else {
+    return !rangePicker ? (
+      <TimePicker
+        format={format}
+        placeholder={placeholder}
+        style={{ width: '100%', ...style }}
+        locale={locale}
+        {...restProps}
+        value={transform2Dayjs(value || void 0, format)}
+        onChange={handleChange}
+      />
+    ) : (
+      <TimePicker.RangePicker
+        format={format}
+        placeholder={placeholder}
+        style={{ width: '100%', ...style }}
+        locale={locale}
+        {...restProps}
+        value={transform2Dayjs(value || void 0, format)}
+        onChange={handleChange}
+      />
+    );
+  }
 };
 
 export interface LFormItemTimePickerProps extends LFormItemProps {
@@ -158,12 +181,10 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
 
   const dom = (
     <TimePickerWrapper
-      placeholder={messageLabel}
-      disabledHourBefore={disabledHourBefore}
-      disabledHourAfter={disabledHourAfter}
-      disabledTime={currentDisabledTime}
       dateValueType={dateValueType}
       rangePicker={rangePicker}
+      placeholder={placeholder}
+      disabledTime={currentDisabledTime}
       disabled={disabled ?? formDisabled}
       format={format}
       showNow={showNow}
@@ -173,7 +194,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
 
   const rules = [
     {
-      validator(rule, value) {
+      validator(rule, value: any) {
         let errMsg = '';
         if (
           !value ||

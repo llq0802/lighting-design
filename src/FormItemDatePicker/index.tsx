@@ -13,7 +13,6 @@ import type {
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { usePlaceholder } from 'lighting-design/_utils';
 import type { DateValueType, Picker } from 'lighting-design/_utils/date';
 import {
   createDisabledDate,
@@ -97,8 +96,8 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
   picker = 'date',
   showTime = false,
   format,
-  placeholder,
   pickerProps = {},
+  placeholder,
 
   normalize,
   disabled,
@@ -106,12 +105,6 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
-
-  const placeholderMessage = usePlaceholder({
-    isSelectType: true,
-    placeholder,
-    restProps,
-  });
 
   const currentPicker = useMemo(
     () => pickerProps.picker || picker,
@@ -148,19 +141,19 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
   const dom = useMemo(() => {
     return !rangePicker ? (
       <DatePickerWrapper
+        placeholder={placeholder}
         disabledDate={currentDisabledDate}
         {...pickerProps}
         showTime={showTime}
         format={currentFormat}
-        placeholder={placeholderMessage}
         disabled={disabled ?? formDisabled}
         picker={currentPicker}
       />
     ) : (
       <RangePickerWrapper
+        placeholder={placeholder}
         disabledDate={currentDisabledDate}
         {...pickerProps}
-        placeholder={placeholder}
         format={currentFormat}
         showTime={showTime}
         picker={currentPicker}

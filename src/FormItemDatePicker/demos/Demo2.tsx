@@ -22,6 +22,7 @@ const Demo2 = () => {
         picker="date"
         disabledDateBefore={7}
         disabledDateAfter={7}
+        placeholder={['请选择日期1', '请选择日期2']}
       />
       <LFormItemDatePicker
         rangePicker

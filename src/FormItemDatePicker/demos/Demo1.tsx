@@ -19,6 +19,7 @@ const Demo1 = () => {
       }}
     >
       <LFormItemDatePicker
+        placeholder="请选择日期1"
         label="日期选择"
         name="date1"
         picker="date"
