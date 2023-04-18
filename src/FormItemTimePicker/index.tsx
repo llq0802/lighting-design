@@ -14,6 +14,32 @@ import type { Dayjs } from 'lighting-design/_utils/day';
 import type { FC } from 'react';
 import { useContext, useMemo } from 'react';
 
+function disabledHours(
+  hour: number,
+  disabledHourBefore: number | undefined,
+  disabledHourAfter: number | undefined,
+) {
+  const hasBefore = typeof disabledHourBefore === 'number';
+  const hasAfter = typeof disabledHourAfter === 'number';
+  if (!hasBefore && !hasAfter) {
+    return [];
+  }
+  if (hasBefore && hasAfter) {
+    const ret = TIME_LIST.slice(
+      hour - disabledHourBefore + 1,
+      hour + disabledHourAfter,
+    );
+    return TIME_LIST.filter((item) => !ret.includes(item));
+  } else if (hasBefore) {
+    const ret = TIME_LIST.slice(0, hour - disabledHourBefore + 1);
+    return ret;
+  } else if (hasAfter) {
+    const ret = TIME_LIST.slice(hour + disabledHourAfter);
+    return ret;
+  }
+  return [];
+}
+
 const TimePickerWrapper: FC<TimePickerProps | any> = ({
   dateValueType,
   style,
@@ -64,8 +90,12 @@ export interface LFormItemTimePickerProps extends LFormItemProps {
   disabledHourBefore?: number;
   disabledHourAfter?: number;
 
-  disabledMinutes?: (selectedHour: number) => number[];
-  disabledSeconds?: (selectedHour: number, selectedMinute: number) => number[];
+  disabledMinutes?: (selectedHour: number, type?: 'start' | 'end') => number[];
+  disabledSeconds?: (
+    selectedHour: number,
+    selectedMinute: number,
+    type?: 'start' | 'end',
+  ) => number[];
 
   format?: 'HH:mm:ss' | string;
   timePickerProps?: TimePickerProps | TimeRangePickerProps;
@@ -81,8 +111,8 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
   placeholder,
   disabledHourBefore,
   disabledHourAfter,
-  disabledMinutes,
-  disabledSeconds,
+  disabledMinutes = () => [],
+  disabledSeconds = () => [],
 
   disabled,
   ...restProps
@@ -95,33 +125,15 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
     isSelectType: true,
   });
 
-  function disabledHours(hour: number, type) {
-    const hasBefore = typeof disabledHourBefore === 'number';
-    const hasAfter = typeof disabledHourAfter === 'number';
-    if (!hasBefore && !hasAfter) {
-      return [];
-    }
-    if (hasBefore && hasAfter) {
-      const ret = TIME_LIST.slice(
-        hour - disabledHourBefore + 1,
-        hour + disabledHourAfter,
-      );
-      return TIME_LIST.filter((item) => !ret.includes(item));
-    } else if (hasBefore) {
-      const ret = TIME_LIST.slice(0, hour - disabledHourBefore + 1);
-      return ret;
-    } else if (hasAfter) {
-      const ret = TIME_LIST.slice(hour + disabledHourAfter);
-      return ret;
-    }
-    return [];
-  }
-
   const currentDisabledTime = (now: Dayjs, type: 'start' | 'end') => {
     return {
-      disabledHours: () => disabledHours(now.hour(), type),
-      disabledMinutes: disabledMinutes,
-      disabledSeconds: disabledSeconds,
+      disabledHours: () =>
+        disabledHours(now.hour(), disabledHourBefore, disabledHourAfter),
+      disabledMinutes: (selectedHour: number) =>
+        disabledMinutes(selectedHour, type),
+      disabledSeconds: (selectedHour: number, selectedMinute: number) =>
+        disabledSeconds(selectedHour, selectedMinute, type),
+
       ...timePickerProps?.disabledTime?.(now, type),
     };
   };
