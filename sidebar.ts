@@ -68,6 +68,10 @@ export default {
           title: 'LLoginForm-高级登录表单',
           link: '/components/Login-Form',
         },
+        {
+          title: 'LListForm-高级列表表单',
+          link: '/components/List-Form',
+        },
       ],
     },
 
