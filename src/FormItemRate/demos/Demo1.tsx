@@ -6,19 +6,19 @@ const Demo1 = () => {
   return (
     <LForm
       form={form}
-      onValuesChange={(e) => {
-        console.log(e);
+      onFinish={(values) => {
+        console.log('values', values);
       }}
     >
-      <LFormItemRate label="评分" name="rate1" initialValue={3} required />
+      <LFormItemRate label="评分" name="rate1" required />
       <LFormItemRate
         label="半心"
         name="rate2"
+        required
         rateProps={{
           allowHalf: true,
           count: 7,
         }}
-        required
       />
     </LForm>
   );

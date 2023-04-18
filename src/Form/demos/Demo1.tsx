@@ -1,7 +1,3 @@
-// /**
-//  * title: 基础演示
-//  * desc: 基础演示
-//  */
 import type { TreeSelectProps } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import {
@@ -57,7 +53,11 @@ const Demo1 = () => {
     new Promise((resolve) => {
       setTimeout(() => {
         setTreeData(
-          treeData.concat([genTreeNode(id, false), genTreeNode(id, true), genTreeNode(id, true)]),
+          treeData.concat([
+            genTreeNode(id, false),
+            genTreeNode(id, true),
+            genTreeNode(id, true),
+          ]),
         );
         resolve(undefined);
       }, 300);
@@ -73,7 +73,12 @@ const Demo1 = () => {
         console.log('onFinish-values ', values);
       }}
     >
-      <LFormItemInput name="LFormItemInput" required label="输入框1" tooltip="禁止输入空格" />
+      <LFormItemInput
+        name="LFormItemInput"
+        required
+        label="输入框1"
+        tooltip="禁止输入空格"
+      />
       <LFormItemNumber
         name="LFormItemNumber"
         required
@@ -82,7 +87,13 @@ const Demo1 = () => {
       />
       <LFormItemPassword name="LFormItemPassword" required label="密码框" />
       <LFormItemTextArea name="LFormItemTextArea" required label="备注" />
-      <LFormItemCaptcha name="LFormItemCaptcha" required label="验证码" type="inline" />
+      <LFormItemCaptcha
+        name="LFormItemCaptcha"
+        required
+        label="验证码"
+        type="inline"
+        cacheKey="LFormItemCaptcha11"
+      />
       <LFormItemAutoComplete
         name="LFormItemAutoComplete"
         required
@@ -92,7 +103,11 @@ const Demo1 = () => {
           setAutoCompleteOptions(
             !searchText
               ? []
-              : [mockVal(searchText, 1), mockVal(searchText, 2), mockVal(searchText, 3)],
+              : [
+                  mockVal(searchText, 1),
+                  mockVal(searchText, 2),
+                  mockVal(searchText, 3),
+                ],
           )
         }
       />
@@ -120,7 +135,12 @@ const Demo1 = () => {
         }}
       />
 
-      <LFormItemCascader label="级联选择" name="cascader" required options={addressOptions} />
+      <LFormItemCascader
+        label="级联选择"
+        name="cascader"
+        required
+        options={addressOptions}
+      />
       <LFormItemAddress
         label="地址选择"
         names={['location', 'address']}
@@ -140,8 +160,17 @@ const Demo1 = () => {
         disabledDateAfter={1}
         rangePicker
       />
-      <LFormItemTimePicker label="时间选择" name="LFormItemTimePicker1" required />
-      <LFormItemTimePicker label="范围选择" name="LFormItemTimePicker2" required rangePicker />
+      <LFormItemTimePicker
+        label="时间选择"
+        name="LFormItemTimePicker1"
+        required
+      />
+      <LFormItemTimePicker
+        label="范围选择"
+        name="LFormItemTimePicker2"
+        required
+        rangePicker
+      />
       <LFormItemSlider
         name="LFormItemSlider"
         label="滑块选择"
@@ -189,8 +218,18 @@ const Demo1 = () => {
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         required
       />
-      <LFormItemRate label="评分" name="LFormItemRate" initialValue={3} required />
-      <LFormItemColor name="LFormItemColor" colorType="chrome" label="颜色选择" required />
+      <LFormItemRate
+        label="评分"
+        name="LFormItemRate"
+        initialValue={3}
+        required
+      />
+      <LFormItemColor
+        name="LFormItemColor"
+        colorType="chrome"
+        label="颜色选择"
+        required
+      />
       <LFormItemSwitch name="LFormItemSwitch" label="开关" tooltip="开关按钮" />
       <LFormItemUpload
         name="LFormItemUpload2"

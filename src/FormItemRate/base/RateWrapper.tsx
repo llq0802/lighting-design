@@ -17,7 +17,7 @@ import { useCallback, useMemo, useState } from 'react';
 
 export type RateWrapperProps = Record<string, any> &
   Partial<{
-    request: (...args: any[]) => Promise<any>;
+    request: (...args: any[]) => Promise<number>;
     disabled: boolean;
     debounceTime: number;
     dependencies: string[];
@@ -26,8 +26,9 @@ export type RateWrapperProps = Record<string, any> &
   }>;
 
 const RateWrapper: FC<RateWrapperProps> = ({
-  value = 0,
+  value,
   onChange,
+  count,
   outLoading = {},
   dependencies = [],
   request,
@@ -37,7 +38,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   name,
   ...restProps
 }) => {
-  const [reqValue, setReqvalue] = useState(0);
+  const [reqCount, setReqCount] = useState(0);
   const [loading, setLoading] = useSafeState<boolean>(
     outLoading?.spinning || false,
   );
@@ -48,16 +49,16 @@ const RateWrapper: FC<RateWrapperProps> = ({
     [outLoading],
   );
 
-  const { run } = useRequest(request || (async () => []), {
+  const { run } = useRequest(request || (async () => 0), {
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result: number) => {
       if (!hasLoading) setLoading(false);
-      setReqvalue(result);
+      setReqCount(result);
     },
     onError: () => {
       if (!hasLoading) setLoading(false);
-      setReqvalue(0);
+      setReqCount(0);
     },
   });
 
@@ -78,14 +79,14 @@ const RateWrapper: FC<RateWrapperProps> = ({
         try {
           if (!hasLoading) setLoading(true);
           const newOptions = await request(...dependValues);
-          setReqvalue(newOptions);
+          setReqCount(newOptions);
         } catch (error) {
-          setReqvalue(0);
+          setReqCount(0);
         }
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (value !== void 0) {
+      if (value !== void 0 || value !== 0) {
         form.setFieldValue(name, void 0);
       }
       if (!hasLoading) setLoading(true);
@@ -94,30 +95,30 @@ const RateWrapper: FC<RateWrapperProps> = ({
     }
   }, [dependValues]);
 
-  const selectValue = useMemo(() => {
-    if (request) {
-      return reqValue;
+  const currentCount = useMemo(() => {
+    if (isClearDepends) {
+      return 0;
+    } else if (reqCount) {
+      return reqCount;
     } else {
-      return value || 0;
+      return count;
     }
-  }, [reqValue, request, value]);
+  }, [isClearDepends, reqCount, count]);
 
-  const handleChange = useCallback(
-    (num: number) => {
-      if (rateProps?.onChange) {
-        rateProps?.onChange(num);
-      }
-      onChange(num);
-    },
-    [onChange, rateProps],
-  );
+  const handleChange = useCallback((num: number) => {
+    onChange(num);
+    if (rateProps?.onChange) {
+      rateProps?.onChange(num);
+    }
+  }, []);
 
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       <Rate
+        count={currentCount}
         disabled={disabled ?? isClearDepends}
         {...rateProps}
-        value={selectValue}
+        value={value}
         onChange={handleChange}
       />
     </Spin>

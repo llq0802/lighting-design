@@ -7,7 +7,7 @@ nav:
 
 # LQueryForm
 
-基于 LForm 扩展的查询表单。
+基于 LForm 扩展的高级查询表单。
 
 ## 代码演示
 

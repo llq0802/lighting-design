@@ -53,12 +53,20 @@ export default {
           link: '/components/Modal-Form',
         },
         {
-          title: 'LDrawerForm-高级弹窗表单',
+          title: 'LDrawerForm-高级抽屉表单',
           link: '/components/Drawer-Form',
         },
         {
           title: 'LQueryForm-高级查询表单',
           link: '/components/Query-Form',
+        },
+        {
+          title: 'LStepsForm-高级步骤表单',
+          link: '/components/Steps-Form',
+        },
+        {
+          title: 'LLoginForm-高级登录表单',
+          link: '/components/Login-Form',
         },
       ],
     },
