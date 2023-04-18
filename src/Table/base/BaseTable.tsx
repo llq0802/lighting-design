@@ -3,8 +3,14 @@ import type { CardProps, FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { Key } from 'antd/es/table/interface';
-import type { ColumnGroupType, ColumnsType, ColumnType, TableProps } from 'antd/lib/table';
+import type {
+  ColumnGroupType,
+  ColumnsType,
+  ColumnType,
+  TableProps,
+} from 'antd/lib/table';
 import classnames from 'classnames';
+import type { LQueryFormProps } from 'lighting-design/QueryForm';
 import type {
   CSSProperties,
   Dispatch,
@@ -15,8 +21,13 @@ import type {
   RefObject,
   SetStateAction,
 } from 'react';
-import { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import type { LQueryFormProps } from '../../Form/components/QueryForm';
+import {
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import TableContext from '../TableContext';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
 import './styles.less';
@@ -112,7 +123,9 @@ export type LTableProps = {
   /** 是否自动请求 */
   autoRequest?: boolean;
   /** 查询表单的实例 */
-  formRef?: MutableRefObject<FormInstance | undefined> | ((ref: FormInstance) => void);
+  formRef?:
+    | MutableRefObject<FormInstance | undefined>
+    | ((ref: FormInstance) => void);
   /** 表格的实例 包含一些方法 */
   tableRef?: MutableRefObject<LTableInstance | undefined>;
   /** 是否占满剩余空间 */
@@ -125,6 +138,8 @@ export type LTableProps = {
   rootStyle?: CSSProperties;
   /** 表格额外style */
   tableStyle?: CSSProperties;
+  /** 整个toolbar的样式  showToolbar为true时生效*/
+  toolbarStyle?: CSSProperties;
   /** 查询表单外层的CardProps*/
   formCardProps?: CardProps;
   /** 表格外层的CardProps*/
@@ -160,7 +175,10 @@ export type LTableProps = {
   /** 表格内容上部区域 */
   tableExtra?: ReactNode;
   /** 表单查询框组 */
-  formItems?: Exclude<ReactNode, string | number | boolean | null | undefined>[];
+  formItems?: Exclude<
+    ReactNode,
+    string | number | boolean | null | undefined
+  >[];
   /** 查询表单初始值 */
   formInitialValues?: Record<string, any>;
   /** 查询表单LQueryFormProps */
@@ -218,6 +236,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     tableClassName,
     rootStyle,
     tableStyle,
+    toolbarStyle,
     size: outSize,
     columns = [],
     components,
@@ -255,14 +274,25 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
   // 默认从第一页
   const outPaginationCurrent = useMemo(() => {
-    return (outPagination && (outPagination.defaultCurrent || outPagination.current)) || 1;
+    return (
+      (outPagination &&
+        (outPagination.defaultCurrent || outPagination.current)) ||
+      1
+    );
   }, [outPagination]);
   // 默认一页10条
   const outPaginationPageSize = useMemo(() => {
-    return (outPagination && (outPagination.defaultPageSize || outPagination.pageSize)) || 10;
+    return (
+      (outPagination &&
+        (outPagination.defaultPageSize || outPagination.pageSize)) ||
+      10
+    );
   }, [outPagination]);
   // 是否有查询框组
-  const hasFromItems = useMemo(() => Array.isArray(formItems) && formItems.length > 0, [formItems]);
+  const hasFromItems = useMemo(
+    () => Array.isArray(formItems) && formItems.length > 0,
+    [formItems],
+  );
 
   // request请求
   const {
@@ -294,7 +324,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
 
   // loading
   const currentLoading = useMemo(() => {
-    if (outLoading == undefined) {
+    if (outLoading === undefined) {
       return { spinning: requestLoading };
     } else if (typeof outLoading === 'boolean') {
       return { spinning: outLoading };
@@ -315,10 +345,18 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         width: 80,
         // fixed: 'left',
         render: (_: any, __: any, index: number) => (
-          <>{(paginationAction?.current - 1) * (paginationAction?.pageSize || 0) + index + 1}</>
+          <>
+            {(paginationAction?.current - 1) *
+              (paginationAction?.pageSize || 0) +
+              index +
+              1}
+          </>
         ),
       };
-      return [sortColumn, ...columns] as (ColumnGroupType<any> | ColumnType<any>)[];
+      return [sortColumn, ...columns] as (
+        | ColumnGroupType<any>
+        | ColumnType<any>
+      )[];
     }
     return columns;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -381,18 +419,20 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
 
   // 表单查询
-  const handleSearchFormFinish = useMemoizedFn((formValues: Record<string, any>) => {
-    const defaultPar = isInit.current ? { ...defaultRequestParams } : {};
-    return run(
-      {
-        current: params.current || 1,
-        pageSize: outPaginationPageSize,
-        formValues,
-        ...defaultPar,
-      },
-      isInit.current ? 'onInit' : 'onSearch',
-    );
-  });
+  const handleSearchFormFinish = useMemoizedFn(
+    (formValues: Record<string, any>) => {
+      const defaultPar = isInit.current ? { ...defaultRequestParams } : {};
+      return run(
+        {
+          current: params.current || 1,
+          pageSize: outPaginationPageSize,
+          formValues,
+          ...defaultPar,
+        },
+        isInit.current ? 'onInit' : 'onSearch',
+      );
+    },
+  );
 
   // 默认 onReset 中已经重置表单，这里只从第一页开始显示、查询数据请求
   // const handleSearchFormReset = useCallback(() => {
@@ -400,22 +440,24 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // }, [handleSearch]);
 
   // 表格分页页码丶排序等改变时触发
-  const handleTableChange = useMemoizedFn((pagination, filters, sorter, extra) => {
-    onChange?.(pagination, filters, sorter, extra);
-    if (hasFromItems) {
-      const formValues = queryFormRef.current?.getFieldsValue();
-      return run(
-        {
-          current: pagination.current || 1,
-          pageSize: pagination.pageSize,
-          formValues: formValues,
-        },
-        'onReload',
-      );
-    } else {
-      paginationAction.changeCurrent(pagination?.current || 1);
-    }
-  });
+  const handleTableChange = useMemoizedFn(
+    (pagination, filters, sorter, extra) => {
+      onChange?.(pagination, filters, sorter, extra);
+      if (hasFromItems) {
+        const formValues = queryFormRef.current?.getFieldsValue();
+        return run(
+          {
+            current: pagination.current || 1,
+            pageSize: pagination.pageSize,
+            formValues: formValues,
+          },
+          'onReload',
+        );
+      } else {
+        paginationAction.changeCurrent(pagination?.current || 1);
+      }
+    },
+  );
 
   // 暴露外部方法
   useImperativeHandle(tableRef, () => ({
@@ -429,7 +471,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     // 表格根标签div
     rootRef: rootRef,
     // 表格数据
-    tableData: data?.list ?? ((restProps?.dataSource || []) as Record<string, any>[]),
+    tableData:
+      data?.list ?? ((restProps?.dataSource || []) as Record<string, any>[]),
     // 页码信息
     pagination: {
       current: paginationAction.current,
@@ -455,15 +498,19 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const ToolbarActionDom = (
     <ToolbarAction
       {...toolbarActionConfig}
-      showColumnSetting={contentRender ? false : toolbarActionConfig?.showColumnSetting}
+      showColumnSetting={
+        contentRender ? false : toolbarActionConfig?.showColumnSetting
+      }
       showDensity={contentRender ? false : toolbarActionConfig?.showDensity}
       className={`${LIGHTD_TABLE}-toolbar-action ${toolbarActionConfig.className}`}
     />
   );
 
   const toolbarDom = showToolbar ? (
-    <div className={`${LIGHTD_TABLE}-toolbar`}>
-      <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>{<Space>{toolbarLeft}</Space>}</div>
+    <div className={`${LIGHTD_TABLE}-toolbar`} style={toolbarStyle}>
+      <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>
+        {<Space>{toolbarLeft}</Space>}
+      </div>
       <div className={`${LIGHTD_TABLE}-toolbar-content-right`}>
         <Space>
           {toolbarRight}
@@ -541,9 +588,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     handleSearchFormFinish,
   ]);
 
-  // const renderTableDom = () => (tableRender ? tableRender(tableDom, props) : tableDom);
-  // const TableConentDom = contentRender ? contentRender(data?.list ?? []) : tableDom;
-
   const finallyDom = (
     // 根节点注册
     <TableContext.Provider
@@ -553,7 +597,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         size: currentSize,
         setSize: setCurrentSize,
         columns: outColumns as (ColumnGroupType<any> | ColumnType<any>)[],
-        setColumns: setCurrentColumns as Dispatch<SetStateAction<ColumnsType<Record<string, any>>>>,
+        setColumns: setCurrentColumns as Dispatch<
+          SetStateAction<ColumnsType<Record<string, any>>>
+        >,
         rootRef: rootRef,
         setFullScreen,
       }}
@@ -592,7 +638,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   return (
     // 处理表格在全屏状态下 ant一些弹出层组件(Modal)无法显示问题
     // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域
-    <ConfigProvider locale={zhCN} getPopupContainer={() => rootRef.current || document.body}>
+    <ConfigProvider
+      locale={zhCN}
+      getPopupContainer={() => rootRef.current || document.body}
+    >
       {returnDom}
     </ConfigProvider>
   );

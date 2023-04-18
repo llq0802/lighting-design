@@ -75,11 +75,13 @@ export default defineConfig({
       color: #5581a6
     }
     .dumi-default-header .dumi-default-header-content{
-      max-width: initial
+      max-width: initial;
+      padding:0 100px;
     }
 
    #root .dumi-default-doc-layout > main{
-      max-width: initial
+      max-width: initial;
+      padding:0 100px;
     }
   `,
   ],
