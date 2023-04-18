@@ -2,15 +2,12 @@ import { LForm, LFormItemTimePicker } from 'lighting-design';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
-
   return (
     <LForm
       name="LFormItemTimePicker"
       form={form}
       labelCol={{ flex: '90px' }}
-      submitter={{
-        buttonAlign: 'center',
-      }}
+      submitter={{ buttonAlign: 'center' }}
       initialValues={{
         time2: '09:46',
       }}
@@ -24,8 +21,6 @@ const Demo1 = () => {
         required
         contentAfter={<div>后面</div>}
         contentInline
-        disabledHourBefore={2}
-        disabledHourAfter={2}
       />
       <LFormItemTimePicker
         label="时间选择2"
@@ -37,8 +32,10 @@ const Demo1 = () => {
       <LFormItemTimePicker
         label="时间选择3"
         name="time3"
-        format="HH:mm"
-        rangePicker
+        format="h:mm a"
+        timePickerProps={{
+          use12Hours: true,
+        }}
       />
       <LFormItemTimePicker
         label="时间选择3"
@@ -46,12 +43,12 @@ const Demo1 = () => {
         required
         rangePicker
       />
+      <LFormItemTimePicker label="时间选择4" name="time5" rangePicker />
       <LFormItemTimePicker
-        label="时间选择4"
+        disabled
+        label="时间选择5"
         name="time5"
         rangePicker
-        disabledHourBefore={2}
-        disabledHourAfter={2}
       />
     </LForm>
   );

@@ -42,12 +42,30 @@ export default {
       ],
     },
     {
-      title: '数据录入',
+      title: '高级表单',
       children: [
         {
           title: 'LForm-高级表单',
           link: '/components/form',
         },
+        {
+          title: 'LModalForm-高级弹窗表单',
+          link: '/components/Modal-Form',
+        },
+        {
+          title: 'LDrawerForm-高级弹窗表单',
+          link: '/components/Drawer-Form',
+        },
+        {
+          title: 'LQueryForm-高级查询表单',
+          link: '/components/Query-Form',
+        },
+      ],
+    },
+
+    {
+      title: '高级表单项',
+      children: [
         {
           title: 'LFormItem-高级表单项',
           link: '/components/form-item',
@@ -93,6 +111,7 @@ export default {
           title: 'LFormItemSegmented-分段器选择',
           link: '/components/Form-Item-Segmented',
         },
+
         {
           title: 'LFormItemSwitch-开关选择',
           link: '/components/Form-Item-Switch',

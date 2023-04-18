@@ -14,16 +14,23 @@ import type { Dayjs } from 'lighting-design/_utils/day';
 import type { FC } from 'react';
 import { useContext, useMemo } from 'react';
 
-function disabledHours(
+/**
+ * @param hour 当前小时 0-23
+ * @param disabledHourBefore 禁用当前时间之前的小时 (0会包括当前小时)
+ * @param disabledHourAfter 禁用当前时间之后的小时 (0会包括当前小时)
+ * @returns
+ */
+export function customDisabledHours(
   hour: number,
-  disabledHourBefore: number | undefined,
-  disabledHourAfter: number | undefined,
+  disabledHourBefore?: number,
+  disabledHourAfter?: number,
 ) {
   const hasBefore = typeof disabledHourBefore === 'number';
   const hasAfter = typeof disabledHourAfter === 'number';
   if (!hasBefore && !hasAfter) {
     return [];
   }
+
   if (hasBefore && hasAfter) {
     const ret = TIME_LIST.slice(
       hour - disabledHourBefore + 1,
@@ -128,7 +135,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
   const currentDisabledTime = (now: Dayjs, type: 'start' | 'end') => {
     return {
       disabledHours: () =>
-        disabledHours(now.hour(), disabledHourBefore, disabledHourAfter),
+        customDisabledHours(now.hour(), disabledHourBefore, disabledHourAfter),
       disabledMinutes: (selectedHour: number) =>
         disabledMinutes(selectedHour, type),
       disabledSeconds: (selectedHour: number, selectedMinute: number) =>

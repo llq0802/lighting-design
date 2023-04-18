@@ -76,7 +76,7 @@ function LQueryForm(props: LQueryFormProps) {
     <BaseForm
       layout={layout}
       submitter={
-        submitter == undefined || submitter
+        submitter === undefined || submitter
           ? { submitText: '查询', ...submitter }
           : submitter
       }
