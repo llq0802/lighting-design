@@ -48,7 +48,7 @@ import { LFormItemSelect } from 'lighting-design';
 | debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number`                                                    | `-`     |
 | all          | 是否需要全部选项                     | `boolean `                                                  | `false` |
 | allLabel     | 全部选项的名称                       | `string `                                                   | `全部`  |
-| allValue     | 全部选项的值                         | `string`                                                    | `''`    |
+| allValue     | 全部选项的值                         | `string`                                                    | `'all'` |
 | spin         | 配置`request`时自定义`loading`效果   | [SpinProps](https://ant.design/components/spin-cn/#api)     | `-`     |
 | selectProps  | 选择器组件 Props                     | [SelectProps](https://ant.design/components/select-cn/#api) | `-`     |
 

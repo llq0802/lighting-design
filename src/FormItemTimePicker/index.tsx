@@ -7,7 +7,6 @@ import { TIME_LIST } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { usePlaceholder } from 'lighting-design/_utils';
 import type { DateValueType } from 'lighting-design/_utils/date';
 import { transform2Dayjs } from 'lighting-design/_utils/date';
 import type { Dayjs } from 'lighting-design/_utils/day';
@@ -151,12 +150,6 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
 
-  const messageLabel = usePlaceholder({
-    placeholder,
-    restProps,
-    isSelectType: true,
-  });
-
   const currentDisabledTime = (now: Dayjs, type: 'start' | 'end') => {
     return {
       disabledHours: () =>
@@ -192,26 +185,8 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
     />
   );
 
-  const rules = [
-    {
-      validator(rule, value: any) {
-        let errMsg = '';
-        if (
-          !value ||
-          (Array.isArray(value) && !value?.filter(Boolean)?.length)
-        ) {
-          errMsg = required ? `${messageLabel}!` : '';
-        }
-        if (errMsg) {
-          return Promise.reject(errMsg);
-        }
-        return Promise.resolve();
-      },
-    },
-  ];
-
   return (
-    <LFormItem required={required} _isSelectType rules={rules} {...restProps}>
+    <LFormItem required={required} _isSelectType {...restProps}>
       {dom}
     </LFormItem>
   );
