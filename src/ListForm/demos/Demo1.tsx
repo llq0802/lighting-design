@@ -1,19 +1,16 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Input, Space } from 'antd';
-import { LForm, LFormItemInput, LListForm } from 'lighting-design';
+import { LForm, LFormItem, LFormItemInput, LListForm } from 'lighting-design';
 
 const Demo1 = () => {
   return (
     <div>
       <LForm
-        initialValues={{
-          list: [0, 1],
-        }}
         onFinish={(values) => {
           console.log('values', values);
         }}
       >
-        <LFormItemInput name="input" />
+        <LFormItemInput name="input" label="输入框" />
         <LListForm name="list">
           {(fields, { add, remove, move }, { errors }) => {
             return (
@@ -56,16 +53,18 @@ const Demo1 = () => {
                   );
                 })}
 
-                <Form.Item>
+                <LFormItem>
                   <Button
                     type="dashed"
-                    onClick={() => add()}
+                    onClick={() => {
+                      add();
+                    }}
                     block
                     icon={<PlusOutlined />}
                   >
                     Add field
                   </Button>
-                </Form.Item>
+                </LFormItem>
               </>
             );
           }}
