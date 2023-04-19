@@ -1,5 +1,9 @@
 import type { FormInstance } from 'antd';
-import type { LTableInstance, LTableRequestParams, LTableRequestType } from 'lighting-design';
+import type {
+  LTableInstance,
+  LTableRequestParams,
+  LTableRequestType,
+} from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef } from 'react';
@@ -33,6 +37,10 @@ const Demo5: FC = () => {
 
   return (
     <LTable
+      loading={{
+        spinning: true,
+        size: 'large',
+      }}
       sticky
       rowKey="key"
       tableRef={tableRef}

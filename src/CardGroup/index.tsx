@@ -56,7 +56,7 @@ export default function LCardGroup(props: LCardGroupProps) {
   const { token } = useToken();
 
   const [value, onChange] = useControllableValue<string[] | string>(props, {
-    defaultValue: multiple ? [] : undefined,
+    defaultValue: multiple ? [] : void 0,
   });
 
   if (disabled) {

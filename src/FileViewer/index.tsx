@@ -66,7 +66,7 @@ function LFileViewer({
       title={fileName}
       centered
       maskClosable={false}
-      width={fileType === 'pdf' ? '90%' : undefined}
+      width={fileType === 'pdf' ? '90%' : void 0}
       footer={null}
       {...restProps}
       style={{ maxWidth: '90%', ...restProps.style }}

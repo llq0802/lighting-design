@@ -60,7 +60,7 @@ const LCaptchaButton: ForwardRefRenderFunction<
     targetDate,
     onEnd() {
       onEnd?.();
-      setTargetDate(undefined);
+      setTargetDate(void 0);
     },
   });
   const handleClick = useMemoizedFn((e) => {
@@ -76,7 +76,7 @@ const LCaptchaButton: ForwardRefRenderFunction<
   });
 
   useUnmount(() => {
-    setTargetDate(undefined);
+    setTargetDate(void 0);
   });
 
   useUpdateEffect(() => {

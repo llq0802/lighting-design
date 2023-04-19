@@ -77,7 +77,7 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
 
   const isComponent = isValidElement(children);
   const dropdownRender = !isComponent
-    ? undefined
+    ? void 0
     : () => (
         <div style={{ width: '100%' }} className={`${prefixCls}-popup`}>
           {cloneElement(children, {

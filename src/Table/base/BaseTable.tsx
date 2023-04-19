@@ -330,8 +330,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       return { spinning: outLoading };
     }
     return {
-      ...outLoading,
       spinning: requestLoading,
+      ...outLoading,
     };
   }, [outLoading, requestLoading]);
 
@@ -533,7 +533,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
             ...components,
             table: contentRender
               ? () => contentRender(data?.list ?? []) as unknown as any
-              : undefined,
+              : void 0,
           }}
           className={classnames(tableClassName, className)}
           rowClassName={classnames(`${LIGHTD_TABLE}-row`, rowClassName)}

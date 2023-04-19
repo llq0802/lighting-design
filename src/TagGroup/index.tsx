@@ -50,7 +50,7 @@ export default function LTagGroup(props: LTagGroupProps) {
   } = props;
 
   const [value, onChange] = useControllableValue<string | string[]>(props, {
-    defaultValue: multiple ? [] : undefined,
+    defaultValue: multiple ? [] : void 0,
   });
 
   // 如果是多选，且没有默认值，则默认值视为空数组
@@ -86,7 +86,7 @@ export default function LTagGroup(props: LTagGroupProps) {
       if (bool) {
         newValue = allValue;
       } else {
-        newValue = undefined;
+        newValue = void 0;
       }
     }
     triggerChange(newValue);
@@ -116,11 +116,10 @@ export default function LTagGroup(props: LTagGroupProps) {
       // 没有选中时
       if (isMultiple) {
         newValue = value.filter((v: any) => v !== curItem.value);
-        console.log('newValue--', newValue);
         triggerChange(newValue);
       } else {
         if (cancelable) {
-          newValue = undefined;
+          newValue = void 0;
           triggerChange(newValue);
         }
       }
@@ -145,7 +144,7 @@ export default function LTagGroup(props: LTagGroupProps) {
           key={item.value}
           checked={
             isMultiple
-              ? value !== undefined &&
+              ? value !== void 0 &&
                 value.includes(item.value as unknown as string)
               : value === item.value
           }

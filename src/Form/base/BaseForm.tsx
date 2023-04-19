@@ -59,7 +59,7 @@ export const LFormContext = createContext<{
 }>({
   layout: 'horizontal',
   labelColProps: {},
-  disabled: undefined,
+  disabled: void 0,
 });
 
 function BaseForm(props: BaseFormProps): JSX.Element {
