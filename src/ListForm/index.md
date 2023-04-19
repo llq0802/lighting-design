@@ -13,7 +13,7 @@ nav:
 
 ### 基础用法
 
-<!-- <code src='./demos/Demo1.tsx'  background="#f5f5f5"></code> -->
+<code src='./demos/Demo1.tsx'  background="#f5f5f5"></code>
 
 ### 左右布局
 

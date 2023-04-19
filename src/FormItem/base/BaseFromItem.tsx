@@ -35,7 +35,9 @@ export interface LFormItemProps extends FormItemProps {
 
 const prefixCls = 'ligthd-from-item';
 
-const LFormItem: FC<LFormItemProps> = (props) => {
+const LFormItem: FC<LFormItemProps> & {
+  useStatus: typeof Form.Item.useStatus;
+} = (props) => {
   const {
     placeholder,
 
@@ -203,5 +205,6 @@ const LFormItem: FC<LFormItemProps> = (props) => {
     </Form.Item>
   );
 };
+LFormItem.useStatus = Form.Item.useStatus;
 
 export default LFormItem;
