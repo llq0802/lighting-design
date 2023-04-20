@@ -4,7 +4,7 @@ import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
-// import AddEditModal from './components/AddEditModal';
+import AddEditModal from './components/AddEditModal';
 import { apiGetUserList, columns } from './service';
 
 const Demo7: FC = () => {
@@ -48,7 +48,7 @@ const Demo7: FC = () => {
           >
             新增
           </Button>
-          {/* <AddEditModal /> */}
+          <AddEditModal />
         </>
       }
       formItems={formItems}

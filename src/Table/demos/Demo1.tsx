@@ -1,11 +1,11 @@
 import type { FormInstance } from 'antd';
-import { Button } from 'antd';
+import { Button, ConfigProvider } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
 import { awaitTime } from '../../_test';
-// import AddEditModal from './components/AddEditModal';
+import AddEditModal from './components/AddEditModal';
 import { apiGetUserList, columns } from './service';
 
 const Demo1: FC = () => {
@@ -95,7 +95,7 @@ const Demo1: FC = () => {
         }}
       />
       {/* 如果没有使用表格的全屏toolbarActionConfig.showFullscreen ，就不用包裹 ConfigProvider */}
-      {/* <ConfigProvider
+      <ConfigProvider
         getPopupContainer={() =>
           tableRef.current?.rootRef.current || document.body
         }
@@ -109,7 +109,7 @@ const Demo1: FC = () => {
             tableRef.current?.onReload();
           }}
         />
-      </ConfigProvider> */}
+      </ConfigProvider>
     </>
   );
 };

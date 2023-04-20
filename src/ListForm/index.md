@@ -7,33 +7,42 @@ nav:
 
 # LListForm
 
-基于 LForm 扩展的列表表单。
+LFormItem 数组化管理，提供转换、校验等功能。
 
 ## 代码演示
 
 ### 基础用法
 
-<!-- <code src='./demos/Demo1.tsx'  background="#f5f5f5"></code> -->
+<code src='./demos/Demo1.tsx'  background="#f5f5f5"></code>
 
-### 左右布局
+### 列表表单校验
 
-<!-- <code src='./demos/Demo2.tsx' ></code> -->
+<code src='./demos/Demo2.tsx' background="#f5f5f5" ></code>
+
+### 复杂的动态增减表单项
+
+<code src='./demos/Demo3.tsx' background="#f5f5f5" ></code>
 
 ## API
+
+> LLoginForm 下的字段不应该配置 initialValue，你始终应该通过 LLoginForm 的 initialValue 或者 LForm 的 initialValues 来配置。
+>
+> 嵌套表单字段需要对 field 进行拓展，将 field.name 应用于控制字段。
 
 ```ts
 import { LLoginForm } from 'lighting-design';
 ```
 
-> LLoginForm 代表了登录表单比较常见的布局样式。
+同 antd 的 [Form.List](https://ant.design/components/form-cn#formlist)
 
-| 参数         | 说明                                                | 类型               | 默认值 |
-| ------------ | --------------------------------------------------- | ------------------ | ------ |
-| logo         | logo 的配置，支持 ReactNode 和 string               | `ReactNode \| url` | -      |
-| title        | 标题，可以配置为空                                  | `ReactNode`        | -      |
-| subTitle     | 二级标题，可以配置为空                              | `ReactNode`        | -      |
-| actions      | 自定义额外的登录功能                                | `ReactNode`        | -      |
-| message      | form 顶部的一个提示配置，可以配置一些错误的提示信息 | `ReactNode`        | -      |
-| contentStyle | 表单内容样式对象                                    | `CSSProperties `   | -      |
-| className    | 登录表单样式类                                      | `string `          | -      |
-| style        | 登录表单样式对象                                    | `CSSProperties`    | -      |
+```ts
+<LLoginForm>
+  {(fields) =>
+    fields.map((field) => (
+      <Form.Item {...field}>
+        <Input />
+      </Form.Item>
+    ))
+  }
+</LLoginForm>
+```

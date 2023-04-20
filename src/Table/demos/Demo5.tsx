@@ -37,10 +37,10 @@ const Demo5: FC = () => {
 
   return (
     <LTable
-      loading={{
-        spinning: true,
-        size: 'large',
-      }}
+      // loading={{
+      //   spinning: true,
+      //   size: 'large',
+      // }}
       sticky
       rowKey="key"
       tableRef={tableRef}

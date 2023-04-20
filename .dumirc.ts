@@ -7,7 +7,7 @@ const mapToken = defaultAlgorithm(defaultSeed);
 
 const isDev = process.env.NODE_ENV === 'development';
 
-const logo = isDev ? '/logo.png' : '/lighting-design/logo.png';
+const logo = isDev ? '/logo.png' : '/lighting-design/logo.svg';
 const targets = isDev ? void 0 : { ie: 11, chrome: 80 };
 
 export default defineConfig({
