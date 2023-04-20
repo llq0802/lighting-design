@@ -28,6 +28,10 @@ export default {
           link: '/components/Trigger',
         },
         {
+          title: 'LTypeit-打字机',
+          link: '/components/Typeit',
+        },
+        {
           title: 'LColorPick-颜色选择',
           link: '/components/Color-Pick',
         },
