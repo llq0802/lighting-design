@@ -39,9 +39,9 @@ import { LLoginForm } from 'lighting-design';
 <LLoginForm>
   {(fields) =>
     fields.map((field) => (
-      <Form.Item {...field}>
+      <LFormItem {...field}>
         <Input />
-      </Form.Item>
+      </LFormItem>
     ))
   }
 </LLoginForm>

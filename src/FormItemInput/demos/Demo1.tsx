@@ -24,6 +24,13 @@ const Demo = () => {
         required
         tooltip="启用空格"
       />
+      <LFormItemInput
+        name="chinese"
+        label="中文汉字"
+        required
+        tooltip="中文"
+        type="chinese"
+      />
       <LFormItemInput name="phone" label="手机号" type="phone" required />
       <LFormItemInput name="email" type="email" label="邮箱" required />
       <LFormItemInput name="idCard" type="idCard" label="身份证" required />
@@ -36,6 +43,8 @@ const Demo = () => {
         contentAfter={<IdentifyCode />}
       />
       <LFormItemInput
+        required
+        validateTrigger={['onChange', 'onBlur']}
         label="自定义渲染"
         name="with-popover"
         tooltip="该方案可用于所有表单项"
