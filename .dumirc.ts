@@ -55,15 +55,16 @@ export default defineConfig({
       min-width: 260px;
     }
     .dumi-default-previewer-demo {
-      min-height: 120px;
+      min-height: 60px;
       display: flex;
       overflow: auto;
       flex-direction: column;
+      justify-content: center;
     }
     .dumi-default-content-tabs{
       margin: -24px -48px 48px !important;
     }
-    
+
     .dumi-default-header:not([data-static]){
       border-bottom: 1px solid #ddd;
     }

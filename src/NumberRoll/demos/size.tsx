@@ -1,6 +1,7 @@
+import { useInterval } from 'ahooks';
 import { LNumberRoll } from 'lighting-design';
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const center = {
   display: 'flex',
@@ -11,16 +12,10 @@ const Demo: FC = () => {
     Number((Math.random() * 10000).toFixed(2)),
   );
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      const random = Number((Math.random() * 10000).toFixed(2));
-      setCalue(random);
-    }, 3000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  useInterval(() => {
+    const random = Number((Math.random() * 10000).toFixed(2));
+    setCalue(random);
+  }, 3000);
 
   return (
     <>

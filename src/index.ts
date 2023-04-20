@@ -71,3 +71,5 @@ export * from './TagGroup';
 export { default as LTagGroup } from './TagGroup';
 export * from './Trigger';
 export { default as LTrigger } from './Trigger';
+export * from './Typeit';
+export { default as LTypeit } from './Typeit';
