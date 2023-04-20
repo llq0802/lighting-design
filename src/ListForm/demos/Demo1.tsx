@@ -1,5 +1,5 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Space } from 'antd';
+import { Button, Space } from 'antd';
 import { LForm, LFormItem, LFormItemInput, LListForm } from 'lighting-design';
 
 const Demo1 = () => {
@@ -9,16 +9,18 @@ const Demo1 = () => {
         onFinish={(values) => {
           console.log('values', values);
         }}
+        submitter={{ buttonAlign: 'center' }}
       >
-        <LFormItemInput name="input" label="输入框" />
+        <LFormItemInput name="input" label="其他输入的字段" />
+
         <LListForm name="list">
           {(fields, { add, remove, move }, { errors }) => {
             return (
               <>
                 {fields.map(({ key, name, ...restField }) => {
                   return (
-                    <Form.Item
-                      label="名称"
+                    <LFormItem
+                      label="名字"
                       key={key}
                       style={{ marginBottom: 0 }}
                     >
@@ -27,42 +29,34 @@ const Demo1 = () => {
                         style={{ display: 'flex', width: '100%' }}
                         align="baseline"
                       >
-                        <Form.Item
+                        <LFormItemInput
                           {...restField}
+                          placeholder="请输入 First 名"
+                          required
                           name={[name, 'first']}
-                          rules={[
-                            { required: true, message: 'Missing first name' },
-                          ]}
-                        >
-                          <Input placeholder="First Name" />
-                        </Form.Item>
-
-                        <Form.Item
+                        />
+                        <LFormItemInput
+                          {...restField}
+                          placeholder="请输入 Last 名"
+                          required
                           name={[name, 'last']}
-                          rules={[
-                            { required: true, message: 'Missing Last name' },
-                          ]}
-                        >
-                          <Input placeholder="Last Name" />
-                        </Form.Item>
+                        />
 
                         <MinusCircleOutlined onClick={() => remove(name)} />
                         <PlusOutlined onClick={() => add()} />
                       </Space>
-                    </Form.Item>
+                    </LFormItem>
                   );
                 })}
 
                 <LFormItem>
                   <Button
                     type="dashed"
-                    onClick={() => {
-                      add();
-                    }}
+                    onClick={() => add()}
                     block
                     icon={<PlusOutlined />}
                   >
-                    Add field
+                    增加一项
                   </Button>
                 </LFormItem>
               </>

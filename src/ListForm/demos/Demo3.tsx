@@ -1,18 +1,30 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Select, Space } from 'antd';
-import { LForm, LFormItem, LListForm } from 'lighting-design';
+import { Button, Form, Space } from 'antd';
+import {
+  LForm,
+  LFormItem,
+  LFormItemInput,
+  LFormItemSelect,
+  LListForm,
+} from 'lighting-design';
 import React from 'react';
 
-const { Option } = Select;
-
-const areas = [
-  { label: 'Beijing', value: 'Beijing' },
-  { label: 'Shanghai', value: 'Shanghai' },
-];
-
 const sights = {
-  Beijing: ['Tiananmen', 'Great Wall'],
-  Shanghai: ['Oriental Pearl', 'The Bund'],
+  Beijing: [
+    { label: '北京1', value: 'Beijing1' },
+    { label: '北京2', value: 'Beijing2' },
+    { label: '北京3', value: 'Beijing3' },
+  ],
+  Shanghai: [
+    { label: '上海1', value: 'Shanghai1' },
+    { label: '上海2', value: 'Shanghai2' },
+    { label: '上海3', value: 'Shanghai3' },
+  ],
+  Chongqing: [
+    { label: '重庆1', value: 'chongqing1' },
+    { label: '重庆2', value: 'chongqing2' },
+    { label: '重庆3', value: 'chongqing3' },
+  ],
 };
 
 type SightsKeys = keyof typeof sights;
@@ -24,33 +36,39 @@ const App: React.FC = () => {
     console.log('Received values of form:', values);
   };
 
-  const handleChange = () => {
-    form.setFieldsValue({ sights: [] });
-  };
-
   return (
     <LForm
-      submitter={false}
       form={form}
       name="dynamic_form_complex"
       onFinish={onFinish}
       style={{ maxWidth: 600 }}
       autoComplete="off"
+      onValuesChange={(changedValues: any, values: any) => {
+        console.log('changedValues', changedValues);
+        console.log('values', values);
+      }}
     >
-      <LFormItem
+      <LFormItemSelect
         name="area"
-        label="Area"
-        rules={[{ required: true, message: 'Missing area' }]}
-      >
-        <Select options={areas} onChange={handleChange} />
-      </LFormItem>
+        label="区域"
+        options={[
+          { label: '北京', value: 'Beijing' },
+          { label: '上海', value: 'Shanghai' },
+          { label: '重庆', value: 'Chongqing' },
+        ]}
+        selectProps={{
+          onChange(val) {
+            console.log('val', val);
+          },
+        }}
+      />
 
       <LListForm name="sights">
         {(fields, { add, remove }) => (
           <>
             {fields.map((field) => (
               <Space key={field.key} align="baseline">
-                <Form.Item
+                <LFormItem
                   noStyle
                   shouldUpdate={(prevValues, curValues) =>
                     prevValues.area !== curValues.area ||
@@ -58,58 +76,42 @@ const App: React.FC = () => {
                   }
                 >
                   {() => (
-                    <Form.Item
+                    <LFormItemSelect
                       {...field}
-                      label="Sight"
+                      required
+                      label="景点"
+                      disabled={!form.getFieldValue('area')}
                       name={[field.name, 'sight']}
-                      rules={[{ required: true, message: 'Missing sight' }]}
-                    >
-                      <Select
-                        disabled={!form.getFieldValue('area')}
-                        style={{ width: 130 }}
-                      >
-                        {(
-                          sights[form.getFieldValue('area') as SightsKeys] || []
-                        ).map((item) => (
-                          <Option key={item} value={item}>
-                            {item}
-                          </Option>
-                        ))}
-                      </Select>
-                    </Form.Item>
+                      options={
+                        sights[form.getFieldValue('area') as SightsKeys] || []
+                      }
+                    />
                   )}
-                </Form.Item>
-                <Form.Item
+                </LFormItem>
+                <LFormItemInput
                   {...field}
-                  label="Price"
+                  label="价格"
+                  required
                   name={[field.name, 'price']}
-                  rules={[{ required: true, message: 'Missing price' }]}
-                >
-                  <Input />
-                </Form.Item>
+                />
 
                 <MinusCircleOutlined onClick={() => remove(field.name)} />
               </Space>
             ))}
 
-            <Form.Item>
+            <LFormItem>
               <Button
                 type="dashed"
                 onClick={() => add()}
                 block
                 icon={<PlusOutlined />}
               >
-                Add sights
+                新增景点
               </Button>
-            </Form.Item>
+            </LFormItem>
           </>
         )}
       </LListForm>
-      <LFormItem>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </LFormItem>
     </LForm>
   );
 };

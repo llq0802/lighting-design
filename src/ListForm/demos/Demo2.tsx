@@ -1,6 +1,6 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
-import { LForm, LFormItem, LListForm } from 'lighting-design';
+import { Button } from 'antd';
+import { LForm, LFormItem, LFormItemInput, LListForm } from 'lighting-design';
 import React from 'react';
 
 const formItemLayout = {
@@ -21,18 +21,18 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
-const App: React.FC = () => {
+const Demo2: React.FC = () => {
   const onFinish = (values: any) => {
     console.log('Received values of form:', values);
   };
 
   return (
     <LForm
-      submitter={false}
       name="dynamic_form_item"
-      {...formItemLayoutWithOutLabel}
+      submitter={{ buttonAlign: 'center' }}
+      // {...formItemLayoutWithOutLabel}
       onFinish={onFinish}
-      style={{ maxWidth: 600 }}
+      // style={{ maxWidth: 600 }}
     >
       <LListForm
         name="names"
@@ -40,7 +40,7 @@ const App: React.FC = () => {
           {
             validator: async (_, names) => {
               if (!names || names.length < 2) {
-                return Promise.reject(new Error('At least 2 passengers'));
+                return Promise.reject(new Error('至少需要两项!'));
               }
             },
           },
@@ -48,70 +48,53 @@ const App: React.FC = () => {
       >
         {(fields, { add, remove }, { errors }) => (
           <>
-            {fields.map((field, index) => (
-              <Form.Item
-                {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                label={index === 0 ? 'Passengers' : ''}
-                required={false}
-                key={field.key}
-              >
-                <Form.Item
-                  {...field}
-                  validateTrigger={['onChange', 'onBlur']}
-                  rules={[
-                    {
-                      required: true,
-                      whitespace: true,
-                      message:
-                        "Please input passenger's name or delete this field.",
-                    },
-                  ]}
-                  noStyle
-                >
-                  <Input
-                    placeholder="passenger name"
-                    style={{ width: '60%' }}
+            {fields.map((field) => (
+              <LFormItem key={field.key} label="Label">
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <LFormItemInput
+                    {...field}
+                    validateTrigger={['onChange', 'onBlur']}
+                    style={{
+                      width: '95%',
+                      marginBottom: 0,
+                    }}
                   />
-                </Form.Item>
-                {fields.length > 1 ? (
-                  <MinusCircleOutlined
-                    className="dynamic-delete-button"
-                    onClick={() => remove(field.name)}
-                  />
-                ) : null}
-              </Form.Item>
+
+                  {fields.length > 1 ? (
+                    <MinusCircleOutlined
+                      className="dynamic-delete-button"
+                      onClick={() => remove(field.name)}
+                    />
+                  ) : null}
+                </div>
+              </LFormItem>
             ))}
-            <Form.Item>
+
+            <LFormItem>
               <Button
+                block
                 type="dashed"
                 onClick={() => add()}
-                style={{ width: '60%' }}
                 icon={<PlusOutlined />}
+                style={{ marginBottom: 20 }}
               >
-                Add field
+                增加一项
               </Button>
               <Button
+                block
                 type="dashed"
-                onClick={() => {
-                  add('The head item', 0);
-                }}
-                style={{ width: '60%', marginTop: '20px' }}
+                onClick={() => add('添加在头部的数据', 0)}
                 icon={<PlusOutlined />}
               >
-                Add field at head
+                增加一项在头部，并有默认值
               </Button>
               <LForm.ErrorList errors={errors} />
-            </Form.Item>
+            </LFormItem>
           </>
         )}
       </LListForm>
-      <LFormItem>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </LFormItem>
     </LForm>
   );
 };
 
-export default App;
+export default Demo2;
