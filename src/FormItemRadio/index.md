@@ -25,7 +25,7 @@ nav:
 
 ### 异步请求
 
-<!-- <code src='./demos/Demo2.tsx'></code> -->
+<code src='./demos/Demo2.tsx'></code>
 
 ### 依赖项自动请求
 
