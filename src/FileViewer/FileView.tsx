@@ -1,17 +1,20 @@
-import * as React from 'react';
+import type { FunctionComponent } from 'react';
 import MediaViewer from './MediaViewer';
 
 const isIE = window.ActiveXObject || 'ActiveXObject' in window;
 const isPC = () => window.innerWidth > 768;
 
 export interface FileViewProps {
+  /** 文件名 */
   fileName?: string;
   url: string;
-  // fileType: 'image' | 'audio' | 'video' | 'pdf' | 'excel' | 'word';
+  /**
+   *  'image' | 'audio' | 'video' | 'pdf' | 'excel' | 'word'
+   */
   fileType: string;
 }
 
-const FileView: React.FunctionComponent<FileViewProps> = ({
+const FileView: FunctionComponent<FileViewProps> = ({
   fileName,
   url,
   fileType,

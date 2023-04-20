@@ -24,12 +24,12 @@ export default {
           link: '/components/number-roll',
         },
         {
-          title: 'LTrigger-弹出选择',
-          link: '/components/Trigger',
-        },
-        {
           title: 'LTypeit-打字机',
           link: '/components/Typeit',
+        },
+        {
+          title: 'LTrigger-弹出选择',
+          link: '/components/Trigger',
         },
         {
           title: 'LColorPick-颜色选择',
@@ -86,18 +86,29 @@ export default {
           title: 'LFormItem-高级表单项',
           link: '/components/form-item',
         },
-
         {
-          title: 'LFormItemAddress-地址选择',
-          link: '/components/form-item-address',
+          title: 'LFormItemInput-输入框',
+          link: '/components/Form-Item-Input',
         },
         {
-          title: 'LFormItemAutoComplete-自动联想输入框',
-          link: '/components/form-item-auto-complete',
+          title: 'LFormItmeNumber-数字输入框',
+          link: '/components/Form-Item-Number',
+        },
+        {
+          title: 'LFormItemPassword-密码输入框',
+          link: '/components/Form-Item-Password',
+        },
+        {
+          title: 'LFormItemTextArea-多行输入框',
+          link: '/components/Form-Item-Text-Area',
         },
         {
           title: 'LFormItemCaptcha-验证码输入框',
           link: '/components/Form-Item-Captcha',
+        },
+        {
+          title: 'LFormItemAutoComplete-自动联想输入框',
+          link: '/components/form-item-auto-complete',
         },
         {
           title: 'LFormItemSelect-下拉框',
@@ -119,6 +130,11 @@ export default {
           title: 'LFormItemTreeSelect-树形选择',
           link: '/components/Form-Item-Tree-Select',
         },
+
+        {
+          title: 'LFormItemAddress-地址选择',
+          link: '/components/form-item-address',
+        },
         {
           title: 'LFormItemColor-颜色选择',
           link: '/components/Form-Item-Color',
@@ -127,7 +143,6 @@ export default {
           title: 'LFormItemSegmented-分段器选择',
           link: '/components/Form-Item-Segmented',
         },
-
         {
           title: 'LFormItemSwitch-开关选择',
           link: '/components/Form-Item-Switch',
@@ -141,32 +156,16 @@ export default {
           link: '/components/Form-Item-Rate',
         },
         {
-          title: 'LFormItemInput-输入框',
-          link: '/components/Form-Item-Input',
-        },
-        {
-          title: 'LFormItmeNumber-数字输入框',
-          link: '/components/Form-Item-Number',
-        },
-        {
-          title: 'LFormItemPassword-密码输入框',
-          link: '/components/Form-Item-Password',
-        },
-        {
-          title: 'LFormItemTextArea-多行输入框',
-          link: '/components/Form-Item-Text-Area',
-        },
-        {
-          title: 'LFormItemUpload-文件上传',
-          link: '/components/Form-Item-Upload',
-        },
-        {
           title: 'LFormItemDatePicker-日期选择',
           link: '/components/Form-Item-Date-Picker',
         },
         {
           title: 'LFormItemTimePicker-时间选择',
           link: '/components/Form-Item-Time-Picker',
+        },
+        {
+          title: 'LFormItemUpload-文件上传',
+          link: '/components/Form-Item-Upload',
         },
       ],
     },

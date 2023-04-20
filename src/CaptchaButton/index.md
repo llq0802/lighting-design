@@ -11,7 +11,11 @@ toc: content
 
 ### 基础用法
 
-<code src='./demos/demo1.tsx'></code>
+<code src='./demos/Demo1.tsx'></code>
+
+### 3s 后再倒计时
+
+<code src='./demos/Demo2.tsx'></code>
 
 ## API
 

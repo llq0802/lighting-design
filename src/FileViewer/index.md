@@ -30,7 +30,8 @@ nav:
 | fileType     | 设置为`'image'`                      | `'image'`                                                         | `-`     |
 | url          | 图片地址数组                         | `string[]`                                                        | `-`     |
 | imagePreview | 控制预览的其他属性                   | [LImagePreviewProps](/components/file-viewer/#limagepreviewprops) | `-`     |
-| open         | 是否显示，结合 onOpenChange 进行控制 | `boolean`                                                         | `false` |
+| defaultOpen  | 默认是否显示                         | `boolean`                                                         | `false` |
+| open         | 是否显示，结合 onOpenChange 进行控制 | `boolean`                                                         | `-`     |
 | onOpenChange | open 改变时触发                      | ` (open: boolean) => void`                                        | `-`     |
 
 ### fileType 不为 'image'
