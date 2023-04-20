@@ -1,4 +1,4 @@
-import { Input, Select, Switch } from 'antd';
+import { Input, Select, Space, Switch } from 'antd';
 import { LForm, LFormItem } from 'lighting-design';
 import AgeSelect from './components/AgeSelect';
 import MyCheckbox from './components/MyCheckbox';
@@ -48,6 +48,9 @@ const Demo2 = () => {
           alignItems="end"
           contentAfter={<div>岁</div>}
           dependencies={['sex']}
+          contentProps={{
+            placeholder: '选择',
+          }}
         >
           <AgeSelect />
         </LFormItem>
@@ -75,8 +78,17 @@ const Demo2 = () => {
           name="l-name2"
           className="lightd-form-item-className2"
           contentClassName="lightd-form-item-contentClassName2"
-          renderField={(dom) => <Input placeholder="自定义渲染" />}
-        />
+          renderField={(dom) => {
+            return (
+              <Space>
+                {dom}
+                <Input placeholder="自定义渲染" />
+              </Space>
+            );
+          }}
+        >
+          这是自定义的：
+        </LFormItem>
       </LForm>
     </>
   );

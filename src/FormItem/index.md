@@ -11,6 +11,7 @@ nav:
 
 **特点**
 
+- 完全兼容`Form.Item`
 - 支持组件前后插入元素
 - 支持统一设置 `label` 的宽度
 - 支持 `dependencies` 依赖项的值自动传入子组件的 `props`
