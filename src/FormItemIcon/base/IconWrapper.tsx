@@ -2,19 +2,27 @@ import type { InputProps, ModalProps, TabsProps } from 'antd';
 import { Input } from 'antd';
 import type { FC } from 'react';
 import { useCallback, useState } from 'react';
-import type { FormItemIconOptionsProps } from '..';
+import type {
+  FormItemIconOptionsProps,
+  FormItemIconTabsExtendOptions,
+} from '..';
 import IconModal from './IconModal';
 
 export interface IconWrapperProps extends InputProps {
   options?: FormItemIconOptionsProps;
   modalProps?: ModalProps;
   tabsProps?: TabsProps;
+  extendRender?: {
+    IconFont: any;
+    options: FormItemIconTabsExtendOptions[];
+  }
 }
 
 const IconWrapper: FC<IconWrapperProps> = ({
   value,
   onChange,
   options,
+  extendRender,
   modalProps,
   tabsProps,
   ...restProps
@@ -51,6 +59,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
         options={options}
         modalProps={modalProps}
         tabsProps={tabsProps}
+        extendRender={extendRender}
       />
     </>
   );

@@ -17,7 +17,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: #90939970;
+      background-color: @colorBorder;
       background-clip: padding-box;
       border: 3px solid transparent;
       border-radius: 7px;
@@ -31,11 +31,11 @@
   &-itemIcon {
     display: flex;
     margin: 8px;
-    color: #10101070;
+    color: #00000050;
     font-size: 20px;
-    border: 1px solid rgba(29, 33, 41, 0.2);
+    border: 1px solid @colorBorder;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: transform 0.3s;
     list-style: none;
     justify-content: center;
     align-items: center;
@@ -43,6 +43,7 @@
     width: 44px;
 
     &:hover {
+      color: #00000090;
       border: 1px solid @colorPrimary;
       transform: scale(1.3);
     }

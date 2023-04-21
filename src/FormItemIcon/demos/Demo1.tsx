@@ -4,16 +4,18 @@ import { message } from 'antd';
 import copy from 'copy-to-clipboard';
 import { LForm, LFormItemIcon } from 'lighting-design';
 import { useState } from 'react';
-import { DIYIconList } from './data';
+import { DIYIconList, FoodIconData } from './data';
 
-const IconFont = createFromIconfontCN({
-  scriptUrl: ['/fontIcon.js'], // 离线版
+export const IconFont = createFromIconfontCN({
+  // scriptUrl: '/fontIcon.js', // 离线版
+  scriptUrl: [
+    '//at.alicdn.com/t/c/font_3950463_4e8682pkb7.js',
+    '//at.alicdn.com/t/c/font_4030238_ab5y4oosx0c.js',
+  ], // 在线版
 });
-
 const Demo = () => {
   const [form] = LForm.useForm();
   const [iconItem, setIconItem] = useState<any>('');
-  const [open, setopen] = useState(false);
 
   return (
     <LForm
@@ -35,29 +37,32 @@ const Demo = () => {
             label: '线性风格',
           },
           Filled: {
-            label: '实底风格',
-            children(_list, node) {
-              return <div>{node}</div>;
+            label: '实底风格(自定义渲染)',
+            children(list, node) {
+              console.log(list);
+              return <div>自定义渲染</div>;
             },
+          },
+          TwoTone: {
+            label: '双色风格(禁用)',
+            disabled: true,
           },
         }}
         modalProps={{
-          open,
-          width: 800,
-          onCancel() {
-            setopen(false);
-          },
-        }}
-        inputProps={{
-          onClick: () => setopen(true),
+          width: 900,
         }}
         extendRender={{
           IconFont,
           options: [
             {
-              label: '笑脸图标风格😀',
+              label: '笑脸图标风格😀(自定义图标)',
               data: DIYIconList,
               key: '1',
+            },
+            {
+              label: '食物图标风格🍉(阿里矢量图标)',
+              data: FoodIconData,
+              key: '2',
             },
           ],
         }}

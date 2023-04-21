@@ -9,7 +9,19 @@ import IconWrapper from './base/IconWrapper';
 
 interface IconTabsOptions extends Omit<TabPaneProps, 'tab' | 'children'> {
   label: React.ReactNode;
-  children?: React.ReactNode | ((list: string[]) => React.ReactNode);
+  children?:
+    | React.ReactNode
+    | ((list: string[], node: React.ReactNode) => React.ReactNode);
+}
+
+export interface FormItemIconTabsExtendOptions
+  extends Omit<TabPaneProps, 'tab' | 'children'> {
+  label: React.ReactNode;
+  key: string;
+  data: string[];
+  children?:
+    | React.ReactNode
+    | ((list: string[], node: React.ReactNode) => React.ReactNode);
 }
 
 export interface FormItemIconOptionsProps<T = IconTabsOptions> {
@@ -17,21 +29,30 @@ export interface FormItemIconOptionsProps<T = IconTabsOptions> {
   Filled?: T;
   TwoTone?: T;
 }
-
 export interface LFormItemIconProps extends LFormItemProps {
-  iconProps?: InputProps;
+  /** input 输入框配置 */
+  inputProps?: InputProps;
+  /** modal 弹出框配置 */
   modalProps?: ModalProps;
+  /** tabs 标签页配置 */
   tabsProps?: TabsProps;
+  /** 默认图标配置 */
   options?: FormItemIconOptionsProps;
+  /** 自定义图标配置 */
+  extendRender?: {
+    IconFont: any;
+    options: FormItemIconTabsExtendOptions[];
+  };
 }
 
 const LFormItemIcon: FC<LFormItemIconProps> = ({
   required = false,
   disabled,
   options,
+  extendRender,
   modalProps,
   tabsProps,
-  iconProps = {},
+  inputProps = {},
   placeholder,
   ...restProps
 }) => {
@@ -52,9 +73,10 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
         disabled={disabled ?? formDisabled}
         placeholder={messageLabel}
         options={options}
+        extendRender={extendRender}
         modalProps={modalProps}
         tabsProps={tabsProps}
-        {...iconProps}
+        {...inputProps}
       />
     </LFormItem>
   );
