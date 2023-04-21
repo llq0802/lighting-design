@@ -37,6 +37,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
   return (
     <LFormItem required={required} isSelectType {...restProps}>
       <SegmentedWrapper
+        name={restProps?.name}
         dependencies={restProps?.dependencies}
         options={options}
         request={request}

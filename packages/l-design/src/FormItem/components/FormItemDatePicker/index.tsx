@@ -18,6 +18,7 @@ import type { LFormItemProps } from '../../base/BaseFromItem';
 import LFormItem from '../../base/BaseFromItem';
 
 const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps | any> = ({
+  picker,
   style,
   value,
   format,
@@ -27,8 +28,9 @@ const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps
     <DatePicker
       locale={locale}
       format={format}
+      picker={picker}
       {...restProps}
-      value={transformMomentValue(value, format)}
+      value={transformMomentValue(value, format, picker)}
       style={{ width: '100%', ...style }}
     />
   );
@@ -39,6 +41,7 @@ const { RangePicker } = DatePicker;
 type RangePickerWrapperProps = any & RangePickerProps;
 
 const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
+  picker,
   style,
   value,
   format,
@@ -48,8 +51,9 @@ const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
     <RangePicker
       locale={locale}
       format={format}
+      picker={picker}
       {...restProps}
-      value={transformMomentValue(value, format)}
+      value={transformMomentValue(value, format, picker)}
       style={{ width: '100%', ...style }}
     />
   );

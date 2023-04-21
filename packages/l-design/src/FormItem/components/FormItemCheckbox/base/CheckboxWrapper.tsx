@@ -6,11 +6,12 @@ import {
   useUpdateEffect,
 } from 'ahooks';
 import type { CheckboxOptionType, SpinProps } from 'antd';
-import { Checkbox, Spin } from 'antd';
+import { Checkbox, Form, Spin } from 'antd';
 import type { CheckboxChangeEvent, CheckboxGroupProps } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import type { CSSProperties, FC, ReactNode } from 'react';
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useDependValues, useIsClearDependValues, useIsFirstRender } from '../../../../utils';
 
 export type LCheckboxOptions = CheckboxOptionType;
 export type LCheckboxBeforeAllProps =
@@ -64,7 +65,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   disabled,
   outLoading,
   notDependRender = () => <span>请先选择依赖项</span>,
-
+  name,
   ...restProps
 }) => {
   const [indeterminate, setIndeterminate] = useState<boolean>(false);
@@ -72,7 +73,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
 
   const [optsRequest, setOptsRequest] = useState<LCheckboxOptions[]>([]);
-  const isFirst = useRef<boolean>(true);
+  const isFirst = useIsFirstRender(); // 组件是否第一次挂载
 
   const hasLoading = useMemo(
     (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
@@ -95,22 +96,9 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项的值
-  const dependValues = useMemo(() => {
-    if (!dependencies.length) {
-      return [];
-    }
-    return dependencies?.map((nameStr) => restProps[nameStr]);
-  }, [dependencies, restProps]);
-  // 判断依赖项的值是否有空或undefined
-  const isClearDepends = useMemo(
-    () =>
-      dependencies.length > 0 &&
-      dependValues.some(
-        (nameValue) => nameValue == undefined || nameValue == '' || !nameValue?.length,
-      ),
-    [dependValues, dependencies.length],
-  );
+  const form = Form.useFormInstance();
+  const dependValues = useDependValues(dependencies, restProps);
+  const isClearDepends = useIsClearDependValues(dependValues);
 
   const opts = useMemo(() => {
     const rawOptions = checkboxProps.options || outOptions;
@@ -120,9 +108,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   useDeepCompareEffect(() => {
     if (!request) return;
     // 组件第一次加载时调用request
-    if (isClearDepends) return;
-    if (isFirst.current) {
-      isFirst.current = false;
+    if (isFirst) {
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
@@ -134,18 +120,16 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (!hasLoading) setLoading(true);
+      if (value?.length) {
+        form.setFieldValue(name, void 0);
+      }
       // 防抖调用
-      run(...dependValues);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        run(...dependValues);
+      }
     }
   }, [dependValues]);
-
-  // 依赖清除
-  useDeepCompareEffect(() => {
-    if (isClearDepends && value?.length > 0 && value != undefined) {
-      onChange(undefined);
-    }
-  }, [value, isClearDepends]);
 
   const checkboxOptions = useMemo(() => {
     if (isClearDepends) {
@@ -191,6 +175,13 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     checkboxProps?.onChange?.(checkedValue);
     onChange(checkedValue);
   });
+
+  useDeepCompareEffect(() => {
+    if (beforeAll && !value?.length) {
+      setCheckAll(false);
+      setIndeterminate(false);
+    }
+  }, [value]);
 
   const checkboxDom = (
     <>

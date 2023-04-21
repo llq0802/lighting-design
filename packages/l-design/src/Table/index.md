@@ -82,6 +82,7 @@ import { LTable } from 'lighting-design';
 | formCardProps | 查询表单外层的 `Card` 组件的 `CardProps` | [CardProps](https://4x.ant.design/components/card-cn/#API) | `{style:{ borderRadius: 0 },bodyStyle:{paddingBottom: 0, marginBottom: 16}}` |
 | tableCardProps | 表格外层的 `Card` 组件的 `CardProps` | [CardProps](https://4x.ant.design/components/card-cn/#API) | `{style:{ borderRadius: 0 }}` |
 | showToolbar | 是否显示整个 toolbar | `boolean` | `true` |
+| toolbarStyle | 整个 toolbar 的样式 showToolbar 为 true 时生效 | `CSSProperties` | `-` |
 | toolbarActionConfig | 配置内置表格工具栏 与 Space 组件有相同属性 showToolbar 为 true 时生效 | `LToolbarActionProps` | `-` |
 | toolbarRender | 重新渲染 toolBar 包括内置表格工具 | `(ToolbarActionDom: ReactNode) => ReactNode` | `-` |
 | tableRender | 重新渲染整个表格 | `LTableRenderProps` | `-` |

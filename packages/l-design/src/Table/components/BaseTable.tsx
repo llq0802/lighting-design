@@ -125,13 +125,15 @@ export type LTableProps = {
   rootStyle?: CSSProperties;
   /** 表格额外style */
   tableStyle?: CSSProperties;
+  /** 整个toolbar的样式  showToolbar为true时生效*/
+  toolbarStyle?: CSSProperties;
   /** 查询表单外层的CardProps*/
   formCardProps?: CardProps;
   /** 表格外层的CardProps*/
   tableCardProps?: CardProps;
   /** 是否显示toolbar */
   showToolbar?: boolean;
-  /** 配置内置表格工具栏 继承Space组件的属性 showToolbar为 true 时生效*/
+  /** 配置内置表格工具栏 继承Space组件的属性 showToolbar 为true 时生效*/
   toolbarActionConfig?: LToolbarActionProps;
   /** 重新渲染toolBar 包括内置表格工具 */
   toolbarRender?: (ToolbarActionDom: ReactNode) => ReactNode;
@@ -222,7 +224,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     columns = [],
     components,
     style,
-
+    toolbarStyle,
     formItems = [],
 
     pagination: outPagination,
@@ -300,8 +302,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       return { spinning: outLoading };
     }
     return {
-      ...outLoading,
       spinning: requestLoading,
+      ...outLoading,
     };
   }, [outLoading, requestLoading]);
 
@@ -462,7 +464,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   );
 
   const toolbarDom = showToolbar ? (
-    <div className={`${LIGHTD_TABLE}-toolbar`}>
+    <div className={`${LIGHTD_TABLE}-toolbar`} style={toolbarStyle}>
       <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>{<Space>{toolbarLeft}</Space>}</div>
       <div className={`${LIGHTD_TABLE}-toolbar-content-right`}>
         <Space>

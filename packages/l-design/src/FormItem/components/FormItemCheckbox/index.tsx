@@ -63,6 +63,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
       {...restProps}
     >
       <CheckboxWrapper
+        name={restProps?.name}
         dependencies={restProps?.dependencies}
         notDependRender={notDependRender}
         options={options}

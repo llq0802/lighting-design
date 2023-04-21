@@ -9,7 +9,6 @@ import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction, MouseEvent, Ref, RefObject } from 'react';
 import { forwardRef } from 'react';
-
 export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   /** 倒计时秒数 */
   second?: number;

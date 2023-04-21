@@ -1,5 +1,5 @@
 import type { DependencyList } from 'react';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import type { LTreeTableData } from '../TreeTable/types';
 
 /**
@@ -123,3 +123,55 @@ export function getMaxLevel(treeData: LTreeTableData): number {
 
   return maxLevel;
 }
+
+/**
+ * 获取依赖项的值
+ * @param dependencies
+ * @param restProps
+ * @returns
+ */
+export const useDependValues = (dependencies: string[], restProps: Record<string, any>) => {
+  return useMemo(() => {
+    if (!dependencies.length) {
+      return [];
+    }
+    return dependencies?.map((nameStr) => restProps[nameStr]);
+  }, [dependencies, restProps]);
+};
+
+/**
+ * 判断依赖项的值是否有空或undefined null或者空数组
+ * @param dependValues
+ * @returns
+ */
+export const useIsClearDependValues = (dependValues: any[]) => {
+  return useMemo(() => {
+    if (!dependValues.length) return false;
+
+    if (dependValues.length === 1) {
+      return dependValues.some(
+        (nameValue) =>
+          nameValue === void 0 || nameValue === null || nameValue === '' || !nameValue?.length,
+      );
+    }
+    return dependValues.every(
+      (nameValue) =>
+        nameValue === void 0 || nameValue === null || nameValue === '' || !nameValue?.length,
+    );
+  }, [dependValues]);
+};
+
+/**
+ * 是否时第一次渲染组件
+ * @returns
+ */
+export const useIsFirstRender = (): boolean => {
+  const isFirst = useRef<boolean>(true);
+  const { current } = isFirst;
+  // 如果是第一次，改变状态并返回true
+  if (current) {
+    isFirst.current = false;
+    return true;
+  }
+  return current;
+};

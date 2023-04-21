@@ -111,19 +111,30 @@ export function timePickerMomentString(
 }
 
 // string number moment 转换为moment
-export function transformMomentValue(val?: string | number | Moment, format?: string): Moment;
+export function transformMomentValue(
+  val?: string | number | Moment,
+  format?: string,
+  picker?: Picker,
+): Moment;
 export function transformMomentValue(
   val?: (string | number | Moment)[],
   format?: string,
+  picker?: Picker,
 ): [Moment, Moment];
 export function transformMomentValue(
   val?: string | number | Moment | (string | number | Moment)[],
   format?: string,
+  picker?: Picker,
 ) {
+  console.log('val', val, format);
+
   if (Array.isArray(val)) {
     return val.map((item) => transformMomentValue(item, format));
   }
   if (typeof val === 'string') {
+    if (picker === 'week') {
+      return moment().week(+val.slice(5, -1));
+    }
     return moment(val, format);
   }
   if (typeof val === 'number') {

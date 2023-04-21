@@ -69,6 +69,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
       {...restProps}
     >
       <RadioWrapper
+        name={restProps?.name}
         dependencies={restProps?.dependencies}
         options={options}
         request={request}

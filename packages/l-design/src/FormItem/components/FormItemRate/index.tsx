@@ -13,8 +13,9 @@ export interface LFormItemRateProps
     Pick<RateWrapperProps, 'rateProps' | 'request'> {
   dependencies?: string[];
   debounceTime?: number;
+  count?: number;
   /**
-   * @name 自定义loading效果 具体参考(https://4x.ant.design/components/spin-cn/#API)
+   * @name 自定义loading效果 具体参考(https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
 }
@@ -25,22 +26,39 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   rateProps,
   required,
   disabled,
-  placeholder,
   spin,
-
+  count = 5,
   ...restProps
 }) => {
+  const { disabled: formDisabled } = useContext(LFormContext);
+
   const messageLabel = usePlaceholder({
-    placeholder,
     restProps,
     isSelectType: true,
   });
 
-  const { disabled: formDisabled } = useContext(LFormContext);
+  const rules = [
+    {
+      validator(rule, value: number) {
+        console.log('validator-value', value);
+
+        let errMsg = '';
+        if (!value) {
+          errMsg = required ? `${messageLabel}!` : '';
+        }
+        if (errMsg) {
+          return Promise.reject(errMsg);
+        }
+        return Promise.resolve();
+      },
+    },
+  ];
 
   return (
-    <LFormItem required={required} isSelectType placeholder={messageLabel} {...restProps}>
+    <LFormItem required={required} isSelectType {...restProps} rules={rules}>
       <RateWrapper
+        name={restProps.name}
+        count={count}
         dependencies={restProps?.dependencies}
         disabled={disabled ?? formDisabled}
         outLoading={spin}

@@ -65,6 +65,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
       <TreeSelectWrapper
         disabled={disabled ?? formDisabled}
         placeholder={messagePlaceholder}
+        name={restProps?.name}
         dependencies={restProps?.dependencies}
         treeData={treeData}
         treeCheckable={treeCheckable}

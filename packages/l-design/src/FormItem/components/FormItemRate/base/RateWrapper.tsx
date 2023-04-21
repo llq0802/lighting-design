@@ -1,12 +1,13 @@
 import { useDeepCompareEffect, useRequest, useSafeState, useUpdateEffect } from 'ahooks';
 import type { RateProps, SpinProps } from 'antd';
-import { Rate, Spin } from 'antd';
+import { Form, Rate, Spin } from 'antd';
 import type { FC } from 'react';
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useDependValues, useIsClearDependValues, useIsFirstRender } from '../../../../utils';
 
 export type RateWrapperProps = Record<string, any> &
   Partial<{
-    request: (...args: any[]) => Promise<any>;
+    request: (...args: any[]) => Promise<number>;
     disabled: boolean;
     debounceTime: number;
     dependencies: string[];
@@ -15,35 +16,34 @@ export type RateWrapperProps = Record<string, any> &
   }>;
 
 const RateWrapper: FC<RateWrapperProps> = ({
-  value = 0,
+  value,
   onChange,
-  outLoading,
+  count,
+  outLoading = {},
   dependencies = [],
   request,
   debounceTime,
   rateProps = {},
   disabled,
+  name,
   ...restProps
 }) => {
-  const [reqValue, setReqvalue] = useState(0);
+  const [reqCount, setReqCount] = useState(0);
   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
-  const isFirst = useRef<boolean>(true);
+  const isFirst = useIsFirstRender();
 
-  const hasLoading = useMemo(
-    (): boolean => Reflect.has(typeof outLoading === 'object' ? outLoading : {}, 'spinning'),
-    [outLoading],
-  );
+  const hasLoading = useMemo(() => Reflect.has(outLoading, 'spinning'), [outLoading]);
 
-  const { run } = useRequest(request || (async () => []), {
+  const { run } = useRequest(request || (async () => 0), {
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result: number) => {
       if (!hasLoading) setLoading(false);
-      setReqvalue(result);
+      setReqCount(result);
     },
     onError: () => {
       if (!hasLoading) setLoading(false);
-      setReqvalue(0);
+      setReqCount(0);
     },
   });
 
@@ -51,75 +51,60 @@ const RateWrapper: FC<RateWrapperProps> = ({
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项的值
-  const dependValues = useMemo(() => {
-    if (!dependencies?.length) {
-      return [];
-    }
-    return dependencies?.map((nameStr) => restProps[nameStr]);
-  }, [dependencies, restProps]);
-  // 判断依赖项的值是否有空或undefined
-  const isClearDepends = useMemo(
-    () =>
-      dependencies.length > 0 &&
-      dependValues.some((nameValue) => nameValue === '' || nameValue == undefined),
-    [dependencies.length, dependValues],
-  );
+  const form = Form.useFormInstance();
+  const dependValues = useDependValues(dependencies, restProps);
+  const isClearDepends = useIsClearDependValues(dependValues);
 
   useDeepCompareEffect(() => {
     if (!request) return;
     // 组件第一次加载时调用request
-    if (isClearDepends) return;
-    if (isFirst.current) {
-      isFirst.current = false;
+    if (isFirst) {
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
           const newOptions = await request(...dependValues);
-          setReqvalue(newOptions);
+          setReqCount(newOptions);
         } catch (error) {
-          setReqvalue(0);
+          setReqCount(0);
         }
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (!hasLoading) setLoading(true);
+      if (value !== void 0 || value !== 0) {
+        form.setFieldValue(name, void 0);
+      }
       // 防抖调用
-      run(...dependValues);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        run(...dependValues);
+      }
     }
   }, [dependValues]);
 
-  // 依赖清除
-  useDeepCompareEffect(() => {
-    if (isClearDepends && value != undefined) {
-      onChange(undefined);
-    }
-  }, [value, isClearDepends]);
-
-  const selectValue = useMemo(() => {
-    if (request) {
-      return reqValue;
+  const currentCount = useMemo(() => {
+    if (isClearDepends) {
+      return 0;
+    } else if (reqCount) {
+      return reqCount;
     } else {
-      return value || 0;
+      return count;
     }
-  }, [reqValue, request, value]);
+  }, [isClearDepends, reqCount, count]);
 
-  const handleChange = useCallback(
-    (num: number) => {
-      if (rateProps?.onChange) {
-        rateProps?.onChange(num);
-      }
-      onChange(num);
-    },
-    [onChange, rateProps],
-  );
+  const handleChange = (num: number) => {
+    onChange(num);
+    if (rateProps?.onChange) {
+      rateProps?.onChange(num);
+    }
+  };
 
   return (
     <Spin spinning={loading} style={{ marginLeft: 40, width: 'fit-content' }} {...outLoading}>
       <Rate
+        value={value}
+        count={currentCount}
         disabled={disabled ?? isClearDepends}
         {...rateProps}
-        value={selectValue}
         onChange={handleChange}
       />
     </Spin>

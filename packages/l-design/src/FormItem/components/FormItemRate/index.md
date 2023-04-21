@@ -44,5 +44,8 @@ import { LFormItemRate } from 'lighting-design';
 
 | 参数 | 说明 | 类型 | 默认值 |
 | --- | --- | --- | --- |
+| count | 总共的星数 | `number` | `5` |
+| request | 请求总共的星数的异步函数 | `(...depends: any[]) => Promise<number>` | `-` |
+| debounceTime | 当依赖项发生变化时重新请求的防抖时间 | `number` | `-` |
 | spin | 自定义 loading 效果 | [SpinProps](https://4x.ant.design/components/spin-cn/#API) | `-` |
 | rateProps | `antd`评分组件 Props | [RateProps](https://4x.ant.design/components/rate-cn/#API) | `-` |

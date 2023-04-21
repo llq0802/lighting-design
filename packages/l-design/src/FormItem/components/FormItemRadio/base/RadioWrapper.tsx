@@ -6,9 +6,10 @@ import {
   useUpdateEffect,
 } from 'ahooks';
 import type { CheckboxOptionType, RadioChangeEvent, RadioGroupProps, SpinProps } from 'antd';
-import { Radio, Spin } from 'antd';
+import { Form, Radio, Spin } from 'antd';
 import type { FC, ReactNode } from 'react';
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useDependValues, useIsClearDependValues, useIsFirstRender } from '../../../../utils';
 
 export type RadioWrapperProps = Record<string, any> & {
   request?: (...depends: any[]) => Promise<LRadioOptions[]>;
@@ -39,7 +40,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   notDependRender = () => <span>请先选择依赖项</span>,
 
   radioProps = {},
-
+  name,
   ...restProps
 }) => {
   const [optsRequest, setOptsRequest] = useState<LRadioOptions[]>([]);
@@ -49,7 +50,8 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     [outLoading],
   );
 
-  const isFirst = useRef<boolean>(true); // 组件是否第一次挂载
+  const isFirst = useIsFirstRender(); // 组件是否第一次挂载
+
   const { run } = useRequest(request || (async () => []), {
     manual: true,
     debounceWait: debounceTime,
@@ -73,22 +75,9 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
-  // 获取依赖项的注意
-  const dependValues = useMemo(() => {
-    if (!dependencies.length) {
-      return [];
-    }
-    return dependencies?.map((nameStr) => restProps[nameStr]);
-  }, [dependencies, restProps]);
-  // 判断依赖项的值是否有空或undefined
-  const isClearDepends = useMemo(
-    () =>
-      dependencies.length > 0 &&
-      dependValues.some(
-        (nameValue) => nameValue === '' || nameValue == undefined || !nameValue?.length,
-      ),
-    [dependencies.length, dependValues],
-  );
+  const form = Form.useFormInstance();
+  const dependValues = useDependValues(dependencies, restProps);
+  const isClearDepends = useIsClearDependValues(dependValues);
 
   const opts = useMemo(() => {
     const rawOptions = radioProps.options || outOptions;
@@ -102,9 +91,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   useDeepCompareEffect(() => {
     if (!request) return;
     // 组件第一次加载时调用request
-    if (isClearDepends) return;
-    if (isFirst.current) {
-      isFirst.current = false;
+    if (isFirst) {
       (async () => {
         try {
           if (!hasLoading) setLoading(true);
@@ -120,17 +107,18 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (!hasLoading) setLoading(true);
+      if (value !== undefined) {
+        // formInstance.setFieldValue(name, undefined);
+        // form.resetFields([name]);
+        form.setFieldValue(name, undefined);
+      }
       // 防抖调用
-      run(...dependValues);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        run(...dependValues);
+      }
     }
   }, [dependValues]);
-  // 依赖清除
-  useDeepCompareEffect(() => {
-    if (isClearDepends && value != undefined) {
-      onChange(undefined);
-    }
-  }, [value, isClearDepends]);
 
   const radioOptions = useMemo(() => {
     if (isClearDepends) {

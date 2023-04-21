@@ -69,6 +69,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
       {...restProps}
     >
       <SelectWrapper
+        name={restProps.name}
         disabled={disabled ?? formDisabled}
         placeholder={messagePlaceholder}
         dependencies={restProps?.dependencies}
