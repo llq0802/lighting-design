@@ -58,7 +58,6 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   const [optsRequest, setOptsRequest] = useState<LRadioOptions[]>([]);
   const [loading, setLoading] = useSafeState(outLoading?.spinning || false);
   const isFirst = useIsFirstRender(); // 组件是否第一次挂载
-  const form = Form.useFormInstance();
 
   const hasLoading = useMemo(
     () => Reflect.has(outLoading, 'spinning'),
@@ -69,6 +68,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
 
+  const form = Form.useFormInstance();
   const dependValues = useDependValues(dependencies, restProps);
   const isClearDepends = useIsClearDependValues(dependValues);
 
@@ -143,8 +143,6 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   useDeepCompareEffect(() => {
     // 没有请求函数
     if (!request) return;
-    // 依赖项的值是否空数据
-    if (isClearDepends) return;
     // 组件第一次加载时调用request
     if (isFirst) {
       (async () => {
@@ -165,14 +163,16 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
-      if (value !== undefined) {
+      if (value !== void 0) {
         // formInstance.setFieldValue(name, undefined);
         // form.resetFields([name]);
-        form.setFieldValue(name, undefined);
+        form.setFieldValue(name, void 0);
       }
-      if (!hasLoading) setLoading(true);
       // 防抖调用
-      run(...dependValues);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        run(...dependValues);
+      }
     }
   }, [dependValues]);
 

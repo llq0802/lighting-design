@@ -5,8 +5,8 @@ const AgeSelect: FC<Record<string, any>> = (props) => {
   return (
     <>
       <Select
+        {...props}
         value={props.value}
-        placeholder="选择年龄"
         options={[
           { value: '18', label: '18' },
           { value: '19', label: '19' },

@@ -89,7 +89,6 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
 
   useDeepCompareEffect(() => {
     if (!request) return;
-    if (isClearDepends) return;
     // 组件第一次加载时调用request
     if (isFirst) {
       (async () => {
@@ -106,9 +105,11 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
       if (value !== void 0) {
         form.setFieldValue(name, void 0);
       }
-      if (!hasLoading) setLoading(true);
       // 防抖调用
-      run(...dependValues);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        run(...dependValues);
+      }
     }
   }, [dependValues]);
 

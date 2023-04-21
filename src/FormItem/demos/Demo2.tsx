@@ -49,7 +49,7 @@ const Demo2 = () => {
           contentAfter={<div>岁</div>}
           dependencies={['sex']}
           contentProps={{
-            placeholder: '选择',
+            placeholder: '选择年龄',
           }}
         >
           <AgeSelect />
