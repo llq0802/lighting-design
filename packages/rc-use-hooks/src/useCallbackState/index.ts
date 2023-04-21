@@ -11,7 +11,7 @@ import { isFunction } from '../utils';
  */
 export default function useCallbackState<T>(
   state: T,
-): [T, (val: SetStateAction<T>, cb: (newVal: T) => void) => void] {
+): [T, (val: SetStateAction<T>, cb?: (newVal: T) => void) => void] {
   const callBackRef = useRef<Function>();
   const [data, setData] = useState<T>(state);
   useEffect(() => {
