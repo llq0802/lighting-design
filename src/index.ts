@@ -31,6 +31,8 @@ export * from './FormItemInput';
 export { default as LFormItemInput } from './FormItemInput';
 export * from './FormItemNumber';
 export { default as LFormItemNumber } from './FormItemNumber';
+export * from './FormItemIcon';
+export { default as LFormItemIcon } from './FormItemIcon';
 export * from './FormItemPassword';
 export { default as LFormItemPassword } from './FormItemPassword';
 export * from './FormItemRadio';

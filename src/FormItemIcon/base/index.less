@@ -1,0 +1,50 @@
+@prefixCls: ~'lightd-form-item-icon';
+
+.@{prefixCls} {
+  padding-bottom: 20px;
+
+  &-iconList {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 50vh;
+    justify-content: center;
+    padding-left: 7px;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 13px;
+      height: 13px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #90939970;
+      background-clip: padding-box;
+      border: 3px solid transparent;
+      border-radius: 7px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+  }
+
+  &-itemIcon {
+    display: flex;
+    margin: 8px;
+    color: #10101070;
+    font-size: 20px;
+    border: 1px solid rgba(29, 33, 41, 0.2);
+    cursor: pointer;
+    transition: all 0.3s;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+    height: 42px;
+    width: 44px;
+
+    &:hover {
+      border: 1px solid @colorPrimary;
+      transform: scale(1.3);
+    }
+  }
+}

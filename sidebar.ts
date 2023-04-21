@@ -149,6 +149,10 @@ export default {
           link: '/components/Form-Item-Number',
         },
         {
+          title: 'LFormItmeIcon-图标选择器',
+          link: '/components/Form-Item-Icon',
+        },
+        {
           title: 'LFormItemPassword-密码输入框',
           link: '/components/Form-Item-Password',
         },
