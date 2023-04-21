@@ -62,6 +62,7 @@ const CodeInput: FC<CodeInputProps> = ({
   // 点击按钮
   const onButtonClick = useMemoizedFn(
     async (e: React.MouseEvent<HTMLElement>) => {
+      if (disabled) return;
       setLoading(true);
       onClick?.(e);
       try {
