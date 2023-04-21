@@ -51,7 +51,7 @@ const configs = defineConfig({
   dynamicImport: {},
   publicPath: isDev ? '/' : '/lighting-design/',
   base: isDev ? '/' : '/lighting-design/',
-  title: 'Lighting-Design',
+  title: 'Lighting Design',
   // logo: 'https://llq0802.github.io/android-chrome-192x192.png',
   // favicon: 'https://llq0802.github.io/180x180.png',
   favicon: isDev ? '/lighting-design.png' : '/lighting-design/lighting-design.png',

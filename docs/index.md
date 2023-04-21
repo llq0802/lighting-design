@@ -3,7 +3,7 @@ title: 让开发更容易
 order: 10
 sidebar: false
 hero:
-  title: Lighting-Design
+  title: Lighting Design
   desc: 🏆 让中后台开发更简单
   actions:
     - text: 快速上手 Hooks →
