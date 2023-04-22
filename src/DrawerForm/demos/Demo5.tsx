@@ -13,6 +13,7 @@ const Demo3 = () => {
     }
   }, [form, open]);
 
+  // 如果要在当前Dom中弹出，LDrawerForm的父元素样式中必须有position属性
   return (
     <div
       style={{
