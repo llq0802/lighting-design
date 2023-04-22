@@ -7,7 +7,7 @@ nav:
 
 # useCallbackState
 
-与 useState 效果一致, 可在 setState 中的回调函数中接受实时的 state
+与 useState 效果一致，可在 setState 的第二个参数回调函数中接受最新的 state ，可像类组件更新一样使用。
 
 ## 代码演示
 

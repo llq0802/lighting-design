@@ -1,4 +1,3 @@
-import type { RefObject } from 'react';
 import { useCallback, useImperativeHandle, useRef } from 'react';
 
 const _cloneDeep = (obj: any) => {
@@ -17,24 +16,31 @@ const _cloneDeep = (obj: any) => {
 };
 
 export declare type UseShowInstance<T = any> = {
+  /** 触发子组件的onShow方法并传值 */
   onShow: (record: T) => void;
+  /** 触发子组件的onHide方法并传值 */
   onHide: (data?: any) => void;
+  /** 获取子组件的数据 */
   getChildData: () => any;
 };
 
-export declare type UseShowInstanceRef<T = any> = RefObject<UseShowInstance<T>>;
+export declare type UseShowInstanceRef = React.MutableRefObject<
+  UseShowInstance | undefined
+>;
 
 export declare type UseShowOptions<T> = {
   /** show触发事件 */
-  onShow: (data: T) => void;
-  /** 格式化data */
-  onFormart?: (data: T) => T;
+  onShow?: (data: T) => void;
   /** hide触发事件 */
-  onHide?: (data?: any) => void;
+  onHide?: (data?: T) => void;
+  /** 格式化data */
+  onFormart?: (data: T) => any;
 };
 
 export declare type UseShowResult = {
-  parentData: Record<string, any>;
+  /** 父组件调用onShow传的参数值 */
+  parentData: Record<string, any> | undefined;
+  /** 向父组件传数据 （父组件调用 getChildData() ） */
   setParentData: <T = any>(data: T) => void;
 };
 
@@ -48,8 +54,8 @@ export default function useShow(
   funcRef: UseShowInstanceRef,
   options: UseShowOptions<Record<string, any>>,
 ): UseShowResult {
-  const ref = useRef<null | any>(null);
-  const childrenDataRef = useRef<null | any>(null);
+  const ref = useRef<any>();
+  const childrenDataRef = useRef<any>();
   const opsOnShow = options.onShow,
     opsOnFormart = options.onFormart,
     opsOnHide = options.onHide;
@@ -60,17 +66,16 @@ export default function useShow(
 
   useImperativeHandle(funcRef, () => {
     return {
-      onShow: function (data) {
+      onShow(data) {
         ref.current = _cloneDeep(data);
         if (opsOnShow) opsOnShow(ref.current);
       },
 
-      onHide: function (data) {
+      onHide(data) {
         if (opsOnHide) opsOnHide(_cloneDeep(data));
       },
 
-      getChildData: function () {
-        // 传给父组件的数据
+      getChildData() {
         return childrenDataRef.current;
       },
     };

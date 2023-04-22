@@ -45,7 +45,7 @@ function ChildModel({ funcRef }: ChildModelProps) {
     <>
       <Modal
         open={open}
-        title="这是子组件弹窗"
+        title="这是子组件的弹窗"
         onOk={handleOk}
         onCancel={handleCancel}
         okText="点我向父组件传数据"
@@ -90,8 +90,8 @@ function ChildModel({ funcRef }: ChildModelProps) {
   );
 }
 
-const Demo1 = () => {
-  const childModelRef = useRef<UseShowInstance>(null);
+const Parent = () => {
+  const childModelRef = useRef<UseShowInstance>();
 
   const handleClickShow = () => {
     childModelRef.current?.onShow({
@@ -110,21 +110,17 @@ const Demo1 = () => {
 
   const handleGetData = () => {
     const childData = childModelRef.current?.getChildData();
-
     message.info(`获得到子组件数据为:   ${JSON.stringify(childData, null, 2)}`);
-    console.log(' childData', childData);
   };
 
   return (
     <div style={{ border: '1px solid #888', padding: 20 }}>
       <h2>这是父组件</h2>
       <Space>
-        <Button onClick={handleClickShow}>
-          {' '}
+        <Button onClick={handleClickShow} type="primary">
           父组件调用onShow事件并传参数给子组件
         </Button>
         <Button onClick={handleClickHide}>
-          {' '}
           父组件调用onHide事件并传参数给子组件
         </Button>
         <Button onClick={handleGetData}> 父组件获取子组件数据</Button>
@@ -135,4 +131,4 @@ const Demo1 = () => {
   );
 };
 
-export default Demo1;
+export default Parent;
