@@ -21,6 +21,10 @@ toc: content
 
 <code src='./demos/Demo2.tsx'></code>
 
+### 单选时可取消
+
+<code src='./demos/Demo5.tsx'></code>
+
 ### 在 LForm 中使用
 
 <code src='./demos/Demo4.tsx'></code>

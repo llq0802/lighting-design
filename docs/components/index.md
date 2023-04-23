@@ -8,21 +8,18 @@ toc: false
 
 ## 基础组件
 
-- [LSpin] - 加载器
-- [LTooltip] - 提示器
-- [LColor] - 颜色显示/选择
-- [LTrigger] - 高级弹出选择
-- [LTypeit] - 打字机
+- [LCaptchaButton] - 按钮倒计时
 - [LFileViewer] - 文件预览器
-- [LWaterMark] - 水印
-- [LNumberRoll] - 数字滚动
-- [LCaptchaButton] - 基础验证码
+- [LNumberRoll] - 数值加载器
+- [LTypeit] - 打字机
+- [LColor] - 颜色显示/选择
+- [LTrigger] - 弹出选择
+- [LCardGroup] - 卡片选择
+- [LTagGroup] - 标签选择
+
+<!-- - [LWaterMark] - 水印
 - [useFormModal] - hooks 弹窗
-- [useFormDrawer] - hooks 抽屉
-
-## 数据展示
-
-- [LTable] - 高级表格
+- [useFormDrawer] - hooks 抽屉 -->
 
 ## 高级表单
 
@@ -33,7 +30,7 @@ toc: false
 - [LStepsForm] - 步骤表单
 - [LLoginForm] - 登录表单
 
-## 数据录入
+## 高级表单项
 
 - [LFormItem] - 基础表单项
 - [LFormItemInput] - 输入框
@@ -56,6 +53,11 @@ toc: false
 - [LFormItemColor] - 高级颜色选择
 - [LFormItemRate] - 评分器
 - [LFormItemSegmented] - 分段器
+
+## 数据展示
+
+- [LTable] - 高级表格
+- [LCollapseCard] - 折叠卡片
 
 [ltypeit]: /components/typeit
 [lspin]: /components/spin
@@ -96,3 +98,6 @@ toc: false
 [lformitemrate]: /components/form-item/form-item-rate
 [lformitemsegmented]: /components/form-item/form-item-segmented
 [ltable]: /components/table
+[LCollapseCard]: /components/collapse-card
+[LCardGroup]: /components/card-group
+[LTagGroup]: /components/tag-group

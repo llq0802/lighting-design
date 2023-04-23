@@ -3,7 +3,14 @@ import { Input } from 'antd';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback, useMemo } from 'react';
 
-export type InputType = InputProps['type'] | 'bankCard' | 'idCard' | 'phone' | 'email' | 'url';
+export type InputType =
+  | InputProps['type']
+  | 'bankCard'
+  | 'idCard'
+  | 'phone'
+  | 'email'
+  | 'url'
+  | 'chinese ';
 
 export interface InputWrapperProps extends InputProps {
   type?: InputType;
@@ -11,7 +18,13 @@ export interface InputWrapperProps extends InputProps {
 }
 
 const InputWrapper: FC<InputWrapperProps> = (props) => {
-  const { value, onChange, type, disabledWhiteSpace = false, ...restProps } = props;
+  const {
+    value,
+    onChange,
+    type,
+    disabledWhiteSpace = false,
+    ...restProps
+  } = props;
   const isSpace = useMemo(() => disabledWhiteSpace, [disabledWhiteSpace]);
 
   // 处理input类型
@@ -53,7 +66,10 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
           rawValue?.at(-1)?.toLocaleLowerCase() !== 'x'
         ) {
           rawValue = rawValue.slice(0, -1);
-        } else if (rawValue.length < 18 && window.isNaN(rawValue as unknown as any)) {
+        } else if (
+          rawValue.length < 18 &&
+          window.isNaN(rawValue as unknown as any)
+        ) {
           rawValue = rawValue.replace(/.*/g, '');
         }
       }

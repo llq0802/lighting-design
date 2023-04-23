@@ -21,6 +21,10 @@ toc: content
 
 <code src='./demos/Demo2.tsx'></code>
 
+### 单选时可取消
+
+<code src='./demos/Demo6.tsx'></code>
+
 ### 修改样式
 
 <code src='./demos/Demo3.tsx'></code>

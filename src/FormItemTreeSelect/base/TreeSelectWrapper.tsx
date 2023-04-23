@@ -96,7 +96,6 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
 
   useDeepCompareEffect(() => {
     if (!request) return;
-    if (isClearDepends) return;
     // 组件第一次加载时调用request
     if (isFirstRender) {
       (async () => {
@@ -113,9 +112,11 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
       if (value?.length) {
         form.setFieldValue(name, void 0);
       }
-      if (!hasLoading) setLoading(true);
       // 防抖调用
-      run(...dependValues);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        run(...dependValues);
+      }
     }
   }, [dependValues]);
 

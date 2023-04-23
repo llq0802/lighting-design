@@ -10,9 +10,14 @@ import './index.less';
 export interface LFileViewerProps
   extends ModalProps,
     Omit<FileViewProps, 'url'> {
-  onOpenChange?: (open: boolean) => void;
+  /** image 类型的配置 */
   imagePreview?: LImagePreviewProps;
+  /** 文件地址 */
   url: string[] | string;
+
+  open: boolean;
+  defaultOpen: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 export type LImagePreviewProps = {
@@ -27,6 +32,8 @@ export type LImagePreviewProps = {
   scaleStep?: number;
   forceRender?: boolean;
 };
+
+const noneStyle = { display: 'none' };
 
 function LFileViewer({
   url,
@@ -44,7 +51,7 @@ function LFileViewer({
   });
   if (fileType === 'image') {
     return (
-      <div style={{ display: 'none' }}>
+      <div style={noneStyle}>
         <Image.PreviewGroup
           preview={{
             visible: open,

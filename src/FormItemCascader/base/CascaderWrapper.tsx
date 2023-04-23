@@ -85,7 +85,6 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
 
   useDeepCompareEffect(() => {
     if (!request) return;
-    if (isClearDepends) return;
     // 组件第一次加载时调用request
     if (isFirst) {
       (async () => {
@@ -99,12 +98,15 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
         if (!hasLoading) setLoading(false);
       })();
     } else {
+      // 依赖项变化时清空
       if (value?.length) {
         form.setFieldValue(name, void 0);
       }
-      if (!hasLoading) setLoading(true);
       // 防抖调用
-      run(...dependValues);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        run(...dependValues);
+      }
     }
   }, [dependValues]);
 
@@ -120,16 +122,20 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
     }
   }, [isClearDepends, opts, optsRequest]);
 
+  const dom = (
+    <Cascader
+      disabled={disabled ?? isClearDepends}
+      placeholder={placeholder}
+      options={selectOptions}
+      {...cascaderProps}
+      value={value}
+      onChange={onChange}
+    />
+  );
+
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
-      <Cascader
-        disabled={disabled ?? isClearDepends}
-        placeholder={placeholder}
-        options={selectOptions}
-        {...cascaderProps}
-        value={value}
-        onChange={onChange}
-      />
+      {dom}
     </Spin>
   );
 };

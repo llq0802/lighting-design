@@ -73,7 +73,6 @@ const RateWrapper: FC<RateWrapperProps> = ({
   useDeepCompareEffect(() => {
     if (!request) return;
     // 组件第一次加载时调用request
-    if (isClearDepends) return;
     if (isFirst) {
       (async () => {
         try {
@@ -89,9 +88,11 @@ const RateWrapper: FC<RateWrapperProps> = ({
       if (value !== void 0 || value !== 0) {
         form.setFieldValue(name, void 0);
       }
-      if (!hasLoading) setLoading(true);
       // 防抖调用
-      run(...dependValues);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        run(...dependValues);
+      }
     }
   }, [dependValues]);
 

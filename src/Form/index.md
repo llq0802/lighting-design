@@ -7,29 +7,29 @@ nav:
 
 # LForm
 
-基于 antd Form 组件扩展的高级表单
+基于 antd Form 组件扩展的高级表单，向下兼容原 Form 组件。
 
 ## 代码演示
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'  title='基础用法' description='基础用法' ></code>
+<code src='./demos/Demo1.tsx'   ></code>
 
 ### 表单禁用
 
-<code src='./demos/Demo6.tsx'  title='表单禁用' description='表单禁用' ></code>
+<code src='./demos/Demo6.tsx'  ></code>
 
 ### 表单初始值通过异步获取
 
-<code src='./demos/Demo5.tsx' title='表单初始值通过异步获取' description='表单初始值通过异步获取' ></code>
+<code src='./demos/Demo5.tsx' ></code>
 
 ### 提交表单之前转化表单的值
 
-<code src='./demos/Demo2.tsx' title='提交表单之前转化表单的值' description='提交表单之前转化表单的值' ></code>
+<code src='./demos/Demo2.tsx' ></code>
 
-### 自定义提交/重置按钮
+### 自定义提交 / 重置按钮
 
-<code src='./demos/Demo3.tsx' title='自定义提交/重置按钮' description='自定义提交/重置按钮' ></code>
+<code src='./demos/Demo3.tsx' ></code>
 
 ## API
 

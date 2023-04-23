@@ -103,7 +103,6 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   const form = Form.useFormInstance();
   useDeepCompareEffect(() => {
     if (!request) return;
-    if (isClearDepends) return;
     // 组件第一次加载时调用request
     if (isFirst) {
       (async () => {
@@ -127,9 +126,11 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
       if (value !== void 0) {
         form.setFieldValue(name, void 0);
       }
-      if (!hasLoading) setLoading(true);
       // 防抖调用
-      run(...dependValues);
+      if (!isClearDepends) {
+        if (!hasLoading) setLoading(true);
+        run(...dependValues);
+      }
     }
   }, [dependValues]);
 

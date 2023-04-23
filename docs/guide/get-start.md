@@ -33,9 +33,10 @@ pnpm config set registry https://registry.npmmirror.com/
 ## 使用
 
 ```ts
+import ReactDOM from 'react-dom/client';
 import { LColor } from 'lighting-design';
 
-ReactDOM.render(<LColor />, mountNode);
+ReactDOM.createRoot(document.getElementById('root')).render(<LColor />);
 ```
 
 ### 按需加载
