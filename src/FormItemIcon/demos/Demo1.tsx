@@ -39,7 +39,7 @@ const Demo = () => {
           Filled: {
             label: '实底风格(自定义渲染)',
             children(list, node) {
-              console.log(list);
+              // console.log(list);
               return <div>自定义渲染</div>;
             },
           },

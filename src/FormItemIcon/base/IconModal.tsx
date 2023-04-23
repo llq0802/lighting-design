@@ -25,7 +25,7 @@ interface IconModalProps extends ModalProps {
   tabsProps?: TabsProps;
 }
 
-const defaultIcon: IconModeType<string[]> = {
+const defaultIcon: IconModeType<string[]> | { [key: string]: string[] } = {
   Outlined: [],
   Filled: [],
   TwoTone: [],
@@ -80,7 +80,7 @@ const Index: FC<IconModalProps> = ({
           addonAfter={<SearchOutlined />}
           placeholder={'在此搜索图标'}
           // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          onChange={(e) => onSearch(e, key, list)}
+          onChange={(e) => onSearch(e, key)}
         />
         <ul className={classnames(`${prefixCls}-iconList`)}>
           {list.map((item) => (
@@ -95,7 +95,7 @@ const Index: FC<IconModalProps> = ({
               {initialIconType.includes(key) ? (
                 <Icon component={antIcons[item] || <></>} />
               ) : (
-                <IconFont type={item}></IconFont>
+                IconFont && <IconFont type={item} />
               )}
             </li>
           ))}
@@ -122,26 +122,14 @@ const Index: FC<IconModalProps> = ({
   const onSearch = (
     e: ChangeEvent<HTMLInputElement>,
     key: IconType | string,
-    data: string[],
   ) => {
     const { value } = e.target;
-    if (!initialIconType.includes(key)) {
-      setIconMode({
-        [`${key}`]: data.filter((item: string) => item.includes(value)),
-      });
-      return;
-    }
-
     const filterIcon = defaultIcon[key as IconType].filter((item: string) =>
       item.toLowerCase().includes(value.toLowerCase()),
     );
 
     setIconMode({ [key]: filterIcon });
   };
-
-  // useEffect(() => {
-  //   console.log(iconMode);
-  // }, [iconMode]);
 
   useEffect(() => {
     const itemList: any = [];
@@ -181,10 +169,9 @@ const Index: FC<IconModalProps> = ({
             ),
           });
         } else {
-          itemList.push({
-            ...item,
-          });
+          itemList.push({ ...item });
         }
+        defaultIcon[item.key as IconType] = item.data;
       });
     }
 

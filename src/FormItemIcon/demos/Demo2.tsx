@@ -7,7 +7,8 @@ import { useState } from 'react';
 import { DIYIconList } from './data';
 
 const IconFont = createFromIconfontCN({
-  scriptUrl: ['/fontIcon.js'], // 离线版
+  scriptUrl: ['//at.alicdn.com/t/c/font_3950463_4e8682pkb7.js'],
+  // scriptUrl: ['/fontIcon.js'], // 离线版
 });
 
 const Demo = () => {

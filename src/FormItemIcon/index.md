@@ -35,13 +35,12 @@ import { LFormItemNumber } from 'lighting-design';
 ```
 
 除了以下参数，其余和 [LFormItem](/components/form-item#api) 一样。
-
-| 参数         | 说明               | 类型                                                          | 默认值 |
+| 参数 | 说明 | 类型 | 默认值 |
 | ------------ | ------------------ | ------------------------------------------------------------- | ------ |
-| options      | 图标 tabs 相关配置 | `Options`                                                     | `{}`   |
-| extendRender | 自定义图标         | `extendRender`                                                | `-`    |
-| modalProps   | `modalProps`的属性 | [ModalPropsProps](https://ant.design/components/modal-cn#api) | `-`    |
-| tabsProps    | `tabsProps`的属性  | [tabsPropsProps](https://ant.design/components/tabs-cn#api)   | `-`    |
+| options | 图标 tabs 相关配置 | `Options` | `{}` |
+| extendRender | 自定义图标 | `extendRender` | `-` |
+| modalProps | `modalProps`的属性 | [ModalPropsProps](https://ant.design/components/modal-cn#api) | `-` |
+| tabsProps | `tabsProps`的属性 | [tabsPropsProps](https://ant.design/components/tabs-cn#api) | `-` |
 
 ### Options
 
@@ -65,3 +64,5 @@ type extendRender = {
   };
 };
 ```
+
+`IconFont`，自定义图标详细请参考 [ant-design/icons](<[/components/form-item#api](https://ant.design/components/icon-cn#api)>)
