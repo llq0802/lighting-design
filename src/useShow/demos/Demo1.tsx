@@ -90,7 +90,7 @@ function ChildModel({ funcRef }: ChildModelProps) {
   );
 }
 
-const Parent = () => {
+export default function Parent() {
   const childModelRef = useRef<UseShowInstance>();
 
   const handleClickShow = () => {
@@ -129,6 +129,4 @@ const Parent = () => {
       <ChildModel funcRef={childModelRef} />
     </div>
   );
-};
-
-export default Parent;
+}
