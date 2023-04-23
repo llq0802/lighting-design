@@ -4,7 +4,7 @@ import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem'
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import type { FC } from 'react';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import IconWrapper from './base/IconWrapper';
 
 interface IconTabsOptions extends Omit<TabPaneProps, 'tab' | 'children'> {
@@ -43,6 +43,8 @@ export interface LFormItemIconProps extends LFormItemProps {
     IconFont: any;
     options: FormItemIconTabsExtendOptions[];
   };
+  /** 自定义item渲染 */
+  itemRender?: (item: string, node: React.ReactNode) => React.ReactNode;
 }
 
 const LFormItemIcon: FC<LFormItemIconProps> = ({
@@ -53,6 +55,7 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
   modalProps,
   tabsProps,
   inputProps = {},
+  itemRender,
   placeholder,
   ...restProps
 }) => {
@@ -73,6 +76,7 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
         disabled={disabled ?? formDisabled}
         placeholder={messageLabel}
         options={options}
+        itemRender={itemRender}
         extendRender={extendRender}
         modalProps={modalProps}
         tabsProps={tabsProps}

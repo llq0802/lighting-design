@@ -51,6 +51,9 @@ const Demo = () => {
         modalProps={{
           width: 900,
         }}
+        // itemRender={(item, node) => {
+        //   return <Tooltip title={item}>{node}</Tooltip>;
+        // }}
         extendRender={{
           IconFont,
           options: [

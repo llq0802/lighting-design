@@ -15,7 +15,8 @@ export interface IconWrapperProps extends InputProps {
   extendRender?: {
     IconFont: any;
     options: FormItemIconTabsExtendOptions[];
-  }
+  };
+  itemRender?: (item: string, node: React.ReactNode) => React.ReactNode;
 }
 
 const IconWrapper: FC<IconWrapperProps> = ({
@@ -23,6 +24,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
   onChange,
   options,
   extendRender,
+  itemRender,
   modalProps,
   tabsProps,
   ...restProps
@@ -57,6 +59,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
         }}
         cancel={setOpen}
         options={options}
+        itemRender={itemRender}
         modalProps={modalProps}
         tabsProps={tabsProps}
         extendRender={extendRender}

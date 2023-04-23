@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import * as antIcons from '@ant-design/icons';
 import Icon, { SearchOutlined } from '@ant-design/icons';
 import { useSetState } from 'ahooks';
@@ -15,6 +16,7 @@ import './index.less';
 interface IconModalProps extends ModalProps {
   onChange: (key: string) => void;
   cancel: (open: boolean) => void;
+  itemRender?: (item: string, node: React.ReactNode) => React.ReactNode;
   options?: FormItemIconOptionsProps;
   extendRender?: {
     IconFont: React.ReactNode | any;
@@ -51,6 +53,7 @@ const Index: FC<IconModalProps> = ({
   open,
   options,
   extendRender,
+  itemRender,
   modalProps,
   tabsProps,
 }) => {
@@ -72,6 +75,28 @@ const Index: FC<IconModalProps> = ({
     }),
   );
 
+  const IconItemDom = useCallback(
+    ({ val, keys }: { val: string; keys: string }) => (
+      <>
+        <li
+          key={val}
+          className={classnames(`${prefixCls}-itemIcon`)}
+          onClick={() => {
+            onChange(val);
+            if (modalProps?.onCancel) modalProps.onCancel(val as any);
+          }}
+        >
+          {initialIconType.includes(keys) ? (
+            <Icon component={antIcons[val] || <></>} />
+          ) : (
+            IconFont && <IconFont type={val} />
+          )}
+        </li>
+      </>
+    ),
+    [],
+  );
+
   const IconListDom = (list: string[], key: IconType | string) => {
     return (
       <>
@@ -79,32 +104,24 @@ const Index: FC<IconModalProps> = ({
           style={{ marginBlock: 20 }}
           addonAfter={<SearchOutlined />}
           placeholder={'在此搜索图标'}
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
           onChange={(e) => onSearch(e, key)}
         />
         <ul className={classnames(`${prefixCls}-iconList`)}>
-          {list.map((item) => (
-            <li
-              key={item}
-              className={classnames(`${prefixCls}-itemIcon`)}
-              onClick={() => {
-                onChange(item);
-                if (modalProps?.onCancel) modalProps.onCancel(item as any);
-              }}
-            >
-              {initialIconType.includes(key) ? (
-                <Icon component={antIcons[item] || <></>} />
-              ) : (
-                IconFont && <IconFont type={item} />
-              )}
-            </li>
-          ))}
+          {list.map((val) => {
+            if (itemRender) {
+              return itemRender(
+                val,
+                <IconItemDom key={val} val={val} keys={key} />,
+              );
+            }
+            return <IconItemDom key={val} val={val} keys={key} />;
+          })}
         </ul>
       </>
     );
   };
 
-  const [items, setItems] = useState<TabsProps['items'] | []>(() => [
+  const [items, setItems] = useState<TabsProps['items']>(() => [
     {
       label: `线框风格`,
       key: 'Outlined',
@@ -201,7 +218,7 @@ const Index: FC<IconModalProps> = ({
               return {
                 ...item,
                 children: IconListDom(
-                  iconMode[item.key] ? iconMode[item.key] : item?.data,
+                  iconMode[item.key] ? iconMode[item.key] : item.data,
                   item.key,
                 ),
               };
