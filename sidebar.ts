@@ -88,11 +88,11 @@ export default {
         },
         {
           title: 'LFormItemInput-输入框',
-          link: '/components/Form-Item-Input',
+          link: '/components/form-item-input',
         },
         {
           title: 'LFormItmeNumber-数字输入框',
-          link: '/components/Form-Item-Number',
+          link: '/components/form-item-number',
         },
         {
           title: 'LFormItemPassword-密码输入框',
@@ -169,7 +169,7 @@ export default {
         },
         {
           title: 'LFormItemPassword-密码输入框',
-          link: '/components/Form-Item-Password',
+          link: '/components/form-item-password',
         },
         {
           title: 'LFormItemTextArea-多行输入框',
