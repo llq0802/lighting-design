@@ -22,9 +22,10 @@ const Demo = () => {
       form={form}
       submitter={{ buttonAlign: 'center' }}
       onValuesChange={(_, values) => {
-        if (values?.icon) {
-          setIconItem(values.icon);
-        }
+        setIconItem(values?.icon ? values.icon : '');
+      }}
+      onFinish={(values) => {
+        console.log('values', values);
       }}
       onReset={() => setIconItem('')}
     >

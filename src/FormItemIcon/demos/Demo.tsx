@@ -14,11 +14,12 @@ const Demo = () => {
       form={form}
       submitter={{ buttonAlign: 'center' }}
       onValuesChange={(_, values) => {
-        if (values?.icon) {
-          setIconItem(values.icon);
-        }
+        setIconItem(values?.icon ? values.icon : '');
       }}
       onReset={() => setIconItem('')}
+      onFinish={(values) => {
+        console.log('values', values);
+      }}
     >
       <LFormItemIcon
         name="icon"

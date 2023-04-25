@@ -15,7 +15,7 @@ export const IconFont = createFromIconfontCN({
 });
 const Demo = () => {
   const [form] = LForm.useForm();
-  const [iconItem, setIconItem] = useState<any>('');
+  const [iconItem, setIconItem] = useState<any>('icon-shutiao');
 
   return (
     <LForm
@@ -23,11 +23,12 @@ const Demo = () => {
       form={form}
       submitter={{ buttonAlign: 'center' }}
       onValuesChange={(_, values) => {
-        if (values?.icon) {
-          setIconItem(values.icon);
-        }
+        setIconItem(values?.icon ? values.icon : '');
       }}
-      onReset={() => setIconItem('')}
+      onFinish={(values) => {
+        console.log('values', values);
+      }}
+      onReset={() => setIconItem('icon-shutiao')}
     >
       <LFormItemIcon
         name="icon"
@@ -48,6 +49,7 @@ const Demo = () => {
             disabled: true,
           },
         }}
+        initialValue="icon-shutiao"
         modalProps={{
           width: 900,
         }}

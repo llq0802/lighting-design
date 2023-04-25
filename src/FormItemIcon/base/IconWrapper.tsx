@@ -1,7 +1,7 @@
 import type { InputProps, ModalProps, TabsProps } from 'antd';
 import { Input } from 'antd';
 import type { FC } from 'react';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import type {
   FormItemIconOptionsProps,
   FormItemIconTabsExtendOptions,
@@ -20,7 +20,7 @@ export interface IconWrapperProps extends InputProps {
 }
 
 const IconWrapper: FC<IconWrapperProps> = ({
-  value,
+  value = null,
   onChange,
   options,
   extendRender,
@@ -31,25 +31,21 @@ const IconWrapper: FC<IconWrapperProps> = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleChange = useCallback(
-    (e: { target: { value: string } }) => {
-      const rawValue = e.target.value as string;
-      onChange?.(rawValue as any);
-    },
-    [onChange],
-  );
   return (
     <>
       <Input
         autoComplete="off"
         style={{ width: '100%' }}
+        allowClear
         {...restProps}
-        value={value}
+        value={value as string}
         onClick={(e) => {
           setOpen(true);
           restProps.onClick?.(e);
         }}
-        onChange={handleChange}
+        onChange={(e) =>
+          onChange?.(e.target.value === '' ? null : (value as any))
+        }
       />
       <IconModal
         open={open}
