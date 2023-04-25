@@ -21,6 +21,12 @@ Object.defineProperty(exports, 'useConcurrentRequest', {
     return _useConcurrentRequest.default;
   },
 });
+Object.defineProperty(exports, 'useCreate', {
+  enumerable: true,
+  get: function () {
+    return _useCreate.default;
+  },
+});
 Object.defineProperty(exports, 'useDebounceFn', {
   enumerable: true,
   get: function () {
@@ -123,6 +129,8 @@ var _useCallbackState = _interopRequireDefault(require('./useCallbackState'));
 var _useClientRect = _interopRequireDefault(require('./useClientRect'));
 
 var _useConcurrentRequest = _interopRequireDefault(require('./useConcurrentRequest'));
+
+var _useCreate = _interopRequireDefault(require('./useCreate'));
 
 var _useDebounceFn = _interopRequireDefault(require('./useDebounceFn'));
 

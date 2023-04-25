@@ -6,4 +6,4 @@ import type { SetStateAction } from 'react';
  * @param {T} state
  * @return {*}  { [T,  (val: SetStateAction<T>, cb: (newVal: T) => void) => void}
  */
-export default function useCallbackState<T>(state: T): [T, (val: SetStateAction<T>, cb: (newVal: T) => void) => void];
+export default function useCallbackState<T>(state: T): [T, (val: SetStateAction<T>, cb?: (newVal: T) => void) => void];

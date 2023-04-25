@@ -35,7 +35,7 @@ function useShow(funcRef, options) {
         if (opsOnShow) opsOnShow(ref.current);
       },
       onHide: function (data) {
-        if (opsOnHide) opsOnHide(data);
+        if (opsOnHide) opsOnHide((0, _cloneDeep2.default)(data));
       },
       getChildData: function () {
         // 传给父组件的数据

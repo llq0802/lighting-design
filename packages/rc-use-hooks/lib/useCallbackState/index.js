@@ -22,19 +22,15 @@ function useCallbackState(state) {
   (0, _react.useEffect)(() => {
     callBackRef?.current?.(data);
   }, [data]);
-  const setState = (0, _react.useCallback)(function (newState, cb) {
+  const setState = (0, _react.useCallback)((newState, cb) => {
     if ((0, _utils.isFunction)(cb)) {
       callBackRef.current = cb;
     }
 
-    if ((0, _utils.isFunction)(newState)) {
-      setData((prevState) => {
-        const ret = newState?.(prevState);
-        return ret;
-      });
-    } else {
-      setData(newState);
-    }
+    setData((prevState) => {
+      const ret = (0, _utils.isFunction)(newState) ? newState?.(prevState) : newState;
+      return ret;
+    });
   }, []);
   return [data, setState];
 }
