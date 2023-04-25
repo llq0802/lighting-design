@@ -46,6 +46,19 @@ export default {
       ],
     },
     {
+      title: '数据展示',
+      children: [
+        {
+          title: 'LTable-高级表格',
+          link: '/components/table',
+        },
+        {
+          title: 'LCollapseCard-折叠卡片',
+          link: '/components/collapse-card',
+        },
+      ],
+    },
+    {
       title: '高级表单',
       children: [
         {
@@ -130,7 +143,6 @@ export default {
           title: 'LFormItemTreeSelect-树形选择',
           link: '/components/form-item-tree-select',
         },
-
         {
           title: 'LFormItemAddress-地址选择',
           link: '/components/form-item-address',
@@ -140,28 +152,8 @@ export default {
           link: '/components/form-item-color',
         },
         {
-          title: 'LFormItemSegmented-分段器选择',
-          link: '/components/form-item-segmented',
-        },
-        {
           title: 'LFormItemSwitch-开关选择',
           link: '/components/form-item-switch',
-        },
-        {
-          title: 'LFormItemSlider-滑动条选择',
-          link: '/components/form-item-slider',
-        },
-        {
-          title: 'LFormItemRate-评分选择',
-          link: '/components/form-item-rate',
-        },
-        {
-          title: 'LFormItmeIcon-图标选择器',
-          link: '/components/form-item-icon',
-        },
-        {
-          title: 'LFormItemUpload-文件上传',
-          link: '/components/form-item-upload',
         },
         {
           title: 'LFormItemDatePicker-日期选择',
@@ -171,31 +163,39 @@ export default {
           title: 'LFormItemTimePicker-时间选择',
           link: '/components/form-item-time-picker',
         },
-      ],
-    },
-    {
-      title: '数据展示',
-      children: [
         {
-          title: 'LTable-高级表格',
-          link: '/components/table',
+          title: 'LFormItemSlider-滑动条选择',
+          link: '/components/form-item-slider',
         },
         {
-          title: 'LCollapseCard-折叠卡片',
-          link: '/components/collapse-card',
+          title: 'LFormItmeIcon-图标选择',
+          link: '/components/form-item-icon',
+        },
+        {
+          title: 'LFormItemSegmented-分段器选择',
+          link: '/components/form-item-segmented',
+        },
+        {
+          title: 'LFormItemRate-评分选择',
+          link: '/components/form-item-rate',
+        },
+        {
+          title: 'LFormItemUpload-文件上传',
+          link: '/components/form-item-upload',
         },
       ],
     },
+
     {
       title: 'Hooks',
       children: [
         {
-          title: 'useCallbackState',
-          link: '/components/use-callback-state',
-        },
-        {
           title: 'useShow',
           link: '/components/use-Show',
+        },
+        {
+          title: 'useCallbackState',
+          link: '/components/use-callback-state',
         },
       ],
     },

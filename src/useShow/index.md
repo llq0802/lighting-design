@@ -17,7 +17,7 @@ toc: content
 
 ## API
 
-> 兄弟组件传值、监听推荐使用 `Event`，不要把 `useEffect` 当做 `wacth` 来用
+> 兄弟组件传值、监听推荐使用 `Event`，不要把 `useEffect` 当做 `wacth` 来用，尽量把变化写在事件中！
 
 ### 父组件调用
 

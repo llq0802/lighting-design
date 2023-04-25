@@ -1,7 +1,7 @@
 ---
 title: 组件描述
 order: 1
-toc: false
+toc: content
 ---
 
 # 总览
@@ -12,8 +12,8 @@ toc: false
 - [LFileViewer] - 文件预览器
 - [LNumberRoll] - 数值加载器
 - [LTypeit] - 打字机
-- [LColor] - 颜色显示/选择
 - [LTrigger] - 弹出选择
+- [LColor] - 颜色显示/选择
 - [LCardGroup] - 卡片选择
 - [LTagGroup] - 标签选择
 

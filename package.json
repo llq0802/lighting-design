@@ -1,15 +1,35 @@
 {
   "name": "lighting-design",
   "version": "2.0.0",
-  "description": "A react library developed with dumi",
+  "description": "🎨 Lighting Design 是一款使用 TypeScript + React 编写的实用业务组件库。",
+  "keywords": [
+    "lighting-design",
+    "light-design",
+    "lighting",
+    "antd",
+    "lightd",
+    "react",
+    "react-ui",
+    "react-components"
+  ],
+  "homepage": "https://llq0802.github.io/lighting-design/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/llq0802/lighting-design"
+  },
   "license": "MIT",
+  "author": "llq0802 <958614130@qq.com>",
   "sideEffects": [
     "*.less"
   ],
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "types": "./es/index.d.ts",
   "files": [
-    "dist"
+    "es",
+    "lib",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "father build",
@@ -64,11 +84,11 @@
     "stylelint": "^14.9.1"
   },
   "peerDependencies": {
+    "antd": ">=5.0.0",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   },
   "publishConfig": {
     "access": "public"
-  },
-  "authors": []
+  }
 }
