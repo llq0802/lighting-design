@@ -42,6 +42,7 @@ toc: false
 - [LFormItemTreeSelect] - 树形选择框
 - [LFormItemCascader] - 级联选择框
 - [LFormItemAddress] - 地址选择
+- [LFormItemIcon] - 图标选择
 - [LFormItemDatePicker] - 日期选择
 - [LFormItemTimePicker] - 时间选择
 - [LFormItemUpload] - 上传文件
@@ -92,6 +93,7 @@ toc: false
 [lformitemtreeselect]: /components/form-item-tree-select
 [lformitemcascader]: /components/form-item-cascader
 [lformitemaddress]: /components/form-item-address
+[lformitemicon]: /components/form-item-icon
 [lformitemdatepicker]: /components/form-item-date-picker
 [lformitemtimepicker]: /components/form-item-time-picker
 [lformitemupload]: /components/form-item-upload
