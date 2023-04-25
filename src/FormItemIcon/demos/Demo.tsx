@@ -17,9 +17,6 @@ const Demo = () => {
         setIconItem(values?.icon ? values.icon : '');
       }}
       onReset={() => setIconItem('')}
-      onFinish={(values) => {
-        console.log('values', values);
-      }}
     >
       <LFormItemIcon
         name="icon"
