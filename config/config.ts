@@ -57,9 +57,12 @@ const configs = defineConfig({
     },
   ],
   base: publicPath,
+
   history: {
     type: 'hash',
   },
+
+  dynamicImport: {},
   title: 'Lighting Design',
   favicon,
   logo,
