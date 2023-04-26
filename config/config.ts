@@ -4,9 +4,10 @@ import menus from './menus';
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
-const version = 'v2';
+const version = 'v1';
 const publicPath = isDev ? '/' : `/lighting-design/${version}/`;
-const outputPath = `docs-dist/${version}`;
+// const outputPath = `docs-dist/${version}`;
+const outputPath = version;
 
 const logo = `${publicPath}lighting-design.png`;
 const favicon = logo;
