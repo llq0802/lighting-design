@@ -27,5 +27,3 @@ Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以显著�
 ## 精选 React 插件
 
 [部分精选插件](https://ant.design/docs/react/recommendation-cn)
-
-TO DO...
