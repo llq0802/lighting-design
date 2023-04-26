@@ -29,6 +29,7 @@ export default defineConfig({
     nav: [
       { title: '指南', link: '/guide' },
       { title: '组件', link: '/components' },
+      { title: 'V1', link: 'https://llq0802.github.io/lighting-design/v1/' },
     ],
     sidebar,
   },

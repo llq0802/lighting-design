@@ -1,8 +1,9 @@
 ---
-title: lighting-design - 让中后台开发更简单
+title: lighting-design-让 React 中后台开发更简单
 hero:
   title: lighting-design
-  description: 🍙 让中后台开发更简单
+  description: 🍙 让 React 中后台开发更简单
+
   actions:
     - text: 快速开始
       link: /guide
