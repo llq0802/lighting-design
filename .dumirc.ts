@@ -11,9 +11,8 @@ const version = 'latest';
 export const publicPath = !isDev ? `/lighting-design/${version}/` : '/';
 const logo = `${publicPath}logo.png`;
 const favicons = [`${publicPath}logo.png`];
-const outputPath = `docs-dist/${version}`;
-
-const targets = isDev ? void 0 : { ie: 11, chrome: 80 };
+// const outputPath = `docs-dist/${version}`;
+const outputPath = version;
 
 export default defineConfig({
   publicPath,
@@ -47,7 +46,6 @@ export default defineConfig({
   lessLoader: {
     modifyVars: mapToken,
   },
-  targets,
   outputPath,
   favicons,
 
