@@ -5,7 +5,7 @@ nav:
   path: /components
 ---
 
-# LFormItemNumber
+# LFormItemIcon
 
 图标选择器
 

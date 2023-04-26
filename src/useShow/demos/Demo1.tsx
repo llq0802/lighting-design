@@ -116,7 +116,7 @@ export default function Parent() {
   return (
     <div style={{ border: '1px solid #888', padding: 20 }}>
       <h2>这是父组件</h2>
-      <Space>
+      <Space direction="vertical" size={16}>
         <Button onClick={handleClickShow} type="primary">
           父组件调用onShow事件并传参数给子组件
         </Button>

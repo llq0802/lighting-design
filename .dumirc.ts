@@ -21,7 +21,7 @@ export default defineConfig({
     name: 'Lighting Design',
     logo,
     footer:
-      'Open-source MIT Licensed | Copyright © 2019-present \n Powered by self',
+      'Open-source MIT Licensed | Copyright © 2020-present Powered by llq0802',
     socialLinks: {
       github: 'https://github.com/llq0802',
     },
@@ -29,7 +29,7 @@ export default defineConfig({
     nav: [
       { title: '指南', link: '/guide' },
       { title: '组件', link: '/components' },
-      { title: 'V1', link: 'https://llq0802.github.io/lighting-design/v1/' },
+      { title: 'v1', link: 'https://llq0802.github.io/lighting-design/v1/' },
     ],
     sidebar,
   },

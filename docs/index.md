@@ -2,8 +2,10 @@
 title: lighting-design-让 React 中后台开发更简单
 hero:
   title: lighting-design
-  description: 🍙 让 React 中后台开发更简单
-
+  description: |
+    🍙 让 React 中后台开发更简单
+    <br />
+    <small style="opacity: 0.7;">v1 文档请访问 <a href="https://llq0802.github.io/lighting-design/v1/" style="color: #1677ff;"> /v1 </a></small>
   actions:
     - text: 快速开始
       link: /guide
