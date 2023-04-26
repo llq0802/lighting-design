@@ -14,9 +14,8 @@ export interface LFileViewerProps
   imagePreview?: LImagePreviewProps;
   /** 文件地址 */
   url: string[] | string;
-
-  open: boolean;
-  defaultOpen: boolean;
+  open?: boolean;
+  defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
 }
 

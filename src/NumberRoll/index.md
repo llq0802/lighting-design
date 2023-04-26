@@ -35,10 +35,21 @@ nav:
 
 <code src="./demos/size.tsx"></code>
 
----
+## API
 
 ```ts
 import { LNumberRoll } from 'lighting-design';
 ```
 
-<API id='LNumberRoll'></API>
+|   参数    |                说明                |                类型                | 默认值 |
+| :-------: | :--------------------------------: | :--------------------------------: | :----: |
+|   type    |                类型                |         `'date'\|'number'`         |  `-`   |
+|   value   |                 值                 |          `string\|number`          |  `-`   |
+| minLength |        最小位数（个位数起）        |              `number`              |  `-`   |
+|   scale   |              缩放大小              |              `number`              |  `-`   |
+|   speed   |            动画速度 ms             |              `number`              |  `-`   |
+|    dot    |            保留几位小数            |              `number`              |  `-`   |
+|  symbol   | 分割符号（禁用 "."） 1,000,000,000 |              `string`              |  `-`   |
+| className |              容器类名              |              `string`              |  `-`   |
+|   style   |              容器样式              |          `CSSProperties`           |  `-`   |
+| onFinish  |           动画结束的回调           | `(value:string \| number) => void` |  `- `  |

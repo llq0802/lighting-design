@@ -5,12 +5,19 @@ import sidebar from './sidebar';
 const { defaultAlgorithm, defaultSeed } = theme;
 const mapToken = defaultAlgorithm(defaultSeed);
 
+// https://llq0802.github.io
 const isDev = process.env.NODE_ENV === 'development';
+const version = 'latest';
+export const publicPath = !isDev ? `/lighting-design/${version}/` : '/';
+const logo = `${publicPath}logo.png`;
+const favicons = [`${publicPath}logo.png`];
+const outputPath = `docs-dist/${version}`;
 
-const logo = isDev ? '/logo.png' : '/lighting-design/logo.svg';
 const targets = isDev ? void 0 : { ie: 11, chrome: 80 };
 
 export default defineConfig({
+  publicPath,
+  base: publicPath,
   themeConfig: {
     name: 'Lighting Design',
     logo,
@@ -41,20 +48,8 @@ export default defineConfig({
     modifyVars: mapToken,
   },
   targets,
-  // apiParser: {},
-  // resolve: {
-  //   // 配置入口文件路径，API 解析将从这里开始
-  //   // entryFile: './src/index.ts',
-  //   atomDirs: [
-  //     { type: 'component', dir: 'src' },
-  //     {
-  //       type: 'component/Hooks',
-  //       dir: './src/Hooks',
-  //     },
-  //   ],
-  // },
-  outputPath: 'docs-dist',
-  favicons: isDev ? ['/logo.png'] : ['/lighting-design/logo.png'],
+  outputPath,
+  favicons,
 
   styles: [
     `
