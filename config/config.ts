@@ -4,8 +4,15 @@ import menus from './menus';
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 
 const isDev = process.env.NODE_ENV === 'development';
+const version = 'v2';
+const publicPath = isDev ? '/' : `/lighting-design/${version}/`;
+const outputPath = `docs-dist/${version}`;
+
+const logo = `${publicPath}lighting-design.png`;
+const favicon = logo;
 
 const configs = defineConfig({
+  outputPath,
   targets: isDev
     ? undefined
     : {
@@ -49,14 +56,13 @@ const configs = defineConfig({
     },
   ],
   dynamicImport: {},
-  publicPath: isDev ? '/' : '/lighting-design/',
-  base: isDev ? '/' : '/lighting-design/',
+  publicPath,
+  base: publicPath,
   title: 'Lighting Design',
   // logo: 'https://llq0802.github.io/android-chrome-192x192.png',
   // favicon: 'https://llq0802.github.io/180x180.png',
-  favicon: isDev ? '/lighting-design.png' : '/lighting-design/lighting-design.png',
-  logo: isDev ? '/lighting-design.png' : '/lighting-design/lighting-design-192x192.png',
-  outputPath: 'docs-dist',
+  favicon,
+  logo,
   mode: 'site',
   // 单语言配置方式如下
   navs: [

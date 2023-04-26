@@ -1,8 +1,14 @@
 import { Button, Space } from 'antd';
 import { LFileViewer } from 'lighting-design';
 import { useState } from 'react';
+
+
 const isDev = process.env.NODE_ENV === 'development';
-const publicPath = isDev ? '/' : '/lighting-design/';
+const version = 'v2';
+const publicPath = isDev ? '/' : `/lighting-design/${version}/`;
+
+
+
 const urls = [
   'https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg',
   'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
