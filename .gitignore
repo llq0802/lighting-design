@@ -6,7 +6,8 @@ node_modules
 .DS_Store
 .umi
 .umi-production
-packages
-docs-dist
+/packages
+/docs-dist
 .vscode
-docs
+/docs
+/src
