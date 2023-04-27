@@ -23,6 +23,7 @@ order: 3
 
 - 重构`LFormItemDatePicker `组件
 - 重构`LFormItemTimePicker `组件
+- 重构`LNumberRoll `组件
 - 重构`LColor`组件
 - 调整 `LFormItemInput` 内部正则校验
 - 调整表单依赖项内部逻辑
