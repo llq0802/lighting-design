@@ -1,4 +1,6 @@
-import * as React from 'react';
+import { Spin } from 'antd';
+import type { FC } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import MediaViewer from './MediaViewer';
 
 const isIE = window.ActiveXObject || 'ActiveXObject' in window;
@@ -11,7 +13,14 @@ export interface FileViewProps {
   fileType: string;
 }
 
-const FileView: React.FunctionComponent<FileViewProps> = ({ fileName, url, fileType }) => {
+const FileView: FC<FileViewProps> = ({ fileName, url, fileType }) => {
+  const [loading, setLoading] = useState(false);
+  useLayoutEffect(() => {
+    if (fileType === 'pdf') {
+      setLoading(true);
+    }
+  }, [fileType]);
+
   if (fileType === 'audio') {
     return <MediaViewer url={url} mediaType="audio" />;
   }
@@ -23,11 +32,16 @@ const FileView: React.FunctionComponent<FileViewProps> = ({ fileName, url, fileT
     // Created blob url can't be used as object or iframe src
     if ((!isIE || url.indexOf('blob:') !== 0) && isPC()) {
       return (
-        <iframe
-          src={url}
-          style={{ border: '0 none', width: '100%', height: '80vh' }}
-          className="lightd-file-viewer-iframe"
-        />
+        <Spin spinning={loading}>
+          <iframe
+            onLoad={(e) => {
+              setLoading(false);
+            }}
+            src={url}
+            style={{ border: '0 none', width: '100%', height: '80vh' }}
+            className="lightd-file-viewer-iframe"
+          />
+        </Spin>
       );
     }
   }
