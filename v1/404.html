@@ -6,11 +6,18 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
     />
-    <meta name="keywords" content="Lighting-Design, lighting-design, lightd, antd, react组件库" />
+    <meta
+      name="keywords"
+      content="Lighting-Design, lighting-design, lightd, antd, react组件库"
+    />
     <meta name="description" content="🍙 让中后台开发更简单" />
-    <link rel="shortcut icon" type="image/x-icon" href="/lighting-design/v1/lighting-design.png" />
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="/lighting-design/v1/lighting-design.png"
+    />
     <script>
-      window.routerBase = '/lighting-design/v1/';
+      window.routerBase = "/lighting-design/v1/";
     </script>
     <script>
       //! umi version: 3.5.35
@@ -19,12 +26,12 @@
       !(function () {
         var e =
             navigator.cookieEnabled && void 0 !== window.localStorage
-              ? localStorage.getItem('dumi:prefers-color')
-              : 'auto',
-          o = window.matchMedia('(prefers-color-scheme: dark)').matches,
-          t = ['light', 'dark', 'auto'];
+              ? localStorage.getItem("dumi:prefers-color")
+              : "auto",
+          o = window.matchMedia("(prefers-color-scheme: dark)").matches,
+          t = ["light", "dark", "auto"];
         document.documentElement.setAttribute(
-          'data-prefers-color',
+          "data-prefers-color",
           e === t[2] ? (o ? t[1] : t[0]) : t.indexOf(e) > -1 ? e : t[0]
         );
       })();
@@ -33,7 +40,7 @@
   <body>
     <div id="root"></div>
 
-    <script src="/lighting-design/v1/vendors.1f01ed79.async.js"></script>
-    <script src="/lighting-design/v1/umi.042abeaf.js"></script>
+    <script src="/lighting-design/v1/vendors.js"></script>
+    <script src="/lighting-design/v1/umi.js"></script>
   </body>
 </html>
