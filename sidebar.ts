@@ -32,7 +32,7 @@ export default {
           link: '/components/trigger',
         },
         {
-          title: 'LColorPick-颜色选择',
+          title: 'LColor-颜色选择',
           link: '/components/color-pick',
         },
         {
