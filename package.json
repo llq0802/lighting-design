@@ -22,12 +22,11 @@
   "sideEffects": [
     "*.less"
   ],
-  "main": "./lib/index.js",
-  "module": "./es/index.js",
-  "types": "./es/index.d.ts",
+  "main": "./dist/lib/index.js",
+  "module": "./dist/es/index.js",
+  "types": "./dist/es/index.d.ts",
   "files": [
-    "es",
-    "lib",
+    "dist",
     "README.md",
     "LICENSE"
   ],
