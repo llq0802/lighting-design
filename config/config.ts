@@ -13,14 +13,7 @@ const logo = `${publicPath}lighting-design.png`;
 const favicon = logo;
 
 const configs = defineConfig({
-  outputPath,
-  targets: isDev
-    ? undefined
-    : {
-        ie: 11,
-      },
   webpack5: {},
-  hash: true,
   ignoreMomentLocale: true,
   nodeModulesTransform: {
     // type: isDev ? 'none' : 'all',
@@ -57,15 +50,13 @@ const configs = defineConfig({
     },
   ],
   base: publicPath,
-
-  history: {
-    type: 'hash',
-  },
-
+  publicPath,
+  outputPath,
   dynamicImport: {},
   title: 'Lighting Design',
   favicon,
   logo,
+  hash: true,
   mode: 'site',
   // 单语言配置方式如下
   navs: [
