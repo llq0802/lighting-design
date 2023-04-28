@@ -71,6 +71,10 @@ const configs = defineConfig({
   navs: [
     null, // null 值代表保留约定式生成的导航，只做增量配置
     {
+      title: 'v2',
+      path: 'https://llq0802.github.io/lighting-design/latest',
+    },
+    {
       title: 'GitHub',
       path: 'https://github.com/llq0802/lighting-design',
     },
