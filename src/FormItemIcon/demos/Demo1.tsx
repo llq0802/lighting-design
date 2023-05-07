@@ -33,6 +33,7 @@ const Demo = () => {
       <LFormItemIcon
         name="icon"
         label="图标"
+        showIcon={false}
         options={{
           Outlined: {
             label: '线性风格',

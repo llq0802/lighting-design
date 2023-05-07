@@ -122,18 +122,9 @@ const Index: FC<IconModalProps> = ({
   };
 
   const [items, setItems] = useState<TabsProps['items']>(() => [
-    {
-      label: `线框风格`,
-      key: 'Outlined',
-    },
-    {
-      label: `实底风格`,
-      key: 'Filled',
-    },
-    {
-      label: `双色风格`,
-      key: 'TwoTone',
-    },
+    { label: `线框风格`, key: 'Outlined' },
+    { label: `实底风格`, key: 'Filled' },
+    { label: `双色风格`, key: 'TwoTone' },
   ]);
 
   const onSearch = (
@@ -166,11 +157,7 @@ const Index: FC<IconModalProps> = ({
               key,
             });
           } else {
-            itemList.push({
-              label,
-              ...itemProps,
-              key,
-            });
+            itemList.push({ label, ...itemProps, key });
           }
         },
       );

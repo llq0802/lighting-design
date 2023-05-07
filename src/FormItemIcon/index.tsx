@@ -24,12 +24,16 @@ export interface FormItemIconTabsExtendOptions
     | ((list: string[], node: React.ReactNode) => React.ReactNode);
 }
 
-export interface FormItemIconOptionsProps<T = IconTabsOptions> {
+export interface FormItemIconOptions<T = IconTabsOptions> {
   Outlined?: T;
   Filled?: T;
   TwoTone?: T;
 }
 export interface LFormItemIconProps extends LFormItemProps {
+  /** 选择图标后是否展示 (只支持antd内置图标，如果自定义图标请设置inputProps的prefix属性) */
+  showIcon?: boolean;
+  /** 选择图标后的图标样式 */
+  iconStyle?: React.CSSProperties;
   /** input 输入框配置 */
   inputProps?: InputProps;
   /** modal 弹出框配置 */
@@ -37,10 +41,10 @@ export interface LFormItemIconProps extends LFormItemProps {
   /** tabs 标签页配置 */
   tabsProps?: TabsProps;
   /** 默认图标配置 */
-  options?: FormItemIconOptionsProps;
+  options?: FormItemIconOptions;
   /** 自定义图标配置 */
   extendRender?: {
-    IconFont: any;
+    IconFont: React.ReactNode;
     options: FormItemIconTabsExtendOptions[];
   };
   /** 自定义item渲染 */
@@ -48,6 +52,8 @@ export interface LFormItemIconProps extends LFormItemProps {
 }
 
 const LFormItemIcon: FC<LFormItemIconProps> = ({
+  showIcon = true,
+  iconStyle = {},
   required = false,
   disabled,
   options,
@@ -60,6 +66,7 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
+    isSelectType: true,
     placeholder,
     restProps,
   });
@@ -67,12 +74,15 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
 
   return (
     <LFormItem
+      _isSelectType
       required={required}
       placeholder={messageLabel}
       validateTrigger="onBlur"
       {...restProps}
     >
       <IconWrapper
+        showIcon={showIcon}
+        iconStyle={iconStyle}
         disabled={disabled ?? formDisabled}
         placeholder={messageLabel}
         options={options}

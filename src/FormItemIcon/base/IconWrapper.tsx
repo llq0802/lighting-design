@@ -1,7 +1,8 @@
+import Icon, * as antIcons from '@ant-design/icons';
 import type { InputProps, ModalProps, TabsProps } from 'antd';
 import { Input } from 'antd';
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type {
   FormItemIconOptionsProps,
   FormItemIconTabsExtendOptions,
@@ -12,6 +13,8 @@ export interface IconWrapperProps extends InputProps {
   options?: FormItemIconOptionsProps;
   modalProps?: ModalProps;
   tabsProps?: TabsProps;
+  showIcon?: boolean;
+  iconStyle?: React.CSSProperties;
   extendRender?: {
     IconFont: any;
     options: FormItemIconTabsExtendOptions[];
@@ -21,6 +24,8 @@ export interface IconWrapperProps extends InputProps {
 
 const IconWrapper: FC<IconWrapperProps> = ({
   value = null,
+  showIcon,
+  iconStyle,
   onChange,
   options,
   extendRender,
@@ -31,9 +36,17 @@ const IconWrapper: FC<IconWrapperProps> = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
 
+  const prefix = useMemo(() => {
+    if (showIcon && value && antIcons[value]) {
+      return <Icon component={antIcons[value]} style={iconStyle} />;
+    }
+    return void 0;
+  }, [value]);
+
   return (
     <>
       <Input
+        prefix={prefix}
         autoComplete="off"
         style={{ width: '100%' }}
         allowClear
