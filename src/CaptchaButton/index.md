@@ -19,11 +19,11 @@ toc: content
 
 ## API
 
+> 当存在多个验证码组件时, 请设置不同的 `cacheKey` 值
+
 ```ts
 import { LCaptchaButton } from 'lighting-design';
 ```
-
-> 当存在多个验证码组件时, 请设置不同的 `cacheKey` 值
 
 继承 [antd Button](https://ant.design/components/button-cn/) 属性`(disabled 除外)`
 

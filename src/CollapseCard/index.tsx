@@ -158,8 +158,6 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
   return (
     <Collapse
       collapsible="icon"
-      className={classnames(prefixCls, restProps.className)}
-      style={restProps.style}
       activeKey={collapsed ? ['1'] : []}
       ghost={ghost}
       destroyInactivePanel={destroyContent}
@@ -175,6 +173,9 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
         }
         setCollapsed(true);
       }}
+      {...restProps}
+      className={classnames(prefixCls, restProps.className)}
+      style={restProps.style}
     >
       <Panel
         className={classnames(restProps.contentClassName)}
@@ -183,6 +184,7 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
         extra={extra}
         showArrow={collapsible}
         forceRender={forceRender}
+        {...restProps?.panel}
       >
         {children}
       </Panel>

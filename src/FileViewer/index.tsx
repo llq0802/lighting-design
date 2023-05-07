@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import type { FileViewProps } from './FileView';
 import FileView from './FileView';
 import './index.less';
+import FileViewerPictureCard from './PictureCard';
 
 export interface LFileViewerProps
   extends ModalProps,
@@ -82,5 +83,7 @@ function LFileViewer({
     </Modal>
   );
 }
+
+LFileViewer.PictureCard = FileViewerPictureCard;
 
 export default LFileViewer;
