@@ -44,7 +44,7 @@ export interface LFormItemIconProps extends LFormItemProps {
   options?: FormItemIconOptions;
   /** 自定义图标配置 */
   extendRender?: {
-    IconFont: React.ReactNode;
+    IconFont: any;
     options: FormItemIconTabsExtendOptions[];
   };
   /** 自定义item渲染 */

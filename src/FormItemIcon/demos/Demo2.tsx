@@ -25,9 +25,7 @@ const Demo = () => {
         name="icon"
         label="图标"
         options={{
-          Outlined: {
-            label: '线性风格',
-          },
+          Outlined: { label: '线性风格' },
           Filled: {
             label: '实底风格',
             children(_list, node) {
@@ -37,7 +35,6 @@ const Demo = () => {
         }}
         modalProps={{
           open,
-          width: 700,
           onCancel() {
             setopen(false);
           },
@@ -45,18 +42,9 @@ const Demo = () => {
         inputProps={{ onClick: () => setopen(true) }}
         extendRender={{
           IconFont,
-          options: [
-            {
-              label: '笑脸图标风格😀',
-              data: DIYIconList,
-              key: '1',
-            },
-          ],
+          options: [{ label: '笑脸图标风格😀', data: DIYIconList, key: '1' }],
         }}
-        iconStyle={{
-          fontSize: 20,
-          color: '#10101090',
-        }}
+        iconStyle={{ fontSize: 20, color: '#10101090' }}
       />
     </LForm>
   );

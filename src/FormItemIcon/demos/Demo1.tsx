@@ -28,6 +28,7 @@ const Demo = () => {
       onFinish={(values) => {
         console.log('values', values);
       }}
+      initialValues={{ icon: 'icon-shutiao' }}
       onReset={() => setIconItem('icon-shutiao')}
     >
       <LFormItemIcon
@@ -50,10 +51,6 @@ const Demo = () => {
             disabled: true,
           },
         }}
-        initialValue="icon-shutiao"
-        modalProps={{
-          width: 900,
-        }}
         // itemRender={(item, node) => {
         //   return <Tooltip title={item}>{node}</Tooltip>;
         // }}
@@ -72,7 +69,7 @@ const Demo = () => {
             },
           ],
         }}
-        contentAfter={
+        contentBefore={
           iconItem &&
           (antIcons[iconItem] ? (
             <Icon
