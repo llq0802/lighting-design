@@ -108,6 +108,10 @@ export default {
           link: '/components/form-item-number',
         },
         {
+          title: 'FormItemNumberRange-数字输入框',
+          link: '/components/form-item-number-range',
+        },
+        {
           title: 'LFormItemPassword-密码输入框',
           link: '/components/form-item-password',
         },

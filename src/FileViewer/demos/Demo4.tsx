@@ -8,6 +8,7 @@ import TestPpt from './assets/test.pptx';
 import TestTxt from './assets/test.txt';
 import TestExcel from './assets/test.xlsx';
 import TestZip from './assets/test.zip';
+import './styles.less';
 
 const fileList = [
   { url: TestImage, fileName: 'test.jpg', fileType: 'image' },
@@ -21,12 +22,15 @@ const fileList = [
   { url: TestTxt, fileName: 'test.txt', fileType: 'txt' },
 ];
 
-const Demo3 = () => {
+const Demo4 = () => {
   return (
     <div>
-      <LFileViewer.PictureCard fileList={fileList} />
+      <LFileViewer.PictureCard
+        fileList={fileList}
+        className="my-view-picture-card"
+      />
     </div>
   );
 };
 
-export default Demo3;
+export default Demo4;

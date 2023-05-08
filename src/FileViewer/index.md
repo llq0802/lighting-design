@@ -23,6 +23,10 @@ nav:
 
 <code src='./demos/Demo3.tsx'></code>
 
+### PictureCard 修改样式
+
+<code src='./demos/Demo4.tsx'></code>
+
 ## API
 
 > 如果要在新标签页使用浏览器的默认预览 , 可使用 `window.open(url)`
@@ -54,7 +58,7 @@ import { LFileViewer } from 'lighting-design';
 
 ### LFileViewer.PictureCard
 
-> 内置的缩略图支持的 `fileType` 有 `image` `audio` `video` `pdf` `zip` `docx（doc）` `xlsx（xls）`
+> 内置的缩略图支持的 `fileType` 有 `image` `audio` `video` `pdf` `ppt` `zip` `docx（doc）` `xlsx（xls）`
 >
 > 如果需要自定义缩略图，可在 `fileList` 每一项中配置 `thumbUrl`属性
 

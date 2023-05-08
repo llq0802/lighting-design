@@ -1,5 +1,6 @@
 import { Upload } from 'antd';
 import type { UploadProps } from 'antd/lib/upload';
+import classnames from 'classnames';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import type { LFileViewerProps } from '.';
@@ -8,8 +9,10 @@ import IconAudio from './images/icon-audio.png';
 import IconExcel from './images/icon-excel.png';
 import IconFile from './images/icon-file.png';
 import IconPdf from './images/icon-pdf.png';
+import IconPpt from './images/icon-ppt.png';
 import IconVideo from './images/icon-video.png';
 import IconWord from './images/icon-word.png';
+import IconZip from './images/icon-zip.png';
 
 function getFileThumbUrl(file): string {
   const { fileType } = file;
@@ -25,6 +28,12 @@ function getFileThumbUrl(file): string {
   }
   if (fileType === 'pdf') {
     return IconPdf;
+  }
+  if (fileType === 'zip') {
+    return IconZip;
+  }
+  if (fileType === 'ppt') {
+    return IconPpt;
   }
   if (fileType === 'docx' || fileType === 'doc') {
     return IconWord;
@@ -52,6 +61,7 @@ const FileViewerPictureCard: FC<PictureCardProps> = ({
   fileList,
   showThumbImage = true,
   uploadProps,
+  className,
   ...restProps
 }) => {
   const [fileInfo, setFileInfo] = useState<any>({});
@@ -69,7 +79,7 @@ const FileViewerPictureCard: FC<PictureCardProps> = ({
   return (
     <>
       <Upload
-        className="lightd-file-viewer-picture-card"
+        className={classnames('lightd-file-viewer-picture-card', className)}
         fileList={innerFileList}
         listType="picture-card"
         onPreview={(file) => {
