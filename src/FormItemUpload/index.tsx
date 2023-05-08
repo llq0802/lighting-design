@@ -72,6 +72,8 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   required,
   ...restProps
 }) => {
+  const { disabled: formDisabled } = useContext(LFormContext);
+
   const UploadComp = useMemo(() => {
     if (uploadType === 'image') {
       return UploadImage;
@@ -84,7 +86,6 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
     }
     return UploadDefault;
   }, [uploadType]);
-  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem

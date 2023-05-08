@@ -44,7 +44,7 @@ nav:
 
 > `contentInline` 只有在配置了 `contentBefore` 或 `contentAfter` 时生效
 >
-> 如果想强制为行盒又不想展示前后内容，可配置 `contentBefore`或者`contentAfter`为 `' '`
+> 如果想强制为行盒又不想展示前后内容，可配置 `contentAfter`为 `' '`
 
 ```ts
 import { LFormItem } from 'lighting-design';

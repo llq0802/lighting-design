@@ -32,6 +32,7 @@ toc: content
 - [LFormItem] - 基础表单项
 - [LFormItemInput] - 输入框
 - [LFormItemNumber] - 数字输入框
+- [LFormItemNumberRange] - 数字范围输入框
 - [LFormItemPassword] - 密码框
 - [LFormItemTextArea] - 多行输入框
 - [LFormItemAutoComplete] - 自动联想输入
@@ -83,6 +84,7 @@ toc: content
 [lformitem]: /components/form-item
 [lformiteminput]: components/form-item-input
 [lformitemnumber]: /components/lform-number
+[LFormItemNumberRange]: /components/form-item-number-range
 [lformitempassword]: /components/lform-password
 [lformitemtextarea]: /components/lform-text-area
 [lformitemautocomplete]: /components/form-item-auto-complete

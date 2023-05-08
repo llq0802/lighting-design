@@ -53,7 +53,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   ];
 
   return (
-    <LFormItem required={required} _isSelectType {...restProps} rules={rules}>
+    <LFormItem required={required} _isSelectType rules={rules} {...restProps}>
       <RateWrapper
         name={restProps.name}
         count={count}
