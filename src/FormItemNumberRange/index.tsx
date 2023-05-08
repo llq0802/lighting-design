@@ -52,7 +52,7 @@ function NumberRange({
         value={valuePair?.[0]}
         onChange={(changedValue) => {
           handleChange(0, changedValue);
-          leftNumberProps?.onChange(changedValue);
+          leftNumberProps?.onChange?.(changedValue);
         }}
         style={{ width: `calc((100% - ${separatorWidth}px) / 2)` }}
       />
@@ -75,7 +75,7 @@ function NumberRange({
         value={valuePair?.[1]}
         onChange={(changedValue) => {
           handleChange(1, changedValue);
-          rightNumberProps?.onChange(changedValue);
+          rightNumberProps?.onChange?.(changedValue);
         }}
         style={{ width: `calc((100% - ${separatorWidth}px) / 2)` }}
       />
