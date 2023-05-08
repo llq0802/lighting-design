@@ -22,7 +22,7 @@ nav:
 ## API
 
 ```ts
-import { LFormItemNumber } from 'lighting-design';
+import { LFormItemNumberRange } from 'lighting-design';
 ```
 
 除了以下参数，其余和 [LFormItem](/components/form-item#api) 一样。

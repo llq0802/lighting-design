@@ -108,7 +108,7 @@ export default {
           link: '/components/form-item-number',
         },
         {
-          title: 'FormItemNumberRange-数字范围输入框',
+          title: 'LFormItemNumberRange-数字范围输入框',
           link: '/components/form-item-number-range',
         },
         {
