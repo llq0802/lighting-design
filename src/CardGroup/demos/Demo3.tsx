@@ -1,11 +1,13 @@
+import type { ValueType } from 'lighting-design';
 import { LCardGroup } from 'lighting-design';
 import { useState } from 'react';
 
 export default function Demo() {
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<ValueType>('1');
   return (
     <div>
       <LCardGroup
+        activeStyle={{ background: '#b0d0ff' }}
         gap={10}
         options={[
           { value: '1', label: '支付宝' },

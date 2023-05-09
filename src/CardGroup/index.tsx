@@ -7,7 +7,7 @@ import './index.less';
 
 const { useToken } = theme;
 
-type ValueType = Array<string | number> | string | number | undefined;
+export type ValueType = Array<string | number> | string | number | undefined;
 
 export type LCardGroupOptions = {
   label: ReactNode;
@@ -18,7 +18,8 @@ export type LCardGroupOptions = {
 };
 
 export interface LCardGroupProps {
-  value?: any;
+  defaultValue?: ValueType;
+  value?: ValueType;
   onChange?: (values: ValueType) => void;
   /** 是否支持多选 */
   multiple?: boolean;
@@ -36,6 +37,8 @@ export interface LCardGroupProps {
   cardBodyStyle?: CSSProperties;
   /** 卡片的样式  比每一项中的cardProps.style优先级高*/
   cardStyle?: CSSProperties;
+  /** 选中卡片的样式 */
+  activeStyle?: CSSProperties;
 }
 
 const prefixCls = 'lightd-card-group';
@@ -51,11 +54,12 @@ export default function LCardGroup(props: LCardGroupProps) {
     style,
     cardBodyStyle = {},
     cardStyle = {},
+    activeStyle = {},
   } = props;
 
   const { token } = useToken();
 
-  const [value, onChange] = useControllableValue<string[] | string>(props, {
+  const [value, onChange] = useControllableValue<ValueType>(props, {
     defaultValue: multiple ? [] : void 0,
   });
 
@@ -106,39 +110,41 @@ export default function LCardGroup(props: LCardGroupProps) {
       )}
       style={{ gap, ...style }}
     >
-      {options.map((item) => (
-        <Card
-          {...item.cardProps}
-          className={classNames(
-            `${prefixCls}-item`,
-            item.disabled && `${prefixCls}-item-disabled`,
-            (multiple ? value?.includes(item.value) : value === item.value) &&
-              `${prefixCls}-item-active`,
-
-            item.cardProps?.className,
-          )}
-          key={item.value}
-          onClick={(e) => {
-            handleSelect(item);
-            item.cardProps?.onClick?.(e);
-          }}
-          style={{
-            borderColor:
+      {options.map((item, i) => {
+        const isActive = multiple
+          ? value?.includes(item.value)
+          : value === item.value;
+        return (
+          <Card
+            {...item.cardProps}
+            className={classNames(
+              `${prefixCls}-item`,
+              item.disabled && `${prefixCls}-item-disabled`,
               (multiple ? value?.includes(item.value) : value === item.value) &&
-              token.colorPrimary,
+                `${prefixCls}-item-active`,
 
-            ...item.cardProps?.style,
-
-            ...cardStyle,
-          }}
-          bodyStyle={{
-            ...item?.cardProps?.bodyStyle,
-            ...cardBodyStyle,
-          }}
-        >
-          {item.label}
-        </Card>
-      ))}
+              item.cardProps?.className,
+            )}
+            key={item.value ?? i}
+            onClick={(e) => {
+              handleSelect(item);
+              item.cardProps?.onClick?.(e);
+            }}
+            style={{
+              borderColor: isActive ? token.colorPrimary : void 0,
+              ...item.cardProps?.style,
+              ...cardStyle,
+              ...(isActive ? activeStyle : {}),
+            }}
+            bodyStyle={{
+              ...item?.cardProps?.bodyStyle,
+              ...cardBodyStyle,
+            }}
+          >
+            {item.label}
+          </Card>
+        );
+      })}
     </div>
   );
 }

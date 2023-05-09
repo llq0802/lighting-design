@@ -1,10 +1,10 @@
 ---
-title: 组件描述
+title: 组件总览
 order: 1
 toc: content
 ---
 
-# 总览
+# 组件总览
 
 ## 基础组件
 
@@ -16,6 +16,11 @@ toc: content
 - [LColor] - 颜色显示/选择
 - [LCardGroup] - 卡片选择
 - [LTagGroup] - 标签选择
+
+## 数据展示
+
+- [LTable] - 高级表格
+- [LCollapseCard] - 折叠卡片
 
 ## 高级表单
 
@@ -52,11 +57,6 @@ toc: content
 - [LFormItemColor] - 高级颜色选择
 - [LFormItemRate] - 评分器
 - [LFormItemSegmented] - 分段器
-
-## 数据展示
-
-- [LTable] - 高级表格
-- [LCollapseCard] - 折叠卡片
 
 ## HOOKS
 

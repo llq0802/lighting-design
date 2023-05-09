@@ -1,6 +1,7 @@
 import { useControllableValue } from 'ahooks';
 import { Tag } from 'antd';
 import classnames from 'classnames';
+import type { ValueType } from 'lighting-design/CardGroup';
 import type { ReactNode } from 'react';
 
 export type LTagGroupOptions = {
@@ -10,9 +11,9 @@ export type LTagGroupOptions = {
 };
 
 export interface LTagGroupProps {
-  value?: string | string[];
-  defaultValue?: string | string[];
-  onChange?: (values: string | string[] | undefined) => void;
+  value?: ValueType;
+  defaultValue?: ValueType;
+  onChange?: (values: ValueType) => void;
   /** 容器类名 */
   className?: string;
   /** 每一项的类名 */
@@ -49,7 +50,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     cancelable = false,
   } = props;
 
-  const [value, onChange] = useControllableValue<string | string[]>(props, {
+  const [value, onChange] = useControllableValue<ValueType>(props, {
     defaultValue: multiple ? [] : void 0,
   });
 
@@ -115,7 +116,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     } else {
       // 没有选中时
       if (isMultiple) {
-        newValue = value.filter((v: any) => v !== curItem.value);
+        newValue = value?.filter((v: any) => v !== curItem.value);
         triggerChange(newValue);
       } else {
         if (cancelable) {
@@ -145,7 +146,7 @@ export default function LTagGroup(props: LTagGroupProps) {
           checked={
             isMultiple
               ? value !== void 0 &&
-                value.includes(item.value as unknown as string)
+                value?.includes(item.value as unknown as string)
               : value === item.value
           }
           onChange={(checked) => handleTagSelect(checked, item)}

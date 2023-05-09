@@ -4,6 +4,7 @@ export default function Demo() {
   return (
     <div>
       <LTagGroup
+        defaultValue="1"
         options={[
           {
             value: '1',

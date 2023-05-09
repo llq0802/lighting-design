@@ -1,8 +1,9 @@
+import type { ValueType } from 'lighting-design';
 import { LTagGroup } from 'lighting-design';
 import { useState } from 'react';
 
 export default function Demo() {
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<ValueType>();
 
   return (
     <div>

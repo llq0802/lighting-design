@@ -25,6 +25,9 @@ const Demo4 = () => {
           <LCardGroup
             cardStyle={{ minWidth: 100 }}
             cardBodyStyle={{ padding: 8, textAlign: 'center' }}
+            activeStyle={{
+              background: '#b0d0ff',
+            }}
             multiple
             options={[
               { value: '1', label: '支付宝' },
