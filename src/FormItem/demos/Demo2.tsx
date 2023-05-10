@@ -11,8 +11,8 @@ const Demo2 = () => {
       <LForm
         name="LForm"
         form={form}
-        labelCol={{ flex: '90px' }}
-        submitter={{ buttonAlign: 90 }}
+        labelCol={{ flex: '110px' }}
+        submitter={{ buttonAlign: 110 }}
         onFinish={(fields) => {
           console.log('fields', fields);
         }}
@@ -75,7 +75,7 @@ const Demo2 = () => {
         </LFormItem>
 
         <LFormItem
-          label="自定义渲染"
+          label="自定义渲染Field"
           name="my-name2"
           className="lightd-form-item-className2"
           contentClassName="lightd-form-item-contentClassName2"
@@ -88,17 +88,17 @@ const Demo2 = () => {
             }) => {
               return (
                 <Space>
-                  通过 renderField 渲染 :{React.cloneElement(dom, props)}
+                  <span> 通过 renderField 渲染 :</span>
+                  {React.cloneElement(dom, props)}
                 </Space>
               );
             };
             return <CustomField />;
           }}
         >
-          <Input placeholder="自定义渲染" />
+          <Input placeholder="自定义渲染Field" />
         </LFormItem>
         <LFormItem
-          valuePropName="checked"
           name="Input132"
           label="renderFormItem"
           contentAfter={<div>contentInline为false的效果</div>}
@@ -106,7 +106,7 @@ const Demo2 = () => {
             return <Space align="baseline">重新渲染整个: {dom}</Space>;
           }}
         >
-          <Input />
+          <Input placeholder="自定义渲染整个组件" />
         </LFormItem>
       </LForm>
     </>
