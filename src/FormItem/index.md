@@ -38,13 +38,13 @@ nav:
 
 ## API
 
+> `LFormItemXXX` 组件均是通过此组件二次封装
+>
 > 配置了`required`属性将开启内置验证是否为空数据或空数组 , 大多数情况不需要开发者传`rules`属性 ，如果业务验证有其他检验规则则传入 `rules`
 >
-> `LFormItemXXX` 组件均是通过此组件二次封装
-
-> `contentInline` 只有在配置了 `contentBefore` 或 `contentAfter` 时生效
+> `contentInline` 只在配置了 `contentBefore` 或 `contentAfter` 时生效 。如果想强制为行盒又不想展示前后内容，可配置 `contentAfter`为 `' '`
 >
-> 如果想强制为行盒又不想展示前后内容，可配置 `contentAfter`为 `' '`
+> 使用`renderField` 需要返回一个组件，并在组件内手动绑定 `id` `value` 与 `onChange` 具体请看 [renderField 用法](/components/form-item#renderfield-用法)
 
 ```ts
 import { LFormItem } from 'lighting-design';
@@ -66,3 +66,57 @@ import { LFormItem } from 'lighting-design';
 | disabled         | 是否禁用组件<br>如果自定义组件 则需要开发者自己控制内部`children`的禁用               | `boolean`                                                    | `false`    |
 | placeholder      | 组件的 placeholder<br>如果自定义组件 则需要开发者自己控制内部`children`的 placeholder | `string\|string[]`                                           | `-`        |
 | renderField      | 重新渲染 `FormItem` 的子组件                                                          | `(dom: ReactElement, props: LFormItemProps) => ReactElement` | `-`        |
+
+### renderField 用法
+
+```ts
+import { Popover, Space } from 'antd';
+
+//使用renderField自定义antd的数据输入类型的组件
+<LFormItem
+  label="自定义渲染"
+  name="customField1"
+  renderField={(dom) => {
+    // 这儿的dom为LFormItem组件的children 也就是Input组件
+    // 这儿的 props 为组件内部注册 需要手动调用 value和onChange id
+    const CustomField = (props: {
+      value: any;
+      onChange: (val: any) => void;
+      id: string;
+      [key: string]: any;
+    }) => {
+      return (
+        <Space>通过 renderField 渲染 :{React.cloneElement(dom, props)}</Space>
+      );
+    };
+    return <CustomField />;
+  }}
+>
+  <Input placeholder="自定义渲染" />
+</LFormItem>;
+
+//使用renderField自定义 LFormItemXXX 组件
+<LFormItemPassword
+  required
+  validateTrigger="onChange"
+  label="自定义渲染"
+  name="with-popover6"
+  tooltip="该方案所有 LFormItemXXX 表单项"
+  renderField={(dom) => {
+    const MyField = (props) => {
+      return (
+        <Popover
+          trigger="focus"
+          getPopupContainer={(e) =>
+            (e?.parentNode || document.body) as HTMLElement
+          }
+          {...props}
+        >
+          {React.cloneElement(dom)}
+        </Popover>
+      );
+    };
+    return <MyField />;
+  }}
+/>;
+```

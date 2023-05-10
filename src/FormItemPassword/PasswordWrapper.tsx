@@ -13,9 +13,10 @@ const PassworldWrapper: FC<PassworldWrapperProps> = (props) => {
   const {
     value,
     onChange,
-    disabledWhiteSpace = false,
+    disabledWhiteSpace = true,
     disabledPaste = true,
     disabledCopy = true,
+    placeholder = '请输入密码',
     ...restProps
   } = props;
 
@@ -59,6 +60,7 @@ const PassworldWrapper: FC<PassworldWrapperProps> = (props) => {
       value={value}
       // autoComplete="off"
       autoComplete="new-password"
+      placeholder={placeholder}
       {...restProps}
       onPaste={handlePaste}
       onCopy={handleCopy}

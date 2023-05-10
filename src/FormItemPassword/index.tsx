@@ -24,20 +24,16 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   disabledPaste = true,
   disabledCopy = true,
   passwordProps = {},
-
   required,
   disabled,
   placeholder = '请输入密码',
   ...restProps
 }) => {
-  // const messageLabel = useMemo(() => getFormItemLabel(restProps), [restProps]);
-
   const messagePlaceholder = usePlaceholder({
     placeholder,
     restProps,
   });
   const { disabled: formDisabled } = useContext(LFormContext);
-
   return (
     <LFormItem
       placeholder={messagePlaceholder}

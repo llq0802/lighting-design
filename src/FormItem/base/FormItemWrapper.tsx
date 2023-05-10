@@ -20,18 +20,14 @@ const FormItemWrapper: FC<FormItemWrapperProps> = ({
   before = null,
   contentInline = false,
   children,
-  ...formItemChildrenProps // {value,onChange,...}
+  ...formItemProps // {value,onChange,...}
 }) => {
+  const innerChildrenProps = { ...(children?.props ?? {}) };
+  const allProps = composeProps(innerChildrenProps, formItemProps, true);
+
   // 合并子组件组件的props并触发相应事件函数
   const childrenView = isValidElement(children)
-    ? cloneElement(
-        children,
-        composeProps(
-          (children?.props as Record<string, any>) || {},
-          formItemChildrenProps,
-          true,
-        ),
-      )
+    ? cloneElement(children, allProps)
     : (children as any);
 
   // 没有前后内容

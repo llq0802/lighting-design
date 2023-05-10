@@ -1,5 +1,6 @@
 import { Input, Select, Space, Switch } from 'antd';
 import { LForm, LFormItem } from 'lighting-design';
+import React from 'react';
 import AgeSelect from './components/AgeSelect';
 import MyCheckbox from './components/MyCheckbox';
 
@@ -75,19 +76,26 @@ const Demo2 = () => {
 
         <LFormItem
           label="自定义渲染"
-          name="l-name2"
+          name="my-name2"
           className="lightd-form-item-className2"
           contentClassName="lightd-form-item-contentClassName2"
           renderField={(dom) => {
-            return (
-              <Space>
-                {dom}
-                <Input placeholder="自定义渲染" />
-              </Space>
-            );
+            // 这儿的 props 为组件内部注册 需要手动调用 value和onChange
+            const CustomField = (props: {
+              value: any;
+              onChange: (val: any) => void;
+              id: string;
+            }) => {
+              return (
+                <Space>
+                  通过 renderField 渲染 :{React.cloneElement(dom, props)}
+                </Space>
+              );
+            };
+            return <CustomField />;
           }}
         >
-          这是自定义的：
+          <Input placeholder="自定义渲染" />
         </LFormItem>
       </LForm>
     </>

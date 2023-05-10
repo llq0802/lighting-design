@@ -9,6 +9,9 @@ const Demo3 = () => {
       name="LFormItemPassword"
       form={form}
       submitter={{ buttonAlign: 'center' }}
+      onFinish={(values) => {
+        console.log('values', values);
+      }}
     >
       <LFormItemPassword
         className="myLFormItemInput"
@@ -19,11 +22,13 @@ const Demo3 = () => {
       <LFormItemPassword name="password2" label="密码2" required min={6} />
 
       <LFormItemPassword
+        required
+        validateTrigger="onChange"
         label="自定义渲染"
-        name="with-popover"
+        name="with-popover6"
         tooltip="该方案可用于所有表单项"
         renderField={renderFieldWithPopover({
-          content: '该方案可用于所有表单项',
+          content: '该方案可用于所有自定义表单项',
         })}
       />
     </LForm>
