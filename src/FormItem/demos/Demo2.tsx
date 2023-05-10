@@ -97,6 +97,17 @@ const Demo2 = () => {
         >
           <Input placeholder="自定义渲染" />
         </LFormItem>
+        <LFormItem
+          valuePropName="checked"
+          name="Input132"
+          label="renderFormItem"
+          contentAfter={<div>contentInline为false的效果</div>}
+          renderFormItem={(dom) => {
+            return <Space align="baseline">重新渲染整个: {dom}</Space>;
+          }}
+        >
+          <Input />
+        </LFormItem>
       </LForm>
     </>
   );

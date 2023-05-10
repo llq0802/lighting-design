@@ -65,7 +65,8 @@ import { LFormItem } from 'lighting-design';
 | alignItems       | 当配置了 `contentBefore` 或 `contentAfter` 时组件垂直的对齐方式                       | `'center' \| 'start' \| 'end'`                               | `'center'` |
 | disabled         | 是否禁用组件<br>如果自定义组件 则需要开发者自己控制内部`children`的禁用               | `boolean`                                                    | `false`    |
 | placeholder      | 组件的 placeholder<br>如果自定义组件 则需要开发者自己控制内部`children`的 placeholder | `string\|string[]`                                           | `-`        |
-| renderField      | 重新渲染 `FormItem` 的子组件                                                          | `(dom: ReactElement, props: LFormItemProps) => ReactElement` | `-`        |
+| renderField      | 重新渲染 `LFormItem` 的子组件                                                         | `(dom: ReactElement, props: LFormItemProps) => ReactElement` | `-`        |
+| renderFormItem   | 重新渲染整个 `LFormItem` 组件                                                         | `(dom: ReactElement) => ReactElement`                        | `-`        |
 
 ### renderField 用法
 

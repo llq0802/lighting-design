@@ -10,8 +10,10 @@ import FormItemWrapper from './FormItemWrapper';
 export interface LFormItemProps extends FormItemProps {
   /** lable宽度 */
   labelWidth?: number | 'auto';
-  /** 重新渲染FormItem组件 */
+  /** 重新渲染LFormItem的children组件 */
   renderField?: (dom: ReactElement, props: LFormItemProps) => ReactElement;
+  /** 重新渲染整个LFormItem组件 */
+  renderFormItem?: (dom: ReactElement) => ReactElement;
   /** 当配置了contentBefore或者contentAfter时组件垂直的对齐方式 */
   alignItems?: 'center' | 'start' | 'end';
   /** 组件前面的内容 */
@@ -42,6 +44,7 @@ const LFormItem: FC<LFormItemProps> & {
     placeholder,
 
     renderField,
+    renderFormItem,
 
     labelWidth = 'auto',
     contentClassName,
@@ -112,7 +115,7 @@ const LFormItem: FC<LFormItemProps> & {
   }, [layout, labelWidth, formLabelColProps, labelCol]);
 
   if (shouldUpdate) {
-    return (
+    const dom1 = (
       <Form.Item
         labelCol={labelColProps}
         name={name}
@@ -142,10 +145,12 @@ const LFormItem: FC<LFormItemProps> & {
         }}
       </Form.Item>
     );
+
+    return renderFormItem ? renderFormItem(dom1) : dom1;
   }
 
   if (dependencies && dependencies?.length > 0) {
-    return (
+    const dom2 = (
       <Form.Item noStyle dependencies={dependencies}>
         {(form) => {
           const depFields = form.getFieldsValue(dependencies);
@@ -181,9 +186,10 @@ const LFormItem: FC<LFormItemProps> & {
         }}
       </Form.Item>
     );
+    return renderFormItem ? renderFormItem(dom2) : dom2;
   }
 
-  return (
+  const dom3 = (
     <Form.Item
       name={name}
       labelCol={labelColProps}
@@ -204,6 +210,7 @@ const LFormItem: FC<LFormItemProps> & {
       </FormItemWrapper>
     </Form.Item>
   );
+  return renderFormItem ? renderFormItem(dom3) : dom3;
 };
 
 LFormItem.useStatus = Form.Item.useStatus;
