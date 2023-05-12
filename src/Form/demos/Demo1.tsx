@@ -11,6 +11,7 @@ import {
   LFormItemDatePicker,
   LFormItemInput,
   LFormItemNumber,
+  LFormItemNumberRange,
   LFormItemPassword,
   LFormItemRadio,
   LFormItemRate,
@@ -84,6 +85,11 @@ const Demo1 = () => {
         required
         label="输入框2"
         contentAfter={<div>$</div>}
+      />
+      <LFormItemNumberRange
+        name="LFormItemNumberRange"
+        label="数字范围"
+        placeholder={['请输入开始值', '请输入结束值']}
       />
       <LFormItemPassword name="LFormItemPassword" required label="密码框" />
       <LFormItemTextArea name="LFormItemTextArea" required label="备注" />

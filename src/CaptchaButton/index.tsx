@@ -52,15 +52,14 @@ const LCaptchaButton: ForwardRefRenderFunction<
 
   const [targetDate, setTargetDate] = useLocalStorageState<number | undefined>(
     cacheKey,
-    {
-      defaultValue: 0,
-    },
+    { defaultValue: 0 },
   );
+
   const [countdown] = useCountDown({
     targetDate,
     onEnd() {
-      onEnd?.();
       setTargetDate(void 0);
+      onEnd?.();
     },
   });
   const handleClick = useMemoizedFn((e) => {

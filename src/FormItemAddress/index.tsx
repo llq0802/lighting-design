@@ -5,11 +5,11 @@ import type { LFormItemProps } from 'lighting-design/FormItem';
 import LFormItem from 'lighting-design/FormItem';
 import type { FC } from 'react';
 import { useContext } from 'react';
-
 export interface LFormItemAddressProps<DataNodeType = any>
   extends Omit<LFormItemProps, 'name'> {
   options?: CascaderProps<DataNodeType>['options'];
-  names: [LFormItemProps['name'], LFormItemProps['name']]; // 如 ['location', 'address']
+  /** 字段数组 如 ['location', 'address']*/
+  names: [LFormItemProps['name'], LFormItemProps['name']];
   inputProps?: InputProps;
   cascaderProps?: CascaderProps<DataNodeType>;
   inputFormProps?: LFormItemProps;
@@ -50,6 +50,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
+
   return (
     <LFormItem
       required={required}

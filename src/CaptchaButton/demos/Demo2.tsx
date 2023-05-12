@@ -8,6 +8,7 @@ const Demo2 = () => {
   return (
     <div>
       <LCaptchaButton
+        second={10}
         onClick={() => {
           setLoading(true);
           setTimeout(() => {
@@ -15,6 +16,7 @@ const Demo2 = () => {
             setStart(true);
           }, 3000);
         }}
+        onEnd={() => setStart(false)}
         start={start}
         loading={loading}
         cacheKey="__CaptchaButton__Phone__2"

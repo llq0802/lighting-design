@@ -68,9 +68,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     width = 600,
     placement = 'right',
     drawerProps = {},
-    open: outOpen,
     actionBarDir = 'footer',
-    onOpenChange: outOnOpenChange,
     children,
 
     className,
