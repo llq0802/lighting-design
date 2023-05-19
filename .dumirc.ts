@@ -1,9 +1,8 @@
-import { theme } from 'antd';
 import { defineConfig } from 'dumi';
 import sidebar from './sidebar';
 
-const { defaultAlgorithm, defaultSeed } = theme;
-const mapToken = defaultAlgorithm(defaultSeed);
+// const { defaultAlgorithm, defaultSeed } = theme;
+// const mapToken = defaultAlgorithm(defaultSeed);
 
 // https://llq0802.github.io
 const isDev = process.env.NODE_ENV === 'development';
@@ -44,9 +43,9 @@ export default defineConfig({
       content: '🍙 让中后台开发更简单',
     },
   ],
-  lessLoader: {
-    modifyVars: mapToken,
-  },
+  // lessLoader: {
+  //   modifyVars: mapToken,
+  // },
   outputPath,
   favicons,
 
