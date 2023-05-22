@@ -53,6 +53,10 @@ export default {
           link: '/components/table',
         },
         {
+          title: 'LList-高级列表',
+          link: '/components/list',
+        },
+        {
           title: 'LCollapseCard-折叠卡片',
           link: '/components/collapse-card',
         },

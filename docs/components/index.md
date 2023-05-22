@@ -21,6 +21,7 @@ toc: content
 
 - [LTable] - 高级表格
 - [LCollapseCard] - 折叠卡片
+- [LList] - 高级列表
 
 ## 高级表单
 
@@ -71,6 +72,7 @@ toc: content
 [lnumberroll]: /components/number-roll
 [lcaptchabutton]: /components/captcha-button
 [ltable]: /components/table
+[llist]: /components/list
 [LCollapseCard]: /components/collapse-card
 [LCardGroup]: /components/card-group
 [LTagGroup]: /components/tag-group

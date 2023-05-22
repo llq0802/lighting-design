@@ -57,6 +57,8 @@ export * from './FormItemTreeSelect';
 export { default as LFormItemTreeSelect } from './FormItemTreeSelect';
 export * from './FormItemUpload';
 export { default as LFormItemUpload } from './FormItemUpload';
+export * from './List';
+export { default as LList } from './List';
 export * from './ListForm';
 export { default as LListForm } from './ListForm';
 export * from './LoginForm';
