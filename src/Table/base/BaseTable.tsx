@@ -549,8 +549,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
                   showSizeChanger: true,
                   showQuickJumper: true,
                   ...outPagination,
-                  current: paginationAction?.current,
-                  pageSize: paginationAction?.pageSize,
+                  // current: paginationAction?.current,
+                  // pageSize: paginationAction?.pageSize,
+                  defaultCurrent: paginationAction?.current,
+                  defaultPageSize: paginationAction?.pageSize,
                   total: paginationAction?.total,
                 }
               : false
