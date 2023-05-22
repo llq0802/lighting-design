@@ -1,5 +1,6 @@
 import { useControllableValue } from 'ahooks';
 import { Form } from 'antd';
+import type { Key } from 'react';
 import React, { useImperativeHandle, useState } from 'react';
 import type { LTableProps } from './BaseTable';
 import BaseTable from './BaseTable';
@@ -13,6 +14,14 @@ for (let i = 0; i < 100; i++) {
   });
 }
 
+const getRowKey = (rowKey: Function | string | number | undefined) => {
+  if (typeof rowKey === 'function') {
+    return rowKey;
+  }
+  return (record: Record<string, any>, index?: number) =>
+    typeof rowKey === 'string' ? record[rowKey] : record.key ?? index;
+};
+
 const EditableCell: React.FC<Record<string, any>> = (eProps) => {
   const {
     editing,
@@ -23,7 +32,6 @@ const EditableCell: React.FC<Record<string, any>> = (eProps) => {
     children,
     ...restProps
   } = eProps;
-  console.log('eProps', eProps);
   return (
     <td {...restProps}>
       {editing ? (
@@ -54,7 +62,7 @@ type LEditTableProps = {
 } & Partial<LTableProps>;
 
 const LEditTable: React.FC<LEditTableProps> = (props) => {
-  const { columns, editTableOptions = {} } = props;
+  const { columns, rowKey: outRowKey, editTableOptions } = props;
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
 
@@ -64,12 +72,18 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     trigger: 'onEditingKey',
   });
 
-  const isEditing = (record: Record<string, any>) =>
-    record[props?.rowKey || 'key'] === editingKey;
+  const getCurentRowKey = React.useCallback(
+    (record: any) => getRowKey(outRowKey)(record) as Key,
+    [outRowKey],
+  );
 
-  const onEdit = (record) => {
+  const isEditing = (record: Record<string, any>) =>
+    getCurentRowKey(record) === editingKey;
+
+  const onEdit = (record: Record<string, any>) => {
     form.setFieldsValue({ ...record });
-    setEditingKey(record[props?.rowKey || 'key']);
+    const key = getCurentRowKey(record) as Key;
+    setEditingKey(key);
     editTableOptions?.onEdit?.();
   };
 
@@ -79,7 +93,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   };
 
   const onSave = async (key: React.Key) => {
-    const row = (await form.validateFields()) as Item;
+    const row = await form.validateFields();
     const newData = [...data];
     const index = newData.findIndex((item) => key === item.key);
     if (index > -1) {
@@ -104,8 +118,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     }
     return {
       ...col,
-      // editing: isEditing(col),
-      onCell: (record: Item, index: number) => {
+      onCell: (record: Record<string, any>, index: number) => {
         record.editing = isEditing(record);
 
         return {
@@ -119,6 +132,8 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     };
   });
 
+  const onDelete = (key) => {};
+
   // 暴露外部方法
   useImperativeHandle(editTableOptions.editTableRef, () => ({
     /** 编辑 */
@@ -127,6 +142,8 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     cancel: onCancel,
     /** 保存 */
     save: onSave,
+    /** 删除 */
+    delete: onDelete,
   }));
 
   return (
@@ -138,6 +155,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
             cell: EditableCell,
           },
         }}
+        rowKey={outRowKey}
         columns={mergedColumns}
         bordered
         dataSource={data}

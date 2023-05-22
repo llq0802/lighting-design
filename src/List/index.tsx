@@ -24,7 +24,9 @@ const LList: React.FC<LListProps> & {
   ...restProps
 }) => {
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
-    if (e.currentTarget.scrollHeight - e.currentTarget.scrollTop === height) {
+    const scrollHeight = Math.ceil(e.currentTarget.scrollHeight);
+    const scrollTop = Math.ceil(e.currentTarget.scrollTop);
+    if (height + scrollTop >= scrollHeight) {
       onScrollBottom?.();
     }
   };
