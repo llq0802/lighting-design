@@ -2,7 +2,7 @@ import type { LTableInstance } from 'lighting-design';
 import { LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef } from 'react';
-import { apiGetUserList, columns } from './service';
+import { columns, originData } from './service';
 
 const Demo2: FC = () => {
   const tableRef = useRef<LTableInstance>();
@@ -26,11 +26,10 @@ const Demo2: FC = () => {
       request={async (params, requestType) => {
         // console.log('==params==', params);
         // console.log('requestType ', requestType);
-        const res: Record<string, any> = await apiGetUserList();
         return {
           success: true,
-          data: res.data,
-          total: res.total,
+          data: originData,
+          total: originData.length,
         };
       }}
     />

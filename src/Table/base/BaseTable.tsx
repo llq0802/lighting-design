@@ -191,7 +191,7 @@ export const LIGHTD_TABLE = 'lightd-table';
 const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
   <span
     className={`${LIGHTD_TABLE}-pagination-showTotal`}
-  >{`当前显示${range[0]}-${range[1]} 条，共 ${total} 条数据`}</span>
+  >{`当前显示${range[0]}-${range[1]}条，共 ${total} 条数据`}</span>
 );
 
 /**
@@ -341,7 +341,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       const sortColumn = {
         align: 'center',
         title: '序号',
-        dataIndex: '_sortColumn_dataIndex_',
+        dataIndex: '_sortColumn_',
         width: 80,
         // fixed: 'left',
         render: (_: any, __: any, index: number) => (
@@ -361,6 +361,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     return columns;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns, isSort, paginationAction?.current, paginationAction?.pageSize]);
+
   // 表格展示的列
   const [currentColumns, setCurrentColumns] = useState(outColumns);
 

@@ -5,7 +5,63 @@ import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef } from 'react';
 import AddEditModal from './components/AddEditModal';
-import { apiGetUserList } from './service';
+
+const originData = [
+  {
+    key: '1',
+    name: 'John Brown',
+    age: 10,
+    address: 'New York No. 1 Lake Park',
+  },
+  {
+    key: '2',
+    name: 'Jim Green',
+    age: 42,
+    address: 'London No. 1 Lake Park',
+  },
+  {
+    key: '3',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '4',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '5',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '6',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '7',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '8',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '9',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+  },
+];
 
 const Demo1: FC = () => {
   const formRef = useRef<FormInstance>();
@@ -42,11 +98,10 @@ const Demo1: FC = () => {
         // console.log('==params==', params);
         // console.log('requestType ', requestType);
         // console.log('tableRef ', tableRef.current);
-        const res: Record<string, any> = await apiGetUserList();
         return {
           success: true,
-          data: res.data,
-          total: 9,
+          data: originData,
+          total: originData.length,
         };
       }}
       contentRender={(data: any[]) => (

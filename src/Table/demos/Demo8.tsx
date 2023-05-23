@@ -3,11 +3,11 @@ import LFormItemInput from 'lighting-design/FormItemInput';
 import { useRef, useState } from 'react';
 import EditableTable from '../base/EditableTable';
 
-const originData: Item[] = [];
-for (let i = 0; i < 100; i++) {
+const originData: any[] = [];
+for (let i = 0; i < 12; i++) {
   originData.push({
     key: i.toString(),
-    name: `Edward ${i}`,
+    name: `Edward ${i + 1}`,
     age: 32,
     address: `London Park no. ${i}`,
   });
@@ -22,13 +22,11 @@ const Demo8 = () => {
     {
       title: 'name',
       dataIndex: 'name',
-      width: '25%',
       editable: <LFormItemInput />,
     },
     {
       title: 'age',
       dataIndex: 'age',
-      width: '15%',
       editable: <LFormItemInput />,
     },
     {
@@ -36,16 +34,20 @@ const Demo8 = () => {
       dataIndex: 'operation',
       render: (_: any, record: Item) => {
         // console.log('record', record);
-
         return record?.editing ? (
           <span>
-            <Typography.Link onClick={() => {}} style={{ marginRight: 8 }}>
+            <Typography.Link
+              onClick={() => {
+                editTableRef?.current!.save(record.key);
+              }}
+              style={{ marginRight: 8 }}
+            >
               Save
             </Typography.Link>
             <Popconfirm
               title="Sure to cancel?"
               onConfirm={() => {
-                editTableRef?.current.cancel(record);
+                editTableRef?.current!.cancel();
               }}
             >
               <a>Cancel</a>

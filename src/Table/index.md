@@ -20,10 +20,6 @@ nav:
 
 ## 代码演示
 
-### 基础用法 111
-
-<code src='./demos/Demo8.tsx' background="#f5f5f5"></code>
-
 ### 基础用法
 
 <code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
@@ -50,7 +46,17 @@ nav:
 
 ### 手动设置查询表单
 
- <code src='./demos/Demo7.tsx' background="#f5f5f5">
+<code src='./demos/Demo7.tsx' background="#f5f5f5"></code>
+
+### 编辑表格
+
+[编辑表格行](https://ant.design/components/table-cn#components-table-demo-edit-row)
+[编辑表格单元格](https://ant.design/components/table-cn#components-table-demo-edit-cell)
+
+### 拖拽表格
+
+[拖拽排序](https://ant.design/components/table-cn#components-table-demo-drag-sorting)
+[拖拽手柄](https://ant.design/components/table-cn#components-table-demo-drag-sorting-handler)
 
 ## API
 

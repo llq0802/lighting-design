@@ -1,18 +1,11 @@
 import { useControllableValue } from 'ahooks';
+import type { TableProps } from 'antd';
 import { Form } from 'antd';
+import classnames from 'classnames';
 import type { Key } from 'react';
-import React, { useImperativeHandle, useState } from 'react';
+import React, { useImperativeHandle } from 'react';
 import type { LTableProps } from './BaseTable';
 import BaseTable from './BaseTable';
-
-const originData: Item[] = [];
-for (let i = 0; i < 100; i++) {
-  originData.push({
-    key: i.toString(),
-    name: `Edward ${i}`,
-    age: 32,
-  });
-}
 
 const getRowKey = (rowKey: Function | string | number | undefined) => {
   if (typeof rowKey === 'function') {
@@ -23,15 +16,10 @@ const getRowKey = (rowKey: Function | string | number | undefined) => {
 };
 
 const EditableCell: React.FC<Record<string, any>> = (eProps) => {
-  const {
-    editing,
-    editable,
-    dataIndex,
-    record,
-    index,
-    children,
-    ...restProps
-  } = eProps;
+  const { editing, editable, dataIndex, children, ...restProps } = eProps;
+
+  console.log('eProps', eProps);
+
   return (
     <td {...restProps}>
       {editing ? (
@@ -47,24 +35,53 @@ const EditableCell: React.FC<Record<string, any>> = (eProps) => {
   );
 };
 
-type EditTableOptions = {
-  editTableRef: any;
-  editingKey: React.Key;
-  onEditingKey: (key: React.Key) => void;
-  onEdit: () => void;
-  onSave: () => void;
-  onCancel: () => void;
-  onDelete: () => void;
+export type LEditTableInstance = {
+  /** 调用编辑方法 */
+  edit: (record: Record<string, any>) => void;
+  /** 调用保存方法 */
+  save: (key: React.Key) => void;
+  /** 调用取消方法*/
+  cancel: () => void;
+  /** 调用删除方法*/
+  delete: (key: React.Key) => void;
 };
 
-type LEditTableProps = {
-  editTableOptions: EditTableOptions;
-} & Partial<LTableProps>;
+export type EditTableOptions = {
+  /** 表格表格的实例 */
+  editTableRef: React.MutableRefObject<LEditTableInstance | undefined>;
+  /** 正在编辑项的key值(唯一id) */
+  editingKey: React.Key;
+  /** 受控 编辑的key改变时触发 */
+  onEditingKey: (key: React.Key) => void;
+  /** 编辑修改的回调 */
+  onEdit?: () => void;
+  /** 保存更新的回调 */
+  onSave?: () => void;
+  /** 取消的回调 */
+  onCancel?: () => void;
+  /** 删除的回调 */
+  onDelete?: () => void;
+};
 
+export type LEditTableProps = {
+  editTableOptions: EditTableOptions;
+  columns: TableProps<any>['columns'] & {
+    editable?: React.ReactNode;
+  };
+} & Partial<Omit<LTableProps, 'columns'>>;
+
+/**
+ * 编辑表格
+ */
 const LEditTable: React.FC<LEditTableProps> = (props) => {
-  const { columns, rowKey: outRowKey, editTableOptions } = props;
+  const {
+    columns,
+    dataSource,
+    rowKey: outRowKey,
+    editTableOptions,
+    ...restprops
+  } = props;
   const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
 
   const [editingKey, setEditingKey] = useControllableValue(editTableOptions, {
     defaultValue: '',
@@ -77,13 +94,14 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     [outRowKey],
   );
 
-  const isEditing = (record: Record<string, any>) =>
-    getCurentRowKey(record) === editingKey;
+  const isEditing = (record: Record<string, any>) => {
+    return getCurentRowKey(record) === editingKey;
+  };
 
   const onEdit = (record: Record<string, any>) => {
     form.setFieldsValue({ ...record });
-    const key = getCurentRowKey(record) as Key;
-    setEditingKey(key);
+    const keyId = getCurentRowKey(record) as React.Key;
+    setEditingKey(keyId);
     editTableOptions?.onEdit?.();
   };
 
@@ -94,7 +112,8 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
   const onSave = async (key: React.Key) => {
     const row = await form.validateFields();
-    const newData = [...data];
+    console.log('row', row);
+    const newData = [...(dataSource || [])];
     const index = newData.findIndex((item) => key === item.key);
     if (index > -1) {
       const item = newData[index];
@@ -102,14 +121,18 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         ...item,
         ...row,
       });
-      setData(newData);
+      // setData(newData);
       setEditingKey('');
     } else {
       newData.push(row);
-      setData(newData);
+      // setData(newData);
       setEditingKey('');
     }
     editTableOptions?.onSave?.();
+  };
+
+  const onDelete = (key: React.Key) => {
+    console.log('key', key);
   };
 
   const mergedColumns = columns?.map((col) => {
@@ -118,21 +141,19 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     }
     return {
       ...col,
-      onCell: (record: Record<string, any>, index: number) => {
-        record.editing = isEditing(record);
-
+      onCell: (record: Record<string, any>) => {
         return {
-          index,
-          record,
+          editing: isEditing(record),
           editable: col.editable,
           dataIndex: col.dataIndex,
-          editing: isEditing(record),
         };
       },
     };
   });
 
-  const onDelete = (key) => {};
+  dataSource?.forEach((item) => {
+    item.editing = isEditing(item);
+  });
 
   // 暴露外部方法
   useImperativeHandle(editTableOptions.editTableRef, () => ({
@@ -146,20 +167,29 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     delete: onDelete,
   }));
 
+  console.log('dataSource ', dataSource);
+  console.log('editingKey ', editingKey);
   return (
     <Form form={form} component={false}>
       <BaseTable
-        {...props}
+        showToolbar={false}
+        // toolbarActionConfig={{
+        //   showReload: false,
+        //   showColumnSetting: false,
+        //   showFullscreen: false,
+        //   ...props.toolbarActionConfig,
+        // }}
         components={{
           body: {
             cell: EditableCell,
           },
+          ...restprops?.components,
         }}
+        dataSource={dataSource}
         rowKey={outRowKey}
         columns={mergedColumns}
-        bordered
-        dataSource={data}
-        rowClassName="light-editable-row"
+        rowClassName={classnames('light-editable-row', restprops?.rowClassName)}
+        {...restprops}
       />
     </Form>
   );
