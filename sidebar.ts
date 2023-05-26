@@ -57,6 +57,10 @@ export default {
           link: '/components/list',
         },
         {
+          title: 'LSeamlessScroll-无缝滚动',
+          link: '/components/seamless-scroll',
+        },
+        {
           title: 'LCollapseCard-折叠卡片',
           link: '/components/collapse-card',
         },

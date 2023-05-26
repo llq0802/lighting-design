@@ -64,7 +64,14 @@ const FileViewerPictureCard: FC<PictureCardProps> = ({
   className,
   ...restProps
 }) => {
-  const [fileInfo, setFileInfo] = useState<any>({});
+  const [fileInfo, setFileInfo] = useState<{
+    thumbUrl?: string | false;
+    name: string;
+    uid: string;
+    url: string;
+    fileName: string;
+    fileType: string;
+  }>({});
   const [open, setOpen] = useState(false);
 
   const innerFileList = useMemo(() => {

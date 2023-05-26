@@ -22,7 +22,7 @@ export default defineConfig({
     footer:
       'Open-source MIT Licensed | Copyright © 2020-present Powered by llq0802',
     socialLinks: {
-      github: 'https://github.com/llq0802',
+      github: 'https://github.com/llq0802/lighting-design/tree/v2',
     },
     rtl: true,
     nav: [

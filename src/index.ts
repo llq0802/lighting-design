@@ -69,6 +69,8 @@ export * from './NumberRoll';
 export { default as LNumberRoll } from './NumberRoll';
 export * from './QueryForm';
 export { default as LQueryForm } from './QueryForm';
+export * from './SeamlessScroll';
+export { default as LSeamlessScroll } from './SeamlessScroll';
 export * from './StepsForm';
 export { default as LStepsForm } from './StepsForm';
 export * from './Table';
