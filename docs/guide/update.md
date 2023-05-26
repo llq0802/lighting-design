@@ -8,6 +8,7 @@ order: 3
 - [LCardGroup - 卡片选择组件](/components/card-group)
 - [LTagGroup - 标签选择组件](/components/tag-group)
 - [LCollapseCard - 折叠卡片组件](/components/collapse-card)
+- [LSeamlesScroll - 无缝滚动组件](/components/seamles-scroll)
 - [LListForm - 列表表单组件](/components/list-form)
 - [LFormItmeIcon - 图标选择组件](/components/form-item-icon)
 - [LFormItemNumberRange - 数字范围组件](/components/form-item-number-range)
@@ -33,6 +34,6 @@ order: 3
 
 **其他**
 
-- 时间日期改用`day.js`
+- 时间日期改用`day.js`48888
 - 部分组件的`API`与`antd v5`同步
 - 不支持 IE 浏览器，包括（IE11）。

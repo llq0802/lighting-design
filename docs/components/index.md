@@ -20,8 +20,9 @@ toc: content
 ## 数据展示
 
 - [LTable] - 高级表格
-- [LCollapseCard] - 折叠卡片
 - [LList] - 高级列表
+- [LSeamlessScroll] - 无缝滚动
+- [LCollapseCard] - 折叠卡片
 
 ## 高级表单
 
@@ -73,6 +74,7 @@ toc: content
 [lcaptchabutton]: /components/captcha-button
 [ltable]: /components/table
 [llist]: /components/list
+[lseamlessscroll]: /components/seamles-scroll
 [LCollapseCard]: /components/collapse-card
 [LCardGroup]: /components/card-group
 [LTagGroup]: /components/tag-group
