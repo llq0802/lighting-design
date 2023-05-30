@@ -9,13 +9,15 @@ import {
 import { useState } from 'react';
 import { awaitTime } from '../../../_test';
 
-export default function AddEditModal({ tableRef }) {
+export default function AddEditModal({ funcRef, tableRef }) {
   const [form] = LForm.useForm();
 
   const [open, setOpen] = useState(false);
 
-  const {} = useShow(tableRef, {
-    onShow() {},
+  const { parentData } = useShow(funcRef, {
+    onShow: () => {
+      setOpen(true);
+    },
   });
 
   return (
@@ -26,11 +28,10 @@ export default function AddEditModal({ tableRef }) {
       isEnterSubmit={false}
       open={open}
       form={form}
-      title={data ? '修改' : '新增'}
+      title={parentData ? '修改' : '新增'}
       onFinish={async (values) => {
         await awaitTime(); // 发起请求
         console.log('onFinish-values ', values);
-        onChange(); // 响应成功后，刷新表格
         return true;
       }}
       {...restProps}
