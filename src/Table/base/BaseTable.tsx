@@ -520,6 +520,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       </div>
     </div>
   ) : null;
+
   const tableDom = (
     <Spin {...currentLoading}>
       <Card

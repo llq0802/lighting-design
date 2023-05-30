@@ -13,6 +13,10 @@ toc: content
 
 <code src='./demos/Demo1.tsx'></code>
 
+### 修改文字
+
+<code src='./demos/Demo3.tsx'></code>
+
 ### 3s 后再倒计时
 
 <code src='./demos/Demo2.tsx'></code>

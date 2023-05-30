@@ -13,6 +13,10 @@ toc: content
 
 <code src='./demos/Demo1.tsx'></code>
 
+### 折叠触发位置为 header
+
+<code src='./demos/Demo3.tsx'></code>
+
 ### 受控
 
 <code src='./demos/Demo2.tsx'></code>
@@ -27,6 +31,7 @@ import { LCollapseCard } from 'lighting-design';
 | :--------------: | :-----------------------: | :-----------------------------------------: | :------: |
 | defaultCollapsed |    初始化是否展开状态     |                  `boolean`                  | `false`  |
 |    collapsed     |     受控是否展开状态      |                  `boolean`                  |   `-`    |
+| triggerPosition  |      触发折叠的位置       |            `'header' \| 'icon'`             |  `icon`  |
 |   collapsible    |        是否能展开         |                  `boolean`                  |  `true`  |
 |   forceRender    | 被隐藏时是否渲染 DOM 结构 |                  `boolean`                  | `false`  |
 |      ghost       |    使面板透明且无边框     |                  `boolean`                  | `false`  |

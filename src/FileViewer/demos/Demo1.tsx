@@ -18,8 +18,12 @@ function Demo1() {
 
   return (
     <Space>
-      <Button onClick={() => setOpen(true)}>预览单张图片</Button>
-      <Button onClick={() => setOpen2(true)}>预览多张图片</Button>
+      <Button type="primary" onClick={() => setOpen(true)}>
+        预览单张图片
+      </Button>
+      <Button type="primary" onClick={() => setOpen2(true)}>
+        预览多张图片
+      </Button>
       <LFileViewer
         fileType="image"
         url={[`${publicPath}test.jpg`]}

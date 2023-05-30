@@ -2,7 +2,7 @@ import { SettingOutlined } from '@ant-design/icons';
 import { LCollapseCard } from 'lighting-design';
 import { useState } from 'react';
 
-export default function Demo1() {
+export default function () {
   const [collapsed, setCollapsed] = useState(true);
 
   return (

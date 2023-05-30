@@ -46,7 +46,7 @@ import { LForm } from 'lighting-design';
 | 参数            | 说明                                                                                                                  | 类型                                                                                        | 默认值   |
 | --------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------- |
 | labelWidth      | label 宽度 ,为 `number` 时 不建议与 `labelCol` 属性同时设置                                                           | `number \| 'auto'`                                                                          | `'auto'` |
-| transformValues | 在 `onFinish` 调用之前转化表单值                                                                                      | `(values: Record<string, any>) => Record<string, any>`                                      | `-`      |
+| transformValues | 在 `onFinish` 调用之前转化表单值 , 返回值会传给 `onFinish` 的参数                                                     | `(values: Record<string, any>) => Record<string, any>`                                      | `-`      |
 | submitter       | 提交、重置按钮相关配置。为`false`将不会渲染                                                                           | `false` \| [LFormSubmitterProps](/components/form#lformsubmitterprops)                      | `-`      |
 | isEnterSubmit   | 是否开启回车键提交，注意不要与 `submitter`中 `submitButtonProps` 的自定义 `htmlType='submit'` 的按钮冲突。            | `boolean`                                                                                   | `true`   |
 | loading         | 设置提交、重置的加载/禁止状态。<br/>如果 `onFinish` 返回异步则无需设置，内部会自动更新。                              | `boolean`                                                                                   | `false`  |
@@ -71,7 +71,7 @@ import { LForm } from 'lighting-design';
 | onReset           | 点击重置按钮的回调                                                                                                             | `(e) => void`                                                                    | `-`    |
 | render            | 自定义操作的渲染                                                                                                               | ` (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-`    |
 
-> `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为(重置或提交事件)。
+> `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置或提交事件)`。
 
 ```ts
 <LForm

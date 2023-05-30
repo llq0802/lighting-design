@@ -9,6 +9,10 @@ toc: content
 
 ## 代码演示
 
+### 卡片列表
+
+<code src='./demos/Demo2.tsx' ></code>
+
 ### 虚拟列表
 
 <code src='./demos/Demo3.tsx' ></code>
@@ -17,13 +21,9 @@ toc: content
 
 <code src='./demos/Demo1.tsx' ></code>
 
-### 滚动加载
+### 无线滚动加载
 
 <code src='./demos/Demo4.tsx' ></code>
-
-### 卡片列表
-
-<code src='./demos/Demo2.tsx' ></code>
 
 ## API
 

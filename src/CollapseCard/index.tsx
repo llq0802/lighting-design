@@ -42,6 +42,9 @@ export type LCollapseCardProps = {
   style?: CSSProperties;
   /** 组件大小 */
   size?: CollapseProps['size'];
+  /** 触发折叠的位置 */
+  triggerPosition?: 'header' | 'icon';
+
   children: ReactNode;
 };
 
@@ -145,6 +148,7 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
     expandIcon,
     defaultCollapsed,
     children,
+    triggerPosition = 'icon',
     ...restProps
   } = props;
 
@@ -157,7 +161,7 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
 
   return (
     <Collapse
-      collapsible="icon"
+      collapsible={triggerPosition === 'icon' ? 'icon' : void 0}
       activeKey={collapsed ? ['1'] : []}
       ghost={ghost}
       destroyInactivePanel={destroyContent}

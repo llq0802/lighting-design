@@ -52,11 +52,21 @@ function Demo2() {
 
   return (
     <Space>
-      <Button onClick={() => preview('audio')}>预览音频</Button>
-      <Button onClick={() => preview('video')}>预览视频</Button>
-      <Button onClick={() => preview('pdf')}>预览pdf</Button>
-      <Button onClick={() => preview('word')}>预览word</Button>
-      <Button onClick={() => preview('excel')}>预览excel</Button>
+      <Button type="primary" onClick={() => preview('audio')}>
+        预览音频
+      </Button>
+      <Button type="primary" onClick={() => preview('video')}>
+        预览视频
+      </Button>
+      <Button type="primary" onClick={() => preview('pdf')}>
+        预览pdf
+      </Button>
+      <Button type="primary" onClick={() => preview('word')}>
+        预览word
+      </Button>
+      <Button type="primary" onClick={() => preview('excel')}>
+        预览excel
+      </Button>
       <LFileViewer
         {...previewInfo}
         open={open}
