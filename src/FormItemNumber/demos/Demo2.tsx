@@ -20,6 +20,7 @@ const Demo = () => {
       <LFormItemNumber
         label="金额2"
         name="number2"
+        required
         numberProps={{
           prefix: '￥',
         }}
@@ -27,6 +28,7 @@ const Demo = () => {
       <LFormItemNumber
         label="数字"
         name="number3"
+        required
         max={1000}
         numberProps={{
           precision: undefined,
@@ -36,9 +38,10 @@ const Demo = () => {
       <LFormItemNumber
         name="number66"
         label="格式化数字1"
+        required
+        initialValue={1000}
         numberProps={{
           precision: undefined,
-          defaultValue: 1000,
           formatter: (value) =>
             `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
           parser: (value) => value!.replace(/\$\s?|(,*)/g, ''),
@@ -46,10 +49,11 @@ const Demo = () => {
       />
       <LFormItemNumber
         label="格式化数字2"
+        required
         name="number77"
+        initialValue={99}
         numberProps={{
           precision: undefined,
-          defaultValue: 99,
           formatter: (value) => `${value}%`,
           parser: (value) => value!.replace('%', ','),
         }}

@@ -33,6 +33,8 @@ nav:
 
 ## API
 
+> 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是设置 `defaultValue`
+
 ```ts
 import { LForm } from 'lighting-design';
 ```
