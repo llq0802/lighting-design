@@ -4,7 +4,6 @@ import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef } from 'react';
-import AddEditModal from './components/AddEditModal';
 
 const originData = [
   {
@@ -13,54 +12,14 @@ const originData = [
     age: 10,
     address: 'New York No. 1 Lake Park',
   },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '4',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '5',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '6',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '7',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '8',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
-  {
-    key: '9',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
+  { key: '2', name: 'Jim Green', age: 42, address: 'London No. 1 Lake Park' },
+  { key: '3', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+  { key: '4', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+  { key: '5', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+  { key: '6', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+  { key: '7', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+  { key: '8', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
+  { key: '9', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
 ];
 
 const Demo1: FC = () => {
@@ -82,15 +41,12 @@ const Demo1: FC = () => {
       queryFormProps={{ showColsNumber: 3 }}
       toolbarLeft={
         <>
-          <Button
-            type="primary"
-            onClick={() => {
-              console.log(' tableRef', tableRef);
-            }}
-          >
-            新增
-          </Button>
-          <AddEditModal />
+          <Button type="primary">新增</Button>
+        </>
+      }
+      toolbarRight={
+        <>
+          <Button type="primary">审批</Button>
         </>
       }
       formItems={formItems}

@@ -14,7 +14,6 @@ export default function AddEditModal({ data, onChange, open, ...restProps }) {
   useEffect(() => {
     if (open && data) {
       form.setFieldsValue(data);
-      // } else {
       //   form.resetFields(); // 和 modalProps.destroyOnClose=true 效果一样
     }
   }, [open, data, form]);
@@ -30,7 +29,6 @@ export default function AddEditModal({ data, onChange, open, ...restProps }) {
       title={data ? '修改' : '新增'}
       onFinish={async (values) => {
         await awaitTime(); // 发起请求
-        console.log('onFinish-values ', values);
         onChange(); // 响应成功后，刷新表格
         return true;
       }}

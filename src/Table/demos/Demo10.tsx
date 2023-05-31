@@ -8,7 +8,7 @@ import { awaitTime } from '../../_test';
 import AddEditModal from './components/AddEditModal';
 import { apiGetUserList, columns } from './service';
 
-const Demo1: FC = () => {
+const Demo: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
   const [open, setOpen] = useState(false);
@@ -37,22 +37,14 @@ const Demo1: FC = () => {
   return (
     <>
       <LTable
-        tableLayout="fixed"
-        rowClassName="lightd-table-row"
-        rootClassName="my-table-root"
-        tableClassName="my-table"
+        isSort
         rowKey="key"
-        loading={{ size: 'large', tip: '加载中...' }}
         tableRef={tableRef}
-        queryFormProps={{
-          showColsNumber: 3,
-        }}
         toolbarLeft={
           <>
             <Button
               type="primary"
               onClick={() => {
-                console.log(' tableRef', tableRef);
                 setEditablRecord(undefined);
                 setOpen(true);
               }}
@@ -113,4 +105,4 @@ const Demo1: FC = () => {
   );
 };
 
-export default Demo1;
+export default Demo;

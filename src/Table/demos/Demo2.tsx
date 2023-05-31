@@ -15,14 +15,6 @@ const Demo2: FC = () => {
       showToolbar={false}
       columns={columns}
       pagination={false}
-      toolbarActionConfig={{
-        orders: {
-          columnSetting: 1,
-          fullscreen: 2,
-          density: 3,
-          reload: 4,
-        },
-      }}
       request={async (params, requestType) => {
         // console.log('==params==', params);
         // console.log('requestType ', requestType);

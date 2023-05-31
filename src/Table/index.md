@@ -20,7 +20,7 @@ nav:
 
 ## 代码演示
 
-### 基础用法
+### 查询框
 
 <code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
 
@@ -28,7 +28,19 @@ nav:
 
 <code src='./demos/Demo1.tsx' background="#f5f5f5"></code>
 
-### 简易表格
+### 增加序号列
+
+<code src='./demos/Demo10.tsx' background="#f5f5f5"></code>
+
+### 重新排序内置工具栏
+
+<code src='./demos/Demo8.tsx' background="#f5f5f5"></code>
+
+### 隐藏部分内置工具栏
+
+<code src='./demos/Demo9.tsx' background="#f5f5f5"></code>
+
+### 隐藏分页栏
 
 <code src='./demos/Demo2.tsx' background="#f5f5f5"></code>
 
@@ -58,6 +70,10 @@ nav:
 [拖拽排序](https://ant.design/components/table-cn#components-table-demo-drag-sorting)
 [拖拽手柄](https://ant.design/components/table-cn#components-table-demo-drag-sorting-handler)
 
+### 虚拟表格
+
+[虚拟表格](https://ant.design/components/table-cn#components-table-demo-virtual-list)
+
 ## API
 
 ```ts
@@ -80,7 +96,7 @@ import { LTable } from 'lighting-design';
 | nowrap               | 表格宽度超过 100%自动处理横向滚动条。                                    | `boolean`                                                                      | `true`                                             |
 | autoRequest          | 是否自动请求                                                             | `boolean`                                                                      | `true`                                             |
 | defaultRequestParams | 异步请求函数第一次额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) | `Record<string, any>`                                                          | `-`                                                |
-| request              | 异步请求函数，用于获取表格数据                                           | `LTableRequest`                                                                | `-`                                                |
+| request              | 异步请求函数，用于获取表格数据                                           | [LTableRequest](/components/table#ltablerequest)                               | `-`                                                |
 | requestOptions       | `useRequest`的配置 建议只配置`onError onSuccess回调` 其他不建议配置      | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options)      | `-`                                                |
 | formRef              | 查询表单的实例                                                           | `MutableRefObject<FormInstance \| undefined> \| ((ref: FormInstance) => void)` | `-`                                                |
 | tableRef             | 表格的实例 包含一些方法                                                  | ` MutableRefObject<LTableInstance \| undefined>`                               | `-`                                                |
@@ -92,9 +108,9 @@ import { LTable } from 'lighting-design';
 | formCardProps        | 查询表单外层的 `Card` 组件的 `CardProps`                                 | [CardProps](https://ant.design/components/card-cn/#api)                        | `{bodyStyle:{paddingBottom: 0, marginBottom: 16}}` |
 | tableCardProps       | 表格外层的 `Card` 组件的 `CardProps`                                     | [CardProps](https://ant.design/components/card-cn/#api)                        | `-`                                                |
 | showToolbar          | 是否显示整个 toolbar                                                     | `boolean`                                                                      | `true`                                             |
-| toolbarActionConfig  | 配置内置表格工具栏 与 Space 组件有相同属性 showToolbar 为 true 时生效    | `LToolbarActionProps`                                                          | `-`                                                |
+| toolbarActionConfig  | 配置内置表格工具栏 与 Space 组件有相同属性 showToolbar 为 true 时生效    | [LToolbarActionProps](/components/table#ltoolbaractionprops)                   | `-`                                                |
 | toolbarRender        | 重新渲染 toolBar 包括内置表格工具                                        | `(ToolbarActionDom: ReactNode) => ReactNode`                                   | `-`                                                |
-| tableRender          | 重新渲染整个表格                                                         | `LTableRenderProps`                                                            | `-`                                                |
+| tableRender          | 重新渲染整个表格                                                         | [LTableRenderProps](/components/table#ltablerenderprops)                       | `-`                                                |
 | contentRender        | 重新渲染表格内容                                                         | `(data: Record<string, any>[]) => ReactNode`                                   | `-`                                                |
 | toolbarLeft          | 整个 toolBar 的左侧                                                      | `ReactNode`                                                                    | `-`                                                |
 | toolbarRight         | 整个 toolBar 的右侧 在内置表格工具左侧                                   | `ReactNode`                                                                    | `-`                                                |

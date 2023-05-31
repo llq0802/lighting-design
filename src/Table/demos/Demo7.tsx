@@ -4,7 +4,6 @@ import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
-import AddEditModal from './components/AddEditModal';
 import { apiGetUserList, columns } from './service';
 
 const Demo7: FC = () => {
@@ -13,13 +12,14 @@ const Demo7: FC = () => {
 
   useEffect(() => {
     // 也可以为URL的参数
-    formRef.current?.setFieldsValue({
-      input4: '输入框1',
-      input5: '输入框2',
-    });
-
-    // 手动发起请求
-    tableRef.current?.onSearch();
+    setTimeout(() => {
+      formRef.current?.setFieldsValue({
+        input4: '输入框1',
+        input5: '输入框2',
+      });
+      // 手动发起请求
+      tableRef.current?.onSearch();
+    }, 2000);
   }, []);
 
   const formItems = [
@@ -35,20 +35,10 @@ const Demo7: FC = () => {
       // 关闭自动请求
       autoRequest={false}
       rowKey="key"
-      isSort
       tableRef={tableRef}
-      queryFormProps={{}}
       toolbarLeft={
         <>
-          <Button
-            type="primary"
-            onClick={() => {
-              console.log(' tableRef', tableRef);
-            }}
-          >
-            新增
-          </Button>
-          <AddEditModal />
+          <Button type="primary">新增</Button>
         </>
       }
       formItems={formItems}
