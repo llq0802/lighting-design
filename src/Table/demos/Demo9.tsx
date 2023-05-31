@@ -37,13 +37,12 @@ const Demo: FC = () => {
     </>
   );
 
-  const toolbarActionConfig = {
-    showFullscreen: false,
-    showColumnSetting: false,
-  };
   return (
     <LTable
-      toolbarActionConfig={toolbarActionConfig}
+      toolbarActionConfig={{
+        showFullscreen: false,
+        showColumnSetting: false,
+      }}
       rowKey="key"
       tableRef={tableRef}
       toolbarLeft={toolbarLeft}

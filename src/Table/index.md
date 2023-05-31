@@ -88,36 +88,36 @@ import { LTable } from 'lighting-design';
 
 <!-- | fillSpace | 表格外层 div 是否占满剩余空间 | `boolean` | `false` | -->
 
-| 参数                 | 说明                                                                     | 类型                                                                           | 默认值                                             |
-| -------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | -------------------------------------------------- |
-| isSort               | 表格是否需要排序序号                                                     | `boolean`                                                                      | `false`                                            |
-| isReady              | 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询                | `boolean`                                                                      | `true`                                             |
-| fullScreenBgColor    | 全屏时显示的背景颜色                                                     | `string`                                                                       | `#fff`                                             |
-| nowrap               | 表格宽度超过 100%自动处理横向滚动条。                                    | `boolean`                                                                      | `true`                                             |
-| autoRequest          | 是否自动请求                                                             | `boolean`                                                                      | `true`                                             |
-| defaultRequestParams | 异步请求函数第一次额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) | `Record<string, any>`                                                          | `-`                                                |
-| request              | 异步请求函数，用于获取表格数据                                           | [LTableRequest](/components/table#ltablerequest)                               | `-`                                                |
-| requestOptions       | `useRequest`的配置 建议只配置`onError onSuccess回调` 其他不建议配置      | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options)      | `-`                                                |
-| formRef              | 查询表单的实例                                                           | `MutableRefObject<FormInstance \| undefined> \| ((ref: FormInstance) => void)` | `-`                                                |
-| tableRef             | 表格的实例 包含一些方法                                                  | ` MutableRefObject<LTableInstance \| undefined>`                               | `-`                                                |
-| rootClassName        | 表格最外层根 div 类名                                                    | `string`                                                                       | `-`                                                |
-| tableClassName       | `antd` 表格额外类名                                                      | `string`                                                                       | `-`                                                |
-| tableStyle           | `antd` 表格额外样式                                                      | `CSSProperties`                                                                | `-`                                                |
-| rootStyle            | 表格最外层根 div 样式                                                    | `CSSProperties`                                                                | `-`                                                |
-| toolbarStyle         | 整个`toolbar`的样式 `showToolbar` 为 `true` 时生效                       | `CSSProperties`                                                                | `{ marginBottom: 16}`                              |
-| formCardProps        | 查询表单外层的 `Card` 组件的 `CardProps`                                 | [CardProps](https://ant.design/components/card-cn/#api)                        | `{bodyStyle:{paddingBottom: 0, marginBottom: 16}}` |
-| tableCardProps       | 表格外层的 `Card` 组件的 `CardProps`                                     | [CardProps](https://ant.design/components/card-cn/#api)                        | `-`                                                |
-| showToolbar          | 是否显示整个 toolbar                                                     | `boolean`                                                                      | `true`                                             |
-| toolbarActionConfig  | 配置内置表格工具栏 与 Space 组件有相同属性 showToolbar 为 true 时生效    | [LToolbarActionProps](/components/table#ltoolbaractionprops)                   | `-`                                                |
-| toolbarRender        | 重新渲染 toolBar 包括内置表格工具                                        | `(ToolbarActionDom: ReactNode) => ReactNode`                                   | `-`                                                |
-| tableRender          | 重新渲染整个表格                                                         | [LTableRenderProps](/components/table#ltablerenderprops)                       | `-`                                                |
-| contentRender        | 重新渲染表格内容                                                         | `(data: Record<string, any>[]) => ReactNode`                                   | `-`                                                |
-| toolbarLeft          | 整个 toolBar 的左侧                                                      | `ReactNode`                                                                    | `-`                                                |
-| toolbarRight         | 整个 toolBar 的右侧 在内置表格工具左侧                                   | `ReactNode`                                                                    | `-`                                                |
-| tableExtra           | 表格内容上部区域                                                         | `ReactNode`                                                                    | `-`                                                |
-| formItems            | 表单查询框组                                                             | `LFormItemXX[] \| Form.Item[]`                                                 | `-`                                                |
-| formInitialValues    | 查询表单初始值                                                           | `Record<string, any>`                                                          | `-`                                                |
-| queryFormProps       | 查询表单`LQueryFormProps`                                                | [LQueryFormProps](/components/form/query-form)                                 | `-`                                                |
+| 参数                 | 说明                                                                                                 | 类型                                                                           | 默认值                                             |
+| -------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------- |
+| isSort               | 表格是否需要排序序号                                                                                 | `boolean`                                                                      | `false`                                            |
+| isReady              | 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询                                            | `boolean`                                                                      | `true`                                             |
+| fullScreenBgColor    | 全屏时显示的背景颜色                                                                                 | `string`                                                                       | `#fff`                                             |
+| nowrap               | 表格宽度超过 100%自动处理横向滚动条。                                                                | `boolean`                                                                      | `true`                                             |
+| autoRequest          | 是否自动请求                                                                                         | `boolean`                                                                      | `true`                                             |
+| defaultRequestParams | request 额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) 会被注入到 request 的第一个参数对象中 | `Record<string, any>`                                                          | `-`                                                |
+| request              | 异步请求函数，用于获取表格数据                                                                       | [LTableRequest](/components/table#ltablerequest)                               | `-`                                                |
+| requestOptions       | `useRequest`的配置 建议只配置`onError onSuccess回调` 其他不建议配置                                  | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options)      | `-`                                                |
+| formRef              | 查询表单的实例                                                                                       | `MutableRefObject<FormInstance \| undefined> \| ((ref: FormInstance) => void)` | `-`                                                |
+| tableRef             | 表格的实例 包含一些方法                                                                              | ` MutableRefObject<LTableInstance \| undefined>`                               | `-`                                                |
+| rootClassName        | 表格最外层根 div 类名                                                                                | `string`                                                                       | `-`                                                |
+| tableClassName       | `antd` 表格额外类名                                                                                  | `string`                                                                       | `-`                                                |
+| tableStyle           | `antd` 表格额外样式                                                                                  | `CSSProperties`                                                                | `-`                                                |
+| rootStyle            | 表格最外层根 div 样式                                                                                | `CSSProperties`                                                                | `-`                                                |
+| toolbarStyle         | 整个`toolbar`的样式 `showToolbar` 为 `true` 时生效                                                   | `CSSProperties`                                                                | `{ marginBottom: 16}`                              |
+| formCardProps        | 查询表单外层的 `Card` 组件的 `CardProps`                                                             | [CardProps](https://ant.design/components/card-cn/#api)                        | `{bodyStyle:{paddingBottom: 0, marginBottom: 16}}` |
+| tableCardProps       | 表格外层的 `Card` 组件的 `CardProps`                                                                 | [CardProps](https://ant.design/components/card-cn/#api)                        | `-`                                                |
+| showToolbar          | 是否显示整个 toolbar                                                                                 | `boolean`                                                                      | `true`                                             |
+| toolbarActionConfig  | 配置内置表格工具栏 与 Space 组件有相同属性 showToolbar 为 true 时生效                                | [LToolbarActionProps](/components/table#ltoolbaractionprops)                   | `-`                                                |
+| toolbarRender        | 重新渲染 toolBar 包括内置表格工具                                                                    | `(ToolbarActionDom: ReactNode) => ReactNode`                                   | `-`                                                |
+| tableRender          | 重新渲染整个表格                                                                                     | [LTableRenderProps](/components/table#ltablerenderprops)                       | `-`                                                |
+| contentRender        | 重新渲染表格内容                                                                                     | `(data: Record<string, any>[]) => ReactNode`                                   | `-`                                                |
+| toolbarLeft          | 整个 toolBar 的左侧                                                                                  | `ReactNode`                                                                    | `-`                                                |
+| toolbarRight         | 整个 toolBar 的右侧 在内置表格工具左侧                                                               | `ReactNode`                                                                    | `-`                                                |
+| tableExtra           | 表格内容上部区域                                                                                     | `ReactNode`                                                                    | `-`                                                |
+| formItems            | 表单查询框组                                                                                         | `LFormItemXX[] \| Form.Item[]`                                                 | `-`                                                |
+| formInitialValues    | 查询表单初始值                                                                                       | `Record<string, any>`                                                          | `-`                                                |
+| queryFormProps       | 查询表单`LQueryFormProps`                                                                            | [LQueryFormProps](/components/form/query-form)                                 | `-`                                                |
 
 ### LTableRequest
 
@@ -168,7 +168,7 @@ export type LTableRenderProps = (
 ### LTableRequestType
 
 ```ts
-// autoRequest 为 true 时才有 onInit;
+// autoRequest 为 true 时的初始化请求为 onInit;
 // 查询按钮请求为 'onSearch'
 // 表格分页查询为 'onReload'
 export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset';
