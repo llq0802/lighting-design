@@ -28,6 +28,10 @@ nav:
 
 <code src='./demos/Demo1.tsx' background="#f5f5f5"></code>
 
+### 手动控制 loading
+
+<code src='./demos/Demo11.tsx' background="#f5f5f5"></code>
+
 ### 增加序号列
 
 <code src='./demos/Demo10.tsx' background="#f5f5f5"></code>

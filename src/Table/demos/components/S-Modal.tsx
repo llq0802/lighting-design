@@ -1,3 +1,5 @@
+import { message } from 'antd';
+import type { LTableInstance, UseShowInstance } from 'lighting-design';
 import {
   LForm,
   LFormItemInput,
@@ -6,38 +8,47 @@ import {
   LModalForm,
   useShow,
 } from 'lighting-design';
+import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { awaitTime } from '../../../_test';
 
-export default function AddEditModal({ funcRef, tableRef, ...restProps }) {
+type TypeProps = {
+  tableRef: React.MutableRefObject<LTableInstance | undefined>;
+  modalRef: React.MutableRefObject<UseShowInstance | undefined>;
+  [key: string]: any;
+};
+
+const Demo: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
   const [form] = LForm.useForm();
-
   const [open, setOpen] = useState(false);
-
-  const { parentData } = useShow(funcRef, {
+  const { parentData } = useShow(modalRef, {
     onShow: () => {
       setOpen(true);
     },
   });
   useEffect(() => {
-    if (open) {
+    if (open && form) {
       form.setFieldsValue(parentData);
-      //   form.resetFields(); // 和 modalProps.destroyOnClose=true 效果一样
+      //  form.resetFields(); // 和 modalProps.destroyOnClose=true 效果一样
     }
   }, [open, form]);
 
+  const isAdd = Object.keys(parentData ?? {})?.length;
   return (
     <LModalForm
+      // 受控绑定 open
+      open={open}
+      onOpenChange={setOpen}
       labelWidth={84}
-      name="update-modal-form"
       isDraggable
       isEnterSubmit={false}
-      open={open}
       form={form}
-      title={parentData ? '修改' : '新增'}
+      title={!isAdd ? '修改' : '新增'}
       onFinish={async (values) => {
         await awaitTime(); // 发起请求
         console.log('onFinish-values ', values);
+        message.success('修改成功!');
+        tableRef.current?.onReload();
         return true;
       }}
       {...restProps}
@@ -47,11 +58,14 @@ export default function AddEditModal({ funcRef, tableRef, ...restProps }) {
         label="单选"
         name="radio"
         required
-        options={[
-          { label: 'AA', value: 'a' },
-          { label: 'BB', value: 'b' },
-          { label: 'CC', value: 'c' },
-        ]}
+        request={async () => {
+          await awaitTime(); // 发起请求
+          return [
+            { label: 'AA', value: 'a' },
+            { label: 'BB', value: 'b' },
+            { label: 'CC', value: 'c' },
+          ];
+        }}
       />
       <LFormItemSelect
         label="下拉框"
@@ -64,4 +78,5 @@ export default function AddEditModal({ funcRef, tableRef, ...restProps }) {
       />
     </LModalForm>
   );
-}
+};
+export default Demo;
