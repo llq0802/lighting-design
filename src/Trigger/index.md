@@ -29,7 +29,7 @@ import { LTrigger } from 'lighting-design';
 
 | 参数                 | 说明                                                         | 类型                                                                       | 默认值                               |
 | -------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------- | ------------------------------------ |
-| width                | 组件宽度                                                     | `number\|string`                                                           | `250`                                |
+| width                | 选择框宽度                                                   | `number\|string`                                                           | `250`                                |
 | fieldNames           | 配置字段 label 字段名，value 字段的名                        | `{ label: string; value: string; }`                                        | `{ label: 'label',value: 'value' } ` |
 | children             | children 组件会接受到 `open`，`setOpen`，`value`，`onChange` | `ReactElement`                                                             | `-`                                  |
 | size                 | 选择框大小                                                   | `'small' \| 'middle'\|'large'`                                             | `'middle'`                           |
@@ -38,7 +38,7 @@ import { LTrigger } from 'lighting-design';
 | disabled             | 禁用                                                         | `boolean`                                                                  | `false`                              |
 | placeholder          | placeholder                                                  | `string`                                                                   | `'请选择'`                           |
 | popupClassName       | 弹出层类名                                                   | `string`                                                                   | `-`                                  |
-| dropdownWidth        | 弹出层宽度                                                   | `number`                                                                   | `500`                                |
+| dropdownWidth        | 弹出层宽度 当值小于选择框宽度时会被忽略                      | `number`                                                                   | `500`                                |
 | dropdownStyle        | 弹出层样式                                                   | `CSSProperties`                                                            | `-`                                  |
 | className            | 组件类名                                                     | `string`                                                                   | `-`                                  |
 | style                | 组件样式                                                     | `CSSProperties`                                                            | `-`                                  |

@@ -11,11 +11,11 @@ nav:
 
 ## 代码演示
 
-### 图片格式
+### 图片预览
 
 <code src='./demos/Demo1.tsx'></code>
 
-### 其他文件格式
+### 其他文件预览
 
 <code src='./demos/Demo2.tsx'></code>
 

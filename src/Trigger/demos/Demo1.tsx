@@ -6,7 +6,7 @@ const Demo1 = () => {
   return (
     <div>
       <h4>表格单选</h4>
-      <LTrigger allowClear>
+      <LTrigger allowClear open>
         <ChildTable1 />
       </LTrigger>
       <br />

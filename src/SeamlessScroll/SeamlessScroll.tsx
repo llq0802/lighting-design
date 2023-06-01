@@ -337,7 +337,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     }
   }, [isAutoScroll]);
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     if (count !== 0) {
       startMove();
     }

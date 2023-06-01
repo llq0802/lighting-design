@@ -90,7 +90,7 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
         </div>
       );
 
-  return (
+      
     <Select
       size={size}
       clearIcon={clearIcon}
@@ -103,7 +103,7 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
       dropdownStyle={dropdownStyle}
       fieldNames={fieldNames}
       getPopupContainer={getPopupContainer}
-      dropdownMatchSelectWidth={dropdownWidth}
+      popupMatchselecthidth={dropdownWidth}
       {...selectProps}
       style={{ width: width, ...style }}
       className={classnames(prefixCls, className)}

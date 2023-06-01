@@ -4,20 +4,21 @@ import {
   LFormItemRadio,
   LFormItemSelect,
   LModalForm,
+  useShow,
 } from 'lighting-design';
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { awaitTime } from '../../../_test';
 
-export default function AddEditModal({ data, onChange, open, ...restProps }) {
+export default function AddEditModal({ funcRef, tableRef }) {
   const [form] = LForm.useForm();
 
-  useEffect(() => {
-    if (open && data) {
-      form.setFieldsValue(data);
-      // } else {
-      //   form.resetFields(); // 和 modalProps.destroyOnClose=true 效果一样
-    }
-  }, [open, data, form]);
+  const [open, setOpen] = useState(false);
+
+  const { parentData } = useShow(funcRef, {
+    onShow: () => {
+      setOpen(true);
+    },
+  });
 
   return (
     <LModalForm
@@ -27,11 +28,10 @@ export default function AddEditModal({ data, onChange, open, ...restProps }) {
       isEnterSubmit={false}
       open={open}
       form={form}
-      title={data ? '修改' : '新增'}
+      title={parentData ? '修改' : '新增'}
       onFinish={async (values) => {
         await awaitTime(); // 发起请求
         console.log('onFinish-values ', values);
-        onChange(); // 响应成功后，刷新表格
         return true;
       }}
       {...restProps}
