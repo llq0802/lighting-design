@@ -21,12 +21,12 @@ export interface LStepFormProps
   submitter?:
     | Omit<LStepsFormSubmitterProps, 'total' | 'current' | 'form'>
     | false;
-  /** 当前步骤 内部使用*/
-  readonly stepNum?: number;
+  /** 当前步骤(索引) 内部使用*/
+  readonly _stepNum?: number;
 }
 const prefixCls = 'lightd-form-step';
 
-function StepForm<Values = any>({
+function StepForm({
   title,
   subTitle,
   icon,
@@ -34,7 +34,7 @@ function StepForm<Values = any>({
   stepItemProps,
   submitter,
 
-  stepNum,
+  _stepNum,
 
   name,
   className,
@@ -47,12 +47,12 @@ function StepForm<Values = any>({
   const _lformRef = useRef<Record<string, any>>({});
 
   useEffect(() => {
-    // 存储每个表单实例
-    ctx.formInstanceListRef.current[stepNum as number] = outForm || form;
     // 解决在modal 可能未加载时拿不到 form
     setTimeout(() => {
+      // 存储每个表单实例
+      ctx.formInstanceListRef.current[_stepNum as number] = outForm || form;
       // 存储每个表单的初始值
-      ctx.formInitialValues.current[stepNum as number] = _lformRef.current;
+      ctx.formInitialValues.current[_stepNum as number] = _lformRef.current;
       ctx?.forgetUpdate();
     });
 
@@ -75,7 +75,7 @@ function StepForm<Values = any>({
     // 只要onFinish不返回false 就触发自带的下一步和提交
     if (ret !== false) {
       ctx?.onFormFinish(name as string, values);
-      if (ctx.total - 1 === stepNum) {
+      if (ctx.total - 1 === _stepNum) {
         // 最后一步触发提交
         ctx.submit();
         return;
