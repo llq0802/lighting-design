@@ -57,6 +57,8 @@ const { StepForm } = LStepsForm;
 > isMergeValues 为 false 收集到的值将不合并 此时如果 LStepsForm.StepForm 设置了 name 属性则以 name 作为键
 >
 > 如果 LStepsForm.StepForm 没有设置 name 属性则以每个 LStepsForm.StepForm 的索引作为键
+>
+> LStepsForm 内容的最外层只能是 LStepsForm.StepForm，如果 LStepsForm.StepForm 外层有其他元素，将其整体封装成一个组件并在 props 中将`_stepNum`属性传递给 LStepsForm.StepForm
 
 | 参数             | 说明                                                                                                                                                                                                                                          | 类型                                                                              | 默认值            |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------- |
@@ -133,7 +135,7 @@ interface LStepsFormActionRef {
   // isFinallySubmit为false触发当前表单校验onFinish方法，isFinallySubmit为true提交所有表单值触发LStepsForm的onFinish方法
   // 默认isFinallySubmit为true
   submit: (isFinallySubmit?: boolean) => void;
-  // 重置所有表单和值，将步骤恢复初始步骤
+  // isReady为true时生效，重置所有表单和值，将步骤恢复初始步骤
   reset: () => void;
 }
 ```

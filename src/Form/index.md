@@ -68,7 +68,7 @@ import { LForm } from 'lighting-design';
 | showReset         | 是否渲染重置按钮                                                                                                               | `boolean`                                                                        | `true` |
 | buttonAlign       | 按钮位置 , 为`number`类型时与`LForm`的`labelWidth`效果一致<br>在 `LMoadlForm` 默认为`right`<br>在 `LDrawerForm` 默认为`center` | `'left' \| 'right' \| 'center'\| number`                                         | `-`    |
 | onSubmit          | 点击提交按钮的回调                                                                                                             | `(e) => void`                                                                    | `-`    |
-| onReset           | 点击重置按钮的回调                                                                                                             | `(e) => void`                                                                    | `-`    |
+| onReset           | 点击重置按钮的回调 (优先级比 LForm 的 onReset 高)                                                                              | `(e) => void`                                                                    | `-`    |
 | render            | 自定义操作的渲染                                                                                                               | ` (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-`    |
 
 > `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置或提交事件)`。
