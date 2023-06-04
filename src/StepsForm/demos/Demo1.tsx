@@ -1,34 +1,42 @@
-import { Button, message, Modal } from 'antd';
+import { Button, message, Modal, Space } from 'antd';
 import type { LStepsFormActionRef } from 'lighting-design';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
 import { useRef, useState } from 'react';
 import { awaitTime } from '../../_test';
 
-const Demo2 = () => {
+const Demo1 = () => {
   const actionRef = useRef<LStepsFormActionRef>();
-  const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
 
   return (
     <div>
-      <Button type="primary" onClick={() => setOpen(true)}>
-        打开弹窗
-      </Button>
-
+      <Space>
+        <Button type="primary" onClick={() => setOpen1(true)}>
+          打开弹窗1
+        </Button>
+        <Button type="primary" onClick={() => setOpen2(true)}>
+          打开弹窗2
+        </Button>
+      </Space>
+      {/* 方式一 */}
       <LStepsForm
         actionRef={actionRef}
         onFinish={async (valuse) => {
           await awaitTime();
           console.log('StepsForm-valuse', valuse);
           message.success('提交成功');
+          setOpen1(false);
+          return true;
         }}
         stepsFormRender={(stepsDom, formDom, submitterDom) => {
           return (
             <Modal
-              title="弹窗中的步骤表单"
-              open={open}
+              title="弹窗中的步骤表单1"
+              open={open1}
               footer={submitterDom}
               width={600}
-              onCancel={() => setOpen(false)}
+              onCancel={() => setOpen1(false)}
             >
               {stepsDom}
               {formDom}
@@ -60,19 +68,34 @@ const Demo2 = () => {
           />
         </LStepsForm.StepForm>
       </LStepsForm>
-
-      {/* 
-      <Modal title="分步表单" open={open} width={600} onCancel={() => setOpen(false)}>
+      {/* 方式二*/}
+      <Modal
+        footer={false} // 隐藏Modal的底部配置底部配置
+        title="弹窗中的步骤表单2"
+        open={open2}
+        width={600}
+        onCancel={() => setOpen2(false)}
+      >
         <LStepsForm
+          submitter={{ buttonAlign: 'right' }}
           actionRef={actionRef}
-          submitter={false}
           onFinish={async (valuse) => {
             console.log('StepsForm-valuse', valuse);
           }}
         >
           <LStepsForm.StepForm title="步骤1">
-            <LFormItemInput name={['step1', 'name1']} label="名字1" required tooltip="禁止空格" />
-            <LFormItemInput name={['step1', 'name2']} label="名字2" required tooltip="禁止空格" />
+            <LFormItemInput
+              name={['step1', 'name1']}
+              label="名字1"
+              required
+              tooltip="禁止空格"
+            />
+            <LFormItemInput
+              name={['step1', 'name2']}
+              label="名字2"
+              required
+              tooltip="禁止空格"
+            />
           </LStepsForm.StepForm>
           <LStepsForm.StepForm title="步骤2">
             <LFormItemInput
@@ -84,9 +107,9 @@ const Demo2 = () => {
             />
           </LStepsForm.StepForm>
         </LStepsForm>
-      </Modal> */}
+      </Modal>
     </div>
   );
 };
 
-export default Demo2;
+export default Demo1;

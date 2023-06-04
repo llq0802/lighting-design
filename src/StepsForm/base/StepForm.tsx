@@ -51,14 +51,16 @@ function StepForm({
     setTimeout(() => {
       // 存储每个表单实例
       ctx.formInstanceListRef.current[_stepNum as number] = outForm || form;
-      // 存储每个表单的初始值
-      ctx.formInitialValues.current[_stepNum as number] = _lformRef.current;
       ctx?.forgetUpdate();
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 存储每个表单的初始值 (保证获取到初始值， 因为_lformRef.current是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到)
+  ctx.formInitialValues.current[_stepNum as number] = _lformRef.current;
+
+  // 当前表单的提交
   const handleFinsh = useMemoizedFn(async (values) => {
     let ret: unknown = typeof onFinish === 'function' ? onFinish(values) : true;
     if (ret instanceof Promise) {

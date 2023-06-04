@@ -15,6 +15,14 @@ nav:
 
 <code src='./demos/Demo2.tsx'></code>
 
+### 受控模式
+
+<code src='./demos/Demo10.tsx'></code>
+
+### 被隐藏时销毁 DOM 结构
+
+<code src='./demos/Demo9.tsx'></code>
+
 ### 与 Modal 配合使用
 
 <code src='./demos/Demo1.tsx'></code>
@@ -51,8 +59,6 @@ const { StepForm } = LStepsForm;
 ```
 
 ### LStepsForm
-
-<!-- | isResetFields | `onFinish`返回`true`或`Promise.resolve(true)`时是否可以重置所有表单到初始值和步骤初始值 `会重新挂载子组件,子组件的异步请求会重新执行`<br/>如果子组件配置了`request`请求属性 , 请将 `isResetFields` 设置为`false`并在步骤完成时手动调用每个表单的`form.setFieldsValue()`将其重置 | `boolean` | `true` | -->
 
 > isMergeValues 为 false 收集到的值将不合并 此时如果 LStepsForm.StepForm 设置了 name 属性则以 name 作为键
 >

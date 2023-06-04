@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import { cloneElement, useRef, useState } from 'react';
+import { cloneElement, useEffect, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 
@@ -67,7 +67,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
   const _lformRef = useRef<Record<string, any>>();
-  // const [initialValues, setInitialValues] = useState(outInitialValues ?? {});
+  const [myInitialValues, setInitialValues] = useState(outInitialValues ?? {});
   const [disabled, setDisabled] = useState(false);
   const [bounds, setBounds] = useState({
     left: 0,
@@ -105,19 +105,20 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     }
   });
 
-  // useEffect(() => {
-  //   if (open) {
-  //     const openInitialValues = formRef.current?.getFieldsValue();
-  //     setInitialValues({ ...openInitialValues });
-  //   }
-  // }, [open]);
+  useEffect(() => {
+    // 更新存储表单初始值
+    if (open) {
+      const openInitialValues = formRef.current?.getFieldsValue();
+      setInitialValues({ ...openInitialValues });
+    }
+  }, [open]);
 
   return (
     <>
       <BaseForm
         _lformRef={_lformRef}
         className={classnames(prefixCls, className)}
-        initialValues={outInitialValues} // 解决form实例与moadl绑定失败的问题
+        initialValues={myInitialValues} // 解决form实例与moadl绑定失败的问题
         loading={modalProps?.confirmLoading ?? loading}
         form={formRef.current}
         onFinish={handleFinish}

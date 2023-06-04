@@ -48,7 +48,7 @@ export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title'> {
 
   children?: ReactNode;
 
-  /** 内部使用 */
+  /** 内部使用：表单初始值。（因为_lformRef.current是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到） */
   _lformRef?: any;
 }
 
@@ -107,11 +107,13 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 
   // 深度比较 优化性能
   useDeepCompareEffect(() => {
-    // 组件第一次加载的时候并且form渲染完成收集初始值.
-    // 如果组件被包裹在弹窗或者抽屉组件中 没有预渲染的话则会提示form绑定失败 获取不到初始值
-    const initValues = initialValues || formRef.current?.getFieldsValue(); // 解决form实例与moadl绑定失败的问题
-    // console.log('initValues', initValues);
-    setInitFormValues({ ...initValues });
+    setTimeout(() => {
+      // 组件第一次加载的时候并且form渲染完成收集初始值.
+      // 如果组件被包裹在弹窗或者抽屉组件中 没有预渲染的话则会提示form绑定失败 获取不到初始值
+      const initValues = initialValues || formRef.current?.getFieldsValue(); // 解决form实例与moadl绑定失败的问题
+      // console.log('initValues', initValues);
+      setInitFormValues({ ...initValues });
+    });
   }, [initialValues]);
 
   useUpdateEffect(() => {
@@ -119,6 +121,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   }, [outLoading]);
 
   useImperativeHandle(_lformRef, () => {
+    // 因为initFormValues是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到
     return initFormValues;
   });
 

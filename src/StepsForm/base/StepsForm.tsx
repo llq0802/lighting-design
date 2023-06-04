@@ -33,6 +33,10 @@ export type LStepsFormActionRef = {
 };
 
 export type LStepsFormProps = {
+  /** 设置后变为受控模式。当前表单的步骤数。 */
+  current?: number;
+  /** current 发生改变的事件 */
+  onCurrentChange?: (current: number) => void;
   /** 组件最外层容器类名 */
   className?: string;
   /** 表单外层容器的类名 */
@@ -190,7 +194,6 @@ const StepsForm: FC<LStepsFormProps> & {
 
   // 重置
   const reset = useMemoizedFn(() => {
-    setStepNum(defaultCurrent);
     formDataRef.current = {};
     formInstanceListRef.current.forEach((item, i) => {
       // item?.resetFields();
@@ -198,9 +201,10 @@ const StepsForm: FC<LStepsFormProps> & {
         ...formInitialValues.current[i],
       });
     });
+    setStepNum(defaultCurrent);
   });
 
-  // 提交
+  // 最终的提交
   const submit = useMemoizedFn(async () => {
     if (typeof onFinish === 'function') {
       let values;
@@ -223,8 +227,14 @@ const StepsForm: FC<LStepsFormProps> & {
         } catch (err) {
           console.error(err); // eslint-disable-line
         } finally {
+          formDataRef.current = {}; // 提交请求完成后重置所有收集到的表单数据
           setLoading(false);
         }
+      } else {
+        if (ret === true && isResetFields) {
+          reset(); // 如果返回true就会自动重置表单(包括StepForm变回第一步)
+        }
+        formDataRef.current = {};
       }
     }
   });
