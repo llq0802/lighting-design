@@ -43,6 +43,10 @@ export default {
           title: 'LTagGroup-标签选择',
           link: '/components/tag-group',
         },
+        {
+          title: 'LSliderVerify-滑块验证',
+          link: '/components/slider-verify',
+        },
       ],
     },
     {
