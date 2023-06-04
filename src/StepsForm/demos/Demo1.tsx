@@ -5,7 +5,8 @@ import { useRef, useState } from 'react';
 import { awaitTime } from '../../_test';
 
 const Demo1 = () => {
-  const actionRef = useRef<LStepsFormActionRef>();
+  const actionRef1 = useRef<LStepsFormActionRef>();
+  const actionRef2 = useRef<LStepsFormActionRef>();
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
 
@@ -21,7 +22,7 @@ const Demo1 = () => {
       </Space>
       {/* 方式一 */}
       <LStepsForm
-        actionRef={actionRef}
+        actionRef={actionRef1}
         onFinish={async (valuse) => {
           await awaitTime();
           console.log('StepsForm-valuse', valuse);
@@ -36,7 +37,10 @@ const Demo1 = () => {
               open={open1}
               footer={submitterDom}
               width={600}
-              onCancel={() => setOpen1(false)}
+              onCancel={() => {
+                setOpen1(false);
+                actionRef1.current?.reset();
+              }}
             >
               {stepsDom}
               {formDom}
@@ -74,11 +78,14 @@ const Demo1 = () => {
         title="弹窗中的步骤表单2"
         open={open2}
         width={600}
-        onCancel={() => setOpen2(false)}
+        onCancel={() => {
+          setOpen2(false);
+          actionRef2.current?.reset();
+        }}
       >
         <LStepsForm
           submitter={{ buttonAlign: 'right' }}
-          actionRef={actionRef}
+          actionRef={actionRef2}
           onFinish={async (valuse) => {
             console.log('StepsForm-valuse', valuse);
           }}

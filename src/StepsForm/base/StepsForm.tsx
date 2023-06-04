@@ -116,8 +116,10 @@ const StepsForm: FC<LStepsFormProps> & {
   // 手动触发更新
   const update = useUpdate();
   const forgetUpdate = () => {
-    // 延迟到最后更新
-    update();
+    setTimeout(() => {
+      // 延迟到最后更新
+      update();
+    });
   };
 
   // 当前步骤
@@ -195,6 +197,7 @@ const StepsForm: FC<LStepsFormProps> & {
   // 重置
   const reset = useMemoizedFn(() => {
     formDataRef.current = {};
+    console.log('formInitialValues', formInitialValues.current[0]);
     formInstanceListRef.current.forEach((item, i) => {
       // item?.resetFields();
       item?.setFieldsValue({

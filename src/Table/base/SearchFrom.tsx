@@ -44,7 +44,7 @@ const SearchForm = forwardRef(
       [name],
     );
 
-    useImperativeHandle(ref, () => form, [form]);
+    useImperativeHandle(ref, () => form);
 
     const dom = items.map((item: any, index: number) =>
       cloneElement(item, {
