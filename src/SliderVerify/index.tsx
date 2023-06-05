@@ -8,10 +8,12 @@ import useVerify from './useVerify';
 interface SliderVerifyProps {
   /** 初始验证结果值  */
   defaultValue?: boolean;
-  /** 验证结果值(受控)  */
-  value?: boolean;
+  /** 手控验证的值*/
+  value?: boolean | number;
   /** 移动改变的回调(受控) */
   onChange?: (bool: boolean) => void;
+  /** 拖动完成后自定义验证逻辑 */
+  onVerify?: (num: number) => boolean;
   /** 验证成功的回调 */
   onSuccess?: () => void;
   /** 组件宽度 */
@@ -64,6 +66,8 @@ function SliderVerify(props: LSliderVerifyProps) {
   const {
     outRef,
 
+    onVerify,
+
     className,
     onSuccess,
     actionRef,
@@ -90,9 +94,11 @@ function SliderVerify(props: LSliderVerifyProps) {
   const [value, onChange] = useControllableValue(props, {
     defaultValue: props?.defaultValue ?? false,
   });
+  const success = value;
 
   // width - barWidth  = tips的width
-  const { success, isMove, barLeft, modalWidth, refBar } = useVerify({
+  const { isMove, barLeft, modalWidth, refBar } = useVerify({
+    onVerify,
     value,
     onChange,
     onSuccess,

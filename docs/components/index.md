@@ -16,6 +16,7 @@ toc: content
 - [LColor] - 颜色显示/选择
 - [LCardGroup] - 卡片选择
 - [LTagGroup] - 标签选择
+- [LSliderVerify] - 滑块验证
 
 ## 数据展示
 
@@ -69,6 +70,7 @@ toc: content
 [ltooltip]: /components/tooltip
 [lcolor]: /components/color-pick
 [ltrigger]: /components/trigger
+[lsliderverify]: /components/slider-verify
 [lfileviewer]: /components/file-viewer
 [lnumberroll]: /components/number-roll
 [lcaptchabutton]: /components/captcha-button
