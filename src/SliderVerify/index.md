@@ -15,7 +15,7 @@ toc: content
 
 ### 在 LForm 中使用
 
-<!-- <code src='./demos/Demo2.tsx' ></code> -->
+<code src='./demos/Demo2.tsx' ></code>
 
 ## API
 
