@@ -37,6 +37,7 @@ export default function useSliderVerify(options: IOptions) {
   const [barLeft, setBarLeft] = useState(0);
   const [modalWidth, setModalWidth] = useState(0);
 
+  // body移动事件
   const onMove = (e: any) => {
     // if (success) return;
     const diff = e.pageX - refTmpData.current.offX;
@@ -69,12 +70,14 @@ export default function useSliderVerify(options: IOptions) {
     setModalWidth(modalWidth);
   };
 
+  // 滑块的onMouseDown
   const onMouseDown = (e: any) => {
     // if (success) return;
     refTmpData.current.offX = e.pageX;
     document.addEventListener('mousemove', onMove);
   };
 
+  // body文档的onMouseUp
   const onMouseUp = () => {
     // 回到最初位置
     if (refTmpData.current.diff + difference < refTmpData.current.max) {

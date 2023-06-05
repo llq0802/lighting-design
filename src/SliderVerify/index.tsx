@@ -1,13 +1,16 @@
 import { CheckOutlined, DoubleRightOutlined } from '@ant-design/icons';
+import { useControllableValue } from 'ahooks';
 import classnames from 'classnames';
 import React, { forwardRef } from 'react';
 import './index.less';
 import useVerify from './useVerify';
 
 interface SliderVerifyProps {
-  /** 验证结果值  */
+  /** 初始验证结果值  */
+  defaultValue?: boolean;
+  /** 验证结果值(受控)  */
   value?: boolean;
-  /** 移动改变的回调 */
+  /** 移动改变的回调(受控) */
   onChange?: (bool: boolean) => void;
   /** 验证成功的回调 */
   onSuccess?: () => void;
@@ -19,9 +22,9 @@ interface SliderVerifyProps {
   bgColor?: string;
   /** 提示的文字 */
   tips?: React.ReactNode;
-  // 滑块外层div的宽度
+  /** 滑块外层div的宽度 */
   barWidth?: number;
-  /** 滑块内容 */
+  /** 初始滑块内容 */
   bar?: React.ReactNode;
   /** 成功后滑块内容 */
   successBar?: React.ReactNode;
@@ -31,8 +34,18 @@ interface SliderVerifyProps {
   successTips?: React.ReactNode;
   /** 成功后是否还显示bar */
   successShowBar?: boolean;
+  /** 成功后文字提示div的样式 */
+  successTipsStyle?: React.CSSProperties;
   /** 距离最右边还剩多少就算成功 */
   difference?: number;
+  /** 滑块的样式 */
+  barStyle?: React.CSSProperties;
+  /** 文字提示div的样式 */
+  tipsStyle?: React.CSSProperties;
+  /** 组件容器样式 */
+  style?: React.CSSProperties;
+  /** 组件容器类名 */
+  className?: string;
 }
 
 export type LSliderVerifyInstance = {
@@ -41,7 +54,7 @@ export type LSliderVerifyInstance = {
 };
 
 export interface LSliderVerifyProps extends SliderVerifyProps {
-  /** */
+  /** 滑块实例, 里面有重置方法 */
   actionRef?: React.MutableRefObject<LSliderVerifyInstance | undefined>;
 }
 
@@ -49,22 +62,34 @@ const prefixCls = 'lightd-slider-verify';
 
 function SliderVerify(props: LSliderVerifyProps) {
   const {
-    value = false,
-    onChange,
+    outRef,
+
+    className,
     onSuccess,
     actionRef,
     width = 400,
     barWidth = 60,
     height = 32,
+
     bgColor = '#F2F3F5',
     tips = '请按住滑块，拖动到最右边',
-    successBgColor = '#51c421',
-    successTips = '验证已通过',
     bar = <DoubleRightOutlined />,
+    barStyle: outBarStyle = {},
+    tipsStyle = {},
+    style: outStyle = {},
+
+    successBgColor = '#52c41a',
+    successTips = '验证已通过',
+    successTipsStyle = {},
     successBar = <CheckOutlined />,
+
     successShowBar = true,
     difference = 0,
   } = props;
+
+  const [value, onChange] = useControllableValue(props, {
+    defaultValue: props?.defaultValue ?? false,
+  });
 
   // width - barWidth  = tips的width
   const { success, isMove, barLeft, modalWidth, refBar } = useVerify({
@@ -78,12 +103,14 @@ function SliderVerify(props: LSliderVerifyProps) {
   });
 
   const sliderVerifyStyle = {
+    ...outStyle,
     backgroundColor: bgColor,
     width: `${width}px`,
     height: `${height}px`,
   };
 
   const barStyle = {
+    ...outBarStyle,
     width: `${barWidth}px`,
     transitionDuration: !isMove ? '.3s' : '0s',
     transform: `translateX(${
@@ -92,6 +119,8 @@ function SliderVerify(props: LSliderVerifyProps) {
   };
 
   const verifyTipsStyle = {
+    ...tipsStyle,
+    ...(success ? successTipsStyle : {}),
     transform: `translateX(${success ? 0 : barWidth}px)`,
     width: `${success && !successShowBar ? width : width - barWidth}px`,
   };
@@ -106,24 +135,29 @@ function SliderVerify(props: LSliderVerifyProps) {
 
   return (
     <div
-      className={classnames(prefixCls, success ? `${prefixCls}-success` : '')}
+      ref={outRef}
+      className={classnames(
+        prefixCls,
+        className,
+        success ? `${prefixCls}-success` : '',
+      )}
       style={sliderVerifyStyle}
     >
-      {/* 中间文字 */}
+      {/* 中间文字内容 */}
       <span className={`${prefixCls}-tips`} style={verifyTipsStyle}>
         {success ? successTips : tips}
       </span>
-      {/* bar滑块 */}
+      {/* bar滑块内容 */}
       <div className={`${prefixCls}-bar`} ref={refBar} style={barStyle}>
         {success ? successBar : bar}
       </div>
-      {/* 成功后的modal */}
+      {/* 成功后的modal背景 */}
       <div className={`${prefixCls}-modal`} style={modalStyle} />
     </div>
   );
 }
 
 const LSliderVerify = forwardRef((props: LSliderVerifyProps, ref: any) => (
-  <SliderVerify {...props} actionRef={ref} />
+  <SliderVerify {...props} outRef={ref} />
 ));
 export default LSliderVerify;
