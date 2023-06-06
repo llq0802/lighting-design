@@ -17,7 +17,7 @@ const Demo1 = () => {
       <LFormItemUpload
         name="default"
         label="默认上传"
-        accept=".jpg, .jpeg"
+        accept=".jpg, .jpeg, .png"
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         uploadProps={{ name: 'fileName' }}
       />
@@ -42,7 +42,7 @@ const Demo1 = () => {
       />
 
       <LFormItemUpload
-      isSerial={false}
+        isSerial={false}
         name="image"
         label="图片上传"
         uploadType="image"

@@ -28,24 +28,8 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
   });
   const { disabled: formDisabled } = useContext(LFormContext);
 
-  const rules = [
-    {
-      validator(_, value: number | undefined) {
-        let errMsg = '';
-        if (!value && value !== 0) {
-          errMsg = required ? `${messageLabel}!` : '';
-        }
-        if (errMsg) {
-          return Promise.reject(errMsg);
-        }
-        return Promise.resolve();
-      },
-    },
-  ];
-
   return (
     <LFormItem
-      rules={rules}
       required={required}
       placeholder={messageLabel}
       validateTrigger="onBlur"

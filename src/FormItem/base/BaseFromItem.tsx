@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement, useContext, useMemo } from 'react';
 import { LFormContext } from '../../Form/base/BaseForm';
-import { usePlaceholder } from '../../_utils';
+import { isTrueArray, usePlaceholder } from '../../_utils';
 import FormItemWrapper from './FormItemWrapper';
 
 export interface LFormItemProps extends FormItemProps {
@@ -86,12 +86,10 @@ const LFormItem: FC<LFormItemProps> & {
             {
               validator(_: any, value: any) {
                 let errMsg = '';
-                if (
-                  !value ||
-                  (Array.isArray(value) && !value?.filter(Boolean)?.length)
-                ) {
+                if ((!value && value !== 0) || !isTrueArray(value)) {
                   errMsg = required ? `${messageLabel}!` : '';
                 }
+
                 if (errMsg) {
                   return Promise.reject(errMsg);
                 }

@@ -220,15 +220,16 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
         onPreview={handlePreview}
         disabled={disabled}
         maxCount={maxCount}
-        progress={{
-          status: 'active',
-          showInfo: false,
-          strokeWidth: 2,
-          // strokeColor: {
-          //   '0%': '#108ee9',
-          //   '100%': '#87d068',
-          // },
-        }}
+        // progress={{
+        //   status: 'active',
+        //   showInfo: false,
+        //   // size: 2,
+        //   // strokeWidth: 2,
+        //   // strokeColor: {
+        //   //   '0%': '#108ee9',
+        //   //   '100%': '#87d068',
+        //   // },
+        // }}
         {...restProps}
       />
       {isShowPreview && !restProps.onPreview && (

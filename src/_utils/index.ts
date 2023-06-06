@@ -134,3 +134,18 @@ export const useIsClearDependValues = (dependValues: any[]) => {
     );
   }, [dependValues]);
 };
+
+/**
+ * 判断是否是真数组(只有0的数组算数组)
+ * @param {String} value
+ * @returns
+ */
+export const isTrueArray = (value: any) => {
+  if (Array.isArray(value)) {
+    if (!value?.length) {
+      return false;
+    }
+    return value.filter((item: any) => item || item === 0)?.length;
+  }
+  return true;
+};

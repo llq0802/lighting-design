@@ -15,6 +15,7 @@ nav:
 - 可自定义上传行为
 - 内置上传之前校验
 - 支持裁剪功能
+- 完全兼容原上传组件
 
 ## 代码演示
 
@@ -36,7 +37,7 @@ nav:
 
 ## API
 
-> `beforeUpload` 若返回 `false` 不会生产 `status` ， `response`
+> `beforeUpload` 若返回 `false 或 Promise.reject()` 不会生产 `status` ，`response`，`percent`
 >
 > `beforeUpload` 若返回 `Upload.LIST_IGNORE`， 此时列表中将不展示此文件。
 
@@ -57,7 +58,7 @@ import { LFormItemUpload } from 'lighting-design';
 | fileSizeMessage   | 文件超过最大尺寸时提示包含 `x` 会自动替换为 `${maxSize / 1024 / 1024}M`。                                                                | `string \| false`                                              | `文件必须小于${maxSize / 1024 / 1024}M`        |
 | isCrop            | 图片是否需要裁剪 在`uploadType为'avatar'或'image'时生效`                                                                                 | `boolean`                                                      | `false`                                        |
 | cropProps         | 图片裁剪额外属性                                                                                                                         | [CropProps](https://github.com/nanxiaobei/antd-img-crop#props) | `-`                                            |
-| isSerial          | 上传文件的方式 `true为串行 false为并行`                                                                                                  | `boolean`                                                      | `true`                                         |
+| isSerial          | 上传文件的方式 `true为串行 false为并行`                                                                                                  | `boolean`                                                      | `false`                                        |
 | multiple          | 是否支持多选文件，`ie10+` 支持。                                                                                                         | `boolean`                                                      | `false`                                        |
 | buttonIcon        | 按钮图标，不同内建类型有不一样的默认值。                                                                                                 | `ReactNode`                                                    | `-`                                            |
 | buttonText        | 按钮文本 在`uploadType为'default'或'dragger'时生效`                                                                                      | `ReactNode`                                                    | `'点击上传'\|'单击或拖动文件到此区域进行上传'` |
@@ -76,7 +77,7 @@ type UploadFile = {
   url?: string; // 下载地址
   response?: any; // onUpload 或 action 上传成功后的返回值
   error?: any; // 失败状态时，输入移入提示 { message: string }
-  status?: 'done'; // 状态有：uploading done error removed，被 beforeUpload 拦截的文件没有 status 属性
+  status?: 'done'; // 状态有：uploading done error removed
   // ...其他属性
 };
 ```

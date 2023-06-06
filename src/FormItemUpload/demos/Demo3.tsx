@@ -1,11 +1,16 @@
-import { Image } from 'antd';
-import { LForm, LFormItemUpload } from 'lighting-design';
-import { useRef, useState } from 'react';
+import { LFileViewer, LForm, LFormItemUpload } from 'lighting-design';
+import { useState } from 'react';
 import { upload } from './services';
 const Demo3 = () => {
   const [form] = LForm.useForm();
   const [visible, setVisible] = useState(false);
-  const previewCurrentRef = useRef(0);
+
+  // const previewCurrentRef = useRef(0);
+
+  console.log(form.getFieldValue('image'));
+  const urls = form
+    .getFieldValue('image')
+    ?.map((item) => item.thumbUrl || item.url || item.previewUrl);
 
   return (
     <>
@@ -30,14 +35,20 @@ const Demo3 = () => {
               return URL.createObjectURL(file);
             },
             onPreview(file) {
-              const fileList = form.getFieldValue('image');
-              previewCurrentRef.current = fileList.findIndex((item) => item.uid === file.uid);
+              // const fileList = form.getFieldValue('image');
+              // previewCurrentRef.current = fileList.findIndex((item) => item.uid === file.uid);
               setVisible(true);
             },
           }}
         />
       </LForm>
-      <div style={{ display: 'none' }}>
+      <LFileViewer
+        fileType="image"
+        url={urls}
+        open={visible}
+        onOpenChange={setVisible}
+      />
+      {/* <div style={{ display: 'none' }}>
         <Image.PreviewGroup
           preview={{
             visible,
@@ -49,7 +60,7 @@ const Demo3 = () => {
             return <Image src={item.preview || item.thumbUrl || item.url} key={item.uid} />;
           })}
         </Image.PreviewGroup>
-      </div>
+      </div> */}
     </>
   );
 };

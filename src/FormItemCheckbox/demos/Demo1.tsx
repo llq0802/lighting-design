@@ -9,7 +9,7 @@ const Demo1 = () => {
         required
         name="select"
         options={[
-          { label: '上班', value: '1' },
+          { label: '上班', value: 0 },
           { label: '睡觉', value: '2' },
           { label: '打豆豆', value: '3' },
         ]}
