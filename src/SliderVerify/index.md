@@ -52,5 +52,7 @@ import { LSliderVerify } from 'lighting-design';
 export type LSliderVerifyInstance = {
   /** 重置组件到初始状态 */
   reset: () => void;
+  /**验证结果 */
+  value: boolean;
 };
 ```

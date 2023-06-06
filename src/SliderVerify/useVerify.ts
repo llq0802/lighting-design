@@ -134,6 +134,7 @@ export default function useSliderVerify(options: IOptions) {
 
   useImperativeHandle(innerRef, () => ({
     reset,
+    value,
   }));
 
   return {
