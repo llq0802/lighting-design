@@ -66,10 +66,10 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
     defaultValue: false,
     defaultValuePropName: 'defaultOpen',
     valuePropName: 'open',
-    trigger: 'onDropdownOpenChange',
+    trigger: 'onOpenChange',
   });
   const [state, setState] = useControllableValue<Record<string, any>>(props, {
-    defaultValue: {},
+    defaultValue: { [fieldNames.label]: void 0, [fieldNames.value]: void 0 },
     defaultValuePropName: 'defaultValue',
     valuePropName: 'value',
     trigger: 'onChange',
@@ -79,7 +79,14 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
   const dropdownRender = !isComponent
     ? void 0
     : () => (
-        <div style={{ width: '100%' }} className={`${prefixCls}-popup`}>
+        <div
+          style={{ width: '100%' }}
+          className={`${prefixCls}-popup`}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+        >
           {cloneElement(children, {
             // @ts-ignore
             value: state?.[fieldNames.value],

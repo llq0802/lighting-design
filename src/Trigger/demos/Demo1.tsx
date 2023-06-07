@@ -13,7 +13,7 @@ const Demo1 = () => {
       <br />
       <br />
       <h4>表格多选</h4>
-      <LTrigger allowClear placement="topLeft">
+      <LTrigger placement="topLeft">
         <ChildTable2 />
       </LTrigger>
     </div>

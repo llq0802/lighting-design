@@ -53,26 +53,21 @@ const data: DataType[] = [
 ];
 
 const Tables: React.FC = (props) => {
-  const { value, onChange, open, setOpen } = props;
-  console.log('value', value);
+  const {
+    value: outValue,
+    onChange: outOnChange,
+    open,
+    setOpen,
+    ...restProps
+  } = props;
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-      console.log(
-        `selectedRowKeys:`,
-        selectedRowKeys,
-        'selectedRows: ',
-        selectedRows,
-      );
-      onChange({
-        label: selectedRows.map((row) => row.name).join(' , '),
+      outOnChange({
+        label: selectedRows.map((row) => row.name),
         value: selectedRowKeys,
       });
     },
-    // getCheckboxProps: (record: DataType) => ({
-    //   disabled: record.name === 'Disabled User',
-    //   name: record.name,
-    // }),
   };
 
   return (
@@ -80,7 +75,7 @@ const Tables: React.FC = (props) => {
       style={{ padding: 8 }}
       size="small"
       rowSelection={{
-        selectedRowKeys: value ?? [],
+        selectedRowKeys: outValue ?? [],
         type: 'checkbox',
         ...rowSelection,
       }}
