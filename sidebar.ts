@@ -68,6 +68,10 @@ export default {
           title: 'LCollapseCard-折叠卡片',
           link: '/components/collapse-card',
         },
+        {
+          title: 'LTreeCheckbox-树形复选框',
+          link: '/components/tree-checkbox',
+        },
       ],
     },
     {
