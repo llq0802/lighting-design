@@ -2,10 +2,12 @@ import { useControllableValue } from 'ahooks';
 import type { SelectProps } from 'antd';
 import { Select } from 'antd';
 import classnames from 'classnames';
-import type { FC, ReactElement } from 'react';
+import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement } from 'react';
 
 export type LTriggerProps = {
+  /** 显示的模式 */
+  mode?: 'default' | 'tag';
   /** 是否打开 */
   open: boolean;
   /** 宽度 */
@@ -18,6 +20,7 @@ export type LTriggerProps = {
     value: string;
   };
   className: string;
+  tagRender: (props: Record<string, any>) => ReactNode;
   children: ReactElement;
   /** 自定义清除图标 */
   clearIcon: SelectProps['clearIcon'];
@@ -43,6 +46,7 @@ const prefixCls = 'lightd-trigger';
 
 const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
   const {
+    mode: outMode = 'default',
     width = 250,
     dropdownWidth = 500,
     popupClassName,
@@ -58,8 +62,9 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
     placeholder = '请选择',
     style,
     dropdownStyle,
+    tagRender,
     children,
-    selectProps,
+    selectProps = {},
   } = props;
 
   const [isOpen, setIsOpen] = useControllableValue<boolean>(props, {
@@ -99,6 +104,12 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
 
   return (
     <Select
+      onInputKeyDown={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+      removeIcon={false}
+      showSearch={false}
       size={size}
       clearIcon={clearIcon}
       allowClear={allowClear}
@@ -111,12 +122,14 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
       fieldNames={fieldNames}
       getPopupContainer={getPopupContainer}
       popupMatchSelectWidth={dropdownWidth}
+      tagRender={tagRender}
       {...selectProps}
+      mode={outMode === 'default' ? undefined : 'multiple'}
       style={{ width: width, ...style }}
       className={classnames(prefixCls, className)}
       dropdownRender={dropdownRender}
       onChange={setState}
-      value={state?.[fieldNames.label]}
+      value={!selectProps?.labelInValue ? state?.[fieldNames.label] : state}
       open={isOpen}
       onDropdownVisibleChange={(visible) => setIsOpen(visible)}
     />

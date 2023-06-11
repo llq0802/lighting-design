@@ -54,7 +54,6 @@ const data: DataType[] = [
 
 const Tables: React.FC = (props) => {
   const { value, onChange, open, setOpen } = props;
-  console.log('value', value);
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {

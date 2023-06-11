@@ -26,15 +26,9 @@ const Tables: React.FC = (props) => {
   const { value, onChange, open, setOpen } = props;
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-      console.log(
-        `selectedRowKeys:`,
-        selectedRowKeys,
-        'selectedRows: ',
-        selectedRows,
-      );
       onChange({
-        label: selectedRows[0].name,
-        value: selectedRowKeys[0],
+        label: selectedRows.map((row) => row.name),
+        value: selectedRowKeys,
       });
       setOpen(false);
     },

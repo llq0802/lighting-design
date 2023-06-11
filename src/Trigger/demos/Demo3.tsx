@@ -1,7 +1,7 @@
 import { Tag } from 'antd';
 import { LTrigger } from 'lighting-design';
-import ChildTable1 from './ChildTable1';
 import ChildTable3 from './ChildTable3';
+import ChildTable4 from './ChildTable4';
 
 const tagRender = (props) => {
   const { label, value, closable, onClose } = props;
@@ -12,6 +12,7 @@ const tagRender = (props) => {
   };
   return (
     <Tag
+      color="blue-inverse"
       onMouseDown={onPreventMouseDown}
       // closable={closable}
       // onClose={onClose}
@@ -26,18 +27,17 @@ const Demo1 = () => {
   return (
     <div>
       <h4>Tags单选内容</h4>
-      <LTrigger selectProps={{ mode: 'multiple', removeIcon: false }}>
-        <ChildTable1 />
+      <LTrigger mode="tag">
+        <ChildTable4 />
       </LTrigger>
       <h4>Tags多选内容</h4>
 
-      <LTrigger
-        selectProps={{
-          mode: 'multiple',
+      <LTrigger mode="tag" width={400}>
+        <ChildTable3 />
+      </LTrigger>
 
-          tagRender,
-        }}
-      >
+      <h4>Tags自定义</h4>
+      <LTrigger mode="tag" tagRender={tagRender} width={400}>
         <ChildTable3 />
       </LTrigger>
     </div>

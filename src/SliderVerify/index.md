@@ -19,6 +19,8 @@ toc: content
 
 ## API
 
+> 想要圆形的效果 请同时设置 `style={{ borderRadius: height / 2 }}` `barStyle={{ borderRadius: height / 2  }}`
+
 ```ts
 import { LSliderVerify } from 'lighting-design';
 ```
