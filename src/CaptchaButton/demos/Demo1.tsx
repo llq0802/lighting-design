@@ -1,7 +1,7 @@
 import { message, Space } from 'antd';
 import { LCaptchaButton } from 'lighting-design';
 
-const demo1 = () => {
+const Demo1 = () => {
   return (
     <div>
       <Space>
@@ -27,4 +27,4 @@ const demo1 = () => {
   );
 };
 
-export default demo1;
+export default Demo1;

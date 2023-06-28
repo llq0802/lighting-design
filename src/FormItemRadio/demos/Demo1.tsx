@@ -12,11 +12,11 @@ const Demo1 = () => {
       }}
     >
       <LFormItemRadio
-        label="单选1"
+        label="单选11"
         name="LFormItemRadio1"
         required
         options={[
-          { label: 'Unresolved', value: 'open' },
+          { label: 'Unresolved-0', value: 0 },
           { label: 'Resolved', value: 'closed' },
           { label: 'Resolving', value: 'processing' },
         ]}

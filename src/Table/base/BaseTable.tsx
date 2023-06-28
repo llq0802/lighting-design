@@ -22,6 +22,7 @@ import type {
   SetStateAction,
 } from 'react';
 import {
+  useCallback,
   useEffect,
   useImperativeHandle,
   useMemo,
@@ -301,7 +302,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     run,
     // refresh,
     // mutate,
-    params,
+    // params,
     pagination: paginationAction,
   } = usePagination(
     async (args, requestType) => {
@@ -365,7 +366,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 表格展示的列
   const [currentColumns, setCurrentColumns] = useState(outColumns);
 
-  // 重置数据，从第一页开始显示、查询数据
+  // 重置所有表单数据，从第一页开始显示、查询数据
   const handleReset = useMemoizedFn(() => {
     if (hasFromItems) {
       // queryFormRef.current?.resetFields();
@@ -386,7 +387,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
 
   // 根据条件，从第一页开始显示、查询数据
-  const handleSearch = useMemoizedFn(() => {
+  const handleSearch = useMemoizedFn((type = 'onSearch') => {
     if (hasFromItems) {
       const formValues = queryFormRef.current?.getFieldsValue();
       return run(
@@ -395,7 +396,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
           pageSize: outPaginationPageSize,
           formValues: formValues,
         },
-        'onSearch',
+        type,
       );
     } else {
       paginationAction.changeCurrent(1);
@@ -425,7 +426,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       const defaultPar = isInit.current ? { ...defaultRequestParams } : {};
       return run(
         {
-          current: params.current || 1,
+          current: 1,
           pageSize: outPaginationPageSize,
           formValues,
           ...defaultPar,
@@ -436,13 +437,14 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   );
 
   // 默认 onReset 中已经重置表单，这里只从第一页开始显示、查询数据请求
-  // const handleSearchFormReset = useCallback(() => {
-  //   handleSearch('onReset');
-  // }, [handleSearch]);
+  const handleSearchFormReset = useCallback(() => {
+    handleReset();
+  }, [handleSearch]);
 
   // 表格分页页码丶排序等改变时触发
   const handleTableChange = useMemoizedFn(
     (pagination, filters, sorter, extra) => {
+      paginationAction.changeCurrent(pagination?.current || 1);
       onChange?.(pagination, filters, sorter, extra);
       if (hasFromItems) {
         const formValues = queryFormRef.current?.getFieldsValue();
@@ -454,8 +456,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
           },
           'onReload',
         );
-      } else {
-        paginationAction.changeCurrent(pagination?.current || 1);
       }
     },
   );
@@ -551,10 +551,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
                   showSizeChanger: true,
                   showQuickJumper: true,
                   ...outPagination,
-                  // current: paginationAction?.current,
-                  // pageSize: paginationAction?.pageSize,
-                  defaultCurrent: paginationAction?.current,
-                  defaultPageSize: paginationAction?.pageSize,
+                  current: paginationAction?.current,
+                  pageSize: paginationAction?.pageSize,
                   total: paginationAction?.total,
                 }
               : false
@@ -574,7 +572,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         ref={handleFormRef}
         cardProps={formCardProps}
         onFinish={handleSearchFormFinish}
-        // onReset={handleSearchFormReset}
+        onReset={handleSearchFormReset}
         formItems={formItems}
         initialValues={formInitialValues}
         _lformRef={_lformRef}
