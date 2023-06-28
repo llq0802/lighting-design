@@ -101,7 +101,7 @@ import { LTable } from 'lighting-design';
 | autoRequest          | 是否自动请求                                                                                         | `boolean`                                                                      | `true`                                             |
 | defaultRequestParams | request 额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) 会被注入到 request 的第一个参数对象中 | `Record<string, any>`                                                          | `-`                                                |
 | request              | 异步请求函数，用于获取表格数据                                                                       | [LTableRequest](/components/table#ltablerequest)                               | `-`                                                |
-| requestOptions       | `useRequest`的配置 建议只配置`onError onSuccess回调` 其他不建议配置                                  | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options)      | `-`                                                |
+| requestOptions       | `ahooks 的 useRequest 的 options 配置` 可用于配置其他请求功能                                        | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options)      | `-`                                                |
 | formRef              | 查询表单的实例                                                                                       | `MutableRefObject<FormInstance \| undefined> \| ((ref: FormInstance) => void)` | `-`                                                |
 | tableRef             | 表格的实例 包含一些方法                                                                              | ` MutableRefObject<LTableInstance \| undefined>`                               | `-`                                                |
 | rootClassName        | 表格最外层根 div 类名                                                                                | `string`                                                                       | `-`                                                |
@@ -172,9 +172,10 @@ export type LTableRenderProps = (
 ### LTableRequestType
 
 ```ts
-// autoRequest 为 true 时的初始化请求为 onInit;
-// 查询按钮请求为 'onSearch'
+// autoRequest 为 true 时的组件初始化的请求为 'onInit';
+// 表格查询按钮请求为 'onSearch'
 // 表格分页查询为 'onReload'
+// 表格重置按钮为 'onReset'
 export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset';
 ```
 

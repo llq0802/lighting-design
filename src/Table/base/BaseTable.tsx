@@ -101,11 +101,13 @@ export type LTableProps = {
   /** 异步请求函数第一次额外参数(仅在第一次请求时会携带) */
   defaultRequestParams?: Record<string, any>;
   /**
-   * ahooks的useRequest的options
+   * ahooks 的 useRequest 的 options
    * @version v3.7.4
    * @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
    */
   requestOptions?: {
+    /** 请求唯一标识。如果设置了 cacheKey，会启用缓存机制 */
+    cacheKey?: string;
     /** 首次默认执行时，传递给 service 的参数 */
     defaultParams?: any;
     /** service 执行前触发*/
