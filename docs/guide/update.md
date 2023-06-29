@@ -10,6 +10,7 @@ order: 3
 - [LTagGroup - 标签选择组件](/components/tag-group)
 - [LCollapseCard - 折叠卡片组件](/components/collapse-card)
 - [LSeamlesScroll - 无缝滚动组件](/components/seamles-scroll)
+- [LScrollBar - 滚动条组件](/components/scroll-bar)
 - [LListForm - 列表表单组件](/components/list-form)
 - [LFormItmeIcon - 图标选择组件](/components/form-item-icon)
 - [LFormItemNumberRange - 数字范围组件](/components/form-item-number-range)

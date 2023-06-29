@@ -69,8 +69,8 @@ export default {
           link: '/components/collapse-card',
         },
         {
-          title: 'LTreeCheckbox-树形复选框',
-          link: '/components/tree-checkbox',
+          title: 'LScrollBar-滚动条',
+          link: '/components/scroll-bar',
         },
       ],
     },

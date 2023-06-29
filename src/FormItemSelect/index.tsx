@@ -55,7 +55,10 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
             let errMsg = '';
             const hasOptValue = options.find((item) => item?.value === value);
             if (
-              (!value && !hasOptValue && !(all && allValue === value)) ||
+              (!value &&
+                value !== 0 &&
+                !hasOptValue &&
+                !(all && allValue === value)) ||
               ((selectProps?.mode === 'multiple' ||
                 selectProps?.mode === 'tags') &&
                 value &&

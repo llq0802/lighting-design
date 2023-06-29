@@ -24,6 +24,7 @@ toc: content
 - [LList] - 高级列表
 - [LSeamlessScroll] - 无缝滚动
 - [LCollapseCard] - 折叠卡片
+- [LScrollBar] - 滚动条
 
 ## 高级表单
 
@@ -67,6 +68,7 @@ toc: content
 - [useShow] - useShow
 
 [ltypeit]: /components/typeit
+[lscrollbar]: /components/scroll-bar
 [ltooltip]: /components/tooltip
 [lcolor]: /components/color-pick
 [ltrigger]: /components/trigger
