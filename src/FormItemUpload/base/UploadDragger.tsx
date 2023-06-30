@@ -1,4 +1,5 @@
 import { InboxOutlined } from '@ant-design/icons';
+import ImgCrop from 'antd-img-crop';
 import type { FC, ReactNode } from 'react';
 import { useMemo } from 'react';
 import type { UploadWrapperProps } from './UploadWrapper';
@@ -16,6 +17,8 @@ type UploadDraggerrProps = Omit<UploadWrapperProps, 'dragger'> & {
 
 const UploadDragger: FC<UploadDraggerrProps> = ({
   isCrop,
+  cropProps,
+
   showUploadList,
   buttonIcon = <InboxOutlined />,
   buttonText = '单击或拖动文件到此区域进行上传',
@@ -35,14 +38,29 @@ const UploadDragger: FC<UploadDraggerrProps> = ({
     return defaultShowUploadList;
   }, [showUploadList]);
 
-  return (
-    <UploadWrapper {...restProps} dragger showUploadList={currentShowUploadList}>
+  const accept = isCrop ? '.jpg, .jpeg, .png' : restProps?.accept;
+
+  const dom = (
+    <UploadWrapper
+      {...restProps}
+      dragger
+      accept={accept}
+      showUploadList={currentShowUploadList}
+    >
       <p className="ant-upload-drag-icon">{buttonIcon}</p>
       <p className="ant-upload-text" style={{ marginBottom: 8 }}>
         {buttonText}
       </p>
       {/* <p className="ant-upload-hint">{buttonText}</p> */}
     </UploadWrapper>
+  );
+
+  return isCrop ? (
+    <ImgCrop rotationSlider {...cropProps}>
+      {dom}
+    </ImgCrop>
+  ) : (
+    dom
   );
 };
 

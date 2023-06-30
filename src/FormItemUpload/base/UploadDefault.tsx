@@ -1,6 +1,7 @@
 import { UploadOutlined } from '@ant-design/icons';
 import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
+import ImgCrop from 'antd-img-crop';
 import type { FC, ReactNode } from 'react';
 import { useMemo } from 'react';
 import type { UploadWrapperProps } from './UploadWrapper';
@@ -19,6 +20,7 @@ type UploadDefaultProps = UploadWrapperProps & {
 
 const UploadDefault: FC<UploadDefaultProps> = ({
   isCrop,
+  cropProps,
 
   showUploadList,
   buttonIcon = <UploadOutlined />,
@@ -40,12 +42,26 @@ const UploadDefault: FC<UploadDefaultProps> = ({
     return defaultShowUploadList;
   }, [showUploadList]);
 
-  return (
-    <UploadWrapper {...restProps} showUploadList={currentShowUploadList}>
+  const accept = isCrop ? '.jpg, .jpeg, .png' : restProps?.accept;
+
+  const dom = (
+    <UploadWrapper
+      {...restProps}
+      accept={accept}
+      showUploadList={currentShowUploadList}
+    >
       <Button icon={buttonIcon} disabled={restProps.disabled} {...buttonProps}>
         {buttonText}
       </Button>
     </UploadWrapper>
+  );
+
+  return isCrop ? (
+    <ImgCrop rotationSlider {...cropProps}>
+      {dom}
+    </ImgCrop>
+  ) : (
+    dom
   );
 };
 

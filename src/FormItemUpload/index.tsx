@@ -32,6 +32,7 @@ export type LFormItemUploadProps = LFormItemProps &
     | 'previewModalProps'
     // | 'buttonProps'
   > & {
+    /** 上传组件内置类型 */
     uploadType?: 'image' | 'default' | 'avatar' | 'dragger';
     uploadProps?: UploadProps;
     buttonProps?: ButtonProps;
@@ -39,8 +40,12 @@ export type LFormItemUploadProps = LFormItemProps &
     buttonText?: ReactNode;
     /** 是否需要裁剪 */
     isCrop?: boolean;
+    /**
+     *  额外的裁剪属性
+     * @see https://github.com/nanxiaobei/antd-img-crop#props
+     */
     cropProps?: ImgCropProps;
-    /** 是否是串行上传 为true为串行 为false为并行 */
+    /** 是否是串行上传。  true 为串行  false 为并行 */
     isSerial?: boolean;
   };
 
