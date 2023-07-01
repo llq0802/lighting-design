@@ -8,27 +8,82 @@ import { isTrueArray, usePlaceholder } from '../../_utils';
 import FormItemWrapper from './FormItemWrapper';
 
 export interface LFormItemProps extends FormItemProps {
-  /** lable宽度 */
+  /**
+   * lable宽度
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   labelWidth?: number | 'auto';
-  /** 重新渲染LFormItem的children组件 */
+  /**
+   * 重新渲染LFormItem的children组件
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   renderField?: (dom: ReactElement, props: LFormItemProps) => ReactElement;
-  /** 重新渲染整个LFormItem组件 */
+  /**
+   * 重新渲染整个LFormItem组件
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   renderFormItem?: (dom: ReactElement) => ReactElement;
-  /** 当配置了contentBefore或者contentAfter时组件垂直的对齐方式 */
+  /**
+   *  当配置了contentBefore或者contentAfter时组件垂直的对齐方式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   alignItems?: 'center' | 'start' | 'end';
-  /** 组件前面的内容 */
+  /**
+   *  组件前面的内容
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   contentBefore?: ReactNode;
-  /** 组件后面的内容 */
+  /*
+   * 组件后面的内容
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   contentAfter?: ReactNode;
-  /** 传给children的额外属性 */
+  /**
+   * 传给children的额外属性
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   contentProps?: Record<string, any>;
-  /** children是否为inline */
+  /**
+   *  children是否为inline
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   contentInline?: boolean;
-  /** 被包裹组件的最外层容器类名 */
+  /*
+   * 被包裹组件的最外层容器类名
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   contentClassName?: string;
-  /** 是否禁用 */
+  /**
+   *  是否禁用
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   disabled?: boolean;
-  /** 组件的placeholder */
+  /**
+   *  组件的placeholder
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemProps
+   */
   placeholder?: string | string[];
 
   /** 是否是选择类型的组件(内部使用) */

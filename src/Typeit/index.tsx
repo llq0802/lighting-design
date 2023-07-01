@@ -6,18 +6,54 @@ import TypeIt from 'typeit-react';
 export interface LTypeitProps {
   /**
    * 样式
+   * @author 李岚清 <https://github.com/llq0802>
+   * @type { React.CSSProperties }
+   * @version 2.1.2
+   * @memberof LTypeitProps
    */
   style: CSSProperties;
   /**
    * 类名
+   * @author 李岚清 <https://github.com/llq0802>
+   * @type { string }
+   * @version 2.1.2
+   * @memberof LTypeitProps
    */
   className: string;
   /**
    * ReactNode
+   * @author 李岚清 <https://github.com/llq0802>
+   * @type { React.ReactNode }
+   * @version 2.1.2
+   * @memberof LTypeitProps
    */
   children: React.ReactNode;
+  /**
+   * typeit-react 的 getBeforeInit
+   * @author 李岚清 <https://github.com/llq0802>
+   * @type { TypeItProps['getBeforeInit'] }
+   * @version 2.1.2
+   * @memberof LTypeitProps
+   * @see https://www.typeitjs.com/docs/vanilla/usage/#configuration-options
+   */
   getBeforeInit: TypeItProps['getBeforeInit'];
+  /**
+   * typeit-react 的 options
+   * @author 李岚清 <https://github.com/llq0802>
+   * @type { TypeItProps }
+   * @version 2.1.2
+   * @memberof LTypeitProps
+   * @see https://www.typeitjs.com/docs/vanilla/usage/#configuration-options
+   */
   options: TypeItOptions;
+  /**
+   * typeit-react 的 Props { @link}
+   * @author 李岚清 <https://github.com/llq0802>
+   * @type { TypeItProps }
+   * @version 2.1.2
+   * @memberof LTypeitProps
+   * @see https://www.typeitjs.com/docs/vanilla/usage/#configuration-options
+   */
   props: TypeItProps;
 }
 

@@ -15,13 +15,14 @@ order: 1
 
   <img src="https://img.shields.io/github/stars/crazylxr/3dtagcloudforeact.svg" />
 
-Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以**显著**的提升制作 CRUD 页面的效率。
+Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以 **显著** 的提升制作 CRUD 页面的效率。
 
 ## 特性
 
-- 💎 简单易用 - 基于 Ant Design 进行封装
-- 📦 场景丰富 - 面向常见业务场景封装
-- 💡 TypeScript - 提供 TypeScript 类型定义
+- 💎 简单易用 - 基于 Ant Design 进行面向常见业务的封装
+- 📦 场景丰富 - 提供一些列面向常见业务场景基础组件
+- 🍙 JSDoc - 提供 JSDoc 注释并集成 VSCode 提示
+- 💡 TypeScript - 提供完整 TypeScript 类型定义
 - 🎨 更少的代码 - 多种配置减少代码的书写
 
 ## 与其他库互补

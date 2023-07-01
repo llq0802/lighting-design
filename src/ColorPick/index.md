@@ -34,8 +34,8 @@ import { LColor } from 'lighting-design';
 | 参数      | 说明               | 类型                           | 默认值     |
 | --------- | ------------------ | ------------------------------ | ---------- |
 | value     | 颜色值             | `string`                       | `- `       |
-| showText  | 是否显示颜色值文本 | `boolean`                      | `false`    |
-| size      | 颜色块大小         | `'small' \| 'middle'\|'large'` | `'middle'` |
+| showText  | 是否显示颜色值文本 | `boolean`                      | `true`     |
+| size      | 颜色组件大小       | `'small' \| 'middle'\|'large'` | `'middle'` |
 | className | 根容器类名         | `string`                       | `-`        |
 | style     | 根容器样式         | `CSSProperties`                | `-`        |
 

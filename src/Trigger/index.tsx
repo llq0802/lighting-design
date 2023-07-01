@@ -6,23 +6,74 @@ import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement } from 'react';
 
 export type LTriggerProps = {
-  /** 显示的模式 */
+  /**
+   * 显示的模式
+   * @author 李岚清 <https://github.com/llq0802>
+   * @type { 'default' | 'tag' }
+   * @version 2.1.2
+   * @memberof LTriggerProps
+   */
   mode?: 'default' | 'tag';
-  /** 是否打开 */
+  /**
+   * 是否打开
+   * @author 李岚清 <https://github.com/llq0802>
+   * @type { boolean }
+   * @version 2.1.2
+   * @memberof LTriggerProps
+   *
+   */
   open: boolean;
-  /** 宽度 */
+  /**
+   *  组件宽度
+   * @author 李岚清 <https://github.com/llq0802>
+   * @type { number | string }
+   * @version 2.1.2
+   * @memberof LTriggerProps
+   *  */
   width: number | string;
-  /** 弹窗宽度 */
+  /**
+   * 弹出层宽度 当值小于选择框宽度时会被忽略
+   * @author 李岚清 <https://github.com/llq0802>
+   * @type { boolean }
+   * @version 2.1.2
+   * @memberof LTriggerProps
+   */
   dropdownWidth: number;
-  /** 配置字段 label为展示名称的字段 value为字段的值*/
+  /**
+   * 自定义配置字段名称 label为展示名称的字段 value为字段的值
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTriggerProps
+   * @example  fieldNames = {{
+   *  label:'name',
+   *  value:'id'
+   * }}
+   */
   fieldNames?: {
     label: string;
     value: string;
   };
   className: string;
+  /**
+   * 在mode='tag'时自定义标签
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTriggerProps
+   */
   tagRender: (props: Record<string, any>) => ReactNode;
+  /**
+   * children 组件会接受到 open，setOpen，value，onChange 必须在 children 组件中绑定 value，onChange 才会收集到数据
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTriggerProps
+   */
   children: ReactElement;
-  /** 自定义清除图标 */
+  /**
+   * 自定义清除图标
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTriggerProps
+   */
   clearIcon: SelectProps['clearIcon'];
   onDropdownOpenChange: SelectProps['onDropdownVisibleChange'];
   selectProps: SelectProps;

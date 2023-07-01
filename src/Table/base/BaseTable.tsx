@@ -90,19 +90,47 @@ export type LTableRequest = (
 ) => Promise<{ success: boolean; data: Record<string, any>[]; total: number }>;
 
 export type LTableProps = {
-  /** 表格是否需要排序序号 */
+  /**
+   * 表格是否需要排序序号
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   isSort?: boolean;
-  /** 表格 表单是否准备好 false时表格不会请求 表单不能提交查询 */
+  /**
+   * 表格 表单是否准备好 false时表格不会请求 表单不能提交查询
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   * */
   isReady?: boolean;
-  /** 全屏表格的背景颜色 */
+  /**
+   *  全屏表格的背景颜色
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   fullScreenBgColor?: string;
-  /** 表格宽度超过 100%自动处理横向滚动条。 */
+
+  /**
+   * 表格宽度超过 100%自动处理横向滚动条。
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   nowrap?: boolean;
-  /** 异步请求函数第一次额外参数(仅在第一次请求时会携带) */
+  /**
+   * 异步请求函数第一次额外参数(仅在第一次请求时会携带)
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   defaultRequestParams?: Record<string, any>;
   /**
    * ahooks 的 useRequest 的 options
-   * @version v3.7.4
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
    * @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
    */
   requestOptions?: {
@@ -121,39 +149,114 @@ export type LTableProps = {
     /** 其他高级配置 */
     [key: string]: any;
   };
-  /** 异步请求函数 */
+  /**
+   * 异步请求函数
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   request?: LTableRequest;
-  /** 是否自动请求 */
+  /**
+   * 是否自动请求 (支持动态改变)
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   autoRequest?: boolean;
-  /** 查询表单的实例 */
+  /**
+   * 查询表单的实例
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   formRef?:
     | MutableRefObject<FormInstance | undefined>
     | ((ref: FormInstance) => void);
-  /** 表格的实例 包含一些方法 */
+  /**
+   * 表格的实例 (包含一些方法)
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   tableRef?: MutableRefObject<LTableInstance | undefined>;
   /** 是否占满剩余空间 */
   // fillSpace?: boolean;
-  /** 表格最外层div类名 */
+  /**
+   * 表格最外层div类名
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   rootClassName?: string;
-  /** 表格额外类名 */
+  /**
+   *  表格额外类名
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   tableClassName?: string;
-  /** 表格最外层div样式 */
+  /**
+   *  表格最外层div样式
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   rootStyle?: CSSProperties;
-  /** 表格额外style */
+  /**
+   * 表格额外style
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   tableStyle?: CSSProperties;
-  /** 整个toolbar的样式  showToolbar为true时生效*/
+  /**
+   * 整个toolbar的样式  showToolbar为true时生效
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   toolbarStyle?: CSSProperties;
-  /** 查询表单外层的CardProps*/
+  /**
+   * 查询表单外层的CardProps
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   formCardProps?: CardProps;
-  /** 表格外层的CardProps*/
+  /**
+   *  表格外层的CardProps
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   tableCardProps?: CardProps;
-  /** 是否显示toolbar */
+  /**
+   *  是否显示 toolbar
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   showToolbar?: boolean;
-  /** 配置内置表格工具栏 继承Space组件的属性 showToolbar为 true 时生效*/
+  /**
+   * 配置内置表格工具栏 继承Space组件的属性 showToolbar为 true 时生效
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   toolbarActionConfig?: LToolbarActionProps;
-  /** 重新渲染toolBar 包括内置表格工具 */
+  /**
+   * 重新渲染toolBar 包括内置表格工具
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   toolbarRender?: (ToolbarActionDom: ReactNode) => ReactNode;
-  /** 重新渲染整个表格 */
+  /**
+   *  重新渲染整个高级表格
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   tableRender?: (
     optionsDom: {
       /** 表单dom */
@@ -164,27 +267,63 @@ export type LTableProps = {
       tableExtraDom: ReactNode;
       /**   table主体Dom 包含工具栏Dom  */
       tableDom: ReactNode;
-      /** 整个表格Dom包含全部Dom */
+      /** 整个高级表格Dom 包含全部Dom */
       finallyDom: ReactNode;
     },
     props: LTableProps,
   ) => ReactElement;
-  /** 重新渲染表格内容 */
+  /**
+   * 重新渲染 antd 表格的内容
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   contentRender?: (data: Record<string, any>[]) => ReactNode;
-  /** 整个toolBar的左侧 */
+  /**
+   * 整个toolBar的左侧
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   toolbarLeft?: ReactNode;
-  /** 整个toolBar的右侧 在内置表格工具左侧 */
+  /**
+   *  整个toolBar的右侧 (如果有内置表格工具就是在内置表格工具的左侧)
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   toolbarRight?: ReactNode;
-  /** 表格内容上部区域 */
+  /**
+   * 表格内容上部额外区域
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   tableExtra?: ReactNode;
-  /** 表单查询框组 */
+  /**
+   *  表单查询框组
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   formItems?: Exclude<
     ReactNode,
     string | number | boolean | null | undefined
   >[];
-  /** 查询表单初始值 */
+  /**
+   * 查询表单初始值
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   */
   formInitialValues?: Record<string, any>;
-  /** 查询表单LQueryFormProps */
+  /**
+   * 查询表单LQueryFormProps
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof LTableProps
+   * @see https://llq0802.github.io/lighting-design/latest/components/query-form
+   */
   queryFormProps?: LQueryFormProps;
 } & TableProps<any>;
 

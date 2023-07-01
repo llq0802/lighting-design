@@ -11,12 +11,43 @@ import FileViewerPictureCard from './PictureCard';
 export interface LFileViewerProps
   extends ModalProps,
     Omit<FileViewProps, 'url'> {
-  /** image 类型的配置 */
+  /**
+   * image 类型的配置
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   */
   imagePreview?: LImagePreviewProps;
-  /** 文件地址 */
+  /**
+   * 文件地址
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@type {string[]}
+   *@example url={['地址1','地址2']}
+   */
   url: string[] | string;
+  /**
+   * 是否打开(受控)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   * @type {?boolean}
+   * @memberof LFileViewerProps
+   */
   open?: boolean;
+  /**
+   *默认是否打开
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@type {?boolean}
+   *@memberof LFileViewerProps
+   */
   defaultOpen?: boolean;
+  /**
+   * 默认是否打开
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@type { (open: boolean) => void }
+   *@memberof LFileViewerProps
+   */
   onOpenChange?: (open: boolean) => void;
 }
 

@@ -13,3 +13,12 @@ declare module '*.gif';
 declare module '*.bmp';
 declare module '*.tiff';
 declare module 'throttle-debounce';
+/**
+ * 从一定类型中选出某些字段为可选
+ * @example  Optional<{
+ * name:string
+ * age:number
+ * date:Date
+ * },'date'>
+ * */
+declare type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;

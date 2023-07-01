@@ -11,22 +11,46 @@ import type { ForwardRefRenderFunction, Ref, RefObject } from 'react';
 import { forwardRef } from 'react';
 
 export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
-  /** 倒计时秒数 */
+  /**
+   * 倒计时的秒数
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof CaptchaButtonProps
+   *@default 60
+   */
   second?: number;
-  /** 是否开始发送 */
+  /**
+   *@author 李岚清 <https://github.com/llq0802>
+   *@description 是否开始发送
+   *@version 2.1.2
+   *@memberof CaptchaButtonProps
+   *@default false
+   */
   start?: boolean;
-  /** 倒计时的文字, 会带上 second 秒 */
+  /**
+   *@author 李岚清 <https://github.com/llq0802>
+   *@description 倒计时的文字, 会带上 second 秒
+   *@version 2.1.2
+   *@memberof CaptchaButtonProps
+   */
   disabledText?: string;
   /**
-   * 缓存的 key、页面刷新后倒计时继续。
+   *@author 李岚清 <https://github.com/llq0802>
+   *@description 缓存的key、页面刷新后倒计时继续 , 多个倒计时组件请设置不同的key。
+   *@version 2.1.2
+   *@memberof CaptchaButtonProps
    */
   cacheKey: string;
   /**
-   *倒计时完成后触发
+   *@author 李岚清 <958614130@qq.com>
+   *@description 倒计时完成后触发
+   *@version 2.1.2
+   *@see https://ant.design/components/button-cn/
+   *@memberof CaptchaButtonProps
    */
   onEnd?: () => void;
   /**
-   * @see {@link  https://ant.design/components/button-cn/}
+   *{@link  https://ant.design/components/button-cn/}
    */
 }
 

@@ -33,7 +33,7 @@ const PickerWrapper: FC<PickerWrapperProps> = ({
   onChange,
   children,
   className,
-  showText = false,
+  showText = true,
   disabled = false,
   trigger = 'click',
   colorMode = 'hex',

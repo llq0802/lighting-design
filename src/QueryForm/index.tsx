@@ -40,12 +40,34 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
 });
 
 export interface LQueryFormProps extends BaseFormProps {
+  /**
+   *是否折叠
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LQueryFormProps
+   */
   isCollapsed?: boolean;
-  /** 显示多少项 */
+  /**
+   * 显示多少项
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LQueryFormProps
+   * */
   showColsNumber?: number;
-  /** 配置响应式 */
+  /**
+   *  配置响应式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LQueryFormProps
+   *@see https://ant.design/components/grid-cn#col
+   */
   itemColProps?: ColProps;
-  /** 是否水平紧凑 */
+  /**
+   * 是否水平紧凑显示
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LQueryFormProps
+   */
   isSpace?: boolean;
 }
 

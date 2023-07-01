@@ -23,27 +23,72 @@ import Submitter from './Submitter';
 const prefixCls = 'lightd-form';
 
 export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title'> {
-  /** lable的宽度 */
+  /**
+   * lable 的宽度
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormProps
+   */
   labelWidth?: number | 'auto';
-  /** 渲染Form组件的children (Form.Item) */
+  /**
+   * 渲染Form组件的children (Form.Item)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormProps
+   */
   contentRender?: (
     formItemsDom: ReactNode[],
     submitterDom: ReactNode,
     form: FormInstance,
   ) => ReactNode;
-  /** 重新渲染Form*/
+  /**
+   * 重新渲染Form
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormProps
+   */
   formRender?: (formDom: ReactElement, submitterDom: ReactNode) => ReactNode;
-  /** 表单是否渲染完成  false时，禁止触发 submit。true 时，会对表单初始值重新赋值。 */
+  /**
+   * 表单是否渲染完成  false时，禁止触发 submit。true 时，会对表单初始值重新赋值。
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormProps
+   */
   isReady?: boolean;
-  /** 表单提交按钮的loading (用户提交时会自动管理)*/
+  /**
+   * 表单提交按钮的loading (用户提交时会自动管理)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormProps
+   */
   loading?: boolean;
-  /** 默认按钮配置 */
+  /**
+   * 默认按钮配置
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormProps
+   */
   submitter?: false | Omit<LFormSubmitterProps, 'form'>;
-  /** 重置按钮事件回调 */
+  /**
+   * 重置按钮事件回调
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormProps
+   */
   onReset?: (event: MouseEvent<HTMLElement>) => void;
-  /** 是否按Enter键能提交表单 */
+  /**
+   * 是否按Enter键能提交表单
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormProps
+   */
   isEnterSubmit?: boolean;
-  /** 在onFinish调用之前转化表单值 */
+  /**
+   * 在onFinish调用之前转化表单值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormProps
+   */
   transformValues?: (values: Record<string, any>) => Record<string, any>;
 
   children?: ReactNode;

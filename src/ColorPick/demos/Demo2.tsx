@@ -22,7 +22,6 @@ export default () => {
       <LColorSketchPicker
         value={color6}
         onChange={setColor6}
-        showText
         colorMode="rgb"
         placement="topLeft"
         size="middle"
@@ -32,27 +31,20 @@ export default () => {
       <LColorChromePicker
         value={color2}
         onChange={setColor2}
-        showText
         colorMode="rgb"
         placement="topLeft"
       />
       <br />
       <h4>LColorBlockPicker</h4>
-      <LColorBlockPicker
-        value={color1}
-        onChange={setColor1}
-        showText
-        disabled
-      />
+      <LColorBlockPicker value={color1} onChange={setColor1} disabled />
       <br />
       <h4>LColorCompactPicker</h4>
-      <LColorCompactPicker value={color3} onChange={setColor3} showText />
+      <LColorCompactPicker value={color3} onChange={setColor3} />
       <br />
       <h4>LColorPhotoshopPicker</h4>
       <LColorPhotoshopPicker
         value={color4}
         onChange={setColor4}
-        showText
         placement="topLeft"
       />
       <br />
@@ -60,7 +52,6 @@ export default () => {
       <LColorCirclePicker
         value={color5}
         onChange={setColor5}
-        showText
         placement="topLeft"
       />
       <br />

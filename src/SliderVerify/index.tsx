@@ -6,47 +6,146 @@ import './index.less';
 import useVerify from './useVerify';
 
 interface SliderVerifyProps {
-  /** 初始验证结果值  */
+  /** 初始验证结果值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   defaultValue?: boolean;
-  /** 手控验证的值*/
+  /**
+   * 受控值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   * @memberof LSliderVerifyProps
+   */
   value?: boolean | number;
-  /** 移动改变的回调(受控) */
+  /**
+   *  改变值的回调(受控)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   onChange?: (bool: boolean) => void;
-  /** 拖动完成后自定义验证逻辑 */
+  /**
+   * 拖动完成后自定义验证逻辑
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   onVerify?: (num: number) => boolean;
-  /** 验证成功的回调 */
+  /**
+   * 验证成功的回调
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   onSuccess?: () => void;
-  /** 组件宽度 */
+  /**
+   * 组件宽度
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   width?: number;
-  /** 组件高度 */
+  /**
+   * 组件高度
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   height?: number;
   /** 初始背景颜色 */
   bgColor?: string;
-  /** 提示的文字 */
+  /**
+   *  提示的文字
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   tips?: React.ReactNode;
-  /** 滑块外层div的宽度 */
+  /**
+   *  滑块外层div的宽度
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   barWidth?: number;
-  /** 初始滑块内容 */
+  /**
+   * 初始滑块内容
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   bar?: React.ReactNode;
-  /** 成功后滑块内容 */
+  /**
+   * 成功后滑块内容
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   successBar?: React.ReactNode;
-  /** 成功后的背景颜色 */
+  /**
+   *  成功后的背景颜色
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   successBgColor?: string;
-  /** 成功后提示的文字 */
+  /**
+   * 成功后提示的文字
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   successTips?: React.ReactNode;
-  /** 成功后是否还显示bar */
+  /**
+   *  成功后是否还显示bar
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   successShowBar?: boolean;
-  /** 成功后文字提示div的样式 */
+  /**
+   *  成功后文字提示div的样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   successTipsStyle?: React.CSSProperties;
-  /** 距离最右边还剩多少就算成功 */
+  /**
+   *  距离最右边还剩多少就算成功
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   difference?: number;
-  /** 滑块的样式 */
+  /**
+   * 滑块的样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   barStyle?: React.CSSProperties;
-  /** 文字提示div的样式 */
+  /**
+   *  文字提示div的样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   tipsStyle?: React.CSSProperties;
-  /** 组件容器样式 */
+  /**
+   *  组件容器样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   style?: React.CSSProperties;
-  /** 组件容器类名 */
+  /**
+   *  组件容器类名
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   className?: string;
 }
 
@@ -58,7 +157,12 @@ export type LSliderVerifyInstance = {
 };
 
 export interface LSliderVerifyProps extends SliderVerifyProps {
-  /** 滑块实例, 里面有重置方法 */
+  /**
+   *  滑块实例 (包含有重置方法和值)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   actionRef?: React.MutableRefObject<LSliderVerifyInstance | undefined>;
 }
 

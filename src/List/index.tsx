@@ -3,12 +3,27 @@ import { List } from 'antd';
 import VirtualList from 'rc-virtual-list';
 import React from 'react';
 
-type LListProps = {
-  /** 虚拟滚动容器的高度 设置后将自动开启虚拟滚动  */
+export type LListProps = {
+  /**
+   * 虚拟滚动容器的高度 设置后将自动开启虚拟滚动
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LListProps
+   */
   height?: number;
-  /** 每一项最小的高度 */
+  /**
+   * 每一项最小的高度
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LListProps
+   */
   itemMinHeight?: number;
-  /** 虚拟滚动开启时，容器滚动触底事件的处理函数 */
+  /**
+   * 虚拟滚动开启时，容器滚动触底事件的处理函数
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LListProps
+   */
   onScrollBottom?: () => void;
 } & ListProps<any>;
 

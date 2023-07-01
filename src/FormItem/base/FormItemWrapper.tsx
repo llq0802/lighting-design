@@ -8,8 +8,11 @@ const prefixCls = 'lightd-form-item-wrapper';
 
 export interface FormItemWrapperProps extends Record<string, any> {
   before?: ReactNode;
+
   after?: ReactNode;
+
   className?: string;
+
   contentInline?: boolean;
 }
 
