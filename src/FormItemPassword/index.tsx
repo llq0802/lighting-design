@@ -1,4 +1,5 @@
 import type { PasswordProps } from 'antd/lib/input/Password';
+import { PASSWORD_REG } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -10,16 +11,22 @@ import PasswordWrapper from './PasswordWrapper';
 export interface LFormItemPasswordProps extends LFormItemProps {
   min?: number;
   max?: number;
+  /** 是否开启高强度密码验证 */
+  highPassWord?: boolean;
+  /** 是否禁用空格输入 */
   disabledWhiteSpace?: boolean;
-  passwordProps?: PasswordProps;
 
+  passwordProps?: PasswordProps;
+  /** 是否禁用粘贴 */
   disabledPaste?: boolean;
+  /** 是否禁用复制 */
   disabledCopy?: boolean;
 }
 
 const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   min = 8,
   max = 16,
+  highPassWord = false,
   disabledWhiteSpace = true,
   disabledPaste = true,
   disabledCopy = true,
@@ -43,15 +50,24 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
         {
           validator(rule, value) {
             let errMsg = '';
-            if (!value) {
-              errMsg = required ? `${messagePlaceholder}!` : '';
-            } else if (value.length < min || value.length > max) {
-              errMsg = `${'密码'}为${min}～${max}位`;
+
+            if (!highPassWord) {
+              if (!value) {
+                errMsg = required ? `${messagePlaceholder}!` : '';
+              } else if (value.length < min || value.length > max) {
+                errMsg = `密码为${min}～${max}位`;
+              }
+              if (errMsg) {
+                return Promise.reject(errMsg);
+              }
+              return Promise.resolve();
             }
-            if (errMsg) {
-              return Promise.reject(errMsg);
+
+            if (PASSWORD_REG.test(value)) {
+              return Promise.resolve();
             }
-            return Promise.resolve();
+            errMsg = `请输入包括大小写字母，数字，特殊字符的8位密码`;
+            return Promise.reject(errMsg);
           },
         },
       ]}
