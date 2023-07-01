@@ -3,6 +3,7 @@ import type { UploadFile } from 'antd';
 import type { ImgCropProps } from 'antd-img-crop';
 import ImgCrop from 'antd-img-crop';
 import classNames from 'classnames';
+import { IMAGE_TYPES } from 'lighting-design/constants';
 import type { FC, ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import UploadButton from './UploadButton';
@@ -139,7 +140,7 @@ const UploadAvatar: FC<UploadAvatarProps> = ({
       showUploadList={false}
       {...restProps}
       listType="picture-card"
-      accept={restProps?.accept || '.jpg, .jpeg, .png'}
+      accept={restProps?.accept || IMAGE_TYPES}
       fileList={fileList}
       multiple={false}
       maxCount={1}
@@ -154,7 +155,13 @@ const UploadAvatar: FC<UploadAvatarProps> = ({
   );
 
   return isCrop ? (
-    <ImgCrop rotationSlider {...cropProps}>
+    <ImgCrop
+      modalWidth={600}
+      rotationSlider
+      aspectSlider
+      showReset
+      {...cropProps}
+    >
       {dom}
     </ImgCrop>
   ) : (

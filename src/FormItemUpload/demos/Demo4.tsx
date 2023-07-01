@@ -40,6 +40,18 @@ const Demo4 = () => {
           },
         }}
       />
+
+      <LFormItemUpload
+        isCrop
+        cropProps={{
+          aspectSlider: false,
+          showReset: false,
+        }}
+        name="default"
+        label="默认上传"
+        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        uploadProps={{ name: 'fileName' }}
+      />
     </LForm>
   );
 };

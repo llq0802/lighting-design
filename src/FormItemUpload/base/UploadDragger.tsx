@@ -1,5 +1,6 @@
 import { InboxOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
+import { IMAGE_TYPES } from 'lighting-design/constants';
 import type { FC, ReactNode } from 'react';
 import { useMemo } from 'react';
 import type { UploadWrapperProps } from './UploadWrapper';
@@ -38,7 +39,7 @@ const UploadDragger: FC<UploadDraggerrProps> = ({
     return defaultShowUploadList;
   }, [showUploadList]);
 
-  const accept = isCrop ? '.jpg, .jpeg, .png' : restProps?.accept;
+  const accept = isCrop ? IMAGE_TYPES : restProps?.accept;
 
   const dom = (
     <UploadWrapper
@@ -56,7 +57,13 @@ const UploadDragger: FC<UploadDraggerrProps> = ({
   );
 
   return isCrop ? (
-    <ImgCrop rotationSlider {...cropProps}>
+    <ImgCrop
+      modalWidth={600}
+      rotationSlider
+      aspectSlider
+      showReset
+      {...cropProps}
+    >
       {dom}
     </ImgCrop>
   ) : (

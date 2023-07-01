@@ -34,17 +34,21 @@ export type LFormItemUploadProps = LFormItemProps &
   > & {
     /** 上传组件内置类型 */
     uploadType?: 'image' | 'default' | 'avatar' | 'dragger';
+    /** antd 上传组件的 Props */
     uploadProps?: UploadProps;
+    /** Button 的 Props 在uploadType为'default'时生效 */
     buttonProps?: ButtonProps;
+    /** 按钮图标，不同内建类型有不一样的默认值。 */
     buttonIcon?: ReactNode;
+    /** 按钮文本 在uploadType为'default'或'dragger'时生效 */
     buttonText?: ReactNode;
-    /** 是否需要裁剪 */
+    /** 是否需要裁剪  在uploadType为'default'或'dragger'时只能上传图片*/
     isCrop?: boolean;
     /**
      *  额外的裁剪属性
      * @see https://github.com/nanxiaobei/antd-img-crop#props
      */
-    cropProps?: ImgCropProps;
+    cropProps?: Omit<ImgCropProps, 'children'>;
     /** 是否是串行上传。  true 为串行  false 为并行 */
     isSerial?: boolean;
   };

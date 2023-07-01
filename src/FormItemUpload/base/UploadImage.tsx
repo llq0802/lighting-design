@@ -1,5 +1,6 @@
 import type { ImgCropProps } from 'antd-img-crop';
 import ImgCrop from 'antd-img-crop';
+import { IMAGE_TYPES } from 'lighting-design/constants';
 import type { FC, ReactNode } from 'react';
 import UploadButton from './UploadButton';
 import type { UploadWrapperProps } from './UploadWrapper';
@@ -29,7 +30,7 @@ const UploadImage: FC<UploadImageProps> = ({
       showUploadList={showUploadList}
       listType="picture-card"
       {...restProps}
-      accept={restProps?.accept || '.jpg, .jpeg, .png'}
+      accept={restProps?.accept || IMAGE_TYPES}
     >
       {maxCount && fileList && fileList.length >= maxCount ? null : (
         <UploadButton buttonIcon={buttonIcon} buttonText={buttonText} />
@@ -38,7 +39,13 @@ const UploadImage: FC<UploadImageProps> = ({
   );
 
   return isCrop ? (
-    <ImgCrop rotationSlider {...cropProps}>
+    <ImgCrop
+      modalWidth={600}
+      rotationSlider
+      aspectSlider
+      showReset
+      {...cropProps}
+    >
       {dom}
     </ImgCrop>
   ) : (
