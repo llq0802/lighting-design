@@ -7,8 +7,19 @@ import type { FC } from 'react';
 import { useContext } from 'react';
 export interface LFormItemAddressProps<DataNodeType = any>
   extends Omit<LFormItemProps, 'name'> {
+  /**
+   *数据源
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemAddressProps
+   */
   options?: CascaderProps<DataNodeType>['options'];
-  /** 字段数组 如 ['location', 'address']*/
+  /**
+   * 字段数组 如 ['location', 'address']
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemAddressProps
+   */
   names: [LFormItemProps['name'], LFormItemProps['name']];
   inputProps?: InputProps;
   cascaderProps?: CascaderProps<DataNodeType>;

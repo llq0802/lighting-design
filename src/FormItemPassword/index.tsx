@@ -13,6 +13,8 @@ export interface LFormItemPasswordProps extends LFormItemProps {
   max?: number;
   /** 是否开启高强度密码验证 */
   highPassWord?: boolean;
+  /** 开启高强度密码验证错误后的提示 */
+  highPassWordErrorMsg?: string;
   /** 是否禁用空格输入 */
   disabledWhiteSpace?: boolean;
 
@@ -34,6 +36,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   required,
   disabled,
   placeholder = '请输入密码',
+  highPassWordErrorMsg = `必须同时包含大小写字母 , 数字  , 特殊字符且位数至少8位!`,
   ...restProps
 }) => {
   const messagePlaceholder = usePlaceholder({
@@ -66,7 +69,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
             if (PASSWORD_REG.test(value)) {
               return Promise.resolve();
             }
-            errMsg = `请输入包括大小写字母，数字，特殊字符的8位密码`;
+            errMsg = highPassWordErrorMsg;
             return Promise.reject(errMsg);
           },
         },

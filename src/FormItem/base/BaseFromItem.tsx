@@ -9,7 +9,7 @@ import FormItemWrapper from './FormItemWrapper';
 
 export interface LFormItemProps extends FormItemProps {
   /**
-   * lable宽度
+   *lable宽度。  同 labelCol={{ flex: '90px' }}
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.2
    *@memberof LFormItemProps

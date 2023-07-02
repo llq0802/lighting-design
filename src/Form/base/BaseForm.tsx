@@ -24,7 +24,7 @@ const prefixCls = 'lightd-form';
 
 export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title'> {
   /**
-   * lable 的宽度
+   *lable宽度。  同 labelCol={{ flex: '90px' }}
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.2
    *@memberof LFormProps
@@ -84,7 +84,7 @@ export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title'> {
    */
   isEnterSubmit?: boolean;
   /**
-   * 在onFinish调用之前转化表单值
+   * 在 onFinish 调用之前转化表单值
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.2
    *@memberof LFormProps
