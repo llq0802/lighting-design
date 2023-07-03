@@ -46,6 +46,8 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   outLoading = {},
   disabled,
   name,
+
+  requestOptions,
   ...restProps // LFormItem传过来的其他值
 }) => {
   const [optsRequest, setOptsRequest] = useState<LCascaderOption[]>([]);
@@ -58,6 +60,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   );
   const isFirst = useIsFirstRender(); // 组件是否第一次挂载
   const { run } = useRequest(request || (async () => []), {
+    ...requestOptions,
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {

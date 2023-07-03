@@ -30,6 +30,7 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   debounceTime,
   spin,
   cascaderProps = {},
+  requestOptions = {},
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -57,6 +58,7 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
         cascaderProps={cascaderProps}
         disabled={disabled ?? formDisabled}
         placeholder={messageLabel}
+        requestOptions={requestOptions}
       />
     </LFormItem>
   );

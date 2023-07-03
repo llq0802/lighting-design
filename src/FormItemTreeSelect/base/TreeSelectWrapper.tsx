@@ -53,6 +53,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   loadData,
   treeSelectProps = {},
   outLoading = {},
+  requestOptions = {},
   name,
   ...restProps // LFormItem传过来的其他值
 }) => {
@@ -68,6 +69,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   );
 
   const { run } = useRequest(request || (async () => []), {
+    ...requestOptions,
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {

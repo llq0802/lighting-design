@@ -57,6 +57,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   required,
   spin,
   notDependRender,
+  requestOptions = {},
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
@@ -74,6 +75,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
         outLoading={spin}
         beforeAll={beforeAll}
         checkboxProps={checkboxProps}
+        requestOptions={requestOptions}
       />
     </LFormItem>
   );

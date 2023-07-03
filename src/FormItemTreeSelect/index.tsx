@@ -37,6 +37,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   debounceTime,
   spin,
   treeSelectProps = {},
+  requestOptions = {},
 
   ...restProps
 }) => {
@@ -60,6 +61,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
         debounceTime={debounceTime}
         loadData={loadData}
         treeSelectProps={treeSelectProps}
+        requestOptions={requestOptions}
         name={restProps.name}
       />
     </LFormItem>

@@ -31,6 +31,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
   debounceTime,
   options = [],
   segmentedProps = {},
+  requestOptions = {},
   spin,
   disabled,
   notDependRender,
@@ -53,6 +54,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
         notDependRender={notDependRender}
         // @ts-ignore
         segmentedProps={segmentedProps}
+        requestOptions={requestOptions}
       />
     </LFormItem>
   );

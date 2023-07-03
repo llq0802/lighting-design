@@ -34,6 +34,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   request,
   debounceTime,
   rateProps = {},
+  requestOptions = {},
   disabled,
   name,
   ...restProps
@@ -50,6 +51,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   );
 
   const { run } = useRequest(request || (async () => 0), {
+    ...requestOptions,
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result: number) => {

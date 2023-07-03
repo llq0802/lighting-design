@@ -56,6 +56,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   placeholder,
   spin,
   notDependRender,
+  requestOptions = {},
 
   required,
   ...restProps
@@ -105,6 +106,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
         allValue={allValue}
         allLabel={allLabel}
         notDependRender={notDependRender}
+        requestOptions={requestOptions}
         radioProps={radioProps}
       />
     </LFormItem>

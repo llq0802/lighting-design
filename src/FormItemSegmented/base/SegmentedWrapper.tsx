@@ -45,6 +45,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   disabled,
   debounceTime,
   segmentedProps = {},
+  requestOptions = {},
   name,
   ...restProps
 }) => {
@@ -62,6 +63,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   const isFirst = useIsFirstRender(); // 组件是否第一次挂载
 
   const { run } = useRequest(request || (async () => []), {
+    ...requestOptions,
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {

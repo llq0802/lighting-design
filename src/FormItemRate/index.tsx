@@ -28,6 +28,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   disabled,
   spin,
   count = 5,
+  requestOptions = {},
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
@@ -63,6 +64,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
         request={request}
         debounceTime={debounceTime}
         rateProps={rateProps}
+        requestOptions={requestOptions}
       />
     </LFormItem>
   );

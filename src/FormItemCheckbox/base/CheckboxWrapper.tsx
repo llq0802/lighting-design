@@ -69,7 +69,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   disabled,
   outLoading = {},
   notDependRender = () => <span>请先选择依赖项</span>,
-
+  requestOptions,
   name,
   ...restProps
 }) => {
@@ -86,6 +86,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     [outLoading],
   );
   const { run } = useRequest(request || (async () => []), {
+    ...requestOptions,
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {

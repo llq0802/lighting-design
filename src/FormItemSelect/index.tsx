@@ -47,6 +47,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   allLabel = '全部',
   options = [],
   selectProps = {},
+  requestOptions = {},
   spin,
 
   required,
@@ -104,6 +105,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
         allValue={allValue}
         allLabel={allLabel}
         selectProps={selectProps}
+        requestOptions={requestOptions}
       />
     </LFormItem>
   );

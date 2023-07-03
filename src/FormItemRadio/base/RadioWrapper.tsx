@@ -52,6 +52,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   notDependRender = () => <span>请先选择依赖项</span>,
 
   radioProps = {},
+  requestOptions = {},
 
   ...restProps
 }) => {
@@ -123,6 +124,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   }, [all, allLabel, allValue, outOptions, radioProps.options]);
 
   const { run } = useRequest(request || (async () => []), {
+    ...requestOptions,
     manual: true,
     debounceWait: debounceTime,
     onSuccess: (result) => {
