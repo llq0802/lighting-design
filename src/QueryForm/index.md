@@ -33,7 +33,7 @@ nav:
 
 ## API
 
-> `LQueryForm` 的`查询丶重置` 通过 `LForm` 的`submitter`属性配置
+> - `LQueryForm` 的`查询丶重置` 通过 `LForm` 的`submitter`属性配置
 
 ```ts
 import { LQueryForm } from 'lighting-design';

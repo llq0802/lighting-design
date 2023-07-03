@@ -29,7 +29,7 @@ nav:
 
 ## API
 
-> 如果要在新标签页使用浏览器的默认预览 , 可使用 `window.open(url)`
+> - 如果要在新标签页使用浏览器的默认预览 , 可使用 `window.open(url)`
 
 ```ts
 import { LFileViewer } from 'lighting-design';
@@ -58,9 +58,9 @@ import { LFileViewer } from 'lighting-design';
 
 ### LFileViewer.PictureCard
 
-> 内置的缩略图支持的 `fileType` 有 `image` `audio` `video` `pdf` `ppt` `zip` `docx（doc）` `xlsx（xls）`
+> - 内置的缩略图支持的 `fileType` 有 `image` `audio` `video` `pdf` `ppt` `zip` `docx（doc）` `xlsx（xls）`
 >
-> 如果需要自定义缩略图，可在 `fileList` 每一项中配置 `thumbUrl`属性
+> - 如果需要自定义缩略图，可在 `fileList` 每一项中配置 `thumbUrl`属性
 
 除了以下配置，和 `FileViewer` 几乎相同。
 

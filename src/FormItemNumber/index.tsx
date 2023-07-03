@@ -8,8 +8,27 @@ import { useContext } from 'react';
 import NumberWrapper from './NumberWrapper';
 
 export interface LFormItemNumberProps extends LFormItemProps {
+  /**
+   * InputNumber的属性
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemNumberProps
+   *@see https://ant.design/components/input-number-cn/#api
+   */
   numberProps?: InputNumberProps;
+  /**
+   * 最小值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemNumberProps
+   */
   min?: number;
+  /**
+   * 最大值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemNumberProps
+   */
   max?: number;
 }
 

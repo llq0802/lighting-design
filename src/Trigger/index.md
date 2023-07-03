@@ -27,11 +27,11 @@ toc: content
 import { LTrigger } from 'lighting-design';
 ```
 
-> `mode = tag` 下 `value` , `label` 必须都是数组
+> - `mode = tag` 下 `value` , `label` 必须都是数组
 >
-> 如果在 `LForm`或 `Form`中使用，默认接收到的值必须是`{ label: string; value: string; }` fieldNames 可配置为其他字段名
+> - 如果在 `LForm`或 `Form`中使用，默认接收到的值必须是`{ label: string; value: string; }` fieldNames 可配置为其他字段名
 >
-> children 组件会接受到 `open`，`setOpen`，`value`，`onChange` 必须在 children 组件中绑定 `value，onChange` 才会收集到数据
+> - children 组件会接受到 `open`，`setOpen`，`value`，`onChange` 必须在 children 组件中绑定 `value，onChange` 才会收集到数据
 
 |         参数         |                             说明                             |                                    类型                                    |               默认值                |
 | :------------------: | :----------------------------------------------------------: | :------------------------------------------------------------------------: | :---------------------------------: |

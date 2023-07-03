@@ -18,6 +18,7 @@ const Demo3 = () => {
         name="password1"
         label="密码1"
         required
+        disabledWhiteSpace={false}
       />
       <LFormItemPassword name="password2" label="密码2" required min={6} />
       <LFormItemPassword

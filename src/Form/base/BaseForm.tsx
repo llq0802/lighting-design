@@ -22,7 +22,8 @@ import Submitter from './Submitter';
 
 const prefixCls = 'lightd-form';
 
-export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title'> {
+export interface BaseFormProps
+  extends Omit<FormProps, 'onReset' | 'title' | 'onValuesChange'> {
   /**
    *lable宽度。  同 labelCol={{ flex: '90px' }}
    *@author 李岚清 <https://github.com/llq0802>
@@ -90,6 +91,17 @@ export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title'> {
    *@memberof LFormProps
    */
   transformValues?: (values: Record<string, any>) => Record<string, any>;
+  /**
+   * 字段值更新时触发回调事件 (不建议设置每一项的onChange,而是统一在此设置)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormProps
+   */
+  onValuesChange?(
+    currentName: string,
+    currentValue: any,
+    allValues: Record<string, any>,
+  ): void;
 
   children?: ReactNode;
 
@@ -250,9 +262,8 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         labelCol={labelColProps}
         initialValues={initialValues}
         className={classnames(prefixCls, className)}
-        onValuesChange={onValuesChange}
         onFinish={handleOnFinish}
-        onKeyPress={(event) => {
+        onKeyUp={(event) => {
           const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
           if (
             isEnterSubmit &&
@@ -262,6 +273,11 @@ function BaseForm(props: BaseFormProps): JSX.Element {
           ) {
             formRef.current?.submit();
           }
+        }}
+        onValuesChange={(changedValues, allValues) => {
+          const [currentName, currentValue] =
+            Object.entries(changedValues)?.[0];
+          onValuesChange?.(currentName, currentValue, allValues);
         }}
         {...restProps}
       >

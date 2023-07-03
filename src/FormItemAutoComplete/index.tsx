@@ -9,12 +9,42 @@ import type { FC, ReactElement } from 'react';
 import { useContext } from 'react';
 
 export type LFormItemAutoCompleteProps = {
+  /**
+   * 自定义输入框
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemAutoCompleteProps
+   */
   inputRender?: () => ReactElement;
+  /**
+   * 被选中时调用，参数为选中项的 value 值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemAutoCompleteProps
+   */
   onSelect?: AutoCompleteProps['onSelect'];
+  /**
+   * 搜索补全项的时候调用
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemAutoCompleteProps
+   */
   onSearch?: AutoCompleteProps['onSearch'];
   onFocus?: AutoCompleteProps['onFocus'];
   onBlur?: AutoCompleteProps['onBlur'];
+  /**
+   * 数据化配置选项内容
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemAutoCompleteProps
+   */
   options?: DefaultOptionType[];
+  /**
+   * antd自动补全组件 Props
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemAutoCompleteProps
+   */
   autoCompleteProps?: AutoCompleteProps;
   disabled?: boolean;
   placeholder?: string;

@@ -19,9 +19,13 @@ nav:
 
 <code src='./demos/Demo6.tsx'  ></code>
 
-### 表单初始值通过异步获取
+### 表单的初始值通过异步获取
 
 <code src='./demos/Demo5.tsx' ></code>
+
+### 某一项的值变化后的副作用
+
+<code src='./demos/Demo7.tsx' ></code>
 
 ### 提交表单之前转化表单的值
 
@@ -33,7 +37,9 @@ nav:
 
 ## API
 
-> 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是设置 `defaultValue`
+> - 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是设置 `defaultValue`
+>
+> - 如果要在某一项的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一项设置 `onChange` 事件
 
 ```ts
 import { LForm } from 'lighting-design';
@@ -52,6 +58,7 @@ import { LForm } from 'lighting-design';
 | loading         | 设置提交、重置的加载/禁止状态。<br/>如果 `onFinish` 返回异步则无需设置，内部会自动更新。                              | `boolean`                                                                                   | `false`  |
 | isReady         | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。<br/>一般用于异步获取初始值`initialValues` | `boolean`                                                                                   | `true`   |
 | onFinish        | 提交数据时触发，和 `antd Form` 一样。如果返回异步，会自动管理 `loading` 无需再设置 `loading`。                        | `(values) => any`                                                                           | `-`      |
+| onValuesChange  | 字段值更新时触发回调事件 `(不建议设置每一项的 onChange,而是统一在此设置)`                                             | `(currentName: string, currentValue: any, allValues: Record<string, any>) => void`          | `-`      |
 | onReset         | 点击重置按钮的回调                                                                                                    | `(e) => void`                                                                               | `-`      |
 | contentRender   | 自定义渲染`children`                                                                                                  | `(formItemsDom: ReactNode[],submitterDom: ReactNode, form: FormInstance<any>) => ReactNode` | `-`      |
 | formRender      | 自定义渲染整个组件                                                                                                    | `(formDom: ReactElement, submitterDom: ReactNode) => ReactNode`                             | `-`      |

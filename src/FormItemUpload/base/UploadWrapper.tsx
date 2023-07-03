@@ -20,14 +20,20 @@ import UploadPreview from './UploadPreview';
 export const lightdUploadWrapper = 'lightd-upload-wrapper';
 
 export interface UploadWrapperProps extends UploadProps {
-  fileTypeMessage?: string | false; // 文件类型错误提示
-  fileSizeMessage?: string | false; // 文件超过最大尺寸提示
-  onUpload?: (file: File) => Promise<Record<string, any>>; // 自定义文件上传
-  maxSize?: number; // 单个文件最大尺寸，用于校验
-  dragger?: boolean; // 支持拖拽
-  // 内置预览modal props
+  /** 文件类型错误提示*/
+  fileTypeMessage?: string | false;
+  /** 文件超过最大尺寸提示*/
+  fileSizeMessage?: string | false;
+  /** 自定义文件上传 */
+  onUpload?: (file: File) => Promise<Record<string, any>>;
+  /** 单个文件最大尺寸，用于校验 */
+  maxSize?: number;
+  /** 支持拖拽 */
+  dragger?: boolean;
+  /** 内置预览modal props */
   previewModalProps?: ModalProps;
-  onGetPreviewUrl?: (file: File) => Promise<string>; // 点击预览获取大图URL
+  /** 点击预览获取大图URL */
+  onGetPreviewUrl?: (file: File) => Promise<string>;
   buttonProps?: ButtonProps;
   cropProps?: ImgCropProps;
   isSerial?: boolean;

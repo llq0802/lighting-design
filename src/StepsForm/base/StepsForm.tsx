@@ -33,7 +33,13 @@ export type LStepsFormActionRef = {
 };
 
 export type LStepsFormProps = {
-  /** 设置后变为受控模式。当前表单的步骤数。 */
+  /**
+   * 设置后变为受控模式。当前表单的步骤数。
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LStepsFormProps
+   *@see https://ant.design/components/grid-cn#col
+   */
   current?: number;
   /** current 发生改变的事件 */
   onCurrentChange?: (current: number) => void;

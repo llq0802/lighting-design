@@ -55,10 +55,11 @@ export interface LModalFormProps
    */
   trigger?: ReactElement;
   /**
-   * Moadl的其他配置属性
+   * Moadl的其他配置属性 某些属性已被重写
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.2
    *@memberof LModalFormProps
+   *@see https://ant.design/components/modal-cn#api
    */
   modalProps?: Omit<ModalProps, 'open' | 'onOk'>;
   /**

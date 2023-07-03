@@ -10,9 +10,27 @@ import type { InputWrapperProps } from './InputWrapper';
 import InputWrapper from './InputWrapper';
 import useRules from './useRules';
 export interface LFormItemInputProps extends LFormItemProps {
+  /**
+   *输入框类型 扩展了一些类型
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemInputProps
+   */
   type?: InputWrapperProps['type'];
-  /** 是否禁止输入空格 默认true */
+  /**
+   * 是否禁止输入空格 默认 true
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemInputProps
+   */
   disabledWhiteSpace?: boolean;
+  /**
+   * antd.Input 的其他属性
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemInputProps
+   *@see https://ant.design/components/input-cn/#api
+   */
   inputProps?: InputProps;
 }
 

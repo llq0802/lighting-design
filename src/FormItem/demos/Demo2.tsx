@@ -13,8 +13,8 @@ const Demo2 = () => {
         form={form}
         labelCol={{ flex: '110px' }}
         submitter={{ buttonAlign: 110 }}
-        onFinish={(fields) => {
-          console.log('fields', fields);
+        onFinish={(values) => {
+          console.log('onFinish', values);
         }}
       >
         <LFormItem
@@ -28,6 +28,7 @@ const Demo2 = () => {
         >
           <Input />
         </LFormItem>
+
         <LFormItem name="l-sex" label="性别" required contentBefore={<>前面</>}>
           <Select
             onChange={(val) => {

@@ -20,6 +20,12 @@ export interface ColorProps extends HTMLAttributes<HTMLSpanElement> {
    * @memberof ColorProps
    */
   style?: CSSProperties;
+  /**
+   * 值
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof ColorProps
+   */
   value?: string;
   /**
    * 是否禁用
@@ -42,6 +48,12 @@ export interface ColorProps extends HTMLAttributes<HTMLSpanElement> {
    * @memberof ColorProps
    */
   size?: 'small' | 'middle' | 'large';
+  /**
+   * 重新渲染
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.2
+   * @memberof ColorProps
+   */
   renderColor?: (dom: JSX.Element) => ReactNode;
 }
 

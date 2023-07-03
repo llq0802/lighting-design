@@ -1,47 +1,35 @@
+import { _cloneDeep } from 'lighting-design/_utils';
 import { useCallback, useImperativeHandle, useRef } from 'react';
 
-const _cloneDeep = (obj: any) => {
-  if (obj === null) return null;
-  let clone = Object.assign({}, obj);
-  Object.keys(clone).forEach(
-    (key) =>
-      (clone[key] =
-        typeof obj[key] === 'object' ? _cloneDeep(obj[key]) : obj[key]),
-  );
-  if (Array.isArray(obj)) {
-    clone.length = obj.length;
-    return Array.from(clone);
-  }
-  return clone;
-};
-
-export declare type UseShowInstance<T = any> = {
+export declare type UseShowInstance<
+  T extends Record<string, any> = Record<string, any>,
+> = {
   /** 触发子组件的onShow方法并传值 */
   onShow: (record: T) => void;
   /** 触发子组件的onHide方法并传值 */
-  onHide: (data?: any) => void;
+  onHide: (data?: T) => void;
   /** 获取子组件的数据 */
   getChildData: () => any;
 };
 
-export declare type UseShowInstanceRef = React.MutableRefObject<
-  UseShowInstance | undefined
->;
-
-export declare type UseShowOptions<T> = {
+export declare type UseShowOptions<T extends Record<string, any>> = {
   /** show触发事件 */
-  onShow?: (data: T) => void;
+  onShow?(data: T): void;
   /** hide触发事件 */
   onHide?: (data?: T) => void;
   /** 格式化data */
   onFormart?: (data: T) => any;
 };
 
+export declare type UseShowInstanceRef = React.MutableRefObject<
+  UseShowInstance | undefined
+>;
+
 export declare type UseShowResult = {
   /** 父组件调用onShow传的参数值 */
   parentData: Record<string, any> | undefined;
   /** 向父组件传数据 （父组件调用 getChildData() ） */
-  setParentData: <T = any>(data: T) => void;
+  setParentData: <T>(data: T) => void;
 };
 
 /**

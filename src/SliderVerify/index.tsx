@@ -54,7 +54,12 @@ interface SliderVerifyProps {
    *@memberof LSliderVerifyProps
    */
   height?: number;
-  /** 初始背景颜色 */
+  /**
+   * 初始背景颜色
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LSliderVerifyProps
+   */
   bgColor?: string;
   /**
    *  提示的文字
@@ -99,7 +104,7 @@ interface SliderVerifyProps {
    */
   successTips?: React.ReactNode;
   /**
-   *  成功后是否还显示bar
+   * 成功后是否还显示bar
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.2
    *@memberof LSliderVerifyProps

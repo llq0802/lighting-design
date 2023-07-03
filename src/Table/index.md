@@ -84,9 +84,9 @@ nav:
 import { LTable } from 'lighting-design';
 ```
 
-> 手动设置查询表单不改变查询表单的 formInitialValues，而是通过 formRef 设置表单值，再进行查询，这样不影响查询表单的重置操作。比如通过 URL 带一些默认查询参数。
+> - 手动设置查询表单不改变查询表单的 formInitialValues，而是通过 formRef 设置表单值，再进行查询，这样不影响查询表单的重置操作。比如通过 URL 带一些默认查询参数。
 >
-> 当表格全屏时无法显示 Modal 等组件? 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal 等组件 的 getPopupContainer 设置为了 table 的区域
+> - 当表格全屏时无法显示 Modal 等组件? 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal 等组件 的 getPopupContainer 设置为了 table 的区域
 
 除了以下参数，其余和 [antd.Table](https://ant.design/components/table-cn/#api) 一样。
 

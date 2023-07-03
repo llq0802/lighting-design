@@ -23,7 +23,20 @@ export interface LFormItemCaptchaProps
       LCaptchaButtonProps,
       'cacheKey' | 'second' | 'disabledText' | 'onEnd'
     > {
+  /**
+   *  按钮初始文本
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemCaptchaProps
+   */
   initText?: string;
+
+  /**
+   *  验证码最大长度
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemCaptchaProps
+   */
   maxLength?: number;
 }
 

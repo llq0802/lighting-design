@@ -24,6 +24,10 @@ nav:
 
 <code src='./demos/Demo2.tsx'></code>
 
+### 隐藏必填项的\*
+
+<code src='./demos/Demo5.tsx'></code>
+
 ### 使用 shouldUpdate 动态渲染
 
 <code src='./demos/Demo1.tsx'></code>
@@ -38,15 +42,15 @@ nav:
 
 ## API
 
-> `LFormItemXXX` 组件均是通过此组件二次封装
+> - `LFormItemXXX` 组件均是通过此组件二次封装
 >
-> 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是设置 `defaultValue`
+> - 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是设置 `defaultValue`
 >
-> 配置了`required`属性将开启内置验证是否为空数据或空数组 , 大多数情况不需要开发者传`rules`属性 ，如果业务验证有其他检验规则则传入 `rules`
+> - 配置了`required`属性将开启内置验证是否为空数据或空数组 , 大多数情况不需要开发者传`rules`属性 ，如果业务验证有其他检验规则则传入 `rules`
 >
-> `contentInline` 只在配置了 `contentBefore` 或 `contentAfter` 时生效 。如果想强制为行盒又不想展示前后内容，可配置 `contentAfter`为 `' '`
+> - `contentInline` 只在配置了 `contentBefore` 或 `contentAfter` 时生效 。如果想强制为行盒又不想展示前后内容，可配置 `contentAfter`为 `' '`
 >
-> 使用`renderField` 需要返回一个组件，并在组件内手动绑定 `id` `value` 与 `onChange` 具体请看 [renderField 用法](/components/form-item#renderfield-用法)
+> - 使用`renderField` 需要返回一个组件，并在组件内手动绑定 `id` `value` 与 `onChange` 具体请看 [renderField 用法](/components/form-item#renderfield-用法)
 
 ```ts
 import { LFormItem } from 'lighting-design';

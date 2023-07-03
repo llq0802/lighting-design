@@ -310,7 +310,12 @@ export type LScrollBarProps = {
    *@memberof LScrollBarProps
    */
   maxHeight?: string | number;
-  /** 容器样式 */
+  /**
+   *  容器样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LScrollBarProps
+   */
   style?: React.CSSProperties;
   /**
    * 容器类名

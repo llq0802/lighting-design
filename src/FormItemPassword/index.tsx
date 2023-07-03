@@ -9,19 +9,62 @@ import { useContext } from 'react';
 import PasswordWrapper from './PasswordWrapper';
 
 export interface LFormItemPasswordProps extends LFormItemProps {
+  /**
+   * 密码最小位数
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemPasswordProps
+   */
   min?: number;
+  /**
+   * 密码最大位数
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemPasswordProps
+   */
   max?: number;
-  /** 是否开启高强度密码验证 */
+  /**
+   * 是否开启高强度密码验证
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemPasswordProps
+   */
   highPassWord?: boolean;
-  /** 开启高强度密码验证错误后的提示 */
+  /**
+   * 开启高强度密码验证错误后的提示
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemPasswordProps
+   */
   highPassWordErrorMsg?: string;
-  /** 是否禁用空格输入 */
+  /**
+   * 是否禁用空格输入
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemPasswordProps
+   */
   disabledWhiteSpace?: boolean;
-
+  /**
+   * Input.Password 的属性
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemPasswordProps
+   *@see https://ant.design/components/input-cn/#Input.Password
+   */
   passwordProps?: PasswordProps;
-  /** 是否禁用粘贴 */
+  /**
+   *  是否禁用粘贴
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemPasswordProps
+   */
   disabledPaste?: boolean;
-  /** 是否禁用复制 */
+  /**
+   *  是否禁用复制
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.2
+   *@memberof LFormItemPasswordProps
+   */
   disabledCopy?: boolean;
 }
 
