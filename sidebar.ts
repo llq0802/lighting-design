@@ -72,6 +72,10 @@ export default {
           title: 'LScrollBar-滚动条',
           link: '/components/scroll-bar',
         },
+        {
+          title: 'LTreeTable-树表格',
+          link: '/components/tree-table',
+        },
       ],
     },
     {

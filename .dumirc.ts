@@ -29,6 +29,10 @@ export default defineConfig({
       { title: '指南', link: '/guide' },
       { title: '组件', link: '/components' },
       { title: 'v1', link: 'https://llq0802.github.io/lighting-design/v1/' },
+      {
+        title: 'GitHub',
+        link: 'https://github.com/llq0802/lighting-design/tree/v2',
+      },
     ],
     sidebar,
   },
