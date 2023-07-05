@@ -1,3 +1,8 @@
+/**
+ * 获取树形结构最大的层级
+ * @param arr {any[]}
+ * @return maxLevel{number}
+ */
 export const getTreeMaxLevel = (arr) => {
   let maxLevel = 1;
 
@@ -6,7 +11,7 @@ export const getTreeMaxLevel = (arr) => {
     maxLevel = Math.max(level, maxLevel);
     for (let i = 0; i < arr.length; i++) {
       const item = arr[i];
-      if (item.children && item.children) {
+      if (item.children && item.children.length) {
         callBack(item.children, level);
       } else {
         continue;
