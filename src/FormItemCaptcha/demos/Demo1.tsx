@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { LForm, LFormItemCaptcha } from 'lighting-design';
-import { awaitTime } from '../../_test';
+import { awaitTime } from 'lighting-design/_test';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
@@ -19,6 +19,7 @@ const Demo1 = () => {
         name="code1"
         cacheKey="__FormItemCaptcha__code1"
         label="内联验证码"
+        second={6}
         required
         onGetCaptcha={async () => {
           await awaitTime();

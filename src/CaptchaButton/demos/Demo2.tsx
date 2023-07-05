@@ -11,6 +11,7 @@ const Demo2 = () => {
         second={10}
         onClick={() => {
           setLoading(true);
+          // 也可以是异步请求
           setTimeout(() => {
             setLoading(false);
             setStart(true);

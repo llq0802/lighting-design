@@ -102,18 +102,19 @@ const CodeInput: FC<CodeInputProps> = ({
       try {
         // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。
         await checkResult(onGetCaptcha);
-        setLoading(false);
         setStart(true); // 只有当获取验证码成功时才进行倒计时
         if (autoFocusOnGetCaptcha) {
           inputRef.current!.focus();
         }
-      } catch (error) {
+      } catch {
+      } finally {
         setLoading(false);
       }
     },
   );
 
   const handleEnd = useMemoizedFn(() => {
+    setStart(false);
     onEnd?.();
   });
 

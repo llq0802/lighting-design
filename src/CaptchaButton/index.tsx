@@ -1,7 +1,7 @@
 import {
   useCountDown,
-  useLocalStorageState,
   useMemoizedFn,
+  useSessionStorageState,
   useUnmount,
   useUpdateEffect,
 } from 'ahooks';
@@ -72,10 +72,9 @@ const LCaptchaButton: ForwardRefRenderFunction<
     ...buttonProps
   } = props;
 
-  const [targetDate, setTargetDate] = useLocalStorageState<number | undefined>(
-    cacheKey,
-    { defaultValue: 0 },
-  );
+  const [targetDate, setTargetDate] = useSessionStorageState<
+    number | undefined
+  >(cacheKey, { defaultValue: 0 });
 
   const [countdown] = useCountDown({
     targetDate,
@@ -84,16 +83,13 @@ const LCaptchaButton: ForwardRefRenderFunction<
       onEnd?.();
     },
   });
-  const handleClick = useMemoizedFn((e) => {
-    onClick?.(e);
-  });
 
   const handleButtonClick = useMemoizedFn(async (e) => {
     if (start) {
       const date = Date.now() + second * 1000;
       setTargetDate(date);
     }
-    handleClick?.(e);
+    onClick?.(e);
   });
 
   useUnmount(() => {
