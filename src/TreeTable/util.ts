@@ -61,6 +61,10 @@ export function transformTreeToList(
         },
       };
 
+      if (lastColumnIndex - 1 === index) {
+        console.log('第三层');
+      }
+
       if (!rowSpanCache[id]) {
         rowSpanCache[id] = {
           value: id,
@@ -99,60 +103,61 @@ export function transformTreeToList(
   recursion(data);
 
   // console.log('***rowSpanCache***', rowSpanCache);
-  const rowSpanCache1 = processRowSpan1(rowSpanCache);
+  rowSpanCache = processRowSpan1(rowSpanCache);
 
   // const rowSpanCache1 = processRowSpan1(rowSpanCache);
 
   // console.log('rowSpanCache1+++', rowSpanCache1);
 
   // 记录需要合并的行数
-  const recordRowSpanValues = [];
+  const recordRowSpanValues: string[] = [];
 
   // 列数据
   const columns: Record<string, any> = [];
 
   // 防止不同层级数据错误
-  // for (let i = 0; i <= lastColumnIndex; i++) {
-  //   columns.push({ dataIndex: `col-${i}` });
+  for (let i = 0; i <= lastColumnIndex; i++) {
+    columns.push({ dataIndex: `col-${i}` });
 
-  //   for (let j = 0; j < list.length; j++) {
-  //     const itemData = list[j][`col-${i}`];
+    for (let j = 0; j < list.length; j++) {
+      const itemData = list[j][`col-${i}`];
 
-  //     if (!itemData) {
-  //       list[j][`col-${i}`] = {
-  //         [valueKey]: null,
-  //         data: [],
-  //         rowSpan: 1,
-  //       };
-  //     } else {
-  //       const currValue = list[j][`col-${i}`][valueKey];
-  //       let currRowSpan = 1;
+      if (!itemData) {
+        list[j][`col-${i}`] = {
+          [valueKey]: null,
+          parentValue: null,
+          data: [],
+          rowSpan: 1,
+        };
+      } else {
+        const currValue = list[j][`col-${i}`][valueKey];
+        let currRowSpan = 1;
 
-  //       if (!recordRowSpanValues.includes(currValue)) {
-  //         recordRowSpanValues.push(currValue);
-  //         currRowSpan = rowSpanCache[currValue].len;
-  //       } else if (rowSpanCache[currValue].len > 1) {
-  //         currRowSpan = 0;
-  //       }
-  //       list[j][`col-${i}`] = {
-  //         ...list[j][`col-${i}`],
-  //         rowSpan: currRowSpan,
-  //       };
-  //     }
-  //   }
-  // }
+        if (!recordRowSpanValues.includes(currValue)) {
+          recordRowSpanValues.push(currValue);
+          currRowSpan = rowSpanCache[currValue].len;
+        } else if (rowSpanCache[currValue].len > 1) {
+          currRowSpan = 0;
+        }
+        list[j][`col-${i}`] = {
+          ...list[j][`col-${i}`],
+          rowSpan: currRowSpan,
+        };
+      }
+    }
+  }
 
   // console.log('recordRowSpanValues', recordRowSpanValues);
   // console.log('list', list);
 
   // console.log('columns', columns);
-  // console.log('list', list);
+  console.log('list', list);
   return { columns, list };
 }
 
 function processRowSpan1(data) {
   const cloneData = JSON.parse(JSON.stringify(data));
-  console.log('cloneData', cloneData);
+  console.log(cloneData);
   const childNodes = []; // 保存所有没有children的项
 
   for (const key in cloneData) {
@@ -165,22 +170,26 @@ function processRowSpan1(data) {
   }
   const recordAddChildNodes = new Set();
 
-  console.log('childNodes', childNodes);
+  // console.log(childNodes);
+
   // 3+1-1
+
+  // 2+3-1=4
+
+  // 3+3-1=5
+
   function recursion(item: any) {
     if (item.parentValue && cloneData[item.parentValue]) {
       cloneData[item.parentValue].len +=
         item.len - (recordAddChildNodes.has(item.value) ? item.len : 1);
-
       recordAddChildNodes.add(item.value);
-
       if (cloneData[item.parentValue].parentValue) {
         recursion(cloneData[item.parentValue]);
       }
     }
   }
 
-  console.log('recordAddChildNodes', recordAddChildNodes);
+  // console.log('recordAddChildNodes', recordAddChildNodes);
 
   childNodes.forEach((item) => {
     recursion(item);
@@ -216,6 +225,8 @@ function processRowSpan1(data) {
   // });
 
   // console.log('count', count);
+
+  return cloneData;
 }
 
 // 处理合并行数
