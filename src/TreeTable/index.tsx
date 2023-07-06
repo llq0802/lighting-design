@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import { useCreation } from 'ahooks';
+import React from 'react';
 import { getTreeMaxLevel, transformTreeToList } from './util';
 
 interface DataType {
@@ -21,6 +22,10 @@ const treeDate = [
           { label: '查看商户-2', value: '1-1-2' },
           { label: '新增商户-3', value: '1-1-3' },
         ],
+      },
+      {
+        label: '商户列表',
+        value: '1-2',
       },
     ],
   },
@@ -74,18 +79,27 @@ const LTreeTable: React.FC<Record<string, any>> = ({
     children: childrenKey,
   } = fieldNames;
 
-  useEffect(() => {
-    const maxLevel = getTreeMaxLevel(treeDate);
-    console.log('maxLevel', maxLevel);
+  // useEffect(() => {
+  //   const maxLevel = getTreeMaxLevel(treeDate);
 
-    transformTreeToList(treeDate, false, fieldNames, maxLevel - 1);
+  //   transformTreeToList(treeDate, false, fieldNames, maxLevel - 1);
+  // }, []);
+
+  const { list, columns } = useCreation(() => {
+    const maxLevel = getTreeMaxLevel(treeDate);
+    return transformTreeToList(treeDate, false, fieldNames, maxLevel - 1);
   }, []);
 
-  // return (
-  //   <Table columns={columns} dataSource={data} bordered pagination={false} />
-  // );
-
-  return null;
+  return (
+    // <Table
+    //   columns={columns}
+    //   dataSource={list}
+    //   bordered
+    //   pagination={false}
+    //   rowKey="value"
+    // />
+    null
+  );
 };
 
 export default LTreeTable;
