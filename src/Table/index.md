@@ -121,7 +121,7 @@ import { LTable } from 'lighting-design';
 | tableExtra           | 表格内容上部区域                                                                                     | `ReactNode`                                                                    | `-`                                                |
 | formItems            | 表单查询框组                                                                                         | `LFormItemXX[] \| Form.Item[]`                                                 | `-`                                                |
 | formInitialValues    | 查询表单初始值                                                                                       | `Record<string, any>`                                                          | `-`                                                |
-| queryFormProps       | 查询表单`LQueryFormProps`                                                                            | [LQueryFormProps](/components/form/query-form)                                 | `-`                                                |
+| queryFormProps       | 查询表单`LQueryFormProps`                                                                            | [LQueryFormProps](/components/query-form)                                      | `-`                                                |
 
 ### LTableRequest
 
