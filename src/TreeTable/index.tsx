@@ -1,68 +1,94 @@
-import { useCreation } from 'ahooks';
+import { useControllableValue, useCreation } from 'ahooks';
+import type { TableProps } from 'antd';
+import { Checkbox, Table } from 'antd';
+import classnames from 'classnames';
 import React from 'react';
-import { getTreeMaxLevel, transformTreeToList } from './util';
+import './index.less';
+import type { LTreeTableData, LTreeTableFieldNames, ValueType } from './util';
+import { transformTreeToList } from './util';
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-}
+export type LTreeTableProps = {
+  /**
+   * 勾选的值 (受控)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  value?: ValueType[];
+  /**
+   * 勾选后的回调 (受控)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  onChange?: (values: ValueType[]) => void;
+  /**
+   *自定义设置字段名
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  treeData?: LTreeTableData;
+  /**
+   *自定义设置字段名
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  fieldNames?: LTreeTableFieldNames;
+  /**
+   *设头部列表标题等Table的字段
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  columnTitles?: Record<string, any>[];
+  /**
+   *是否合并最后一列
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  lastColumnMerged?: boolean;
+  /**
+   *是否显示复选框
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  showCheckbox?: boolean;
+  /**
+   *自定义多选框的label
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  labelRender?: (
+    subItem: Record<string, any>,
+    record: Record<string, any>,
+    idx: number,
+  ) => React.ReactNode;
+} & TableProps<Record<string, any>>;
 
-const treeDate = [
-  {
-    label: '商户管理',
-    value: '1',
-    children: [
-      {
-        label: '商户查询',
-        value: '1-1',
-        children: [
-          { label: '商户查询-1', value: '1-1-1' },
-          { label: '查看商户-2', value: '1-1-2' },
-          { label: '新增商户-3', value: '1-1-3' },
-        ],
-      },
-      {
-        label: '商户列表',
-        value: '1-2',
-      },
-    ],
-  },
-  {
-    label: '运营平台管理',
-    value: '2',
-    children: [
-      {
-        value: '2-1',
-        label: '角色管理',
-        children: [
-          { value: '2-1-1', label: '新增角色' },
-          { value: '2-1-2', label: '修改角色' },
-          { value: '2-1-3', label: '查询角色列表', disabled: true },
-        ],
-      },
-      {
-        value: '2-2',
-        label: '账号管理',
-        children: [
-          { value: '2-2-1', label: '账号查询' },
-          { value: '2-2-2', label: '新增账号' },
-          { value: '2-2-3', label: '编辑账号' },
-        ],
-      },
-      {
-        value: '2-3',
-        label: '日志管理',
-        children: [{ value: '2-3-1', label: '日志查询' }],
-      },
-    ],
-  },
-];
+const prefixCls = 'lightd-tree-table';
 
-const LTreeTable: React.FC<Record<string, any>> = ({
-  fieldNames: outFieldNames,
-}) => {
+const LTreeTable: React.FC<LTreeTableProps> = (props) => {
+  const {
+    fieldNames: outFieldNames = {},
+    columnTitles = [],
+    treeData = [],
+    lastColumnMerged = true,
+    showCheckbox = true,
+    labelRender,
+    className,
+    ...restProps
+  } = props;
+
+  const [checkList, setCheckList] = useControllableValue<ValueType[]>({
+    defaultValue: [],
+    ...props,
+  });
+
   const fieldNames = React.useMemo(
     () => ({
       label: 'label',
@@ -79,26 +105,81 @@ const LTreeTable: React.FC<Record<string, any>> = ({
     children: childrenKey,
   } = fieldNames;
 
-  // useEffect(() => {
-  //   const maxLevel = getTreeMaxLevel(treeDate);
+  const { list, columns } = useCreation(
+    () => transformTreeToList(treeData, lastColumnMerged, fieldNames),
+    [lastColumnMerged, treeData, fieldNames],
+  );
 
-  //   transformTreeToList(treeDate, false, fieldNames, maxLevel - 1);
-  // }, []);
+  const hiddenCheckboxClassName = useCreation(() => {
+    return !showCheckbox ? `${prefixCls}-checkbox-hidden` : '';
+  }, [showCheckbox]);
 
-  const { list, columns } = useCreation(() => {
-    const maxLevel = getTreeMaxLevel(treeDate);
-    return transformTreeToList(treeDate, false, fieldNames, maxLevel - 1);
-  }, []);
+  const handleChange = (subItem: Record<string, any>) => {
+    const newCheckList = new Set(checkList);
+    const currentValue = subItem[valueKey];
+    const currentChecked = newCheckList.has(currentValue);
+
+    // 已选中变为不勾选，不勾选改为勾选
+    if (currentChecked) {
+      newCheckList.delete(currentValue);
+    } else {
+      newCheckList.add(currentValue);
+    }
+
+    setCheckList([...newCheckList]);
+  };
+
+  const realColumns = useCreation(() => {
+    // 优化没有数据时的表格标题展示
+    const internalColumns: { dataIndex: string }[] =
+      columns?.length > 0
+        ? columns
+        : columnTitles?.length > 0
+        ? columnTitles.map((item) => item)
+        : [];
+
+    return internalColumns.map((item, i) => ({
+      ...item,
+      onCell: (record: Record<string, any>) => {
+        const col = record[item.dataIndex];
+        return { rowSpan: col.rowSpan };
+      },
+      render: (_, record: Record<string, any>, idx: number) => {
+        const col = record[item.dataIndex];
+        return col[valueKey]
+          ? col?.data?.map((subItem) => (
+              <Checkbox
+                className={classnames(
+                  `${prefixCls}-checkbox`,
+                  hiddenCheckboxClassName,
+                )}
+                checked={checkList.includes(subItem[valueKey])}
+                onChange={() => handleChange(subItem)}
+                disabled={subItem.disabled}
+                key={subItem[valueKey]}
+              >
+                {labelRender
+                  ? labelRender(subItem, record, idx)
+                  : subItem[labelKey] || subItem[valueKey]}
+              </Checkbox>
+            ))
+          : '-';
+      },
+      title: '-',
+      ...columnTitles?.[i],
+    }));
+  }, [columnTitles, columns, labelKey, valueKey]);
 
   return (
-    // <Table
-    //   columns={columns}
-    //   dataSource={list}
-    //   bordered
-    //   pagination={false}
-    //   rowKey="value"
-    // />
-    null
+    <Table
+      className={classnames(prefixCls, className)}
+      size="small"
+      columns={realColumns}
+      dataSource={list}
+      bordered
+      pagination={false}
+      {...restProps}
+    />
   );
 };
 
