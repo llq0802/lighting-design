@@ -131,7 +131,10 @@ const LFormItem: FC<LFormItemProps> & {
     placeholder,
   });
 
-  const itemClassnames = useMemo(() => classnames(prefixCls, className), []);
+  const itemClassnames = useMemo(
+    () => classnames(prefixCls, className),
+    [className],
+  );
 
   const itemRules = useMemo(
     () =>

@@ -33,6 +33,7 @@ export const getTreeMaxLevel = (arrs: LTreeTableData) => {
   let maxLevel = 1;
 
   (function callBack(arr, level) {
+    // eslint-disable-next-line no-param-reassign
     level++;
     maxLevel = Math.max(level, maxLevel);
     for (let i = 0; i < arr.length; i++) {
@@ -48,19 +49,36 @@ export const getTreeMaxLevel = (arrs: LTreeTableData) => {
   return maxLevel;
 };
 
-function transformList({ list, lastColumnIndex, valueKey, rowSpanCache }) {
+/**
+ * 设置列与算出合并数据项的列数
+ *
+ * @param {Record<string, any>} {
+ *   list,
+ *   lastColumnIndex,
+ *   valueKey,
+ *   rowSpanCache,
+ * }
+ * @return {*}
+ */
+function transformList({
+  list,
+  lastColumnIndex,
+  valueKey,
+  rowSpanCache,
+}: Record<string, any>) {
   const columns = [];
   // 记录已经合并的行数
   const recordRowSpanValues = new Set();
 
   // 防止不同层级数据错误
   for (let i = 0; i <= lastColumnIndex; i++) {
-    columns.push({ dataIndex: `col-${i}` }); // 设置列
+    columns.push({ dataIndex: `col-${i}` }); // 根据树形数据的最大层级设置列的数量
 
     for (let j = 0; j < list.length; j++) {
       const itemData = list[j][`col-${i}`];
 
       if (!itemData) {
+        // 当数据不够时,填充完整
         list[j][`col-${i}`] = {
           [valueKey]: null,
           parentValue: null,
@@ -69,10 +87,9 @@ function transformList({ list, lastColumnIndex, valueKey, rowSpanCache }) {
         };
       } else {
         const currValue = list[j][`col-${i}`][valueKey];
-        let currRowSpan = 1;
-
+        let currRowSpan = 1; // 默认合并数为1
+        // 没添加过的项
         if (!recordRowSpanValues.has(currValue)) {
-          // 大部分会走这儿
           recordRowSpanValues.add(currValue);
           currRowSpan = rowSpanCache[currValue].len;
         } else if (rowSpanCache[currValue].len > 1) {
@@ -91,6 +108,11 @@ function transformList({ list, lastColumnIndex, valueKey, rowSpanCache }) {
   return { columns, list };
 }
 
+/**
+ * 设置每一项第一层级的列数量 为所有子项个数之和
+ * @param data
+ * @returns
+ */
 function processRowSpan(data: RowSpanCache): RowSpanCache {
   const cloneData = JSON.parse(JSON.stringify(data));
   const childNodes = []; // 保存所有没有children的项
@@ -112,7 +134,7 @@ function processRowSpan(data: RowSpanCache): RowSpanCache {
   function recursion(item: any) {
     if (item.parentValue && cloneData[item.parentValue]) {
       cloneData[item.parentValue].len +=
-        item.len - (recordAddChildNodes.has(item.value) ? item.len : 1);
+        item.len - (recordAddChildNodes.has(item.value) ? item.len : 1); // !!!核心代码(计算出根项的所有的子项)!!!
       recordAddChildNodes.add(item.value);
       if (cloneData[item.parentValue].parentValue) {
         recursion(cloneData[item.parentValue]);
@@ -221,4 +243,32 @@ export function transformTreeToList(
     valueKey,
     rowSpanCache: newRowSpanCache,
   });
+}
+
+/**
+ * 查找某一满足条件的节点
+ *
+ * @param {LTreeTableData} treeData 数据源
+ * @param {(item: LTreeTableFieldNames) => boolean} func 判断函数
+ * @return {LTreeTableDataItem | undefined}
+ */
+export function findTreeNode(
+  treeData: LTreeTableData,
+  func: (item: LTreeTableFieldNames) => boolean,
+): LTreeTableDataItem | undefined {
+  if (!treeData?.length) return void 0;
+
+  let node,
+    list = [...treeData];
+  while (list.length) {
+    node = list.shift();
+
+    if (func(node)) {
+      return node;
+    }
+
+    if (node?.children?.length) {
+      list.unshift(...node.children);
+    }
+  }
 }

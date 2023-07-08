@@ -49,7 +49,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   });
 
   const { disabled: formDisabled } = useContext(LFormContext);
-  const rules = useRules(type as string, !!required);
+  const rules = useRules(type as string, !!required, messageLabel);
   return (
     <LFormItem
       placeholder={messageLabel}

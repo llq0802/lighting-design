@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import React from 'react';
 import './index.less';
 import type { LTreeTableData, LTreeTableFieldNames, ValueType } from './util';
-import { transformTreeToList } from './util';
+import { findTreeNode, transformTreeToList } from './util';
 
 export type LTreeTableProps = {
   /**
@@ -23,12 +23,12 @@ export type LTreeTableProps = {
    */
   onChange?: (values: ValueType[]) => void;
   /**
-   *自定义设置字段名
+   *数据项
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.4
    *@memberof LTreeTableProps
    */
-  treeData?: LTreeTableData;
+  treeData: LTreeTableData;
   /**
    *自定义设置字段名
    *@author 李岚清 <https://github.com/llq0802>
@@ -119,6 +119,13 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     const currentValue = subItem[valueKey];
     const currentChecked = newCheckList.has(currentValue);
 
+    const curNode = findTreeNode(
+      treeData,
+      (item) => item[valueKey] === currentValue,
+    );
+
+    console.log('curNode', curNode);
+
     // 已选中变为不勾选，不勾选改为勾选
     if (currentChecked) {
       newCheckList.delete(currentValue);
@@ -173,7 +180,6 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
   return (
     <Table
       className={classnames(prefixCls, className)}
-      size="small"
       columns={realColumns}
       dataSource={list}
       bordered

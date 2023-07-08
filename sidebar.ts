@@ -120,91 +120,91 @@ export default {
           link: '/components/form-item',
         },
         {
-          title: 'LFormItemInput-输入框',
+          title: 'Input-输入框',
           link: '/components/form-item-input',
         },
         {
-          title: 'LFormItmeNumber-数字输入框',
+          title: 'Number-数字输入框',
           link: '/components/form-item-number',
         },
         {
-          title: 'LFormItemNumberRange-数字范围输入框',
+          title: 'NumberRange-数字范围输入框',
           link: '/components/form-item-number-range',
         },
         {
-          title: 'LFormItemPassword-密码输入框',
+          title: 'Password-密码输入框',
           link: '/components/form-item-password',
         },
         {
-          title: 'LFormItemTextArea-多行输入框',
+          title: 'TextArea-多行输入框',
           link: '/components/form-item-text-area',
         },
         {
-          title: 'LFormItemCaptcha-验证码输入框',
+          title: 'Captcha-验证码输入框',
           link: '/components/form-item-captcha',
         },
         {
-          title: 'LFormItemAutoComplete-自动联想输入框',
+          title: 'AutoComplete-自动联想输入框',
           link: '/components/form-item-auto-complete',
         },
         {
-          title: 'LFormItemSelect-下拉框',
+          title: 'Select-下拉框',
           link: '/components/form-item-select',
         },
         {
-          title: 'LFormItemCheckbox-多选框',
+          title: 'Checkbox-多选框',
           link: '/components/form-item-checkbox',
         },
         {
-          title: 'LFormItemRadio-单选框',
+          title: 'Radio-单选框',
           link: '/components/form-item-radio',
         },
         {
-          title: 'LFormItemCascader-级联选择',
+          title: 'Cascader-级联选择',
           link: '/components/form-item-cascader',
         },
         {
-          title: 'LFormItemTreeSelect-树形选择',
+          title: 'TreeSelect-树形选择',
           link: '/components/form-item-tree-select',
         },
         {
-          title: 'LFormItemAddress-地址选择',
+          title: 'Address-地址选择',
           link: '/components/form-item-address',
         },
         {
-          title: 'LFormItemColor-颜色选择',
+          title: 'Color-颜色选择',
           link: '/components/form-item-color',
         },
         {
-          title: 'LFormItemSwitch-开关选择',
+          title: 'Switch-开关选择',
           link: '/components/form-item-switch',
         },
         {
-          title: 'LFormItemDatePicker-日期选择',
+          title: 'DatePicker-日期选择',
           link: '/components/form-item-date-picker',
         },
         {
-          title: 'LFormItemTimePicker-时间选择',
+          title: 'TimePicker-时间选择',
           link: '/components/form-item-time-picker',
         },
         {
-          title: 'LFormItemSlider-滑动条选择',
+          title: 'Slider-滑动条选择',
           link: '/components/form-item-slider',
         },
         {
-          title: 'LFormItmeIcon-图标选择',
+          title: 'Icon-图标选择',
           link: '/components/form-item-icon',
         },
         {
-          title: 'LFormItemSegmented-分段器选择',
+          title: 'Segmented-分段器选择',
           link: '/components/form-item-segmented',
         },
         {
-          title: 'LFormItemRate-评分选择',
+          title: 'Rate-评分选择',
           link: '/components/form-item-rate',
         },
         {
-          title: 'LFormItemUpload-文件上传',
+          title: 'Upload-文件上传',
           link: '/components/form-item-upload',
         },
       ],
