@@ -272,3 +272,71 @@ export function findTreeNode(
     }
   }
 }
+
+export const compactTree = (
+  data: LTreeTableData,
+  fieldNames: LTreeTableFieldNames,
+  showCheckbox = true,
+) => {
+  const { value: valueKey, children: childrenKey } = fieldNames;
+
+  if (!showCheckbox) {
+    return [];
+  }
+
+  const ret: (Omit<LTreeTableDataItem, 'children'> & {
+    children?: Omit<LTreeTableDataItem, 'children'>[];
+    parent: ValueType;
+  })[] = [];
+
+  function recursion(list: LTreeTableData, parent: LTreeTableDataItem = null) {
+    list.forEach((item) => {
+      ret.push({
+        ...item,
+        parent: parent?.[valueKey] || null,
+
+        [childrenKey]:
+          item?.[childrenKey]?.map((item) => ({
+            ...item,
+            [childrenKey]: void 0,
+          })) || void 0,
+      });
+
+      if (item[childrenKey]?.length) {
+        recursion(item[childrenKey], {
+          ...item,
+          [childrenKey]: void 0,
+        });
+      }
+    });
+  }
+
+  recursion(data);
+
+  return ret;
+};
+
+/**
+ * 打平获取当前项目的所有value
+ * @param list
+ * @param childrenKey
+ * @param ret
+ * @returns
+ */
+export function getNodeChilren(
+  list: LTreeTableData,
+  childrenKey: LTreeTableFieldNames['children'],
+  ret: string[] = [],
+) {
+  if (!list?.length) {
+    return [];
+  }
+
+  list.forEach((item) => {
+    ret.push({ ...item, [childrenKey]: void 0 });
+    if (item[childrenKey]?.length) {
+      getNodeChilren(item[childrenKey], childrenKey, ret);
+    }
+  });
+  return ret;
+}

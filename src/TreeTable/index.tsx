@@ -1,11 +1,16 @@
-import { useControllableValue, useCreation } from 'ahooks';
+import { useControllableValue, useCreation, useMemoizedFn } from 'ahooks';
 import type { TableProps } from 'antd';
 import { Checkbox, Table } from 'antd';
 import classnames from 'classnames';
 import React from 'react';
 import './index.less';
 import type { LTreeTableData, LTreeTableFieldNames, ValueType } from './util';
-import { findTreeNode, transformTreeToList } from './util';
+import {
+  compactTree,
+  findTreeNode,
+  getNodeChilren,
+  transformTreeToList,
+} from './util';
 
 export type LTreeTableProps = {
   /**
@@ -114,27 +119,94 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     return !showCheckbox ? `${prefixCls}-checkbox-hidden` : '';
   }, [showCheckbox]);
 
-  const handleChange = (subItem: Record<string, any>) => {
+  const compactData = useCreation(
+    () => compactTree(treeData, fieldNames, showCheckbox),
+    [treeData, fieldNames, showCheckbox],
+  );
+  const processParentChecked = React.useCallback(
+    (currentValue?: ValueType, checks?: ValueType[]) => {
+      const newChecks = new Set(checks || []);
+
+      // 递归处理父级勾选
+      function recursion(parentVal: ValueType) {
+        const currParentItem = compactData.find(
+          (item) => item[valueKey] === parentVal,
+        );
+
+        if (currParentItem) {
+          let childAllChecked = true; // 是否选中了其所有子项
+
+          currParentItem[childrenKey]?.forEach((item) => {
+            if (!item.disabled) {
+              if (!newChecks.has(item[valueKey])) {
+                // 当前子项没有勾选 就设为false
+                childAllChecked = false;
+              }
+            }
+          });
+          // 如果子项自选全部勾选 则它的父级也勾选
+          if (childAllChecked) {
+            newChecks.add(parentVal);
+          } else {
+            newChecks.delete(parentVal);
+          }
+
+          if (currParentItem.parent) {
+            recursion(currParentItem.parent);
+          }
+        }
+      }
+
+      const currItem = compactData.find(
+        (item) => item[valueKey] === currentValue,
+      );
+
+      // 不是根节点的时候才执行
+      if (currItem?.parent) {
+        recursion(currItem.parent);
+      }
+
+      return Array.from(newChecks);
+    },
+    [childrenKey, compactData, valueKey],
+  );
+
+  const handleChange = useMemoizedFn((subItem: Record<string, any>) => {
     const newCheckList = new Set(checkList);
     const currentValue = subItem[valueKey];
     const currentChecked = newCheckList.has(currentValue);
 
-    const curNode = findTreeNode(
-      treeData,
-      (item) => item[valueKey] === currentValue,
-    );
-
-    console.log('curNode', curNode);
-
-    // 已选中变为不勾选，不勾选改为勾选
+    // 处理当前层级已选中变为不勾选，不勾选改为勾选
     if (currentChecked) {
       newCheckList.delete(currentValue);
     } else {
       newCheckList.add(currentValue);
     }
 
-    setCheckList([...newCheckList]);
-  };
+    const curNode = findTreeNode(
+      treeData,
+      (item) => item?.[valueKey] === currentValue,
+    );
+    const curNodeChilren = curNode?.[childrenKey] || [];
+    const curNodeChilrenValues = getNodeChilren(curNodeChilren, childrenKey);
+
+    // 处理所有子级勾选
+    curNodeChilrenValues?.forEach((item) => {
+      if (currentChecked) {
+        if (newCheckList.has(item[valueKey])) {
+          newCheckList.delete(item[valueKey]);
+        }
+        // 禁用的不勾选
+      } else if (!item.disabled) {
+        newCheckList.add(item[valueKey]);
+      }
+    });
+
+    // 处理父级勾选
+    const checks = processParentChecked(currentValue, Array.from(newCheckList));
+
+    setCheckList([...checks]);
+  });
 
   const realColumns = useCreation(() => {
     // 优化没有数据时的表格标题展示
