@@ -2,7 +2,7 @@ import { useControllableValue, useCreation, useMemoizedFn } from 'ahooks';
 import type { TableProps } from 'antd';
 import { Checkbox, Table } from 'antd';
 import classnames from 'classnames';
-import React from 'react';
+import React, { useEffect } from 'react';
 import './index.less';
 import type { LTreeTableData, LTreeTableFieldNames, ValueType } from './util';
 import {
@@ -109,6 +109,12 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     label: labelKey,
     children: childrenKey,
   } = fieldNames;
+
+  useEffect(() => {
+    if (checkList?.length) {
+      handleChange();
+    }
+  }, []);
 
   const { list, columns } = useCreation(
     () => transformTreeToList(treeData, lastColumnMerged, fieldNames),
