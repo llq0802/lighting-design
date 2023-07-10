@@ -62,7 +62,7 @@ import { LTreeTable } from 'lighting-design';
 | checkboxClassName |               为所有复选框设置类名                |                 `string`                  |   `-`   |
 |   checkboxStyle   |               为所有复选框设置样式                |           `React.CSSProperties`           |   `-`   |
 |     onChange      |                勾选后的回调 (受控)                |       `(vals: ValueType[]) => void`       |   `-`   |
-|    labelRender    |               自定义复选框的 label                | `(subItem,record,index)=>React.ReactNode` |   `-`   |
+|    labelRender    |               自定义复选框的 label                | `(subItem,col,rowIndex)=>React.ReactNode` |   `-`   |
 
 ## ValueType
 

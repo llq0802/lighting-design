@@ -310,6 +310,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
       },
       render: (_, record: Record<string, any>, idx: number) => {
         const col = record[item.dataIndex];
+
         return col[valueKey]
           ? col?.data?.map((subItem) => (
               <Checkbox
@@ -325,7 +326,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
                 key={subItem[valueKey]}
               >
                 {labelRender
-                  ? labelRender(subItem, record, idx)
+                  ? labelRender(subItem, col, idx)
                   : subItem[labelKey] || subItem[valueKey]}
               </Checkbox>
             ))
