@@ -51,6 +51,8 @@ nav:
 > - `contentInline` 只在配置了 `contentBefore` 或 `contentAfter` 时生效 。如果想强制为行盒又不想展示前后内容，可配置 `contentAfter`为 `' '`
 >
 > - 使用`renderField` 需要返回一个组件，并在组件内手动绑定 `id` `value` 与 `onChange` 具体请看 [renderField 用法](/components/form-item#renderfield-用法)
+>
+> - 默认验证不通过后的提示信息为`placeholder`，可配置`messageVariables={{ label: '自定义提示' }}` 自定义验证不通过后的提示信息
 
 ```ts
 import { LFormItem } from 'lighting-design';

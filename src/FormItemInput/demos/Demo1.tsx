@@ -31,7 +31,13 @@ const Demo = () => {
         tooltip="中文"
         type="chinese"
       />
-      <LFormItemInput name="phone" label="手机号" type="phone" required />
+      <LFormItemInput
+        name="phone"
+        label="手机号"
+        type="phone"
+        required
+        messageVariables={{ label: '正确的手机号格式' }}
+      />
       <LFormItemInput name="email" type="email" label="邮箱" required />
       <LFormItemInput name="idCard" type="idCard" label="身份证" required />
       <LFormItemInput name="bankCard" label="银行卡" required type="bankCard" />

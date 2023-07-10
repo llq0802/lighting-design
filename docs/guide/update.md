@@ -29,6 +29,7 @@ order: 3
 
 - 重构`LFormItemDatePicker `组件
 - 重构`LFormItemTimePicker `组件
+- 重构`LCaptchaButton `组件
 - 重构`LFileViewer `组件
 - 重构`LNumberRoll `组件
 - 重构`LColor`组件
@@ -40,3 +41,4 @@ order: 3
 - 时间日期插件改用`day.js`
 - 部分组件的`API`与`antd v5`保持同步
 - 不支持所有版本的 IE 浏览器
+- `v1` 版本不再维护，请使用最新版本
