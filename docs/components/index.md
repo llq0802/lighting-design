@@ -25,6 +25,7 @@ toc: content
 - [LSeamlessScroll] - 无缝滚动
 - [LCollapseCard] - 折叠卡片
 - [LScrollBar] - 滚动条
+- [LTreeTable] - 树表格
 
 ## 高级表单
 
@@ -68,6 +69,7 @@ toc: content
 - [useShow] - useShow
 
 [ltypeit]: /components/typeit
+[ltreetable]: /components/tree-table
 [lscrollbar]: /components/scroll-bar
 [ltooltip]: /components/tooltip
 [lcolor]: /components/color-pick

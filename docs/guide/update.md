@@ -11,6 +11,7 @@ order: 3
 - [LCollapseCard - 折叠卡片组件](/components/collapse-card)
 - [LSeamlesScroll - 无缝滚动组件](/components/seamles-scroll)
 - [LScrollBar - 滚动条组件](/components/scroll-bar)
+- [LTreeTable - 树表格组件](/components/tree-table)
 - [LListForm - 列表表单组件](/components/list-form)
 - [LFormItmeIcon - 图标选择组件](/components/form-item-icon)
 - [LFormItemNumberRange - 数字范围组件](/components/form-item-number-range)
@@ -36,6 +37,6 @@ order: 3
 
 **其他**
 
-- 时间日期改用`day.js`48888
-- 部分组件的`API`与`antd v5`同步
-- 不支持 IE 浏览器，包括（IE11）。
+- 时间日期插件改用`day.js`
+- 部分组件的`API`与`antd v5`保持同步
+- 不支持所有版本的 IE 浏览器
