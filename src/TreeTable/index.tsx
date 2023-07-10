@@ -2,9 +2,14 @@ import { useControllableValue, useCreation, useMemoizedFn } from 'ahooks';
 import type { TableProps } from 'antd';
 import { Checkbox, Table } from 'antd';
 import classnames from 'classnames';
-import React, { useEffect } from 'react';
+import React from 'react';
 import './index.less';
-import type { LTreeTableData, LTreeTableFieldNames, ValueType } from './util';
+import type {
+  LTreeTableData,
+  LTreeTableDataItem,
+  LTreeTableFieldNames,
+  ValueType,
+} from './util';
 import {
   compactTree,
   findTreeNode,
@@ -12,7 +17,16 @@ import {
   transformTreeToList,
 } from './util';
 
+export { LTreeTableDataItem, LTreeTableData, LTreeTableFieldNames };
+
 export type LTreeTableProps = {
+  /**
+   *  默认值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  defaultValue?: ValueType[];
   /**
    * 勾选的值 (受控)
    *@author 李岚清 <https://github.com/llq0802>
@@ -47,7 +61,7 @@ export type LTreeTableProps = {
    *@version 2.1.4
    *@memberof LTreeTableProps
    */
-  columnTitles?: Record<string, any>[];
+  columns?: Record<string, any>[];
   /**
    *是否合并最后一列
    *@author 李岚清 <https://github.com/llq0802>
@@ -63,6 +77,34 @@ export type LTreeTableProps = {
    */
   showCheckbox?: boolean;
   /**
+   *父子节点选中状态是否不再关联 (各自独立)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  checkStrictly?: boolean;
+  /**
+   *当该项为空值时填充展示的内容
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  fillEmpty?: React.ReactNode;
+  /**
+   *为所有复选框设置类名
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  checkboxClassName?: string;
+  /**
+   *为所有复选框设置样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  checkboxStyle?: React.CSSProperties;
+  /**
    *自定义多选框的label
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.4
@@ -73,28 +115,40 @@ export type LTreeTableProps = {
     record: Record<string, any>,
     idx: number,
   ) => React.ReactNode;
-} & TableProps<Record<string, any>>;
+} & Omit<TableProps<Record<string, any>>, 'columns' | 'dataSource'>;
 
 const prefixCls = 'lightd-tree-table';
 
 const LTreeTable: React.FC<LTreeTableProps> = (props) => {
   const {
+    className,
+
     fieldNames: outFieldNames = {},
-    columnTitles = [],
+    columns: outColumns = [],
     treeData = [],
     lastColumnMerged = true,
     showCheckbox = true,
+    checkStrictly = false,
     labelRender,
-    className,
+    fillEmpty = '-',
+
+    checkboxClassName,
+    checkboxStyle,
+
+    defaultValue,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    value,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onChange,
     ...restProps
   } = props;
 
   const [checkList, setCheckList] = useControllableValue<ValueType[]>({
-    defaultValue: [],
+    defaultValue: defaultValue || [],
     ...props,
   });
 
-  const fieldNames = React.useMemo(
+  const fieldNames = useCreation(
     () => ({
       label: 'label',
       value: 'value',
@@ -110,13 +164,14 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     children: childrenKey,
   } = fieldNames;
 
-  useEffect(() => {
-    if (checkList?.length) {
-      handleChange();
-    }
-  }, []);
+  // useMount(() => {
+  //   if (checkList?.length) {
+  //     console.log('useMount-checkList', checkList);
+  //     // handleChange();
+  //   }
+  // });
 
-  const { list, columns } = useCreation(
+  const { list: realDataSource, columns: innerColumns } = useCreation(
     () => transformTreeToList(treeData, lastColumnMerged, fieldNames),
     [lastColumnMerged, treeData, fieldNames],
   );
@@ -129,7 +184,8 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     () => compactTree(treeData, fieldNames, showCheckbox),
     [treeData, fieldNames, showCheckbox],
   );
-  const processParentChecked = React.useCallback(
+
+  const processParentChecked = useMemoizedFn(
     (currentValue?: ValueType, checks?: ValueType[]) => {
       const newChecks = new Set(checks || []);
 
@@ -141,17 +197,23 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
 
         if (currParentItem) {
           let childAllChecked = true; // 是否选中了其所有子项
-
+          // const childs = currParentItem[childrenKey].filter(
+          //   (item) => !item.disbaled,
+          // );
+          // childs.forEach((item) => {
+          //   if (!newChecks.has(item[valueKey])) {
+          //     childAllChecked = false;
+          //   }
+          // });
           currParentItem[childrenKey]?.forEach((item) => {
-            if (!item.disabled) {
-              if (!newChecks.has(item[valueKey])) {
-                // 当前子项没有勾选 就设为false
-                childAllChecked = false;
-              }
+            if (!item.disabled && !newChecks.has(item[valueKey])) {
+              // 当前没有禁用的子项如果没有勾选 就设为false
+              childAllChecked = false;
             }
           });
-          // 如果子项自选全部勾选 则它的父级也勾选
-          if (childAllChecked) {
+
+          //  如果子项自选全部勾选 则它的父级也勾选
+          if (childAllChecked && !currParentItem.disabled) {
             newChecks.add(parentVal);
           } else {
             newChecks.delete(parentVal);
@@ -163,30 +225,31 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
         }
       }
 
-      const currItem = compactData.find(
-        (item) => item[valueKey] === currentValue,
-      );
+      const curItem = compactData.find((it) => it[valueKey] === currentValue);
 
       // 不是根节点的时候才执行
-      if (currItem?.parent) {
-        recursion(currItem.parent);
+      if (curItem?.parent) {
+        recursion(curItem.parent);
       }
 
-      return Array.from(newChecks);
+      return [...newChecks];
     },
-    [childrenKey, compactData, valueKey],
   );
 
-  const handleChange = useMemoizedFn((subItem: Record<string, any>) => {
+  const handleChange = useMemoizedFn((subItem: LTreeTableDataItem) => {
     const newCheckList = new Set(checkList);
     const currentValue = subItem[valueKey];
     const currentChecked = newCheckList.has(currentValue);
-
     // 处理当前层级已选中变为不勾选，不勾选改为勾选
     if (currentChecked) {
       newCheckList.delete(currentValue);
     } else {
       newCheckList.add(currentValue);
+    }
+
+    if (checkStrictly) {
+      setCheckList([...newCheckList]);
+      return;
     }
 
     const curNode = findTreeNode(
@@ -195,7 +258,6 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     );
     const curNodeChilren = curNode?.[childrenKey] || [];
     const curNodeChilrenValues = getNodeChilren(curNodeChilren, childrenKey);
-
     // 处理所有子级勾选
     curNodeChilrenValues?.forEach((item) => {
       if (currentChecked) {
@@ -207,36 +269,45 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
         newCheckList.add(item[valueKey]);
       }
     });
-
     // 处理父级勾选
-    const checks = processParentChecked(currentValue, Array.from(newCheckList));
-
-    setCheckList([...checks]);
+    const newChecks = processParentChecked(
+      currentValue,
+      Array.from(newCheckList),
+    );
+    setCheckList(newChecks);
   });
 
   const realColumns = useCreation(() => {
     // 优化没有数据时的表格标题展示
     const internalColumns: { dataIndex: string }[] =
-      columns?.length > 0
-        ? columns
-        : columnTitles?.length > 0
-        ? columnTitles.map((item) => item)
+      innerColumns?.length > 0
+        ? innerColumns
+        : outColumns?.length > 0
+        ? outColumns.map((item) => item)
         : [];
 
     return internalColumns.map((item, i) => ({
       ...item,
-      onCell: (record: Record<string, any>) => {
+      title: '-',
+      ...outColumns?.[i],
+      onCell: (record: Record<string, any>, rowIndex: number) => {
         const col = record[item.dataIndex];
-        return { rowSpan: col.rowSpan };
+        const outOnCell = outColumns?.[i]?.onCell?.(record, rowIndex) ?? {};
+        return {
+          ...outOnCell,
+          rowSpan: col.rowSpan,
+        };
       },
       render: (_, record: Record<string, any>, idx: number) => {
         const col = record[item.dataIndex];
         return col[valueKey]
           ? col?.data?.map((subItem) => (
               <Checkbox
+                style={checkboxStyle}
                 className={classnames(
                   `${prefixCls}-checkbox`,
                   hiddenCheckboxClassName,
+                  checkboxClassName,
                 )}
                 checked={checkList.includes(subItem[valueKey])}
                 onChange={() => handleChange(subItem)}
@@ -248,18 +319,16 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
                   : subItem[labelKey] || subItem[valueKey]}
               </Checkbox>
             ))
-          : '-';
+          : fillEmpty;
       },
-      title: '-',
-      ...columnTitles?.[i],
     }));
-  }, [columnTitles, columns, labelKey, valueKey]);
+  }, [outColumns, innerColumns, labelKey, valueKey, fillEmpty]);
 
   return (
     <Table
       className={classnames(prefixCls, className)}
       columns={realColumns}
-      dataSource={list}
+      dataSource={realDataSource}
       bordered
       pagination={false}
       {...restProps}

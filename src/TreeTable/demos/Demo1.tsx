@@ -1,7 +1,7 @@
 import { Divider, Space, Switch } from 'antd';
 import { useState } from 'react';
 import LTreeTable from '..';
-import treeData from './data';
+import { data1 } from './data';
 
 const Demo1 = () => {
   const [lastColumnMerged, setLastColumnMerged] = useState(false);
@@ -27,19 +27,16 @@ const Demo1 = () => {
       </Space>
       <Divider />
       <LTreeTable
-        treeData={treeData}
+        onChange={(vals) => {
+          console.log('vals', vals);
+        }}
+        treeData={data1}
         lastColumnMerged={lastColumnMerged}
         showCheckbox={showCheckbox}
-        columnTitles={[
-          {
-            title: '第一级',
-          },
-          {
-            title: '第二级',
-          },
-          {
-            title: '第三级',
-          },
+        columns={[
+          { title: '第一级' },
+          { title: '第二级' },
+          { title: '第三级' },
         ]}
       />
     </div>

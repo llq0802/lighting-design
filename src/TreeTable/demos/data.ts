@@ -1,4 +1,4 @@
-export default [
+export const data1 = [
   {
     label: '一级目录-1',
     value: '1',
@@ -31,6 +31,7 @@ export default [
       {
         value: '2-2',
         label: '二级目录-2-2',
+        disabled: true,
         children: [
           { value: '2-2-1', label: '三级目录-2-2-1' },
           { value: '2-2-2', label: '三级目录-2-2-2' },

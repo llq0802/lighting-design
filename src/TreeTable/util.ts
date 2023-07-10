@@ -111,7 +111,7 @@ function transformList({
 /**
  * 设置每一项第一层级的列数量 为所有子项个数之和
  * @param data
- * @returns
+ * @return
  */
 function processRowSpan(data: RowSpanCache): RowSpanCache {
   const cloneData = JSON.parse(JSON.stringify(data));
@@ -273,6 +273,14 @@ export function findTreeNode(
   }
 }
 
+/**
+ * 树形转扁平数组
+ *
+ * @param data
+ * @param fieldNames
+ * @param showCheckbox
+ * @return
+ */
 export const compactTree = (
   data: LTreeTableData,
   fieldNames: LTreeTableFieldNames,

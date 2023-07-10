@@ -51,7 +51,7 @@ import { LForm } from 'lighting-design';
 
 | 参数            | 说明                                                                                                                  | 类型                                                                                        | 默认值   |
 | --------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------- |
-| labelWidth      | label 宽度 ,为 `number` 时 不建议与 `labelCol` 属性同时设置                                                           | `number \| 'auto'`                                                                          | `'auto'` |
+| labelWidth      | 所有表单项 label 宽度 , 同 `labelCol={{ flex: 'xxx px' }}` , 不要与 `labelCol` 属性同时设置                           | `number \| 'auto'`                                                                          | `'auto'` |
 | transformValues | 在 `onFinish` 调用之前转化表单值 , 返回值会传给 `onFinish` 的参数                                                     | `(values: Record<string, any>) => Record<string, any>`                                      | `-`      |
 | submitter       | 提交、重置按钮相关配置。为`false`将不会渲染                                                                           | `false` \| [LFormSubmitterProps](/components/form#lformsubmitterprops)                      | `-`      |
 | isEnterSubmit   | 是否开启回车键提交，注意不要与 `submitter`中 `submitButtonProps` 的自定义 `htmlType='submit'` 的按钮冲突。            | `boolean`                                                                                   | `true`   |
