@@ -172,7 +172,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     value: valueKey,
     label: labelKey,
     children: childrenKey,
-  } = fieldNames;
+  } = fieldNames as Required<LTreeTableFieldNames>;
 
   // useMount(() => {
   //   if (checkList?.length) {
@@ -215,7 +215,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
           //     childAllChecked = false;
           //   }
           // });
-          currParentItem[childrenKey]?.forEach((item) => {
+          currParentItem[childrenKey]?.forEach((item: Record<string, any>) => {
             if (!item.disabled && !newChecks.has(item[valueKey])) {
               // 当前没有禁用的子项如果没有勾选 就设为false
               childAllChecked = false;
@@ -264,7 +264,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
 
     const curNode = findTreeNode(
       treeData,
-      (item) => item?.[valueKey] === currentValue,
+      (item: Record<string, any>) => item?.[valueKey] === currentValue,
       childrenKey,
     );
     const curNodeChilren = curNode?.[childrenKey] || [];
@@ -312,7 +312,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
         const col = record[item.dataIndex];
 
         return col[valueKey]
-          ? col?.data?.map((subItem) => (
+          ? col?.data?.map((subItem: Record<string, any>) => (
               <Checkbox
                 style={checkboxStyle}
                 className={classnames(
