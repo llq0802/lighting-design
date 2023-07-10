@@ -38,11 +38,13 @@ export function composeProps<T extends Record<string, any>>(
  */
 export function getFormItemLabel(props: Record<string, any>): string {
   const { label, messageVariables = {} } = props;
+  if (typeof label === 'string') {
+    return label;
+  }
   if (messageVariables?.label) {
     return messageVariables.label;
   }
-  const ret = typeof label === 'string' ? label : '';
-  return ret;
+  return '';
 }
 
 /**

@@ -30,18 +30,43 @@ const Demo = () => {
         required
         tooltip="中文"
         type="chinese"
+        messageVariables={{ label: '请输入中文!' }}
       />
       <LFormItemInput
         name="phone"
         label="手机号"
         type="phone"
         required
-        messageVariables={{ label: '正确的手机号格式' }}
+        messageVariables={{ label: '请输入正确的手机号格式!' }}
       />
-      <LFormItemInput name="email" type="email" label="邮箱" required />
-      <LFormItemInput name="idCard" type="idCard" label="身份证" required />
-      <LFormItemInput name="bankCard" label="银行卡" required type="bankCard" />
-      <LFormItemInput name="url" label="URL网址" required type="url" />
+      <LFormItemInput
+        name="email"
+        type="email"
+        label="邮箱"
+        required
+        messageVariables={{ label: '请输入正确的邮箱格式!' }}
+      />
+      <LFormItemInput
+        name="idCard"
+        type="idCard"
+        label="身份证"
+        required
+        messageVariables={{ label: '请输入正确的身份证格式!' }}
+      />
+      <LFormItemInput
+        name="bankCard"
+        label="银行卡"
+        required
+        type="bankCard"
+        messageVariables={{ label: '请输入正确的银行卡格式!' }}
+      />
+      <LFormItemInput
+        name="url"
+        label="URL网址"
+        required
+        type="url"
+        messageVariables={{ label: '请输入正确的网址格式!' }}
+      />
       <LFormItemInput
         label="图片验证码"
         name="code"

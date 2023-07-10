@@ -145,7 +145,12 @@ const LFormItem: FC<LFormItemProps> & {
               validator(_: any, value: any) {
                 let errMsg = '';
                 if ((!value && value !== 0) || !isTrueArray(value)) {
-                  errMsg = required ? `${messageLabel}!` : '';
+                  errMsg = required
+                    ? `${
+                        restFromItemProps?.messageVariables?.label ||
+                        messageLabel
+                      }!`
+                    : '';
                 }
 
                 if (errMsg) {
