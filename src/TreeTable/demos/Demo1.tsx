@@ -1,6 +1,6 @@
 import { Divider, Space, Switch } from 'antd';
+import { LTreeTable } from 'lighting-design';
 import { useState } from 'react';
-import LTreeTable from '..';
 import { data1 } from './data';
 
 const Demo1 = () => {

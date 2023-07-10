@@ -86,7 +86,7 @@ export interface LFormItemProps extends FormItemProps {
    */
   placeholder?: string | string[];
 
-  /** 是否是选择类型的组件(内部使用) */
+  /** 控制是否是选择类型的表单项组件 (一般内部使用) */
   _isSelectType?: boolean;
 }
 

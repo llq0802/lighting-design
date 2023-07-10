@@ -17,6 +17,22 @@ toc: content
 
 <code src="./demos/Demo1.tsx" ></code>
 
+### 全部禁用
+
+<code src="./demos/Demo2.tsx" ></code>
+
+### 自定义字段名
+
+<code src="./demos/Demo3.tsx" ></code>
+
+### 异步请求
+
+<code src="./demos/Demo4.tsx" ></code>
+
+### 在 LForm 中使用
+
+<code src="./demos/Demo5.tsx" ></code>
+
 ## API
 
 > - `dataSource` 不再配置 请使用 `treeData`
@@ -38,9 +54,10 @@ import { LTreeTable } from 'lighting-design';
 |     treeData      |                      数据项                       |             `LTreeTableData`              |  `[]`   |
 |    fieldNames     |                 自定义设置字段名                  |          `LTreeTableFieldNames`           |   `-`   |
 |      columns      | antd Table 的 columns`(部分字段内部重写无法覆盖)` |          `TableProps['columns']`          |   `-`   |
+|     disabled      |                是否禁用全部复选框                 |                 `boolean`                 | `false` |
 | lastColumnMerged  |                 是否合并最后一列                  |                 `boolean`                 | `false` |
-|   showCheckbox    |                  是否显示复选框                   |                 `boolean`                 | `true`  |
 |   checkStrictly   |      父子节点选中状态是否不再关联 (各自独立)      |                 `boolean`                 | `false` |
+|   showCheckbox    |                  是否显示复选框                   |                 `boolean`                 | `true`  |
 |     fillEmpty     |           当该项为空值时填充展示的内容            |             `React.ReactNode`             |  `'-'`  |
 | checkboxClassName |               为所有复选框设置类名                |                 `string`                  |   `-`   |
 |   checkboxStyle   |               为所有复选框设置样式                |           `React.CSSProperties`           |   `-`   |

@@ -81,6 +81,8 @@ export * from './Table';
 export { default as LTable } from './Table';
 export * from './TagGroup';
 export { default as LTagGroup } from './TagGroup';
+export * from './TreeTable';
+export { default as LTreeTable } from './TreeTable';
 export * from './Trigger';
 export { default as LTrigger } from './Trigger';
 export * from './Typeit';

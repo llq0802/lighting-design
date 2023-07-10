@@ -84,6 +84,13 @@ export type LTreeTableProps = {
    */
   checkStrictly?: boolean;
   /**
+   *全部禁用
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.4
+   *@memberof LTreeTableProps
+   */
+  disabled?: boolean;
+  /**
    *当该项为空值时填充展示的内容
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.4
@@ -126,9 +133,12 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     fieldNames: outFieldNames = {},
     columns: outColumns = [],
     treeData = [],
-    lastColumnMerged = true,
-    showCheckbox = true,
+    lastColumnMerged = false,
     checkStrictly = false,
+    disabled: outDisabled = false,
+
+    showCheckbox = true,
+
     labelRender,
     fillEmpty = '-',
 
@@ -237,7 +247,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
   );
 
   const handleChange = useMemoizedFn((subItem: LTreeTableDataItem) => {
-    const newCheckList = new Set(checkList);
+    const newCheckList = new Set(checkList || []);
     const currentValue = subItem[valueKey];
     const currentChecked = newCheckList.has(currentValue);
     // 处理当前层级已选中变为不勾选，不勾选改为勾选
@@ -255,6 +265,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     const curNode = findTreeNode(
       treeData,
       (item) => item?.[valueKey] === currentValue,
+      childrenKey,
     );
     const curNodeChilren = curNode?.[childrenKey] || [];
     const curNodeChilrenValues = getNodeChilren(curNodeChilren, childrenKey);
@@ -279,12 +290,11 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
 
   const realColumns = useCreation(() => {
     // 优化没有数据时的表格标题展示
-    const internalColumns: { dataIndex: string }[] =
-      innerColumns?.length > 0
-        ? innerColumns
-        : outColumns?.length > 0
-        ? outColumns.map((item) => item)
-        : [];
+    const internalColumns: { dataIndex: string }[] = innerColumns?.length
+      ? innerColumns
+      : outColumns?.length
+      ? outColumns.map((item) => item)
+      : [];
 
     return internalColumns.map((item, i) => ({
       ...item,
@@ -309,9 +319,9 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
                   hiddenCheckboxClassName,
                   checkboxClassName,
                 )}
-                checked={checkList.includes(subItem[valueKey])}
+                checked={checkList?.includes(subItem[valueKey])}
                 onChange={() => handleChange(subItem)}
-                disabled={subItem.disabled}
+                disabled={outDisabled || subItem.disabled}
                 key={subItem[valueKey]}
               >
                 {labelRender
@@ -326,12 +336,12 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
 
   return (
     <Table
-      className={classnames(prefixCls, className)}
-      columns={realColumns}
-      dataSource={realDataSource}
       bordered
       pagination={false}
       {...restProps}
+      className={classnames(prefixCls, className)}
+      dataSource={realDataSource}
+      columns={realColumns}
     />
   );
 };

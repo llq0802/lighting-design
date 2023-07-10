@@ -29,7 +29,7 @@ type RowSpanCache = Record<
  * @param arr {any[]}
  * @return maxLevel{number}
  */
-export const getTreeMaxLevel = (arrs: LTreeTableData) => {
+export const getTreeMaxLevel = (arrs: LTreeTableData, childrenKey: string) => {
   let maxLevel = 1;
 
   (function callBack(arr, level) {
@@ -38,8 +38,8 @@ export const getTreeMaxLevel = (arrs: LTreeTableData) => {
     maxLevel = Math.max(level, maxLevel);
     for (let i = 0; i < arr.length; i++) {
       const item = arr[i];
-      if (item?.children && item.children?.length > 0) {
-        callBack(item?.children, level);
+      if (item?.[childrenKey] && item?.[childrenKey]?.length > 0) {
+        callBack(item?.[childrenKey], level);
       } else {
         continue;
       }
@@ -168,7 +168,7 @@ export function transformTreeToList(
   // 合并行数缓存
   let rowSpanCache: RowSpanCache = {};
 
-  const lastColumnIndex = getTreeMaxLevel(data) - 1;
+  const lastColumnIndex = getTreeMaxLevel(data, childrenKey) - 1;
 
   /**
    *
@@ -186,7 +186,7 @@ export function transformTreeToList(
   ) {
     childList.forEach((item: Record<string, any>) => {
       const id = item[valueKey];
-      const children = item[childrenKey];
+      const childrens = item[childrenKey];
       const newValue: any = {
         ...prevData,
         [`col-${index}`]: {
@@ -199,13 +199,13 @@ export function transformTreeToList(
       if (!rowSpanCache[id]) {
         rowSpanCache[id] = {
           value: id,
-          len: children?.length || 1,
+          len: childrens?.length || 1,
           parentValue,
         };
       }
 
       // 在最后一层的时候
-      if (!children?.length) {
+      if (!childrens?.length) {
         list.push({
           ...newValue,
           key: `row__${parentValue}__${id}`, // 为Table数据设置唯一key
@@ -220,13 +220,13 @@ export function transformTreeToList(
           [`col-${index + 1}`]: {
             [valueKey]: id,
             parent: parentValue,
-            data: children,
+            data: childrens,
           },
           key: `row__${parentValue}__${id}`, // 为Table数据设置唯一key
         });
       } else {
         rowSpanCache[id].hasChildren = true;
-        recursion(children, newValue, id, index + 1, list);
+        recursion(childrens, newValue, id, index + 1, list);
       }
     });
 
@@ -255,10 +255,11 @@ export function transformTreeToList(
 export function findTreeNode(
   treeData: LTreeTableData,
   func: (item: LTreeTableFieldNames) => boolean,
+  childrenKey: string = 'children',
 ): LTreeTableDataItem | undefined {
   if (!treeData?.length) return void 0;
 
-  let node,
+  let node: LTreeTableDataItem | undefined,
     list = [...treeData];
   while (list.length) {
     node = list.shift();
@@ -267,8 +268,8 @@ export function findTreeNode(
       return node;
     }
 
-    if (node?.children?.length) {
-      list.unshift(...node.children);
+    if (node?.[childrenKey]?.length) {
+      list.unshift(...node[childrenKey]);
     }
   }
 }
@@ -286,7 +287,8 @@ export const compactTree = (
   fieldNames: LTreeTableFieldNames,
   showCheckbox = true,
 ) => {
-  const { value: valueKey, children: childrenKey } = fieldNames;
+  const { value: valueKey, children: childrenKey } =
+    fieldNames as Required<LTreeTableFieldNames>;
 
   if (!showCheckbox) {
     return [];
@@ -297,14 +299,17 @@ export const compactTree = (
     parent: ValueType;
   })[] = [];
 
-  function recursion(list: LTreeTableData, parent: LTreeTableDataItem = null) {
+  function recursion(
+    list: LTreeTableData,
+    parent: LTreeTableDataItem | null = null,
+  ) {
     list.forEach((item) => {
       ret.push({
         ...item,
         parent: parent?.[valueKey] || null,
 
         [childrenKey]:
-          item?.[childrenKey]?.map((item) => ({
+          item?.[childrenKey]?.map((item: LTreeTableDataItem) => ({
             ...item,
             [childrenKey]: void 0,
           })) || void 0,
@@ -333,7 +338,7 @@ export const compactTree = (
  */
 export function getNodeChilren(
   list: LTreeTableData,
-  childrenKey: LTreeTableFieldNames['children'],
+  childrenKey: string,
   ret: string[] = [],
 ) {
   if (!list?.length) {
@@ -341,6 +346,7 @@ export function getNodeChilren(
   }
 
   list.forEach((item) => {
+    // @ts-ignore
     ret.push({ ...item, [childrenKey]: void 0 });
     if (item[childrenKey]?.length) {
       getNodeChilren(item[childrenKey], childrenKey, ret);
