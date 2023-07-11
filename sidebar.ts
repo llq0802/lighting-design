@@ -221,6 +221,14 @@ export default {
           title: 'useCallbackState-状态更新回调',
           link: '/components/use-callback-state',
         },
+        {
+          title: 'useWorker-Web Worker',
+          link: '/components/use-worker',
+        },
+        {
+          title: 'useBeforeUnload-关闭之前',
+          link: '/components/use-before-unload',
+        },
       ],
     },
   ],

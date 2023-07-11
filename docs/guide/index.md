@@ -28,8 +28,11 @@ Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以 **显�
 ## 与其他库互补
 
 - TanStackQuery [服务状态管理](https://tanstack.com/query/v4/docs/react/examples/react/basic)
+- swr [服务状态管理](https://github.com/vercel/swr)
 - Rematch [本地状态管理](https://rematchjs.org/)
 - Tracked [React-Context](https://react-tracked.js.org/docs/quick-start/)
+- use-context-selector [React-Context](https://github.com/dai-shi/use-context-selector)
+- react-use [React-Hook](https://github.com/zenghongtu/react-use-chinese/tree/master)
 - ahook [React-Hook](https://ahooks.js.org/zh-CN)
 
 ## 更多 React 插件
