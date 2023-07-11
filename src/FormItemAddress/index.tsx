@@ -10,14 +10,14 @@ export interface LFormItemAddressProps<DataNodeType = any>
   /**
    *数据源
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.3
+   *@version 2.1.5
    *@memberof LFormItemAddressProps
    */
   options?: CascaderProps<DataNodeType>['options'];
   /**
    * 字段数组 如 ['location', 'address']
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.3
+   *@version 2.1.5
    *@memberof LFormItemAddressProps
    */
   names: [LFormItemProps['name'], LFormItemProps['name']];

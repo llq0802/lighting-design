@@ -16,7 +16,7 @@ export interface LFormItemCheckboxProps
   /**
    *依赖项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.3
+   *@version 2.1.5
    *@memberof LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
@@ -24,7 +24,7 @@ export interface LFormItemCheckboxProps
   /**
    *当依赖项发生变化时重新请求的防抖时间
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.3
+   *@version 2.1.5
    *@memberof LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
@@ -32,7 +32,7 @@ export interface LFormItemCheckboxProps
   /**
    *数据源
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.3
+   *@version 2.1.5
    *@memberof LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
@@ -40,7 +40,7 @@ export interface LFormItemCheckboxProps
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.3
+   *@version 2.1.5
    *@memberof LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
