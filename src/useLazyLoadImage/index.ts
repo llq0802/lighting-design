@@ -63,9 +63,6 @@ export default function useLazyLoadImage(params: useLazyLoadImageParams = {}) {
       return;
     }
     const images = target?.querySelectorAll(`[${imageAttribute}]`) ?? [];
-    if (images?.length) {
-      return;
-    }
 
     if (!window.IntersectionObserver) {
       Array.from(images)?.forEach((image) => loadImage(image));

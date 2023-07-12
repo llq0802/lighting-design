@@ -28,6 +28,8 @@ IntersectionObserver API: [IntersectionObserver](https://developer.mozilla.org/z
 > - 如果配置了`target` 则必须配置 `dependencies`
 >
 > - `imageAttribute` 必须以`data-`开头的字符串并且只能是小写字母
+>
+> - img 的 src 可以设置为站位的图片地址
 
 ```ts
 import { useLazyLoadImage } from 'lighting-design';
