@@ -1,5 +1,5 @@
-import { useWorker } from '@koale/useworker';
 import { Button, message } from 'antd';
+import { useWorker } from 'lighting-design';
 import { useState } from 'react';
 
 const numbers = [...Array(5000000)].map((e) => ~~(Math.random() * 1000000));

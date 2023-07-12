@@ -222,12 +222,16 @@ export default {
           link: '/components/use-callback-state',
         },
         {
-          title: 'useWorker-Web Worker',
+          title: 'useWorker-WebWorker',
           link: '/components/use-worker',
         },
         {
-          title: 'useBeforeUnload-关闭之前',
-          link: '/components/use-before-unload',
+          title: 'useDeepUpdateEffect-深度比较更新',
+          link: '/components/use-deep-update-effect',
+        },
+        {
+          title: 'useLazyLoadImage-懒加载图片',
+          link: '/components/use-lazy-load-image',
         },
       ],
     },
