@@ -21,6 +21,8 @@ nav:
 
 ## API
 
+> - `LFormItemSwitch`一般表示`true` `false` 两种状态，一般不建议配置 `required`属性
+
 ```ts
 import { FormItemSwitch } from 'lighting-design';
 ```

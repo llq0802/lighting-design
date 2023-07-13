@@ -5,7 +5,7 @@ toc: content
 
 # useLazyLoadImage
 
-使用`IntersectionObserver`实现的懒加载图像
+使用`IntersectionObserver`实现的懒加载图像，在组件卸载或者图像已经加载后不再监听
 
 ## 代码演示
 
@@ -29,7 +29,7 @@ IntersectionObserver API: [IntersectionObserver](https://developer.mozilla.org/z
 >
 > - `imageAttribute` 必须以`data-`开头的字符串并且只能是小写字母
 >
-> - img 的 src 可以设置为站位的图片地址
+> - `img` 的 `src` 属性推荐设置为默认占位的图片地址
 
 ```ts
 import { useLazyLoadImage } from 'lighting-design';
@@ -46,12 +46,14 @@ useLazyLoadImage({
 | :------: | :----: | :----------------------: |
 | paramObj | 配置项 | `useLazyLoadImageParams` |
 
+### useLazyLoadImageParams
+
 ```ts
 export type useLazyLoadImageParams = {
-  /** querySelectorAll抓取页面上所有可延迟加载的图像 */
-  imageAttribute?: `data-${string}`; // 默认为 data-img-src
   /** 在哪个节点下查询 querySelectorAll */
   target?: HTMLDivElement | Document; //  默认为 document
+  /** querySelectorAll抓取在 `target` 所有可延迟加载的图像的自定义属性 */
+  imageAttribute?: `data-${string}`; // 默认为 data-img-src
   /** IntersectionObserver 的配置项*/
   options?: IntersectionObserverInit; // 默认为 { rootMargin: '200px 0px' , threshold: 0.01, };
   /** 依赖项 如果配置会重新执行监听 */

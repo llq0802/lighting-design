@@ -150,6 +150,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     value,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onChange,
+    tableProps = {},
     ...restProps
   } = props;
 
@@ -340,8 +341,9 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
       bordered
       pagination={false}
       {...restProps}
-      className={classnames(prefixCls, className)}
-      dataSource={realDataSource}
+      {...tableProps}
+      className={classnames(prefixCls, className, tableProps?.className)}
+      dataSource={realDataSource ?? []}
       columns={realColumns}
     />
   );

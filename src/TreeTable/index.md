@@ -9,6 +9,7 @@ toc: content
 
 - 比起普通的树形组件更加的直观
 - 支持复选框选择
+- 支持与 LFrom 结合
 - 兼容 antd Table
 
 ## 代码演示
@@ -33,6 +34,10 @@ toc: content
 
 <code src="./demos/Demo5.tsx" ></code>
 
+### 自定义渲染
+
+<code src="./demos/Demo6.tsx" ></code>
+
 ## API
 
 > - `dataSource` 不再配置 请使用 `treeData`
@@ -40,6 +45,8 @@ toc: content
 > - `columns` 的部分字段内部重写无法覆盖 (`dataIndex` `render`)
 >
 > - `pagination` 属性默认为`false` `bordered` 属性默认为`true`
+>
+> - 如果要控制表格分页变化 请在`pagination`的`onChange`方法中自行实现 , 表格的原始的`onChange`无法控制变化
 
 ```ts
 import { LTreeTable } from 'lighting-design';

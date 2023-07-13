@@ -11,7 +11,6 @@ const Demo1 = () => {
       submitter={{ buttonAlign: 85 }}
     >
       <LFormItemSwitch
-        required
         name="state1"
         label="开关"
         tooltip="禁止空格"

@@ -14,7 +14,7 @@ function Demo3() {
 
     options: {
       root: ref.current,
-      rootMargin: '100px 0px',
+      rootMargin: '50px 0px',
     },
   });
 
@@ -32,22 +32,28 @@ function Demo3() {
         data-img-src={`${baseImgSrc}?random=21`}
         alt="My image"
       />
-      <div style={{ height: 800 }}></div>
+      <div style={{ height: 400 }}></div>
       <img
         src={placehoderSrc}
         data-img-src={`${baseImgSrc}?random=22`}
         alt="My image"
       />
-      <div style={{ height: 800 }}></div>
+      <div style={{ height: 400 }}></div>
       <img
         src={placehoderSrc}
         data-img-src={`${baseImgSrc}?random=23`}
         alt="My image"
       />
-      <div style={{ height: 800 }}></div>
+      <div style={{ height: 400 }}></div>
       <img
         src={placehoderSrc}
         data-img-src={`${baseImgSrc}?random=24`}
+        alt="My image"
+      />
+      <div style={{ height: 400 }}></div>
+      <img
+        src={placehoderSrc}
+        data-img-src={`${baseImgSrc}?random=25`}
         alt="My image"
       />
     </div>

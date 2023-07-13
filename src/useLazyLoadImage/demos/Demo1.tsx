@@ -15,22 +15,28 @@ function Demo1() {
         data-img-src={`${baseImgSrc}?random=1`}
         alt="My image"
       />
-      <div style={{ height: 800 }}></div>
+      <div style={{ height: 400 }}></div>
       <img
         src={placehoderSrc}
         data-img-src={`${baseImgSrc}?random=2`}
         alt="My image"
       />
-      <div style={{ height: 800 }}></div>
+      <div style={{ height: 400 }}></div>
       <img
         src={placehoderSrc}
         data-img-src={`${baseImgSrc}?random=3`}
         alt="My image"
       />
-      <div style={{ height: 800 }}></div>
+      <div style={{ height: 400 }}></div>
       <img
         src={placehoderSrc}
         data-img-src={`${baseImgSrc}?random=4`}
+        alt="My image"
+      />
+      <div style={{ height: 400 }}></div>
+      <img
+        src={placehoderSrc}
+        data-img-src={`${baseImgSrc}?random=5`}
         alt="My image"
       />
     </div>
