@@ -16,7 +16,8 @@ export interface LFormItemCascaderProps
     > {
   dependencies?: string[];
   /**
-   * @name 自定义loading效果 具体参考(https://ant.design/components/spin-cn/#api)
+   * Spin组件的props 用于自定义loading效果
+   * @see 参考(https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
 }

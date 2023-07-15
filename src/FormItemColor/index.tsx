@@ -12,7 +12,19 @@ import type { FC } from 'react';
 import { useContext, useMemo } from 'react';
 
 export interface LFormItemColorProps extends LFormItemProps {
+  /**
+   * LColor 组件 Props
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemColorProps
+   */
   colorProps?: ColorSketchPickerProps | ColorChromePickerProps;
+  /**
+   *内置组件类型
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemColorProps
+   */
   colorType?: 'sketch' | 'chrome' | 'photoshop';
 }
 

@@ -39,35 +39,41 @@ toc: content
 
 ## 高级表单项
 
-- [LFormItem] - 基础表单项
-- [LFormItemInput] - 输入框
-- [LFormItemNumber] - 数字输入框
-- [LFormItemNumberRange] - 数字范围输入框
-- [LFormItemPassword] - 密码框
-- [LFormItemTextArea] - 多行输入框
-- [LFormItemAutoComplete] - 自动联想输入
-- [LFormItemCaptcha] - 高级验证码
-- [LFormItemSelect] - 下拉框
-- [LFormItemRadio] - 单选框
-- [LFormItemCheckbox] - 多选框
-- [LFormItemTreeSelect] - 树形选择框
-- [LFormItemCascader] - 级联选择框
-- [LFormItemAddress] - 地址选择
-- [LFormItemIcon] - 图标选择
-- [LFormItemDatePicker] - 日期选择
-- [LFormItemTimePicker] - 时间选择
-- [LFormItemUpload] - 上传文件
-- [LFormItemSwitch] - 开关按钮
-- [LFormItemSlider] - 滑动条
+- [LFormItem] - 高级表单项
+- [LFormItemInput] - 高级输入框
+- [LFormItemNumber] - 高级数字输入框
+- [LFormItemNumberRange] - 高级数字范围输入框
+- [LFormItemPassword] - 高级密码框
+- [LFormItemTextArea] - 高级多行输入框
+- [LFormItemAutoComplete] - 高级自动联想输入
+- [LFormItemCaptcha] - 高级验证码输入框
+- [LFormItemSelect] - 高级下拉框
+- [LFormItemRadio] - 高级单选框
+- [LFormItemCheckbox] - 高级多选框
+- [LFormItemTreeSelect] - 高级树形选择框
+- [LFormItemCascader] - 高级级联选择框
+- [LFormItemAddress] - 高级地址选择
+- [LFormItemIcon] - 高级图标选择
+- [LFormItemDatePicker] - 高级日期选择
+- [LFormItemTimePicker] - 高级时间选择
+- [LFormItemUpload] - 高级上传文件
+- [LFormItemSwitch] - 高级开关按钮
+- [LFormItemSlider] - 高级滑动条
 - [LFormItemColor] - 高级颜色选择
-- [LFormItemRate] - 评分器
-- [LFormItemSegmented] - 分段器
+- [LFormItemRate] - 高级评分器
+- [LFormItemSegmented] - 高级分段器
 
 ## HOOKS
 
-- [useCallbackState] - useCallbackState
-- [useShow] - useShow
+- [useCallbackState] - 更新状态后的回调
+- [useShow] - 性能更好的父子组件传参
+- [useWorker] - 优雅的使用 WebWorker
+- [useDeepUpdateEffect] - 深度依赖项更新时的副作用
+- [useLazyLoadImage] - 性能更好的懒加载图片
 
+[useWorker]: /components/use-worker
+[useDeepUpdateEffect]: /components/use-deep-update-effect
+[useLazyLoadImage]: /components/use-lazy-load-image
 [ltypeit]: /components/typeit
 [ltreetable]: /components/tree-table
 [lscrollbar]: /components/scroll-bar

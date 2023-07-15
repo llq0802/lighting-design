@@ -21,7 +21,10 @@ export interface LFormItemTreeSelectProps
     > {
   dependencies?: string[];
   /**
-   * @name 自定义loading效果 具体参考(https://ant.design/components/spin-cn/#api)
+   *自定义 loading 效果
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemTreeSelectProps
    */
   spin?: SpinProps;
 }

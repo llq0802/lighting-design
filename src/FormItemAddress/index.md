@@ -38,7 +38,7 @@ import { LFormItemAddress } from 'lighting-design';
 | inputProps        | `antd`输入框组件 Props          | [InputProps](https://ant.design/components/input-cn#api)         | `-`                                    |
 | cascaderFormProps | 级联组件外层`Form.Itme的 Props` | [Form.Itme](https://ant.design/components/input-cn#api)          | `-`                                    |
 | inputFormProps    | 输入框外层`Form.Itme的 Props`   | [Form.Itme](https://ant.design/components/input-cn#api)          | `-`                                    |
-| cascaderColProps  | 输入框外层`Col 组件的 Props`    | [ColProps](https://ant.design/components/grid-cn#col)            | `{ xs: 24, md: 12, lg: 6, xxl: 8, }`   |
+| cascaderColProps  | 级联组件外层`Col 组件的 Props`  | [ColProps](https://ant.design/components/grid-cn#col)            | `{ xs: 24, md: 12, lg: 6, xxl: 8, }`   |
 | inputColProps     | 输入框外层`Col 组件的 Props`    | [ColProps](https://ant.design/components/grid-cn#col)            | `{ xs: 24, md: 12, lg: 18, xxl: 16, }` |
 
 ### LCascaderOption

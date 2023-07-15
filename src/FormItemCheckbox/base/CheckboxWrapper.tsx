@@ -45,15 +45,36 @@ export type LCheckboxBeforeAllProps =
 
 export type CheckboxWrapperProps = Record<string, any> &
   Partial<{
+    /**
+     *请求数据源的异步函数
+     *@author 李岚清 <https://github.com/llq0802>
+     *@version 2.1.6
+     *@memberof LFormItemCheckboxProps
+     */
     request: (...args: any[]) => Promise<any>;
     debounceTimex: number;
     /**
-     * 自定义全选
+     *自定义全选
+     *@author 李岚清 <https://github.com/llq0802>
+     *@version 2.1.6
+     *@memberof LFormItemCheckboxProps
      */
     beforeAll: LCheckboxBeforeAllProps | boolean;
+    /**
+     *多选框组件 Props
+     *@author 李岚清 <https://github.com/llq0802>
+     *@version 2.1.6
+     *@memberof LFormItemCheckboxProps
+     */
     checkboxProps: CheckboxGroupProps;
     dependencies: string[];
     outLoading: SpinProps;
+    /**
+     *依赖项的值为空时展示的内容
+     *@author 李岚清 <https://github.com/llq0802>
+     *@version 2.1.6
+     *@memberof LFormItemCheckboxProps
+     */
     notDependRender?: () => ReactNode;
   }>;
 

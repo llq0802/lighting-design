@@ -17,10 +17,22 @@ import { useCallback, useMemo, useState } from 'react';
 
 export type RateWrapperProps = Record<string, any> &
   Partial<{
+    /**
+     *请求总共的星数的异步函数
+     *@author 李岚清 <https://github.com/llq0802>
+     *@version 2.1.6
+     *@memberof LFormItemRateProps
+     */
     request: (...args: any[]) => Promise<number>;
     disabled: boolean;
     debounceTime: number;
     dependencies: string[];
+    /**
+     *antd评分组件 Props
+     *@author 李岚清 <https://github.com/llq0802>
+     *@version 2.1.6
+     *@memberof LFormItemRateProps
+     */
     rateProps: RateProps;
     outLoading: SpinProps;
   }>;

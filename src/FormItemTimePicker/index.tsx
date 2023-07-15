@@ -115,20 +115,65 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
 };
 
 export interface LFormItemTimePickerProps extends LFormItemProps {
+  /**
+   *是否是范围时间选择
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemTimePickerProps
+   */
   rangePicker?: boolean;
+  /**
+   *表单获取到的值的类型
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemTimePickerProps
+   */
   dateValueType?: Omit<DateValueType, 'number'>;
-
+  /**
+   *禁用当前时间之前的小时 (0 会包括当前小时)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemTimePickerProps
+   */
   disabledHourBefore?: number;
+  /**
+   *禁用当前时间之后的小时 (0 会包括当前小时)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemTimePickerProps
+   */
   disabledHourAfter?: number;
-
+  /**
+   *禁用分钟的函数
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemTimePickerProps
+   */
   disabledMinutes?: (selectedHour: number, type?: 'start' | 'end') => number[];
+  /**
+   *禁用秒的函数
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemTimePickerProps
+   */
   disabledSeconds?: (
     selectedHour: number,
     selectedMinute: number,
     type?: 'start' | 'end',
   ) => number[];
-
+  /**
+   *同antd时间组件的格式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemTimePickerProps
+   */
   format?: 'HH:mm:ss' | string;
+  /**
+   *antd时间组件的 Props
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemTimePickerProps
+   */
   timePickerProps?: TimePickerProps | TimeRangePickerProps;
 }
 

@@ -18,6 +18,9 @@ order: 3
 - [LList - 高级列表](/components/list)
 - [useCallbackState - 钩子](/components/use-callback-state)
 - [useShow - 钩子](/components/use-Show)
+- [useWorker - 钩子](/components/use-worker)
+- [useDeepUpdateEffect - 钩子](/components/use-deep-update-effect)
+- [useLazyLoadImage - 钩子](/components/use-lazy-load-image)
 
 **移除**
 

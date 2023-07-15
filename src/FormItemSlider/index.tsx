@@ -14,8 +14,26 @@ export interface LFormItemSliderProps
       SliderSingleProps,
       'min' | 'max' | 'step' | 'marks' | 'handleStyle' | 'trackStyle'
     > {
+  /**
+   *antd 滑块的 props
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemSliderProps
+   */
   sliderProps?: SliderSingleProps | SliderRangeProps;
+  /**
+   *整个轨道样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemSliderProps
+   */
   railStyle?: CSSProperties;
+  /**
+   *Slider 组件根标签样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.6
+   *@memberof LFormItemSliderProps
+   */
   sliderStyle?: CSSProperties;
 }
 

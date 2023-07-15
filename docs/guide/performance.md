@@ -1,32 +1,40 @@
 ---
 title: React 应用开发指南
-order: 6
+order: 5
 ---
 
-# React 应用开发常见性能优化手段
+# React 应用开发指南
 
 ## 前言
 
-- 不要过早去关注性能优化，否则会陷入地域 !!!
-- 性能优化应该遵循的基本法则：将变的部分和不变的部分分离。
+### React 开发总体要求
+
+- 熟悉 React 的 `API`，熟读 [React 官网](https://zh-hans.react.dev/)，一定要多看几遍！！！
+- 不要过早去关注性能优化，否则会陷入地域 ！！！
+- 性能优化应该遵循的基本法则：将`变的部分`和`不变的部分`分离。
+  变化的：
 
   - `state`
   - `props`
   - `context`
+  - `逻辑运算`
 
-- function 组件函数本身是中间转换的必须是纯函数。
-- 所有组件内部状态的转换都应该归于纯函数中，不要把 `useEffect` 当成 `watch` 来用
+- 组件函数的渲染只与 `state` `props` `context`变化有关
+- 每个封装的组件都保持单一职责。
+- 所有组件内部状态的转换都应该归于纯函数中，不要把 `useEffect` 当成 `watch` 来用。
 - 尽可能在 `事件` 中执行 `setState，以确保可预测的` `state` 变化，例如：
   - `onClick` 等事件
   - `Promise`
   - `setTimeout`
   - `setInterval`
-- 依赖项为空数组的 `useEffect` 中，可以放心调用 `setState。`
-- 不要同时使用一堆` 依赖项` 和 多个 `useEffect` !!!
+- 依赖项为空数组的 `useEffect` 中，可以放心调用 `setState`。
+- 不要同时使用一堆` 依赖项` 和 多个 `useEffect` 。
 
 - `props` 和 `context` 都是基于 `state` 演变过来的。父组件的 `state` 传给子组件，就成为了子组件的 `props；` 父组件的 `state` 传到了 `context` 里，就成为一个子孙组件的 `context` 了。
 
 ### 怎么快速判断组件发生重绘
+
+直接在组件内书写`Date.now()`，当`Date.now()`变化及组件发生了渲染
 
 ```ts
 import React from 'react';
@@ -47,6 +55,8 @@ export default () => {
   );
 };
 ```
+
+## React 应用开发常见性能优化手段
 
 ### 1. state 尽可能地下放到子组件 (状态往下移)
 
@@ -100,14 +110,14 @@ export default () => {
 
 ### 2. 组件作为父组件的属性 (内容往上提)
 
-还是上面的用例，我们将 Logger 作为 Count 的属性，传递到 Count 中，最终渲染的页面还是一样的，但是点击按钮同样不会导致 Logger 重绘。（注意时间戳没有变化）
+还是上面的用例，我们将 Logger 作为 Count 的属性`(也可换成children属性)`，传递到 Count 中，最终渲染的页面还是一样的，但是点击按钮同样不会导致 Logger 重绘。（注意时间戳没有变化）
 
 ```ts
 import React from 'react';
 
 const Logger = (props) => {
   console.log(`${props.label} rendered`);
-  return <div>{Math.random()}</div>;
+  return <div>{Date.now()}</div>;
 };
 
 const Count = (props) => {
@@ -136,7 +146,7 @@ import React, { createContext, StrictMode, useContext } from 'react';
 const MyContext = createContext<any>(null);
 
 const Logger = (props) => {
-  return <div>{Math.random()}</div>;
+  return <div>{Date.now()}</div>;
 };
 
 const Count = (props) => {
@@ -196,7 +206,7 @@ import React, { createContext, StrictMode, useContext } from 'react';
 const MyContext = createContext<any>(null);
 
 const Logger = (props) => {
-  return <div>{Math.random()}</div>;
+  return <div>{Date.now()}</div>;
 };
 
 const Count = (props) => {
@@ -340,7 +350,7 @@ function Component(props) {
 
 我们知道，父组件传值给子组件有两种方式，第一种是通过 props，第二种是通过 context。
 
-但是，即便一个子组件不接收任何 props，这并不意味着它的 props 不存在，相反，props 一直存在，这种情况下它是一个{}。
+但是，即便一个子组件不接收任何 props，这并不意味着它的 props 不存在，相反，props 一直存在，这种情况下它是一个`{}`。
 
 React 中是默认使用 `Object.is` (浅比价) 判断 props 是否相等的，所以即便是{}也不会被认为是相等的。这就导致 react 的性能优化没有被命中，从而子组件还是发生了重新渲染。
 
@@ -353,7 +363,7 @@ const updateNumCtx = React.createContext<React.Dispatch<number>>(() => {});
 function Button() {
   const updateNum = useContext(updateNumCtx); // updateNum是一个dispatch，它是不变的。
   console.log('btn render');
-  return <button onClick={() => updateNum(Math.random())}>产生随机数</button>;
+  return <button onClick={() => updateNum(Date.now())}>产生随机数</button>;
 }
 
 function Show() {
@@ -383,7 +393,7 @@ export default function App() {
 }
 ```
 
-如上代码所示，虽然 Middle 不接收任何 props，但是实际上 props 是{}, react 在用全等比较的时候，{}和{}不会认为是相等的，所以 APP 组件发生重新渲染的时候，Middle 组件也会跟着重新渲染，从而使它的 Button 子组件也跟着重新渲染。
+如上代码所示，虽然 Middle 不接收任何 props，但是实际上 props 是`{}`, react 在用全等比较的时候，`{}`和`{}`不会认为是相等的，所以 APP 组件发生重新渲染的时候，Middle 组件也会跟着重新渲染，从而使它的 Button 子组件也跟着重新渲染。
 
 我们可以使用`memo`或者`useMemo`来解决 Middle 组件的重新渲染问题。
 

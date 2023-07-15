@@ -236,4 +236,14 @@ export default {
       ],
     },
   ],
+  '/scene': [
+    {
+      children: [
+        {
+          title: '场景案例',
+          link: '/scene',
+        },
+      ],
+    },
+  ],
 };

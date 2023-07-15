@@ -292,35 +292,35 @@ export type LScrollBarProps = {
   /**
    * 滚动条的模式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.5
+   *@version 2.1.6
    *@memberof LScrollBarProps
    */
   mode?: 'show' | 'hide' | 'hover';
   /**
    *  容器高度 默认100%
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.5
+   *@version 2.1.6
    *@memberof LScrollBarProps
    */
   height?: string | number;
   /**
    * 容器最大高度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.5
+   *@version 2.1.6
    *@memberof LScrollBarProps
    */
   maxHeight?: string | number;
   /**
    *  容器样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.5
+   *@version 2.1.6
    *@memberof LScrollBarProps
    */
   style?: React.CSSProperties;
   /**
    * 容器类名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.5
+   *@version 2.1.6
    *@memberof LScrollBarProps
    */
   className?: string;

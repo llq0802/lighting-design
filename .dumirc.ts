@@ -28,6 +28,7 @@ export default defineConfig({
     nav: [
       { title: '指南', link: '/guide' },
       { title: '组件', link: '/components' },
+      { title: '场景', link: '/scene' },
       { title: 'v1', link: 'https://llq0802.github.io/lighting-design/v1/' },
       {
         title: 'GitHub',
@@ -81,12 +82,12 @@ export default defineConfig({
     }
     .dumi-default-header .dumi-default-header-content{
       max-width: initial;
-      padding:0 100px;
+      padding:0 50px;
     }
 
    #root .dumi-default-doc-layout > main{
       max-width: initial;
-      padding:0 100px;
+      padding:0 50px;
     }
   `,
   ],
