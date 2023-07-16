@@ -25,8 +25,8 @@ const Demo5: FC = () => {
     params: LTableRequestParams,
     requestType: LTableRequestType,
   ) => {
-    console.log('==params==', params);
-    console.log('==requestType==', requestType);
+    // console.log('==params==', params);
+    // console.log('==requestType==', requestType);
     const res: Record<string, any> = await apiGetUserList();
     return {
       success: true,
@@ -36,29 +36,36 @@ const Demo5: FC = () => {
   };
 
   return (
-    <LTable
-      // loading={{
-      //   spinning: true,
-      //   size: 'large',
-      // }}
-      sticky
-      rowKey="key"
-      tableRef={tableRef}
-      queryFormProps={{
-        showColsNumber: 3,
-      }}
-      showToolbar={false}
-      className="my-lightd-row-111"
-      rowClassName="my-lightd-row-999"
-      formItems={formItems}
-      formRef={formRef}
-      columns={columns}
-      defaultRequestParams={{ age: 25 }}
-      onChange={() => {
-        console.log(' onChange');
-      }}
-      request={requestGetUserList}
-    />
+    <>
+      <LTable
+        // loading={{
+        //   spinning: true,
+        //   size: 'large',
+        // }}
+        sticky
+        rowKey="key"
+        tableRef={tableRef}
+        queryFormProps={{
+          showColsNumber: 3,
+        }}
+        tableCardProps={{
+          style: {
+            borderRadius: 0,
+          },
+        }}
+        showToolbar={false}
+        className="my-lightd-row-111"
+        rowClassName="my-lightd-row-999"
+        formItems={formItems}
+        formRef={formRef}
+        columns={columns}
+        defaultRequestParams={{ age: 25 }}
+        onChange={() => {
+          console.log(' onChange');
+        }}
+        request={requestGetUserList}
+      />
+    </>
   );
 };
 

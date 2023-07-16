@@ -10,8 +10,8 @@ module.exports = {
 };
 
 //     提交信息规范 (冒号后面有个空格) 例如(test: 增加单元测试)
-//     feat: 新功能（feature）
-//     fix：修补bug 修改业务
+//     feat: 新功能（featu修改业务re）
+//     fix：修补bug
 //     docs：文档（documentation）
 //     style： 格式（不影响代码运行的变动,空格缩进等）
 //     refactor：重构代码（即不是新增功能，也不是修改bug的代码变动）

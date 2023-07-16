@@ -25,6 +25,7 @@ import type {
 import {
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -349,6 +350,8 @@ const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
 const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const {
     isSort = false,
+    fillSpace = false,
+
     className,
     nowrap,
 
@@ -621,11 +624,20 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     tableData:
       data?.list ?? ((restProps?.dataSource || []) as Record<string, any>[]),
     // 页码信息
-    pagination: {
-      current: paginationAction.current,
-      pageSize: paginationAction.pageSize,
-    },
+    pagination: paginationAction,
   }));
+  const tablecardref = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    if (fillSpace) {
+      const _minHeght =
+        document.documentElement.clientHeight -
+        tablecardref.current!.getBoundingClientRect().top;
+      tablecardref.current!.style.minHeight = `${_minHeght}px`;
+    } else {
+      tablecardref.current!.style.minHeight = `auto`;
+    }
+  }, [fillSpace]);
 
   // 初始化请求
   useEffect(() => {
@@ -672,9 +684,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const tableDom = (
     <Spin {...currentLoading}>
       <Card
+        ref={tablecardref}
         bordered={false}
         {...tableCardProps}
-        style={{ ...tableCardProps?.style }}
+        style={{
+          ...tableCardProps?.style,
+        }}
         className={classnames(`${LIGHTD_CARD}`, tableCardProps?.className)}
       >
         {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}

@@ -64,6 +64,12 @@ nav:
 
 <code src='./demos/Demo7.tsx' background="#f5f5f5"></code>
 
+### 填充视口剩余空间
+
+不要在弹窗，抽屉，下拉等组件中使用
+
+<code src='./demos/Demo12.tsx' background="#f5f5f5"  iframe='1080'></code>
+
 ### 编辑表格
 
 [编辑表格行](https://ant.design/components/table-cn#components-table-demo-edit-row)
@@ -90,11 +96,10 @@ import { LTable } from 'lighting-design';
 
 除了以下参数，其余和 [antd.Table](https://ant.design/components/table-cn/#api) 一样。
 
-<!-- | fillSpace | 表格外层 div 是否占满剩余空间 | `boolean` | `false` | -->
-
 | 参数                 | 说明                                                                                                 | 类型                                                                           | 默认值                                             |
 | -------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------- |
 | isSort               | 表格是否需要排序序号                                                                                 | `boolean`                                                                      | `false`                                            |
+| fillSpace            | 是否占满视口剩余空间的高度 `(不要在弹窗，抽屉，下拉等组件中配置)`                                    | `boolean`                                                                      | `false`                                            |
 | isReady              | 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询                                            | `boolean`                                                                      | `true`                                             |
 | fullScreenBgColor    | 全屏时显示的背景颜色                                                                                 | `string`                                                                       | `#fff`                                             |
 | nowrap               | 表格宽度超过 100%自动处理横向滚动条。                                                                | `boolean`                                                                      | `true`                                             |
