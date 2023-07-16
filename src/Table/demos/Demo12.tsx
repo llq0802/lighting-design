@@ -39,7 +39,12 @@ const Demo12: FC = () => {
         rowKey="key"
         tableRef={tableRef}
         tableCardProps={publicCardProps}
-        formCardProps={publicCardProps}
+        formCardProps={{
+          ...publicCardProps,
+          bodyStyle: {
+            marginBottom: -16,
+          },
+        }}
         showToolbar={false}
         formItems={formItems}
         formRef={formRef}
