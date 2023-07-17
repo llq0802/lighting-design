@@ -1,4 +1,4 @@
-import { Switch, type FormInstance } from 'antd';
+import { ConfigProvider, Switch, type FormInstance } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
@@ -30,32 +30,49 @@ const Demo12: FC = () => {
         <span>是否占满视口剩余空间：</span>
         <Switch checked={fillSpace} onChange={(b) => setFillSpace(b)} />
       </div>
-      <LTable
-        tableRef={tableRef}
-        formRef={formRef}
-        queryFormProps={{ size: 'small', isSpace: true }}
-        size="small"
-        fillSpace={fillSpace}
-        rowKey="key"
-        formCardProps={{
-          ...publicCardProps,
-          bodyStyle: {
-            marginBottom: 0,
+
+      <ConfigProvider
+        theme={{
+          // components: {
+          //   Table: {
+          //     colorFillAlter: '#00b96b',
+          //     colorBorderSecondary: 'red',
+          //   },
+          // },
+          token: {
+            colorFillAlter: '#00b96b',
+            colorBorderSecondary: 'red',
           },
         }}
-        tableCardProps={publicCardProps}
-        showToolbar={false}
-        formItems={formItems}
-        columns={columns}
-        request={async (params) => {
-          console.log('params', params);
-          return {
-            success: true,
-            data,
-            total: data?.length,
-          };
-        }}
-      />
+      >
+        <LTable
+          rowClassName="my-row-fill-className"
+          tableRef={tableRef}
+          formRef={formRef}
+          queryFormProps={{ size: 'small', isSpace: true }}
+          size="small"
+          fillSpace={fillSpace}
+          rowKey="key"
+          formCardProps={{
+            ...publicCardProps,
+            bodyStyle: {
+              marginBottom: 0,
+            },
+          }}
+          tableCardProps={publicCardProps}
+          showToolbar={false}
+          formItems={formItems}
+          columns={columns}
+          request={async (params) => {
+            console.log('params', params);
+            return {
+              success: true,
+              data,
+              total: data?.length,
+            };
+          }}
+        />
+      </ConfigProvider>
     </>
   );
 };

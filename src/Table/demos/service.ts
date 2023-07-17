@@ -6,7 +6,7 @@ export const columns: ColumnsType<any> = [
     dataIndex: 'name',
     key: 'name',
     align: 'center',
-    className: 'my-columns',
+    className: 'my-name-columns',
   },
   {
     title: '年龄',
