@@ -57,15 +57,18 @@ const Tables: React.FC = (props) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-      console.log(
-        `selectedRowKeys:`,
-        selectedRowKeys,
-        'selectedRows: ',
-        selectedRows,
-      );
+      // console.log(
+      //   `selectedRowKeys:`,
+      //   selectedRowKeys,
+      //   'selectedRows: ',
+      //   selectedRows,
+      // );
+      const names = selectedRows.map((row) => row.name).join(' , ');
+      const values = selectedRowKeys?.length ? selectedRowKeys : void 0;
+
       onChange({
-        label: selectedRows.map((row) => row.name).join(' , '),
-        value: selectedRowKeys,
+        label: names,
+        value: values,
       });
     },
     // getCheckboxProps: (record: DataType) => ({
@@ -79,7 +82,7 @@ const Tables: React.FC = (props) => {
       style={{ padding: 8 }}
       size="small"
       rowSelection={{
-        selectedRowKeys: value ?? [],
+        selectedRowKeys: value,
         type: 'checkbox',
         ...rowSelection,
       }}

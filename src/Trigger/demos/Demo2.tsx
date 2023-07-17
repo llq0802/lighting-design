@@ -27,7 +27,7 @@ const Demo2 = () => {
           <ChildTable1 />
         </LTrigger>
       </LFormItem>
-      <LFormItem required name="trigger2" label="多选表格">
+      <LFormItem name="trigger2" label="多选表格">
         <LTrigger style={{ width: '100%' }}>
           <ChildTable2 />
         </LTrigger>

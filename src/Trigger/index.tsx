@@ -175,12 +175,14 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
       popupMatchSelectWidth={dropdownWidth}
       tagRender={tagRender}
       {...selectProps}
-      mode={outMode === 'default' ? undefined : 'multiple'}
+      mode={outMode === 'default' ? void 0 : 'multiple'}
       style={{ width: width, ...style }}
       className={classnames(prefixCls, className)}
       dropdownRender={dropdownRender}
       onChange={setState}
-      value={!selectProps?.labelInValue ? state?.[fieldNames.label] : state}
+      value={
+        !selectProps?.labelInValue ? state?.[fieldNames.label] || void 0 : state
+      }
       open={isOpen}
       onDropdownVisibleChange={(visible) => setIsOpen(visible)}
     />
