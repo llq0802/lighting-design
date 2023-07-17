@@ -68,7 +68,7 @@ nav:
 
 不要在弹窗，抽屉，下拉等组件中使用
 
-<code src='./demos/Demo12.tsx' background="#f5f5f5"  iframe='900'></code>
+<code src='./demos/Demo12.tsx' background="#f5f5f5"  ></code>
 
 ### 编辑表格
 
