@@ -43,8 +43,8 @@ Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以 **显�
 
 ## React Native 插件
 
-- RN 开发常用库 [精选插件](https://github.com/stars/llq0802/lists/react-native-%E6%8F%92%E4%BB%B6%E9%9B%86)
+- 开发常用库 [精选插件](https://github.com/stars/llq0802/lists/react-native-%E6%8F%92%E4%BB%B6%E9%9B%86)
 
 ## Vue 插件
 
-- Vue 开发常用库 [精选插件](https://github.com/stars/llq0802/lists/vue%E6%8F%92%E4%BB%B6%E9%9B%86)
+- 开发常用库 [精选插件](https://github.com/stars/llq0802/lists/vue%E6%8F%92%E4%BB%B6%E9%9B%86)
