@@ -68,7 +68,7 @@ nav:
 
 不要在弹窗，抽屉，下拉等组件中使用
 
-<code src='./demos/Demo12.tsx' background="#f5f5f5"  iframe='1080'></code>
+<code src='./demos/Demo12.tsx' background="#f5f5f5"  iframe='900'></code>
 
 ### 编辑表格
 
@@ -90,6 +90,10 @@ nav:
 import { LTable } from 'lighting-design';
 ```
 
+> - 尽量使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等
+>
+> - 如果请求太快导致 `loading` 闪一下，建议配置`requestOptions={{ loadingDelay:300  }}`有效防止闪烁。 `200 ~ 300`即可。
+>
 > - 手动设置查询表单不改变查询表单的 formInitialValues，而是通过 formRef 设置表单值，再进行查询，这样不影响查询表单的重置操作。比如通过 URL 带一些默认查询参数。
 >
 > - 当表格全屏时无法显示 Modal 等组件? 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal 等组件 的 getPopupContainer 设置为了 table 的区域
@@ -198,12 +202,21 @@ export type MutableRefObject<LTableInstance|undefined > = {
   rootRef: RefObject<HTMLDivElement>;
   // 表格数据
   tableData: Record<string, any>[];
-  // 页码信息
+  // 页码信息及方法
   pagination: {
     current: number;
     pageSize: number;
+    total: number;
+    totalPage: number;
+    onChange: (current: number, pageSize: number) => void;
+    changeCurrent: (current: number) => void;
+    changePageSize: (pageSize: number) => void;
   };
 };
+
+
+
+
 ```
 
 ### LToolbarActionProps

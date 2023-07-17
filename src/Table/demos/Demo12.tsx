@@ -6,11 +6,11 @@ import { useRef, useState } from 'react';
 import { columns, originData } from './service';
 
 const formItems = [
-  <LFormItemInput key="0" name="input4" label="输入框1" />,
-  <LFormItemInput key="1" name="input5" label="输入框2" />,
-  <LFormItemInput key="2" name="input6" label="输入框3" />,
-  <LFormItemInput key="3" name="input7" label="输入框4" />,
-  <LFormItemInput key="4" name="input8" label="输入框5" />,
+  <LFormItemInput key="0" name="input4" />,
+  <LFormItemInput key="1" name="input5" />,
+  <LFormItemInput key="2" name="input6" />,
+  <LFormItemInput key="3" name="input7" />,
+  <LFormItemInput key="4" name="input8" />,
 ];
 const publicCardProps = {
   style: {
@@ -31,23 +31,21 @@ const Demo12: FC = () => {
         <Switch checked={fillSpace} onChange={(b) => setFillSpace(b)} />
       </div>
       <LTable
-        queryFormProps={{
-          size: 'small',
-        }}
+        tableRef={tableRef}
+        formRef={formRef}
+        queryFormProps={{ size: 'small', isSpace: true }}
         size="small"
         fillSpace={fillSpace}
         rowKey="key"
-        tableRef={tableRef}
-        tableCardProps={publicCardProps}
         formCardProps={{
           ...publicCardProps,
           bodyStyle: {
-            marginBottom: -16,
+            marginBottom: 0,
           },
         }}
+        tableCardProps={publicCardProps}
         showToolbar={false}
         formItems={formItems}
-        formRef={formRef}
         columns={columns}
         request={async (params) => {
           console.log('params', params);

@@ -28,8 +28,8 @@ export default defineConfig({
     nav: [
       { title: '指南', link: '/guide' },
       { title: '组件', link: '/components' },
-      { title: '场景', link: '/scene' },
-      { title: 'v1', link: 'https://llq0802.github.io/lighting-design/v1/' },
+      { title: '更多场景', link: '/scene' },
+      { title: 'V1.x', link: 'https://llq0802.github.io/lighting-design/v1/' },
       {
         title: 'GitHub',
         link: 'https://github.com/llq0802/lighting-design/tree/v2',
