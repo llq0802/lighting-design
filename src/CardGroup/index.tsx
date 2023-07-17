@@ -1,4 +1,4 @@
-import { useControllableValue } from 'ahooks';
+import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { CardProps } from 'antd';
 import { Card, theme } from 'antd';
 import classNames from 'classnames';
@@ -139,13 +139,13 @@ export default function LCardGroup(props: LCardGroupProps) {
     });
   }
 
-  const triggerChange = (value: any) => {
+  const triggerChange = useMemoizedFn((value: any) => {
     if (onChange) {
       onChange(value);
     }
-  };
+  });
 
-  const handleSelect = (itemCard: any) => {
+  const handleSelect = useMemoizedFn((itemCard: any) => {
     // 禁用和只读不处理
     if (itemCard.disabled || disabled) {
       return;
@@ -168,7 +168,7 @@ export default function LCardGroup(props: LCardGroupProps) {
         triggerChange(itemCard.value);
       }
     }
-  };
+  });
 
   return (
     <div

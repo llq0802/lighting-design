@@ -627,10 +627,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     pagination: paginationAction,
   }));
   const tablecardref = useRef<HTMLDivElement>(null);
-  const pRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    console.log('pRef', pRef.current);
     if (fillSpace) {
       const _minHeght =
         document.documentElement.clientHeight -
@@ -718,7 +716,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
                   current: paginationAction?.current,
                   pageSize: paginationAction?.pageSize,
                   total: paginationAction?.total,
-                  ref: pRef,
                   ...outPagination,
                 }
               : false

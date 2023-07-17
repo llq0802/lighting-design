@@ -27,7 +27,10 @@ export interface LFormSubmitterProps {
   /** 同Form的wrapperCol */
   wrapperCol?: FormProps['wrapperCol'];
   /** 重新渲染函数 */
-  render?: (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode | false;
+  render?: (
+    dom: ReactElement[],
+    props: LFormSubmitterProps,
+  ) => ReactNode[] | ReactNode | false;
   /** 按钮位置 */
   buttonAlign?: 'left' | 'right' | 'center' | number;
 }
@@ -45,8 +48,10 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     form,
     render,
   } = props;
-  const { preventDefault: submitPreventDefault, ...submitButtonProps } = outSubmitButtonProps;
-  const { preventDefault: resetPreventDefault, ...resetButtonProps } = outResetButtonProps;
+  const { preventDefault: submitPreventDefault, ...submitButtonProps } =
+    outSubmitButtonProps;
+  const { preventDefault: resetPreventDefault, ...resetButtonProps } =
+    outResetButtonProps;
 
   const handleReset = useMemoizedFn((e: MouseEvent<HTMLElement>) => {
     form?.setFieldsValue({ ...initFormValues });
@@ -62,16 +67,22 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     onSubmit?.(e);
   });
 
+  const resetClick = useMemoizedFn((e) => {
+    if (!resetPreventDefault) handleReset(e);
+    resetButtonProps?.onClick?.(e);
+  });
+  const submitClick = useMemoizedFn((e) => {
+    if (!submitPreventDefault) handleSubmit(e);
+    submitButtonProps?.onClick?.(e);
+  });
+
   const dom = useMemo(() => {
     const ret = [
       // 默认设置为重置
       <Button
         key="reset-lightd-form"
         {...resetButtonProps}
-        onClick={(e) => {
-          if (!resetPreventDefault) handleReset(e);
-          resetButtonProps?.onClick?.(e);
-        }}
+        onClick={resetClick}
       >
         {resetText}
       </Button>,
@@ -80,10 +91,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
         key="submit-lightd-form"
         type="primary"
         {...submitButtonProps}
-        onClick={(e) => {
-          if (!submitPreventDefault) handleSubmit(e);
-          submitButtonProps?.onClick?.(e);
-        }}
+        onClick={submitClick}
       >
         {submitText}
       </Button>,

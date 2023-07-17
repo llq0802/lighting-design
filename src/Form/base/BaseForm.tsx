@@ -246,6 +246,23 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     }
   });
 
+  const onKeyUp = useMemoizedFn((event) => {
+    const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
+    if (
+      isEnterSubmit &&
+      buttonHtmlType !== 'submit' &&
+      event.key === 'Enter' &&
+      isReady
+    ) {
+      formRef.current?.submit();
+    }
+  });
+
+  const innerOnValuesChange = useMemoizedFn((changedValues, allValues) => {
+    const [currentName, currentValue] = Object.entries(changedValues)?.[0];
+    onValuesChange?.(currentName, currentValue, allValues);
+  });
+
   const formDom = (
     <LFormContext.Provider
       value={{
@@ -263,22 +280,8 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         initialValues={initialValues}
         className={classnames(prefixCls, className)}
         onFinish={handleOnFinish}
-        onKeyUp={(event) => {
-          const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
-          if (
-            isEnterSubmit &&
-            buttonHtmlType !== 'submit' &&
-            event.key === 'Enter' &&
-            isReady
-          ) {
-            formRef.current?.submit();
-          }
-        }}
-        onValuesChange={(changedValues, allValues) => {
-          const [currentName, currentValue] =
-            Object.entries(changedValues)?.[0];
-          onValuesChange?.(currentName, currentValue, allValues);
-        }}
+        onKeyUp={onKeyUp}
+        onValuesChange={innerOnValuesChange}
         {...restProps}
       >
         <Form.Item noStyle shouldUpdate>

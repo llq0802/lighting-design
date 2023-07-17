@@ -1,4 +1,4 @@
-import { useControllableValue } from 'ahooks';
+import { useControllableValue, useMemoizedFn } from 'ahooks';
 import { Tag } from 'antd';
 import classnames from 'classnames';
 import type { ValueType } from 'lighting-design/CardGroup';
@@ -130,14 +130,14 @@ export default function LTagGroup(props: LTagGroupProps) {
     ? value?.length === options.length
     : (value as unknown as string) === allValue;
 
-  const triggerChange = (newValue: any) => {
+  const triggerChange = useMemoizedFn((newValue: any) => {
     if (onChange) {
       onChange(newValue);
     }
-  };
+  });
 
   /** 全选 */
-  const handleAllSelect = (bool: boolean) => {
+  const handleAllSelect = useMemoizedFn((bool: boolean) => {
     if (disabled) return;
     let newValue: any;
     if (isMultiple) {
@@ -154,14 +154,14 @@ export default function LTagGroup(props: LTagGroupProps) {
       }
     }
     triggerChange(newValue);
-  };
+  });
 
   /**
    * 切换选中
    * @param checked 是否选中
    * @param option 当前选项
    */
-  const handleTagSelect = (checked: boolean, curItem: any) => {
+  const handleTagSelect = useMemoizedFn((checked: boolean, curItem: any) => {
     if (disabled || curItem.disabled) {
       return;
     }
@@ -188,7 +188,7 @@ export default function LTagGroup(props: LTagGroupProps) {
         }
       }
     }
-  };
+  });
 
   return (
     <span className={classnames(prefixCls, className)}>

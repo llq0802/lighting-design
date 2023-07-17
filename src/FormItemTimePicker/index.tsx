@@ -195,18 +195,24 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
 
-  const currentDisabledTime = (now: Dayjs, type: 'start' | 'end') => {
-    return {
-      disabledHours: () =>
-        customDisabledHours(now.hour(), disabledHourBefore, disabledHourAfter),
-      disabledMinutes: (selectedHour: number) =>
-        disabledMinutes(selectedHour, type),
-      disabledSeconds: (selectedHour: number, selectedMinute: number) =>
-        disabledSeconds(selectedHour, selectedMinute, type),
+  const currentDisabledTime = useMemoizedFn(
+    (now: Dayjs, type: 'start' | 'end') => {
+      return {
+        disabledHours: () =>
+          customDisabledHours(
+            now.hour(),
+            disabledHourBefore,
+            disabledHourAfter,
+          ),
+        disabledMinutes: (selectedHour: number) =>
+          disabledMinutes(selectedHour, type),
+        disabledSeconds: (selectedHour: number, selectedMinute: number) =>
+          disabledSeconds(selectedHour, selectedMinute, type),
 
-      ...timePickerProps?.disabledTime?.(now, type),
-    };
-  };
+        ...timePickerProps?.disabledTime?.(now, type),
+      };
+    },
+  );
 
   const showNow = useMemo(
     () =>
