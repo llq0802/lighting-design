@@ -595,7 +595,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const handleTableChange = useMemoizedFn(
     (pagination, filters, sorter, extra) => {
       onChange?.(pagination, filters, sorter, extra);
-      if (hasFromItems && autoPagination) {
+      if (hasFromItems) {
         const formValues = queryFormRef.current?.getFieldsValue();
         run(
           {
@@ -606,7 +606,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
           'onReload',
         );
       } else {
-        console.log('paginationAction', paginationAction);
         // paginationAction.changeCurrent(pagination?.current || 1);
         paginationAction.onChange(
           pagination?.current || 1,

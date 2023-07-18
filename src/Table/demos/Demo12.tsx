@@ -6,7 +6,6 @@ import { useRef, useState } from 'react';
 import { columns, originData } from './service';
 
 const formItems = [
-  <LFormItemInput key="0" name="input4" />,
   <LFormItemInput key="1" name="input5" />,
   <LFormItemInput key="2" name="input6" />,
   <LFormItemInput key="3" name="input7" />,
