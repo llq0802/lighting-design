@@ -92,7 +92,7 @@ import { LTable } from 'lighting-design';
 
 > - 尽量使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等
 >
-> - `request`的第二个参数表示当前请求的类型， `autoRequest` 为 `true` 时的组件初始化的请求为 `'onInit'` ， 表单查询按钮请求与内置工具栏的刷新为 `'onSearch'` 表格分页查询为 `'onReload'` ，表单重置按钮为 `'onReset'` ，如果没有配置 `formItems` 则为 `undefined`
+> - `request`的第二个参数表示当前请求的类型， `autoRequest` 为 `true` 时的组件初始化的请求为 `'onInit'` ， 表单查询按钮请求为 `'onSearch'` 表格分页查询与内置工具栏的刷新为 `'onReload'` ，表单重置按钮为 `'onReset'` ，如果没有配置 `formItems` 则为 `undefined`
 >
 > - 如果请求太快导致 `loading` 闪一下，建议配置`requestOptions={{ loadingDelay:300  }}`有效防止闪烁。 `200 ~ 300`即可。
 >
