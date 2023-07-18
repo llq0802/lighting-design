@@ -43,21 +43,21 @@ export interface LQueryFormProps extends BaseFormProps {
   /**
    *是否折叠
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.6
+   *@version 2.1.8
    *@memberof LQueryFormProps
    */
   isCollapsed?: boolean;
   /**
    * 显示多少项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.6
+   *@version 2.1.8
    *@memberof LQueryFormProps
    * */
   showColsNumber?: number;
   /**
    *  配置响应式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.6
+   *@version 2.1.8
    *@memberof LQueryFormProps
    *@see https://ant.design/components/grid-cn#col
    */
@@ -65,7 +65,7 @@ export interface LQueryFormProps extends BaseFormProps {
   /**
    * 是否水平紧凑显示
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.6
+   *@version 2.1.8
    *@memberof LQueryFormProps
    */
   isSpace?: boolean;
