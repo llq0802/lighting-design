@@ -114,13 +114,6 @@ export type LTableProps = {
   fullScreenBgColor?: string;
 
   /**
-   * 表格宽度超过 100% 是否自动处理横向滚动条。
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.6
-   * @memberof LTableProps
-   */
-  nowrap?: boolean;
-  /**
    * 异步请求函数第一次额外参数(仅在第一次请求时会携带)
    * @author 李岚清 <https://github.com/llq0802>
    * @version 2.1.6
@@ -187,7 +180,7 @@ export type LTableProps = {
    * @version 2.1.6
    * @memberof LTableProps
    */
-  fillSpace?: boolean;
+  fillSpace?: boolean | number;
   /**
    * 表格最外层div类名
    * @author 李岚清 <https://github.com/llq0802>
@@ -354,7 +347,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     fillSpace = false,
 
     className,
-    nowrap,
 
     formRef,
     tableRef,
@@ -635,11 +627,21 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const tablecardref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (fillSpace) {
+    if (fillSpace === 0 || fillSpace === true) {
       const _minHeght =
         document.documentElement.clientHeight -
         tablecardref.current!.getBoundingClientRect().top;
+
       tablecardref.current!.style.minHeight = `${_minHeght}px`;
+    } else if (
+      typeof fillSpace === 'number' &&
+      Math.sign(fillSpace as number) === 1
+    ) {
+      const _minHeght =
+        document.documentElement.clientHeight -
+        tablecardref.current!.getBoundingClientRect().top;
+
+      tablecardref.current!.style.minHeight = `${_minHeght - fillSpace}px`;
     } else {
       tablecardref.current!.style.minHeight = `auto`;
     }
@@ -727,7 +729,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
               : false
           }
           {...restProps}
-          scroll={{ ...(nowrap ? { x: true } : {}), ...restProps?.scroll }}
         />
       </Card>
     </Spin>

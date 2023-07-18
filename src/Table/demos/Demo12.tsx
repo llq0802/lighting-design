@@ -1,6 +1,7 @@
-import { ConfigProvider, Switch, type FormInstance } from 'antd';
+import { Button, ConfigProvider, Switch, type FormInstance } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
+import { getRandomNumber } from 'lighting-design/_test';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
 import { columns, originData } from './service';
@@ -16,18 +17,28 @@ const publicCardProps = {
     borderRadius: 0,
   },
 };
-const data = originData.slice(0);
+const data = originData.slice(6);
 
 const Demo12: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
-  const [fillSpace, setFillSpace] = useState(false);
+  const [fillSpace, setFillSpace] = useState<boolean | number>(false);
 
   return (
     <>
       <div>
-        <span>是否占满视口剩余空间：</span>
-        <Switch checked={fillSpace} onChange={(b) => setFillSpace(b)} />
+        <span>是否完全占满视口剩余空间：</span>
+        <Switch
+          checked={fillSpace as boolean}
+          onChange={(b) => setFillSpace(b)}
+        />
+
+        <Button
+          style={{ marginLeft: 10 }}
+          onClick={() => setFillSpace(getRandomNumber(10, 100))}
+        >
+          点击随机距离视口底部
+        </Button>
       </div>
 
       <ConfigProvider
@@ -40,7 +51,6 @@ const Demo12: FC = () => {
           // },
           token: {
             colorFillAlter: '#00b96b',
-            colorBorderSecondary: 'red',
           },
         }}
       >
