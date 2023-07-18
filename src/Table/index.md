@@ -92,6 +92,8 @@ import { LTable } from 'lighting-design';
 
 > - 尽量使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等
 >
+> - `request`的第二个参数表示当前请求的类型， `autoRequest` 为 `true` 时的组件初始化的请求为 `'onInit'` ， 表单查询按钮请求与内置工具栏的刷新为 `'onSearch'` 表格分页查询为 `'onReload'` ，表单重置按钮为 `'onReset'` ，如果没有配置 `formItems` 则为 `undefined`
+>
 > - 如果请求太快导致 `loading` 闪一下，建议配置`requestOptions={{ loadingDelay:300  }}`有效防止闪烁。 `200 ~ 300`即可。
 >
 > - 手动设置查询表单不改变查询表单的 formInitialValues，而是通过 formRef 设置表单值，再进行查询，这样不影响查询表单的重置操作。比如通过 URL 带一些默认查询参数。
@@ -107,7 +109,7 @@ import { LTable } from 'lighting-design';
 | isReady              | 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询                                            | `boolean`                                                                      | `true`                                             |
 | fullScreenBgColor    | 全屏时显示的背景颜色                                                                                 | `string`                                                                       | `#fff`                                             |
 | nowrap               | 表格宽度超过 100%自动处理横向滚动条。                                                                | `boolean`                                                                      | `true`                                             |
-| autoRequest          | 是否自动请求                                                                                         | `boolean`                                                                      | `true`                                             |
+| autoRequest          | 是否在第一次渲染时自动请求                                                                           | `boolean`                                                                      | `true`                                             |
 | defaultRequestParams | request 额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) 会被注入到 request 的第一个参数对象中 | `Record<string, any>`                                                          | `-`                                                |
 | request              | 异步请求函数，用于获取表格数据                                                                       | [LTableRequest](/components/table#ltablerequest)                               | `-`                                                |
 | requestOptions       | `ahooks 的 useRequest 的 options 配置` 可用于配置其他请求功能                                        | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options)      | `-`                                                |
@@ -185,7 +187,12 @@ export type LTableRenderProps = (
 // 表格查询按钮请求为 'onSearch'
 // 表格分页查询为 'onReload'
 // 表格重置按钮为 'onReset'
-export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset';
+export type LTableRequestType =
+  | 'onInit'
+  | 'onSearch'
+  | 'onReload'
+  | 'onReset'
+  | undefined;
 ```
 
 ### LTableInstance

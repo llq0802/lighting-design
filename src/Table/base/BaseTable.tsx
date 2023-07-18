@@ -158,12 +158,13 @@ export type LTableProps = {
    */
   request?: LTableRequest;
   /**
-   * 是否自动请求 (支持动态改变)
+   * 是否在第一次渲染时自动请求 (支持动态改变)
    * @author 李岚清 <https://github.com/llq0802>
    * @version 2.1.6
    * @memberof LTableProps
    */
   autoRequest?: boolean;
+
   /**
    * 查询表单的实例
    * @author 李岚清 <https://github.com/llq0802>
@@ -522,7 +523,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       // const formValues = queryFormRef.current?.getFieldsValue();
       const formValues = _lformRef.current;
       queryFormRef.current?.setFieldsValue({ ...formValues });
-      return run(
+      run(
         {
           current: 1,
           pageSize: outPaginationPageSize,
@@ -539,7 +540,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const handleSearch = useMemoizedFn((type = 'onSearch') => {
     if (hasFromItems) {
       const formValues = queryFormRef.current?.getFieldsValue();
-      return run(
+      run(
         {
           current: 1,
           pageSize: outPaginationPageSize,
@@ -556,7 +557,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const handleReload = useMemoizedFn(() => {
     if (hasFromItems) {
       const formValues = queryFormRef.current?.getFieldsValue();
-      return run(
+      run(
         {
           current: paginationAction?.current,
           pageSize: paginationAction?.pageSize,
@@ -573,7 +574,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const handleSearchFormFinish = useMemoizedFn(
     (formValues: Record<string, any>) => {
       const defaultPar = isInit.current ? { ...defaultRequestParams } : {};
-      return run(
+      run(
         {
           current: 1,
           pageSize: outPaginationPageSize,
@@ -593,17 +594,23 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 表格分页页码丶排序等改变时触发
   const handleTableChange = useMemoizedFn(
     (pagination, filters, sorter, extra) => {
-      paginationAction.changeCurrent(pagination?.current || 1);
       onChange?.(pagination, filters, sorter, extra);
-      if (hasFromItems) {
+      if (hasFromItems && autoPagination) {
         const formValues = queryFormRef.current?.getFieldsValue();
-        return run(
+        run(
           {
             current: pagination.current || 1,
             pageSize: pagination.pageSize,
             formValues: formValues,
           },
           'onReload',
+        );
+      } else {
+        console.log('paginationAction', paginationAction);
+        // paginationAction.changeCurrent(pagination?.current || 1);
+        paginationAction.onChange(
+          pagination?.current || 1,
+          pagination.pageSize,
         );
       }
     },

@@ -17,7 +17,7 @@ const publicCardProps = {
     borderRadius: 0,
   },
 };
-const data = originData.slice(6);
+const data = originData.slice(0);
 
 const Demo12: FC = () => {
   const formRef = useRef<FormInstance>();
@@ -63,8 +63,8 @@ const Demo12: FC = () => {
           showToolbar={false}
           formItems={formItems}
           columns={columns}
-          request={async (params) => {
-            console.log('params', params);
+          request={async (params, type) => {
+            console.log('是否占满视口剩余空间-request-params', params, type);
             return {
               success: true,
               data,
