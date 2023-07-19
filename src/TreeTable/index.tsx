@@ -1,4 +1,9 @@
-import { useControllableValue, useCreation, useMemoizedFn } from 'ahooks';
+import {
+  useControllableValue,
+  useCreation,
+  useMemoizedFn,
+  useRafState,
+} from 'ahooks';
 import type { TableProps } from 'antd';
 import { Checkbox, Table } from 'antd';
 import classnames from 'classnames';
@@ -159,6 +164,10 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     ...props,
   });
 
+  const [indeterminateList, setIndeterminateList] = useRafState<ValueType[]>(
+    [],
+  );
+
   const fieldNames = useCreation(
     () => ({
       label: 'label',
@@ -197,8 +206,13 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
   );
 
   const processParentChecked = useMemoizedFn(
-    (currentValue?: ValueType, checks?: ValueType[]) => {
+    (
+      currentValue?: ValueType,
+      checks?: ValueType[],
+      indetermanites?: ValueType[],
+    ) => {
       const newChecks = new Set(checks || []);
+      const newIndetermanites = new Set(indetermanites || []);
 
       // 递归处理父级勾选
       function recursion(parentVal: ValueType) {
@@ -208,6 +222,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
 
         if (currParentItem) {
           let childAllChecked = true; // 是否选中了其所有子项
+
           // const childs = currParentItem[childrenKey].filter(
           //   (item) => !item.disbaled,
           // );
@@ -216,6 +231,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
           //     childAllChecked = false;
           //   }
           // });
+
           currParentItem[childrenKey]?.forEach((item: Record<string, any>) => {
             if (!item.disabled && !newChecks.has(item[valueKey])) {
               // 当前没有禁用的子项如果没有勾选 就设为false
@@ -226,6 +242,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
           //  如果子项自选全部勾选 则它的父级也勾选
           if (childAllChecked && !currParentItem.disabled) {
             newChecks.add(parentVal);
+            newIndetermanites.delete(parentVal);
           } else {
             newChecks.delete(parentVal);
           }
@@ -243,12 +260,16 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
         recursion(curItem.parent);
       }
 
-      return [...newChecks];
+      return {
+        newChecks: [...newChecks],
+      };
     },
   );
 
   const handleChange = useMemoizedFn((subItem: LTreeTableDataItem) => {
     const newCheckList = new Set(checkList || []);
+    const newIndetermaniteList = new Set(indeterminateList || []);
+
     const currentValue = subItem[valueKey];
     const currentChecked = newCheckList.has(currentValue);
     // 处理当前层级已选中变为不勾选，不勾选改为勾选
@@ -256,6 +277,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
       newCheckList.delete(currentValue);
     } else {
       newCheckList.add(currentValue);
+      newIndetermaniteList.delete(currentValue);
     }
 
     if (checkStrictly) {
@@ -281,12 +303,14 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
         // 禁用的不勾选
       } else if (!item.disabled) {
         newCheckList.add(key);
+        newIndetermaniteList.delete(key);
       }
     });
     // 处理父级勾选
-    const newChecks = processParentChecked(
+    const { newChecks } = processParentChecked(
       currentValue,
       Array.from(newCheckList),
+      Array.from(newIndetermaniteList),
     );
     setCheckList(newChecks);
   });
@@ -324,6 +348,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
                   checkboxClassName,
                 )}
                 checked={checkList?.includes(subItem[valueKey])}
+                indeterminate={indeterminateList?.includes(subItem[valueKey])} // 只控制样式不会改变选中的值
                 onChange={() => handleChange(subItem)}
                 disabled={outDisabled || subItem.disabled}
                 key={subItem[valueKey]}
