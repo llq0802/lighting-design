@@ -2,6 +2,7 @@ import {
   useControllableValue,
   useCreation,
   useMemoizedFn,
+  useMount,
   useRafState,
 } from 'ahooks';
 import type { TableProps } from 'antd';
@@ -184,13 +185,6 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     children: childrenKey,
   } = fieldNames as Required<LTreeTableFieldNames>;
 
-  // useMount(() => {
-  //   if (checkList?.length) {
-  //     console.log('useMount-checkList', checkList);
-  //     // handleChange();
-  //   }
-  // });
-
   const { list: realDataSource, columns: innerColumns } = useCreation(
     () => transformTreeToList(treeData, lastColumnMerged, fieldNames),
     [lastColumnMerged, treeData, fieldNames],
@@ -205,6 +199,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     [treeData, fieldNames, showCheckbox],
   );
 
+  // 处理当前值的父级选中与半选中
   const processParentChecked = useMemoizedFn(
     (
       currentValue?: ValueType,
@@ -221,7 +216,9 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
         );
 
         if (currParentItem) {
-          let childAllChecked = true; // 是否选中了其所有子项
+          let childAllChecked = true; // 是否在值列表中选中了其所有子项  默认全部都选中
+          let childHasOneChecked = false; // 是否在值列表中有一项子项被选中  默认都没有被选中
+          let childHasIndetermanite = false; // 是否在半选列表中有一项被选中   默认都没有被选中
 
           // const childs = currParentItem[childrenKey].filter(
           //   (item) => !item.disbaled,
@@ -233,18 +230,36 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
           // });
 
           currParentItem[childrenKey]?.forEach((item: Record<string, any>) => {
-            if (!item.disabled && !newChecks.has(item[valueKey])) {
-              // 当前没有禁用的子项如果没有勾选 就设为false
-              childAllChecked = false;
+            if (!item.disabled) {
+              if (newChecks.has(item[valueKey])) {
+                // 有一项子项被选中 就为true
+                childHasOneChecked = true;
+              } else {
+                // 当前没有禁用的子项有一项如果没有勾选 就设为false
+                childAllChecked = false;
+
+                if (newIndetermanites.has(item[valueKey])) {
+                  // 当前半选择的项,则它的父级也应该半选中
+                  childHasIndetermanite = true;
+                }
+              }
             }
           });
 
-          //  如果子项自选全部勾选 则它的父级也勾选
-          if (childAllChecked && !currParentItem.disabled) {
-            newChecks.add(parentVal);
-            newIndetermanites.delete(parentVal);
-          } else {
-            newChecks.delete(parentVal);
+          if (!currParentItem.disabled) {
+            //  如果子项自选全部勾选 则它的父级也勾选
+            if (childAllChecked) {
+              newChecks.add(parentVal);
+              newIndetermanites.delete(parentVal);
+            } else {
+              newChecks.delete(parentVal);
+              // 如果有一项选中,或者当前半选列表中已经被选中的项则它的父级也应该半选中
+              if (childHasOneChecked || childHasIndetermanite) {
+                newIndetermanites.add(parentVal);
+              } else {
+                newIndetermanites.delete(parentVal);
+              }
+            }
           }
 
           if (currParentItem.parent) {
@@ -262,6 +277,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
 
       return {
         newChecks: [...newChecks],
+        newIndetermanites: [...newIndetermanites],
       };
     },
   );
@@ -282,6 +298,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
 
     if (checkStrictly) {
       setCheckList([...newCheckList]);
+      setIndeterminateList([]);
       return;
     }
 
@@ -300,6 +317,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
         if (newCheckList.has(key)) {
           newCheckList.delete(key);
         }
+
         // 禁用的不勾选
       } else if (!item.disabled) {
         newCheckList.add(key);
@@ -307,12 +325,29 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
       }
     });
     // 处理父级勾选
-    const { newChecks } = processParentChecked(
+    const { newChecks, newIndetermanites } = processParentChecked(
       currentValue,
       Array.from(newCheckList),
       Array.from(newIndetermaniteList),
     );
     setCheckList(newChecks);
+    setIndeterminateList(newIndetermanites);
+  });
+
+  useMount(() => {
+    // 初始化组件时只处理选中值的半选状态
+    if (checkList?.length && !checkStrictly) {
+      let newIndetermaniteList = indeterminateList;
+      checkList.forEach((itemValue) => {
+        const { newIndetermanites } = processParentChecked(
+          itemValue,
+          checkList,
+          newIndetermaniteList,
+        );
+        newIndetermaniteList = newIndetermanites;
+      });
+      setIndeterminateList(newIndetermaniteList);
+    }
   });
 
   const realColumns = useCreation(() => {
