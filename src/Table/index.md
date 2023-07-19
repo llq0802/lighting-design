@@ -70,6 +70,10 @@ nav:
 
 <code src='./demos/Demo12.tsx' background="#f5f5f5"  ></code>
 
+### 样式修改
+
+<code src='./demos/Demo13.tsx' background="#f5f5f5"  ></code>
+
 ### 编辑表格
 
 [编辑表格行](https://ant.design/components/table-cn#components-table-demo-edit-row)

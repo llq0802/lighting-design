@@ -340,7 +340,7 @@ export function getNodeChilren(
   list: LTreeTableData,
   childrenKey: string,
   ret: string[] = [],
-) {
+): LTreeTableData {
   if (!list?.length) {
     return [];
   }
@@ -352,5 +352,5 @@ export function getNodeChilren(
       getNodeChilren(item[childrenKey], childrenKey, ret);
     }
   });
-  return ret;
+  return ret as unknown as LTreeTableData;
 }

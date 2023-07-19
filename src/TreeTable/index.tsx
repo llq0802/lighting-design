@@ -272,13 +272,15 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     const curNodeChilrenValues = getNodeChilren(curNodeChilren, childrenKey);
     // 处理所有子级勾选
     curNodeChilrenValues?.forEach((item) => {
+      const key = item[valueKey];
       if (currentChecked) {
-        if (newCheckList.has(item[valueKey])) {
-          newCheckList.delete(item[valueKey]);
+        // 子项之前被选中 则删除
+        if (newCheckList.has(key)) {
+          newCheckList.delete(key);
         }
         // 禁用的不勾选
       } else if (!item.disabled) {
-        newCheckList.add(item[valueKey]);
+        newCheckList.add(key);
       }
     });
     // 处理父级勾选
