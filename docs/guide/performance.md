@@ -334,17 +334,26 @@ function Component(props) {
 
 常见做法：
 
-- 使用 React.lazy，在组件加载时才加载组件；
+- 使用 React.lazy 配合 Suspense，在组件加载时才加载组件；
 
   ```ts
-  const Component = React.lazy(() => import('./Component'));
+  import Loading from './my-loading-component';
+  const ComponentA = React.lazy(() => import('./Component'));
+
+  const App = () => {
+    return (
+      <Suspense fallback={<Loading />}>
+        <ComponentA />
+      </Suspense>
+    );
+  };
   ```
 
-  **推荐使用[react-loadable](https://github.com/jamiebuilds/react-loadable)**
+  **推荐使用 [react-loadable](https://github.com/jamiebuilds/react-loadable)**
 
 - 基于路由进行代码分割
 - 组件按需加载， 配合插件 `babel-plugin-import` 使用
-- 尽量使用 ES 模块的公共库
+- 尽量使用 ES6 模块的公共库
 
 ### 7. 正确认识 props
 

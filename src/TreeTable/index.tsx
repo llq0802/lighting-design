@@ -262,6 +262,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
             }
           }
 
+          // 如果还有父级则继续递归
           if (currParentItem.parent) {
             recursion(currParentItem.parent);
           }
