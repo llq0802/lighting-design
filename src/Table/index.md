@@ -212,6 +212,8 @@ export type MutableRefObject<LTableInstance|undefined > = {
   rootRef: RefObject<HTMLDivElement>;
   // 表格数据
   tableData: Record<string, any>[];
+  // 直接修改当前表格的数据 用法与 React.setState 一致，支持 setTableData(newData) 和 setTableData((oldData) => newData) 两种写法。
+  setTableData: Dispatch<SetStateAction<Record<string,any>[]>;
   // 页码信息及方法
   pagination: {
     current: number;

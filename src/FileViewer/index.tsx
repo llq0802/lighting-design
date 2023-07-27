@@ -66,15 +66,21 @@ export type LImagePreviewProps = {
 
 const noneStyle = { display: 'none' };
 
-function LFileViewer({
-  url,
-  fileName,
-  fileType,
-  className,
-  imagePreview,
-  ...restProps
-}: LFileViewerProps) {
-  const [open, setOpen] = useControllableValue<boolean>(restProps, {
+function LFileViewer(props: LFileViewerProps) {
+  const {
+    url,
+    fileName,
+    fileType,
+    className,
+    imagePreview,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    open: outOpen,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onOpenChange: outOnOpenChange,
+    ...restProps
+  } = props;
+
+  const [open, setOpen] = useControllableValue<boolean>(props, {
     defaultValuePropName: 'defaultOpen',
     defaultValue: false,
     valuePropName: 'open',

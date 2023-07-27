@@ -199,6 +199,10 @@ const StepsForm: FC<LStepsFormProps> & {
     stepsFormRender,
     destroyStepForm = false,
     children,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    current: outCurrent,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onCurrentChange: outOnCurrentChange,
   } = props;
 
   let { submitStepNum } = props;

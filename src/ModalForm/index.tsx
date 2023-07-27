@@ -86,21 +86,21 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     isResetFields = true,
     isDraggable = false,
     trigger,
-
     title = '标题',
     width = 600,
     forceRender = false,
     modalProps = {},
-    open: outOpen,
-    onOpenChange: outOnOpenChange,
     children,
-
     className,
     form: outForm,
     initialValues: outInitialValues = {},
     onFinish,
     loading,
     submitter,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    open: outOpen,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onOpenChange: outOnOpenChange,
     ...restProps
   } = props;
 

@@ -101,7 +101,7 @@ const prefixCls = 'lightd-tag-group';
 const { CheckableTag } = Tag;
 
 export default function LTagGroup(props: LTagGroupProps) {
-  let {
+  const {
     className,
     itemClassName,
     allValue = 'all',

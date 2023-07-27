@@ -442,8 +442,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     data,
     loading: requestLoading,
     run,
+    mutate: setTableData,
     // refresh,
-    // mutate,
     // params,
     pagination: paginationAction,
   } = usePagination(
@@ -458,10 +458,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     },
     {
       // refreshDeps: requestParams,
-      manual: true,
       defaultCurrent: outPaginationCurrent,
       defaultPageSize: outPaginationPageSize,
       ...requestOptions,
+      manual: true,
     },
   );
 
@@ -610,18 +610,20 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 暴露外部方法
   useImperativeHandle(tableRef, () => ({
     // onReload: refresh,
+
     /** 根据条件，当前页、刷新数据 */
     onReload: handleReload,
     /** 重置数据，从第一页开始显示、查询数据 */
     onReset: handleReset,
     /** 根据条件，从第一页开始显示、查询数据 */
     onSearch: handleSearch,
-    // 表格根标签div
+    /** 表格根标签 div */
     rootRef: rootRef,
-    // 表格数据
-    tableData:
-      data?.list ?? ((restProps?.dataSource || []) as Record<string, any>[]),
-    // 页码信息
+    /** 表格数据 */
+    tableData: data?.list || restProps?.dataSource || [],
+    /** 直接修改当前表格的数据*/
+    setTableData,
+    /** 页码信息及操作 */
     pagination: paginationAction,
   }));
   const tablecardref = useRef<HTMLDivElement>(null);

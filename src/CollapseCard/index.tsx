@@ -234,6 +234,12 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
     defaultCollapsed,
     children,
     triggerPosition = 'icon',
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    collapsed: outCollapsed,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onCollapsed: outOnCollapsed,
+
     ...restProps
   } = props;
 

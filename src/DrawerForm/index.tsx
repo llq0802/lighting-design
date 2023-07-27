@@ -111,6 +111,10 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     onFinish,
     loading,
     submitter,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    open: outOpen,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onOpenChange: outOnOpenChange,
     ...restProps
   } = props;
 
