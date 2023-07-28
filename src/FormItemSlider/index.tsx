@@ -17,21 +17,21 @@ export interface LFormItemSliderProps
   /**
    *antd 滑块的 props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.8
+   *@version 2.1.9
    *@memberof LFormItemSliderProps
    */
   sliderProps?: SliderSingleProps | SliderRangeProps;
   /**
    *整个轨道样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.8
+   *@version 2.1.9
    *@memberof LFormItemSliderProps
    */
   railStyle?: CSSProperties;
   /**
    *Slider 组件根标签样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.8
+   *@version 2.1.9
    *@memberof LFormItemSliderProps
    */
   sliderStyle?: CSSProperties;

@@ -7,7 +7,7 @@ nav:
 
 # LForm
 
-基于 antd Form 组件扩展的高级表单，向下兼容原 Form 组件。
+基于 `Form` 组件扩展的高级表单，向下兼容原 `Form` 组件。
 
 ## 代码演示
 
@@ -65,6 +65,27 @@ import { LForm } from 'lighting-design';
 
 ### LFormSubmitterProps
 
+> - `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置 onReset 或 提交 onSubmit 事件)`。
+>
+> - `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps`的`preventDefault`为`true`所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
+
+```ts
+<LForm
+  submitter={{
+    submitButtonProps: {
+      preventDefault: true, // 点击提交按钮，不触发表单提交
+      // ...其他 Button 属性
+    },
+    resetButtonProps: {
+      preventDefault: true, // 点击重置按钮，不触发表单重置
+      // ...其他 Button 属性
+    },
+  }}
+>
+  // ...
+</LForm>
+```
+
 | 参数              | 说明                                                                                                                           | 类型                                                                             | 默认值 |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | ------ |
 | submitText        | 提交按钮文本                                                                                                                   | `ReactNode`                                                                      | `提交` |
@@ -77,22 +98,3 @@ import { LForm } from 'lighting-design';
 | onSubmit          | 点击提交按钮的回调                                                                                                             | `(e) => void`                                                                    | `-`    |
 | onReset           | 点击重置按钮的回调 (优先级比 LForm 的 onReset 高)                                                                              | `(e) => void`                                                                    | `-`    |
 | render            | 自定义操作的渲染                                                                                                               | ` (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-`    |
-
-> `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置或提交事件)`。
-
-```ts
-<LForm
-  submitter={{
-    submitButtonProps: {
-      preventDefault: true, // 点击提交按钮，不触发表单提交
-      // ...其他属性
-    },
-    resetButtonProps: {
-      preventDefault: true, // 点击重置按钮，不触发表单重置
-      // ...其他属性
-    },
-  }}
->
-  // ...
-</LForm>
-```

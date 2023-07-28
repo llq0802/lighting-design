@@ -1,11 +1,11 @@
 ---
-title: LMoadlForm
+title: LModalForm
 toc: content
 nav:
   path: /components
 ---
 
-# LMoadlForm
+# LModalForm
 
 基于 LForm 扩展的弹窗高级表单。
 
