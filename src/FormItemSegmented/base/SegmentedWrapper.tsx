@@ -144,7 +144,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
       if (segmentedProps?.onChange) {
         segmentedProps?.onChange(val);
       }
-      onChange(val);
+      onChange?.(val);
     },
     [onChange, segmentedProps],
   );

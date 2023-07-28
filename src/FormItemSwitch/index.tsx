@@ -34,7 +34,7 @@ const SwitchWrapper = (
       if (switchProps?.onChange) {
         switchProps?.onChange(bool);
       }
-      onChange(bool);
+      onChange?.(bool);
     },
     [onChange, switchProps],
   );

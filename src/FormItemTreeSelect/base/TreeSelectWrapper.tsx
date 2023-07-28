@@ -169,7 +169,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
       if (treeSelectProps?.onChange) {
         treeSelectProps.onChange(vals, labelList, extra);
       }
-      onChange(vals);
+      onChange?.(vals);
     },
   );
 

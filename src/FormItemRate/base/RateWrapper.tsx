@@ -121,7 +121,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   }, [isClearDepends, reqCount, count]);
 
   const handleChange = useCallback((num: number) => {
-    onChange(num);
+    onChange?.(num);
     if (rateProps?.onChange) {
       rateProps?.onChange(num);
     }

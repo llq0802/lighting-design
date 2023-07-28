@@ -236,7 +236,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     if (radioProps?.onChange) {
       radioProps?.onChange(val);
     }
-    onChange(val);
+    onChange?.(val);
   });
 
   const radioDom = (

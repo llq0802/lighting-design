@@ -177,7 +177,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
       if (selectProps?.onChange) {
         selectProps?.onChange(val, items);
       }
-      onChange(val);
+      onChange?.(val);
     },
   );
   return (

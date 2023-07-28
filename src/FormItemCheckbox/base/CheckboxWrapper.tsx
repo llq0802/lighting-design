@@ -187,7 +187,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     }
     setIndeterminate(false);
     setCheckAll(e.target.checked);
-    onChange(checkAllValue);
+    onChange?.(checkAllValue);
     outBeforeAll?.onChange?.(checkAllValue);
   });
   const handleChange = useMemoizedFn((checkedValue: CheckboxValueType[]) => {
@@ -203,7 +203,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       setCheckAll(checkedValue.length === optLength);
     }
     checkboxProps?.onChange?.(checkedValue);
-    onChange(checkedValue);
+    onChange?.(checkedValue);
   });
 
   useDeepCompareEffect(() => {

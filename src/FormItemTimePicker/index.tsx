@@ -62,9 +62,9 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
       formatString: [string, string],
     ) => {
       if (dateValueType === 'string') {
-        onChange(formatString, value);
+        onChange?.(formatString, value);
       } else if (dateValueType === 'dayjs') {
-        onChange(value, formatString);
+        onChange?.(value, formatString);
       }
     },
   );

@@ -82,7 +82,7 @@ const Index: FC<IconModalProps> = ({
           key={val}
           className={classnames(`${prefixCls}-itemIcon`)}
           onClick={() => {
-            onChange(val);
+            onChange?.(val);
             if (modalProps?.onCancel) modalProps.onCancel(val as any);
           }}
         >

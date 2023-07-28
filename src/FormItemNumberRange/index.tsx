@@ -29,16 +29,16 @@ function NumberRange({
         typeof value1 === 'number' &&
         value0 > value1
       ) {
-        onChange([value1, value0]);
+        onChange?.([value1, value0]);
       } else if (value0 === void 0 && value1 === void 0) {
-        onChange(void 0);
+        onChange?.(void 0);
       }
     }
   };
   const handleChange = (index: number, changedValue: ValueType | null) => {
     const newValuePair = [...(valuePair || [])];
     newValuePair[index] = changedValue === null ? void 0 : changedValue;
-    onChange(newValuePair);
+    onChange?.(newValuePair);
   };
 
   const dom = (
