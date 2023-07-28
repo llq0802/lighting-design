@@ -14,9 +14,6 @@ const favicons = [`${publicPath}logo.png`];
 const outputPath = version;
 
 export default defineConfig({
-  verifyCommit: {
-    allowEmoji: true,
-  },
   exportStatic: false,
   publicPath,
   base: publicPath,
