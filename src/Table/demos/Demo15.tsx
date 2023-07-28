@@ -4,12 +4,9 @@ import { LFormItemInput, LTable } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
 import type { CSSProperties, FC } from 'react';
 import { useRef } from 'react';
-import styles from './Demo.module.less';
 import { columns, originData } from './service';
 
 const formItems = [
-  // 添加类名 修改样式
-  <LFormItemInput key="1" name="input1" />,
   <LFormItemInput key="2" name="input2" />,
   <LFormItemInput key="3" name="input3" />,
   <LFormItemInput key="4" name="input4" />,
@@ -19,11 +16,11 @@ const formItems = [
 
 const publicCardProps = {
   style: {
-    borderRadius: 0,
-    background: '#133261',
-    backgroundColor: '#133261',
+    // background: '#133261',
+    // backgroundColor: '#133261',
   } as CSSProperties,
 };
+// colorBgContainer: '#486295',
 
 const data = originData.slice(0);
 
@@ -35,24 +32,40 @@ const Demo13: FC = () => {
     <ConfigProvider
       theme={{
         components: {
+          Table: {
+            colorBgContainer: '#1b3160',
+            colorTextHeading: '#fff',
+            colorText: '#fff',
+            colorBorderSecondary: '#5495fe',
+            borderRadius: 0,
+            colorFillAlter: '#3d75fe',
+          },
           Input: {
+            colorTextPlaceholder: '#f5f5f5',
             colorBgContainer: '#486295',
-            colorBorder: '#486295',
-            colorTextPlaceholder: '#fff',
+            colorBorder: '#133261',
+          },
+          Card: {
+            colorBgContainer: '#152a52',
+            borderRadiusLG: 0,
+          },
+          Pagination: {
+            colorBgContainer: '#486295',
+            colorText: '#fff',
+            colorBorder: '#3d75fe',
+          },
+          Select: {
+            colorBgElevated: '#3d75fe',
+            colorBgContainer: '#3d75fe',
+            colorBorder: '#3d75fe',
+            colorText: '#fff',
+            controlItemBgActive: '#1a2a52',
           },
         },
       }}
     >
       <LTable
         rowKey="key"
-        className={styles.container} // antd 表格类名
-        rootClassName={styles.root_container} // LTable 组件的根div类名
-        rowClassName={styles.row_container} // antd 表格每一行的类名
-        onHeaderRow={(col, i) => {
-          return {
-            className: styles.header_row,
-          };
-        }}
         toolbarLeft={
           <>
             <Button type="primary">新增</Button>
@@ -70,10 +83,6 @@ const Demo13: FC = () => {
         }}
         tableRef={tableRef}
         formRef={formRef}
-        queryFormProps={{
-          // 添加类名 修改样式
-          showColsNumber: 3,
-        }}
         formCardProps={{
           ...publicCardProps,
           bodyStyle: {
@@ -89,25 +98,17 @@ const Demo13: FC = () => {
         pagination={{
           showQuickJumper: false,
           style: { color: '#fff' },
-          // 修改分页的样式
-          // itemRender(
-          //   page: number,
-          //   type: 'page' | 'prev' | 'next' | 'jump-prev' | 'jump-next',
-          //   element: React.ReactNode,
-          // ) {
-          //   return element;
-          // },
         }}
         formItems={formItems}
         columns={columns}
         request={async (params, type) => {
-          console.log('params', params);
-          console.log('type', type);
+          // console.log('params', params);
+          // console.log('type', type);
           await awaitTime();
           return {
             success: true,
             data,
-            total: data.length,
+            total: data?.length,
           };
         }}
       />

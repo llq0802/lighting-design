@@ -20,10 +20,6 @@ nav:
 
 ## 代码演示
 
-### 自定义
-
-<code src='./demos/Demo14.tsx' background="#f5f5f5"></code>
-
 ### 查询框
 
 <code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
@@ -74,9 +70,17 @@ nav:
 
 <code src='./demos/Demo12.tsx' background="#f5f5f5"  ></code>
 
-### 样式修改
+### 通过 Less 修改样式
 
 <code src='./demos/Demo13.tsx' background="#f5f5f5"  ></code>
+
+### 通过 Token 修改样式
+
+<code src='./demos/Demo15.tsx' background="#f5f5f5"  ></code>
+
+### 自定义渲染
+
+<code src='./demos/Demo14.tsx' background="#f5f5f5"></code>
 
 ### 编辑表格
 
@@ -171,16 +175,16 @@ export type LTableRequestParams = {
 
 ```ts
 export type LTableRenderProps = (
-  optionsDom: {
-    /** 表单dom */
+  doms: {
+    /** 顶部表单dom */
     searchFormDom: ReactNode;
     /** 工具栏dom */
     toolbarDom: ReactNode;
-    /**   table内容上面额外Dom 如果没有配置则没有 */
+    /**  table内容上面额外dom 如果没有配置则没有 */
     tableExtraDom: ReactNode;
-    /**   table主体Dom 包含工具栏Dom  */
+    /**  table主体dom 包含工具栏dom(如果showToolbar为false则不包含)  */
     tableDom: ReactNode;
-    /** 整个表格Dom包含全部Dom */
+    /** 整个表格dom 包含全部的dom */
     finallyDom: ReactNode;
   },
   props: LTableProps,
