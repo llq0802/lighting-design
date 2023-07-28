@@ -1,4 +1,8 @@
-import { FullscreenExitOutlined, FullscreenOutlined, ReloadOutlined } from '@ant-design/icons';
+import {
+  FullscreenExitOutlined,
+  FullscreenOutlined,
+  ReloadOutlined,
+} from '@ant-design/icons';
 import { useFullscreen } from 'ahooks';
 import type { SpaceProps } from 'antd';
 import { ConfigProvider, Space, Tooltip } from 'antd';
@@ -12,7 +16,7 @@ import DensityIcon from './DensityIcon';
 const ReloadIcon = ({ onReloadIconChange }) => {
   const { reload, rootRef } = useContext(TableContext);
   return (
-    <ConfigProvider getPopupContainer={() => rootRef!.current || document.body}>
+    <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
       <Tooltip title="刷新">
         <ReloadOutlined
           onClick={() => {
@@ -27,10 +31,12 @@ const ReloadIcon = ({ onReloadIconChange }) => {
 // 全屏
 const FullscreenIcon = () => {
   const { rootRef, setFullScreen } = useContext(TableContext);
-  const [isFull, { enterFullscreen, exitFullscreen }] = useFullscreen(rootRef!.current);
+  const [isFull, { enterFullscreen, exitFullscreen }] = useFullscreen(
+    rootRef?.current,
+  );
 
   return isFull ? (
-    <ConfigProvider getPopupContainer={() => rootRef!.current || document.body}>
+    <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
       <Tooltip title="退出全屏">
         <FullscreenExitOutlined
           onClick={() => {
@@ -98,7 +104,9 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
   if (showReload) {
     arrDom.push({
       key: orders.reload || 0,
-      dom: <ReloadIcon onReloadIconChange={onReloadIconChange} key="ReloadIcon" />,
+      dom: (
+        <ReloadIcon onReloadIconChange={onReloadIconChange} key="ReloadIcon" />
+      ),
     });
   }
   if (showDensity) {

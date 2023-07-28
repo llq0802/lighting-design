@@ -89,14 +89,14 @@ export type LFormItemNumberRangeProps = {
   /**
    * 中间连接符号
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.9
+   *@version 2.1.10
    *@memberof LFormItemNumberRangeProps
    */
   separator?: string;
   /**
    * 中间连接符号的宽度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.9
+   *@version 2.1.10
    *@memberof LFormItemNumberRangeProps
    */
 
@@ -105,7 +105,7 @@ export type LFormItemNumberRangeProps = {
   /**
    * 左边 InputNumber 的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.9
+   *@version 2.1.10
    *@memberof LFormItemNumberRangeProps
    *@see https://ant.design/components/input-number-cn/#api
    */
@@ -114,7 +114,7 @@ export type LFormItemNumberRangeProps = {
   /**
    * 右边 InputNumber 的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.9
+   *@version 2.1.10
    *@memberof LFormItemNumberRangeProps
    *@see https://ant.design/components/input-number-cn/#api
    */

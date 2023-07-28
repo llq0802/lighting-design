@@ -47,6 +47,7 @@ const Demo5: FC = () => {
         tableRef={tableRef}
         queryFormProps={{
           showColsNumber: 3,
+          isEnterSubmit: false,
         }}
         tableCardProps={{
           style: {

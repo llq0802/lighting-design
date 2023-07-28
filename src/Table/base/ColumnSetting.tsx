@@ -69,7 +69,7 @@ const ColumnSetting = () => {
   );
 
   return (
-    <ConfigProvider getPopupContainer={() => rootRef!.current || document.body}>
+    <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
       <Popover
         title={
           <Checkbox

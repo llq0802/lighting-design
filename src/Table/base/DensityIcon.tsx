@@ -9,7 +9,7 @@ const DensityIcon = () => {
   const { size, setSize, rootRef } = useContext(TableContext);
 
   return (
-    <ConfigProvider getPopupContainer={() => rootRef!.current || document.body}>
+    <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
       <Dropdown
         overlayClassName={`${LIGHTD_TABLE}-density-icon-overlay`}
         placement="bottom"
