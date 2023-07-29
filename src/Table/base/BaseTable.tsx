@@ -365,9 +365,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     tableRender,
     showToolbar = true,
     isReady = true,
-    toolbarActionConfig = {
-      showFullscreen: true,
-    },
+    toolbarActionConfig: outToolbarActionConfig = {},
     toolbarRender,
     toolbarLeft,
     toolbarRight,
@@ -398,6 +396,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const _lformRef = useRef<Record<string, any>>({});
   const isInit = useRef<boolean>(false); // 是否第一次自动请求
   const [isFullScreen, setFullScreen] = useState(false);
+
   // 绑定SearchForm组件form实例在内部
   const queryFormRef = useRef<FormInstance | null>(null);
   // 绑定SearchForm组件form实例在外部
@@ -413,6 +412,16 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     }
   });
 
+  const toolbarActionConfig = useMemo(() => {
+    return {
+      showReload: true,
+      showColumnSetting: true,
+      showDensity: true,
+      showFullscreen: true,
+      ...outToolbarActionConfig,
+    };
+  }, [outToolbarActionConfig]);
+
   const rootDefaultStyle = useMemo(() => {
     return isFullScreen ? { background: fullScreenBgColor } : {};
   }, [isFullScreen]);
@@ -424,7 +433,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         (outPagination.defaultCurrent || outPagination.current)) ||
       1
     );
-  }, [outPagination]);
+  }, [outPagination?.defaultCurrent, outPagination?.current]);
 
   // 默认一页10条
   const outPaginationPageSize = useMemo(() => {
@@ -433,7 +442,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         (outPagination.defaultPageSize || outPagination.pageSize)) ||
       10
     );
-  }, [outPagination]);
+  }, [outPagination?.defaultPageSize, outPagination?.pageSize]);
 
   // 是否有查询框组
   const hasFromItems = useMemo(
@@ -443,12 +452,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
 
   // request请求
   const {
-    data,
-    loading: requestLoading,
-    run,
-    mutate: setTableData,
     // refresh,
     // params,
+    data,
+    run,
+    loading: requestLoading,
+    mutate: setTableData,
     pagination: paginationAction,
   } = usePagination(
     async (args, requestType) => {
@@ -464,23 +473,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       // refreshDeps: requestParams,
       defaultCurrent: outPaginationCurrent,
       defaultPageSize: outPaginationPageSize,
-      ...requestOptions,
+      ...(requestOptions as Record<string, any>),
       manual: true,
     },
   );
-
-  // loading
-  const currentLoading = useMemo(() => {
-    if (outLoading === undefined) {
-      return { spinning: requestLoading };
-    } else if (typeof outLoading === 'boolean') {
-      return { spinning: outLoading };
-    }
-    return {
-      spinning: requestLoading,
-      ...outLoading,
-    };
-  }, [outLoading, requestLoading]);
 
   // 存储外部columns 是否设置序号
   const outColumns = useMemo(() => {
@@ -511,6 +507,19 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
 
   // 表格展示的列
   const [currentColumns, setCurrentColumns] = useState(outColumns);
+
+  // loading
+  const currentLoading = useMemo(() => {
+    if (outLoading === void 0) {
+      return { spinning: requestLoading };
+    } else if (typeof outLoading === 'boolean') {
+      return { spinning: outLoading };
+    }
+    return {
+      spinning: requestLoading,
+      ...outLoading,
+    };
+  }, [outLoading, requestLoading]);
 
   // 重置所有表单数据，从第一页开始显示、查询数据
   const handleReset = useMemoizedFn(() => {
@@ -624,7 +633,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     /** 表格根标签 div */
     rootRef: rootRef,
     /** 表格数据 */
-    tableData: data?.list || restProps?.dataSource || [],
+    tableData:
+      data?.list || (restProps?.dataSource as Record<string, any>[]) || [],
     /** 直接修改当前表格的数据*/
     setTableData,
     /** 页码信息及操作 */
@@ -715,7 +725,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
               : void 0,
           }}
           className={classnames(tableClassName, className)}
-          rowClassName={classnames(`${LIGHTD_TABLE}-row`, rowClassName)}
+          rowClassName={classnames(
+            `${LIGHTD_TABLE}-row`,
+            rowClassName as string | undefined,
+          )}
           style={{ ...tableStyle, ...style }}
           size={currentSize}
           columns={currentColumns as (ColumnGroupType<any> | ColumnType<any>)[]}
@@ -767,7 +780,20 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   ]);
 
   const finallyDom = (
-    // 根节点注册
+    <div
+      ref={rootRef}
+      style={{ ...rootDefaultStyle, ...rootStyle }}
+      className={classnames(LIGHTD_TABLE, rootClassName, {
+        [`${LIGHTD_TABLE}-full-screen`]: isFullScreen,
+      })}
+    >
+      {searchFormDom}
+      {tableExtra}
+      {tableDom}
+    </div>
+  );
+  // 根节点注册
+  const returnDom = (
     <TableContext.Provider
       value={{
         // reload: refresh,
@@ -782,37 +808,24 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         setFullScreen,
       }}
     >
-      <div
-        ref={rootRef}
-        style={{ ...rootDefaultStyle, ...rootStyle }}
-        className={classnames(LIGHTD_TABLE, rootClassName, {
-          [`${LIGHTD_TABLE}-full-screen`]: isFullScreen,
-        })}
-      >
-        {searchFormDom}
-        {tableExtra}
-        {tableDom}
-      </div>
+      {tableRender
+        ? tableRender(
+            {
+              searchFormDom: searchFormDom,
+              toolbarDom: toolbarDom,
+              tableExtraDom: tableExtra,
+              tableDom: tableDom,
+              finallyDom: finallyDom,
+            },
+            props,
+          )
+        : finallyDom}
     </TableContext.Provider>
   );
-
-  const returnDom = tableRender
-    ? tableRender(
-        {
-          searchFormDom: searchFormDom,
-          toolbarDom: toolbarDom,
-          tableExtraDom: tableExtra,
-          tableDom: tableDom,
-          finallyDom: finallyDom,
-        },
-        props,
-      )
-    : finallyDom;
 
   if (!toolbarActionConfig?.showFullscreen) {
     return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
   }
-
   return (
     // 处理表格在全屏状态下 ant一些弹出层组件(Modal)无法显示问题
     // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域
