@@ -1,4 +1,4 @@
-import type { FormItemProps } from 'antd';
+import type { ColProps, FormItemProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
 import type { FC, ReactElement, ReactNode } from 'react';
@@ -86,6 +86,14 @@ export interface LFormItemProps extends FormItemProps {
    */
   placeholder?: string | string[];
 
+  /**
+   * 只在`LQueryForm`组件中生效，与`antd.Col`组件的配置一样，配置单独这一项占多数份
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.10
+   *@memberof LFormItemProps
+   */
+  ownColSpans?: ColProps;
+
   /** 控制是否是选择类型的表单项组件 (一般内部使用) */
   _isSelectType?: boolean;
 }
@@ -120,6 +128,8 @@ const LFormItem: FC<LFormItemProps> & {
 
     _isSelectType,
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ownColSpans,
     ...restFromItemProps
   } = props;
 

@@ -33,7 +33,30 @@ const FullscreenIcon = () => {
   const { rootRef, setFullScreen } = useContext(TableContext);
   const [isFull, { enterFullscreen, exitFullscreen }] = useFullscreen(
     rootRef?.current,
+    {
+      onExit() {
+        setFullScreen?.(false);
+      },
+    },
   );
+
+  // useEventListener('fullscreenchange', () => {
+  //   // document.fullscreenElement ||
+  //   // document.mozFullScreenElement ||
+  //   // document.msFullScreenElement ||
+  //   // document.webkitFullscreenElement||null
+  //   const isF = !!(
+  //     document.fullscreen ||
+  //     document.mozFullScreen ||
+  //     document.webkitIsFullScreen ||
+  //     document.webkitFullScreen ||
+  //     document.msFullScreen
+  //   );
+  //   if (!isF) {
+  //     exitFullscreen();
+  //     setFullScreen?.(false);
+  //   }
+  // });
 
   return isFull ? (
     <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>

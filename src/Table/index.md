@@ -22,57 +22,57 @@ nav:
 
 ### 查询框
 
-<code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo5.tsx' background="#f5f5f5"></code> -->
 
 ### 操作栏
 
-<code src='./demos/Demo1.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo1.tsx' background="#f5f5f5"></code> -->
 
 ### 手动控制 loading
 
-<code src='./demos/Demo11.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo11.tsx' background="#f5f5f5"></code> -->
 
 ### 增加序号列
 
-<code src='./demos/Demo10.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo10.tsx' background="#f5f5f5"></code> -->
 
 ### 重新排序内置工具栏
 
-<code src='./demos/Demo8.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo8.tsx' background="#f5f5f5"></code> -->
 
 ### 隐藏部分内置工具栏
 
-<code src='./demos/Demo9.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo9.tsx' background="#f5f5f5"></code> -->
 
 ### 隐藏分页栏
 
-<code src='./demos/Demo2.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo2.tsx' background="#f5f5f5"></code> -->
 
 ### 表格额外信息
 
-<code src='./demos/Demo3.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo3.tsx' background="#f5f5f5"></code> -->
 
 ### 卡片形式
 
-<code src='./demos/Demo6.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo6.tsx' background="#f5f5f5"></code> -->
 
 ### 异步表单初始值
 
-<code src='./demos/Demo4.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo4.tsx' background="#f5f5f5"></code> -->
 
 ### 手动设置查询表单
 
-<code src='./demos/Demo7.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo7.tsx' background="#f5f5f5"></code> -->
 
 ### 填充视口剩余空间
 
 不要在弹窗，抽屉，下拉等组件中使用
 
-<code src='./demos/Demo12.tsx' background="#f5f5f5"  ></code>
+<!-- <code src='./demos/Demo12.tsx' background="#f5f5f5"  ></code> -->
 
 ### 通过 Less 修改样式
 
-<code src='./demos/Demo13.tsx' background="#f5f5f5"  ></code>
+<!-- <code src='./demos/Demo13.tsx' background="#f5f5f5"  ></code> -->
 
 ### 通过 Token 修改样式
 
@@ -80,7 +80,7 @@ nav:
 
 ### 自定义渲染
 
-<code src='./demos/Demo14.tsx' background="#f5f5f5"></code>
+<!-- <code src='./demos/Demo14.tsx' background="#f5f5f5"></code> -->
 
 ### 编辑表格
 
@@ -110,7 +110,7 @@ import { LTable } from 'lighting-design';
 >
 > - 手动设置查询表单不改变查询表单的 `formInitialValues`，而是通过 `formRef.current.setFieldsValue()`设置表单值，再进行查询，这样不影响查询表单的重置操作。比如通过 URL 带一些默认或者接受路由参数查询。
 >
-> - 当表格全屏时无法显示 Modal 等组件? 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal 等组件 的 getPopupContainer 设置为了 table 的区域
+> - 当表格全屏时无法显示 `Modal` `下拉框`等组件? 全屏本质上是把你的表格区域 `fixed` 了，所以你需要把 `Modal` `下拉`等组件 的 `getPopupContainer` 设置为了 `LTable` 组件的根标签 的区域
 
 除了以下参数，其余和 [antd.Table](https://ant.design/components/table-cn/#api) 一样。
 

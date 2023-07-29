@@ -2,11 +2,12 @@ import { DownOutlined } from '@ant-design/icons';
 import { useMemoizedFn } from 'ahooks';
 import type { ColProps } from 'antd';
 import { Col, Row, Space } from 'antd';
+import type { Gutter } from 'antd/es/grid/row';
 import classnames from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import LFormItem from 'lighting-design/FormItem';
-import type { FC } from 'react';
+import type { CSSProperties, FC } from 'react';
 import { cloneElement, memo, useState } from 'react';
 
 const prefixCls = 'lightd-form-query';
@@ -69,6 +70,13 @@ export interface LQueryFormProps extends BaseFormProps {
    *@memberof LQueryFormProps
    */
   isSpace?: boolean;
+  /**
+   * 配置每一项的间隔
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.10
+   *@memberof LQueryFormProps
+   */
+  gutter?: Gutter | [Gutter, Gutter];
 }
 
 const defualtColSpan = {
@@ -80,6 +88,13 @@ const defualtColSpan = {
   xxl: 6,
 };
 
+const submitterColStyle: CSSProperties = {
+  display: 'flex',
+  flex: '1',
+  flexWrap: 'nowrap',
+  justifyContent: 'flex-end',
+};
+
 function LQueryForm(props: LQueryFormProps) {
   const {
     layout = 'horizontal',
@@ -89,6 +104,7 @@ function LQueryForm(props: LQueryFormProps) {
     className,
     itemColProps = {},
     isSpace = false,
+    gutter = 16,
     ...restProps
   } = props;
 
@@ -115,15 +131,16 @@ function LQueryForm(props: LQueryFormProps) {
           : {};
 
         return (
-          <Row gutter={16}>
-            {formItemsDom.map((itemDom: any, index: number) => {
-              const { ...restItemProps } = itemDom.props;
+          <Row gutter={gutter}>
+            {formItemsDom?.map((itemDom: any, index: number) => {
+              const { ownColSpans = {}, ...restItemProps } = itemDom.props;
               const hidden =
                 collapsed && enabledCollapse && index >= showColsNumber;
               return (
                 <Col
                   key={itemDom?.key || itemDom.name + index.toString()}
                   {...colSpans}
+                  {...ownColSpans}
                   style={hidden ? { display: 'none' } : {}}
                 >
                   {cloneElement(itemDom, {
@@ -136,11 +153,8 @@ function LQueryForm(props: LQueryFormProps) {
 
             <Col
               style={{
-                display: 'flex',
-                flex: '1',
-                flexWrap: 'nowrap',
+                ...submitterColStyle,
                 alignItems: layout === 'vertical' ? 'flex-end' : 'flex-start',
-                justifyContent: 'flex-end',
               }}
             >
               <LFormItem colon={false}>

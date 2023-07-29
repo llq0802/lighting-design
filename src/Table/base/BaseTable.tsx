@@ -398,13 +398,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const _lformRef = useRef<Record<string, any>>({});
   const isInit = useRef<boolean>(false); // 是否第一次自动请求
   const [isFullScreen, setFullScreen] = useState(false);
-
-  const rootDefaultStyle = isFullScreen
-    ? { background: fullScreenBgColor, overflow: 'auto', padding: 24 }
-    : {};
   // 绑定SearchForm组件form实例在内部
   const queryFormRef = useRef<FormInstance | null>(null);
   // 绑定SearchForm组件form实例在外部
+
   const handleFormRef = useMemoizedFn((refValue: FormInstance) => {
     queryFormRef.current = refValue;
     if (formRef) {
@@ -415,6 +412,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       }
     }
   });
+
+  const rootDefaultStyle = useMemo(() => {
+    return isFullScreen ? { background: fullScreenBgColor } : {};
+  }, [isFullScreen]);
+
   // 默认从第一页
   const outPaginationCurrent = useMemo(() => {
     return (
@@ -423,6 +425,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       1
     );
   }, [outPagination]);
+
   // 默认一页10条
   const outPaginationPageSize = useMemo(() => {
     return (
@@ -431,6 +434,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       10
     );
   }, [outPagination]);
+
   // 是否有查询框组
   const hasFromItems = useMemo(
     () => Array.isArray(formItems) && formItems.length > 0,
@@ -782,7 +786,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         ref={rootRef}
         style={{ ...rootDefaultStyle, ...rootStyle }}
         className={classnames(LIGHTD_TABLE, rootClassName, {
-          [`${LIGHTD_TABLE}-fullScreen`]: isFullScreen,
+          [`${LIGHTD_TABLE}-full-screen`]: isFullScreen,
         })}
       >
         {searchFormDom}
@@ -814,7 +818,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域
     <ConfigProvider
       locale={zhCN}
-      getPopupContainer={() => rootRef.current || document.body}
+      getPopupContainer={() => rootRef?.current || document.body}
     >
       {returnDom}
     </ConfigProvider>

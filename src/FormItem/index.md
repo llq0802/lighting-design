@@ -73,6 +73,7 @@ import { LFormItem } from 'lighting-design';
 | contentProps     | 传给 `children` 的额外属性                                                                               | `Record<string,any>`                                         | `-`        |
 | contentInline    | `children` 外层的 div 是否为 `inline`行盒，为`false`占满 div ，为`true`不占满整个 div                    | `boolean`                                                    | `false`    |
 | alignItems       | 当配置了 `contentBefore` 或 `contentAfter` 时组件垂直的对齐方式                                          | `'center' \| 'start' \| 'end'`                               | `'center'` |
+| ownColSpans      | 只在作为`LQueryForm`组件的子项生效，与`antd.Col`组件的配置一样，配置单独这一项占多数份                   | [ColProps](https://ant.design/components/grid-cn/#col)       | `-`        |
 | disabled         | 是否禁用组件<br>如果自定义组件 则需要开发者自己控制内部`children`的禁用                                  | `boolean`                                                    | `false`    |
 | placeholder      | 组件的 placeholder<br>如果自定义组件 则需要开发者自己控制内部`children`的 placeholder                    | `string\|string[]`                                           | `-`        |
 | renderField      | 重新渲染 `LFormItem` 的子组件                                                                            | `(dom: ReactElement, props: LFormItemProps) => ReactElement` | `-`        |
