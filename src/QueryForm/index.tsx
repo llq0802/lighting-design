@@ -71,6 +71,13 @@ export interface LQueryFormProps extends BaseFormProps {
    */
   isSpace?: boolean;
   /**
+   * 重置 查询按钮组 是否紧挨着最后的表单项
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.10
+   *@memberof LQueryFormProps
+   */
+  isApproachLastItem?: boolean;
+  /**
    * 配置每一项的间隔
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.10
@@ -92,7 +99,6 @@ const submitterColStyle: CSSProperties = {
   display: 'flex',
   flex: '1',
   flexWrap: 'nowrap',
-  justifyContent: 'flex-end',
 };
 
 function LQueryForm(props: LQueryFormProps) {
@@ -105,6 +111,8 @@ function LQueryForm(props: LQueryFormProps) {
     itemColProps = {},
     isSpace = false,
     gutter = 16,
+    isApproachLastItem = false,
+
     ...restProps
   } = props;
 
@@ -155,6 +163,7 @@ function LQueryForm(props: LQueryFormProps) {
               style={{
                 ...submitterColStyle,
                 alignItems: layout === 'vertical' ? 'flex-end' : 'flex-start',
+                justifyContent: `flex-${isApproachLastItem ? 'start' : 'end'}`,
               }}
             >
               <LFormItem colon={false}>

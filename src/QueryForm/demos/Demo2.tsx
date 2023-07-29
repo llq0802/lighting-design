@@ -1,8 +1,7 @@
-import { Form } from 'antd';
-import { LFormItemInput, LQueryForm } from 'lighting-design';
+import { LForm, LFormItemInput, LQueryForm } from 'lighting-design';
 
 const Demo1 = () => {
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   return (
     <>
