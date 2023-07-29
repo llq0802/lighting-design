@@ -22,65 +22,65 @@ nav:
 
 ### 查询框
 
-<!-- <code src='./demos/Demo5.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
 
 ### 操作栏
 
-<!-- <code src='./demos/Demo1.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo1.tsx' background="#f5f5f5"></code>
 
 ### 手动控制 loading
 
-<!-- <code src='./demos/Demo11.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo11.tsx' background="#f5f5f5"></code>
 
 ### 增加序号列
 
-<!-- <code src='./demos/Demo10.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo10.tsx' background="#f5f5f5"></code>
 
 ### 重新排序内置工具栏
 
-<!-- <code src='./demos/Demo8.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo8.tsx' background="#f5f5f5"></code>
 
 ### 隐藏部分内置工具栏
 
-<!-- <code src='./demos/Demo9.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo9.tsx' background="#f5f5f5"></code>
 
 ### 隐藏分页栏
 
-<!-- <code src='./demos/Demo2.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo2.tsx' background="#f5f5f5"></code>
 
 ### 表格额外信息
 
-<!-- <code src='./demos/Demo3.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo3.tsx' background="#f5f5f5"></code>
 
 ### 卡片形式
 
-<!-- <code src='./demos/Demo6.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo6.tsx' background="#f5f5f5"></code>
 
 ### 异步表单初始值
 
-<!-- <code src='./demos/Demo4.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo4.tsx' background="#f5f5f5"></code>
 
 ### 手动设置查询表单
 
-<!-- <code src='./demos/Demo7.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo7.tsx' background="#f5f5f5"></code>
 
 ### 填充视口剩余空间
 
 不要在弹窗，抽屉，下拉等组件中使用
 
-<!-- <code src='./demos/Demo12.tsx' background="#f5f5f5"  ></code> -->
+<code src='./demos/Demo12.tsx' background="#f5f5f5"  ></code>
 
 ### 通过 Less 修改样式
 
-<!-- <code src='./demos/Demo13.tsx' background="#f5f5f5"  ></code> -->
+<code src='./demos/Demo13.tsx' background="#f5f5f5"  ></code>
 
 ### 通过 Token 修改样式
 
 <code src='./demos/Demo15.tsx' background="#f5f5f5"  ></code>
 
-### 自定义渲染
+### 自定义渲染组合表格
 
-<!-- <code src='./demos/Demo14.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo14.tsx' background="#f5f5f5"></code>
 
 ### 编辑表格
 
