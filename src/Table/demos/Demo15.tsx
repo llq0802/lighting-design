@@ -112,8 +112,8 @@ const Demo15: FC = () => {
       }}
     >
       <LTable
-        fullScreenBgColor="#000"
         rowKey="key"
+        fullScreenBgColor="#000"
         toolbarLeft={
           <>
             <Button type="primary">新增</Button>
@@ -129,15 +129,7 @@ const Demo15: FC = () => {
         toolbarActionConfig={{ style: { color: '#fff' } }}
         tableRef={tableRef}
         formRef={formRef}
-        queryFormProps={
-          {
-            // isSpace: true,
-            // itemColProps: {
-            //   xl: 12,
-            //   xxl: 12,
-            // },
-          }
-        }
+        queryFormProps={{ submitter: { resetButtonProps: { ghost: true } } }}
         formCardProps={{ bodyStyle: { marginBottom: 0 } }}
         tableCardProps={{ bodyStyle: { paddingTop: 8 } }}
         pagination={{ showQuickJumper: false }}

@@ -20,8 +20,8 @@ const ReloadIcon = ({ onReloadIconChange }) => {
       <Tooltip title="刷新">
         <ReloadOutlined
           onClick={() => {
-            onReloadIconChange?.();
             reload?.();
+            onReloadIconChange?.();
           }}
         />
       </Tooltip>
