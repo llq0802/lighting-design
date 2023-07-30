@@ -113,6 +113,7 @@ const Demo15: FC = () => {
     >
       <LTable
         rowKey="key"
+        isSort
         fullScreenBgColor="#000"
         toolbarLeft={
           <>
