@@ -7,7 +7,6 @@ const Demo5 = () => {
   return (
     <LForm
       requiredMark={false}
-      name="LForm5"
       labelWidth="auto"
       submitter={{ buttonAlign: 'center' }}
       onFinish={(values) => {

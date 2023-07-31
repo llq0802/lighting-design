@@ -8,13 +8,17 @@ const Demo1 = () => {
       // labelCol={{ flex: '90px' }}
       labelWidth={110}
       submitter={{ buttonAlign: 110 }}
-      name="LFormItemDatePicker"
       form={form}
       onFinish={(values) => {
         console.log('values', values);
       }}
     >
-      <LFormItemDatePicker label="日期选择" name="date1" required dateValueType="number" />
+      <LFormItemDatePicker
+        label="日期选择"
+        name="date1"
+        required
+        dateValueType="number"
+      />
       <LFormItemDatePicker
         label="日期时间选择"
         name="date11"

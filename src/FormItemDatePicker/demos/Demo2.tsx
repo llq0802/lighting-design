@@ -8,7 +8,6 @@ const Demo2 = () => {
       // labelCol={{ flex: '90px' }}
       labelWidth={110}
       submitter={{ buttonAlign: 110 }}
-      name="LFormItemDatePicker"
       form={form}
       onFinish={(values) => {
         console.log('values', values);

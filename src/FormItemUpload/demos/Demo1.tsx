@@ -6,7 +6,6 @@ const Demo1 = () => {
 
   return (
     <LForm
-      name="LFormItemUpload"
       labelWidth={90}
       submitter={{ buttonAlign: 90 }}
       form={form}
@@ -15,7 +14,7 @@ const Demo1 = () => {
       }}
     >
       <LFormItemUpload
-        name="default"
+        name="default1"
         label="默认上传"
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         uploadProps={{ name: 'fileName' }}
@@ -25,7 +24,7 @@ const Demo1 = () => {
         tooltip="头像上传,不支持预览"
         required
         onUpload={upload}
-        uploadType="avatar"
+        uploadType="avatar1"
         name="avatar"
         label="头像上传"
         initialValue={[
@@ -42,7 +41,7 @@ const Demo1 = () => {
 
       <LFormItemUpload
         isSerial={false}
-        name="image"
+        name="image1"
         label="图片上传"
         uploadType="image"
         onUpload={upload}
@@ -57,7 +56,7 @@ const Demo1 = () => {
       />
       <LFormItemUpload
         uploadType="dragger"
-        name="dragger"
+        name="dragger1"
         label="拖动上传"
         uploadProps={{ name: 'fileName' }}
       />

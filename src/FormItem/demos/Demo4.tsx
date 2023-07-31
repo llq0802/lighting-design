@@ -10,7 +10,6 @@ const Demo4 = () => {
     <>
       <LForm
         labelCol={{ flex: '90px' }}
-        name="LForm3"
         form={form}
         submitter={{ buttonAlign: 90 }}
       >

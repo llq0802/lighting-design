@@ -7,7 +7,6 @@ const Index = () => {
 
   return (
     <LForm
-      name="LFormItemSelect3"
       form={form}
       labelCol={{ flex: '80px' }}
       submitter={{

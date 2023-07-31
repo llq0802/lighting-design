@@ -8,7 +8,6 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
   return (
     <LForm
-      name="LFormItemTimePicker"
       form={form}
       labelWidth={200}
       submitter={{ buttonAlign: 'center' }}

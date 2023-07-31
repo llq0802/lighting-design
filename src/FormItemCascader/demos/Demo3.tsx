@@ -41,7 +41,7 @@ const Index = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemSelect" form={form} submitter={false}>
+    <LForm form={form} submitter={false}>
       <LFormItemCascader
         label="级联选择"
         name="cascader1"

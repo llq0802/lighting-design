@@ -6,7 +6,6 @@ const Demo4 = () => {
 
   return (
     <LForm
-      name="LFormItemUpload"
       labelWidth={90}
       submitter={{ buttonAlign: 90 }}
       form={form}
@@ -18,7 +17,7 @@ const Demo4 = () => {
         isCrop
         required
         onUpload={upload}
-        uploadType="avatar"
+        uploadType="avatar4"
         name="avatar"
         label="头像上传"
         uploadProps={{
@@ -28,7 +27,7 @@ const Demo4 = () => {
 
       <LFormItemUpload
         isCrop
-        name="image"
+        name="image4"
         label="图片上传"
         uploadType="image"
         onUpload={upload}
@@ -47,7 +46,7 @@ const Demo4 = () => {
           aspectSlider: false,
           showReset: false,
         }}
-        name="default"
+        name="default4"
         label="默认上传"
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         uploadProps={{ name: 'fileName' }}

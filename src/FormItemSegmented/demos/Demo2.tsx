@@ -9,23 +9,22 @@ const Demo2 = () => {
     <LForm name="LFormItemSelect" form={form} submitter={false}>
       <LFormItemSegmented
         label="选择"
-        name="segmented"
+        name="segmented3"
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
-        initialValue={'List'}
         request={async () => {
           const result = await awaitTime([
             {
               label: 'List',
-              value: 'List',
+              value: 'list',
             },
             {
               label: 'Kanban',
-              value: 'Kanban',
+              value: 'kanban',
             },
             {
-              label: 'item',
+              label: 'Item',
               value: 'item',
             },
           ]);

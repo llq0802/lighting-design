@@ -4,8 +4,9 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemSegmented1" form={form}>
+    <LForm form={form}>
       <LFormItemSegmented
+        label="Demo"
         name="segmented1"
         options={[
           {

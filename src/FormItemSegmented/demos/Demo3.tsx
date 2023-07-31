@@ -5,10 +5,11 @@ const Demo3 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemSelect" form={form} submitter={false}>
+    <LForm form={form} submitter={false}>
       <LFormItemSegmented
-        name="segmented"
-        initialValue={'User1'}
+        label="选择"
+        name="segmented369"
+        initialValue="user3-1"
         options={[
           {
             label: (
@@ -17,7 +18,7 @@ const Demo3 = () => {
                 <div>User 1</div>
               </div>
             ),
-            value: 'User1',
+            value: 'user3-1',
           },
           {
             label: (
@@ -26,7 +27,7 @@ const Demo3 = () => {
                 <div>User 2</div>
               </div>
             ),
-            value: 'user2',
+            value: 'user3-2',
           },
           {
             label: (
@@ -38,7 +39,7 @@ const Demo3 = () => {
                 <div>User 3</div>
               </div>
             ),
-            value: 'user3',
+            value: 'user3-3',
           },
         ]}
       />

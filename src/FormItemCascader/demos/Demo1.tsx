@@ -39,7 +39,7 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemSelect" form={form}>
+    <LForm form={form}>
       <LFormItemSelect
         label="select选择"
         name="select"

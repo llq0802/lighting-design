@@ -8,7 +8,6 @@ const Demo3 = () => {
       // labelCol={{ flex: '90px' }}
       labelWidth={110}
       submitter={{ buttonAlign: 110 }}
-      name="LFormItemDatePicker"
       form={form}
       onFinish={(values) => {
         console.log('values', values);
@@ -22,7 +21,13 @@ const Demo3 = () => {
         date6: '2020',
       }}
     >
-      <LFormItemDatePicker disabled label="日期选择" name="date1" required picker="date" />
+      <LFormItemDatePicker
+        disabled
+        label="日期选择"
+        name="date1"
+        required
+        picker="date"
+      />
       <LFormItemDatePicker
         disabled
         label="日期时间选择"
@@ -31,10 +36,34 @@ const Demo3 = () => {
         picker="date"
         showTime
       />
-      <LFormItemDatePicker disabled label="周选择" name="date2" required picker="week" />
-      <LFormItemDatePicker disabled label="月份选择" name="date3" required picker="month" />
-      <LFormItemDatePicker disabled label="季度选择" name="date5" required picker="quarter" />
-      <LFormItemDatePicker disabled label="年选择" name="date6" required picker="year" />
+      <LFormItemDatePicker
+        disabled
+        label="周选择"
+        name="date2"
+        required
+        picker="week"
+      />
+      <LFormItemDatePicker
+        disabled
+        label="月份选择"
+        name="date3"
+        required
+        picker="month"
+      />
+      <LFormItemDatePicker
+        disabled
+        label="季度选择"
+        name="date5"
+        required
+        picker="quarter"
+      />
+      <LFormItemDatePicker
+        disabled
+        label="年选择"
+        name="date6"
+        required
+        picker="year"
+      />
     </LForm>
   );
 };

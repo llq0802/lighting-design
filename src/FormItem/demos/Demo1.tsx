@@ -6,12 +6,7 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
   return (
     <>
-      <LForm
-        name="LForm2"
-        form={form}
-        labelWidth={90}
-        submitter={{ buttonAlign: 90 }}
-      >
+      <LForm form={form} labelWidth={90} submitter={{ buttonAlign: 90 }}>
         <LFormItem name="sex" label="性别" required>
           <Select
             placeholder="选择性别"

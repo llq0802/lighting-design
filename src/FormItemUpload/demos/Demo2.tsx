@@ -7,7 +7,6 @@ const Demo2 = () => {
 
   return (
     <LForm
-      name="LFormItemUpload"
       labelWidth={90}
       submitter={{ buttonAlign: 90 }}
       form={form}
@@ -16,7 +15,7 @@ const Demo2 = () => {
       }}
     >
       <LFormItemUpload
-        name="default"
+        name="default2"
         label="默认上传"
         accept=".jpg, .jpeg"
         onUpload={upload}
@@ -29,7 +28,7 @@ const Demo2 = () => {
       <LFormItemUpload
         required
         onUpload={upload}
-        uploadType="avatar"
+        uploadType="avatar2"
         name="avatar"
         label="头像上传"
         uploadProps={{
@@ -39,7 +38,7 @@ const Demo2 = () => {
       />
 
       <LFormItemUpload
-        name="image"
+        name="image2"
         label="图片上传"
         uploadType="image"
         onUpload={upload}

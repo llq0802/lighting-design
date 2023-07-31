@@ -15,7 +15,6 @@ const Demo3 = () => {
   return (
     <>
       <LForm
-        name="LFormItemUpload"
         labelWidth={90}
         submitter={{ buttonAlign: 90 }}
         form={form}
@@ -24,7 +23,7 @@ const Demo3 = () => {
         }}
       >
         <LFormItemUpload
-          name="image"
+          name="image3"
           label="图片上传"
           uploadType="image"
           onUpload={upload}

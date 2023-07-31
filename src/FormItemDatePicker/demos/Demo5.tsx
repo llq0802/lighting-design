@@ -5,7 +5,6 @@ const Demo1 = () => {
 
   return (
     <LForm
-      name="LFormItemDatePicker"
       form={form}
       onFinish={(values) => {
         console.log('values', values);
@@ -18,7 +17,12 @@ const Demo1 = () => {
         required
         disabledDateBefore={0}
       />
-      <LFormItemDatePicker label="禁用今天和今天之后" name="date2" required disabledDateAfter={0} />
+      <LFormItemDatePicker
+        label="禁用今天和今天之后"
+        name="date2"
+        required
+        disabledDateAfter={0}
+      />
       <LFormItemDatePicker
         label="禁用今天之前(不包括今天)"
         name="date3"
@@ -33,7 +37,12 @@ const Demo1 = () => {
         showTime
         disabledDateAfter={1}
       />
-      <LFormItemDatePicker label="只能选择前7天之后" name="date5" required disabledDateBefore={7} />
+      <LFormItemDatePicker
+        label="只能选择前7天之后"
+        name="date5"
+        required
+        disabledDateBefore={7}
+      />
       <LFormItemDatePicker
         label="只能选择前后7天"
         name="date6"
