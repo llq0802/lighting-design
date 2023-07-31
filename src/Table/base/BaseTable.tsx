@@ -94,21 +94,21 @@ export type LTableProps = {
   /**
    * 表格是否需要排序序号
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   isSort?: boolean;
   /**
    * 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    * */
   isReady?: boolean;
   /**
    * 全屏表格的背景颜色
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   fullScreenBgColor?: string;
@@ -116,14 +116,14 @@ export type LTableProps = {
   /**
    * 异步请求函数第一次额外参数(仅在第一次请求时会携带)
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   defaultRequestParams?: Record<string, any>;
   /**
    * ahooks 的 useRequest 的 配置项， 部分参数无法配置
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    * @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
    */
@@ -146,14 +146,14 @@ export type LTableProps = {
   /**
    * 异步请求函数用于获取表格数据
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   request?: LTableRequest;
   /**
    * 是否在第一次渲染时自动请求 (支持动态改变)
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   autoRequest?: boolean;
@@ -161,7 +161,7 @@ export type LTableProps = {
   /**
    * 查询表单的实例
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   formRef?:
@@ -170,91 +170,91 @@ export type LTableProps = {
   /**
    * 表格的实例 (包含一些方法)
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   tableRef?: MutableRefObject<LTableInstance | undefined>;
   /**
    * 是否占满视口剩余空间的高度
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   fillSpace?: boolean | number;
   /**
    * 表格最外层div类名
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   rootClassName?: string;
   /**
    *  antd表格额外类名
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   tableClassName?: string;
   /**
    *  表格最外层div样式
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   rootStyle?: CSSProperties;
   /**
    * antd表格额外style
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   tableStyle?: CSSProperties;
   /**
    * 整个toolbar的样式  showToolbar为true时生效
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   toolbarStyle?: CSSProperties;
   /**
    * 查询表单外层的CardProps
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   formCardProps?: CardProps;
   /**
    *  表格外层的CardProps
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   tableCardProps?: CardProps;
   /**
    *  是否显示 toolbar
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   showToolbar?: boolean;
   /**
    * 配置内置表格工具栏 继承 Space 组件的属性 showToolbar为 true 时生效
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   toolbarActionConfig?: LToolbarActionProps;
   /**
    * 重新渲染toolBar 包括内置表格工具
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   toolbarRender?: (ToolbarActionDom: ReactNode) => ReactNode;
   /**
    *  重新渲染整个高级表格
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   tableRender?: (
@@ -275,35 +275,35 @@ export type LTableProps = {
   /**
    * 重新渲染 antd 表格的内容主体
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   contentRender?: (data: Record<string, any>[]) => ReactNode;
   /**
    * 整个toolBar的左侧
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   toolbarLeft?: ReactNode;
   /**
    * 整个toolBar的右侧 (如果有内置表格工具就是在内置表格工具的左侧)
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   toolbarRight?: ReactNode;
   /**
    * 表格内容上部额外区域
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   tableExtra?: ReactNode;
   /**
    * 表单查询框组
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   formItems?: Exclude<
@@ -313,14 +313,14 @@ export type LTableProps = {
   /**
    * 查询表单的初始值
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    */
   formInitialValues?: Record<string, any>;
   /**
    * 高级查询表单组件的props-LQueryFormProps
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.11
+   * @version 2.1.12
    * @memberof LTableProps
    * @see https://llq0802.github.io/lighting-design/latest/components/query-form
    */

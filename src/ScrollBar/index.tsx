@@ -291,6 +291,12 @@ import './index.less';
 const prefixCls = 'lightd-scrollbar';
 
 export type LScrollBarProps = {
+  /**
+   * 将组件根标签渲染为对应的 html 标签
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.12
+   *@memberof LScrollBarProps
+   */
   tag?:
     | 'div'
     | 'ul'
@@ -310,35 +316,35 @@ export type LScrollBarProps = {
   /**
    * 滚动条的模式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.11
+   *@version 2.1.12
    *@memberof LScrollBarProps
    */
   mode?: 'show' | 'hide' | 'hover';
   /**
    *  容器高度 默认100%
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.11
+   *@version 2.1.12
    *@memberof LScrollBarProps
    */
   height?: string | number;
   /**
    * 容器最大高度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.11
+   *@version 2.1.12
    *@memberof LScrollBarProps
    */
   maxHeight?: string | number;
   /**
    *  容器样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.11
+   *@version 2.1.12
    *@memberof LScrollBarProps
    */
   style?: React.CSSProperties;
   /**
    * 容器类名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.11
+   *@version 2.1.12
    *@memberof LScrollBarProps
    */
   className?: string;

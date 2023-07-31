@@ -5,7 +5,7 @@ const Demo1 = () => {
 
   return (
     <LScrollBar
-      height={300}
+      maxHeight={300}
       style={{
         '--lightd-scrollbar-bg-color': '#555',
         '--lightd-scrollbar-width': '15px',

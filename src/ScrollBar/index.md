@@ -44,7 +44,7 @@ import { LScrollBar } from 'lighting-design';
 |   mode    |          滚动条显示的模式          | `'show'\|'hide'\|'hover'` | `'show'` |
 | className |              容器类名              |         `string`          |   `-`    |
 |   style   |              容器样式              |      `CSSProperties`      |   `-`    |
-|  height   |                高度                |     `number\|string`      |  `100%`  |
+|  height   |                高度                |     `number\|string`      | `'100%'` |
 | maxHeight |              最大高度              |     `number\|string`      |   `-`    |
 
 ## CSS 变量
