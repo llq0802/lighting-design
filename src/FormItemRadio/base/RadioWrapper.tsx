@@ -24,42 +24,42 @@ export type RadioWrapperProps = Record<string, any> & {
   /**
    * 请求数据源的异步函数
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.10
+   * @version 2.1.11
    * @memberof LFormItemRadioProps
    */
   request?: (...depends: any[]) => Promise<LRadioOptions[]>;
   /**
    * 当依赖项发生变化时重新请求的防抖时间
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.10
+   * @version 2.1.11
    * @memberof LFormItemRadioProps
    */
   debounceTime?: number;
   /**
    * 是否需要全部的选项
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.10
+   * @version 2.1.11
    * @memberof LFormItemRadioProps
    */
   all?: boolean;
   /**
    * 全部选项的值
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.10
+   * @version 2.1.11
    * @memberof LFormItemRadioProps
    */
   allValue?: number | string;
   /**
    * 全部选项的名称
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.10
+   * @version 2.1.11
    * @memberof LFormItemRadioProps
    */
   allLabel?: ReactNode;
   /**
    * 单选组件 Props
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.10
+   * @version 2.1.11
    * @memberof LFormItemRadioProps
    */
   radioProps?: RadioGroupProps;
@@ -68,7 +68,7 @@ export type RadioWrapperProps = Record<string, any> & {
   /**
    * 依赖项的值为空时展示的内容
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.10
+   * @version 2.1.11
    * @memberof LFormItemRadioProps
    */
   notDependRender?: () => ReactNode;

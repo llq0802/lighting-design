@@ -49,21 +49,21 @@ export interface LQueryFormProps extends BaseFormProps {
   /**
    *是否折叠
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.10
+   *@version 2.1.11
    *@memberof LQueryFormProps
    */
   isCollapsed?: boolean;
   /**
    * 显示多少项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.10
+   *@version 2.1.11
    *@memberof LQueryFormProps
    * */
   showColsNumber?: number;
   /**
    *  配置响应式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.10
+   *@version 2.1.11
    *@memberof LQueryFormProps
    *@see https://ant.design/components/grid-cn#col
    */
@@ -71,21 +71,21 @@ export interface LQueryFormProps extends BaseFormProps {
   /**
    * 是否水平紧凑显示
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.10
+   *@version 2.1.11
    *@memberof LQueryFormProps
    */
   isSpace?: boolean;
   /**
    * 重置 查询按钮组 是否紧挨着最后的表单项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.10
+   *@version 2.1.11
    *@memberof LQueryFormProps
    */
   isApproachLastItem?: boolean;
   /**
    * 配置每一项的间隔
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.10
+   *@version 2.1.11
    *@memberof LQueryFormProps
    */
   gutter?: Gutter | [Gutter, Gutter];

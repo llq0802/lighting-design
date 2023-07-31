@@ -35,14 +35,14 @@ export type LFormItemUploadProps = LFormItemProps &
     /**
      *上传组件内置类型
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.10
+     *@version 2.1.11
      *@memberof LFormItemUploadProps
      */
     uploadType?: 'image' | 'default' | 'avatar' | 'dragger';
     /**
      *antd 上传组件的 Props
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.10
+     *@version 2.1.11
      *@memberof LFormItemUploadProps
      */
     uploadProps?: UploadProps;
@@ -50,7 +50,7 @@ export type LFormItemUploadProps = LFormItemProps &
     /**
      *Button 的 Props 在uploadType为'default'时生效
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.10
+     *@version 2.1.11
      *@memberof LFormItemUploadProps
      */
     buttonProps?: ButtonProps;
@@ -58,7 +58,7 @@ export type LFormItemUploadProps = LFormItemProps &
     /**
      *按钮图标，不同内建类型有不一样的默认值。
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.10
+     *@version 2.1.11
      *@memberof LFormItemUploadProps
      */
     buttonIcon?: ReactNode;
@@ -66,7 +66,7 @@ export type LFormItemUploadProps = LFormItemProps &
     /**
      *按钮文本 在uploadType为'default'或'dragger'时生效
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.10
+     *@version 2.1.11
      *@memberof LFormItemUploadProps
      */
     buttonText?: ReactNode;
@@ -74,14 +74,14 @@ export type LFormItemUploadProps = LFormItemProps &
     /**
      *是否需要裁剪  在uploadType为'default'或'dragger'时只能上传图片
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.10
+     *@version 2.1.11
      *@memberof LFormItemUploadProps
      */
     isCrop?: boolean;
     /**
      *额外的裁剪属性
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.10
+     *@version 2.1.11
      *@memberof LFormItemUploadProps
      *@see 参考 https://github.com/nanxiaobei/antd-img-crop#props
      */
@@ -89,7 +89,7 @@ export type LFormItemUploadProps = LFormItemProps &
     /**
      *是否是串行上传。  true 为串行  false 为并行
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.10
+     *@version 2.1.11
      *@memberof LFormItemUploadProps
      */
     isSerial?: boolean;
