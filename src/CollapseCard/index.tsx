@@ -13,119 +13,119 @@ export type LCollapseCardProps = {
   /**
    * 初始化是否展开
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   defaultCollapsed?: boolean;
   /**
    *  受控是否展开
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   collapsed?: boolean;
   /**
    * 受控展开时的回调
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   onCollapsed?: (bool: boolean) => void;
   /**
    * 是否能展开
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   collapsible?: boolean;
   /**
    *  强制被隐藏时是否渲染 DOM 结构
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   forceRender?: boolean;
   /**
    *  使面板透明且无边框
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   ghost?: boolean;
   /**
    * 带边框风格的面板
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   bordered?: boolean;
   /**
    *  销毁折叠隐藏的面板
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   destroyContent?: boolean;
   /**
    * 设置图标位置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   collapsePosition?: 'left' | 'right';
   /**
    *  标题
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   title?: ReactNode;
   /*
    * 右上角额外内容
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   extra?: ReactNode;
   /**
    *  自定义切换图标
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   expandIcon?: (props: Record<string, any>) => ReactNode;
   /**
    *  展开时的内容类名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   contentClassName?: string;
   /**
    * 组件根类名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   className?: string;
   /**
    *  组件根样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   style?: CSSProperties;
   /**
    * 组件大小
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   size?: CollapseProps['size'];
   /**
    *  触发折叠的位置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.12
+   *@version 2.1.13
    *@memberof LCollapseCardProps
    */
   triggerPosition?: 'header' | 'icon';
