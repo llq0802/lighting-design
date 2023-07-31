@@ -1,4 +1,12 @@
-import { ConfigProvider, type FormInstance } from 'antd';
+import {
+  Alert,
+  Card,
+  Col,
+  ConfigProvider,
+  Row,
+  Watermark,
+  type FormInstance,
+} from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
@@ -23,38 +31,56 @@ const Demo14: FC = () => {
         },
       }}
     >
-      <LTable
-        rowKey="key"
-        tableRef={tableRef}
-        queryFormProps={{
-          showColsNumber: 3,
-          isEnterSubmit: false,
-        }}
-        showToolbar={false}
-        formItems={formItems}
-        formRef={formRef}
-        columns={columns}
-        request={async (params, requestType) => {
-          // console.log('==params==', params);
-          // console.log('==requestType==', requestType);
-          const res: Record<string, any> = await apiGetUserList();
-          return {
-            success: true,
-            data: res.data,
-            total: res.total,
-          };
-        }}
-        tableRender={(doms) => {
-          // console.log('doms', doms);
-          return (
-            // 自定义一些组装
-            <>
-              {doms.searchFormDom}
-              {doms.tableDom}
-            </>
-          );
-        }}
-      />
+      <Watermark content="Lighting Design">
+        <LTable
+          rowKey="key"
+          tableRef={tableRef}
+          queryFormProps={{
+            isSpace: true,
+            showColsNumber: 2,
+            isEnterSubmit: false,
+          }}
+          showToolbar={false}
+          formItems={formItems}
+          formRef={formRef}
+          columns={columns}
+          tableExtra={<Alert message="展示某些信息" type="info" />}
+          request={async (params, requestType) => {
+            // console.log('==params==', params);
+            // console.log('==requestType==', requestType);
+            const res: Record<string, any> = await apiGetUserList();
+            return {
+              success: true,
+              data: res.data,
+              total: res.total,
+            };
+          }}
+          tableRender={(doms) => {
+            // console.log('doms', doms);
+            return (
+              // 自定义一些组装
+
+              <Row gutter={16}>
+                <Col span={6}>
+                  <Card bordered={false} style={{ height: '100%' }}>
+                    可以自由组合
+                  </Card>
+                </Col>
+
+                <Col span={18}>
+                  {doms.searchFormDom}
+
+                  <div style={{ marginBottom: 16 }}>{doms.tableExtraDom}</div>
+
+                  {doms.toolbarDom}
+
+                  {doms.tableDom}
+                </Col>
+              </Row>
+            );
+          }}
+        />
+      </Watermark>
     </ConfigProvider>
   );
 };

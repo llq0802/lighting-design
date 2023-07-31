@@ -37,11 +37,11 @@ const IconWrapper: FC<IconWrapperProps> = ({
   const [open, setOpen] = useState<boolean>(false);
 
   const prefix = useMemo(() => {
-    if (showIcon && value && antIcons[value]) {
-      return <Icon component={antIcons[value]} style={iconStyle} />;
+    if (showIcon && value && antIcons?.[value]) {
+      return <Icon component={antIcons?.[value]} style={iconStyle} />;
     }
     return void 0;
-  }, [value]);
+  }, [value, iconStyle, showIcon]);
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { DownOutlined } from '@ant-design/icons';
 import { useMemoizedFn } from 'ahooks';
 import type { ColProps } from 'antd';
-import { Col, Row, Space } from 'antd';
+import { Col, Row, Space, theme, Typography } from 'antd';
 import type { Gutter } from 'antd/es/grid/row';
 import classnames from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
@@ -10,6 +10,9 @@ import LFormItem from 'lighting-design/FormItem';
 import type { CSSProperties, FC } from 'react';
 import { cloneElement, memo, useState } from 'react';
 
+const { getDesignToken, useToken } = theme;
+
+const { Text, Link } = Typography;
 const prefixCls = 'lightd-form-query';
 
 interface CollapseProps {
@@ -22,11 +25,13 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
     onToggle?.(!collapsed);
   });
 
+  const { token } = useToken();
+
   return (
-    <a
+    <Link
       onClick={handleCollapse}
       className={`${prefixCls}-collapse`}
-      style={{ whiteSpace: 'nowrap' }}
+      style={{ whiteSpace: 'nowrap', color: token?.colorPrimary }}
     >
       {collapsed ? '展开' : '收起'}
       <DownOutlined
@@ -36,7 +41,7 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
           transform: `rotate(${collapsed ? 0 : 180}deg)`,
         }}
       />
-    </a>
+    </Link>
   );
 });
 

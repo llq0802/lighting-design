@@ -40,6 +40,10 @@ nav:
 > - 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是设置 `defaultValue`
 >
 > - 如果要在某一项的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一项设置 `onChange` 事件
+>
+> - `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置 onReset 或 提交 onSubmit 事件)`。
+>
+> - `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps`的`preventDefault`为`true`所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
 
 ```ts
 import { LForm } from 'lighting-design';
@@ -54,7 +58,7 @@ import { LForm } from 'lighting-design';
 | labelWidth      | 所有表单项 label 宽度 , 同 `labelCol={{ flex: 'xxx px' }}` , 不要与 `labelCol` 属性同时设置                           | `number \| 'auto'`                                                                          | `'auto'` |
 | transformValues | 在 `onFinish` 调用之前转化表单值 , 返回值会传给 `onFinish` 的参数                                                     | `(values: Record<string, any>) => Record<string, any>`                                      | `-`      |
 | submitter       | 提交、重置按钮相关配置。为`false`将不会渲染                                                                           | `false` \| [LFormSubmitterProps](/components/form#lformsubmitterprops)                      | `-`      |
-| isEnterSubmit   | 是否开启回车键提交，注意不要与 `submitter`中 `submitButtonProps` 的自定义 `htmlType='submit'` 的按钮冲突。            | `boolean`                                                                                   | `true`   |
+| isEnterSubmit   | 是否开启回车键提交，为`true`时注意不要配置 `submitter`中 `submitButtonProps` 的 `htmlType='submit'`                   | `boolean`                                                                                   | `true`   |
 | loading         | 设置提交、重置的加载/禁止状态。<br/>如果 `onFinish` 返回异步则无需设置，内部会自动更新。                              | `boolean`                                                                                   | `false`  |
 | isReady         | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。<br/>一般用于异步获取初始值`initialValues` | `boolean`                                                                                   | `true`   |
 | onFinish        | 提交数据时触发，和 `antd Form` 一样。如果返回异步，会自动管理 `loading` 无需再设置 `loading`。                        | `(values) => any`                                                                           | `-`      |
@@ -64,10 +68,6 @@ import { LForm } from 'lighting-design';
 | formRender      | 自定义渲染整个组件                                                                                                    | `(formDom: ReactElement, submitterDom: ReactNode) => ReactNode`                             | `-`      |
 
 ### LFormSubmitterProps
-
-> - `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置 onReset 或 提交 onSubmit 事件)`。
->
-> - `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps`的`preventDefault`为`true`所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
 
 ```ts
 <LForm

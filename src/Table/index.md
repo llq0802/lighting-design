@@ -76,6 +76,8 @@ nav:
 
 ### 通过 Token 修改样式
 
+`antd` 的版本要大于等于 `5.7.0`
+
 <code src='./demos/Demo15.tsx' background="#f5f5f5"  ></code>
 
 ### 自定义渲染组合表格

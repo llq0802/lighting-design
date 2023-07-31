@@ -27,8 +27,14 @@ nav:
 
 <code src='./demos/Demo4.tsx'></code>
 
+### 通过 Token 修改样式
+
+<code src='./demos/Demo5.tsx'></code>
+
 ## API
 
+> - `LMoadlForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`,如果只是展示其他内容(`例如表格 列表`)请使用`antd`的弹窗组件
+>
 > - `LMoadlForm` 的`底部操作栏`通过 `LForm` 的`submitter`属性配置
 >
 > - 大多数情况你只需要配置` trigger` `(能接受 onClick 事件的组件) `，一旦配置了`trigger`属性就不在需要受控控制弹窗的显示

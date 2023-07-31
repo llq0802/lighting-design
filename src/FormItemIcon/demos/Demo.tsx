@@ -12,7 +12,7 @@ const Demo = () => {
       <LFormItemIcon
         name="icon"
         label="图标"
-        iconStyle={{ fontSize: 18, color: '#10101090' }}
+        iconStyle={{ fontSize: 18, color: '#1677ff' }}
       />
     </LForm>
   );

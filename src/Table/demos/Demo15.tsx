@@ -1,4 +1,4 @@
-import { Button, ConfigProvider, type FormInstance } from 'antd';
+import { Button, ConfigProvider, Watermark, type FormInstance } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import {
   LFormItemDatePicker,
@@ -108,45 +108,56 @@ const Demo15: FC = () => {
             colorBgTextHover: '#f45c20', // 悬停状态下的背景色。
             colorPrimary: '#fff', //
           },
+          Button: {
+            colorBgContainer: '#486295', // 组件容器背景颜色
+          },
         },
       }}
     >
-      <LTable
-        rowKey="key"
-        isSort
-        fullScreenBgColor="#000"
-        toolbarLeft={
-          <>
-            <Button type="primary">新增</Button>
-            <Button type="primary">审批</Button>
-          </>
-        }
-        toolbarRight={
-          <>
-            <Button type="primary">上传</Button>
-            <Button type="primary">导出</Button>
-          </>
-        }
-        toolbarActionConfig={{ style: { color: '#fff' } }}
-        tableRef={tableRef}
-        formRef={formRef}
-        queryFormProps={{ submitter: { resetButtonProps: { ghost: true } } }}
-        formCardProps={{ bodyStyle: { marginBottom: 0 } }}
-        tableCardProps={{ bodyStyle: { paddingTop: 8 } }}
-        pagination={{ showQuickJumper: false }}
-        formItems={formItems}
-        columns={columns}
-        request={async (params, type) => {
-          // console.log('params', params);
-          // console.log('type', type);
-          await awaitTime();
-          return {
-            success: true,
-            data,
-            total: data?.length,
-          };
+      <Watermark
+        content="Lighting Design"
+        font={{
+          fontSize: 18,
+          color: 'rgba(0,0,0,.35)',
         }}
-      />
+      >
+        <LTable
+          rowKey="key"
+          isSort
+          fullScreenBgColor="#000"
+          toolbarLeft={
+            <>
+              <Button type="primary">新增</Button>
+              <Button type="primary">审批</Button>
+            </>
+          }
+          toolbarRight={
+            <>
+              <Button type="primary">上传</Button>
+              <Button type="primary">导出</Button>
+            </>
+          }
+          toolbarActionConfig={{ style: { color: '#fff' } }}
+          tableRef={tableRef}
+          formRef={formRef}
+          queryFormProps={{ submitter: { resetButtonProps: { ghost: true } } }}
+          formCardProps={{ bodyStyle: { marginBottom: 0 } }}
+          tableCardProps={{ bodyStyle: { paddingTop: 8 } }}
+          pagination={{ showQuickJumper: false }}
+          formItems={formItems}
+          columns={columns}
+          request={async (params, type) => {
+            // console.log('params', params);
+            // console.log('type', type);
+            await awaitTime();
+            return {
+              success: true,
+              data,
+              total: data?.length,
+            };
+          }}
+        />
+      </Watermark>
     </ConfigProvider>
   );
 };
