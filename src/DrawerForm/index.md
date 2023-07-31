@@ -37,6 +37,8 @@ nav:
 
 ### 通过 Token 修改样式
 
+antd 的版本要大于等于 5.7.0
+
 <code src='./demos/Demo7.tsx'></code>
 
 ## API
