@@ -14,7 +14,6 @@ const Demo = () => {
 
   return (
     <LForm
-      name="LFormItemIcon"
       form={form}
       submitter={{ buttonAlign: 'center' }}
       onFinish={(values) => {
@@ -22,7 +21,7 @@ const Demo = () => {
       }}
     >
       <LFormItemIcon
-        name="icon"
+        name="icon3"
         label="图标"
         options={{
           Outlined: { label: '线性风格' },

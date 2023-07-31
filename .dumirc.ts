@@ -14,7 +14,6 @@ const favicons = [`${publicPath}logo.png`];
 const outputPath = version;
 
 export default defineConfig({
-  exportStatic: false,
   publicPath,
   base: publicPath,
   themeConfig: {

@@ -4,10 +4,10 @@ const Demo1 = () => {
   const list = new Array(30).fill(0);
 
   return (
-    <LScrollBar height={300}>
+    <LScrollBar height={300} tag="ul">
       {list.map((_, index) => {
         return (
-          <p
+          <li
             key={index}
             style={{
               backgroundColor: '#209cee',
@@ -19,7 +19,7 @@ const Demo1 = () => {
             }}
           >
             {index + 1}
-          </p>
+          </li>
         );
       })}
     </LScrollBar>

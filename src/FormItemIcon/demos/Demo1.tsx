@@ -3,7 +3,6 @@ import Icon, { createFromIconfontCN } from '@ant-design/icons';
 import { message } from 'antd';
 import copy from 'copy-to-clipboard';
 import { LForm, LFormItemIcon } from 'lighting-design';
-import { useState } from 'react';
 import { DIYIconList, FoodIconData } from './data';
 
 export const IconFont = createFromIconfontCN({
@@ -15,24 +14,25 @@ export const IconFont = createFromIconfontCN({
 });
 const Demo = () => {
   const [form] = LForm.useForm();
-  const [iconItem, setIconItem] = useState<any>('icon-shutiao');
+
+  const iconItem = LForm.useWatch('icon2', form);
 
   return (
     <LForm
       name="LFormItemIcon"
       form={form}
       submitter={{ buttonAlign: 'center' }}
-      onValuesChange={(_, values) => {
-        setIconItem(values?.icon ? values.icon : '');
+      onValuesChange={(curName, curVal) => {
+        console.log('curName', curName);
+        console.log('curVal', curVal);
       }}
       onFinish={(values) => {
         console.log('values', values);
       }}
-      initialValues={{ icon: 'icon-shutiao' }}
-      onReset={() => setIconItem('icon-shutiao')}
+      initialValues={{ icon2: 'icon-shutiao' }}
     >
       <LFormItemIcon
-        name="icon"
+        name="icon2"
         label="图标"
         showIcon={false}
         options={{
@@ -51,9 +51,6 @@ const Demo = () => {
             disabled: true,
           },
         }}
-        // itemRender={(item, node) => {
-        //   return <Tooltip title={item}>{node}</Tooltip>;
-        // }}
         extendRender={{
           IconFont,
           options: [
@@ -69,6 +66,9 @@ const Demo = () => {
             },
           ],
         }}
+        // itemRender={(item, node) => {
+        //   return <Tooltip title={item}>{node}</Tooltip>;
+        // }}
         contentBefore={
           iconItem &&
           (antIcons[iconItem] ? (

@@ -284,11 +284,29 @@
 // };
 
 import classnames from 'classnames';
+import type { HTMLAttributes } from 'react';
+import { createElement } from 'react';
 import './index.less';
 
 const prefixCls = 'lightd-scrollbar';
 
 export type LScrollBarProps = {
+  tag?:
+    | 'div'
+    | 'ul'
+    | 'li'
+    | 'ol'
+    | 'a'
+    | 'span'
+    | 'dl'
+    | 'dt'
+    | 'p'
+    | 'main'
+    | 'article'
+    | 'aside'
+    | 'footer'
+    | 'header'
+    | 'nav';
   /**
    * 滚动条的模式
    *@author 李岚清 <https://github.com/llq0802>
@@ -325,10 +343,11 @@ export type LScrollBarProps = {
    */
   className?: string;
   children: React.ReactNode;
-} & Record<string, any>;
+} & HTMLAttributes<HTMLDivElement>;
 
 const LScrollBar = (props: LScrollBarProps) => {
   const {
+    tag = 'div',
     height = '100%',
     maxHeight,
     className,
@@ -337,22 +356,39 @@ const LScrollBar = (props: LScrollBarProps) => {
     ...restProps
   } = props;
 
-  return (
-    <div
-      className={classnames([
-        prefixCls,
-        {
-          [`${prefixCls}-hide`]: mode === 'hide' ? true : false,
-          [`${prefixCls}-hover`]: mode === 'hover' ? true : false,
-        },
-        className,
-      ])}
-      style={{ ...style, height, maxHeight }}
-      {...restProps}
-    >
-      {props.children}
-    </div>
-  );
+  const wrapperProps = {
+    className: classnames([
+      prefixCls,
+      {
+        [`${prefixCls}-hide`]: mode === 'hide' ? true : false,
+        [`${prefixCls}-hover`]: mode === 'hover' ? true : false,
+      },
+      className,
+    ]),
+    style: { ...style, height, maxHeight },
+    ...restProps,
+  };
+
+  const wrapperDom = createElement(tag, wrapperProps, props?.children);
+
+  return wrapperDom;
+
+  // return (
+  //   <div
+  //     className={classnames([
+  //       prefixCls,
+  //       {
+  //         [`${prefixCls}-hide`]: mode === 'hide' ? true : false,
+  //         [`${prefixCls}-hover`]: mode === 'hover' ? true : false,
+  //       },
+  //       className,
+  //     ])}
+  //     style={{ ...style, height, maxHeight }}
+  //     {...restProps}
+  //   >
+  //     {props.children}
+  //   </div>
+  // );
 };
 
 export default LScrollBar;

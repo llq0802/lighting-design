@@ -14,7 +14,7 @@ const Demo1 = () => {
     >
       {list.map((_, index) => {
         return (
-          <p
+          <div
             key={index}
             style={{
               backgroundColor: '#209cee',
@@ -26,7 +26,7 @@ const Demo1 = () => {
             }}
           >
             {index + 1}
-          </p>
+          </div>
         );
       })}
     </LScrollBar>

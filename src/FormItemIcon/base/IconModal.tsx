@@ -5,19 +5,17 @@ import { useSetState } from 'ahooks';
 import type { ModalProps, TabsProps } from 'antd';
 import { Input, Modal, Tabs } from 'antd';
 import classnames from 'classnames';
+import LScrollBar from 'lighting-design/ScrollBar';
 import type { ChangeEvent, FC } from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import type {
-  FormItemIconOptionsProps,
-  FormItemIconTabsExtendOptions,
-} from '..';
+import type { FormItemIconOptions, FormItemIconTabsExtendOptions } from '..';
 import './index.less';
 
 interface IconModalProps extends ModalProps {
   onChange: (key: string) => void;
   cancel: (open: boolean) => void;
   itemRender?: (item: string, node: React.ReactNode) => React.ReactNode;
-  options?: FormItemIconOptionsProps;
+  options?: FormItemIconOptions;
   extendRender?: {
     IconFont: React.ReactNode | any;
     options: FormItemIconTabsExtendOptions[];
@@ -25,6 +23,7 @@ interface IconModalProps extends ModalProps {
   open: boolean;
   modalProps?: ModalProps;
   tabsProps?: TabsProps;
+  iconStyle?: React.CSSProperties;
 }
 
 const defaultIcon: IconModeType<string[]> | { [key: string]: string[] } = {
@@ -50,6 +49,7 @@ let IconFont: React.ReactNode | any;
 const Index: FC<IconModalProps> = ({
   onChange,
   cancel,
+  iconStyle,
   open,
   options,
   extendRender,
@@ -80,14 +80,14 @@ const Index: FC<IconModalProps> = ({
       <>
         <li
           key={val}
-          className={classnames(`${prefixCls}-itemIcon`)}
+          className={classnames(`${prefixCls}-item-icon`)}
           onClick={() => {
             onChange?.(val);
             if (modalProps?.onCancel) modalProps.onCancel(val as any);
           }}
         >
           {initialIconType.includes(keys) ? (
-            <Icon component={antIcons[val] || <></>} />
+            <Icon component={antIcons[val] || <></>} style={iconStyle} />
           ) : (
             IconFont && <IconFont type={val} />
           )}
@@ -101,22 +101,29 @@ const Index: FC<IconModalProps> = ({
     return (
       <>
         <Input
-          style={{ marginBlock: 20 }}
+          style={{ marginBlock: 16 }}
           addonAfter={<SearchOutlined />}
-          placeholder={'在此搜索图标'}
+          placeholder="在此搜索图标"
           onChange={(e) => onSearch(e, key)}
         />
-        <ul className={classnames(`${prefixCls}-iconList`)}>
-          {list.map((val) => {
-            if (itemRender) {
-              return itemRender(
-                val,
-                <IconItemDom key={val} val={val} keys={key} />,
-              );
-            }
-            return <IconItemDom key={val} val={val} keys={key} />;
-          })}
-        </ul>
+
+        <>
+          <LScrollBar
+            tag="ul"
+            maxHeight="50vh"
+            className={classnames(`${prefixCls}-icon-list-scroll`)}
+          >
+            {list.map((val) => {
+              if (itemRender) {
+                return itemRender(
+                  val,
+                  <IconItemDom key={val} val={val} keys={key} />,
+                );
+              }
+              return <IconItemDom key={val} val={val} keys={key} />;
+            })}
+          </LScrollBar>
+        </>
       </>
     );
   };
@@ -184,6 +191,7 @@ const Index: FC<IconModalProps> = ({
 
   return (
     <Modal
+      destroyOnClose
       title="选择图标"
       width={880}
       footer={false}
@@ -193,7 +201,7 @@ const Index: FC<IconModalProps> = ({
         cancel(false);
         if (modalProps?.onCancel) modalProps.onCancel(e);
       }}
-      className={classnames(`${prefixCls}-iconModal`, modalProps?.className)}
+      className={classnames(`${prefixCls}-icon-modal`, modalProps?.className)}
     >
       <Tabs
         {...tabsProps}

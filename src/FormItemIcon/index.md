@@ -38,7 +38,8 @@ import { LFormItemNumber } from 'lighting-design';
 | 参数 | 说明 | 类型 | 默认值 |
 | ------------ | ------------------ | ------------------------------------------------------------- | ------ |
 | showIcon | 选择图标后是否展示 `(只支持 antd 内置图标，如果自定义图标请设置 inputProps 的 prefix 属性)` | `boolean` | `true` |
-| iconStyle | 选择图标后的图标样式 在`showIcon`为`true`生效 | `React.CSSProperties` | `-` |
+| activeIconStyle | 选择图标后的展示在输入框的图标样式 在`showIcon`为`true`生效 | `React.CSSProperties` | `-` |
+| iconStyle | 弹窗里面所有图标样式 | `React.CSSProperties` | `-` |
 | options | 图标 tabs 相关配置 | `FormItemIconOptions` | `{}` |
 | extendRender | 自定义图标 | `extendRender` | `-` |
 | inputProps | `InputProps`的属性 | [InputProps](https://ant.design/components/input-cn#api) | `-` |

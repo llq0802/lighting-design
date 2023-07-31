@@ -38,13 +38,14 @@ import { LScrollBar } from 'lighting-design';
 
 除了以下属性 其余跟原生 `div` 属性方法一样
 
-|   参数    |       说明       |           类型            |  默认值  |
-| :-------: | :--------------: | :-----------------------: | :------: |
-|   mode    | 滚动条显示的模式 | `'show'\|'hide'\|'hover'` | `'show'` |
-| className |     容器类名     |         `string`          |   `-`    |
-|   style   |     容器样式     |      `CSSProperties`      |   `-`    |
-|  height   |       高度       |     `number\|string`      |  `100%`  |
-| maxHeight |     最大高度     |     `number\|string`      |   `-`    |
+|   参数    |                说明                |           类型            |  默认值  |
+| :-------: | :--------------------------------: | :-----------------------: | :------: |
+|    tag    | 将组件根标签渲染为对应的 html 标签 |       `HTML标签名`        | `'div'`  |
+|   mode    |          滚动条显示的模式          | `'show'\|'hide'\|'hover'` | `'show'` |
+| className |              容器类名              |         `string`          |   `-`    |
+|   style   |              容器样式              |      `CSSProperties`      |   `-`    |
+|  height   |                高度                |     `number\|string`      |  `100%`  |
+| maxHeight |              最大高度              |     `number\|string`      |   `-`    |
 
 ## CSS 变量
 

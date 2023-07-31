@@ -4,15 +4,11 @@ const Demo = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm
-      name="LFormItemIcon"
-      form={form}
-      submitter={{ buttonAlign: 'center' }}
-    >
+    <LForm form={form} submitter={{ buttonAlign: 'center' }}>
       <LFormItemIcon
-        name="icon"
+        name="icon1"
         label="图标"
-        iconStyle={{ fontSize: 18, color: '#1677ff' }}
+        activeIconStyle={{ fontSize: 18, color: '#1677ff' }}
       />
     </LForm>
   );

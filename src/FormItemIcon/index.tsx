@@ -32,8 +32,10 @@ export interface FormItemIconOptions<T = IconTabsOptions> {
 export interface LFormItemIconProps extends LFormItemProps {
   /** 选择图标后是否展示 (只支持antd内置图标，如果自定义图标请设置inputProps的prefix属性) */
   showIcon?: boolean;
-  /** 选择图标后的图标样式 */
+  /** 弹窗里面所有图标样式 */
   iconStyle?: React.CSSProperties;
+  /** 选择图标后的图标样式 */
+  activeIconStyle?: React.CSSProperties;
   /** input 输入框配置 */
   inputProps?: InputProps;
   /** modal 弹出框配置 */
@@ -54,6 +56,7 @@ export interface LFormItemIconProps extends LFormItemProps {
 const LFormItemIcon: FC<LFormItemIconProps> = ({
   showIcon = true,
   iconStyle = {},
+  activeIconStyle = {},
   required = false,
   disabled,
   options,
@@ -83,6 +86,7 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
       <IconWrapper
         showIcon={showIcon}
         iconStyle={iconStyle}
+        activeIconStyle={activeIconStyle}
         disabled={disabled ?? formDisabled}
         placeholder={messageLabel}
         options={options}
@@ -90,7 +94,7 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
         extendRender={extendRender}
         modalProps={modalProps}
         tabsProps={tabsProps}
-        {...inputProps}
+        inputProps={inputProps}
       />
     </LFormItem>
   );
