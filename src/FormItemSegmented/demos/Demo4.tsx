@@ -32,7 +32,7 @@ const Demo4 = () => {
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
-        notDependRender={() => '请先选择select44'}
+        notDependRender='请先选择select44'
         request={async (select44) => {
           console.log('select44 ', select44);
           let data: Record<string, any>[] = [];

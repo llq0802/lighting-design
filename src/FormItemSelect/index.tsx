@@ -37,6 +37,7 @@ export interface LFormItemSelectProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
+  requestOptions?: Record<string, any>;
 }
 
 const LFormItemSelect: FC<LFormItemSelectProps> = ({

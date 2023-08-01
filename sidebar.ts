@@ -76,6 +76,10 @@ export default {
           title: 'LTreeTable-树表格',
           link: '/components/tree-table',
         },
+        {
+          title: 'LH5Preview-H5预览',
+          link: '/components/h5-preview',
+        },
       ],
     },
     {

@@ -76,7 +76,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
         onChange={(e) => {
           const newValue = e.target.value === '' ? void 0 : (value as string);
           onChange?.(newValue);
-          // inputProps?.onChange?.(newValue);
+          inputProps?.onChange?.(newValue);
         }}
       />
 

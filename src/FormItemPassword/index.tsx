@@ -78,7 +78,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   passwordProps = {},
   required,
   disabled,
-  placeholder = '请输入密码',
+  placeholder,
   highPassWordErrorMsg = `必须同时包含大小写字母 , 数字  , 特殊字符且位数至少8位!`,
   ...restProps
 }) => {
@@ -99,7 +99,11 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
 
             if (!highPassWord) {
               if (!value) {
-                errMsg = required ? `${messagePlaceholder}!` : '';
+                errMsg = required
+                  ? `${
+                      restProps?.messageVariables?.label || messagePlaceholder
+                    }!`
+                  : '';
               } else if (value.length < min || value.length > max) {
                 errMsg = `密码为${min}～${max}位`;
               }
@@ -112,7 +116,10 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
             if (PASSWORD_REG.test(value)) {
               return Promise.resolve();
             }
-            errMsg = highPassWordErrorMsg;
+            errMsg =
+              restProps?.messageVariables?.label ||
+              highPassWordErrorMsg ||
+              messagePlaceholder;
             return Promise.reject(errMsg);
           },
         },

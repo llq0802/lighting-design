@@ -7,7 +7,6 @@ const Index = () => {
 
   return (
     <LForm
-      name="LFormItemSelect3"
       form={form}
       labelCol={{ flex: '80px' }}
       submitter={{
@@ -46,7 +45,7 @@ const Index = () => {
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
-        notDependRender={() => <span>请先选择select1</span>}
+        notDependRender={<span>请先选择select1</span>}
         request={async (select1) => {
           console.log('select1', select1);
           let data: Record<string, any>[] = [];

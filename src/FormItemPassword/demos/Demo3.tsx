@@ -20,7 +20,13 @@ const Demo3 = () => {
         required
         disabledWhiteSpace={false}
       />
-      <LFormItemPassword name="password2" label="密码2" required min={6} />
+      <LFormItemPassword
+        name="password2"
+        label="密码2"
+        required
+        min={6}
+        validateTrigger="onChange"
+      />
       <LFormItemPassword
         name="password3"
         label="高强度密码"

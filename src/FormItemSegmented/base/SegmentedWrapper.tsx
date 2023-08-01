@@ -43,14 +43,14 @@ export type SegmentedWrapperProps = Record<string, any> & {
    *@version 2.1.13
    *@memberof LFormItemSegmentedoProps
    */
-  notDependRender?: () => ReactNode;
+  notDependRender?: ReactNode;
 };
 
 const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   value,
   onChange,
   dependencies = [],
-  notDependRender = () => <span>请先选择依赖项</span>,
+  notDependRender = <span>请先选择依赖项</span>,
   options: outOptions = [],
   request,
   outLoading = {},
@@ -166,7 +166,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
       style={{ marginLeft: 40, width: 'fit-content' }}
       {...outLoading}
     >
-      {!isClearDepends ? SegmentedDom : notDependRender()}
+      {!isClearDepends ? SegmentedDom : notDependRender}
     </Spin>
   );
 };

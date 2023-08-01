@@ -75,7 +75,7 @@ export type CheckboxWrapperProps = Record<string, any> &
      *@version 2.1.13
      *@memberof LFormItemCheckboxProps
      */
-    notDependRender?: () => ReactNode;
+    notDependRender?: ReactNode;
   }>;
 
 const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
@@ -89,7 +89,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   checkboxProps = {},
   disabled,
   outLoading = {},
-  notDependRender = () => <span>请先选择依赖项</span>,
+  notDependRender = <span>请先选择依赖项</span>,
   requestOptions,
   name,
   ...restProps
@@ -238,7 +238,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
 
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
-      {isClearDepends ? notDependRender() : checkboxDom}
+      {isClearDepends ? notDependRender : checkboxDom}
     </Spin>
   );
 };

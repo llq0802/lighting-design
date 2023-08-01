@@ -45,6 +45,7 @@ export interface LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
+  requestOptions?: Record<string, any>;
 }
 
 const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({

@@ -71,7 +71,7 @@ export type RadioWrapperProps = Record<string, any> & {
    * @version 2.1.13
    * @memberof LFormItemRadioProps
    */
-  notDependRender?: () => ReactNode;
+  notDependRender?: ReactNode;
 };
 export type LRadioOptions = CheckboxOptionType;
 
@@ -91,7 +91,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   allValue = 'all',
   allLabel = '全部',
 
-  notDependRender = () => <span>请先选择依赖项</span>,
+  notDependRender = <span>请先选择依赖项</span>,
 
   radioProps = {},
   requestOptions = {},
@@ -251,7 +251,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
 
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
-      {isClearDepends ? notDependRender() : radioDom}
+      {isClearDepends ? notDependRender : radioDom}
     </Spin>
   );
 };

@@ -11,7 +11,7 @@ nav:
 
 **特点**
 
-- 完全兼容`Form.Item`
+- 完全兼容原`Form.Item`
 - 支持组件前后插入元素
 - 支持统一设置 `label` 的宽度
 - 支持 `dependencies` 依赖项的值自动传入子组件的 `props`
@@ -43,6 +43,8 @@ nav:
 ## API
 
 > - `LFormItemXXX` 组件均是通过此组件二次封装
+>
+> - `LFormItemXXX` `LFormItem` `Form.Item`必须做为`LForm`或`Form`的子项
 >
 > - 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是设置 `defaultValue`
 >

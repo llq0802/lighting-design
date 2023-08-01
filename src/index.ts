@@ -57,6 +57,8 @@ export * from './FormItemTreeSelect';
 export { default as LFormItemTreeSelect } from './FormItemTreeSelect';
 export * from './FormItemUpload';
 export { default as LFormItemUpload } from './FormItemUpload';
+export * from './H5Preview';
+export { default as LH5Preview } from './H5Preview';
 export * from './List';
 export { default as LList } from './List';
 export * from './ListForm';

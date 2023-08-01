@@ -37,6 +37,8 @@ nav:
 
 ## API
 
+> - `LForm` 的`children`子项必须包含`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`
+>
 > - 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是设置 `defaultValue`
 >
 > - 如果要在某一项的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一项设置 `onChange` 事件
@@ -45,9 +47,8 @@ nav:
 >
 > - `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps`的`preventDefault`为`true`所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
 
-```ts
+````ts
 import { LForm } from 'lighting-design';
-```
 
 ### LForm
 
@@ -84,7 +85,7 @@ import { LForm } from 'lighting-design';
 >
   // ...
 </LForm>
-```
+````
 
 | 参数              | 说明                                                                                                                           | 类型                                                                             | 默认值 |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | ------ |

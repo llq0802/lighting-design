@@ -14,6 +14,7 @@ function NumberRange({
   onChange,
   separator = '~',
   separatorWidth = 30,
+  separatorStyle = {},
   placeholder,
   disabled,
   leftNumberProps,
@@ -64,6 +65,7 @@ function NumberRange({
           textAlign: 'center',
           pointerEvents: 'none',
           backgroundColor: disabled ? '#f5f5f5' : '#fff',
+          ...separatorStyle,
         }}
       />
       <InputNumber
@@ -99,8 +101,14 @@ export type LFormItemNumberRangeProps = {
    *@version 2.1.13
    *@memberof LFormItemNumberRangeProps
    */
-
   separatorWidth?: number;
+  /**
+   * 中间元素的样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.13
+   *@memberof LFormItemNumberRangeProps
+   */
+  separatorStyle?: React.CSSProperties;
 
   /**
    * 左边 InputNumber 的属性
@@ -123,10 +131,11 @@ export type LFormItemNumberRangeProps = {
 
 const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
   required,
+  disabled,
   placeholder,
   separatorWidth = 30,
   separator,
-  disabled,
+  separatorStyle = {},
   leftNumberProps = {},
   rightNumberProps = {},
   ...restProps
@@ -161,6 +170,7 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
       <NumberRange
         disabled={disabled ?? formDisabled}
         separator={separator}
+        separatorStyle={separatorStyle}
         separatorWidth={separatorWidth}
         placeholder={messageLabel}
         leftNumberProps={leftNumberProps}

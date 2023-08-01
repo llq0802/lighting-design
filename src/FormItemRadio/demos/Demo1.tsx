@@ -5,7 +5,6 @@ const Demo1 = () => {
 
   return (
     <LForm
-      name="LFormItemRadio"
       form={form}
       onFinish={(fields) => {
         console.log('fields', fields);
