@@ -12,6 +12,7 @@ order: 3
 - [LSeamlesScroll - 无缝滚动组件](/components/seamles-scroll)
 - [LScrollBar - 滚动条组件](/components/scroll-bar)
 - [LTreeTable - 树表格组件](/components/tree-table)
+- [LH5Preview - H5 预览组件](/components/h5-preview)
 - [LListForm - 列表表单组件](/components/list-form)
 - [LFormItmeIcon - 图标选择组件](/components/form-item-icon)
 - [LFormItemNumberRange - 数字范围组件](/components/form-item-number-range)

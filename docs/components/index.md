@@ -26,6 +26,7 @@ toc: content
 - [LCollapseCard] - 折叠卡片
 - [LScrollBar] - 滚动条
 - [LTreeTable] - 树表格
+- [LH5Preview] - H5 预览
 
 ## 高级表单
 
@@ -71,6 +72,7 @@ toc: content
 - [useDeepUpdateEffect] - 深度依赖项更新时的副作用
 - [useLazyLoadImage] - 性能更好的懒加载图片
 
+[LH5Preview]: /components/h5-preview
 [useWorker]: /components/use-worker
 [useDeepUpdateEffect]: /components/use-deep-update-effect
 [useLazyLoadImage]: /components/use-lazy-load-image

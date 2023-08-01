@@ -21,91 +21,91 @@ export interface LCardGroupProps {
   /**
    *默认值
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   defaultValue?: ValueType;
   /**
    *受控值
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   value?: ValueType;
   /**
    *值发生变化时出发
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   onChange?: (values: ValueType) => void;
   /**
    * 是否支持多选
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   multiple?: boolean;
   /**
    * 数据选项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   options?: LCardGroupOptions[];
   /**
    * 是否禁用全部
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   disabled?: boolean;
   /**
    * 再次点击是否可以取消
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   cancelable?: boolean;
   /**
    * 卡片之间的间隔
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   gap?: number;
   /**
    *类名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   className?: string;
   /**
    *样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   style?: CSSProperties;
   /**
    * 卡片的样式  比每一项中的 cardProps.bodyStyle 优先级高
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    * */
   cardBodyStyle?: CSSProperties;
   /**
    * 卡片的样式  比每一项中的cardProps.style优先级高
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   cardStyle?: CSSProperties;
   /**
    * 选中卡片的样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.13
+   *@version 2.1.14
    *@memberof LCardGroupProps
    */
   activeStyle?: CSSProperties;

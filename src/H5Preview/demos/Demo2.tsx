@@ -1,9 +1,20 @@
 import { LH5Preview } from 'lighting-design';
+import { useEffect, useRef } from 'react';
 
 const Demo2 = () => {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    console.log('ref.current', ref.current);
+  }, []);
   return (
     <div>
-      <LH5Preview scale={0.8} deviceColor="gray" className="my-h5-preview-1">
+      <LH5Preview
+        ref={ref}
+        scale={0.8}
+        deviceColor="gray"
+        className="my-h5-preview-1"
+      >
         <div
           style={{
             background: '#fff',
