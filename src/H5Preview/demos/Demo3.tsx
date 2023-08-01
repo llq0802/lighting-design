@@ -9,6 +9,7 @@ const Demo3 = () => {
           style={{
             width: '100%',
             height: '100%',
+            border: 'none',
           }}
         />
       </LH5Preview>
