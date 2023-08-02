@@ -47,26 +47,27 @@ nav:
 >
 > - `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps`的`preventDefault`为`true`所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
 
-````ts
+```ts
 import { LForm } from 'lighting-design';
+```
 
 ### LForm
 
 除了以下参数，其余和 antd [Form](https://ant.design/components/form-cn#api) 组件一样。
 
-| 参数            | 说明                                                                                                                  | 类型                                                                                        | 默认值   |
-| --------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------- |
-| labelWidth      | 所有表单项 label 宽度 , 同 `labelCol={{ flex: 'xxx px' }}` , 不要与 `labelCol` 属性同时设置                           | `number \| 'auto'`                                                                          | `'auto'` |
-| transformValues | 在 `onFinish` 调用之前转化表单值 , 返回值会传给 `onFinish` 的参数                                                     | `(values: Record<string, any>) => Record<string, any>`                                      | `-`      |
-| submitter       | 提交、重置按钮相关配置。为`false`将不会渲染                                                                           | `false` \| [LFormSubmitterProps](/components/form#lformsubmitterprops)                      | `-`      |
-| isEnterSubmit   | 是否开启回车键提交，为`true`时注意不要配置 `submitter`中 `submitButtonProps` 的 `htmlType='submit'`                   | `boolean`                                                                                   | `true`   |
-| loading         | 设置提交、重置的加载/禁止状态。<br/>如果 `onFinish` 返回异步则无需设置，内部会自动更新。                              | `boolean`                                                                                   | `false`  |
-| isReady         | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。<br/>一般用于异步获取初始值`initialValues` | `boolean`                                                                                   | `true`   |
-| onFinish        | 提交数据时触发，和 `antd Form` 一样。如果返回异步，会自动管理 `loading` 无需再设置 `loading`。                        | `(values) => any`                                                                           | `-`      |
-| onValuesChange  | 字段值更新时触发回调事件 `(不建议设置每一项的 onChange,而是统一在此设置)`                                             | `(currentName: string, currentValue: any, allValues: Record<string, any>) => void`          | `-`      |
-| onReset         | 点击重置按钮的回调                                                                                                    | `(e) => void`                                                                               | `-`      |
-| contentRender   | 自定义渲染`children`                                                                                                  | `(formItemsDom: ReactNode[],submitterDom: ReactNode, form: FormInstance<any>) => ReactNode` | `-`      |
-| formRender      | 自定义渲染整个组件                                                                                                    | `(formDom: ReactElement, submitterDom: ReactNode) => ReactNode`                             | `-`      |
+|      参数       |                                                         说明                                                          |                                            类型                                             |  默认值  |
+| :-------------: | :-------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------: | :------: |
+|   labelWidth    |              所有表单项 label 宽度 , 同 `labelCol={{ flex: 'xxx px' }}` , 不要与 `labelCol` 属性同时设置              |                                     `number \| 'auto'`                                      | `'auto'` |
+| transformValues |                           在 `onFinish` 调用之前转化表单值 , 返回值会传给 `onFinish` 的参数                           |                   `(values: Record<string, any>) => Record<string, any>`                    |   `-`    |
+|    submitter    |                                      提交、重置按钮相关配置。为`false`将不会渲染                                      |                              `false` \| [LFormSubmitterProps]                               |   `-`    |
+|  isEnterSubmit  |          是否开启回车键提交，为`true`时注意不要配置 `submitter`中 `submitButtonProps` 的 `htmlType='submit'`          |                                          `boolean`                                          |  `true`  |
+|     loading     |               设置提交、重置的加载/禁止状态。<br/>如果 `onFinish` 返回异步则无需设置，内部会自动更新。                |                                          `boolean`                                          | `false`  |
+|     isReady     | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。<br/>一般用于异步获取初始值`initialValues` |                                          `boolean`                                          |  `true`  |
+|    onFinish     |            提交数据时触发，和 `antd Form` 一样。如果返回异步，会自动管理 `loading` 无需再设置 `loading`。             |                                      `(values) => any`                                      |   `-`    |
+| onValuesChange  |                       字段值更新时触发回调事件 `(不建议设置每一项的 onChange,而是统一在此设置)`                       |     `(currentName: string, currentValue: any, allValues: Record<string, any>) => void`      |   `-`    |
+|     onReset     |                                                  点击重置按钮的回调                                                   |                                        `(e) => void`                                        |   `-`    |
+|  contentRender  |                                                 自定义渲染`children`                                                  | `(formItemsDom: ReactNode[],submitterDom: ReactNode, form: FormInstance<any>) => ReactNode` |   `-`    |
+|   formRender    |                                                  自定义渲染整个组件                                                   |               `(formDom: ReactElement, submitterDom: ReactNode) => ReactNode`               |   `-`    |
 
 ### LFormSubmitterProps
 
@@ -85,7 +86,7 @@ import { LForm } from 'lighting-design';
 >
   // ...
 </LForm>
-````
+```
 
 | 参数              | 说明                                                                                                                           | 类型                                                                             | 默认值 |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | ------ |
@@ -99,3 +100,5 @@ import { LForm } from 'lighting-design';
 | onSubmit          | 点击提交按钮的回调                                                                                                             | `(e) => void`                                                                    | `-`    |
 | onReset           | 点击重置按钮的回调 (优先级比 LForm 的 onReset 高)                                                                              | `(e) => void`                                                                    | `-`    |
 | render            | 自定义操作的渲染                                                                                                               | ` (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-`    |
+
+[LFormSubmitterProps]: #lformsubmitterprops

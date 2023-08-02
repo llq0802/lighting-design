@@ -211,7 +211,7 @@ export default function LCardGroup(props: LCardGroupProps) {
               ...cardBodyStyle,
             }}
           >
-            {item.label}
+            {item.label ?? item.value}
           </Card>
         );
       })}

@@ -48,6 +48,8 @@ nav:
 > - `LDrawerForm` 的确定丶取消 通过 `LForm` 的`submitter`属性配置
 >
 > - 大多数情况你只需要配置` trigger` `(能接受 onClick 事件的组件) `，一旦配置了`trigger`属性就不在需要受控控制弹窗的显示
+>
+> - 某些情况你需要在关闭抽屉时调用`form.resetFields()`手动控制恢复到默认值 , 请将`isResetFields={false}`
 
 ```ts
 import { LDrawerForm } from 'lighting-design';
