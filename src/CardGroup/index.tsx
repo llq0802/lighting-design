@@ -1,7 +1,7 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { CardProps } from 'antd';
 import { Card, theme } from 'antd';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import type { CSSProperties, ReactNode } from 'react';
 import './index.less';
 
@@ -172,10 +172,12 @@ export default function LCardGroup(props: LCardGroupProps) {
 
   return (
     <div
-      className={classNames(
+      className={classnames(
         prefixCls,
-        disabled && `${prefixCls}-disabled`,
-        multiple && `${prefixCls}-multiple`,
+        {
+          [`${prefixCls}-disabled`]: disabled,
+          [`${prefixCls}-multiple`]: multiple,
+        },
         className,
       )}
       style={{ gap, ...style }}
@@ -186,13 +188,15 @@ export default function LCardGroup(props: LCardGroupProps) {
           : value === item.value;
         return (
           <Card
-            {...item.cardProps}
-            className={classNames(
+            {...item?.cardProps}
+            className={classnames(
               `${prefixCls}-item`,
-              item.disabled && `${prefixCls}-item-disabled`,
-              (multiple ? value?.includes(item.value) : value === item.value) &&
-                `${prefixCls}-item-active`,
-
+              {
+                [`${prefixCls}-item-disabled`]: item.disabled,
+                [`${prefixCls}-item-active`]: multiple
+                  ? value?.includes(item.value)
+                  : value === item.value,
+              },
               item.cardProps?.className,
             )}
             key={item.value ?? i}
@@ -202,13 +206,13 @@ export default function LCardGroup(props: LCardGroupProps) {
             }}
             style={{
               borderColor: isActive ? token.colorPrimary : void 0,
-              ...item.cardProps?.style,
               ...cardStyle,
+              ...item.cardProps?.style,
               ...(isActive ? activeStyle : {}),
             }}
             bodyStyle={{
-              ...item?.cardProps?.bodyStyle,
               ...cardBodyStyle,
+              ...item?.cardProps?.bodyStyle,
             }}
           >
             {item.label ?? item.value}

@@ -29,6 +29,10 @@ toc: content
 
 <code src='./demos/Demo4.tsx'></code>
 
+### 修改选中样式
+
+<code src='./demos/Demo6.tsx'></code>
+
 ## API
 
 > - 卡片的宽度默认最小为 `200px (min-width:200px)`，可通过 `cardStyle`修改
@@ -45,8 +49,8 @@ import { LCardGroup } from 'lighting-design';
 |      gap      |                              卡片间隔                              |              `number`              |   `8`   |
 |   className   |                              容器类名                              |              `string`              |   `-`   |
 |     style     |                              容器样式                              |          `CSSProperties`           |   `-`   |
-| cardBodyStyle | 统一设置卡片 body 样式 比每一项中的 `cardProps.bodyStyle` 优先级高 |          `CSSProperties`           |   `-`   |
-|   cardStyle   |      统一设置卡片样式 比每一项中的 `cardProps.style` 优先级高      |          `CSSProperties`           |   `-`   |
+| cardBodyStyle | 统一设置卡片 body 样式 比每一项中的 `cardProps.bodyStyle` 优先级低 |          `CSSProperties`           |   `-`   |
+|   cardStyle   |      统一设置卡片样式 比每一项中的 `cardProps.style` 优先级低      |          `CSSProperties`           |   `-`   |
 |  activeStyle  |                          被选中的卡片样式                          |          `CSSProperties`           |   `-`   |
 |   multiple    |                              是否多选                              |             `boolean`              | `false` |
 |   disabled    |                              是否禁用                              |             `boolean`              | `false` |

@@ -35,6 +35,7 @@ import { LSliderVerify } from 'lighting-design';
 |      style       |          容器样式          |                       `CSSProperties`                        |            `-`             |
 |     barStyle     |         滑块的样式         |                    `React.CSSProperties`                     |            `-`             |
 |    tipsStyle     |    文字提示 div 的样式     |                    `React.CSSProperties`                     |            `-`             |
+|     barWidth     |    滑块外层 div 的宽度     |                           `number`                           |            `60`            |
 |      width       |          组件宽度          |                           `number`                           |           `400`            |
 |      height      |          组件高度          |                           `number`                           |            `32`            |
 |     bgColor      |      组件初始背景颜色      |                           `string`                           |         `#F2F3F5`          |
