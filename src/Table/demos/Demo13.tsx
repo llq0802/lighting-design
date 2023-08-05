@@ -75,8 +75,8 @@ const Demo13: FC = () => {
           showColsNumber: 3,
         }}
         formCardProps={{
-          ...publicCardProps,
-          bodyStyle: {
+          style: {
+            ...publicCardProps.style,
             marginBottom: 0,
           },
         }}

@@ -141,7 +141,7 @@ const Demo15: FC = () => {
           tableRef={tableRef}
           formRef={formRef}
           queryFormProps={{ submitter: { resetButtonProps: { ghost: true } } }}
-          formCardProps={{ bodyStyle: { marginBottom: 0 } }}
+          formCardProps={{ style: { marginBottom: 0 } }}
           tableCardProps={{ bodyStyle: { paddingTop: 8 } }}
           pagination={{ showQuickJumper: false }}
           formItems={formItems}
