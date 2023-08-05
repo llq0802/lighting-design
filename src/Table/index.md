@@ -84,6 +84,14 @@ nav:
 
 <code src='./demos/Demo14.tsx' background="#f5f5f5"></code>
 
+### Skeleton 骨架屏 1
+
+<code src='./demos/Demo16.tsx' background="#f5f5f5"></code>
+
+### Skeleton 骨架屏 2
+
+<code src='./demos/Demo17.tsx' background="#f5f5f5"></code>
+
 ### 编辑表格
 
 [编辑表格行](https://ant.design/components/table-cn#components-table-demo-edit-row)
@@ -104,7 +112,7 @@ nav:
 import { LTable } from 'lighting-design';
 ```
 
-> - 尽量使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等
+> - 大多数情况尽量使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等 ,特殊场景下你依然可以使用 `dataSource` , 比如: 外层`Skeleton` 骨架屏, 这时 `分页` `loading`都有你来控制
 >
 > - `request`的第二个参数表示当前请求的类型， `autoRequest` 为 `true` 时的组件初始化的请求为 `'onInit'`， 表单查询按钮请求为 `'onSearch'`，表格分页查询与内置工具栏的刷新为 `'onReload'`，表单重置按钮为 `'onReset'`，如果没有配置 `formItems` 则为 `undefined`
 >

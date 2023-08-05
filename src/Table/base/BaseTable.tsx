@@ -643,6 +643,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const tablecardref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
+    if (!tablecardref.current) return;
     if (fillSpace === 0 || fillSpace === true) {
       const _minHeght =
         document.documentElement.clientHeight -
@@ -661,7 +662,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     } else {
       tablecardref.current!.style.minHeight = `auto`;
     }
-  }, [fillSpace]);
+  }, [fillSpace, tablecardref.current]);
 
   // 初始化请求
   useEffect(() => {
@@ -719,10 +720,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
         <Table
           components={{
-            ...components,
             table: contentRender
               ? () => contentRender(data?.list ?? []) as unknown as any
               : void 0,
+            ...components,
           }}
           className={classnames(tableClassName, className)}
           rowClassName={classnames(

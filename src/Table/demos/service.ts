@@ -49,7 +49,7 @@ for (let i = 0; i < 60; i++) {
   });
 }
 
-export function apiGetUserList(): Promise<Record<string, any>> {
+export function apiGetUserList(time = 1000): Promise<Record<string, any>> {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
@@ -57,6 +57,6 @@ export function apiGetUserList(): Promise<Record<string, any>> {
         total: data.length,
         success: true,
       });
-    }, 1000);
+    }, time);
   });
 }
