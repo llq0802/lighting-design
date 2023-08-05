@@ -1,8 +1,10 @@
 import { useRequest } from 'ahooks';
-import { Skeleton, type FormInstance } from 'antd';
+import { Card, ConfigProvider, Skeleton, type FormInstance } from 'antd';
+import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
+import './Demos.less';
 import { apiGetUserList, columns } from './service';
 
 const formItems = [
@@ -15,14 +17,13 @@ const formItems = [
 
 const Demo16: FC = () => {
   const formRef = useRef<FormInstance>();
+  const tableRef = useRef<LTableInstance>();
 
-  const { loading, data: dataSource } = useRequest(apiGetUserList, {
-    defaultParams: [10_000],
-  });
+  const { loading, runAsync } = useRequest(apiGetUserList, { manual: true });
 
   return (
     <>
-      {loading ? (
+      {/* {loading ? (
         <Skeleton
           active
           title={{ width: '100%' }}
@@ -30,6 +31,7 @@ const Demo16: FC = () => {
         />
       ) : (
         <LTable
+          tableRef={tableRef}
           autoRequest={false}
           showToolbar={false}
           formItems={formItems}
@@ -37,9 +39,75 @@ const Demo16: FC = () => {
           columns={columns}
           dataSource={dataSource?.data}
         />
-      )}
+      )} */}
+
+      <LTable
+        tableRef={tableRef}
+        loading={false}
+        formItems={formItems}
+        formRef={formRef}
+        columns={columns}
+        toolbarActionConfig={{
+          showFullscreen: false,
+        }}
+        request={async () => {
+          const res = await runAsync();
+          return {
+            success: res.success,
+            data: res.data,
+            total: res.total,
+          };
+        }}
+        tableRender={(doms) => {
+          return (
+            <ConfigProvider
+            // theme={{
+            //   components: {
+            //     Skeleton: {
+            //       colorFill: 'red',
+            //       colorFillContent: 'blue',
+            //     },
+            //   },
+            // }}
+            >
+              {doms.searchFormDom}
+              <Card bordered={false}>
+                <Skeleton
+                  active
+                  className="my-skeleton-1"
+                  loading={loading}
+                  title={{ width: '100%' }}
+                  paragraph={{ rows: 10, width: '100%' }}
+                >
+                  {doms.tableDom}
+                </Skeleton>
+              </Card>
+            </ConfigProvider>
+          );
+        }}
+      />
     </>
   );
 };
 
 export default Demo16;
+
+function EditableCell(eProps) {
+  const { editing, editable, dataIndex, children, ...restProps } = eProps;
+
+  console.log('eProps', eProps);
+
+  return (
+    <td {...restProps}>
+      {editing ? (
+        <>
+          {React.cloneElement(editable, {
+            name: dataIndex,
+          })}
+        </>
+      ) : (
+        children
+      )}
+    </td>
+  );
+}

@@ -3,7 +3,7 @@ import type { FormInstance } from 'antd';
 import { ConfigProvider, Skeleton } from 'antd';
 import { LFormItemInput, LTable } from 'lighting-design';
 import { useRef } from 'react';
-import './Demo17.less';
+import './Demos.less';
 import { apiGetUserList, columns } from './service';
 
 const formItems = [
@@ -36,14 +36,14 @@ function Demo17() {
       tableRender={(doms) => {
         return (
           <ConfigProvider
-            theme={{
-              components: {
-                Skeleton: {
-                  colorFill: 'red',
-                  colorFillContent: 'blue',
-                },
-              },
-            }}
+          // theme={{
+          //   components: {
+          //     Skeleton: {
+          //       colorFill: 'red',
+          //       colorFillContent: 'blue',
+          //     },
+          //   },
+          // }}
           >
             <Skeleton
               active

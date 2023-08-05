@@ -58,10 +58,12 @@ const SearchForm = forwardRef(
         bordered={false}
         {...cardProps}
         className={classNames(`${LIGHTD_CARD}`, cardProps?.className)}
-        style={{ ...cardProps?.style }}
+        style={{
+          marginBottom: 16,
+          ...cardProps?.style,
+        }}
         bodyStyle={{
           paddingBottom: 0,
-          marginBottom: 16,
           ...cardProps?.bodyStyle,
         }}
       >
