@@ -3,7 +3,7 @@ import { Card, ConfigProvider, Skeleton, type FormInstance } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import './Demos.less';
 import { apiGetUserList, columns } from './service';
 
@@ -23,24 +23,6 @@ const Demo16: FC = () => {
 
   return (
     <>
-      {/* {loading ? (
-        <Skeleton
-          active
-          title={{ width: '100%' }}
-          paragraph={{ rows: 11, width: '100%' }}
-        />
-      ) : (
-        <LTable
-          tableRef={tableRef}
-          autoRequest={false}
-          showToolbar={false}
-          formItems={formItems}
-          formRef={formRef}
-          columns={columns}
-          dataSource={dataSource?.data}
-        />
-      )} */}
-
       <LTable
         tableRef={tableRef}
         loading={false}
@@ -86,28 +68,25 @@ const Demo16: FC = () => {
           );
         }}
       />
+      {/* {loading ? (
+        <Skeleton
+          active
+          title={{ width: '100%' }}
+          paragraph={{ rows: 11, width: '100%' }}
+        />
+      ) : (
+        <LTable
+          tableRef={tableRef}
+          autoRequest={false}
+          showToolbar={false}
+          formItems={formItems}
+          formRef={formRef}
+          columns={columns}
+          dataSource={dataSource?.data}
+        />
+      )} */}
     </>
   );
 };
 
 export default Demo16;
-
-function EditableCell(eProps) {
-  const { editing, editable, dataIndex, children, ...restProps } = eProps;
-
-  console.log('eProps', eProps);
-
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <>
-          {React.cloneElement(editable, {
-            name: dataIndex,
-          })}
-        </>
-      ) : (
-        children
-      )}
-    </td>
-  );
-}

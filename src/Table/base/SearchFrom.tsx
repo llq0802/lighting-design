@@ -31,27 +31,33 @@ const SearchForm = forwardRef(
       string | number | boolean | null | undefined
     >[] = [];
 
-    if (Array.isArray(formItems) && formItems.length > 0) {
-      items = formItems;
-    }
-
-    if (items.length <= 0) {
-      return null;
-    }
+    useImperativeHandle(ref, () => form);
 
     const searchFormId = useMemo(
       () => name || uniqueId('lightd-table-search-form'),
       [name],
     );
 
-    useImperativeHandle(ref, () => form);
+    if (Array.isArray(formItems) && formItems.length > 0) {
+      items = formItems;
+    }
 
-    const dom = items.map((item: any, index: number) =>
-      cloneElement(item, {
-        key:
-          item?.key || item?.props?.key || item?.props?.name + index.toString(),
-      }),
+    const dom = useMemo(
+      () =>
+        items.map((item: any, index: number) =>
+          cloneElement(item, {
+            key:
+              item?.key ||
+              item?.props?.key ||
+              item?.props?.name + index.toString(),
+          }),
+        ),
+      [items],
     );
+
+    if (items?.length <= 0) {
+      return null;
+    }
 
     return (
       <Card

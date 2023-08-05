@@ -6,6 +6,14 @@ import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 import { apiGetUserList, columns } from './service';
 
+const formItems = [
+  <LFormItemInput key="0" name="input4" label="输入框" />,
+  <LFormItemInput key="1" name="input5" label="输入框" />,
+  <LFormItemInput key="2" name="input6" label="输入框" />,
+  <LFormItemInput key="3" name="input7" label="输入框" />,
+  <LFormItemInput key="4" name="input8" label="输入框" />,
+];
+
 const Demo7: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
@@ -21,14 +29,6 @@ const Demo7: FC = () => {
       tableRef.current?.onSearch();
     }, 2000);
   }, []);
-
-  const formItems = [
-    <LFormItemInput key="0" name="input4" label="输入框" />,
-    <LFormItemInput key="1" name="input5" label="输入框" />,
-    <LFormItemInput key="2" name="input6" label="输入框" />,
-    <LFormItemInput key="3" name="input7" label="输入框" />,
-    <LFormItemInput key="4" name="input8" label="输入框" />,
-  ];
 
   return (
     <LTable

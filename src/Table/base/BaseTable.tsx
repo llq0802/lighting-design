@@ -393,6 +393,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
 
   const [currentSize, setCurrentSize] = useState(outSize);
   const rootRef = useRef<HTMLDivElement>(null);
+  const tablecardref = useRef<HTMLDivElement>(null);
   const _lformRef = useRef<Record<string, any>>({});
   const isInit = useRef<boolean>(false); // 是否第一次自动请求
   const [isFullScreen, setFullScreen] = useState(false);
@@ -400,7 +401,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 绑定SearchForm组件form实例在内部
   const queryFormRef = useRef<FormInstance | null>(null);
   // 绑定SearchForm组件form实例在外部
-
   const handleFormRef = useMemoizedFn((refValue: FormInstance) => {
     queryFormRef.current = refValue;
     if (formRef) {
@@ -412,6 +412,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     }
   });
 
+  // 内置表格工具栏
   const toolbarActionConfig = useMemo(() => {
     return {
       showReload: true,
@@ -422,6 +423,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     };
   }, [outToolbarActionConfig]);
 
+  // 根标签全屏样式
   const rootDefaultStyle = useMemo(() => {
     return isFullScreen ? { background: fullScreenBgColor } : {};
   }, [isFullScreen]);
@@ -450,7 +452,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     [formItems],
   );
 
-  // request请求
+  // useRequest请求
   const {
     // refresh,
     // params,
@@ -508,7 +510,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 表格展示的列
   const [currentColumns, setCurrentColumns] = useState(outColumns);
 
-  // loading
+  // 内部loading
   const currentLoading = useMemo(() => {
     if (outLoading === void 0) {
       return { spinning: requestLoading };
@@ -640,8 +642,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     /** 页码信息及操作 */
     pagination: paginationAction,
   }));
-  const tablecardref = useRef<HTMLDivElement>(null);
 
+  // 处理是否沾满视口的剩余空间
   useLayoutEffect(() => {
     if (!tablecardref.current) return;
     if (fillSpace === 0 || fillSpace === true) {
@@ -793,6 +795,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       {tableDom}
     </div>
   );
+
   // 根节点注册
   const returnDom = (
     <TableContext.Provider
