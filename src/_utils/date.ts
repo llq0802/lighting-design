@@ -139,27 +139,29 @@ export function transform2Dayjs(
   if (dayjs.isDayjs(value)) {
     return value;
   }
+
   if (Array.isArray(value)) {
-    return value.map((item) => transform2Dayjs(item, format, picker));
+    return value?.map((item) => transform2Dayjs(item, format, picker));
   }
 
   if (typeof value === 'string') {
+    // 季度
     if (picker === 'quarter') {
-      return format === DateFormat.quarter
-        ? dayjs().quarter(+value.slice(-1))
-        : dayjs().quarter(+value.slice(5, 6));
+      const quarterNum =
+        format === DateFormat.quarter ? +value.slice(-1) : +value.slice(5, 6);
+      return dayjs().quarter(quarterNum);
     }
 
+    // 周
     if (picker === 'week') {
-      return dayjs().week(+value.slice(5, -2));
+      const weekNum = parseInt(value.slice(5)) + 1; // antd的原因 要加一周
+      return dayjs().week(weekNum);
     }
 
     return dayjs(value, format);
-
-    // return format === DateFormat.quarter
-    //   ? transformQuarter(value)
-    //   : dayjs(value, format);
+    // return dayjs(value);
   }
+
   if (typeof value === 'number') {
     return dayjs(value);
   }

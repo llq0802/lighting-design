@@ -2,14 +2,13 @@ import { useMemoizedFn } from 'ahooks';
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/zh_CN';
-import type { Store } from 'antd/es/form/interface';
-import 'dayjs/locale/zh-cn';
-
 import type {
   MonthPickerProps,
   RangePickerProps,
   WeekPickerProps,
 } from 'antd/lib/date-picker';
+import type { Dayjs } from 'dayjs';
+import 'dayjs/locale/zh-cn';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -17,7 +16,6 @@ import type { DateValueType, Picker } from 'lighting-design/_utils/date';
 import {
   createDisabledDate,
   DateFormat,
-  formatDayjs,
   getDateFormat,
   transform2Dayjs,
 } from 'lighting-design/_utils/date';
@@ -28,9 +26,52 @@ const { RangePicker } = DatePicker;
 
 type RangePickerWrapperProps = any & RangePickerProps;
 
+/**
+ * 日期选择
+ * @param param0
+ * @returns
+ */
 const DatePickerWrapper: FC<
   DatePickerProps | MonthPickerProps | WeekPickerProps | any
-> = ({ style, value, format, picker, ...restProps }) => {
+> = ({
+  dateValueType,
+  value,
+  onChange,
+  format,
+  picker,
+  style,
+  ...restProps
+}) => {
+  const handleDatePickerChange = useMemoizedFn(
+    (val: Dayjs | null, str: string) => {
+      if (!val) {
+        onChange(void 0);
+        return;
+      }
+      switch (dateValueType) {
+        case 'string':
+          {
+            onChange(str);
+          }
+          break;
+        case 'dayjs':
+          {
+            onChange(val);
+          }
+          break;
+        case 'number':
+          {
+            const timestamp = val!?.valueOf();
+            onChange(timestamp);
+          }
+          break;
+        default:
+          onChange(val, str);
+          break;
+      }
+    },
+  );
+
   return (
     <DatePicker
       picker={picker}
@@ -39,17 +80,55 @@ const DatePickerWrapper: FC<
       {...restProps}
       value={transform2Dayjs(value, format, picker)}
       style={{ width: '100%', ...style }}
+      onChange={handleDatePickerChange}
     />
   );
 };
 
+/**
+ * 日期范围选择
+ * @param param0
+ * @returns
+ */
 const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
+  dateValueType,
   style,
   value,
+  onChange,
   format,
   picker,
   ...restProps
 }) => {
+  const handleRangeDatePickerChange = useMemoizedFn(
+    (vals: [Dayjs, Dayjs] | [null, null], strs: [string, string]) => {
+      if (!vals) {
+        onChange(void 0);
+        return;
+      }
+      switch (dateValueType) {
+        case 'string':
+          {
+            onChange(strs);
+          }
+          break;
+        case 'dayjs':
+          {
+            onChange(vals);
+          }
+          break;
+        case 'number':
+          {
+            const timestamps = vals?.map((item) => item!?.valueOf());
+            onChange(timestamps);
+          }
+          break;
+        default:
+          onChange(vals, strs);
+          break;
+      }
+    },
+  );
+
   return (
     <RangePicker
       picker={picker}
@@ -57,6 +136,7 @@ const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
       format={format === DateFormat.quarter ? void 0 : format}
       {...restProps}
       value={transform2Dayjs(value, format, picker)}
+      onChange={handleRangeDatePickerChange}
       style={{ width: '100%', ...style }}
     />
   );
@@ -135,7 +215,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
   pickerProps = {},
   placeholder,
 
-  normalize,
+  // normalize,
   disabled,
   required = false,
   ...restProps
@@ -165,18 +245,19 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
     [currentPicker, disabledDateBefore, disabledDateAfter],
   );
 
-  const handleTransform = useMemoizedFn(
-    (value: any, prevValue: any, allValues: Store) => {
-      if (typeof normalize === 'function') {
-        return normalize(value, prevValue, allValues);
-      }
-      return formatDayjs(value, currentFormat, dateValueType);
-    },
-  );
+  // const handleTransform = useMemoizedFn(
+  //   (value: any, prevValue: any, allValues: Store) => {
+  //     if (typeof normalize === 'function') {
+  //       return normalize(value, prevValue, allValues);
+  //     }
+  //     return formatDayjs(value, currentFormat, dateValueType);
+  //   },
+  // );
 
   const dom = useMemo(() => {
     return !rangePicker ? (
       <DatePickerWrapper
+        dateValueType={dateValueType}
         placeholder={placeholder}
         disabledDate={currentDisabledDate}
         {...pickerProps}
@@ -187,6 +268,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
       />
     ) : (
       <RangePickerWrapper
+        dateValueType={dateValueType}
         placeholder={placeholder}
         disabledDate={currentDisabledDate}
         {...pickerProps}
@@ -212,7 +294,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
     <LFormItem
       _isSelectType
       required={required}
-      normalize={handleTransform}
+      // normalize={handleTransform}
       {...restProps}
     >
       {dom}
