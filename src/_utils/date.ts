@@ -154,7 +154,7 @@ export function transform2Dayjs(
 
     // 周
     if (picker === 'week') {
-      const weekNum = parseInt(value.slice(5)) + 1; // antd的原因 要加一周
+      const weekNum = parseInt(value.slice(5)); // +1; // antd的原因 要加一周
       return dayjs().week(weekNum);
     }
 
