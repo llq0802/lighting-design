@@ -117,7 +117,7 @@ const Demo15: FC = () => {
       <Watermark
         content="Lighting Design"
         font={{
-          fontSize: 18,
+          fontSize: 16,
           color: 'rgba(0,0,0,.35)',
         }}
       >

@@ -40,6 +40,7 @@ const Demo14: FC = () => {
             showColsNumber: 2,
             isEnterSubmit: false,
           }}
+          pagination={{ showQuickJumper: false }}
           showToolbar={false}
           formItems={formItems}
           formRef={formRef}

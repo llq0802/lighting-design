@@ -53,17 +53,18 @@ const Demo16: FC = () => {
             // }}
             >
               {doms.searchFormDom}
-              <Card bordered={false}>
-                <Skeleton
-                  active
-                  className="my-skeleton-1"
-                  loading={loading}
-                  title={{ width: '100%' }}
-                  paragraph={{ rows: 10, width: '100%' }}
-                >
-                  {doms.tableDom}
-                </Skeleton>
-              </Card>
+              {loading ? (
+                <Card bordered={false}>
+                  <Skeleton
+                    active
+                    className="my-skeleton-1"
+                    title={{ width: '100%' }}
+                    paragraph={{ rows: 10, width: '100%' }}
+                  />
+                </Card>
+              ) : (
+                doms.tableDom
+              )}
             </ConfigProvider>
           );
         }}
