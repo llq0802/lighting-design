@@ -175,41 +175,39 @@ export function transform2Dayjs(
  * @param format
  * @param dateValueType
  */
-export function formatDayjs(
-  date: Dayjs,
-  format: string,
-  dateValueType: DateValueType,
-): string | number | Dayjs;
+// export function formatDayjs(
+//   date: Dayjs,
+//   format: string,
+//   dateValueType: DateValueType,
+// ): string | number | Dayjs;
+// export function formatDayjs(
+//   date: [Dayjs, Dayjs],
+//   format: string,
+//   dateValueType: DateValueType,
+// ): [string | number | Dayjs, string | number | Dayjs];
+// export function formatDayjs(
+//   date: Dayjs | Dayjs[],
+//   format: string,
+//   dateValueType: DateValueType,
+// ): string | number | Dayjs | (string | number | Dayjs)[] {
+//   if (Array.isArray(date) && date.length > 0) {
+//     return date.map((item) => formatDayjs(item, format, dateValueType));
+//   }
 
-export function formatDayjs(
-  date: [Dayjs, Dayjs],
-  format: string,
-  dateValueType: DateValueType,
-): [string | number | Dayjs, string | number | Dayjs];
+//   if (date && dateValueType === 'string') {
+//     return format === DateFormat.quarter
+//       ? formatQuarter(date as Dayjs)
+//       : (date as Dayjs).format(format);
+//     // return (date as Dayjs).format(format);
+//   }
 
-export function formatDayjs(
-  date: Dayjs | Dayjs[],
-  format: string,
-  dateValueType: DateValueType,
-): string | number | Dayjs | (string | number | Dayjs)[] {
-  if (Array.isArray(date) && date.length > 0) {
-    return date.map((item) => formatDayjs(item, format, dateValueType));
-  }
+//   if (date && dateValueType === 'dayjs') {
+//     return date;
+//   }
 
-  if (date && dateValueType === 'string') {
-    return format === DateFormat.quarter
-      ? formatQuarter(date as Dayjs)
-      : (date as Dayjs).format(format);
-    // return (date as Dayjs).format(format);
-  }
+//   if (date && dateValueType === 'number') {
+//     return (date as Dayjs).valueOf();
+//   }
 
-  if (date && dateValueType === 'dayjs') {
-    return date;
-  }
-
-  if (date && dateValueType === 'number') {
-    return (date as Dayjs).valueOf();
-  }
-
-  return date;
-}
+//   return date;
+// }

@@ -9,13 +9,18 @@ const Demo1 = () => {
       labelWidth={110}
       submitter={{ buttonAlign: 110 }}
       form={form}
-      onFinish={(values) => {
-        console.log('values', values);
-      }}
       initialValues={{
         // date3: '2023-32周',
         date4: '2023-05',
         date5: '2023-Q1',
+      }}
+      onFinish={(values) => {
+        console.log('values', values);
+      }}
+      onValuesChange={(cur, val, allVals) => {
+        console.log('cur', cur);
+        console.log('val', val);
+        console.log('allVals', allVals);
       }}
     >
       <LFormItemDatePicker
@@ -31,6 +36,7 @@ const Demo1 = () => {
         picker="date"
         showTime
         dateValueType="number"
+        format="YYYY/MM/DD HH:mm:ss"
       />
       <LFormItemDatePicker label="周选择" name="date3" picker="week" />
       <LFormItemDatePicker label="月份选择" name="date4" picker="month" />
