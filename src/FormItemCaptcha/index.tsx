@@ -26,7 +26,7 @@ export interface LFormItemCaptchaProps
   /**
    *  按钮初始文本
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LFormItemCaptchaProps
    */
   initText?: string;
@@ -34,7 +34,7 @@ export interface LFormItemCaptchaProps
   /**
    *  验证码最大长度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LFormItemCaptchaProps
    */
   maxLength?: number;

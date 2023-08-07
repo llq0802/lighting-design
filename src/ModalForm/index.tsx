@@ -15,49 +15,49 @@ export interface LModalFormProps
   /**
    *  弹窗标题
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LModalFormProps
    */
   title?: ReactNode;
   /**
    * 预渲染Modal内容
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LModalFormProps
    */
   forceRender?: boolean;
   /**
    * 是否在关闭弹窗时重置表单到初始值
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LModalFormProps
    */
   isResetFields?: boolean;
   /**
    * 是否允许拖动
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LModalFormProps
    */
   isDraggable?: boolean;
   /**
    * Moadl的宽
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LModalFormProps
    */
   width?: ModalProps['width'];
   /**
    * 打开弹窗的按钮
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LModalFormProps
    */
   trigger?: ReactElement;
   /**
    * Moadl的其他配置属性 某些属性已被重写
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LModalFormProps
    *@see https://ant.design/components/modal-cn#api
    */
@@ -65,14 +65,14 @@ export interface LModalFormProps
   /**
    * 弹窗打开关闭的回调
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LModalFormProps
    */
   onOpenChange?: (open: boolean) => void;
   /**
    *  表单提交 只有返回true时才关闭弹窗
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LModalFormProps
    */
   onFinish?: (

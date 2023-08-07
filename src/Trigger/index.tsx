@@ -10,7 +10,7 @@ export type LTriggerProps = {
    * 显示的模式
    * @author 李岚清 <https://github.com/llq0802>
    * @type { 'default' | 'tag' }
-   * @version 2.1.14
+   * @version 2.1.15
    * @memberof LTriggerProps
    */
   mode?: 'default' | 'tag';
@@ -18,7 +18,7 @@ export type LTriggerProps = {
    * 是否打开
    * @author 李岚清 <https://github.com/llq0802>
    * @type { boolean }
-   * @version 2.1.14
+   * @version 2.1.15
    * @memberof LTriggerProps
    *
    */
@@ -27,7 +27,7 @@ export type LTriggerProps = {
    *  组件宽度
    * @author 李岚清 <https://github.com/llq0802>
    * @type { number | string }
-   * @version 2.1.14
+   * @version 2.1.15
    * @memberof LTriggerProps
    *  */
   width: number | string;
@@ -35,14 +35,14 @@ export type LTriggerProps = {
    * 弹出层宽度 当值小于选择框宽度时会被忽略
    * @author 李岚清 <https://github.com/llq0802>
    * @type { boolean }
-   * @version 2.1.14
+   * @version 2.1.15
    * @memberof LTriggerProps
    */
   dropdownWidth: number;
   /**
    * 自定义配置字段名称 label为展示名称的字段 value为字段的值
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.14
+   * @version 2.1.15
    * @memberof LTriggerProps
    * @example  fieldNames = {{
    *  label:'name',
@@ -57,21 +57,21 @@ export type LTriggerProps = {
   /**
    * 在mode='tag'时自定义标签
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.14
+   * @version 2.1.15
    * @memberof LTriggerProps
    */
   tagRender: (props: Record<string, any>) => ReactNode;
   /**
    * children 组件会接受到 open，setOpen，value，onChange 必须在 children 组件中绑定 value，onChange 才会收集到数据
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.14
+   * @version 2.1.15
    * @memberof LTriggerProps
    */
   children: ReactElement;
   /**
    * 自定义清除图标
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.14
+   * @version 2.1.15
    * @memberof LTriggerProps
    */
   clearIcon: SelectProps['clearIcon'];

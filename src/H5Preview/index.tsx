@@ -7,28 +7,28 @@ export interface LH5PreviewProps {
   /**
    *手机壳颜色
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LH5PreviewProps
    */
   deviceColor?: 'gold' | 'gray' | 'white';
   /**
    *手机缩放大小
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LH5PreviewProps
    */
   scale?: number | string;
   /**
    *组件根标签类名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LH5PreviewProps
    */
   className?: string;
   /**
    *组件根标签样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.14
+   *@version 2.1.15
    *@memberof LH5PreviewProps
    */
   style?: React.CSSProperties;
