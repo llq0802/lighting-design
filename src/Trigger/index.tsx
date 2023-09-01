@@ -131,6 +131,10 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
     trigger: 'onChange',
   });
 
+  const isTag = outMode === 'tag' && Array.isArray(state);
+
+  console.log('state', state);
+
   const isComponent = isValidElement(children);
   const dropdownRender = !isComponent
     ? void 0
@@ -183,7 +187,8 @@ const LTrigger: FC<Partial<LTriggerProps>> = (props) => {
       value={
         !selectProps?.labelInValue ? state?.[fieldNames.label] || void 0 : state
       }
-      open={isOpen}
+      // open={isOpen}
+      open
       onDropdownVisibleChange={(visible) => setIsOpen(visible)}
     />
   );
