@@ -445,6 +445,7 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
       content={content}
       open={isOpen}
       trigger="click"
+      rootClassName={`${prefixCls}-overlay`}
       placement={placement}
       onOpenChange={setIsOpen}
       getPopupContainer={getPopupContainer}

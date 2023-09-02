@@ -46,6 +46,20 @@ const MyTable: FC = (props) => {
       tableRef={tableRef}
       formRef={formRef}
       queryFormProps={{ size: 'small', isSpace: true }}
+      tableCardProps={{
+        style: {
+          borderRadius: 0,
+        },
+        bodyStyle: {
+          paddingTop: 0,
+        },
+      }}
+      formCardProps={{
+        style: {
+          marginBottom: 0,
+          borderRadius: 0,
+        },
+      }}
       formItems={formItems}
       request={async (params, requestType) => {
         return {

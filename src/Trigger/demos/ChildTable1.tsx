@@ -48,8 +48,10 @@ const Tables: React.FC = (props) => {
     <Table
       size="small"
       rowSelection={{
-        selectedRowKeys: outValue,
+        selectedRowKeys: outValue ? [outValue] : [],
         type: 'radio',
+        // 当数据被删除时仍然保留选项的 key， 对于通过异步请求的数据十分有用
+        preserveSelectedRowKeys: true,
         ...rowSelection,
       }}
       columns={columns}

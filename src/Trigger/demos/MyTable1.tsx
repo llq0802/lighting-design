@@ -47,6 +47,8 @@ const MyTable: FC = (props) => {
         label: selectedRows[0].name,
         value: selectedRowKeys[0],
       });
+
+      setOpen(false);
     },
     // getCheckboxProps: (record: DataType) => ({
     //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -56,6 +58,20 @@ const MyTable: FC = (props) => {
 
   return (
     <LTable
+      tableCardProps={{
+        style: {
+          borderRadius: 0,
+        },
+        bodyStyle: {
+          paddingTop: 0,
+        },
+      }}
+      formCardProps={{
+        style: {
+          marginBottom: 0,
+          borderRadius: 0,
+        },
+      }}
       showToolbar={false}
       size="small"
       columns={columns}
