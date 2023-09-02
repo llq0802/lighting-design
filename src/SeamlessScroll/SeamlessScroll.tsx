@@ -500,7 +500,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
       ref={scrollRef}
       className={wrapperClassName}
       style={{
-        height: wrapperHeight || realBoxHeight.current / 2,
+        height: wrapperHeight || realBoxHeight.current / (outCopyNum + 1),
         overflow: 'hidden',
       }}
     >

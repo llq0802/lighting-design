@@ -4,7 +4,7 @@ import ChildTable3 from './ChildTable3';
 import ChildTable4 from './ChildTable4';
 
 const tagRender = (props) => {
-  const { label, value, closable, onClose } = props;
+  const { label, value } = props;
   console.log('props', props);
   const onPreventMouseDown = (event: React.MouseEvent<HTMLSpanElement>) => {
     event.preventDefault();
@@ -12,10 +12,8 @@ const tagRender = (props) => {
   };
   return (
     <Tag
-      color="blue-inverse"
+      color="#3e9bed"
       onMouseDown={onPreventMouseDown}
-      // closable={closable}
-      // onClose={onClose}
       style={{ marginRight: 4 }}
     >
       {label}
@@ -27,7 +25,7 @@ const Demo1 = () => {
   return (
     <div>
       <h4>Tags单选内容</h4>
-      <LTrigger mode="tag">
+      <LTrigger mode="tag" placement="right">
         <ChildTable4 />
       </LTrigger>
       <h4>Tags多选内容</h4>

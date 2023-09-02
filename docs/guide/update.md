@@ -17,17 +17,18 @@ order: 3
 - [LFormItmeIcon - 图标选择组件](/components/form-item-icon)
 - [LFormItemNumberRange - 数字范围组件](/components/form-item-number-range)
 - [LList - 高级列表](/components/list)
-- [useCallbackState - 钩子](/components/use-callback-state)
+<!-- - [useCallbackState - 钩子](/components/use-callback-state)
 - [useShow - 钩子](/components/use-Show)
 - [useWorker - 钩子](/components/use-worker)
 - [useDeepUpdateEffect - 钩子](/components/use-deep-update-effect)
-- [useLazyLoadImage - 钩子](/components/use-lazy-load-image)
+- [useLazyLoadImage - 钩子](/components/use-lazy-load-image) -->
 
 **移除**
 
 - 移除 `useFormModal` 请使用 `LModalForm`
 - 移除 `useFormDrawer` 请使用 `LDrawerForm`
 - 移除 `LWaterMark` 请使用 `antd 的水印组件`
+- 移除 `HOOKS` 请使用 [rc-use-hooks](https://llq0802.github.io/rc-use-hook) 完全兼容原 hooks
 
 **调整**
 
@@ -37,6 +38,7 @@ order: 3
 - 重构`LFileViewer `组件
 - 重构`LNumberRoll `组件
 - 重构`LColor`组件
+- 重构`LTrigger`组件
 - 调整 `LFormItemInput` 内部正则校验
 - 调整表单依赖项内部逻辑
 

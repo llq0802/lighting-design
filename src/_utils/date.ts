@@ -118,8 +118,8 @@ export function transformQuarter(value: string | Dayjs) {
 }
 /**
  * 转化string number dayjs 转换为 dayjs类型值
- * @param value
- * @param format
+ * @param value 值
+ * @param format 格式化
  */
 export function transform2Dayjs(
   value?: string | number | Dayjs,

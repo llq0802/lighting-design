@@ -16,14 +16,14 @@ const columns: ColumnsType<DataType> = [
 ];
 
 const data: DataType[] = [
-  { key: '1', name: 'John-1', age: 32, address: 'New York No. 1 Lake Park' },
-  { key: '4', name: 'John-2', age: 99, address: 'Sidney No. 1 Lake Park' },
-  { key: '2', name: 'JimGreen', age: 42, address: 'London No. 1 Lake Park' },
-  { key: '3', name: 'JoeBlack', age: 32, address: 'Sidney No. 1 Lake Park' },
+  { key: '1', name: 'John-1', age: 33, address: 'New York No. 1 Lake Park' },
+  { key: '4', name: 'John-2', age: 60, address: 'Sidney No. 1 Lake Park' },
+  { key: '2', name: 'John-3', age: 42, address: 'London No. 1 Lake Park' },
+  { key: '3', name: 'John-4', age: 32, address: 'Sidney No. 1 Lake Park' },
 ];
 
 const Tables: React.FC = (props) => {
-  const { value, onChange, open, setOpen } = props;
+  const { value: outValue, onChange: outOnChange, open, setOpen } = props;
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
       console.log(
@@ -32,7 +32,7 @@ const Tables: React.FC = (props) => {
         'selectedRows: ',
         selectedRows,
       );
-      onChange({
+      outOnChange({
         label: selectedRows[0].name,
         value: selectedRowKeys[0],
       });
@@ -46,10 +46,9 @@ const Tables: React.FC = (props) => {
 
   return (
     <Table
-      style={{ padding: 8 }}
       size="small"
       rowSelection={{
-        selectedRowKeys: value ? [value] : [],
+        selectedRowKeys: outValue,
         type: 'radio',
         ...rowSelection,
       }}

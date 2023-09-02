@@ -6,7 +6,6 @@ interface DataType {
   key: React.Key;
   name: string;
   age: number;
-  address: string;
 }
 
 const columns: ColumnsType<DataType> = [
@@ -19,10 +18,6 @@ const columns: ColumnsType<DataType> = [
     title: 'Age',
     dataIndex: 'age',
   },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-  },
 ];
 
 const data: DataType[] = [
@@ -30,36 +25,17 @@ const data: DataType[] = [
     key: '1',
     name: 'John Brown',
     age: 32,
-    address: 'New York No. 1 Lake Park',
   },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-  },
+  { key: '2', name: 'Jim Green', age: 42 },
+  { key: '3', name: 'Joe Black', age: 32 },
   {
     key: '4',
     name: 'Disabled User',
     age: 99,
-    address: 'Sidney No. 1 Lake Park',
   },
 ];
-
 const Tables: React.FC = (props) => {
-  const {
-    value: outValue,
-    onChange: outOnChange,
-    open,
-    setOpen,
-    ...restProps
-  } = props;
+  const { value: outValue, onChange: outOnChange, open, setOpen } = props;
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
@@ -72,7 +48,7 @@ const Tables: React.FC = (props) => {
 
   return (
     <Table
-      style={{ padding: 8 }}
+      style={{ width: 450 }}
       size="small"
       rowSelection={{
         selectedRowKeys: outValue ?? [],

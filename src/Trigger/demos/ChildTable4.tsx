@@ -23,10 +23,10 @@ const data: DataType[] = [
 ];
 
 const Tables: React.FC = (props) => {
-  const { value, onChange, open, setOpen } = props;
+  const { value: outValue, onChange: outChange, open, setOpen } = props;
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-      onChange({
+      outChange({
         label: selectedRows.map((row) => row.name),
         value: selectedRowKeys,
       });
@@ -40,10 +40,10 @@ const Tables: React.FC = (props) => {
 
   return (
     <Table
-      style={{ padding: 8 }}
+      style={{ width: 500 }}
       size="small"
       rowSelection={{
-        selectedRowKeys: value ? [value] : [],
+        selectedRowKeys: outValue ? [outValue] : [],
         type: 'radio',
         ...rowSelection,
       }}

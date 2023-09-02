@@ -36,23 +36,16 @@ const columns: ColumnsType<any> = [
 const formItems = [<LFormItemInput key="0" name="input4" label="输入框" />];
 
 const MyTable: FC = (props) => {
-  const { value, onChange, open, setOpen } = props;
+  const { value: outValue, onChange: outOnChage, open, setOpen } = props;
 
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
-      // const names = selectedRows.map((row, i) => <Tag key={i}>{row.name}</Tag>);
-      // console.log('rowSelection==', selectedRowKeys, selectedRows);
-      // console.log('names', names);
-      const names = selectedRows.map((row) => row.name).join(' , ');
-      const values = selectedRowKeys?.length ? selectedRowKeys : void 0;
-      onChange({
-        // label: names,
-        // value: values,
-        label: selectedRows.map((row) => row.name),
-        value: selectedRowKeys,
+      outOnChage({
+        label: selectedRows[0].name,
+        value: selectedRowKeys[0],
       });
     },
     // getCheckboxProps: (record: DataType) => ({
@@ -78,8 +71,8 @@ const MyTable: FC = (props) => {
         };
       }}
       rowSelection={{
-        selectedRowKeys: value,
-        type: 'checkbox',
+        selectedRowKeys: outValue,
+        type: 'radio',
         ...rowSelection,
       }}
     />

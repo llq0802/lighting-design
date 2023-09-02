@@ -124,9 +124,9 @@ import { Popover, Space } from 'antd';
           getPopupContainer={(e) =>
             (e?.parentNode || document.body) as HTMLElement
           }
-          {...props}
+          // ...其他 Popover 的属性
         >
-          {React.cloneElement(dom)}
+          {React.cloneElement(dom, props)}
         </Popover>
       );
     };

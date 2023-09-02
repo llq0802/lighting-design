@@ -25,7 +25,7 @@ const FormItemWrapper: FC<FormItemWrapperProps> = ({
   children,
   ...formItemProps // {value,onChange,...}
 }) => {
-  const innerChildrenProps = { ...(children?.props ?? {}) };
+  const innerChildrenProps = { ...(children?.props ?? {}) }; // <Child value={value} onChange={onChange} .../>
   const allProps = composeProps(innerChildrenProps, formItemProps, true);
 
   // 合并子组件组件的props并触发相应事件函数

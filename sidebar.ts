@@ -80,6 +80,10 @@ export default {
           title: 'LH5Preview-H5预览',
           link: '/components/h5-preview',
         },
+        {
+          title: 'ellipsis-H5预览',
+          link: '/components/ellipsis-text',
+        },
       ],
     },
     {

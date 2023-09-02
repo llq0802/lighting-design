@@ -1,5 +1,4 @@
 import { Table } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
 import React from 'react';
 
 interface DataType {
@@ -8,7 +7,6 @@ interface DataType {
   age: number;
   address: string;
 }
-
 const columns: ColumnsType<DataType> = [
   {
     title: 'Name',
@@ -24,29 +22,28 @@ const columns: ColumnsType<DataType> = [
     dataIndex: 'address',
   },
 ];
-
 const data: DataType[] = [
   {
     key: '1',
-    name: 'JohnBrown',
+    name: '李岚清',
     age: 32,
     address: 'New York No. 1 Lake Park',
   },
   {
     key: '2',
-    name: 'JimGreen',
+    name: '吴彦祖',
     age: 42,
     address: 'London No. 1 Lake Park',
   },
   {
     key: '3',
-    name: 'JoeBlack',
+    name: '陈冠希',
     age: 32,
     address: 'Sidney No. 1 Lake Park',
   },
   {
     key: '4',
-    name: 'sabledUser',
+    name: '刘德华',
     age: 99,
     address: 'Sidney No. 1 Lake Park',
   },
@@ -57,7 +54,7 @@ const Tables: React.FC = (props) => {
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-      const names = selectedRows.map((row) => row.name).join(' / ');
+      const names = selectedRows.map((row) => row.name).join(' , ');
       const values = selectedRowKeys?.length ? selectedRowKeys : void 0;
       onChange({
         label: names,
