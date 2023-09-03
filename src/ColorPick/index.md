@@ -21,7 +21,13 @@ nav:
 
 ## API
 
-> - 其中 `LColorChromePicker` `LColorSketchPicker` 在颜色模式为 `rgb` 时，支持设置透明度。
+> -
+
+:::warning{title=注意}
+
+- 其中 `LColorChromePicker` `LColorSketchPicker` 在颜色模式为 `rgb` 时，支持设置透明度。
+
+  :::
 
 ```ts
 import { LColor } from 'lighting-design';

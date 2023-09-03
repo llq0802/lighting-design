@@ -48,22 +48,27 @@ const IconWrapper: FC<IconWrapperProps> = ({
       return (
         <Icon
           component={(antIcons as Record<string, any>)?.[value]}
-          style={activeIconStyle}
+          style={{
+            // display: 'flex',
+            // alignItems: 'center',
+            ...activeIconStyle,
+          }}
         />
       );
     }
-    return void 0;
+    return <span />;
   }, [value, activeIconStyle, showIcon]);
 
   return (
     <>
       <Input
-        allowClear
+        rootClassName="fas"
         prefix={prefix}
-        autoComplete="off"
         placeholder={placeholder}
         {...inputProps}
         style={{
+          // display: 'flex',
+          // alignItems: 'center',
           width: '100%',
           ...inputProps?.style,
         }}
@@ -74,10 +79,13 @@ const IconWrapper: FC<IconWrapperProps> = ({
           inputProps?.onClick?.(e);
         }}
         onChange={(e) => {
-          const newValue = e.target.value === '' ? void 0 : (value as string);
+          const newValue = e?.target?.value === '' ? void 0 : (value as string);
           onChange?.(newValue);
           inputProps?.onChange?.(newValue);
         }}
+        readOnly
+        allowClear
+        autoComplete="off"
       />
 
       <IconModal
@@ -87,9 +95,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
           setOpen(false);
           onChange?.(key as any);
         }}
-        cancel={(f) => {
-          setOpen(f);
-        }}
+        cancel={(f) => setOpen(f)}
         options={options}
         itemRender={itemRender}
         modalProps={modalProps}

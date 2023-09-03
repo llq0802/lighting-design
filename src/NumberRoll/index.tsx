@@ -1,3 +1,4 @@
+import { useMemoizedFn } from 'ahooks';
 import classnames from 'classnames';
 import type {
   CSSProperties,
@@ -6,7 +7,7 @@ import type {
   ReactElement,
   ReactNode,
 } from 'react';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
 import ItemChildren, {
   NumberRoll_NumberArray,
@@ -107,7 +108,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
 }) => {
   const domRef = useRef<HTMLDivElement>(null);
 
-  const getNumDom = useCallback(
+  const getNumDom = useMemoizedFn(
     (newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
       const decimalFlag = newStr.join('').indexOf('.') === -1; // 判断是否有小数
       const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
@@ -165,11 +166,10 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
         </div>
       );
     },
-    [],
   );
 
   // 将数字,字符串转换为字符串数组，如果有最小位数则往前拼接“0”
-  const valToArr = useCallback((val: number | any): string[] => {
+  const valToArr = useMemoizedFn((val: number | any): string[] => {
     const newVal: string = val.toString();
     let newStr: string[] = [];
     if (newVal.includes('.')) {
@@ -201,10 +201,10 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
       }
     }
     return newStr;
-  }, []);
+  });
 
   // 设置动画number类型
-  const loadAnimateNumer = useCallback(() => {
+  const loadAnimateNumer = useMemoizedFn(() => {
     const domList = domRef.current!.querySelectorAll(
       `.${prefixCls}-animate-dom`,
     );
@@ -217,10 +217,10 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
       itemStyle.transform = `translateY(${y}px)`;
       itemStyle.transition = `${dataNum === '.' ? 0 : speed / 1000}s`;
     }
-  }, []);
+  });
 
   // 设置动画date类型
-  const loadAnimateDate = useCallback(() => {
+  const loadAnimateDate = useMemoizedFn(() => {
     const domList = domRef.current!.querySelectorAll(
       `.${prefixCls}-animate-dom`,
     );
@@ -244,7 +244,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
         dataNum === ':' || dataNum === ' ' ? 0 : speed / 1000
       }s`;
     }
-  }, []);
+  });
 
   // 更新
   useEffect(() => {

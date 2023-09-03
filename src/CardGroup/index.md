@@ -35,7 +35,11 @@ toc: content
 
 ## API
 
-> - 卡片的宽度默认最小为 `200px (min-width:200px)`，可通过 `cardStyle`修改
+:::warning{title=注意}
+
+- 卡片的宽度默认最小为 `200px (min-width:200px)`，可通过 `cardStyle`修改
+
+  :::
 
 ```ts
 import { LCardGroup } from 'lighting-design';

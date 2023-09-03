@@ -97,7 +97,7 @@ export type LTableProps = {
    * @version 2.1.15
    * @memberof LTableProps
    */
-  isSort?: boolean;
+  isSort?: boolean | { width: number | string };
   /**
    * 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询
    * @author 李岚清 <https://github.com/llq0802>
@@ -487,7 +487,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         align: 'center',
         title: '序号',
         dataIndex: '_sortColumn_',
-        width: 80,
+        width: typeof isSort === 'boolean' ? 80 : isSort?.width,
         // fixed: 'left',
         render: (_: any, __: any, index: number) => (
           <>

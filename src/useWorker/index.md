@@ -5,6 +5,10 @@ toc: content
 
 # useWorker
 
+:::warning{title=警告}
+将在下个版本移除该 `HOOK` 请使用 [rc-use-hooks](https://llq0802.github.io/rc-use-hook) 完全兼容原 `HOOK` 并新增许多实用 `HOOK`
+:::
+
 hook 的方式优雅的使用 Web Woker，在处理耗时操作时不会阻塞 UI
 
 ## 代码演示

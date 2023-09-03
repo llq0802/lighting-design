@@ -82,7 +82,7 @@ export default {
         },
         {
           title: 'ellipsis-H5预览',
-          link: '/components/ellipsis-text',
+          link: '/components/Ellipsis-Text',
         },
       ],
     },

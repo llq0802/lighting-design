@@ -8,41 +8,48 @@ import {
 import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction, Ref, RefObject } from 'react';
-import { forwardRef } from 'react';
+import { forwardRef, useImperativeHandle } from 'react';
 
 export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   /**
    * 倒计时的秒数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.2
+   *@version 2.1.15
    *@memberof CaptchaButtonProps
    */
   second?: number;
   /**
    *@author 李岚清 <https://github.com/llq0802>
    *@description 是否开始发送
-   *@version 2.1.2
+   *@version 2.1.15
    *@memberof CaptchaButtonProps
    */
   start?: boolean;
   /**
    * 倒计时的文字, 会带上 second 秒
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.2
+   *@version 2.1.15
    *@memberof CaptchaButtonProps
    */
   disabledText?: string;
   /**
    * 缓存的key、页面刷新后倒计时继续 , 多个倒计时组件请设置不同的key。
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.2
+   *@version 2.1.15
    *@memberof CaptchaButtonProps
    */
   cacheKey: string;
   /**
+   * 用于重置倒计时
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.15
+   *@memberof CaptchaButtonProps
+   */
+  cancelRef?: React.MutableRefObject<(() => void) | undefined>;
+  /**
    *@author 李岚清 <958614130@qq.com>
    *@description 倒计时完成后触发
-   *@version 2.1.2
+   *@version 2.1.15
    *@memberof CaptchaButtonProps
    *@see https://ant.design/components/button-cn/
    */
@@ -68,6 +75,7 @@ const LCaptchaButton: ForwardRefRenderFunction<
     disabledText = '重发',
     onEnd,
     onClick,
+    cancelRef,
     children,
     ...buttonProps
   } = props;
@@ -102,6 +110,8 @@ const LCaptchaButton: ForwardRefRenderFunction<
       setTargetDate(date);
     }
   }, [start]);
+
+  useImperativeHandle(cancelRef, () => () => setTargetDate(void 0));
 
   return (
     <Button
