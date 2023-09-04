@@ -344,7 +344,7 @@ export type LTriggerProps = {
    * @memberof LTriggerProps
    */
   tagRender?: (
-    props: CustomTagProps,
+    props: Record<string, any>,
   ) => React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   /**
    * children 组件会接受到 open，setOpen，value，onChange 必须在 children 组件中绑定 value，onChange 才会收集到数据
