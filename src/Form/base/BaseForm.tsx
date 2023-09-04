@@ -302,3 +302,11 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 }
 
 export default BaseForm;
+
+// rules: [
+//   {
+//     pattern: /^(?!0)\d{1,3}$/,
+//     message: '只能输入1~999整数',
+//     required: true
+//   },
+// ],

@@ -1,83 +1,171 @@
-import { Tooltip } from 'antd';
-import type { FC } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
-import './style.less';
+import { Tooltip, type TooltipProps } from 'antd';
+import classnames from 'classnames';
+import type { CSSProperties, FC } from 'react';
+import React, { forwardRef } from 'react';
+import './index.less';
 
-export interface LEllipsisTextProps extends HTMLSpanElement {
-  text: string;
+function Text({ outRef, children, ...restProps }) {
+  return (
+    <span ref={outRef} {...restProps}>
+      {children}
+    </span>
+  );
+}
+
+export interface LEllipsisTextProps extends Partial<HTMLSpanElement> {
+  /**
+   *类名
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.15
+   *@memberof LEllipsisTextProps
+   */
+  className?: string;
+  /**
+   *样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.15
+   *@memberof LEllipsisTextProps
+   */
+  style?: CSSProperties;
+  /**
+   * 最大字符串长度
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.15
+   *@memberof LEllipsisTextProps
+   */
   maxLength?: number;
-  maxWidth?: number;
-  emptyText?: string | React.ReactDOM;
+  /**
+   * 最大元素宽度
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.15
+   *@memberof LEllipsisTextProps
+   */
+  maxWidth?: number | string;
+  /**
+   * 自定义空字符的节点
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.15
+   *@memberof LEllipsisTextProps
+   */
+  emptyText?: React.ReactNode;
+  /**
+   * antd 的 tooltip
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.15
+   *@memberof LEllipsisTextProps
+   */
+  tooltip?: boolean | TooltipProps;
+  children: string;
 }
 
 const prefixCls = 'lightd-ellipsis-text';
 
 const LEllipsisText: FC<LEllipsisTextProps> = (props) => {
   const {
-    text,
+    className,
+    style,
+
     maxLength,
     maxWidth,
     emptyText,
-    style,
-    className,
-    tooltip,
+    tooltip = true,
+
+    outRef,
+
+    children: text,
     ...restProps
   } = props;
 
-  const boxRef = useRef<HTMLSpanElement>(null);
-  const [visible, setVisible] = useState<boolean>(true);
-
-  useEffect(() => {
-    const boxElement = boxRef.current;
-    if (boxElement) {
-      setVisible(boxElement.scrollWidth > boxElement.clientWidth);
-    }
-  }, []);
+  const inenerClassName = classnames(prefixCls, className);
 
   // 无值时展示
   if (!text) {
     return emptyText ? <>{emptyText}</> : null;
   }
 
-  // 字数省略
+  const tooltipProps = typeof tooltip !== 'boolean' ? tooltip : {};
+  // 最大字数省略
   if (maxLength) {
     const renderText =
-      text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+      text?.length > maxLength ? `${text?.slice(0, maxLength)}...` : text;
 
-    return (
-      <>
-        {text.length > maxLength ? (
-          <Tooltip title={text}>
-            <span className="ellipsis-box">{renderText}</span>
-          </Tooltip>
-        ) : (
-          text
-        )}
-      </>
+    return tooltip ? (
+      <Tooltip title={renderText} {...tooltipProps}>
+        <Text
+          className={inenerClassName}
+          style={style}
+          {...restProps}
+          outRef={outRef}
+        >
+          {renderText}
+        </Text>
+      </Tooltip>
+    ) : (
+      <Text
+        className={inenerClassName}
+        style={style}
+        {...restProps}
+        outRef={outRef}
+      >
+        {renderText}
+      </Text>
     );
   }
 
   // 最大宽度省略
-  if (maxWidth && visible) {
-    return (
-      <Tooltip title={text}>
-        <span
-          className="ellipsis-box-width"
-          style={{ maxWidth }}
-          ref={boxRef}
+  if (maxWidth) {
+    return tooltip ? (
+      <Tooltip title={text} {...tooltipProps}>
+        <Text
+          className={inenerClassName}
+          style={{
+            maxWidth,
+            ...style,
+          }}
+          outRef={outRef}
           {...restProps}
         >
           {text}
-        </span>
+        </Text>
       </Tooltip>
+    ) : (
+      <Text
+        className={inenerClassName}
+        style={{
+          maxWidth,
+          ...style,
+        }}
+        outRef={outRef}
+        {...restProps}
+      >
+        {text}
+      </Text>
     );
   }
 
-  return (
-    <span className="ellipsis-box-width" {...restProps}>
+  return tooltip ? (
+    <Tooltip title={text} {...tooltipProps}>
+      <Text
+        className={inenerClassName}
+        style={style}
+        outRef={outRef}
+        {...restProps}
+      >
+        {text}
+      </Text>
+    </Tooltip>
+  ) : (
+    <Text
+      className={inenerClassName}
+      style={style}
+      outRef={outRef}
+      {...restProps}
+    >
       {text}
-    </span>
+    </Text>
   );
 };
 
-export default LEllipsisText;
+export default forwardRef(function (props: LEllipsisTextProps, ref) {
+  return <LEllipsisText {...props} outRef={ref}></LEllipsisText>;
+});

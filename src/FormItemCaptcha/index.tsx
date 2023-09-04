@@ -38,6 +38,13 @@ export interface LFormItemCaptchaProps
    *@memberof LFormItemCaptchaProps
    */
   maxLength?: number;
+  /**
+   *  用于取消重置倒计时
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.15
+   *@memberof LFormItemCaptchaProps
+   */
+  cancelRef?: React.MutableRefObject<(() => void) | undefined>;
 }
 
 const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
@@ -55,6 +62,7 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   buttonProps = {},
   placeholder,
   disabled,
+  cancelRef,
 
   required,
   ...restProps
@@ -82,6 +90,7 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
           disabledText,
           onEnd,
           initText,
+          cancelRef,
           ...buttonProps,
         }}
       />

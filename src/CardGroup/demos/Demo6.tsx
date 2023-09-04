@@ -17,7 +17,13 @@ export default function Demo() {
           borderColor: '#0b284c',
         }}
         options={[
-          { value: '1', label: '支付宝' },
+          {
+            value: '1',
+            label: <span>支付宝</span>,
+            cardProps: {
+              // ...配置卡片的属性
+            },
+          },
           { value: '2', label: '微信' },
           { value: '3', label: '云闪付' },
         ]}

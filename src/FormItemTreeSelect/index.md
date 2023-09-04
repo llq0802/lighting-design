@@ -33,7 +33,12 @@ nav:
 
 ## API
 
-> - `depends` 为 LFormItem 组件 `dependencies` 属性依赖项的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除或者禁用选择
+:::warning{title=注意}
+
+- `request` 的参数集合`depends` 为 `LFormItem` 组件 `dependencies` 属性依赖项字段的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除或者禁用选择
+
+- 通过异步请求的数据中必须包含 `isLeaf ( 是否是最终的子节点 没有子项的含义 )` 字段 , 这样内部渲染时才会知道还有没有子项可渲染 , 避免没有子项可渲染时又显示展开图标
+  :::
 
 ```ts
 import { LFormItemTreeSelect } from 'lighting-design';

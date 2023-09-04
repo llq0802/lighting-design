@@ -21,6 +21,11 @@ nav:
 
 ## API
 
+:::warning{title=注意}
+
+- 在未来版本中可能会对此组件进行调整
+  :::
+
 ```ts
 import { LLoginForm } from 'lighting-design';
 ```

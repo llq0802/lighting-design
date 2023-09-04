@@ -22,7 +22,11 @@ nav:
 
 ## API
 
-> 当存在多个验证码输入框组件时, 请设置不同的 `cacheKey` 值
+:::warning{title=注意}
+
+- 当存在多个验证码输入框组件时, 请设置不同的 `cacheKey` 值
+
+  :::
 
 ```ts
 import { LFormItemCaptcha } from 'lighting-design';
@@ -43,4 +47,5 @@ import { LFormItemCaptcha } from 'lighting-design';
 |      inputProps       |                                                        antd 输入框的属性                                                         |            [InputProps](https://ant.design/components/button-cn#api)            |          `-`           |
 |      buttonProps      |                                                         antd 按钮的属性                                                          |           [ButtonProps](https://ant.design/components/input-cn/#api)            |          `-`           |
 |         onEnd         |                                                         倒计时完成后触发                                                         |                                  `() => void`                                   |          `- `          |
+|       cancelRef       |                                                        用于取消重置倒计时                                                        |    `MutableRefObject<(() => void)                       \|      undefined>`     |          `- `          |
 |     onGetCaptcha      | 点击按钮触发并请求获取验证码。<br/>如果返回 `false` 或 `Promise.reject(false)` 表示验证失败或请求验证码失败。会自动管理`loading` |                         `() => boolean \| Promise<any>`                         |      `() => true`      |

@@ -28,9 +28,13 @@ toc: content
 
 ## API
 
-> - `height` 与 `maxHeight` 必须设置其中一个属性
->
-> - `LScrollBar` 的宽度为等于 `LScrollBar` 的根 `div` 的宽度 + 滚动条的宽度 `(默认 13px)`
+:::warning{title=注意}
+
+- `height` 与 `maxHeight` 必须设置其中一个属性
+
+- `LScrollBar` 的宽度为等于 `LScrollBar` 的根 `div` 的宽度 + 滚动条的宽度 `(默认 13px)`
+
+:::
 
 ```ts
 import { LScrollBar } from 'lighting-design';

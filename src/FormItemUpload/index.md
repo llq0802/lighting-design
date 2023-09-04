@@ -37,9 +37,12 @@ nav:
 
 ## API
 
-> - `beforeUpload` 若返回 `false 或 Promise.reject()` 不会生产 `status` ，`response`，`percent`
->
-> - `beforeUpload` 若返回 `Upload.LIST_IGNORE`， 此时列表中将不展示此文件。
+:::warning{title=注意}
+
+- `beforeUpload` 若返回 `false 或 Promise.reject()` 不会生产 `status` ，`response`，`percent`
+
+- `beforeUpload` 若返回 `Upload.LIST_IGNORE`， 此时列表中将不展示此文件。
+  :::
 
 ```ts
 import { LFormItemUpload } from 'lighting-design';

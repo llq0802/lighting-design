@@ -42,21 +42,25 @@ nav:
 
 ## API
 
-> - `LFormItemXXX` 组件均是通过此组件二次封装
->
-> - `LFormItemXXX` `LFormItem` `Form.Item`必须做为`LForm`或`Form`的子项
->
-> - 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是设置 `defaultValue`
->
-> - 配置了`required`属性将开启内置验证是否为空数据或空数组 , 大多数情况不需要开发者传`rules`属性 ，如果业务验证有其他检验规则则传入 `rules`
->
-> - `contentInline` 只在配置了 `contentBefore` 或 `contentAfter` 时生效 。如果想强制为行盒又不想展示前后内容，可配置 `contentAfter`为 `' '`
->
-> - `placeholder`默认为 字符串类型 `label` 且会在前面拼接`请输入`或 `请选择`，可通过传入 `placeholder` 进行覆盖
->
-> - 默认验证不通过后的提示为`placeholder`，可配置`messageVariables={{ label: '自定义提示' }}` 自定义验证不通过后的提示
->
-> - 使用`renderField` 需要返回一个组件，并在组件内手动绑定 `id` `value` 与 `onChange` 具体请看 [renderField 用法](/components/form-item#renderfield-用法)
+:::warning{title=注意}
+
+- `LFormItemXXX` 组件均是通过此组件二次封装
+
+- `LFormItemXXX` `LFormItem` `Form.Item`必须作为`LForm`或`Form`的子项 , 不能单独使用 , 必须配合 `LForm` 或者 `From` 使用
+
+- 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是给子项设置 `defaultValue`
+
+- 配置了`required`属性将开启内置验证是否为空数据或空数组 , 大多数情况不需要开发者传`rules`属性 ，如果业务验证有其他检验规则则传入 `rules`
+
+- `contentInline` 只在配置了 `contentBefore` 或 `contentAfter` 时生效 。如果想强制为行盒又不想展示前后内容，可配置 `contentAfter`为 `' '`
+
+- `placeholder`默认为字符串类型的 `label` 且会在前面拼接`请输入`或 `请选择`，可通过传入 `placeholder` 进行覆盖
+
+- 默认验证不通过后的提示为`placeholder`，可配置`messageVariables={{ label: '自定义提示' }}` 自定义修改验证不通过后的提示
+
+- 使用`renderField` 需要返回一个组件，并且 `props` 中会接收到`id` `value` 与 `onChange`, 必须组件内手动绑定 `id` `value` 与 `onChange` 具体请看 [renderField 用法](/components/form-item#renderfield-用法)
+
+:::
 
 ```ts
 import { LFormItem } from 'lighting-design';

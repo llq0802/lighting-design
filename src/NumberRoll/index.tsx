@@ -16,6 +16,14 @@ import './index.less';
 
 export interface LNumberRollProps {
   /**
+   * 组件高度
+   *@author 李岚清 <https://github.com/llq0802>
+   *@type {number | string}
+   *@memberof LNumberRollProps
+   *@version 2.1.15
+   */
+  height: number | string;
+  /**
    * 默认值
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number | string}
@@ -97,6 +105,7 @@ const prefixCls = 'lightd-number-roll';
 const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
   className,
   style,
+  height = 45,
   type = 'number',
   minLength = 1,
   speed = 500,
@@ -110,7 +119,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
 
   const getNumDom = useMemoizedFn(
     (newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
-      const decimalFlag = newStr.join('').indexOf('.') === -1; // 判断是否有小数
+      const decimalFlag = newStr.join('').indexOf('.') === -1; // 判断是否没有小数
       const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
       const numberDom: any[] = []; // 整数位数
       newStr.forEach((o, i) => {
@@ -146,6 +155,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
             ));
           }
         }
+
         if (type === 'date') {
           numberDom.push((key: React.Key) => (
             <DataChildren num={o} key={key} />
@@ -160,7 +170,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
       return (
         <div
           className={`${prefixCls}-animate`}
-          style={{ transform: `scale(${scale})` }}
+          style={{ transform: `scale(${scale})`, height }}
         >
           {numberDom.map((item, index: number) => item(index))}
         </div>
@@ -261,18 +271,13 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
     }
   }, [value]);
 
-  const dom =
-    type === 'date'
-      ? getNumDom(String(value).split(''))
-      : getNumDom(valToArr(value));
-
   return (
     <div
       className={classnames(prefixCls, className)}
       style={style}
       ref={domRef}
     >
-      {dom}
+      {getNumDom(type === 'date' ? String(value).split('') : valToArr(value))}
     </div>
   );
 };

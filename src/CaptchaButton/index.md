@@ -28,6 +28,9 @@ toc: content
 :::warning{title=注意}
 
 - 当存在多个验证码组件时, 请设置不同的 `cacheKey` 值
+
+- 如果在要在表单中使用验证码 , 推荐使用 [LFormItemCaptcha](/components/form-item-captcha)
+
   :::
 
 ```ts

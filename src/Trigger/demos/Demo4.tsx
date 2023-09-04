@@ -7,7 +7,7 @@ const Demo4 = () => {
     <>
       <div>
         <h4> LTable 多选</h4>
-        <LTrigger mode="tag">
+        <LTrigger mode="tag" width='50%'>
           <MyTable2 />
         </LTrigger>
       </div>

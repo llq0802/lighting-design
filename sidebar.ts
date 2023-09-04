@@ -81,7 +81,7 @@ export default {
           link: '/components/h5-preview',
         },
         {
-          title: 'ellipsis-H5预览',
+          title: 'LEllipsisText-文本省略',
           link: '/components/Ellipsis-Text',
         },
       ],

@@ -40,7 +40,10 @@ nav:
 
 ## API
 
-> 自定义禁用时分秒可查看 [disableTime](/components/Form-Item-Time-Picker#customdisabledhours)
+:::warning{title=注意}
+
+- 自定义禁用时分秒可查看 [disableTime](/components/Form-Item-Time-Picker#customdisabledhours)
+  :::
 
 ```ts
 import { LFormItemDatePicker } from 'lighting-design';

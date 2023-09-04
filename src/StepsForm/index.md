@@ -60,13 +60,17 @@ const { StepForm } = LStepsForm;
 
 ### LStepsForm
 
-> - isMergeValues 为 false 收集到的值将不合并 此时如果 LStepsForm.StepForm 设置了 name 属性则以 name 作为键
->
-> - 如果 LStepsForm.StepForm 没有设置 name 属性则以每个 LStepsForm.StepForm 的索引作为键
->
-> - LStepsForm 内容的最外层只能是 LStepsForm.StepForm，如果 LStepsForm.StepForm 外层有其他元素，将其整体封装成一个组件并在 props 中将`_stepNum`属性传递给 LStepsForm.StepForm
->
-> - 某些情况你需要在提交成功时调用`form.resetFields()`手动控制恢复到默认值 , 请将`isResetFields={false}`
+:::warning{title=注意}
+
+- `isMergeValues` 为 `false` 收集到的值将不合并 此时如果 `LStepsForm.StepForm` 设置了 `name` 属性则以 `name` 作为键
+
+- 如果 `LStepsForm.StepForm` 没有设置 `name` 属性则以每个 `LStepsForm.StepForm` 的索引作为键
+
+- `LStepsForm` 内容的最外层只能是 `LStepsForm.StepForm`，如果 `LStepsForm.StepForm` 外层有其他元素包裹，将其整体子项封装成一个组件并在 `props` 中将`_stepNum`属性传递给 `LStepsForm.StepForm`
+
+- 某些情况你需要在提交成功时调用`form.resetFields()`手动控制恢复到默认值 , 请将`isResetFields={false}`
+
+:::
 
 | 参数             | 说明                                                                                                                                                                                                                                          | 类型                                                                              | 默认值            |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------- |

@@ -3,44 +3,30 @@ title: LEllipsisText
 toc: content
 ---
 
-# LScrollBar
+# LEllipsisText
 
-用于美化原生滚动条。LEllipsisText
-使用`content-visibility` `contain-intrinsic-size`优化性能 并对低版本浏览器做了降级处理。
+处理单行文本的省略
 
 ## 代码演示
 
 ### 基础用法
 
-<!-- <code src="./demos/Demo1.tsx" ></code> -->
+<code src="./demos/Demo1.tsx" ></code>
 
 ## API
 
-> - `height` 与 `maxHeight` 必须设置其中一个属性
->
-> - `LScrollBar` 的宽度为等于 `LScrollBar` 的根 `div` 的宽度 + 滚动条的宽度 `(默认 13px)`
-
 ```ts
-import { LScrollBar } from 'lighting-design';
+import { LEllipsisText } from 'lighting-design';
 ```
 
-除了以下属性 其余跟原生 HTML 标签属性方法一样
+除了以下属性 其余跟原生 `span` 标签属性方法一样
 
-|   参数    |                说明                |           类型            |  默认值  |
-| :-------: | :--------------------------------: | :-----------------------: | :------: |
-|    tag    | 将组件根标签渲染为对应的 html 标签 |       `HTML标签名`        | `'div'`  |
-|   mode    |          滚动条显示的模式          | `'show'\|'hide'\|'hover'` | `'show'` |
-| className |              容器类名              |         `string`          |   `-`    |
-|   style   |              容器样式              |      `CSSProperties`      |   `-`    |
-|  height   |                高度                |     `number\|string`      | `'100%'` |
-| maxHeight |              最大高度              |     `number\|string`      |   `-`    |
-
-## CSS 变量
-
-```css
-/* 在组件内部定义 可传入style覆盖样式 */
---lightd-scrollbar-bg-color: #dddee0;
---lightd-scrollbar-bg-hover-color: #a8a8a8;
---lightd-scrollbar-width: 13px;
---lightd-scrollbar-border-radius: 7px;
-```
+|   参数    |            说明             |                                                        类型                                                        | 默认值 |
+| :-------: | :-------------------------: | :----------------------------------------------------------------------------------------------------------------: | :----: |
+| className |          容器类名           |                                                      `string`                                                      |  `-`   |
+|   style   |          容器样式           |                                                  `CSSProperties`                                                   |  `-`   |
+| maxLength |       最大字符串长度        |                                                      `number`                                                      |  `-`   |
+| maxWidth  |        最大元素宽度         |                                                  `number\|string`                                                  |  `-`   |
+| emptyText |     自定义空文本的节点      |                                                    `ReactNode`                                                     |  `-`   |
+|  tooltip  | 提示属性 默认开启为原始文本 | `boolean` \| [TooltipProps](https://ant-design.antgroup.com/components/tooltip-cn#%E5%85%B1%E5%90%8C%E7%9A%84-api) | `true` |
+|  chilren  |            文本             |                                                      `string`                                                      |  `-`   |

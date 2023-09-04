@@ -31,9 +31,13 @@ toc: content
 import { LSeamlessScroll } from 'lighting-design';
 ```
 
-> - **注意 :** `singleHeight/singleWidth`设置的值必须和 item 每一项的高度(宽度)值一样 , 否则可能会引起单步滚动不准!
->
-> - 如果自定义了 `wrapperHeight` 则必须满足 `wrapperHeight < ( children 的高度 ) * ( copyNum + 1 )`
+:::warning{title=注意}
+
+- `singleHeight/singleWidth`设置的值必须和 `item` 每一项的高度(宽度)值一样 , 否则可能会引起单步滚动不准!
+
+- 如果自定义了 `wrapperHeight` 则必须满足 `wrapperHeight < ( children 的高度 ) * ( copyNum + 1 )`
+
+  :::
 
 |       参数       |                        说明                        |                         类型                         |        默认值         |
 | :--------------: | :------------------------------------------------: | :--------------------------------------------------: | :-------------------: |

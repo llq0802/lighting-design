@@ -1,11 +1,11 @@
 import Icon, * as antIcons from '@ant-design/icons';
 import type { InputProps, ModalProps, TabsProps } from 'antd';
 import { Input } from 'antd';
+import classnames from 'classnames';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import type { FormItemIconOptions, FormItemIconTabsExtendOptions } from '..';
 import IconModal from './IconModal';
-
 export interface IconWrapperProps {
   value?: string;
   onChange?: (value?: string) => void;
@@ -49,8 +49,6 @@ const IconWrapper: FC<IconWrapperProps> = ({
         <Icon
           component={(antIcons as Record<string, any>)?.[value]}
           style={{
-            // display: 'flex',
-            // alignItems: 'center',
             ...activeIconStyle,
           }}
         />
@@ -62,14 +60,16 @@ const IconWrapper: FC<IconWrapperProps> = ({
   return (
     <>
       <Input
-        rootClassName="fas"
-        prefix={prefix}
         placeholder={placeholder}
         {...inputProps}
+        prefix={prefix}
+        rootClassName={classnames(
+          'lightd-form-item-icon-input-wrapper',
+          inputProps?.rootClassName,
+        )}
         style={{
-          // display: 'flex',
-          // alignItems: 'center',
           width: '100%',
+          cursor: 'pointer',
           ...inputProps?.style,
         }}
         disabled={disabled || inputProps?.disabled}

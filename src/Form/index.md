@@ -7,7 +7,17 @@ nav:
 
 # LForm
 
-基于 `Form` 组件扩展的高级表单，向下兼容原 `Form` 组件。
+基于 `Form` 组件扩展的高级表单，
+
+**特点**
+
+- 向下兼容原 `Form` 组件。
+- 支持 onFinish 调用之前转化表单值
+- 支持 onValuesChange 统一监听字段变化
+- 支持自动管理 loading
+- 支持异步设置表单默认值
+- 支持自定义渲染 任意组合
+- 内置提交 重置 可自定义配置
 
 ## 代码演示
 
@@ -37,15 +47,19 @@ nav:
 
 ## API
 
-> - `LForm` 的`children`子项必须包含`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`
->
-> - 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是设置 `defaultValue`
->
-> - 如果要在某一项的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一项设置 `onChange` 事件
->
-> - `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置 onReset 或 提交 onSubmit 事件)`。
->
-> - `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps`的`preventDefault`为`true`所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
+:::warning{title=注意}
+
+- `LForm` 的`children`子项必须包含`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`
+
+- 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是给子项设置 `defaultValue`
+
+- 如果要在某一项字段的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一项设置 `onChange` 事件
+
+- `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置 onReset 或 提交 onSubmit 事件)`。
+
+- `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps`的`preventDefault`为`true`所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
+
+:::
 
 ```ts
 import { LForm } from 'lighting-design';

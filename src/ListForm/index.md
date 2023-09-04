@@ -25,9 +25,12 @@ LFormItem 数组化管理，提供转换、校验等功能。
 
 ## API
 
-> LLoginForm 下的字段不应该配置 initialValue，你始终应该通过 LLoginForm 的 initialValue 或者 LForm 的 initialValues 来配置。
->
-> 嵌套表单字段需要对 field 进行拓展，将 field.name 应用于控制字段。
+:::warning{title=注意}
+
+- `LListForm` 下的字段不应该配置 `initialValue，你始终应该通过` `LLoginForm` 的 `initialValue` 或者 `LForm` 的 `initialValues` 来配置。
+
+- 嵌套表单字段需要对 `field` 进行拓展，将 `field.name` 应用于控制字段。
+  :::
 
 ```ts
 import { LLoginForm } from 'lighting-design';
@@ -36,7 +39,7 @@ import { LLoginForm } from 'lighting-design';
 同 antd 的 [Form.List](https://ant.design/components/form-cn#formlist)
 
 ```ts
-<LLoginForm>
+<LListForm>
   {(fields) =>
     fields.map((field) => (
       <LFormItem {...field}>
@@ -44,5 +47,5 @@ import { LLoginForm } from 'lighting-design';
       </LFormItem>
     ))
   }
-</LLoginForm>
+</LListForm>
 ```

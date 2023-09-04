@@ -35,13 +35,17 @@ nav:
 
 ## API
 
-> - `LMoadlForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`,如果只是展示其他内容(`例如表格 列表`)请使用`antd`的弹窗组件
->
-> - `LMoadlForm` 的`底部操作栏`通过 `LForm` 的`submitter`属性配置
->
-> - 大多数情况你只需要配置` trigger` `(能接受 onClick 事件的组件) `，一旦配置了`trigger`属性就不在需要受控控制弹窗的显示
->
-> - 某些情况你需要在关闭弹窗时调用`form.resetFields()`手动控制恢复到默认值 , 请将`isResetFields={false}`
+:::warning{title=注意}
+
+- `LMoadlForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`，如果只是展示内容 (`例如表格 列表 详情`) 请使用`antd`的弹窗组件
+
+- `LMoadlForm` 的`底部操作栏`通过 `LForm` 的`submitter`属性配置
+
+- 大多数情况你只需要配置` trigger` `(能接受 onClick 事件的组件) `，一旦配置了`trigger`属性就不在需要受控控制弹窗的显示
+
+- 某些特殊情况你需要在关闭弹窗时调用`form.resetFields()`手动控制恢复到默认值 , 请将`isResetFields={false}`
+
+:::
 
 ```ts
 import { LModalForm } from 'lighting-design';
@@ -56,7 +60,7 @@ import { LModalForm } from 'lighting-design';
 | forceRender   | 是否预渲染`LMoadlForm`的内容                                                                               | `boolean`                                                 | `false` |
 | title         | `Modal` 标题                                                                                               | `ReactNode`                                               | `-`     |
 | width         | `Modal` 宽度                                                                                               | `number \| string`                                        | `600`   |
-| trigger       | 用于触发 `Modal` 打开的 dom，一般是 Button 组件                                                            | `ReactElement`                                            | `-`     |
+| trigger       | 用于触发 `Modal` 打开的 dom，一般是 `Button` 组件                                                          | `ReactElement`                                            | `-`     |
 | open          | 是否打开。<br/>设置后表示为 `受控组件`，可结合 `onOpenChange` 进行控制。                                   | `boolean`                                                 | `-`     |
 | onOpenChange  | `open` 改变时触发                                                                                          | `(open: boolean) => void`                                 | `- `    |
 | modalProps    | `Modal` 的 `props`，使用方式与 antd 相同。                                                                 | [ModalProps](https://ant.design/components/modal-cn/#api) | `-`     |

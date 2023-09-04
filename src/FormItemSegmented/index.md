@@ -36,7 +36,11 @@ nav:
 
 ### API
 
-> - `depends`为`dependencies`依赖项的值, 如果依赖项发生变化则会自动请求数据 如果依赖项的值为`假值或者空数组`则本身数据也会清除
+:::warning{title=注意}
+
+- `request` 的参数集合`depends` 为 `LFormItem` 组件 `dependencies` 属性依赖项字段的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除或者禁用选择
+
+:::
 
 ```ts
 import { LFormItemSegmented } from 'lighting-design';

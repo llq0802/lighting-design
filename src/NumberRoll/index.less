@@ -2,13 +2,12 @@
 
 .@{NumberRollPrefixCls} {
   user-select: none;
+  font-size: 36px;
 
   &-animate {
     position: relative;
-    display: inline-block;
     height: 45px;
     overflow: hidden;
-    font-size: 36px;
     line-height: 45px;
   }
 
@@ -16,7 +15,9 @@
     position: relative;
     top: 0;
     float: left;
-    width: 24px;
+    // width: 24px;
+    display: flex;
+    flex-direction: column;
     text-align: center;
   }
 
@@ -37,7 +38,6 @@
       float: left;
       width: 100%;
       height: 45px;
-      line-height: 40px;
     }
   }
 }

@@ -40,13 +40,17 @@ toc: content
 
 ## API
 
-> - `dataSource` 不再配置 请使用 `treeData`
->
-> - `columns` 的部分字段内部重写无法覆盖 (`dataIndex` `render`)
->
-> - `pagination` 属性默认为`false` `bordered` 属性默认为`true`
->
-> - 如果要控制表格分页变化 请在`pagination`的`onChange`方法中自行实现 , 表格的原始的`onChange`无法控制变化
+:::warning{title=注意}
+
+- `dataSource` 不再配置 请使用 `treeData`
+
+- `columns` 的部分字段内部重写无法覆盖 (`dataIndex` `render`)
+
+- `pagination` 属性默认为`false` `bordered` 属性默认为`true`
+
+- 如果要控制表格分页变化 请在`pagination`的`onChange`方法中自行实现 , 表格的原始的`onChange`无法控制变化
+
+:::
 
 ```ts
 import { LTreeTable } from 'lighting-design';

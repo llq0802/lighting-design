@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import type { FC } from 'react';
 
 export const NumberRoll_DaterArray = [
@@ -25,16 +26,18 @@ const DataChildren: FC<PropsType> = ({ num }) => {
 
   return (
     <div
-      className={`${prefixCls}-animate-dom ${
-        isDel(num) ? `${prefixCls}-animate-dom-del` : ''
-      }`}
+      className={classnames(
+        `${prefixCls}-animate-dom`,
+        isDel(num) ? `${prefixCls}-animate-dom-del` : '',
+      )}
       data-num={num}
     >
       {NumberRoll_DaterArray.map((item, i) => (
         <span
-          className={`${prefixCls}-animate-span ${
-            isDel(item) ? `${prefixCls}-animate-span-del` : ''
-          }`}
+          className={classnames(
+            `${prefixCls}-animate-span`,
+            isDel(item) ? `${prefixCls}-animate-span-del` : '',
+          )}
           key={i}
         >
           {item}

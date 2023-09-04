@@ -41,7 +41,13 @@ nav:
 
 ## API
 
-> - `LQueryForm` 的`查询丶重置` 通过 `LForm` 的`submitter`属性配置
+:::warning{title=注意}
+
+- `LQueryForm` 的`查询丶重置` 通过 `LForm` 的`submitter`属性配置
+
+- 可通过`itemColProps`配置响应式 , 通过`isSpace`配置水平进紧凑模式
+
+:::
 
 ```ts
 import { LQueryForm } from 'lighting-design';

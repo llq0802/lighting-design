@@ -43,13 +43,19 @@ nav:
 
 ## API
 
-> - `LMoadlForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`,如果只是展示其他内容(`例如表格 列表`)请使用`antd`的抽屉组件
->
-> - `LDrawerForm` 的确定丶取消 通过 `LForm` 的`submitter`属性配置
->
-> - 大多数情况你只需要配置` trigger` `(能接受 onClick 事件的组件) `，一旦配置了`trigger`属性就不在需要受控控制弹窗的显示
->
-> - 某些情况你需要在关闭抽屉时调用`form.resetFields()`手动控制恢复到默认值 , 请将`isResetFields={false}`
+:::warning{title=注意}
+
+- `LDrawerForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`，如果只是展示内容 (`例如表格 列表 详情`) 请使用`antd`的抽屉组件
+
+- `LDrawerForm` 的`底部操作栏`通过 `LForm` 的`submitter`属性配置
+
+- 大多数情况你只需要配置` trigger` `(能接受 onClick 事件的组件) `，一旦配置了`trigger`属性就不在需要受控控制弹窗的显示
+
+- 某些特殊情况你需要在关闭抽屉时调用`form.resetFields()`手动控制恢复到默认值 , 请将`isResetFields={false}`
+
+- 如果要在当前 dom 中弹出，`LDrawerForm` 的父元素样式中必须有 `position` 属性
+
+:::
 
 ```ts
 import { LDrawerForm } from 'lighting-design';

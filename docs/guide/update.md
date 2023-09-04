@@ -13,6 +13,7 @@ order: 3
 - [LScrollBar - 滚动条组件](/components/scroll-bar)
 - [LTreeTable - 树表格组件](/components/tree-table)
 - [LH5Preview - H5 预览组件](/components/h5-preview)
+- [LEllipsisText - 单行文字省略](/components/Ellipsis-Text)
 - [LListForm - 列表表单组件](/components/list-form)
 - [LFormItmeIcon - 图标选择组件](/components/form-item-icon)
 - [LFormItemNumberRange - 数字范围组件](/components/form-item-number-range)
@@ -22,8 +23,7 @@ order: 3
 - [useWorker - 钩子](/components/use-worker)
 - [useDeepUpdateEffect - 钩子](/components/use-deep-update-effect)
 - [useLazyLoadImage - 钩子](/components/use-lazy-load-image) -->
-
-**移除**
+  **移除**
 
 - 移除 `useFormModal` 请使用 `LModalForm`
 - 移除 `useFormDrawer` 请使用 `LDrawerForm`
@@ -45,6 +45,6 @@ order: 3
 **其他**
 
 - 时间日期插件改用`day.js`
-- 部分组件的`API`与`antd v5`保持同步
+- 部分组件的`API`与`antd V5`保持同步
 - 不支持所有版本的 IE 浏览器
 - `v1` 版本不再维护，请使用最新版本
