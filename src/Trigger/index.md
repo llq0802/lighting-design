@@ -32,7 +32,7 @@ import { LTrigger } from 'lighting-design';
 ```
 
 :::warning{title=注意}
-2.1.15 版本已重构该组件：
+2.1.16 版本已重构该组件：
 
 - 弹出层的宽度由 `children` 组件控制
 

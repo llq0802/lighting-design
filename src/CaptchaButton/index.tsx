@@ -14,42 +14,42 @@ export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   /**
    * 倒计时的秒数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.15
+   *@version 2.1.16
    *@memberof CaptchaButtonProps
    */
   second?: number;
   /**
    *@author 李岚清 <https://github.com/llq0802>
    *@description 是否开始发送
-   *@version 2.1.15
+   *@version 2.1.16
    *@memberof CaptchaButtonProps
    */
   start?: boolean;
   /**
    * 倒计时的文字, 会带上 second 秒
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.15
+   *@version 2.1.16
    *@memberof CaptchaButtonProps
    */
   disabledText?: string;
   /**
    * 缓存的key、页面刷新后倒计时继续 , 多个倒计时组件请设置不同的key。
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.15
+   *@version 2.1.16
    *@memberof CaptchaButtonProps
    */
   cacheKey: string;
   /**
    * 用于重置倒计时
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.15
+   *@version 2.1.16
    *@memberof CaptchaButtonProps
    */
   cancelRef?: React.MutableRefObject<(() => void) | undefined>;
   /**
    *@author 李岚清 <958614130@qq.com>
    *@description 倒计时完成后触发
-   *@version 2.1.15
+   *@version 2.1.16
    *@memberof CaptchaButtonProps
    *@see https://ant.design/components/button-cn/
    */

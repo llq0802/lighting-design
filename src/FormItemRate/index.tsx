@@ -16,14 +16,14 @@ export interface LFormItemRateProps
   /**
    *总共的星数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.15
+   *@version 2.1.16
    *@memberof LFormItemRateProps
    */
   count?: number;
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.15
+   *@version 2.1.16
    *@memberof LFormItemRateProps
    */
   spin?: SpinProps;
