@@ -25,6 +25,13 @@ Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以 **显�
 - 💡 TypeScript - 提供完整 TypeScript 类型定义
 - 🎨 更少的代码 - 多种配置减少代码的书写
 
+## 版本关系
+
+| Lighting Design | Ant Design |
+| :-------------: | :--------: |
+|    `V1` 版本    | `V4` 版本  |
+|    `V2` 版本    | `V5` 版本  |
+
 ## 与其他库互补
 
 - TanStackQuery [服务状态管理](https://tanstack.com/query/v4/docs/react/examples/react/basic)

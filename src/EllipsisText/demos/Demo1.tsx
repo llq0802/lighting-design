@@ -31,15 +31,29 @@ const Demo1 = () => {
       <br />
       <br />
       <h3>通过固定宽度省略</h3>
-      <LEllipsisText
-        style={{
-          width: 100,
-        }}
-      >
+      <LEllipsisText style={{ width: 100 }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut eveniet
         expedita dolor! Ipsa inventore aperiam vero quaerat, molestias esse
         voluptatibus quos fugiat delectus harum unde architecto eum, recusandae
         culpa distinctio?
+      </LEllipsisText>
+
+      <h3>修改 tooltip 的参数</h3>
+      <LEllipsisText
+        maxWidth={200}
+        className="my-LEllipsisText"
+        tooltip={{
+          color: '#209cee',
+          placement: 'right',
+        }}
+        style={{
+          fontSize: 18,
+          color: '#247fff',
+          fontWeight: 700,
+        }}
+        onClick={() => {}}
+      >
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab totam
       </LEllipsisText>
 
       <br />

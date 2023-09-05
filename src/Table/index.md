@@ -50,6 +50,12 @@ nav:
 
 <code src='./demos/Demo2.tsx' background="#f5f5f5"></code>
 
+### 小型表格
+
+适合在在弹窗，抽屉，下拉等组件中使用
+
+<code src='./demos/Demo18.tsx' background="#f5f5f5"></code>
+
 ### 表格额外信息
 
 <code src='./demos/Demo3.tsx' background="#f5f5f5"></code>
@@ -113,6 +119,8 @@ nav:
 :::warning{title=注意}
 
 - 大多数情况尽量使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等 ,特殊场景下你依然可以使用 `dataSource` , 比如: 外层`Skeleton` 骨架屏, 这时 `分页` `loading`都有你来控制
+
+- `request`返回值必须是 `{ success:boolean , data: Record<string, any>[], total: number \| string  }`
 
 - `request`的第一个参数为当前的页码和分页数量 如果配置了表单则还有表单的值，
 

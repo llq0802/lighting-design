@@ -5,7 +5,7 @@ toc: content
 
 # LEllipsisText
 
-处理单行文本的省略
+处理单行文本的省略 , 可与 `LTable` 配合
 
 ## 代码演示
 

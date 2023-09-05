@@ -88,7 +88,11 @@ export type LTableRequest = (
   params: LTableRequestParams,
   /** 请求类型 */
   requestType: LTableRequestType,
-) => Promise<{ success: boolean; data: Record<string, any>[]; total: number }>;
+) => Promise<{
+  success: boolean;
+  data: Record<string, any>[];
+  total: number | string;
+}>;
 
 export type LTableProps = {
   /**
@@ -489,14 +493,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         dataIndex: '_sortColumn_',
         width: typeof isSort === 'boolean' ? 80 : isSort?.width,
         // fixed: 'left',
-        render: (_: any, __: any, index: number) => (
-          <>
-            {(paginationAction?.current - 1) *
-              (paginationAction?.pageSize || 0) +
-              index +
-              1}
-          </>
-        ),
+        render: (_: any, __: any, index: number) =>
+          (paginationAction?.current - 1) * (paginationAction?.pageSize || 0) +
+          index +
+          1,
       };
       return [sortColumn, ...columns] as (
         | ColumnGroupType<any>

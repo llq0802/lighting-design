@@ -23,42 +23,34 @@ export declare interface SearchFormProps extends LQueryFormProps {
 }
 
 const SearchForm = forwardRef(
-  ({ formItems, cardProps, name, ...restProps }: SearchFormProps, ref) => {
+  (
+    { formItems: items = [], cardProps, name, ...restProps }: SearchFormProps,
+    ref,
+  ) => {
     const [form] = LForm.useForm();
-
-    let items: Exclude<
-      ReactNode,
-      string | number | boolean | null | undefined
-    >[] = [];
-
     useImperativeHandle(ref, () => form);
-
     const searchFormId = useMemo(
       () => name || uniqueId('lightd-table-search-form'),
       [name],
     );
 
-    if (Array.isArray(formItems) && formItems.length > 0) {
-      items = formItems;
-    }
-
-    const dom = useMemo(
-      () =>
-        items.map((item: any, index: number) =>
-          cloneElement(item, {
-            key:
-              item?.key ||
-              item?.props?.key ||
-              item?.props?.name + index.toString(),
-          }),
-        ),
-      [items],
-    );
+    const dom = useMemo(() => {
+      if (items?.length <= 0) {
+        return [];
+      }
+      return items?.map((item: any, index: number) =>
+        cloneElement(item, {
+          key:
+            item?.key ||
+            item?.props?.key ||
+            item?.props?.name + index.toString(),
+        }),
+      );
+    }, [items]);
 
     if (items?.length <= 0) {
       return null;
     }
-
     return (
       <Card
         bordered={false}

@@ -1,6 +1,6 @@
 import { Tooltip, type TooltipProps } from 'antd';
 import classnames from 'classnames';
-import type { CSSProperties, FC } from 'react';
+import type { CSSProperties, DOMAttributes, FC } from 'react';
 import React, { forwardRef } from 'react';
 import './index.less';
 
@@ -12,7 +12,7 @@ function Text({ outRef, children, ...restProps }) {
   );
 }
 
-export interface LEllipsisTextProps extends Partial<HTMLSpanElement> {
+export interface LEllipsisTextProps extends DOMAttributes<HTMLSpanElement> {
   /**
    *类名
    *@author 李岚清 <https://github.com/llq0802>
@@ -90,7 +90,7 @@ const LEllipsisText: FC<LEllipsisTextProps> = (props) => {
       text?.length > maxLength ? `${text?.slice(0, maxLength)}...` : text;
 
     return tooltip ? (
-      <Tooltip title={renderText} {...tooltipProps}>
+      <Tooltip title={text} {...tooltipProps}>
         <Text
           className={inenerClassName}
           style={style}
