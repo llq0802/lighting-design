@@ -238,11 +238,11 @@ export type LTableRequestType =
 
 ```ts
 export type MutableRefObject<LTableInstance|undefined > = {
-  // 根据条件，当前页、刷新数据
+  // 根据条件，当前页，分页数量、刷新数据
   onReload: () => void;
-  // 重置数据，从第一页开始显示、查询数据
+  // 重置数据，从第一页以及默认的分页数量开始显示、查询数据
   onReset: () => void;
-  // 根据条件，从第一页开始显示、查询数据
+  // 根据条件，从第一页以及当前的分页数量开始显示、查询数据
   onSearch: () => void;
   // 表格根标签div
   rootRef: RefObject<HTMLDivElement>;
