@@ -39,16 +39,8 @@ const Demo1: FC = () => {
       tableRef={tableRef}
       formRef={formRef}
       queryFormProps={{ showColsNumber: 3 }}
-      toolbarLeft={
-        <>
-          <Button type="primary">新增</Button>
-        </>
-      }
-      toolbarRight={
-        <>
-          <Button type="primary">审批</Button>
-        </>
-      }
+      toolbarLeft={<Button type="primary">新增</Button>}
+      toolbarRight={<Button type="primary">审批</Button>}
       formItems={formItems}
       request={async (params, requestType) => {
         // console.log('==params==', params);

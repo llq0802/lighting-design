@@ -8,32 +8,33 @@ import { awaitTime } from '../../_test';
 import AddEditModal from './components/S-EditAddModal';
 import { apiGetUserList, columns } from './service';
 
+const formItems = [
+  <LFormItemSelect
+    label="下拉框"
+    name="select1"
+    key="select1"
+    request={async () => {
+      const result = await awaitTime([
+        { label: 'Unresolved', value: 'open' },
+        { label: 'Resolved', value: 'closed' },
+        { label: 'Resolving', value: 'processing' },
+      ]);
+      if (result.success) return result.data;
+    }}
+  />,
+  <LFormItemInput key="0" name="input4" label="输入框" />,
+  <LFormItemInput key="1" name="input5" label="输入框" />,
+  <LFormItemInput key="2" name="input6" label="输入框" />,
+  <LFormItemInput key="3" name="input7" label="输入框" />,
+  <LFormItemInput key="4" name="input8" label="输入框" />,
+];
+
 const Demo1: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
   const [open, setOpen] = useState(false);
   const [editableRecord, setEditablRecord] = useState<Record<string, any>>();
 
-  const formItems = [
-    <LFormItemSelect
-      label="下拉框"
-      name="select1"
-      key="select1"
-      request={async () => {
-        const result = await awaitTime([
-          { label: 'Unresolved', value: 'open' },
-          { label: 'Resolved', value: 'closed' },
-          { label: 'Resolving', value: 'processing' },
-        ]);
-        if (result.success) return result.data;
-      }}
-    />,
-    <LFormItemInput key="0" name="input4" label="输入框" />,
-    <LFormItemInput key="1" name="input5" label="输入框" />,
-    <LFormItemInput key="2" name="input6" label="输入框" />,
-    <LFormItemInput key="3" name="input7" label="输入框" />,
-    <LFormItemInput key="4" name="input8" label="输入框" />,
-  ];
   return (
     <>
       <LTable
@@ -76,15 +77,15 @@ const Demo1: FC = () => {
         }
         toolbarRight={
           <Button type="primary" onClick={() => tableRef.current?.onReset()}>
-            重置表单并重新请求
+            重置表单,分页并重新请求
           </Button>
         }
         formItems={formItems}
         formRef={formRef}
         columns={columns}
         request={async (params, requestType) => {
-          // console.log('==params==', params);
-          // console.log('requestType ', requestType);
+          console.log('==params==', params);
+          console.log('requestType ', requestType);
           const res: Record<string, any> = await apiGetUserList();
           return {
             success: true,

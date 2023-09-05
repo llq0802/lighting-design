@@ -5,17 +5,15 @@ import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import React, { useRef, useState } from 'react';
 
-const originData = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 10,
-  },
-  { key: '2', name: 'Jim Green', age: 42 },
-  { key: '3', name: 'Joe Black1', age: 32 },
-  { key: '4', name: 'Joe Black2', age: 32 },
-  { key: '5', name: 'Joe Black3', age: 32 },
-];
+const originData: any[] = [];
+
+for (let index = 0; index < 12; index++) {
+  originData.push({
+    key: `${index}`,
+    name: `JohnBrown-${index + 0}`,
+    age: 10 + index,
+  });
+}
 
 const columns: ColumnsType<any> = [
   {
@@ -53,6 +51,10 @@ const MyLTable: FC = () => {
       formRef={formRef}
       queryFormProps={{ size: 'small', isSpace: true }}
       formItems={formItems}
+      pagination={{
+        showSizeChanger: false,
+        showQuickJumper: false,
+      }}
       request={async (params, requestType) => {
         return {
           success: true,

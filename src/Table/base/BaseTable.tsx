@@ -471,7 +471,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       const res = await request({ ...args }, requestType as LTableRequestType);
       // 必须设置success为true data必须为数组长度大于0 才会有数据
       if (res?.success && Array.isArray(res.data) && res.data.length > 0) {
-        return { list: res.data, total: res.total };
+        return { list: res.data, total: +res.total };
       }
       return { list: [], total: 0 };
     },
@@ -526,8 +526,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 重置所有表单数据，从第一页开始显示、查询数据
   const handleReset = useMemoizedFn(() => {
     if (hasFromItems) {
-      // queryFormRef.current?.resetFields();
-      // const formValues = queryFormRef.current?.getFieldsValue();
       const formValues = _lformRef.current;
       queryFormRef.current?.setFieldsValue({ ...formValues });
       run(
@@ -539,7 +537,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         'onReset',
       );
     } else {
-      paginationAction.changeCurrent(1);
+      paginationAction.onChange(1, outPaginationPageSize);
     }
   });
 
@@ -550,7 +548,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       run(
         {
           current: 1,
-          pageSize: outPaginationPageSize,
+          pageSize: paginationAction?.pageSize || outPaginationPageSize,
           formValues: formValues,
         },
         type,
@@ -577,14 +575,14 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     }
   });
 
-  // 表单查询
+  // 表单查询 保留表单参数 保留pageSize  重置page为 1
   const handleSearchFormFinish = useMemoizedFn(
     (formValues: Record<string, any>) => {
       const defaultPar = isInit.current ? { ...defaultRequestParams } : {};
       run(
         {
           current: 1,
-          pageSize: outPaginationPageSize,
+          pageSize: paginationAction?.pageSize || outPaginationPageSize,
           formValues,
           ...defaultPar,
         },
@@ -594,9 +592,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   );
 
   // 默认 onReset 中已经重置表单，这里只从第一页开始显示、查询数据请求
-  const handleSearchFormReset = useMemoizedFn(() => {
-    handleReset();
-  });
+  const handleSearchFormReset = useMemoizedFn(() => handleReset());
 
   // 表格分页页码丶排序等改变时触发
   const handleTableChange = useMemoizedFn(
@@ -746,6 +742,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
                   current: paginationAction?.current,
                   pageSize: paginationAction?.pageSize,
                   total: paginationAction?.total,
+                  // onChange: paginationAction.onChange,
+                  // onShowSizeChange: paginationAction.onChange,
                   ...outPagination,
                 }
               : false
