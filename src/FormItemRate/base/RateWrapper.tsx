@@ -20,7 +20,7 @@ export type RateWrapperProps = Record<string, any> &
     /**
      *请求总共的星数的异步函数
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.17
+     *@version 2.1.18
      *@memberof LFormItemRateProps
      */
     request: (...args: any[]) => Promise<number>;
@@ -30,7 +30,7 @@ export type RateWrapperProps = Record<string, any> &
     /**
      *antd评分组件 Props
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.17
+     *@version 2.1.18
      *@memberof LFormItemRateProps
      */
     rateProps: RateProps;

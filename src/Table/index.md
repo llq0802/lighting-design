@@ -128,7 +128,7 @@ nav:
 
 - 大多数情况尽量使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等 ,特殊场景下你依然可以使用 `dataSource` , 比如: 外层`Skeleton` 骨架屏, 这时 `分页` `loading`都有你来控制
 
-- `request`返回值必须是 `{ success:boolean , data: Record<string, any>[], total: number \| string  }`
+- `request`返回值必须是 `{ success:boolean , data: Record<string, any>[], total: number | string  }`
 
 - `request`的第一个参数为当前的页码和分页数量 如果配置了表单`formItems 的长度大于 0`则还有表单的值 `formValues`
 

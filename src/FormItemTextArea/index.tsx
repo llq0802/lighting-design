@@ -11,14 +11,14 @@ export interface LFormItemTextAreaProps extends LFormItemProps {
   /**
    *  是否禁用空格
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.17
+   *@version 2.1.18
    *@memberof LFormItemTextAreaProps
    */
   disabledWhiteSpace?: boolean;
   /**
    *  Input.TextArea或者Input的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.17
+   *@version 2.1.18
    *@memberof LFormItemTextAreaProps
    *@see https://ant.design/components/input-cn#inputtextarea
    */
