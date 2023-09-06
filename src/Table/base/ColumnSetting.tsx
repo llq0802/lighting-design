@@ -46,11 +46,16 @@ const ColumnSetting = () => {
     });
   }, [outColumns, columnsKey]);
 
-  const onCheckAllChange = useMemoizedFn(() => {
-    if (selectedKey.length === outColumns.length) {
-      setSelectedKey([]);
+  const onCheckAllChange = useMemoizedFn((e) => {
+    if (e.target.checked) {
+      const newKey = outColumns.map(
+        (item, index) => `${item.dataIndex || ''}-${item.key || ''}-${index}`,
+      );
+      setSelectedKey(newKey);
+      setColumns?.([...outColumns]);
     } else {
-      setSelectedKey([...columnsKey]);
+      setSelectedKey([]);
+      setColumns?.([]);
     }
   });
 
