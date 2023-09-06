@@ -84,8 +84,8 @@ const Demo1: FC = () => {
         formRef={formRef}
         columns={columns}
         request={async (params, requestType) => {
-          console.log('==params==', params);
-          console.log('requestType ', requestType);
+          // console.log('==params==', params);
+          // console.log('requestType ', requestType);
           const res: Record<string, any> = await apiGetUserList();
           return {
             success: true,

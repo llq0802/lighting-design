@@ -73,7 +73,7 @@ const Demo12: FC = () => {
           formItems={formItems}
           columns={columns}
           request={async (params, type) => {
-            console.log('是否占满视口剩余空间-request-params', params, type);
+            // console.log('是否占满视口剩余空间-request-params', params, type);
             return {
               success: true,
               data,

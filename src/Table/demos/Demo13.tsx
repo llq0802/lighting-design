@@ -101,8 +101,8 @@ const Demo13: FC = () => {
         formItems={formItems}
         columns={columns}
         request={async (params, type) => {
-          console.log('params', params);
-          console.log('type', type);
+          // console.log('params', params);
+          // console.log('type', type);
           await awaitTime();
           return {
             success: true,

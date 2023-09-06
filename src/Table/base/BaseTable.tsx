@@ -1,4 +1,9 @@
-import { useMemoizedFn, usePagination } from 'ahooks';
+import {
+  useCreation,
+  useMemoizedFn,
+  usePagination,
+  useUpdateEffect,
+} from 'ahooks';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
 import type { CardProps, FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
@@ -55,20 +60,45 @@ export type LTableRenderProps = (
 export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset';
 
 export type LTableInstance = {
-  // 根据条件，当前页、刷新数据
+  /** 根据条件，当前页，当前分页数量、刷新数据 */
   onReload: () => void;
-  // 重置数据，从第一页开始显示、查询数据
+  /** 重置数据，从第一页以及默认的分页数量开始显示、查询数据 */
   onReset: () => void;
-  // 根据条件，从第一页开始显示、查询数据
+  /** 根据条件，从第一页以及当前的分页数量开始显示、查询数据 */
   onSearch: () => void;
-  // 表格根标签div
+  /** 表格根标签 div */
   rootRef: RefObject<HTMLDivElement>;
-  // 表格数据
+  /** 表格数据 */
   tableData: Record<string, any>[];
-  // 页码信息
+  /**
+   * 类似 React.setState 直接修改当前表格的数据
+   *
+   * 推荐使用函数的形式修改
+   *
+   * 每次更新需要 list 引用地址不一样才能更新界面
+   */
+  setTableData: Dispatch<
+    SetStateAction<{
+      list: Record<string, any>[];
+      total: number;
+    }>
+  >;
+  /** 页码信息以及方法 */
   pagination: {
+    /** 当前页 */
     current: number;
+    // 一页多少条
     pageSize: number;
+    /** 总的数量 */
+    total: number;
+    /** 总的页数 */
+    totalPage: number;
+    /** 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined */
+    onChange: (current: number, pageSize: number) => void;
+    /** 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined */
+    changeCurrent: (current: number) => void;
+    /** 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined */
+    changePageSize: (pageSize: number) => void;
   };
 };
 
@@ -395,7 +425,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     ...restProps
   } = props;
 
-  const [currentSize, setCurrentSize] = useState(outSize);
   const rootRef = useRef<HTMLDivElement>(null);
   const tablecardref = useRef<HTMLDivElement>(null);
   const _lformRef = useRef<Record<string, any>>({});
@@ -417,7 +446,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
 
   // 内置表格工具栏
-  const toolbarActionConfig = useMemo(() => {
+  const toolbarActionConfig = useCreation(() => {
     return {
       showReload: true,
       showColumnSetting: true,
@@ -449,11 +478,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       10
     );
   }, [outPagination?.defaultPageSize, outPagination?.pageSize]);
-
   // 是否有查询框组
   const hasFromItems = useMemo(
-    () => Array.isArray(formItems) && formItems.length > 0,
-    [formItems],
+    () => formItems?.length > 0,
+    [formItems?.length],
   );
 
   // useRequest请求
@@ -484,19 +512,21 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     },
   );
 
+  // ==================== 表格大小以及列的处理-开始====================
+  const [currentSize, setCurrentSize] = useState(outSize);
   // 存储外部columns 是否设置序号
   const outColumns = useMemo(() => {
     if (isSort) {
+      const render = (_: any, __: any, index: number) =>
+        (paginationAction?.current - 1) * (paginationAction?.pageSize || 0) +
+        index +
+        1;
       const sortColumn = {
         align: 'center',
         title: '序号',
-        dataIndex: '_sortColumn_',
+        dataIndex: '_SORT_COLUMN_',
         width: typeof isSort === 'boolean' ? 80 : isSort?.width,
-        // fixed: 'left',
-        render: (_: any, __: any, index: number) =>
-          (paginationAction?.current - 1) * (paginationAction?.pageSize || 0) +
-          index +
-          1,
+        render,
       };
       return [sortColumn, ...columns] as (
         | ColumnGroupType<any>
@@ -504,14 +534,22 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       )[];
     }
     return columns;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columns, isSort, paginationAction?.current, paginationAction?.pageSize]);
-
   // 表格展示的列
   const [currentColumns, setCurrentColumns] = useState(outColumns);
+  useUpdateEffect(() => {
+    if (!contentRender) {
+      // 在能在不是卡片的时候更新
+      setCurrentColumns([...outColumns]);
+    }
+  }, [outColumns, contentRender]);
+  useUpdateEffect(() => {
+    setCurrentSize(outSize);
+  }, [outSize]);
+  // ==================== 表格大小以及列的处理-结束====================
 
   // 内部loading
-  const currentLoading = useMemo(() => {
+  const currentLoading = useCreation(() => {
     if (outLoading === void 0) {
       return { spinning: requestLoading };
     } else if (typeof outLoading === 'boolean') {
@@ -523,6 +561,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     };
   }, [outLoading, requestLoading]);
 
+  // ==================== 表格方法开始====================
   // 重置所有表单数据，从第一页开始显示、查询数据
   const handleReset = useMemoizedFn(() => {
     if (hasFromItems) {
@@ -540,7 +579,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       paginationAction.onChange(1, outPaginationPageSize);
     }
   });
-
   // 根据条件，从第一页开始显示、查询数据
   const handleSearch = useMemoizedFn((type = 'onSearch') => {
     if (hasFromItems) {
@@ -557,7 +595,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       paginationAction.changeCurrent(1);
     }
   });
-
   // 根据当前条件和页码 查询数据
   const handleReload = useMemoizedFn(() => {
     if (hasFromItems) {
@@ -574,7 +611,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       paginationAction.changeCurrent(paginationAction?.current);
     }
   });
-
   // 表单查询 保留表单参数 保留pageSize  重置page为 1
   const handleSearchFormFinish = useMemoizedFn(
     (formValues: Record<string, any>) => {
@@ -590,10 +626,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       );
     },
   );
-
   // 默认 onReset 中已经重置表单，这里只从第一页开始显示、查询数据请求
   const handleSearchFormReset = useMemoizedFn(() => handleReset());
-
   // 表格分页页码丶排序等改变时触发
   const handleTableChange = useMemoizedFn(
     (pagination, filters, sorter, extra) => {
@@ -617,28 +651,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       }
     },
   );
+  // ==================== 表格方法结束====================
 
-  // 暴露外部方法
-  useImperativeHandle(tableRef, () => ({
-    // onReload: refresh,
-
-    /** 根据条件，当前页、刷新数据 */
-    onReload: handleReload,
-    /** 重置数据，从第一页开始显示、查询数据 */
-    onReset: handleReset,
-    /** 根据条件，从第一页开始显示、查询数据 */
-    onSearch: handleSearch,
-    /** 表格根标签 div */
-    rootRef: rootRef,
-    /** 表格数据 */
-    tableData:
-      data?.list || (restProps?.dataSource as Record<string, any>[]) || [],
-    /** 直接修改当前表格的数据*/
-    setTableData,
-    /** 页码信息及操作 */
-    pagination: paginationAction,
-  }));
-
+  // ==================== table副作用开始====================
   // 处理是否沾满视口的剩余空间
   useLayoutEffect(() => {
     if (!tablecardref.current) return;
@@ -676,7 +691,30 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoRequest, isReady]);
+  // ==================== table副作用结束====================
 
+  // ==================== 暴露外部方法开始====================
+  useImperativeHandle(tableRef, () => ({
+    // onReload: refresh,
+    /** 根据条件，当前页、刷新数据 */
+    onReload: handleReload,
+    /** 重置数据，从第一页开始显示、查询数据 */
+    onReset: handleReset,
+    /** 根据条件，从第一页开始显示、查询数据 */
+    onSearch: handleSearch,
+    /** 表格根标签 div */
+    rootRef: rootRef,
+    /** 表格数据 */
+    tableData:
+      data?.list || (restProps?.dataSource as Record<string, any>[]) || [],
+    /** 直接修改当前表格的数据,必须是 { total , data } 的形式 */
+    setTableData,
+    /** 页码信息及操作 */
+    pagination: paginationAction,
+  }));
+  // ==================== 暴露外部方法结束===================
+
+  // ==================== dom 区域开始 ====================
   const ToolbarActionDom = useMemo(() => {
     return (
       <ToolbarAction
@@ -719,7 +757,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         <Table
           components={{
             table: contentRender
-              ? () => contentRender(data?.list ?? []) as unknown as any
+              ? () => contentRender?.(data?.list ?? [])
               : void 0,
             ...components,
           }}
@@ -776,8 +814,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     formInitialValues,
     formItems,
     queryFormProps,
-    handleFormRef,
-    handleSearchFormFinish,
   ]);
 
   const finallyDom = (
@@ -793,6 +829,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       {tableDom}
     </div>
   );
+  // ==================== dom 区域结束 ====================
 
   // 根节点注册
   const returnDom = (

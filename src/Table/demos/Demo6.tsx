@@ -30,7 +30,7 @@ const formItems = [
   <LFormItemInput key="4" name="input8" label="输入框" />,
 ];
 
-const Demo1: FC = () => {
+const Demo6: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
 
@@ -41,20 +41,17 @@ const Demo1: FC = () => {
       queryFormProps={{ showColsNumber: 3 }}
       toolbarLeft={<Button type="primary">新增</Button>}
       toolbarRight={<Button type="primary">审批</Button>}
-      formItems={formItems}
+      // formItems={formItems}
       request={async (params, requestType) => {
-        // console.log('==params==', params);
-        // console.log('requestType ', requestType);
-        // console.log('tableRef ', tableRef.current);
         return {
           success: true,
           data: originData,
           total: originData.length,
         };
       }}
-      contentRender={(data: any[]) => (
+      contentRender={(list: any[]) => (
         <Row gutter={[10, 10]}>
-          {data.map((item) => (
+          {list.map((item) => (
             <Col span={8} key={item.key}>
               <Card title={item.name} />
             </Col>
@@ -65,4 +62,4 @@ const Demo1: FC = () => {
   );
 };
 
-export default Demo1;
+export default Demo6;

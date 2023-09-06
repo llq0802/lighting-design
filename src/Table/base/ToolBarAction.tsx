@@ -7,7 +7,7 @@ import { useFullscreen } from 'ahooks';
 import type { SpaceProps } from 'antd';
 import { ConfigProvider, Space, Tooltip } from 'antd';
 import type { CSSProperties, FC } from 'react';
-import { memo, useContext } from 'react';
+import { useContext } from 'react';
 import TableContext from '../TableContext';
 import ColumnSetting from './ColumnSetting';
 import DensityIcon from './DensityIcon';
@@ -15,6 +15,7 @@ import DensityIcon from './DensityIcon';
 // 刷新图标
 const ReloadIcon = ({ onReloadIconChange }) => {
   const { reload, rootRef } = useContext(TableContext);
+
   return (
     <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
       <Tooltip title="刷新">
@@ -39,24 +40,6 @@ const FullscreenIcon = () => {
       },
     },
   );
-
-  // useEventListener('fullscreenchange', () => {
-  //   // document.fullscreenElement ||
-  //   // document.mozFullScreenElement ||
-  //   // document.msFullScreenElement ||
-  //   // document.webkitFullscreenElement||null
-  //   const isF = !!(
-  //     document.fullscreen ||
-  //     document.mozFullScreen ||
-  //     document.webkitIsFullScreen ||
-  //     document.webkitFullScreen ||
-  //     document.msFullScreen
-  //   );
-  //   if (!isF) {
-  //     exitFullscreen();
-  //     setFullScreen?.(false);
-  //   }
-  // });
 
   return isFull ? (
     <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
@@ -134,32 +117,28 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
   }
   if (showDensity) {
     arrDom.push({
-      key: orders.density || 0,
+      key: orders.density || 1,
       dom: <DensityIcon key="DensityIcon" />,
     });
   }
   if (showFullscreen) {
     arrDom.push({
-      key: orders.fullscreen || 0,
+      key: orders.fullscreen || 2,
       dom: <FullscreenIcon key="FullscreenIcon" />,
     });
   }
   if (showColumnSetting) {
     arrDom.push({
-      key: orders.columnSetting || 0,
+      key: orders.columnSetting || 3,
       dom: <ColumnSetting key="ColumnSetting" />,
     });
   }
   const sortDom = arrDom.sort((a, b) => a.key - b.key).map((item) => item.dom);
   return (
     <Space size={10} {...restProps} style={{ fontSize: 16, ...style }}>
-      {/* {showReload && <ReloadIcon onReloadIconChange={onReloadIconChange} />}
-      {showDensity && <DensityIcon />}
-      {showFullscreen && <FullscreenIcon />}
-      {showColumnSetting && <ColumnSetting />} */}
       {sortDom}
     </Space>
   );
 };
 
-export default memo(ToolbarAction);
+export default ToolbarAction;

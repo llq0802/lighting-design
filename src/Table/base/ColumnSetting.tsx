@@ -23,6 +23,9 @@ const ColumnSetting = () => {
   );
   // 当前显示的列 key ，默认全部选中
   const [selectedKey, setSelectedKey] = useState<Key[]>(columnsKey);
+  useUpdateEffect(() => {
+    setSelectedKey(columnsKey);
+  }, [columnsKey]);
 
   const checkAll = useMemo(
     () => selectedKey.length === outColumns.length,
@@ -33,17 +36,6 @@ const ColumnSetting = () => {
     () => selectedKey.length > 0 && selectedKey.length !== outColumns.length,
     [selectedKey, outColumns],
   );
-
-  useUpdateEffect(() => {
-    const newColumns = outColumns.filter((item, index) =>
-      selectedKey.includes(columnsKey[index]),
-    );
-    setColumns?.(newColumns);
-  }, [outColumns, columnsKey, selectedKey, setColumns]);
-
-  useUpdateEffect(() => {
-    setSelectedKey(columnsKey);
-  }, [columnsKey]);
 
   const treeData = useMemo(() => {
     return outColumns.map((item, index) => {
@@ -63,8 +55,12 @@ const ColumnSetting = () => {
   });
 
   const handleTreeCheck = useMemoizedFn(
-    (checkedKeys: Key[] | { checked: Key[]; halfChecked: Key[] }) => {
-      setSelectedKey(checkedKeys as Key[]);
+    (keys: Key[] | { checked: Key[]; halfChecked: Key[] }) => {
+      setSelectedKey(keys as Key[]);
+      const newColumns = outColumns.filter((item, index) =>
+        keys?.includes(`${item.dataIndex || ''}-${item.key || ''}-${index}`),
+      );
+      setColumns?.(newColumns);
     },
   );
 

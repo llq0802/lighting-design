@@ -1,7 +1,6 @@
 // import React, { useEffect, useLayoutEffect, useState } from 'react';
 // import { flushSync } from 'react-dom';
-
-import { Card, Spin } from 'antd';
+// import { Card, Spin } from 'antd';
 import './Demo4.css';
 // // React 18 之前
 // const App: React.FC = () => {
@@ -73,21 +72,21 @@ import './Demo4.css';
 //   return <h3>BBB</h3>;
 // }
 
-const Indicator = () => {
-  return (
-    <div className="loading-wave">
-      <div className="loading-bar"></div>
-      <div className="loading-bar"></div>
-      <div className="loading-bar"></div>
-      <div className="loading-bar"></div>
-    </div>
-  );
-};
+// const Indicator = () => {
+//   return (
+//     <div className="loading-wave">
+//       <div className="loading-bar"></div>
+//       <div className="loading-bar"></div>
+//       <div className="loading-bar"></div>
+//       <div className="loading-bar"></div>
+//     </div>
+//   );
+// };
 
-export default function SPins() {
-  return (
-    <Spin indicator={<Indicator></Indicator>}>
-      <Card title="标题">gfasd</Card>
-    </Spin>
-  );
-}
+// export default function SPins() {
+//   return (
+//     <Spin indicator={<Indicator></Indicator>}>
+//       <Card title="标题">gfasd</Card>
+//     </Spin>
+//   );
+// }

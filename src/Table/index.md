@@ -20,8 +20,6 @@ nav:
 - 内置表单查询各种功能
 - 可自定义各种配置，样式等
 
-## 代码演示
-
 ### 查询框
 
 <code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
@@ -56,6 +54,10 @@ nav:
 
 <code src='./demos/Demo18.tsx' background="#f5f5f5"></code>
 
+### 动态列 columns
+
+<code src='./demos/Demo19.tsx' background="#f5f5f5"></code>
+
 ### 表格额外信息
 
 <code src='./demos/Demo3.tsx' background="#f5f5f5"></code>
@@ -76,17 +78,17 @@ nav:
 
 不要在弹窗，抽屉，下拉等组件中使用
 
-<code src='./demos/Demo12.tsx' background="#f5f5f5"  ></code>
+<code src='./demos/Demo12.tsx' background="#f5f5f5" ></code>
 
 ### 通过 Less 修改样式
 
-<code src='./demos/Demo13.tsx' background="#f5f5f5"  ></code>
+<code src='./demos/Demo13.tsx' background="#f5f5f5" ></code>
 
 ### 通过 Token 修改样式
 
 `antd` 的版本要大于等于 `5.7.0`
 
-<code src='./demos/Demo15.tsx' background="#f5f5f5"  ></code>
+<code src='./demos/Demo15.tsx' background="#f5f5f5" ></code>
 
 ### 自定义渲染组合表格
 
@@ -99,6 +101,12 @@ nav:
 ### Skeleton 骨架屏 2
 
 <code src='./demos/Demo17.tsx' background="#f5f5f5"></code>
+
+### 突变原表格数据
+
+常用于表格新增 编辑 删除数据的乐观更新 `(  每次更新是需要 list 引用地址不一样才能更新界面 )`
+
+<code src='./demos/Demo20.tsx' background="#f5f5f5"></code>
 
 ### 编辑表格
 
@@ -248,15 +256,22 @@ export type MutableRefObject<LTableInstance|undefined > = {
   rootRef: RefObject<HTMLDivElement>;
   // 表格数据
   tableData: Record<string, any>[];
-  // 直接修改当前表格的数据
+  // 直接修改当前表格的数据 建议使用函数的形式
   // 用法与 React.setState 一致，支持 setTableData(newData) 和 setTableData((oldData) => newData) 两种写法。
-  setTableData: Dispatch<SetStateAction<Record<string,any>[]>;
+  // 每次更新需要 list 引用地址不一样才能更新界面
+  setTableData:  setTableData: Dispatch<
+    SetStateAction<{
+      list: Record<string, any>[];
+      total: number;
+    }>
+  >
   // 页码信息及方法
   pagination: {
     current: number;
     pageSize: number;
     total: number;
     totalPage: number;
+    // 以下方法会重新请求数据 , 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined
     onChange: (current: number, pageSize: number) => void;
     changeCurrent: (current: number) => void;
     changePageSize: (pageSize: number) => void;
