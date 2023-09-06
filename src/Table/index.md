@@ -130,17 +130,29 @@ nav:
 
 - `request`返回值必须是 `{ success:boolean , data: Record<string, any>[], total: number \| string  }`
 
-- `request`的第一个参数为当前的页码和分页数量 如果配置了表单则还有表单的值，
+- `request`的第一个参数为当前的页码和分页数量 如果配置了表单`formItems 的长度大于 0`则还有表单的值 `formValues`
 
 - `request`的第二个参数表示当前请求的类型， `autoRequest` 为 `true` 时的组件初始化的请求为 `'onInit'`， 表单查询按钮请求为 `'onSearch'`，表格分页查询与内置工具栏的刷新为 `'onReload'`，表单重置按钮为 `'onReset'`，如果没有配置 `formItems` 则为 `undefined`
+
+- `tableRef.current.onSearch()` 意思为根据表单条件，从第一页以及当前的分页数量开始显示、查询数据
+
+- `tableRef.current.onReload()` 意思为根据表单条件，当前页，当前的分页数量、刷新数据、查询数据
+
+- `tableRef.current.onReset()` 意思为重置表单数据，从第一页以及默认的分页数量开始显示、查询数据
+
+- `tableRef.current.setTableData()` 突变表格数据时需要返回新的对象包含`list` `total`属性，并且每次更新时需要 `list` 引用地址不一样才能更新界面
 
 - `requestOptions`可配置 `ahook` 的 `useRequest`更多高级的请求功能 具体请看 `useRequest`的文档
 
 - 如果请求太快导致 `loading` 闪一下，建议配置`requestOptions={{ loadingDelay:300  }}`有效防止闪烁。 `200 ~ 300`即可。
 
+- 内置的表单查询本质是 `LQueryForm`组件 继承其所有的配置项
+
 - 手动设置查询表单不改变查询表单的默认值 `formInitialValues`，而是通过 `formRef.current.setFieldsValue()`设置表单值，再进行查询，这样不影响查询表单的重置操作。比如通过 `URL` 带一些默认或者接受路由参数查询。
 
 - 当表格全屏时无法显示 `Modal` `下拉框`等组件? 全屏本质上是把你的表格区域 `fixed` 了，所以你需要把 `Modal` `下拉`等组件 的 `getPopupContainer` 设置为了 `LTable` 组件的根标签 的区域
+
+- 对于很`复杂的表单`作为`LTable`的查询参数时, 可通过自定义表单然后在`onFinish`事件中调用 `tableRef.current.onSearch()` 并在 `request` 中获取表单的值并整合分页参数后传值给接口函数
 
 :::
 

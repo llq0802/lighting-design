@@ -26,7 +26,7 @@ export interface LFormItemCaptchaProps
   /**
    *  按钮初始文本
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.16
+   *@version 2.1.17
    *@memberof LFormItemCaptchaProps
    */
   initText?: string;
@@ -34,14 +34,14 @@ export interface LFormItemCaptchaProps
   /**
    *  验证码最大长度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.16
+   *@version 2.1.17
    *@memberof LFormItemCaptchaProps
    */
   maxLength?: number;
   /**
    *  用于取消重置倒计时
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.16
+   *@version 2.1.17
    *@memberof LFormItemCaptchaProps
    */
   cancelRef?: React.MutableRefObject<(() => void) | undefined>;
