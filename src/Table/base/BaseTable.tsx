@@ -519,7 +519,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const [currentSize, setCurrentSize] = useState(outSize);
   // 存储外部columns 是否设置序号
   const outColumns = useMemo(() => {
-    if (isSort) {
+    if (isSort && columns?.length > 0) {
       const render = (_: any, __: any, index: number) =>
         (paginationAction?.current - 1) * (paginationAction?.pageSize || 0) +
         index +

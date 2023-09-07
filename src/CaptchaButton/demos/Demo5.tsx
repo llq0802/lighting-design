@@ -2,6 +2,7 @@
 // import { Button, Pagination } from 'antd';
 // import Mock from 'mockjs';
 
+import { useCreation } from 'ahooks';
 import { Button } from 'antd';
 import { useState } from 'react';
 
@@ -94,9 +95,21 @@ import { useState } from 'react';
 // };
 function BB({ countA }) {
   const [countB, setCountB] = useState(countA);
+  const [list, setList] = useState([1, 2, 3]);
+
+  const asa = useCreation(() => {
+    console.log('123');
+
+    return 123;
+  }, [list]);
 
   return (
     <div>
+      <Button
+        onClick={() => {
+          setList([...list]);
+        }}
+      ></Button>
       <h3>countA: {countA}</h3>
       <hr />
       <h3>countB: {countB}</h3>
