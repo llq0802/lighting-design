@@ -277,7 +277,7 @@ export type LTableProps = {
    * @version 2.1.18
    * @memberof LTableProps
    */
-  toolbarActionConfig?: LToolbarActionProps;
+  toolbarActionConfig?: LToolbarActionProps | false;
   /**
    * 重新渲染toolBar 包括内置表格工具
    * @author 李岚清 <https://github.com/llq0802>
@@ -447,6 +447,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
 
   // 内置表格工具栏
   const toolbarActionConfig = useCreation(() => {
+    if (!outToolbarActionConfig) {
+      return false;
+    }
     return {
       showReload: true,
       showColumnSetting: true,
@@ -715,7 +718,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // ==================== 暴露外部方法结束===================
 
   // ==================== dom 区域开始 ====================
-  const ToolbarActionDom = useMemo(() => {
+  const ToolbarActionDom = useCreation(() => {
+    if (toolbarActionConfig === false) {
+      return null;
+    }
     return (
       <ToolbarAction
         {...toolbarActionConfig}
@@ -862,7 +868,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     </TableContext.Provider>
   );
 
-  if (!toolbarActionConfig?.showFullscreen) {
+  if (
+    (typeof toolbarActionConfig !== 'boolean' &&
+      !toolbarActionConfig?.showFullscreen) ||
+    toolbarActionConfig === false
+  ) {
     return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
   }
   return (
