@@ -4,7 +4,7 @@
 
 import { useCreation, useDeepCompareEffect } from 'ahooks';
 import { Button } from 'antd';
-import { useState } from 'react';
+import { useImperativeHandle, useRef, useState } from 'react';
 
 // interface UserListItem {
 //   id: string;
@@ -93,23 +93,26 @@ import { useState } from 'react';
 //     </div>
 //   );
 // };
-function BB({ countA }) {
-  const [countB, setCountB] = useState(countA);
+function BB({ actionRef, countA }) {
+  const [countB, setCountB] = useState(0);
   const [list, setList] = useState([1, 2, 3]);
 
   const asa = useCreation(() => {
     console.log('123');
-
     return 123;
   }, [list]);
+  useImperativeHandle(actionRef, () => countB);
 
   return (
     <div>
       <Button
         onClick={() => {
-          setList([...list]);
+          // setList([...list]);
+          setCountB(countB + 1);
         }}
-      ></Button>
+      >
+        更新 countB
+      </Button>
       <h3>countA: {countA}</h3>
       <hr />
       <h3>countB: {countB}</h3>
@@ -121,6 +124,7 @@ function AA({ list = [1] }) {
   const [countA, setCountA] = useState(0);
 
   const [inList, setInList] = useState(() => list);
+  const actionRef = useRef();
 
   useDeepCompareEffect(() => {
     console.log('list', list);
@@ -128,16 +132,19 @@ function AA({ list = [1] }) {
     // setInList([...list, 1]);
   }, [list]);
 
+  console.log('actionRef.current', actionRef.current);
+
   return (
     <div>
       <Button
         onClick={() => {
+          console.log('actionRef.current', actionRef.current);
           setCountA(countA + 1);
         }}
       >
         更新 countA
       </Button>
-      {/* <BB countA={countA}></BB> */}
+      <BB countA={countA} actionRef={actionRef}></BB>
     </div>
   );
 }

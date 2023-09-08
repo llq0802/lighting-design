@@ -2,6 +2,7 @@ import type { FormInstance } from 'antd';
 import { Button, Card, Col, Row } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
+import { awaitTime } from 'lighting-design/_test';
 import type { FC } from 'react';
 import { useRef } from 'react';
 
@@ -41,8 +42,9 @@ const Demo6: FC = () => {
       queryFormProps={{ showColsNumber: 3 }}
       toolbarLeft={<Button type="primary">新增</Button>}
       toolbarRight={<Button type="primary">审批</Button>}
-      // formItems={formItems}
+      formItems={formItems}
       request={async (params, requestType) => {
+        await awaitTime();
         return {
           success: true,
           data: originData,
