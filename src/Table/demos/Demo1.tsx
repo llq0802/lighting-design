@@ -35,13 +35,14 @@ const Demo1: FC = () => {
   const tableRef = useRef<LTableInstance>();
   const [open, setOpen] = useState(false);
   const [editableRecord, setEditablRecord] = useState<Record<string, any>>();
+
   const columns: ColumnsType<any> = [
     {
       title: '姓名',
       dataIndex: 'name',
       key: 'name',
       align: 'center',
-      className: 'my-name-columns-1',
+      className: 'my-name-columns-999',
     },
     {
       title: '年龄',
@@ -56,14 +57,15 @@ const Demo1: FC = () => {
       align: 'center',
     },
   ];
+
   console.log('ColumnsType');
   return (
     <>
       <LTable
         tableLayout="fixed"
-        rowClassName="lightd-table-row"
-        rootClassName="my-table-root"
-        tableClassName="my-table"
+        rowClassName="lightd-table-row-1"
+        rootClassName="my-table-root-1"
+        tableClassName="my-table-1"
         rowKey="key"
         loading={{ size: 'large', tip: '加载中...' }}
         tableRef={tableRef}
@@ -75,7 +77,6 @@ const Demo1: FC = () => {
             <Button
               type="primary"
               onClick={() => {
-                console.log(' tableRef', tableRef);
                 setEditablRecord(undefined);
                 setOpen(true);
               }}

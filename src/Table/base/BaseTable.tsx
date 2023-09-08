@@ -1,7 +1,9 @@
 import {
   useCreation,
+  useDeepCompareEffect,
   useMemoizedFn,
   usePagination,
+  useRafState,
   useUpdateEffect,
 } from 'ahooks';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
@@ -33,7 +35,6 @@ import {
   useLayoutEffect,
   useMemo,
   useRef,
-  useState,
 } from 'react';
 import TableContext from '../TableContext';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
@@ -272,7 +273,9 @@ export type LTableProps = {
    */
   showToolbar?: boolean;
   /**
-   * 配置内置表格工具栏 继承 Space 组件的属性 showToolbar为 true 时生效
+   * showToolbar为 true 时生效 配置内置表格工具栏 继承 Space 组件的属性
+   *
+   * 为`false`时直接不渲染内置表格工具
    * @author 李岚清 <https://github.com/llq0802>
    * @version 2.1.18
    * @memberof LTableProps
@@ -429,7 +432,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const tablecardref = useRef<HTMLDivElement>(null);
   const _lformRef = useRef<Record<string, any>>({});
   const isInit = useRef<boolean>(false); // 是否第一次自动请求
-  const [isFullScreen, setFullScreen] = useState(false);
+  const [isFullScreen, setFullScreen] = useRafState(false);
 
   // 绑定SearchForm组件form实例在内部
   const queryFormRef = useRef<FormInstance | null>(null);
@@ -482,10 +485,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     );
   }, [outPagination?.defaultPageSize, outPagination?.pageSize]);
   // 是否有查询框组
-  const hasFromItems = useMemo(
-    () => formItems?.length > 0,
-    [formItems?.length],
-  );
+  const hasFromItems = useMemo(() => formItems?.length > 0, [formItems]);
 
   // useRequest请求
   const {
@@ -516,43 +516,39 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   );
 
   // ==================== 表格大小以及列的处理-开始====================
-  const [currentSize, setCurrentSize] = useState(outSize);
+  const [currentSize, setCurrentSize] = useRafState(() => outSize);
   // 存储外部columns 是否设置序号
   const outColumns = useMemo(() => {
-    if (isSort && columns?.length > 0) {
+    if (isSort) {
+      const { current, pageSize } = paginationAction;
       const render = (_: any, __: any, index: number) =>
-        (paginationAction?.current - 1) * (paginationAction?.pageSize || 0) +
-        index +
-        1;
+        (current - 1) * (pageSize || 0) + index + 1;
       const sortColumn = {
-        align: 'center',
         title: '序号',
+        align: 'center',
         dataIndex: '_SORT_COLUMN_',
         width: typeof isSort === 'boolean' ? 80 : isSort?.width,
         render,
       };
-      return [sortColumn, ...columns] as (
-        | ColumnGroupType<any>
-        | ColumnType<any>
-      )[];
+      return [sortColumn, ...columns];
     }
     return columns;
   }, [columns, isSort, paginationAction?.current, paginationAction?.pageSize]);
   // 表格展示的列
-  const [currentColumns, setCurrentColumns] = useState(outColumns);
-  useUpdateEffect(() => {
-    if (!contentRender) {
-      // 在能在不是卡片的时候更新
-      setCurrentColumns([...outColumns]);
-    }
-  }, [outColumns, contentRender]);
+  const [currentColumns, setCurrentColumns] = useRafState(() => outColumns);
+
+  useDeepCompareEffect(() => {
+    // 不是卡片的时候更新
+    if (!contentRender) setCurrentColumns([...outColumns]);
+  }, [outColumns]);
+
   useUpdateEffect(() => {
     setCurrentSize(outSize);
   }, [outSize]);
   // ==================== 表格大小以及列的处理-结束====================
 
   // 内部loading
-  const currentLoading = useCreation(() => {
+  const currentLoading = useMemo(() => {
     if (outLoading === void 0) {
       return { spinning: requestLoading };
     } else if (typeof outLoading === 'boolean') {
@@ -578,9 +574,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         },
         'onReset',
       );
-    } else {
-      paginationAction.onChange(1, outPaginationPageSize);
     }
+    return;
   });
   // 根据条件，从第一页开始显示、查询数据
   const handleSearch = useMemoizedFn((type = 'onSearch') => {
@@ -594,9 +589,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         },
         type,
       );
-    } else {
-      paginationAction.changeCurrent(1);
+      return;
     }
+    paginationAction.changeCurrent(1);
   });
   // 根据当前条件和页码 查询数据
   const handleReload = useMemoizedFn(() => {
@@ -610,9 +605,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         },
         'onReload',
       );
-    } else {
-      paginationAction.changeCurrent(paginationAction?.current);
+      return;
     }
+    paginationAction.changeCurrent(paginationAction?.current);
   });
   // 表单查询 保留表单参数 保留pageSize  重置page为 1
   const handleSearchFormFinish = useMemoizedFn(
@@ -645,13 +640,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
           },
           'onReload',
         );
-      } else {
-        // paginationAction.changeCurrent(pagination?.current || 1);
-        paginationAction.onChange(
-          pagination?.current || 1,
-          pagination.pageSize,
-        );
+        return;
       }
+      paginationAction.onChange(pagination?.current || 1, pagination.pageSize);
     },
   );
   // ==================== 表格方法结束====================
@@ -692,7 +683,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       }
       paginationAction.changeCurrent(1);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoRequest, isReady]);
   // ==================== table副作用结束====================
 
