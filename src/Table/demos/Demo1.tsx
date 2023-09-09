@@ -58,7 +58,6 @@ const Demo1: FC = () => {
     },
   ];
 
-  console.log('ColumnsType');
   return (
     <>
       <LTable

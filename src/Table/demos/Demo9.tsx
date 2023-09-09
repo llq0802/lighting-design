@@ -40,6 +40,10 @@ const Demo: FC = () => {
 
   return (
     <LTable
+      scroll={{
+        y: 400,
+        x: 1200,
+      }}
       toolbarActionConfig={{
         showFullscreen: false,
         showColumnSetting: false,

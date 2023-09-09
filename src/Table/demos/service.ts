@@ -7,6 +7,7 @@ export const columns: ColumnsType<any> = [
     key: 'name',
     align: 'center',
     className: 'my-name-columns',
+    // fixed: 'left',
   },
   {
     title: '年龄',

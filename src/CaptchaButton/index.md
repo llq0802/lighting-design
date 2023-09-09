@@ -21,7 +21,7 @@ toc: content
 
 <code src='./demos/Demo2.tsx'></code>
 
-<!-- <code src='./demos/Demo5.tsx'></code> -->
+<code src='./demos/Demo5.tsx'></code>
 
 ## API
 

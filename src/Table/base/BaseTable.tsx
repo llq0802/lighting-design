@@ -373,6 +373,14 @@ const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
   >{`当前显示${range[0]}-${range[1]}条，共 ${total} 条数据`}</span>
 );
 
+// 注意TdCell要提到Table作用域外声明
+const TdCell = (props: any) => {
+  // onMouseEnter, onMouseLeave在数据量多的时候，会严重阻塞表格单元格渲染，严重影响性能
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { onMouseEnter, onMouseLeave, ...restProps } = props;
+  return <td {...restProps} />;
+};
+
 /**
  * 表格组件
  * @param props
@@ -708,7 +716,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // ==================== 暴露外部方法结束===================
 
   // ==================== dom 区域开始 ====================
-  const ToolbarActionDom = useCreation(() => {
+  const ToolbarActionDom = useMemo(() => {
     if (toolbarActionConfig === false) {
       return null;
     }
@@ -724,19 +732,54 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     );
   }, [toolbarActionConfig, contentRender]);
 
-  const toolbarDom = showToolbar ? (
-    <div className={`${LIGHTD_TABLE}-toolbar`} style={toolbarStyle}>
-      <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>
-        {<Space>{toolbarLeft}</Space>}
+  const toolbarDom = useMemo(() => {
+    return !showToolbar ||
+      (toolbarActionConfig === false &&
+        !toolbarLeft &&
+        !toolbarRight) ? null : (
+      <div className={`${LIGHTD_TABLE}-toolbar`} style={toolbarStyle}>
+        <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>
+          {<Space>{toolbarLeft}</Space>}
+        </div>
+        <div className={`${LIGHTD_TABLE}-toolbar-content-right`}>
+          <Space>
+            {toolbarRight}
+            {ToolbarActionDom}
+          </Space>
+        </div>
       </div>
-      <div className={`${LIGHTD_TABLE}-toolbar-content-right`}>
-        <Space>
-          {toolbarRight}
-          {ToolbarActionDom}
-        </Space>
-      </div>
-    </div>
-  ) : null;
+    );
+  }, [
+    showToolbar,
+    toolbarActionConfig,
+    toolbarLeft,
+    toolbarRight,
+    toolbarStyle,
+  ]);
+
+  const searchFormDom = useMemo(() => {
+    return (
+      <SearchForm
+        isReady={isReady}
+        loading={currentLoading.spinning}
+        ref={handleFormRef}
+        cardProps={formCardProps}
+        onFinish={handleSearchFormFinish}
+        onReset={handleSearchFormReset}
+        formItems={formItems}
+        initialValues={formInitialValues}
+        _lformRef={_lformRef}
+        {...queryFormProps}
+      />
+    );
+  }, [
+    isReady,
+    currentLoading.spinning,
+    formCardProps,
+    formInitialValues,
+    formItems,
+    queryFormProps,
+  ]);
 
   const tableDom = (
     <Spin {...currentLoading}>
@@ -755,6 +798,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
             table: contentRender
               ? () => contentRender?.(data?.list ?? [])
               : void 0,
+            body: { cell: TdCell },
             ...components,
           }}
           className={classnames(tableClassName, className)}
@@ -787,30 +831,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       </Card>
     </Spin>
   );
-
-  const searchFormDom = useMemo(() => {
-    return (
-      <SearchForm
-        isReady={isReady}
-        loading={currentLoading.spinning}
-        ref={handleFormRef}
-        cardProps={formCardProps}
-        onFinish={handleSearchFormFinish}
-        onReset={handleSearchFormReset}
-        formItems={formItems}
-        initialValues={formInitialValues}
-        _lformRef={_lformRef}
-        {...queryFormProps}
-      />
-    );
-  }, [
-    isReady,
-    currentLoading.spinning,
-    formCardProps,
-    formInitialValues,
-    formItems,
-    queryFormProps,
-  ]);
 
   const finallyDom = (
     <div

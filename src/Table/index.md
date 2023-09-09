@@ -19,6 +19,7 @@ nav:
 - 内置表格工具，内置排序
 - 内置表单查询各种功能
 - 可自定义各种配置，样式等
+- 默认优化原 Table 性能
 
 ### 查询框
 
@@ -50,7 +51,7 @@ nav:
 
 ### 小型表格
 
-适合在在弹窗，抽屉，下拉等组件中使用
+适合在弹窗，抽屉，下拉等组件中使用
 
 <code src='./demos/Demo18.tsx' background="#f5f5f5"></code>
 
@@ -90,6 +91,12 @@ nav:
 
 <code src='./demos/Demo15.tsx' background="#f5f5f5" ></code>
 
+### 回到 antd Table 默认的 tr 元素属性
+
+移入每一个单元格`tr`元素会有 `ant-table-cell-hover` 类名
+
+<code src='./demos/Demo21.tsx' background="#f5f5f5" ></code>
+
 ### 自定义渲染组合表格
 
 <code src='./demos/Demo14.tsx' background="#f5f5f5"></code>
@@ -126,6 +133,10 @@ nav:
 
 :::warning{title=注意}
 
+- 想要获取每个属性方法的类型可通过 `Parameters<typeof LTable>[0]['xxx']` 或 `LTableProps['xxx']` 以便获得更多类型提示
+
+- 必须指定 `rowKey`属性 且必须是数据源的唯一标识的字段, 不能改变
+
 - 大多数情况尽量使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等 ,特殊场景下你依然可以使用 `dataSource` , 比如: 外层`Skeleton` 骨架屏, 这时 `分页` `loading`都有你来控制
 
 - `request`返回值必须是 `{ success:boolean , data: Record<string, any>[], total: number | string  }`
@@ -154,7 +165,8 @@ nav:
 
 - 对于很`复杂的表单`作为`LTable`的查询参数时, 可通过自定义表单然后在`onFinish`事件中调用 `tableRef.current.onSearch()` 并在 `request` 中获取表单的值并整合分页参数后传值给接口函数
 
-:::
+- 内部默认优化了数据多时性能特别差，滚动页面会特别卡顿问题, 鼠标移入每个单元格`tr`时不会再有 `ant-table-cell-hover`类名, 如果想回到原 Table 默认的类名 请查看 [示例](/components/table#回到-antd-table-默认的-tr-元素属性)
+  :::
 
 ```ts
 import { LTable } from 'lighting-design';
