@@ -91,7 +91,7 @@ nav:
 
 <code src='./demos/Demo15.tsx' background="#f5f5f5" ></code>
 
-### 回到 antd Table 默认的 tr 元素属性
+### antd Table 默认的 tr 元素属性
 
 移入每一个单元格`tr`元素会有 `ant-table-cell-hover` 类名
 

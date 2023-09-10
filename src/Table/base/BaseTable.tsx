@@ -1,34 +1,16 @@
 import {
-  useCreation,
-  useDeepCompareEffect,
   useMemoizedFn,
   usePagination,
   useRafState,
   useUpdateEffect,
 } from 'ahooks';
-import type { Options } from 'ahooks/lib/useRequest/src/types';
-import type { CardProps, FormInstance } from 'antd';
+import type { FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { Key } from 'antd/es/table/interface';
-import type {
-  ColumnGroupType,
-  ColumnsType,
-  ColumnType,
-  TableProps,
-} from 'antd/lib/table';
+import type { ColumnGroupType, ColumnType } from 'antd/lib/table';
 import classnames from 'classnames';
-import type { LQueryFormProps } from 'lighting-design/QueryForm';
-import type {
-  CSSProperties,
-  Dispatch,
-  FC,
-  MutableRefObject,
-  ReactElement,
-  ReactNode,
-  RefObject,
-  SetStateAction,
-} from 'react';
+import type { Dispatch, FC, SetStateAction } from 'react';
 import {
   useEffect,
   useImperativeHandle,
@@ -39,330 +21,8 @@ import {
 import TableContext from '../TableContext';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
 import './styles.less';
-import type { LToolbarActionProps } from './ToolBarAction';
 import ToolbarAction from './ToolBarAction';
-
-export type LTableRenderProps = (
-  optionsDom: {
-    /** 表单dom */
-    searchFormDom: ReactNode;
-    /** 工具栏dom */
-    toolbarDom: ReactNode;
-    /**   table上面额外Dom 如果没有配置则没有 */
-    tableExtraDom: ReactNode;
-    /**   table主体Dom 包含工具栏Dom  */
-    tableDom: ReactNode;
-    /** 整个表格Dom包含全部Dom */
-    finallyDom: ReactNode;
-  },
-  props: LTableProps,
-) => ReactElement;
-
-export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset';
-
-export type LTableInstance = {
-  /** 根据条件，当前页，当前分页数量、刷新数据 */
-  onReload: () => void;
-  /** 重置数据，从第一页以及默认的分页数量开始显示、查询数据 */
-  onReset: () => void;
-  /** 根据条件，从第一页以及当前的分页数量开始显示、查询数据 */
-  onSearch: () => void;
-  /** 表格根标签 div */
-  rootRef: RefObject<HTMLDivElement>;
-  /** 表格数据 */
-  tableData: Record<string, any>[];
-  /**
-   * 类似 React.setState 直接修改当前表格的数据
-   *
-   * 推荐使用函数的形式修改
-   *
-   * 每次更新需要 list 引用地址不一样才能更新界面
-   */
-  setTableData: Dispatch<
-    SetStateAction<{
-      list: Record<string, any>[];
-      total: number;
-    }>
-  >;
-  /** 页码信息以及方法 */
-  pagination: {
-    /** 当前页 */
-    current: number;
-    // 一页多少条
-    pageSize: number;
-    /** 总的数量 */
-    total: number;
-    /** 总的页数 */
-    totalPage: number;
-    /** 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined */
-    onChange: (current: number, pageSize: number) => void;
-    /** 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined */
-    changeCurrent: (current: number) => void;
-    /** 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined */
-    changePageSize: (pageSize: number) => void;
-  };
-};
-
-export type LTableRequestParams = {
-  /** 当前页 */
-  current: number;
-  /** 一页多少条 */
-  pageSize: number;
-  /** 表单数据 */
-  formValues?: Record<string, any>;
-  /** 其他参数 */
-  [key: string]: any;
-};
-
-export type LTableRequest = (
-  /** 请求参数 */
-  params: LTableRequestParams,
-  /** 请求类型 */
-  requestType: LTableRequestType,
-) => Promise<{
-  success: boolean;
-  data: Record<string, any>[];
-  total: number | string;
-}>;
-
-export type LTableProps = {
-  /**
-   * 表格是否需要排序序号
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  isSort?: boolean | { width: number | string };
-  /**
-   * 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   * */
-  isReady?: boolean;
-  /**
-   * 全屏表格的背景颜色
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  fullScreenBgColor?: string;
-
-  /**
-   * 异步请求函数第一次额外参数(仅在第一次请求时会携带)
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  defaultRequestParams?: Record<string, any>;
-  /**
-   * ahooks 的 useRequest 的 配置项， 部分参数无法配置
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   * @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
-   */
-  requestOptions?: {
-    /** 请求唯一标识。如果设置了 cacheKey，会启用缓存机制 */
-    cacheKey?: string;
-    /** 首次默认执行时，传递给 service 的参数 */
-    defaultParams?: any;
-    /** service 执行前触发*/
-    onBefore?: (params: any) => void;
-    /** ervice resolve 时触发 */
-    onSuccess?: (data: any, params: any) => void;
-    /** ervice reject 时触发 */
-    onError?: (e: Error, params: any) => void;
-    /** service 执行完成时触发 */
-    onFinally?: (params: any, data?: any, e?: Error) => void;
-    /** 其他高级配置 */
-    [key: string]: any;
-  } & Options<any, any[]>;
-  /**
-   * 异步请求函数用于获取表格数据
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  request?: LTableRequest;
-  /**
-   * 是否在第一次渲染时自动请求 (支持动态改变)
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  autoRequest?: boolean;
-
-  /**
-   * 查询表单的实例
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  formRef?:
-    | MutableRefObject<FormInstance | undefined>
-    | ((ref: FormInstance) => void);
-  /**
-   * 表格的实例 (包含一些方法)
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  tableRef?: MutableRefObject<LTableInstance | undefined>;
-  /**
-   * 是否占满视口剩余空间的高度
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  fillSpace?: boolean | number;
-  /**
-   * 表格最外层div类名
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  rootClassName?: string;
-  /**
-   *  antd表格额外类名
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  tableClassName?: string;
-  /**
-   *  表格最外层div样式
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  rootStyle?: CSSProperties;
-  /**
-   * antd表格额外style
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  tableStyle?: CSSProperties;
-  /**
-   * 整个toolbar的样式  showToolbar为true时生效
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  toolbarStyle?: CSSProperties;
-  /**
-   * 查询表单外层的CardProps
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  formCardProps?: CardProps;
-  /**
-   *  表格外层的CardProps
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  tableCardProps?: CardProps;
-  /**
-   *  是否显示 toolbar
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  showToolbar?: boolean;
-  /**
-   * showToolbar为 true 时生效 配置内置表格工具栏 继承 Space 组件的属性
-   *
-   * 为`false`时直接不渲染内置表格工具
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  toolbarActionConfig?: LToolbarActionProps | false;
-  /**
-   * 重新渲染toolBar 包括内置表格工具
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  toolbarRender?: (ToolbarActionDom: ReactNode) => ReactNode;
-  /**
-   *  重新渲染整个高级表格
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  tableRender?: (
-    optionsDom: {
-      /** 表单dom */
-      searchFormDom: ReactNode;
-      /** 工具栏dom */
-      toolbarDom: ReactNode;
-      /**   table上面额外Dom 如果没有配置则没有 */
-      tableExtraDom: ReactNode;
-      /**   table主体Dom 包含工具栏Dom  */
-      tableDom: ReactNode;
-      /** 整个高级表格Dom 包含全部Dom */
-      finallyDom: ReactNode;
-    },
-    props: LTableProps,
-  ) => ReactElement;
-  /**
-   * 重新渲染 antd 表格的内容主体
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  contentRender?: (data: Record<string, any>[]) => ReactNode;
-  /**
-   * 整个toolBar的左侧
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  toolbarLeft?: ReactNode;
-  /**
-   * 整个toolBar的右侧 (如果有内置表格工具就是在内置表格工具的左侧)
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  toolbarRight?: ReactNode;
-  /**
-   * 表格内容上部额外区域
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  tableExtra?: ReactNode;
-  /**
-   * 表单查询框组
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  formItems?: Exclude<
-    ReactNode,
-    string | number | boolean | null | undefined
-  >[];
-  /**
-   * 查询表单的初始值
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   */
-  formInitialValues?: Record<string, any>;
-  /**
-   * 高级查询表单组件的props-LQueryFormProps
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
-   * @memberof LTableProps
-   * @see https://llq0802.github.io/lighting-design/latest/components/query-form
-   */
-  queryFormProps?: LQueryFormProps;
-} & TableProps<any>;
+import type { LTableProps, LTableRequestType } from './types';
 
 export const LIGHTD_TABLE = 'lightd-table';
 
@@ -381,6 +41,7 @@ const TdCell = (props: any) => {
   return <td {...restProps} />;
 };
 
+const defaultArray: any[] = [];
 /**
  * 表格组件
  * @param props
@@ -424,11 +85,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     tableStyle,
     toolbarStyle,
     size: outSize,
-    columns = [],
+    columns = defaultArray,
     components,
     style,
 
-    formItems = [],
+    formItems = defaultArray,
 
     pagination: outPagination,
 
@@ -457,7 +118,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
 
   // 内置表格工具栏
-  const toolbarActionConfig = useCreation(() => {
+  const toolbarActionConfig = useMemo(() => {
     if (!outToolbarActionConfig) {
       return false;
     }
@@ -471,9 +132,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   }, [outToolbarActionConfig]);
 
   // 根标签全屏样式
-  const rootDefaultStyle = useMemo(() => {
-    return isFullScreen ? { background: fullScreenBgColor } : {};
-  }, [isFullScreen]);
+  const rootDefaultStyle = useMemo(
+    () => (isFullScreen ? { background: fullScreenBgColor } : {}),
+    [isFullScreen],
+  );
 
   // 默认从第一页
   const outPaginationCurrent = useMemo(() => {
@@ -482,7 +144,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         (outPagination.defaultCurrent || outPagination.current)) ||
       1
     );
-  }, [outPagination?.defaultCurrent, outPagination?.current]);
+  }, [
+    typeof outPagination !== 'boolean' ? outPagination?.defaultCurrent : void 0,
+    typeof outPagination !== 'boolean' ? outPagination?.current : void 0,
+  ]);
 
   // 默认一页10条
   const outPaginationPageSize = useMemo(() => {
@@ -491,7 +156,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         (outPagination.defaultPageSize || outPagination.pageSize)) ||
       10
     );
-  }, [outPagination?.defaultPageSize, outPagination?.pageSize]);
+  }, [
+    typeof outPagination !== 'boolean'
+      ? outPagination?.defaultPageSize
+      : void 0,
+    typeof outPagination !== 'boolean' ? outPagination?.pageSize : void 0,
+  ]);
   // 是否有查询框组
   const hasFromItems = useMemo(() => formItems?.length > 0, [formItems]);
 
@@ -505,9 +175,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     mutate: setTableData,
     pagination: paginationAction,
   } = usePagination(
-    async (args, requestType) => {
+    async (args, requestType: LTableRequestType) => {
       isInit.current = false;
-      const res = await request({ ...args }, requestType as LTableRequestType);
+      const res = await request({ ...args }, requestType);
       // 必须设置success为true data必须为数组长度大于0 才会有数据
       if (res?.success && Array.isArray(res.data) && res.data.length > 0) {
         return { list: res.data, total: +res.total };
@@ -527,6 +197,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const [currentSize, setCurrentSize] = useRafState(() => outSize);
   // 存储外部columns 是否设置序号
   const outColumns = useMemo(() => {
+    if (contentRender) return defaultArray;
     if (isSort) {
       const { current, pageSize } = paginationAction;
       const render = (_: any, __: any, index: number) =>
@@ -541,18 +212,57 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       return [sortColumn, ...columns];
     }
     return columns;
-  }, [columns, isSort, paginationAction?.current, paginationAction?.pageSize]);
-  // 表格展示的列
-  const [currentColumns, setCurrentColumns] = useRafState(() => outColumns);
+  }, [
+    columns,
+    typeof isSort === 'boolean' ? isSort : isSort?.width,
+    paginationAction?.current,
+    paginationAction?.pageSize,
+    contentRender,
+  ]);
 
-  useDeepCompareEffect(() => {
-    // 不是卡片的时候更新
-    if (!contentRender) setCurrentColumns([...outColumns]);
-  }, [outColumns]);
+  // 表格展示的列key
+  const [columnKeys, setColumnKeys] = useRafState(() =>
+    outColumns.map(
+      (item: Record<string, any>, i) =>
+        `${item?.dataIndex || ''}-${item?.key || ''}-${i}`,
+    ),
+  );
 
   useUpdateEffect(() => {
     setCurrentSize(outSize);
   }, [outSize]);
+
+  const finalColumns = useMemo(() => {
+    if (contentRender) return defaultArray;
+
+    const tmpColumns: Record<string, any>[] = [];
+    const sortColumnKeys = columnKeys.sort((a, b) => {
+      return (
+        parseInt(a?.split('-')?.at(-1) ?? '0') -
+        parseInt(b?.split('-')?.at(-1) ?? '0')
+      );
+    });
+    sortColumnKeys.forEach((key) => {
+      const columnItem = outColumns.find(
+        (item: Record<string, any>, i) =>
+          `${item?.dataIndex || ''}-${item?.key || ''}-${i}` === key,
+      );
+      if (columnItem) {
+        tmpColumns.push(columnItem);
+      }
+    });
+
+    return tmpColumns;
+  }, [columnKeys, outColumns, contentRender]);
+
+  // useDeepCompareEffect(() => {
+  //   const newKeys = outColumns.map(
+  //     (item, i) => `${item?.dataIndex || ''}-${item.key || ''}-${i}`,
+  //   );
+  //   setColumnKeys(newKeys);
+  //   console.log('useUpdateEffect');
+  // }, [outColumns]);
+
   // ==================== 表格大小以及列的处理-结束====================
 
   // 内部loading
@@ -566,7 +276,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       spinning: requestLoading,
       ...outLoading,
     };
-  }, [outLoading, requestLoading]);
+  }, [
+    typeof outLoading === 'boolean' || outLoading === void 0
+      ? outLoading
+      : outLoading?.spinning,
+    requestLoading,
+  ]);
 
   // ==================== 表格方法开始====================
   // 重置所有表单数据，从第一页开始显示、查询数据
@@ -582,8 +297,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         },
         'onReset',
       );
+      return;
     }
-    return;
+    paginationAction.onChange(outPaginationCurrent, outPaginationPageSize);
   });
   // 根据条件，从第一页开始显示、查询数据
   const handleSearch = useMemoizedFn((type = 'onSearch') => {
@@ -650,7 +366,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         );
         return;
       }
-      paginationAction.onChange(pagination?.current || 1, pagination.pageSize);
+      paginationAction.onChange(pagination?.current || 1, pagination?.pageSize);
     },
   );
   // ==================== 表格方法结束====================
@@ -709,7 +425,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     tableData:
       data?.list || (restProps?.dataSource as Record<string, any>[]) || [],
     /** 直接修改当前表格的数据,必须是 { total , data } 的形式 */
-    setTableData,
+    setTableData: setTableData as Dispatch<
+      SetStateAction<{ list: Record<string, any>[]; total: number }>
+    >,
     /** 页码信息及操作 */
     pagination: paginationAction,
   }));
@@ -808,7 +526,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
           )}
           style={{ ...tableStyle, ...style }}
           size={currentSize}
-          columns={currentColumns as (ColumnGroupType<any> | ColumnType<any>)[]}
+          columns={finalColumns as (ColumnGroupType<any> | ColumnType<any>)[]}
           dataSource={data?.list || []}
           onChange={handleTableChange}
           pagination={
@@ -855,10 +573,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         reload: handleReload,
         size: currentSize,
         setSize: setCurrentSize,
-        columns: outColumns as (ColumnGroupType<any> | ColumnType<any>)[],
-        setColumns: setCurrentColumns as Dispatch<
-          SetStateAction<ColumnsType<Record<string, any>>>
-        >,
+        columns: outColumns,
+        columnKeys: columnKeys,
+        setColumnKeys: setColumnKeys,
         rootRef: rootRef,
         setFullScreen,
       }}

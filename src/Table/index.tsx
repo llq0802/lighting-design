@@ -1,4 +1,5 @@
 import LTable from './base/BaseTable';
+export type { LToolbarActionProps } from './base/ToolBarAction';
 export type {
   LTableInstance,
   LTableProps,
@@ -6,6 +7,5 @@ export type {
   LTableRequest,
   LTableRequestParams,
   LTableRequestType,
-} from './base/BaseTable';
-export type { LToolbarActionProps } from './base/ToolBarAction';
+} from './base/types';
 export default LTable;

@@ -1,73 +1,58 @@
 import { SettingOutlined } from '@ant-design/icons';
 import { useMemoizedFn, useUpdateEffect } from 'ahooks';
-import type { TableColumnType } from 'antd';
 import { Checkbox, ConfigProvider, Popover, Tooltip, Tree } from 'antd';
-import type { Key, ReactNode } from 'react';
-import { useContext, useMemo, useState } from 'react';
+import type { Key } from 'react';
+import { useContext, useMemo } from 'react';
 import TableContext from '../TableContext';
 import { LIGHTD_TABLE } from './BaseTable';
 
 const ColumnSetting = () => {
   const {
     columns: outColumns = [],
-    setColumns,
+    columnKeys = [],
+    setColumnKeys,
     rootRef,
   } = useContext(TableContext);
-  // 全部列的 key
-  const columnsKey = useMemo(
-    () =>
-      outColumns.map((column: TableColumnType<any>, index: number) => {
-        return `${column.dataIndex || ''}-${column.key || ''}-${index}`;
-      }),
-    [outColumns],
-  );
-  // 当前显示的列 key ，默认全部选中
-  const [selectedKey, setSelectedKey] = useState<Key[]>(columnsKey);
-  useUpdateEffect(() => {
-    setSelectedKey(columnsKey);
-  }, [columnsKey]);
-
-  const checkAll = useMemo(
-    () => selectedKey.length === outColumns.length,
-    [selectedKey, outColumns],
-  );
-
-  const indeterminate = useMemo(
-    () => selectedKey.length > 0 && selectedKey.length !== outColumns.length,
-    [selectedKey, outColumns],
-  );
 
   const treeData = useMemo(() => {
-    return outColumns.map((item, index) => {
+    return outColumns.map((item, i) => {
       return {
-        key: columnsKey[index],
-        title: (item.title || '') as ReactNode,
+        key: `${item?.dataIndex || ''}-${item.key || ''}-${i}`,
+        title: item.title || '',
       };
     });
-  }, [outColumns, columnsKey]);
+  }, [outColumns]);
+
+  const indeterminate = useMemo(
+    () => columnKeys.length > 0 && columnKeys.length !== outColumns.length,
+    [columnKeys, outColumns],
+  );
+  const checkAll = useMemo(
+    () => columnKeys.length === outColumns.length,
+    [columnKeys, outColumns],
+  );
+
+  useUpdateEffect(() => {
+    const newKeys = outColumns.map(
+      (item, i) => `${item?.dataIndex || ''}-${item.key || ''}-${i}`,
+    );
+    setColumnKeys(newKeys);
+  }, [outColumns]);
+
+  const handleTreeCheck = useMemoizedFn((keys: Key[]) => {
+    setColumnKeys([...keys]);
+  });
 
   const onCheckAllChange = useMemoizedFn((e) => {
     if (e.target.checked) {
       const newKey = outColumns.map(
         (item, index) => `${item.dataIndex || ''}-${item.key || ''}-${index}`,
       );
-      setSelectedKey(newKey);
-      setColumns?.([...outColumns]);
+      setColumnKeys(newKey);
     } else {
-      setSelectedKey([]);
-      setColumns?.([]);
+      setColumnKeys([]);
     }
   });
-
-  const handleTreeCheck = useMemoizedFn(
-    (keys: Key[] | { checked: Key[]; halfChecked: Key[] }) => {
-      setSelectedKey(keys as Key[]);
-      const newColumns = outColumns.filter((item, index) =>
-        keys?.includes(`${item.dataIndex || ''}-${item.key || ''}-${index}`),
-      );
-      setColumns?.(newColumns);
-    },
-  );
 
   return (
     <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
@@ -88,7 +73,7 @@ const ColumnSetting = () => {
             selectable={false}
             blockNode
             onCheck={handleTreeCheck}
-            checkedKeys={selectedKey}
+            checkedKeys={columnKeys}
             treeData={treeData}
             className={`${LIGHTD_TABLE}-column-setting-tree`}
           />

@@ -68,7 +68,7 @@ const Demo18: React.FC = () => {
 
       <LTable
         // showToolbar={false}
-        isSort={value4 === '1' ? { width: 'auto' } : true}
+        isSort
         columns={value4 === '1' ? columns1 : columns2}
         tableRef={tableRef}
         formRef={formRef}

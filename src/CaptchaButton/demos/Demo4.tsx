@@ -1,12 +1,15 @@
 // import React, { useEffect, useLayoutEffect, useState } from 'react';
 // import { flushSync } from 'react-dom';
 // import { Card, Spin } from 'antd';
-import './Demo4.css';
+// import './Demo4.css';
 // // React 18 之前
 // const App: React.FC = () => {
 //   // console.log('App组件渲染了！');
 //   const [count1, setCount1] = useState(0);
 //   const [count2, setCount2] = useState(0);
+
+import { Button } from 'antd';
+import { memo, useCallback, useMemo, useState } from 'react';
 
 //   useEffect(() => {
 //     // document.body.addEventListener('click', () => {
@@ -90,3 +93,63 @@ import './Demo4.css';
 //     </Spin>
 //   );
 // }
+
+function AAA() {
+  const [count, setCount] = useState(0);
+  // console.log(' AAA');
+
+  const info = useMemo(() => {
+    return {
+      name: '李岚清',
+    };
+  }, []);
+
+  const handle = useCallback(() => {}, []);
+
+  const props = useMemo(() => {
+    return {
+      info: {},
+      age: 25,
+      handle: () => {},
+    };
+  }, []);
+
+  // const props = {
+  //   info: {},
+  //   age: 25,
+  //   handle: () => {},
+  // };
+
+  const MemoCCC = useMemo(() => {
+    return <CCC></CCC>;
+  }, [() => {}]);
+
+  return (
+    <div>
+      <div>AAA 组件 {count}</div>
+
+      <Button onClick={() => setCount(count + 1)}>点击</Button>
+
+      <hr />
+
+      {/* <BBB age={25} info={{}} handle={() => {}}></BBB> */}
+      <BBB age={25} info={info} handle={handle}></BBB>
+      {/* <BBB {...props}></BBB> */}
+      {/* <CCC></CCC> */}
+      {MemoCCC}
+    </div>
+  );
+}
+
+const BBB = memo(function (props) {
+  console.log(' BBB', props);
+
+  return <div>BBB 组件</div>;
+});
+const CCC = function (props) {
+  console.log(' CCC', props);
+
+  return <div>CCC 组件</div>;
+};
+
+export default AAA;

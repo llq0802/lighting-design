@@ -215,6 +215,10 @@ export default {
           title: 'Upload-文件上传',
           link: '/components/form-item-upload',
         },
+        {
+          title: 'Transfer-穿梭框',
+          link: '/components/form-item-transfer',
+        },
       ],
     },
 
