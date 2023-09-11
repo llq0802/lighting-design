@@ -12,15 +12,24 @@ import UploadWrapper, { lightdUploadWrapper } from './UploadWrapper';
 
 const prefixCls = `${lightdUploadWrapper}-avatar`;
 
+const nameStyle: React.CSSProperties = {
+  marginTop: 8,
+  padding: '0 8px',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+};
+
 const AvatarContent: FC<{
   fileList?: UploadFile[];
   buttonText?: ReactNode;
   buttonIcon?: ReactNode;
-}> = ({ fileList, buttonText, buttonIcon }) => {
+}> = ({ fileList, buttonText, buttonIcon, listType }) => {
   const [imgUrl, setImgUrl] = useState<undefined | string>('');
 
   const currentFile = useMemo(
-    () => (Array.isArray(fileList) && fileList.length > 0 ? fileList[0] : null),
+    () =>
+      Array.isArray(fileList) && fileList.length > 0 ? fileList[0] : void 0,
     [fileList],
   );
   const uploading = currentFile?.status === 'uploading';
@@ -45,7 +54,6 @@ const AvatarContent: FC<{
   // useEffect(() => {
   //   getUrl();
   // }, [getUrl]);
-
   useEffect(() => {
     // if (currentFile && currentFile?.originFileObj instanceof File) {
     //   if (!currentFile.thumbUrl && !currentFile.url && !currentFile.preview) {
@@ -76,16 +84,7 @@ const AvatarContent: FC<{
       return (
         <div style={{ width: '100%' }}>
           <PictureOutlined />
-          <div
-            style={{
-              marginTop: 8,
-              padding: '0 8px',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-            title={currentFile.name}
-          >
+          <div style={nameStyle} title={currentFile.name}>
             {currentFile.name}
           </div>
         </div>
@@ -101,15 +100,22 @@ const AvatarContent: FC<{
     } else {
       return (
         imgUrl &&
-        !uploading && <img src={imgUrl} alt={currentFile?.name || 'avatar'} />
+        !uploading && (
+          <img
+            className={`${prefixCls}-box-img`}
+            src={imgUrl}
+            alt={currentFile?.name || 'avatar'}
+          />
+        )
       );
     }
-  }, [buttonIcon, buttonText, currentFile, imgUrl, isError, uploading]);
+  }, [buttonIcon, buttonText, currentFile?.name, imgUrl, isError, uploading]);
 
   const dom = (
     <div
       className={classNames(`${prefixCls}-box`, {
         [`${prefixCls}-box-error`]: isError,
+        [`${prefixCls}-box-circle`]: listType === 'picture-circle',
       })}
     >
       {viewConent}
@@ -137,9 +143,9 @@ const UploadAvatar: FC<UploadAvatarProps> = ({
 }) => {
   const dom = (
     <UploadWrapper
-      showUploadList={false}
-      {...restProps}
       listType="picture-card"
+      {...restProps}
+      showUploadList={false}
       accept={restProps?.accept || IMAGE_TYPES}
       fileList={fileList}
       multiple={false}
@@ -147,6 +153,7 @@ const UploadAvatar: FC<UploadAvatarProps> = ({
       className={classNames(prefixCls, className)}
     >
       <AvatarContent
+        listType={restProps?.listType}
         fileList={fileList}
         buttonText={buttonText}
         buttonIcon={buttonIcon}

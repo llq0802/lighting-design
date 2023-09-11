@@ -81,10 +81,10 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   name,
   value,
   onChange,
-  outLoading = {},
+  outLoading,
   dependencies = [],
   disabled,
-  options: outOptions = [],
+  options: outOptions,
   request,
   debounceTime,
   all = false,
@@ -103,7 +103,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   const isFirst = useIsFirstRender(); // 组件是否第一次挂载
 
   const hasLoading = useMemo(
-    () => Reflect.has(outLoading, 'spinning'),
+    () => Reflect.has(outLoading ?? {}, 'spinning'),
     [outLoading],
   );
 
@@ -157,7 +157,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   // );
 
   const opts = useMemo(() => {
-    const rawOptions = radioProps.options || outOptions;
+    const rawOptions = (radioProps.options || outOptions) ?? [];
     if (all && rawOptions?.length) {
       const retOptions = [{ label: allLabel, value: allValue }, ...rawOptions];
       return retOptions;

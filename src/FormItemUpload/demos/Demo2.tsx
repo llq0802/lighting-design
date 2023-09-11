@@ -7,8 +7,8 @@ const Demo2 = () => {
 
   return (
     <LForm
-      labelWidth={90}
-      submitter={{ buttonAlign: 90 }}
+      labelWidth={120}
+      submitter={{ buttonAlign: 120 }}
       form={form}
       onFinish={(values) => {
         console.log('values', values);
@@ -28,11 +28,23 @@ const Demo2 = () => {
       <LFormItemUpload
         required
         onUpload={upload}
-        uploadType="avatar2"
-        name="avatar"
+        uploadType="avatar"
+        name="avatar1"
         label="头像上传"
         uploadProps={{
-          className: 'my-avatar',
+          className: 'my-avatar1',
+          name: 'fileName',
+        }}
+      />
+      <LFormItemUpload
+        required
+        onUpload={upload}
+        uploadType="avatar"
+        name="avatar2"
+        label="圆形头像上传"
+        uploadProps={{
+          listType: 'picture-circle',
+          className: 'my-avatar2',
           name: 'fileName',
         }}
       />

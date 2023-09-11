@@ -1,10 +1,11 @@
+import { useMemoizedFn } from 'ahooks';
 import type { SwitchProps } from 'antd';
 import { Switch } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import type { FC } from 'react';
-import { useCallback, useContext, useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 
 const SwitchWrapper = (
   props: Pick<
@@ -29,15 +30,12 @@ const SwitchWrapper = (
       : { backgroundColor: unCheckedBg, ...style };
   }, [checked, checkedBg, style, unCheckedBg]);
 
-  const handleChange = useCallback(
-    (bool: boolean) => {
-      if (switchProps?.onChange) {
-        switchProps?.onChange(bool);
-      }
-      onChange?.(bool);
-    },
-    [onChange, switchProps],
-  );
+  const handleChange = useMemoizedFn((bool: boolean) => {
+    if (switchProps?.onChange) {
+      switchProps?.onChange(bool);
+    }
+    onChange?.(bool);
+  });
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (

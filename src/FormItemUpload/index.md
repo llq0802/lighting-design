@@ -42,6 +42,8 @@ nav:
 - `beforeUpload` 若返回 `false 或 Promise.reject()` 不会生产 `status` ，`response`，`percent`
 
 - `beforeUpload` 若返回 `Upload.LIST_IGNORE`， 此时列表中将不展示此文件。
+
+- 想修改图片大小后或者头像大小 可通过`uploadProps`传入`className`类名 然后进行覆盖`.ant-upload.ant-upload-select`的样式
   :::
 
 ```ts

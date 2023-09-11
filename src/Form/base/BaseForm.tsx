@@ -126,7 +126,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     labelWidth = 'auto',
     contentRender,
     formRender,
-    submitter = {},
+    submitter,
     loading: outLoading = false,
     isEnterSubmit = true,
     isReady = true,
@@ -151,6 +151,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const formRef = useRef(outForm || form);
   const [loading, setLoading] = useSafeState(outLoading);
   const [initFormValues, setInitFormValues] = useState(initialValues ?? {}); // 内部初始值
+  const formId = useMemo(() => name || uniqueId('lightd-form'), [name]);
 
   useUpdateEffect(() => {
     // 准备完成后，重新设置初始值
@@ -221,8 +222,6 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)
     : formItems;
-
-  const formId = useMemo(() => name || uniqueId('lightd-form'), [name]);
 
   const handleOnFinish = useMemoizedFn(async (values) => {
     if (typeof onFinish !== 'function') {

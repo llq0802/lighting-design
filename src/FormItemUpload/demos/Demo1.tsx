@@ -6,8 +6,8 @@ const Demo1 = () => {
 
   return (
     <LForm
-      labelWidth={90}
-      submitter={{ buttonAlign: 90 }}
+      labelWidth={120}
+      submitter={{ buttonAlign: 120 }}
       form={form}
       onFinish={(values) => {
         console.log('values', values);
@@ -24,9 +24,11 @@ const Demo1 = () => {
         tooltip="头像上传,不支持预览"
         required
         onUpload={upload}
-        uploadType="avatar1"
+        uploadType="avatar"
         name="avatar"
         label="头像上传"
+        className="eqw798"
+        wrapperAlignItems="center"
         initialValue={[
           {
             name: 'meinv',

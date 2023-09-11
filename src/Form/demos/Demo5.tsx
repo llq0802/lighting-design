@@ -17,14 +17,13 @@ const Demo5 = () => {
       labelWrap
       labelCol={{ flex: '90px' }}
       submitter={{ buttonAlign: 90 }}
-      name="LForm-InitialValues"
       initialValues={initialValues}
       form={form}
       onFinish={async (values) => {
         console.log('onFinish-values ', values);
       }}
     >
-      <LFormItemInput name="name" required label="姓名姓名姓名姓名" />
+      <LFormItemInput name="name4" required label="姓名姓名姓名姓名" />
     </LForm>
   );
 };

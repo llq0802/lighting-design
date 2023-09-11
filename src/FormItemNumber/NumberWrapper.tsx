@@ -1,20 +1,17 @@
+import { useMemoizedFn } from 'ahooks';
 import type { InputNumberProps } from 'antd';
 import { InputNumber } from 'antd';
 import type { FC } from 'react';
-import { useCallback } from 'react';
 
 export type NumberWrapperProps = InputNumberProps;
 
 const NumberWrapper: FC<NumberWrapperProps> = (props) => {
   const { value, onChange, min, max, ...restProps } = props;
 
-  const handleChange = useCallback(
-    (e: number | string | null) => {
-      const rawValue = e as string;
-      onChange?.(rawValue as any);
-    },
-    [onChange],
-  );
+  const handleChange = useMemoizedFn((e: number | string | null) => {
+    const rawValue = e as string;
+    onChange?.(rawValue as any);
+  });
   return (
     <InputNumber
       min={min}

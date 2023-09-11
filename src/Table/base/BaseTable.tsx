@@ -205,7 +205,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       const sortColumn = {
         title: '序号',
         align: 'center',
-        dataIndex: '_SORT_COLUMN_',
+        dataIndex: '_SORT_NUM_COLUMN_',
         width: typeof isSort === 'boolean' ? 80 : isSort?.width,
         render,
       };

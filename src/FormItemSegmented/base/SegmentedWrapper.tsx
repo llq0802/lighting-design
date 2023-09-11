@@ -53,7 +53,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   notDependRender = <span>请先选择依赖项</span>,
   options: outOptions = [],
   request,
-  outLoading = {},
+  outLoading,
   disabled,
   debounceTime,
   segmentedProps = {},
@@ -69,7 +69,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   );
 
   const hasLoading = useMemo(
-    () => Reflect.has(outLoading, 'spinning'),
+    () => Reflect.has(outLoading ?? {}, 'spinning'),
     [outLoading],
   );
   const isFirst = useIsFirstRender(); // 组件是否第一次挂载

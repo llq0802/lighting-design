@@ -41,7 +41,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   value,
   onChange,
   count,
-  outLoading = {},
+  outLoading,
   dependencies = [],
   request,
   debounceTime,
@@ -58,7 +58,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   const isFirst = useIsFirstRender();
 
   const hasLoading = useMemo(
-    () => Reflect.has(outLoading, 'spinning'),
+    () => Reflect.has(outLoading ?? {}, 'spinning'),
     [outLoading],
   );
 

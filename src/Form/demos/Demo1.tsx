@@ -68,40 +68,39 @@ const Demo1 = () => {
     <LForm
       labelWidth={90}
       submitter={{ buttonAlign: 90 }}
-      name="lform-demo"
       form={form}
       onFinish={async (values) => {
         console.log('onFinish-values ', values);
       }}
     >
       <LFormItemInput
-        name="LFormItemInput"
+        name="LFormItemInput1"
         required
         label="输入框1"
         tooltip="禁止输入空格"
       />
       <LFormItemNumber
-        name="LFormItemNumber"
+        name="LFormItemNumber1"
         required
         label="输入框2"
         contentAfter={<div>$</div>}
       />
       <LFormItemNumberRange
-        name="LFormItemNumberRange"
+        name="LFormItemNumberRange1"
         label="数字范围"
         placeholder={['请输入开始值', '请输入结束值']}
       />
-      <LFormItemPassword name="LFormItemPassword" required label="密码框" />
-      <LFormItemTextArea name="LFormItemTextArea" required label="备注" />
+      <LFormItemPassword name="LFormItemPassword1" required label="密码框" />
+      <LFormItemTextArea name="LFormItemTextArea1" required label="备注" />
       <LFormItemCaptcha
-        name="LFormItemCaptcha"
+        name="LFormItemCaptcha1"
         required
         label="验证码"
         type="inline"
         cacheKey="LFormItemCaptcha11"
       />
       <LFormItemAutoComplete
-        name="LFormItemAutoComplete"
+        name="LFormItemAutoComplete1"
         required
         label="自动联想"
         options={autoCompleteOptions}
@@ -119,7 +118,7 @@ const Demo1 = () => {
       />
       <LFormItemSelect
         label="下拉选择"
-        name="LFormItemSelect"
+        name="LFormItemSelect1"
         all
         required
         options={[
@@ -131,7 +130,7 @@ const Demo1 = () => {
 
       <LFormItemTreeSelect
         label="树形选择"
-        name="LFormItemTreeSelect"
+        name="LFormItemTreeSelect1"
         required
         treeData={treeData}
         loadData={onLoadData}
@@ -149,7 +148,7 @@ const Demo1 = () => {
       />
       <LFormItemAddress
         label="地址选择"
-        names={['location', 'address']}
+        names={['location1', 'address1']}
         required
         options={addressOptions}
       />
@@ -178,7 +177,7 @@ const Demo1 = () => {
         rangePicker
       />
       <LFormItemSlider
-        name="LFormItemSlider"
+        name="LFormItemSlider1"
         label="滑块选择"
         required
         contentAfter={<div>后面</div>}
@@ -187,7 +186,7 @@ const Demo1 = () => {
       <LFormItemSegmented
         label="分段器"
         required
-        name="LFormItemSegmented"
+        name="LFormItemSegmented1"
         options={[
           { label: 'List', value: 'List' },
           { label: 'Kanban', value: 'Kanban' },
@@ -197,7 +196,7 @@ const Demo1 = () => {
 
       <LFormItemCheckbox
         label="多选框"
-        name="LFormItemCheckbox"
+        name="LFormItemCheckbox1"
         beforeAll
         required
         options={[
@@ -208,7 +207,7 @@ const Demo1 = () => {
       />
       <LFormItemRadio
         label="单选框"
-        name="LFormItemRadio"
+        name="LFormItemRadio1"
         all
         required
         options={[
@@ -226,12 +225,12 @@ const Demo1 = () => {
       />
       <LFormItemRate
         label="评分"
-        name="LFormItemRate"
+        name="LFormItemRate1"
         initialValue={3}
         required
       />
       <LFormItemColor
-        name="LFormItemColor"
+        name="LFormItemColor1"
         colorType="chrome"
         label="颜色选择"
         required

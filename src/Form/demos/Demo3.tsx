@@ -21,13 +21,12 @@ const Demo5 = () => {
             );
           },
         }}
-        name="LForm-transformValues"
         form={form}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
         }}
       >
-        <LFormItemInput name="name" required label="姓名" />
+        <LFormItemInput name="name333" required label="姓名" />
       </LForm>
     </>
   );

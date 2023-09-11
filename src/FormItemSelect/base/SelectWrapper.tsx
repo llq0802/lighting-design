@@ -77,7 +77,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   allValue = '',
   allLabel = '全部',
   selectProps = {},
-  outLoading = {},
+  outLoading,
   requestOptions = {},
   name,
   ...restProps
@@ -89,7 +89,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     outLoading?.spinning || false,
   );
   const hasLoading = useMemo(
-    () => Reflect.has(outLoading, 'spinning'),
+    () => Reflect.has(outLoading ?? {}, 'spinning'),
     [outLoading],
   );
   useUpdateEffect(() => {

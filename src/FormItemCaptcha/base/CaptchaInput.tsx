@@ -44,7 +44,6 @@ export interface CodeInputProps extends Record<number | string, any> {
    *@memberof LFormItemCaptchaProps
    */
   autoFocusOnGetCaptcha?: boolean;
-  placeholder?: string;
   /**
    * 是否禁用
    *@author 李岚清 <https://github.com/llq0802>

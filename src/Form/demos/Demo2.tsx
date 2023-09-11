@@ -8,7 +8,6 @@ const Demo5 = () => {
       <LForm
         labelWidth={90}
         submitter={{ buttonAlign: 90 }}
-        name="LForm-transformValues"
         form={form}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
@@ -23,8 +22,13 @@ const Demo5 = () => {
           return newValues;
         }}
       >
-        <LFormItemInput name="name" required label="姓名" />
-        <LFormItemDatePicker label="日期选择" name="dates" required rangePicker />
+        <LFormItemInput name="name2" required label="姓名" />
+        <LFormItemDatePicker
+          label="日期选择"
+          name="date2"
+          required
+          rangePicker
+        />
       </LForm>
     </>
   );

@@ -28,7 +28,7 @@ const Demo4 = () => {
           name="age"
           className="l-age"
           label="年龄"
-          alignItems="end"
+          contentAlignItems="end"
           contentAfter={<div>岁</div>}
         >
           <AgeSelect />

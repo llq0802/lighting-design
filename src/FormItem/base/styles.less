@@ -1,19 +1,37 @@
-@prefixCls: ~'lightd-form-item-wrapper';
+@prefixCls: ~'lightd-form-item';
 
-.@{prefixCls} {
-  display: flex;
-  align-items: center;
-  width: 100%;
+.lightd-form-item {
+  &-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
 
-  &-before {
-    margin-right: 8px;
+    &-before {
+      margin-right: 8px;
+    }
+
+    &-after {
+      margin-left: 8px;
+    }
+
+    &-content {
+      flex: 1;
+    }
   }
 
-  &-after {
-    margin-left: 8px;
-  }
+  // &-wrapper-label-start {
+  //   .ant-row.ant-form-item-row {
+  //     align-items: var(--wrapper-label-align-items);
+  //   }
+  // }
 
-  &-content {
-    flex: 1;
-  }
+  // &-wrapper-label-center {
+  //   align-items: var(--wrapper-label-align-items);
+  // }
+
+  // &-wrapper-label-end {
+  //   .ant-row.ant-form-item-row {
+  //     align-items: var(--wrapper-label-align-items);
+  //   }
+  // }
 }

@@ -102,10 +102,10 @@ export const useDependValues = (
   restProps: Record<string, any>,
 ) => {
   return useMemo(() => {
-    if (!dependencies.length) {
+    if (!dependencies?.length) {
       return [];
     }
-    return dependencies?.map((nameStr) => restProps[nameStr]);
+    return dependencies?.map((nameStr) => restProps[nameStr]) ?? [];
   }, [dependencies, restProps]);
 };
 
@@ -116,10 +116,10 @@ export const useDependValues = (
  */
 export const useIsClearDependValues = (dependValues: any[]) => {
   return useMemo(() => {
-    if (!dependValues.length) return false;
+    if (!dependValues?.length) return false;
 
-    if (dependValues.length === 1) {
-      return dependValues.some(
+    if (dependValues?.length === 1) {
+      return dependValues?.some(
         (nameValue) =>
           nameValue === void 0 ||
           nameValue === null ||
@@ -127,7 +127,7 @@ export const useIsClearDependValues = (dependValues: any[]) => {
           !nameValue?.length,
       );
     }
-    return dependValues.every(
+    return dependValues?.every(
       (nameValue) =>
         nameValue === void 0 ||
         nameValue === null ||

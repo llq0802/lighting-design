@@ -82,7 +82,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   placeholder,
   loadData,
   treeSelectProps = {},
-  outLoading = {},
+  outLoading,
   requestOptions = {},
   name,
   ...restProps // LFormItem传过来的其他值
@@ -94,7 +94,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   const isFirstRender = useIsFirstRender(); // 组件是否第一次挂载
 
   const hasLoading = useMemo(
-    () => Reflect.has(outLoading, 'spinning'),
+    () => Reflect.has(outLoading ?? {}, 'spinning'),
     [outLoading],
   );
 

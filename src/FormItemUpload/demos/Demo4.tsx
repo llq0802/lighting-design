@@ -17,7 +17,7 @@ const Demo4 = () => {
         isCrop
         required
         onUpload={upload}
-        uploadType="avatar4"
+        uploadType="avatar"
         name="avatar"
         label="头像上传"
         uploadProps={{
@@ -28,10 +28,11 @@ const Demo4 = () => {
       <LFormItemUpload
         isCrop
         name="image4"
-        label="图片上传"
+        label="圆形图片上传"
         uploadType="image"
         onUpload={upload}
         uploadProps={{
+          listType: 'picture-circle',
           name: 'fileName',
           async previewFile(file) {
             // 解决文件较大时会卡顿

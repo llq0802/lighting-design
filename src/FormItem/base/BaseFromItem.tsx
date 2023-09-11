@@ -6,6 +6,7 @@ import { cloneElement, isValidElement, useContext, useMemo } from 'react';
 import { LFormContext } from '../../Form/base/BaseForm';
 import { isTrueArray, usePlaceholder } from '../../_utils';
 import FormItemWrapper from './FormItemWrapper';
+import './styles.less';
 
 export interface LFormItemProps extends FormItemProps {
   /**
@@ -30,12 +31,12 @@ export interface LFormItemProps extends FormItemProps {
    */
   renderFormItem?: (dom: ReactElement) => ReactElement;
   /**
-   *  当配置了contentBefore或者contentAfter时组件垂直的对齐方式
+   *当配置了contentBefore或者contentAfter时组件与原本子项内容与contentBefore或者contentAfter与垂直的对齐方式
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.18
    *@memberof LFormItemProps
    */
-  alignItems?: 'center' | 'start' | 'end';
+  contentAlignItems?: 'center' | 'start' | 'end';
   /**
    *  组件前面的内容
    *@author 李岚清 <https://github.com/llq0802>
@@ -87,6 +88,14 @@ export interface LFormItemProps extends FormItemProps {
   placeholder?: string | string[];
 
   /**
+   *当配置了 label 时组件左边的 label 与右边整体的内容区域 ( 如果配置了ontentBefore或者contentAfter则包含它们 ) 的垂直对齐方式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.18
+   *@memberof LFormItemProps
+   */
+  wrapperAlignItems?: 'start' | 'center' | 'end';
+
+  /**
    * 只在`LQueryForm`组件中生效，与`antd.Col`组件的配置一样，配置单独这一项占多数份
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.18
@@ -115,13 +124,14 @@ const LFormItem: FC<LFormItemProps> & {
     contentAfter,
     contentProps,
     contentInline = false,
-    alignItems,
+    contentAlignItems: alignItems = 'center',
+    wrapperAlignItems = 'start',
 
     name,
     required,
     shouldUpdate,
     dependencies,
-    rules = [],
+    rules,
     className,
     labelCol,
     children,
@@ -141,14 +151,31 @@ const LFormItem: FC<LFormItemProps> & {
     placeholder,
   });
 
-  const itemClassnames = useMemo(
-    () => classnames(prefixCls, className),
-    [className],
+  // const itemClassnames = useMemo(
+  //   () =>
+  //     classnames(
+  //       prefixCls,
+  //       {
+  //         [`${prefixCls}-wrapper-label-${wrapperAlignItems}`]:
+  //           restFromItemProps?.label ? true : false,
+  //       },
+  //       className,
+  //     ),
+  //   [className, wrapperAlignItems, restFromItemProps?.label],
+  // );
+
+  const itemClassnames = classnames(
+    prefixCls,
+    {
+      [`${prefixCls}-wrapper-label-${wrapperAlignItems}`]:
+        restFromItemProps?.label ? true : false,
+    },
+    className,
   );
 
   const itemRules = useMemo(
     () =>
-      rules?.length > 0
+      rules && rules?.length > 0
         ? rules
         : [
             {

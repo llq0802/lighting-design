@@ -68,7 +68,6 @@ const Demo1 = () => {
       disabled
       labelWidth={90}
       submitter={false}
-      name="lform-demo"
       form={form}
       onFinish={async (values) => {
         console.log('onFinish-values ', values);

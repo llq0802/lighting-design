@@ -2,23 +2,25 @@ import classNames from 'classnames';
 import type { FC, ReactNode } from 'react';
 import { cloneElement, isValidElement } from 'react';
 import { composeProps } from '../../_utils';
-import './styles.less';
+// import './styles.less';
 
 const prefixCls = 'lightd-form-item-wrapper';
 
 export interface FormItemWrapperProps extends Record<string, any> {
   before?: ReactNode;
-
   after?: ReactNode;
-
   className?: string;
-
   contentInline?: boolean;
+  alignItems?: 'center' | 'start' | 'end';
+  // 以下属性是 Form.Item 的传给起 children 组件的属性
+  value?: any;
+  onChange?: (...args: any[]) => void;
+  id?: string;
 }
 
 const FormItemWrapper: FC<FormItemWrapperProps> = ({
   className,
-  alignItems = null,
+  alignItems = 'center',
   after = null,
   before = null,
   contentInline = false,
