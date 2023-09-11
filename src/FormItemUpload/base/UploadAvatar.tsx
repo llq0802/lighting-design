@@ -24,6 +24,7 @@ const AvatarContent: FC<{
   fileList?: UploadFile[];
   buttonText?: ReactNode;
   buttonIcon?: ReactNode;
+  listType?: string;
 }> = ({ fileList, buttonText, buttonIcon, listType }) => {
   const [imgUrl, setImgUrl] = useState<undefined | string>('');
 

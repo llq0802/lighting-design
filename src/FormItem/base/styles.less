@@ -1,6 +1,6 @@
 @prefixCls: ~'lightd-form-item';
 
-.lightd-form-item {
+.@{prefixCls} {
   &-wrapper {
     display: flex;
     align-items: center;
@@ -18,20 +18,24 @@
       flex: 1;
     }
   }
+}
 
-  // &-wrapper-label-start {
-  //   .ant-row.ant-form-item-row {
-  //     align-items: var(--wrapper-label-align-items);
-  //   }
-  // }
+.ant-form-item.ligthd-from-item {
+  &-wrapper-label-start {
+    .ant-row.ant-form-item-row {
+      align-items: flex-start;
+    }
+  }
 
-  // &-wrapper-label-center {
-  //   align-items: var(--wrapper-label-align-items);
-  // }
+  &-wrapper-label-center {
+    .ant-row {
+      align-items: center;
+    }
+  }
 
-  // &-wrapper-label-end {
-  //   .ant-row.ant-form-item-row {
-  //     align-items: var(--wrapper-label-align-items);
-  //   }
-  // }
+  &-wrapper-label-end {
+    .ant-row.ant-form-item-row {
+      align-items: flex-end;
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import { Input, Select, Space, Switch } from 'antd';
+import TextArea from 'antd/es/input/TextArea';
 import { LForm, LFormItem } from 'lighting-design';
 import React from 'react';
 import AgeSelect from './components/AgeSelect';
@@ -26,6 +27,18 @@ const Demo2 = () => {
           contentProps={{ placeholder: '输入姓名' }}
         >
           <Input />
+        </LFormItem>
+
+        <LFormItem
+          label="备注"
+          name="l-name161"
+          required
+          wrapperAlignItems="center"
+        >
+          <TextArea
+            placeholder="看看这一项的对齐效果"
+            style={{ height: 100 }}
+          />
         </LFormItem>
 
         <LFormItem name="l-sex" label="性别" required contentBefore={<>前面</>}>

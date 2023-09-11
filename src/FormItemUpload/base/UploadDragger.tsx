@@ -1,14 +1,17 @@
 import { InboxOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
+import classNames from 'classnames';
 import { IMAGE_TYPES } from 'lighting-design/constants';
 import type { FC, ReactNode } from 'react';
 import { useMemo } from 'react';
 import type { UploadWrapperProps } from './UploadWrapper';
-import UploadWrapper from './UploadWrapper';
+import UploadWrapper, { lightdUploadWrapper } from './UploadWrapper';
 
 const defaultShowUploadList = {
   showPreviewIcon: false,
 };
+
+const prefixCls = `${lightdUploadWrapper}-dragger`;
 
 type UploadDraggerrProps = Omit<UploadWrapperProps, 'dragger'> & {
   buttonIcon?: ReactNode;
@@ -19,7 +22,7 @@ type UploadDraggerrProps = Omit<UploadWrapperProps, 'dragger'> & {
 const UploadDragger: FC<UploadDraggerrProps> = ({
   isCrop,
   cropProps,
-
+  className,
   showUploadList,
   buttonIcon = <InboxOutlined />,
   buttonText = '单击或拖动文件到此区域进行上传',
@@ -44,6 +47,7 @@ const UploadDragger: FC<UploadDraggerrProps> = ({
   const dom = (
     <UploadWrapper
       {...restProps}
+      className={classNames(prefixCls, className)}
       dragger
       accept={accept}
       showUploadList={currentShowUploadList}

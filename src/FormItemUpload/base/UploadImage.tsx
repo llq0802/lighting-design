@@ -1,10 +1,13 @@
 import type { ImgCropProps } from 'antd-img-crop';
 import ImgCrop from 'antd-img-crop';
+import classNames from 'classnames';
 import { IMAGE_TYPES } from 'lighting-design/constants';
 import type { FC, ReactNode } from 'react';
 import UploadButton from './UploadButton';
 import type { UploadWrapperProps } from './UploadWrapper';
-import UploadWrapper from './UploadWrapper';
+import UploadWrapper, { lightdUploadWrapper } from './UploadWrapper';
+
+const prefixCls = `${lightdUploadWrapper}-image`;
 
 type UploadImageProps = UploadWrapperProps & {
   buttonIcon?: ReactNode;
@@ -14,6 +17,7 @@ type UploadImageProps = UploadWrapperProps & {
 };
 
 const UploadImage: FC<UploadImageProps> = ({
+  className,
   isCrop,
   cropProps,
   fileList,
@@ -30,6 +34,7 @@ const UploadImage: FC<UploadImageProps> = ({
       showUploadList={showUploadList}
       listType="picture-card"
       {...restProps}
+      className={classNames(prefixCls, className)}
       accept={restProps?.accept || IMAGE_TYPES}
     >
       {maxCount && fileList && fileList.length >= maxCount ? null : (

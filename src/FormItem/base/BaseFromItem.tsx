@@ -31,7 +31,7 @@ export interface LFormItemProps extends FormItemProps {
    */
   renderFormItem?: (dom: ReactElement) => ReactElement;
   /**
-   *当配置了contentBefore或者contentAfter时组件与原本子项内容与contentBefore或者contentAfter与垂直的对齐方式
+   *当配置了contentBefore或者contentAfter时组件原本子项内容(label的右边)与contentBefore或者contentAfter与垂直的对齐方式
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.18
    *@memberof LFormItemProps
@@ -151,26 +151,17 @@ const LFormItem: FC<LFormItemProps> & {
     placeholder,
   });
 
-  // const itemClassnames = useMemo(
-  //   () =>
-  //     classnames(
-  //       prefixCls,
-  //       {
-  //         [`${prefixCls}-wrapper-label-${wrapperAlignItems}`]:
-  //           restFromItemProps?.label ? true : false,
-  //       },
-  //       className,
-  //     ),
-  //   [className, wrapperAlignItems, restFromItemProps?.label],
-  // );
-
-  const itemClassnames = classnames(
-    prefixCls,
-    {
-      [`${prefixCls}-wrapper-label-${wrapperAlignItems}`]:
-        restFromItemProps?.label ? true : false,
-    },
-    className,
+  const itemClassnames = useMemo(
+    () =>
+      classnames(
+        prefixCls,
+        {
+          [`${prefixCls}-wrapper-label-${wrapperAlignItems}`]:
+            restFromItemProps?.label ? true : false,
+        },
+        className,
+      ),
+    [className, wrapperAlignItems, restFromItemProps?.label],
   );
 
   const itemRules = useMemo(
