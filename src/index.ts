@@ -55,6 +55,8 @@ export * from './FormItemTextArea';
 export { default as LFormItemTextArea } from './FormItemTextArea';
 export * from './FormItemTimePicker';
 export { default as LFormItemTimePicker } from './FormItemTimePicker';
+export * from './FormItemTransfer';
+export { default as LFormItemTransfer } from './FormItemTransfer';
 export * from './FormItemTreeSelect';
 export { default as LFormItemTreeSelect } from './FormItemTreeSelect';
 export * from './FormItemUpload';

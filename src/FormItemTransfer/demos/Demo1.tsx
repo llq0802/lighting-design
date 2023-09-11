@@ -1,41 +1,24 @@
-import { LForm } from 'lighting-design';
-import LFromItemTransfer from '..';
+import { LForm, LFormItemTransfer } from 'lighting-design';
 
-const obj = {
-  current: '李岚清',
-  info: {
-    a: 1,
-    b: 2,
-  },
-  arr: [
-    {
-      id: 1,
-      name: '111',
-    },
-    {
-      id: 2,
-      name: '222',
-    },
-  ],
-};
-const { info, arr } = obj;
+const mockData: any[] = Array.from({ length: 20 }).map((_, i) => ({
+  value: i.toString(),
+  label: `content--${i}`,
+}));
 
-info.a = 99;
-
-arr.push({
-  id: 3,
-  name: '333',
-});
-
-console.log('obj', obj);
+const initialTargetKeys = mockData
+  .filter((item) => Number(item.value) <= 1)
+  .map((item) => item.value);
 
 export default () => {
   return (
     <LForm
-      labelCol={{ flex: '90px' }}
+      labelCol={{ flex: '120px' }}
       submitter={{ buttonAlign: 'center' }}
       onFinish={(values) => {
         console.log('values', values);
+      }}
+      initialValues={{
+        transfer: initialTargetKeys,
       }}
       // onValuesChange={(
       //   currentName: string,
@@ -47,7 +30,12 @@ export default () => {
       //   console.log('allValues', allValues);
       // }}
     >
-      <LFromItemTransfer label="穿梭" name="name" />
+      <LFormItemTransfer
+        options={mockData}
+        label="穿梭"
+        name="transfer"
+        limitMaxCount={3}
+      />
     </LForm>
   );
 };
