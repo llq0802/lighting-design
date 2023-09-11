@@ -6,7 +6,7 @@ toc: content
 # useDeepUpdateEffect
 
 :::warning{title=警告}
-将在下个版本移除该 `HOOK` 请使用 [rc-use-hooks](https://llq0802.github.io/rc-use-hook) 完全兼容原 `HOOK` 并新增许多实用 `HOOK`
+将在下个版本移除该 `HOOK` 请使用 [rc-use-hooks](https://llq0802.github.io/rc-use-hook) 完全兼容原 `HOOK` 与 ahook 库形成互补并新增许多实用 `HOOK`
 :::
 
 `useDeepUpdateEffect` 用法等同于 `useEffect`

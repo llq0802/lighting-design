@@ -8,7 +8,7 @@ nav:
 # useCallbackState
 
 :::warning{title=警告}
-将在下个版本移除该 `HOOK` 请使用 [rc-use-hooks](https://llq0802.github.io/rc-use-hook) 完全兼容原 `HOOK` 并新增许多实用 `HOOK`
+将在下个版本移除该 `HOOK` 请使用 [rc-use-hooks](https://llq0802.github.io/rc-use-hook) 完全兼容原 `HOOK` 与 ahook 库形成互补并新增许多实用 `HOOK`
 :::
 
 与 useState 效果一致，可在 setState 的第二个参数回调函数中接受最新的 state ，可像类组件的 this.state 的回调函数。

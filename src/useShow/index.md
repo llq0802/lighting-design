@@ -6,7 +6,7 @@ toc: content
 # useShow
 
 :::warning{title=警告}
-将在下个版本移除该 `HOOK` 请使用 [rc-use-hooks](https://llq0802.github.io/rc-use-hook) 完全兼容原 `HOOK` 并新增许多实用 `HOOK`
+将在下个版本移除该 `HOOK` 请使用 [rc-use-hooks](https://llq0802.github.io/rc-use-hook) 完全兼容原 `HOOK` 与 ahook 库形成互补并新增许多实用 `HOOK`
 :::
 
 父组件通过 ref 唤起子组件 、用于业务功能代码分离、避免过多状态和业务代码集中在一个文件上。
