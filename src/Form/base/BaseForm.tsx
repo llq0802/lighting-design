@@ -1,6 +1,7 @@
 import {
   useDeepCompareEffect,
   useMemoizedFn,
+  useRafState,
   useSafeState,
   useUpdateEffect,
 } from 'ahooks';
@@ -14,7 +15,6 @@ import {
   useImperativeHandle,
   useMemo,
   useRef,
-  useState,
 } from 'react';
 import { uniqueId } from '../../_utils';
 import type { LFormSubmitterProps } from './Submitter';
@@ -150,7 +150,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
   const [loading, setLoading] = useSafeState(outLoading);
-  const [initFormValues, setInitFormValues] = useState(initialValues ?? {}); // 内部初始值
+  const [initFormValues, setInitFormValues] = useRafState(initialValues ?? {}); // 内部初始值
   const formId = useMemo(() => name || uniqueId('lightd-form'), [name]);
 
   useUpdateEffect(() => {
@@ -168,9 +168,10 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     setTimeout(() => {
       // 组件第一次加载的时候并且form渲染完成收集初始值.
       // 如果组件被包裹在弹窗或者抽屉组件中 没有预渲染的话则会提示form绑定失败 获取不到初始值
-      const initValues = initialValues || formRef.current?.getFieldsValue(); // 解决form实例与moadl绑定失败的问题
+      // 解决form实例与moadl绑定失败的问题
+      const initValues = initialValues || formRef.current?.getFieldsValue();
       setInitFormValues({ ...initValues });
-    });
+    }, 16);
   }, [initialValues]);
 
   useUpdateEffect(() => {

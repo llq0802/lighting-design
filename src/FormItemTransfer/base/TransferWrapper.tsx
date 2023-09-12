@@ -1,8 +1,16 @@
-import { useDeepCompareEffect, useRafState, useRequest } from 'ahooks';
-import { Transfer } from 'antd';
+import {
+  useDeepCompareEffect,
+  useLatest,
+  usePagination,
+  useRafState,
+} from 'ahooks';
+import { ConfigProvider, Spin, Transfer } from 'antd';
 import type { TransferDirection } from 'antd/es/transfer';
-import type { FC } from 'react';
+import classnames from 'classnames';
+import { useImperativeHandle, type FC } from 'react';
 import type { LFormItemTransferProps } from '..';
+
+import zhCN from 'antd/locale/zh_CN';
 
 export type FieldNames = { label: string; value: string };
 export interface RecordType {
@@ -14,49 +22,73 @@ export interface RecordType {
 
 type TransferWrapperProps = Pick<
   LFormItemTransferProps,
-  'limitMaxCount' | 'transferProps' | 'fieldNames' | 'options'
+  | 'limitMaxCount'
+  | 'transferProps'
+  | 'fieldNames'
+  | 'options'
+  | 'actionRef'
+  | 'request'
+  | 'requestOptions'
 > &
   Record<string, any>;
+
+const prefixCls = 'lightd-transfer';
 
 const TransferWrapper: FC<TransferWrapperProps> = (props) => {
   const {
     fieldNames = { label: 'label', value: 'value' },
     limitMaxCount = 0,
     transferProps,
-    options,
-    request = async () => [],
+    options = [],
+    request,
     requestOptions,
-
+    actionRef,
+    outLoading,
     ...restProps
   } = props;
   const value = restProps.targetKeys ?? [];
   const { label: labelKey, value: valueKey } = fieldNames;
-  const [opt, setOpt] = useRafState(() => options ?? []);
+  const [opt, setOpt] = useRafState(() => options);
+  const optRef = useLatest(opt); // 得到最新的值 防止闭包
 
-  const { run, loading } = useRequest(
+  const { loading, pagination } = usePagination(
+    // @ts-ignore
     async (...args) => {
-      return await request?.(...args);
+      if (options?.length) {
+        return {
+          total: options.length,
+          list: options,
+        };
+      }
+      // @ts-ignore
+      const res = await request?.(...args);
+      return {
+        total: res?.total || res?.data?.length,
+        list: res?.data,
+      };
     },
     {
       ...requestOptions,
-      manual: true,
+      onSuccess(res, params) {
+        setOpt([...(res?.list ?? [])]);
+      },
     },
   );
-  // const list = data ?? [];
 
-  // console.log('list++++++', list);
+  useImperativeHandle(actionRef, () => pagination);
+
   /**
-   * 判断是否disabled
-   * @param sourList 左侧数据的数据源
-   * @param targetList 右侧已选择的数据
-   * @param canCount 可选择的个数
-   * @returns
+   * 判断是否 disabled
+   * @param {RecordType[]} sourList 左侧数据的数据源
+   * @param {RecordType[]} targetList 右侧已选择的数据
+   * @param {number} canCount 可选择的个数
+   * @return {void} 无返回值
    */
   const isDisabled = (
     sourList: RecordType[],
     targetList: RecordType[],
     canCount: number,
-  ) => {
+  ): void => {
     // 设置disabled
     if (canCount > 0 && sourList.length >= canCount) {
       sourList.forEach((item: RecordType) => {
@@ -68,61 +100,58 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
         item.disabled = true;
       });
     }
-
     setOpt([...sourList, ...targetList]);
   };
 
   useDeepCompareEffect(() => {
     if (value?.length && limitMaxCount) {
       // 得到左侧数据
-      const sourceSelectedList = opt.filter(
+      const sourceSelectedList = optRef.current.filter(
         (item) => !value.includes(item[valueKey]),
       );
-      const targetSelectedList = opt
+      const targetSelectedList = optRef.current
         .filter((item) => value.includes(item[valueKey]))
         .map((item) => ({ ...item, disabled: false }));
       // 得到可选择的个数: 减去右侧
       const canSelectCount = limitMaxCount - value.length;
       isDisabled(sourceSelectedList, targetSelectedList, canSelectCount);
     } else if (limitMaxCount) {
-      isDisabled(opt, [], limitMaxCount);
+      isDisabled(optRef.current, [], limitMaxCount);
     } else {
-      setOpt([...opt]);
+      // setOpt([...optRef.current]);
     }
   }, [value]);
 
   useDeepCompareEffect(() => {
     setOpt(options ?? []);
   }, [options]);
-  // console.log('TransferWrapper-props', props);
 
   const onChange = (
     nextTargetKeys: string[],
     direction: TransferDirection,
     moveKeys: string[],
   ) => {
-    // console.log('nextTargetKeys', nextTargetKeys);
-    // console.log('direction', direction);
-    // console.log('moveKeys', moveKeys);
-    if (direction === 'left') {
-      const newList = opt.map((item) => {
-        return {
-          ...item,
-          disabled: false,
-        };
-      });
-      setOpt([...newList]);
-    } else if (limitMaxCount) {
-      // 此时左侧的数据
-      const sourceSelectedList = opt.filter(
-        (item) => !nextTargetKeys.includes(item[valueKey]),
-      );
-      const targetSelectedList = opt
-        .filter((item) => nextTargetKeys.includes(item[valueKey]))
-        .map((item) => ({ ...item, disabled: false }));
-      // 得到可选择的个数: 减去右侧
-      const canSelectCount = limitMaxCount - nextTargetKeys.length;
-      isDisabled(sourceSelectedList, targetSelectedList, canSelectCount);
+    if (limitMaxCount) {
+      if (direction === 'left') {
+        const newList = optRef.current.map((item) => {
+          return {
+            ...item,
+            disabled: false,
+          };
+        });
+        setOpt([...newList]);
+      } else {
+        // 此时左侧的数据
+        const sourceSelectedList = optRef.current.filter(
+          (item) => !nextTargetKeys.includes(item[valueKey]),
+        );
+        const targetSelectedList = optRef.current
+          .filter((item) => nextTargetKeys.includes(item[valueKey]))
+          .map((item) => ({ ...item, disabled: false }));
+        // 得到可选择的个数: 减去右侧
+        const canSelectCount = limitMaxCount - nextTargetKeys.length;
+        isDisabled(sourceSelectedList, targetSelectedList, canSelectCount);
+      }
     }
 
     transferProps?.onChange?.(nextTargetKeys, direction, moveKeys);
@@ -134,29 +163,18 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
     rightSelectedKeys: string[], // 右
   ) => {
     restProps?.onSelectChange?.(leftSelectedKeys, rightSelectedKeys);
-    if (rightSelectedKeys?.length || !limitMaxCount) return;
+
+    if (!limitMaxCount || rightSelectedKeys?.length) return;
 
     // 得到可选择的个数: 减去右侧、左侧已选择的个数
     const canSelectCount =
       limitMaxCount - value.length - leftSelectedKeys.length;
     // 此时左侧的数据
-    // const sourceSelectedList = options
-    //   .filter(
-    //     (item: RecordType) =>
-    //       ![...value, ...leftSelectedKeys].includes(item[valueKey]),
-    //   )
-    //   .map((item) => ({ ...item, disabled: canSelectCount <= 0 }));
-
-    // const targetSelectedList = options
-    //   .filter((item: RecordType) =>
-    //     [...value, ...leftSelectedKeys].includes(item[valueKey]),
-    //   )
-    //   .map((item) => ({ ...item, disabled: false }));
-    const sourceSelectedList = opt.filter(
+    const sourceSelectedList = optRef.current.filter(
       (item: RecordType) => ![...value].includes(item[valueKey]),
     );
     // 此时右侧的数据
-    const targetSelectedList = opt
+    const targetSelectedList = optRef.current
       .filter((item: RecordType) => [...value].includes(item[valueKey]))
       .map((item) => ({ ...item, disabled: false }));
 
@@ -180,35 +198,30 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
     setOpt([...sourceSelectedList, ...targetSelectedList]);
   };
 
-  // const filterOption = (inputValue: string, option: RecordType) =>
-  //   option.description.indexOf(inputValue) > -1;
-
   return (
-    <Transfer
-      // style={{
-      //   background: 'red',
-      // }}
-      // operationStyle={{
-      //   background: 'blue',
-      // }}
-      // showSearch
-      // selectedKeys={selectedKeys}
-      // filterOption={filterOption}
-      pagination
-      showSelectAll={!limitMaxCount}
-      titles={['数据源', '已选择']}
-      listStyle={{
-        width: 300,
-        height: 420,
-      }}
-      rowKey={(record: Record<string, any>) => record[fieldNames?.value]}
-      dataSource={opt}
-      render={(item: Record<string, any>) => item[labelKey] ?? item[valueKey]}
-      {...transferProps}
-      {...restProps}
-      onChange={onChange}
-      onSelectChange={onSelectChange}
-    />
+    <ConfigProvider locale={zhCN}>
+      <Spin spinning={!options?.length && loading} {...(outLoading ?? {})}>
+        <Transfer
+          showSelectAll={!limitMaxCount}
+          titles={['数据源', '已选择']}
+          rowKey={(record: Record<string, any>) => record[valueKey]}
+          dataSource={optRef.current}
+          render={(item: Record<string, any>) =>
+            item[labelKey] ?? item[valueKey]
+          }
+          {...transferProps}
+          {...restProps}
+          listStyle={{
+            height: 420,
+            width: 200,
+            ...transferProps?.listStyle,
+          }}
+          className={classnames(prefixCls, transferProps?.className)}
+          onChange={onChange}
+          onSelectChange={onSelectChange}
+        />
+      </Spin>
+    </ConfigProvider>
   );
 };
 

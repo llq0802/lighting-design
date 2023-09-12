@@ -22,6 +22,7 @@ const Demo1 = () => {
           message.success('提交成功');
           return true;
         }}
+        initialValues={{}}
         trigger={<Button type="primary">打开弹窗</Button>}
       >
         <LFormItemInput name="input" required label="输入框" />

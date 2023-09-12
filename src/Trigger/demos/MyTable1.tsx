@@ -44,8 +44,8 @@ const MyTable: FC = (props) => {
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
       outOnChage({
-        label: selectedRows[0].name,
-        value: selectedRowKeys[0],
+        label: selectedRows.map((row) => row.name),
+        value: selectedRowKeys,
       });
 
       setOpen(false);

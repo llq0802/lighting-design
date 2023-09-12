@@ -202,7 +202,7 @@ import type { PopoverProps, SelectProps } from 'antd';
 import { Popover, Select } from 'antd';
 import classnames from 'classnames';
 import type { ReactNode } from 'react';
-import React, { cloneElement } from 'react';
+import React, { cloneElement, useRef } from 'react';
 
 const prefixCls = 'lightd-trigger';
 
@@ -357,7 +357,6 @@ export type LTriggerProps = {
   popoverProps?: PopoverProps;
 } & Pick<
   SelectProps,
-  | 'clearIcon'
   | 'allowClear'
   | 'disabled'
   | 'placeholder'
@@ -377,7 +376,6 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     bordered = true,
     allowClear = true,
     suffixIcon,
-    clearIcon,
     className,
     size,
     fieldNames = { label: 'label', value: 'value' } as FieldNames,
@@ -398,6 +396,7 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     selectProps = {},
     popoverProps = {},
   } = props;
+  const selectRef = useRef<any>();
 
   const [isOpen, setIsOpen] = useControllableValue<boolean>(props, {
     defaultValue: false,
@@ -432,7 +431,7 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
   const innerSuffixIcon = suffixIcon || (
     <DownOutlined
       style={{
-        transition: '0.3s all',
+        transition: '0.3s',
         transform: `rotate(${isOpen ? -180 : 0}deg)`,
       }}
     />
@@ -447,7 +446,10 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
       trigger="click"
       rootClassName={`${prefixCls}-overlay`}
       placement={placement}
-      onOpenChange={setIsOpen}
+      onOpenChange={(b) => {
+        selectRef.current?.blur?.();
+        setIsOpen(b);
+      }}
       getPopupContainer={getPopupContainer}
       destroyTooltipOnHide={destroyOnHide}
       overlayClassName={overlayClassName}
@@ -455,6 +457,7 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     >
       <Select
         {...selectProps}
+        ref={selectRef}
         className={classnames(prefixCls, className)}
         style={{ width: width, ...style }}
         removeIcon={false}
@@ -463,7 +466,6 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
         size={size}
         bordered={bordered}
         allowClear={allowClear}
-        clearIcon={clearIcon}
         suffixIcon={innerSuffixIcon}
         placeholder={placeholder}
         disabled={disabled}

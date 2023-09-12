@@ -55,7 +55,7 @@ import { LTrigger } from 'lighting-design';
 |    fieldNames     |            配置字段 label 字段名，value 字段的名             |                          `{ label: string; value: string; }`                          | `{ label: 'label',value: 'value' }` |
 |       size        |                          选择框大小                          |                            `'small' \| 'middle'\|'large'`                             |             `'middle'`              |
 |   overlayArrow    |  修改弹出层的箭头的显示状态以及修改箭头是否指向目标元素中心  |                       `boolean` \| `{ pointAtCenter: boolean }`                       |               `false`               |
-|    allowClear     |                           支持清除                           |                                       `boolean`                                       |               `true`                |
+|    allowClear     |                           清除图标                           |                          `boolean\| { clearIcon :ReactNode}`                          |               `true`                |
 |     placement     |                       弹出层弹出的位置                       |                                      `Placement`                                      |           `'bottomLeft'`            |
 |   destroyOnHide   |             弹出层关闭时是否销毁 `children` 组件             |                                       `boolean`                                       |              `'false'`              |
 |     bordered      |                       组件是否需要边框                       |                                       `boolean`                                       |               `true`                |
@@ -67,7 +67,6 @@ import { LTrigger } from 'lighting-design';
 |       style       |                           组件样式                           |                                    `CSSProperties`                                    |                 `-`                 |
 |       open        |                     受控, 是否打开弹出层                     |                                       `boolean`                                       |                 `-`                 |
 |    suffixIcon     |                    自定义的选择框后缀图标                    |                                      `ReactNode`                                      |                 `-`                 |
-|     clearIcon     |                        自定义清除图标                        |                                      `ReactNode`                                      |                 `-`                 |
 |   defaultValue    |                            默认值                            | 默认为`{ label: string\| string[]; value: string\| string[] }` 与`fieldNames`配置有关 |                 `-`                 |
 |    defaultOpen    |                      默认是否打开弹出层                      |                                       `boolean`                                       |               `false`               |
 |       value       |                  受控值, 配合`onChange`使用                  | 默认为`{ label: string\| string[]; value: string\| string[] }` 与`fieldNames`配置有关 |                 `-`                 |

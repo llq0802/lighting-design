@@ -259,6 +259,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               afterClose={() => {
                 if (isResetFields) {
                   // formRef.current.resetFields(); // 弹窗关闭后重置表单
+                  console.log('_lformRef.current', _lformRef.current);
                   formRef.current.setFieldsValue({
                     ..._lformRef.current,
                   }); // 弹窗关闭后重置表单

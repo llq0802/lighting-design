@@ -51,6 +51,8 @@ nav:
 
 - `LForm` 的`children`子项必须包含`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`
 
+- 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`
+
 - 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是给子项设置 `defaultValue`
 
 - 如果要在某一项字段的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一项设置 `onChange` 事件

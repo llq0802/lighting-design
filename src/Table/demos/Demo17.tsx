@@ -22,6 +22,7 @@ function Demo17() {
     <LTable
       rowKey="key"
       showToolbar={false}
+      loading={false}
       formItems={formItems}
       formRef={formRef}
       columns={columns}

@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 
 const Demo5 = () => {
   const [form] = LForm.useForm();
-  const [initialValues, setInitialValues] = useState({ name: '张三' });
+  const [initialValues, setInitialValues] = useState({ name: '' });
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    setIsReady(true);
-    setInitialValues({ name: '李四' });
+    setTimeout(() => {
+      setIsReady(true);
+      setInitialValues({ name: '这是通过异步动态设置的 initialValues' });
+    }, 3000);
   }, []);
 
   return (
@@ -23,7 +25,7 @@ const Demo5 = () => {
         console.log('onFinish-values ', values);
       }}
     >
-      <LFormItemInput name="name4" required label="姓名姓名姓名姓名" />
+      <LFormItemInput name="name" required label="姓名姓名姓名姓名" />
     </LForm>
   );
 };

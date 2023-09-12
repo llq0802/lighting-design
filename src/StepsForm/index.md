@@ -121,7 +121,7 @@ const { StepForm } = LStepsForm;
 | nextText          | 下一步按钮文本                                                                      | `ReactNode`                                                 | `下一步` |
 | nextButtonProps   | 提交按钮属性，和 antd [Button](https://ant.design/components/button-cn/#api) 一致   | [ButtonProps](https://ant.design/components/button-cn/#api) | -        |
 | showNext          | 是否显示下一步按钮                                                                  | `boolean`                                                   | `true`   |
-| forceShowNext     | 强制显示下一步按钮，优先级比 `showNext` 高                                          | `boolean`                                                   | `-`      |
+| forceShowNext     | 强制显示下一步按钮，优先级比 `showNext` 高                                          | `boolean`                                                   | `false`  |
 | onSubmit          | 点击提交按钮的回调                                                                  | `() => void`                                                | -        |
 | submitText        | 提交按钮文本                                                                        | `ReactNode`                                                 | `确定`   |
 | submitButtonProps | 提交按钮属性，和 antd [Button](https://ant.design/components/button-cn/#api) 一致   | [ButtonProps](https://ant.design/components/button-cn/#api) | -        |

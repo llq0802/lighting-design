@@ -71,7 +71,7 @@ const Demo = () => {
               >
                 返回页面
               </Button>,
-              <Button key="reset" onClick={() => actionRef.current.reset()}>
+              <Button key="reset" onClick={() => actionRef.current?.reset()}>
                 再次创建
               </Button>,
             ]}

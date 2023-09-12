@@ -1,16 +1,11 @@
 import { LFileViewer, LForm, LFormItemUpload } from 'lighting-design';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { upload } from './services';
 const Demo3 = () => {
   const [form] = LForm.useForm();
   const [visible, setVisible] = useState(false);
-
+  const urlsRef = useRef<string[]>([]);
   // const previewCurrentRef = useRef(0);
-
-  console.log(form.getFieldValue('image'));
-  const urls = form
-    .getFieldValue('image')
-    ?.map((item) => item.thumbUrl || item.url || item.previewUrl);
 
   return (
     <>
@@ -23,30 +18,41 @@ const Demo3 = () => {
         }}
       >
         <LFormItemUpload
-          name="image3"
+          name="image-1"
           label="图片上传"
           uploadType="image"
           onUpload={upload}
           uploadProps={{
             name: 'fileName',
             async previewFile(file) {
-              // 解决文件较大时会卡顿
+              // 解决文件较大时会卡顿  file.thumbUrl 不再是base64 而是blob地址
               return URL.createObjectURL(file);
             },
             onPreview(file) {
-              // const fileList = form.getFieldValue('image');
+              // console.log('file', file);
+              // const fileList = form.getFieldValue('image-1');
               // previewCurrentRef.current = fileList.findIndex((item) => item.uid === file.uid);
+              // urlsRef.current = form
+              //   ?.getFieldValue('image-1')
+              //   ?.map((item) => item.thumbUrl || item.url || item.previewUrl);
+              urlsRef.current.unshift(
+                file.thumbUrl || file.url || file.preview || file.response?.url,
+              );
+
               setVisible(true);
             },
           }}
         />
       </LForm>
+      {/* 方式一*/}
       <LFileViewer
         fileType="image"
-        url={urls}
+        url={urlsRef.current}
         open={visible}
         onOpenChange={setVisible}
       />
+
+      {/* 方式二 */}
       {/* <div style={{ display: 'none' }}>
         <Image.PreviewGroup
           preview={{
@@ -55,7 +61,7 @@ const Demo3 = () => {
             current: previewCurrentRef.current,
           }}
         >
-          {form.getFieldValue('image')?.map((item) => {
+          {form.getFieldValue('image-1')?.map((item) => {
             return <Image src={item.preview || item.thumbUrl || item.url} key={item.uid} />;
           })}
         </Image.PreviewGroup>
