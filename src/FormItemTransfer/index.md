@@ -23,6 +23,8 @@ toc: content
 
 ### 限制选择数量
 
+只能选择 3 个
+
 <code src='./demos/Demo5.tsx'></code>
 
 ### 表格穿梭
@@ -36,24 +38,47 @@ toc: content
 ## API
 
 :::warning{title=注意}
+自 2.1.8 起新增此组件
 
-- `request` 的参数集合`depends` 为 `LFormItem` 组件 `dependencies` 属性依赖项字段的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除或者禁用选择
+- `options` 与 `request` 同时配置时 `options`的优先级更高
 
-- 通过异步请求的数据中必须包含 `isLeaf ( 是否是最终的子节点 没有子项的含义 )` 字段 , 这样内部渲染时才会知道还有没有子项可渲染 , 避免没有子项可渲染时又显示展开图标
-  :::
+- `request` 的第一个参数为`page` 第二个参数为`pageSize`, 可配合`pagination` `actionRef`做分页请求
+
+- 在树穿梭框中使用 `limitMaxCount` 无效 ,
+
+- 配置了`limitMaxCount` 你不应该配置全选的功能
+
+- 在不是表格穿梭以及树穿梭的情况下 `contentAfter`为`" "` , `contentInline`为`false` 具体属性说明请看 [LFormItem](/components/form-item) 的 API
+
+- `transferProps.listStyle` 可修改组件左右列表的样式 具体请看 antd 穿梭框文档
+
+:::
 
 ```ts
-import { LFormItemTreeSelect } from 'lighting-design';
+import { LFromItemTransfer } from 'lighting-design';
 ```
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
-| 参数            | 说明                                 | 类型                                                                 | 默认值  |
-| --------------- | ------------------------------------ | -------------------------------------------------------------------- | ------- |
-| treeData        | 数据化配置选项内容                   | `LTreeSelectOption[]`                                                | `[]`    |
-| request         | 请求数据函数                         | `(...depends: any[]) => Promise<LTreeSelectOption[]>`                | `-`     |
-| debounceTime    | 当依赖项发生变化时重新请求的防抖时间 | `number`                                                             | `-`     |
-| treeCheckable   | 显示 Checkbox                        | `boolean `                                                           | `false` |
-| loadData        | 异步加载数据                         | `function(node)`                                                     | `-`     |
-| spin            | 自定义 loading 效果                  | [SpinProps](https://ant.design/components/spin-cn/#api)              | `-`     |
-| treeSelectProps | `antd`树选择组件的 Props             | [TreeSelectProps](https://ant.design/components/tree-select-cn/#api) | `-`     |
+| 参数           | 说明                                                                      | 类型                                                                                                   | 默认值                              |
+| -------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------- |
+| options        | 数据源 , 每一项的字段名与 `fieldNames` 配置有关                           | `RecordType[]`                                                                                         | `[]`                                |
+| request        | 请求数据函数                                                              | `(  page: number,  pageSize: number,...args: any[]) => Promise<{ total: number; data:RecordType[]}>`   | `-`                                 |
+| requestOptions | `ahooks` 的配置项 配合 `request` 使用                                     | `Record<string, any>;`                                                                                 | `-`                                 |
+| actionRef      | 包含一些请求分页的方法与属性 配合 request pagination 用于外部控制分页请求 | `MutableRefObject<LFormItemTransferActionRef     \| undefined> `                                       | `-`                                 |
+| limitMaxCount  | 可选的最大数量                                                            | `number`                                                                                               | `-`                                 |
+| fieldNames     | 自定义配置字段名                                                          | `{ label: string;   value: string;}`                                                                   | `{ label: 'title' ,  value: 'key'}` |
+| pagination     | 分页配置 与 antd 穿梭框的分页配置一样                                     | `boolean \| { pageSize: number, simple: boolean, showSizeChanger?: boolean, showLessItems?: boolean }` | `false`                             |
+| transferProps  | `antd`穿梭框组件的 Props                                                  | [TransferProps](https://ant-design.antgroup.com/components/transfer-cn#api)                            | `-`                                 |
+
+### RecordType
+
+```
+ interface RecordType {
+  key?: string | number;
+  title?: React.ReactNode;
+  disabled?: boolean;
+  [key: string]: any;
+}
+
+```

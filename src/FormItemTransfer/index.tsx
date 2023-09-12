@@ -85,7 +85,7 @@ export type LFormItemTransferProps = {
    */
   options?: RecordType[];
   /**
-   *自定义 loading
+   *自定义 loading 需要与 request 配合
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.18
    *@memberof LFormItemTransferProps

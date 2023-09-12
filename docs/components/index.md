@@ -64,6 +64,7 @@ toc: content
 - [LFormItemColor] - 高级颜色选择
 - [LFormItemRate] - 高级评分器
 - [LFormItemSegmented] - 高级分段器
+- [LFormItemTransfer] - 高级穿梭框
 
 ## HOOKS
 
@@ -104,6 +105,7 @@ toc: content
 [lformitem]: /components/form-item
 [lformiteminput]: components/form-item-input
 [lformitemnumber]: /components/lform-number
+[LFormItemTransfer]: /components/form-item-transfer
 [LFormItemNumberRange]: /components/form-item-number-range
 [lformitempassword]: /components/lform-password
 [lformitemtextarea]: /components/lform-text-area

@@ -21,6 +21,7 @@ import {
   LFormItemSwitch,
   LFormItemTextArea,
   LFormItemTimePicker,
+  LFormItemTransfer,
   LFormItemTreeSelect,
   LFormItemUpload,
 } from 'lighting-design';
@@ -38,6 +39,11 @@ const Demo1 = () => {
     { id: 2, pId: 0, value: '2', title: 'Expand to load' },
     { id: 3, pId: 0, value: '3', title: 'Tree Node', isLeaf: true },
   ]);
+
+  const transferMockData: any[] = Array.from({ length: 10 }).map((_, i) => ({
+    key: i.toString(),
+    title: `content--${i}`,
+  }));
 
   const genTreeNode = (parentId: number, isLeaf = false) => {
     const random = Math.random().toString(36).substring(2, 6);
@@ -257,6 +263,13 @@ const Demo1 = () => {
         name="LFormItemUpload4"
         label="拖动上传"
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+      />
+
+      <LFormItemTransfer
+        required
+        options={transferMockData}
+        label="穿梭框"
+        name="transfer"
       />
     </LForm>
   );

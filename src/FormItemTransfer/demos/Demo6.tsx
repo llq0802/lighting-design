@@ -61,7 +61,6 @@ export default () => {
     >
       <LFormItemTransfer
         // options={transferDataSource}
-
         request={async (page, pageSize) => {
           await awaitTime();
           return {
@@ -73,7 +72,6 @@ export default () => {
         name="transfer"
         transferProps={{
           showSelectAll: false,
-
           children: ({ direction, onItemSelect, selectedKeys }) => {
             if (direction === 'left') {
               const targetKeys = form.getFieldValue('transfer') ?? [];

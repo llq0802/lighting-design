@@ -1,5 +1,5 @@
 import type { RadioChangeEvent } from 'antd';
-import { Radio, type FormInstance } from 'antd';
+import { Button, Radio, type FormInstance } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { LTableInstance } from 'lighting-design';
 import { LTable } from 'lighting-design';
@@ -58,16 +58,23 @@ const Demo18: React.FC = () => {
 
   return (
     <div>
-      <Radio.Group
-        options={options}
-        onChange={onChange}
-        value={value4}
-        optionType="button"
-        buttonStyle="solid"
-      />
-
       <LTable
         // showToolbar={false}
+        toolbarLeft={
+          <Radio.Group
+            options={options}
+            onChange={onChange}
+            value={value4}
+            optionType="button"
+            // buttonStyle="solid"
+          />
+        }
+        toolbarRight={
+          <>
+            <Button>查看日志</Button>
+            <Button>导出数据</Button>
+          </>
+        }
         isSort
         columns={value4 === '1' ? columns1 : columns2}
         tableRef={tableRef}
