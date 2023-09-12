@@ -13,6 +13,26 @@ toc: content
 
 <code src='./demos/Demo1.tsx'></code>
 
+### 异步请求
+
+<code src='./demos/Demo3.tsx'></code>
+
+### 搜索
+
+<code src='./demos/Demo4.tsx'></code>
+
+### 限制选择数量
+
+<code src='./demos/Demo5.tsx'></code>
+
+### 表格穿梭
+
+<code src='./demos/Demo2.tsx'></code>
+
+### 树穿梭
+
+<code src='./demos/Demo6.tsx'></code>
+
 ## API
 
 :::warning{title=注意}

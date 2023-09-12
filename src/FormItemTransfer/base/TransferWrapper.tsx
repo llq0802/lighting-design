@@ -1,21 +1,21 @@
 import {
   useDeepCompareEffect,
   useLatest,
+  useMemoizedFn,
   usePagination,
   useRafState,
 } from 'ahooks';
 import { ConfigProvider, Spin, Transfer } from 'antd';
 import type { TransferDirection } from 'antd/es/transfer';
+import zhCN from 'antd/locale/zh_CN';
 import classnames from 'classnames';
 import { useImperativeHandle, type FC } from 'react';
 import type { LFormItemTransferProps } from '..';
 
-import zhCN from 'antd/locale/zh_CN';
-
 export type FieldNames = { label: string; value: string };
 export interface RecordType {
-  value: string | number;
-  label: React.ReactNode;
+  key?: string | number;
+  title?: React.ReactNode;
   disabled?: boolean;
   [key: string]: any;
 }
@@ -28,7 +28,9 @@ type TransferWrapperProps = Pick<
   | 'options'
   | 'actionRef'
   | 'request'
+  | 'disabled'
   | 'requestOptions'
+  | 'pagination'
 > &
   Record<string, any>;
 
@@ -36,7 +38,7 @@ const prefixCls = 'lightd-transfer';
 
 const TransferWrapper: FC<TransferWrapperProps> = (props) => {
   const {
-    fieldNames = { label: 'label', value: 'value' },
+    fieldNames = { label: 'title', value: 'key' },
     limitMaxCount = 0,
     transferProps,
     options = [],
@@ -44,6 +46,10 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
     requestOptions,
     actionRef,
     outLoading,
+    disabled,
+    pagination,
+
+    isCustomTransfer,
     ...restProps
   } = props;
   const value = restProps.targetKeys ?? [];
@@ -51,7 +57,7 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
   const [opt, setOpt] = useRafState(() => options);
   const optRef = useLatest(opt); // 得到最新的值 防止闭包
 
-  const { loading, pagination } = usePagination(
+  const { loading, pagination: reqPagination } = usePagination(
     // @ts-ignore
     async (...args) => {
       if (options?.length) {
@@ -69,13 +75,13 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
     },
     {
       ...requestOptions,
-      onSuccess(res, params) {
+      onSuccess(res) {
         setOpt([...(res?.list ?? [])]);
       },
     },
   );
 
-  useImperativeHandle(actionRef, () => pagination);
+  useImperativeHandle(actionRef, () => reqPagination);
 
   /**
    * 判断是否 disabled
@@ -84,24 +90,26 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
    * @param {number} canCount 可选择的个数
    * @return {void} 无返回值
    */
-  const isDisabled = (
-    sourList: RecordType[],
-    targetList: RecordType[],
-    canCount: number,
-  ): void => {
-    // 设置disabled
-    if (canCount > 0 && sourList.length >= canCount) {
-      sourList.forEach((item: RecordType) => {
-        item.disabled = false;
-      });
-    } else {
+  const isDisabled = useMemoizedFn(
+    (
+      sourList: RecordType[],
+      targetList: RecordType[],
+      canCount: number,
+    ): void => {
       // 设置disabled
-      sourList.forEach((item: RecordType) => {
-        item.disabled = true;
-      });
-    }
-    setOpt([...sourList, ...targetList]);
-  };
+      if (canCount > 0 && sourList.length >= canCount) {
+        sourList.forEach((item: RecordType) => {
+          item.disabled = false;
+        });
+      } else {
+        // 设置disabled
+        sourList.forEach((item: RecordType) => {
+          item.disabled = true;
+        });
+      }
+      setOpt([...sourList, ...targetList]);
+    },
+  );
 
   useDeepCompareEffect(() => {
     if (value?.length && limitMaxCount) {
@@ -118,6 +126,7 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
     } else if (limitMaxCount) {
       isDisabled(optRef.current, [], limitMaxCount);
     } else {
+      // 好像没什么用
       // setOpt([...optRef.current]);
     }
   }, [value]);
@@ -202,6 +211,8 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
     <ConfigProvider locale={zhCN}>
       <Spin spinning={!options?.length && loading} {...(outLoading ?? {})}>
         <Transfer
+          pagination={pagination}
+          disabled={disabled}
           showSelectAll={!limitMaxCount}
           titles={['数据源', '已选择']}
           rowKey={(record: Record<string, any>) => record[valueKey]}
@@ -212,8 +223,8 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
           {...transferProps}
           {...restProps}
           listStyle={{
-            height: 420,
-            width: 200,
+            height: isCustomTransfer ? 'auto' : 410,
+            width: isCustomTransfer ? 'auto' : 200,
             ...transferProps?.listStyle,
           }}
           className={classnames(prefixCls, transferProps?.className)}
