@@ -85,20 +85,19 @@ export interface BaseFormProps
    */
   isEnterSubmit?: boolean;
   /**
-   * 在 onFinish 调用之前转化表单值
+   * 在 onFinish 调用之前转化表单值 返回结果是 onFinish 的参数
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.18
    *@memberof LFormProps
    */
   transformValues?: (values: Record<string, any>) => Record<string, any>;
-
   /**
-   * 表单提交时触发 onFinish
+   * 提交数据时触发。如果是异步函数，会自动管理 提交和重置按钮的 loading，外部无需再设置 loading。
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.18
    *@memberof LFormProps
    */
-  // onFinish?: (values: Record<string, any>) => Promise<any>;
+  onFinish?: (values: Record<string, any>) => any;
   /**
    * 字段值更新时触发回调事件 (不建议设置每一项的onChange,而是统一在此设置)
    *@author 李岚清 <https://github.com/llq0802>

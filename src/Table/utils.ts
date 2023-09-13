@@ -209,3 +209,104 @@ export const jsonToExcel = (options: Json2ExcelOptions) => {
   // 生成xlsx文件
   XLSX.writeFile(wb, `${fileName}.xlsx`);
 };
+
+type Excel2JsonOptions = {
+  file: File; // 附件
+  fieldNames?: {
+    title: string;
+    dataIndex: string;
+  };
+  columns: Array<{
+    title: string;
+    dataIndex: string;
+    [k: string]: any;
+  }>;
+};
+
+/**
+ * Excel转Json数据
+ * @param XLSX xlsx-js-style
+ * @param options
+ * @returns
+ */
+export const excelToJson = (
+  options: Excel2JsonOptions,
+): Promise<Record<string, any>> => {
+  return new Promise((resolve, reject) => {
+    const {
+      file,
+      columns,
+      fieldNames = {
+        title: 'title',
+        dataIndex: 'dataIndex',
+      },
+    } = options;
+
+    const { title: titleKey, dataIndex: dataIndexKey } = fieldNames;
+
+    if (!file) {
+      reject('缺少excel文件');
+      return;
+    }
+    if (!columns) {
+      reject('缺少 columns 参数');
+      return;
+    }
+    const reader = new FileReader();
+    // 文件加载完成后调用
+    reader.onload = function (e: any) {
+      const data = e.target.result;
+
+      const workbook = XLSX.read(data, {
+        type: 'binary', // 手动转化
+      });
+      // 获取json格式的Excel数据
+      const result = XLSX.utils.sheet_to_json(
+        workbook.Sheets[workbook.SheetNames[0]],
+        {
+          defval: 'null', // 单元格为空时的默认值
+        },
+      );
+
+      if (Array.isArray(result) && result.length) {
+        result.forEach((item: any) => {
+          columns.forEach((col: any) => {
+            item[col[dataIndexKey]] = item[col[titleKey]];
+            delete item[col[titleKey]];
+          });
+        });
+      }
+      resolve(result);
+    };
+    // 加载文件
+    reader.readAsArrayBuffer(file);
+  });
+};
+
+const getExcelHeaderRow = (sheet: XLSX.WorkSheet | any) => {
+  const headers = [];
+  const range = XLSX.utils.decode_range(sheet['!ref']);
+  let C;
+  const R = range.s.r;
+  for (C = range.s.c; C <= range.e.c; ++C) {
+    const cell = sheet[XLSX.utils.encode_cell({ c: C, r: R })];
+    if (cell && cell.t) headers.push(XLSX.utils.format_cell(cell));
+  }
+  return headers;
+};
+
+export const getExcelData = (rawFile: Blob) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsArrayBuffer(rawFile);
+    reader.onload = (e) => {
+      const result = e.target?.result;
+      const workbook = XLSX.read(result, { type: 'array' });
+      const firstSheetName = workbook.SheetNames[0];
+      const worksheet: XLSX.WorkSheet = workbook.Sheets[firstSheetName];
+      const header = getExcelHeaderRow(worksheet);
+      const body = XLSX.utils.sheet_to_json(worksheet);
+      resolve({ header, body });
+    };
+  });
+};

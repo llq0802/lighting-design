@@ -23,6 +23,7 @@ nav:
 
 ### 查询框
 
+<code src='./demos/Demo22.tsx' background="#f5f5f5"></code>
 <code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
 
 ### 操作栏
