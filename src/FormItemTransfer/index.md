@@ -73,12 +73,32 @@ import { LFromItemTransfer } from 'lighting-design';
 
 ### RecordType
 
-```
- interface RecordType {
+```ts
+interface RecordType {
   key?: string | number;
   title?: React.ReactNode;
   disabled?: boolean;
   [key: string]: any;
 }
+```
 
+### LFormItemTransferActionRef
+
+```ts
+export type LFormItemTransferActionRef = {
+  /** 分页信息及方法 */
+  pagination: {
+    current: number;
+    pageSize: number;
+    total: number;
+    totalPage: number;
+    onChange: (current: number, pageSize: number) => void;
+    changeCurrent: (current: number) => void;
+    changePageSize: (pageSize: number) => void;
+  };
+  /** 数据源 */
+  data: RecordType[];
+  /** 更新数据的state */
+  setData: React.Dispatch<React.SetStateAction<RecordType[]>>;
+};
 ```

@@ -37,7 +37,7 @@ const Demo1 = () => {
     });
 
   return (
-    <LForm name="LFormItemTreeSelect22" form={form}>
+    <LForm form={form}>
       <LFormItemTreeSelect
         label="树形选择"
         name="tree"
@@ -47,6 +47,10 @@ const Demo1 = () => {
         treeCheckable
         treeSelectProps={{
           treeDataSimpleMode: true,
+
+          onChange(value) {
+            console.log('value111', value);
+          },
         }}
       />
     </LForm>

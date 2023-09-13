@@ -4,6 +4,7 @@ import { Drawer, Form } from 'antd';
 import classnames from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
+import { isFunction } from 'lighting-design/_utils';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { cloneElement, useEffect, useRef, useState } from 'react';
 
@@ -172,8 +173,8 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
                   },
                 },
                 render: (submitterDom, submitterProps) => {
-                  if (typeof submitter?.render === 'function') {
-                    return submitter.render(submitterDom, submitterProps);
+                  if (isFunction(submitter?.render)) {
+                    return submitter?.render?.(submitterDom, submitterProps);
                   }
                   return submitterDom;
                 },

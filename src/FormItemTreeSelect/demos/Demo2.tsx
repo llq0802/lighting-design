@@ -7,7 +7,6 @@ const Index = () => {
 
   return (
     <LForm
-      name="LFormItemTreeSelect"
       form={form}
       labelCol={{ flex: '80px' }}
       submitter={{

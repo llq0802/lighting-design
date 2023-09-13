@@ -16,7 +16,7 @@ import {
   useMemo,
   useRef,
 } from 'react';
-import { uniqueId } from '../../_utils';
+import { isFunction, uniqueId } from '../../_utils';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
@@ -91,6 +91,14 @@ export interface BaseFormProps
    *@memberof LFormProps
    */
   transformValues?: (values: Record<string, any>) => Record<string, any>;
+
+  /**
+   * 表单提交时触发 onFinish
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.18
+   *@memberof LFormProps
+   */
+  // onFinish?: (values: Record<string, any>) => Promise<any>;
   /**
    * 字段值更新时触发回调事件 (不建议设置每一项的onChange,而是统一在此设置)
    *@author 李岚清 <https://github.com/llq0802>
@@ -225,9 +233,8 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     : formItems;
 
   const handleOnFinish = useMemoizedFn(async (values) => {
-    if (typeof onFinish !== 'function') {
-      return;
-    }
+    if (!isFunction(onFinish)) return;
+
     const formValues = transformValues
       ? transformValues(values) ?? values
       : values;

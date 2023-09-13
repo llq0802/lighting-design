@@ -1,6 +1,16 @@
 import { useMemo, useRef } from 'react';
 
 /**
+ * 判断某个值是不是函数类型
+ * @export 判断某个值是不是函数类型
+ * @param {*} patch 传递的变量
+ * @return {boolean} 是不是函数类型
+ */
+export function isFunction(patch: any): boolean {
+  return typeof patch === 'function';
+}
+
+/**
  * 合并组件 props
  * @template T
  * @param {T} originProps
@@ -20,9 +30,9 @@ export function composeProps<T extends Record<string, any>>(
 
   Object.keys(patchProps).forEach((key) => {
     const func = patchProps[key];
-    if (typeof func === 'function') {
+    if (isFunction(func)) {
       composedProps[key] = (...args: any[]) => {
-        func(...args);
+        func?.(...args);
         return originProps[key]?.(...args);
       };
     }

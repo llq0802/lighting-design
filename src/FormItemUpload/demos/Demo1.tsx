@@ -17,7 +17,9 @@ const Demo1 = () => {
         name="default1"
         label="默认上传"
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-        uploadProps={{ name: 'fileName' }}
+        uploadProps={{
+          name: 'fileName',
+        }}
       />
 
       <LFormItemUpload

@@ -81,7 +81,13 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
     },
   );
 
-  useImperativeHandle(actionRef, () => reqPagination);
+  useImperativeHandle(actionRef, () => {
+    return {
+      pagination: reqPagination,
+      data: optRef.current,
+      setData: setOpt,
+    };
+  });
 
   /**
    * 判断是否 disabled
@@ -135,77 +141,78 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
     setOpt(options ?? []);
   }, [options]);
 
-  const onChange = (
-    nextTargetKeys: string[],
-    direction: TransferDirection,
-    moveKeys: string[],
-  ) => {
-    if (limitMaxCount) {
-      if (direction === 'left') {
-        const newList = optRef.current.map((item) => {
-          return {
-            ...item,
-            disabled: false,
-          };
-        });
-        setOpt([...newList]);
-      } else {
-        // 此时左侧的数据
-        const sourceSelectedList = optRef.current.filter(
-          (item) => !nextTargetKeys.includes(item[valueKey]),
-        );
-        const targetSelectedList = optRef.current
-          .filter((item) => nextTargetKeys.includes(item[valueKey]))
-          .map((item) => ({ ...item, disabled: false }));
-        // 得到可选择的个数: 减去右侧
-        const canSelectCount = limitMaxCount - nextTargetKeys.length;
-        isDisabled(sourceSelectedList, targetSelectedList, canSelectCount);
-      }
-    }
-
-    transferProps?.onChange?.(nextTargetKeys, direction, moveKeys);
-    restProps?.onChange?.(nextTargetKeys, direction, moveKeys);
-  };
-
-  const onSelectChange = (
-    leftSelectedKeys: string[], // 左
-    rightSelectedKeys: string[], // 右
-  ) => {
-    restProps?.onSelectChange?.(leftSelectedKeys, rightSelectedKeys);
-
-    if (!limitMaxCount || rightSelectedKeys?.length) return;
-
-    // 得到可选择的个数: 减去右侧、左侧已选择的个数
-    const canSelectCount =
-      limitMaxCount - value.length - leftSelectedKeys.length;
-    // 此时左侧的数据
-    const sourceSelectedList = optRef.current.filter(
-      (item: RecordType) => ![...value].includes(item[valueKey]),
-    );
-    // 此时右侧的数据
-    const targetSelectedList = optRef.current
-      .filter((item: RecordType) => [...value].includes(item[valueKey]))
-      .map((item) => ({ ...item, disabled: false }));
-
-    if (canSelectCount > 0 && sourceSelectedList.length >= canSelectCount) {
-      sourceSelectedList.forEach((item: RecordType) => {
-        item.disabled = false;
-      });
-    } else {
-      // 设置disabled
-      sourceSelectedList.forEach((item: RecordType) => {
-        // 过滤掉已经选择的
-        if (!leftSelectedKeys.includes(item[valueKey])) {
-          item.disabled = true;
+  const onChange = useMemoizedFn(
+    (
+      nextTargetKeys: string[],
+      direction: TransferDirection,
+      moveKeys: string[],
+    ) => {
+      if (limitMaxCount) {
+        if (direction === 'left') {
+          const newList = optRef.current.map((item) => {
+            return {
+              ...item,
+              disabled: false,
+            };
+          });
+          setOpt([...newList]);
         } else {
-          item.disabled = false;
+          // 此时左侧的数据
+          const sourceSelectedList = optRef.current.filter(
+            (item) => !nextTargetKeys.includes(item[valueKey]),
+          );
+          const targetSelectedList = optRef.current
+            .filter((item) => nextTargetKeys.includes(item[valueKey]))
+            .map((item) => ({ ...item, disabled: false }));
+          // 得到可选择的个数: 减去右侧
+          const canSelectCount = limitMaxCount - nextTargetKeys.length;
+          isDisabled(sourceSelectedList, targetSelectedList, canSelectCount);
         }
-      });
-    }
-    // console.log('onSelectChange-sourceSelectedList', sourceSelectedList);
-    // console.log('onSelectChange-targetSelectedList', targetSelectedList);
-    setOpt([...sourceSelectedList, ...targetSelectedList]);
-  };
+      }
+
+      transferProps?.onChange?.(nextTargetKeys, direction, moveKeys);
+      restProps?.onChange?.(nextTargetKeys, direction, moveKeys);
+    },
+  );
+  const onSelectChange = useMemoizedFn(
+    (
+      leftSelectedKeys: string[], // 左
+      rightSelectedKeys: string[], // 右
+    ) => {
+      transferProps?.onSelectChange?.(leftSelectedKeys, rightSelectedKeys);
+
+      if (!limitMaxCount || rightSelectedKeys?.length) return;
+
+      // 得到可选择的个数: 减去右侧、左侧已选择的个数
+      const canSelectCount =
+        limitMaxCount - value.length - leftSelectedKeys.length;
+      // 此时左侧的数据
+      const sourceSelectedList = optRef.current.filter(
+        (item: RecordType) => ![...value].includes(item[valueKey]),
+      );
+      // 此时右侧的数据
+      const targetSelectedList = optRef.current
+        .filter((item: RecordType) => [...value].includes(item[valueKey]))
+        .map((item) => ({ ...item, disabled: false }));
+
+      if (canSelectCount > 0 && sourceSelectedList.length >= canSelectCount) {
+        sourceSelectedList.forEach((item: RecordType) => {
+          item.disabled = false;
+        });
+      } else {
+        // 设置disabled
+        sourceSelectedList.forEach((item: RecordType) => {
+          // 过滤掉已经选择的
+          if (!leftSelectedKeys.includes(item[valueKey])) {
+            item.disabled = true;
+          } else {
+            item.disabled = false;
+          }
+        });
+      }
+      setOpt([...sourceSelectedList, ...targetSelectedList]);
+    },
+  );
 
   return (
     <ConfigProvider locale={zhCN}>

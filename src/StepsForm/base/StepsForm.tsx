@@ -9,6 +9,7 @@ import type { FormInstance, StepProps, StepsProps } from 'antd';
 import { Form, Steps } from 'antd';
 import { default as classnames } from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
+import { isFunction } from 'lighting-design/_utils';
 import type { FC, MutableRefObject, ReactElement, ReactNode } from 'react';
 import { Children, cloneElement, useImperativeHandle, useRef } from 'react';
 import StepForm from './StepForm';
@@ -310,7 +311,7 @@ const StepsForm: FC<LStepsFormProps> & {
 
   // 最终的提交
   const submit = useMemoizedFn(async () => {
-    if (typeof onFinish === 'function') {
+    if (isFunction(onFinish)) {
       let values;
       if (isMergeValues) {
         // 合并每个表单的值
@@ -320,7 +321,7 @@ const StepsForm: FC<LStepsFormProps> & {
       } else {
         values = formDataRef.current;
       }
-      const ret = onFinish(values);
+      const ret = onFinish?.(values);
       if (ret instanceof Promise) {
         setLoading(true);
         try {

@@ -27,7 +27,6 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
     ...restProps
   } = props;
   const isSpace = useMemo(() => disabledWhiteSpace, [disabledWhiteSpace]);
-
   // 处理input类型
   const realType = useMemo(() => {
     if (type === 'phone' || type === 'idCard' || type === 'bankCard') {

@@ -27,6 +27,13 @@ export default () => {
       }}
     >
       <LFormItemTransfer
+        contentAfter={false}
+        contentInline={false}
+        transferProps={{
+          listStyle: {
+            flex: 'auto',
+          },
+        }}
         required
         pagination
         label="穿梭框"

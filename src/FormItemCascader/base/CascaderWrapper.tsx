@@ -1,5 +1,6 @@
 import {
   useDeepCompareEffect,
+  useMemoizedFn,
   useRequest,
   useSafeState,
   useUpdateEffect,
@@ -72,7 +73,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   name,
 
   requestOptions,
-  ...restProps // LFormItem传过来的其他值
+  ...restProps // LFormItem 传过来的其他值
 }) => {
   const [optsRequest, setOptsRequest] = useState<LCascaderOption[]>([]);
   const [loading, setLoading] = useSafeState<boolean>(
@@ -149,6 +150,11 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
     }
   }, [isClearDepends, opts, optsRequest]);
 
+  const handleCahnge = useMemoizedFn((value, selectedOptions) => {
+    cascaderProps?.onChange?.(value, selectedOptions);
+    onChange?.(value, selectedOptions);
+  });
+
   const dom = (
     <Cascader
       disabled={disabled ?? isClearDepends}
@@ -156,7 +162,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
       options={selectOptions}
       {...cascaderProps}
       value={value}
-      onChange={onChange}
+      onChange={handleCahnge}
     />
   );
 

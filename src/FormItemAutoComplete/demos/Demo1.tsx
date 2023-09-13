@@ -19,14 +19,24 @@ const EmailSuffix = [
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
-  const [options1, setOptions1] = useState<{ value: string; label: string }[]>([]);
+  const [options1, setOptions1] = useState<{ value: string; label: string }[]>(
+    [],
+  );
   const onSearch = (searchText: string) => {
     setOptions1(
-      !searchText ? [] : [mockVal(searchText, 1), mockVal(searchText, 2), mockVal(searchText, 3)],
+      !searchText
+        ? []
+        : [
+            mockVal(searchText, 1),
+            mockVal(searchText, 2),
+            mockVal(searchText, 3),
+          ],
     );
   };
 
-  const [options, setOptions] = useState<{ value: string; label: string }[]>([]);
+  const [options, setOptions] = useState<{ value: string; label: string }[]>(
+    [],
+  );
 
   const updateOptions = (val?: string) => {
     const [valPrefix, valSuffix] = val.split('@');

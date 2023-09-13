@@ -39,7 +39,12 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm form={form}>
+    <LForm
+      form={form}
+      onFinish={async (va) => {
+        console.log('va', va);
+      }}
+    >
       <LFormItemSelect
         label="select选择"
         name="select"
@@ -59,6 +64,11 @@ const Demo1 = () => {
           console.log('request-params', params);
           // if (!params) return [];
           return options;
+        }}
+        cascaderProps={{
+          onChange(value) {
+            console.log('value111', value);
+          },
         }}
       />
     </LForm>

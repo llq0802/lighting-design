@@ -1,9 +1,6 @@
+import { isFunction } from 'lighting-design/_utils';
 import type { SetStateAction } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-
-const isFunction = (patch: any) => {
-  return typeof patch === 'function';
-};
 
 /**
  * useState的回调 setState第二个参数(回调函数)获取最新的state并执行一些操作

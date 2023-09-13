@@ -2,18 +2,26 @@ import type { SpinProps, TransferProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import { isFunction } from 'lighting-design/_utils';
 import { useContext, type FC } from 'react';
 import type { FieldNames, RecordType } from './base/TransferWrapper';
 import TransferWrapper from './base/TransferWrapper';
 
 export type LFormItemTransferActionRef = {
-  current: number;
-  pageSize: number;
-  total: number;
-  totalPage: number;
-  onChange: (current: number, pageSize: number) => void;
-  changeCurrent: (current: number) => void;
-  changePageSize: (pageSize: number) => void;
+  /** 分页信息及方法 */
+  pagination: {
+    current: number;
+    pageSize: number;
+    total: number;
+    totalPage: number;
+    onChange: (current: number, pageSize: number) => void;
+    changeCurrent: (current: number) => void;
+    changePageSize: (pageSize: number) => void;
+  };
+  /** 数据源 */
+  data: RecordType[];
+  /** 更新数据的state */
+  setData: React.Dispatch<React.SetStateAction<RecordType[]>>;
 };
 
 export type LFormItemTransferProps = {
@@ -115,7 +123,7 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
 
-  const isCustomTransfer = typeof transferProps?.children === 'function';
+  const isCustomTransfer = isFunction(transferProps?.children);
 
   return (
     <LFormItem

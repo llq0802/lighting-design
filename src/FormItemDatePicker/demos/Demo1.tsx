@@ -28,6 +28,11 @@ const Demo1 = () => {
         label="日期选择"
         name="date1"
         picker="date"
+        pickerProps={{
+          onChange(e) {
+            console.log('e', e);
+          },
+        }}
       />
       <LFormItemDatePicker
         placeholder={'日期选择9'}

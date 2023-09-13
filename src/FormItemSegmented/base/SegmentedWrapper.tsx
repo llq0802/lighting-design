@@ -1,5 +1,6 @@
 import {
   useDeepCompareEffect,
+  useMemoizedFn,
   useRequest,
   useSafeState,
   useUpdateEffect,
@@ -16,7 +17,7 @@ import {
   useIsFirstRender,
 } from 'lighting-design/_utils';
 import type { FC, ReactNode } from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export type SegmentedWrapperProps = Record<string, any> & {
   request?: (...args: any[]) => Promise<any>;
@@ -139,15 +140,12 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
     }
   }, [isClearDepends, opts, optsRequest]);
 
-  const handleChange = useCallback(
-    (val: SegmentedValue) => {
-      if (segmentedProps?.onChange) {
-        segmentedProps?.onChange(val);
-      }
-      onChange?.(val);
-    },
-    [onChange, segmentedProps],
-  );
+  const handleChange = useMemoizedFn((val: SegmentedValue) => {
+    if (segmentedProps?.onChange) {
+      segmentedProps?.onChange(val);
+    }
+    onChange?.(val);
+  });
 
   const SegmentedDom = (
     //  @ts-ignore

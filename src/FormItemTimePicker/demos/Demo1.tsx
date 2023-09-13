@@ -21,6 +21,11 @@ const Demo1 = () => {
         required
         contentAfter={<div>后面</div>}
         contentInline
+        timePickerProps={{
+          onChange(va) {
+            console.log('va', va);
+          },
+        }}
       />
       <LFormItemTimePicker
         label="时间选择2"

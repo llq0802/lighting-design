@@ -1,5 +1,6 @@
 import {
   useDeepCompareEffect,
+  useMemoizedFn,
   useRequest,
   useSafeState,
   useUpdateEffect,
@@ -13,7 +14,7 @@ import {
   useIsFirstRender,
 } from 'lighting-design/_utils';
 import type { FC } from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export type RateWrapperProps = Record<string, any> &
   Partial<{
@@ -120,12 +121,12 @@ const RateWrapper: FC<RateWrapperProps> = ({
     }
   }, [isClearDepends, reqCount, count]);
 
-  const handleChange = useCallback((num: number) => {
-    onChange?.(num);
+  const handleChange = useMemoizedFn((num: number) => {
     if (rateProps?.onChange) {
       rateProps?.onChange(num);
     }
-  }, []);
+    onChange?.(num);
+  });
 
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>

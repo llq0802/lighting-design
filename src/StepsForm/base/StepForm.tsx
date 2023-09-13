@@ -5,6 +5,7 @@ import { Form } from 'antd';
 import classnames from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
+import { isFunction } from 'lighting-design/_utils';
 import { useContext, useEffect, useRef } from 'react';
 import StepsFormContext from './StepsFormContext';
 import type { LStepsFormSubmitterProps } from './StepsSubmitter';
@@ -62,7 +63,7 @@ function StepForm({
 
   // 当前表单的提交
   const handleFinsh = useMemoizedFn(async (values) => {
-    let ret: unknown = typeof onFinish === 'function' ? onFinish(values) : true;
+    let ret: unknown = isFunction(onFinish) ? onFinish?.(values) : true;
     if (ret instanceof Promise) {
       try {
         ctx?.setLoading(true);

@@ -4,6 +4,7 @@ import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef } from 'react';
+import { jsonToExcel } from '../utils';
 import { apiGetUserList, columns } from './service';
 
 const formItems = [
@@ -30,11 +31,22 @@ const Demo: FC = () => {
   const toolbarLeft = (
     <>
       <Button type="primary">新增</Button>
+      <Button type="primary">审批</Button>
     </>
   );
   const toolbarRight = (
     <>
-      <Button type="primary">审批</Button>
+      <Button
+        type="primary"
+        onClick={() => {
+          jsonToExcel({
+            columns: columns as Parameters<typeof jsonToExcel>[0]['columns'],
+            data: tableRef.current?.tableData as Record<string, any>,
+          });
+        }}
+      >
+        导出
+      </Button>
     </>
   );
 

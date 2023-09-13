@@ -36,7 +36,7 @@ const Demo3 = () => {
     });
 
   return (
-    <LForm name="LFormItemTreeSelect11" form={form}>
+    <LForm form={form}>
       <LFormItemTreeSelect
         label="树形选择"
         name="tree"
