@@ -1,4 +1,5 @@
 import type { InputProps, ModalProps, TabPaneProps, TabsProps } from 'antd';
+import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -55,15 +56,15 @@ export interface LFormItemIconProps extends LFormItemProps {
 
 const LFormItemIcon: FC<LFormItemIconProps> = ({
   showIcon = true,
-  iconStyle = {},
-  activeIconStyle = {},
+  iconStyle = emptyObject,
+  activeIconStyle = emptyObject,
   required = false,
   disabled,
   options,
   extendRender,
   modalProps,
   tabsProps,
-  inputProps = {},
+  inputProps = emptyObject,
   itemRender,
   placeholder,
   ...restProps

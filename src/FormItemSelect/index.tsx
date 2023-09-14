@@ -1,4 +1,5 @@
 import type { SelectProps, SpinProps } from 'antd';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -46,9 +47,9 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   all = false,
   allValue = '',
   allLabel = '全部',
-  options = [],
-  selectProps = {},
-  requestOptions = {},
+  options = emptyArray,
+  selectProps = emptyObject,
+  requestOptions = emptyObject,
   spin,
 
   required,

@@ -5,6 +5,7 @@ import {
 } from 'lighting-design/ColorPick';
 import type { ColorChromePickerProps } from 'lighting-design/ColorPick/components/ChromePicker';
 import type { ColorSketchPickerProps } from 'lighting-design/ColorPick/components/SketchPicker';
+import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -32,7 +33,8 @@ const LFormItemColor: FC<LFormItemColorProps> = ({
   required = false,
   colorType = 'sketch',
   disabled,
-  colorProps = {},
+  colorProps = emptyObject,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   placeholder,
   ...restProps
 }) => {

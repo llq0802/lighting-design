@@ -16,19 +16,9 @@ const App: React.FC = () => {
     <>
       <LTable
         toolbarLeft={
-          <>
-            <Button type="primary" onClick={handleUploadChange}>
-              导出 Excel
-            </Button>
-            {/* <Upload
-              onChange={async (files: any[]) => {
-                const res = await getExcelData(files.file.originFileObj);
-                console.log('res', res);
-              }}
-            >
-              <Button type="primary">Click to Upload-2</Button>
-            </Upload> */}
-          </>
+          <Button type="primary" onClick={handleUploadChange}>
+            导出 Excel
+          </Button>
         }
         rowKey="key"
         tableRef={tableRef}

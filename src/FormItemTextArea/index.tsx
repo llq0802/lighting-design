@@ -1,4 +1,5 @@
 import type { TextAreaProps } from 'antd/lib/input';
+import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -30,7 +31,7 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
   required = false,
   disabled,
   placeholder,
-  textAreaProps = {},
+  textAreaProps = emptyObject,
   ...restProps
 }) => {
   const messagePlaceholder = usePlaceholder({

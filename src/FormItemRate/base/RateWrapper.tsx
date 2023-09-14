@@ -7,6 +7,7 @@ import {
 } from 'ahooks';
 import type { RateProps, SpinProps } from 'antd';
 import { Form, Rate, Spin } from 'antd';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import {
   useDependValues,
@@ -43,11 +44,11 @@ const RateWrapper: FC<RateWrapperProps> = ({
   onChange,
   count,
   outLoading,
-  dependencies = [],
+  dependencies = emptyArray,
   request,
   debounceTime,
-  rateProps = {},
-  requestOptions = {},
+  rateProps = emptyObject,
+  requestOptions = emptyObject,
   disabled,
   name,
   ...restProps

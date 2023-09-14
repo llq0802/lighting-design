@@ -1,5 +1,5 @@
 import type { PasswordProps } from 'antd/lib/input/Password';
-import { PASSWORD_REG } from 'lighting-design/constants';
+import { emptyObject, PASSWORD_REG } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -75,7 +75,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   disabledWhiteSpace = true,
   disabledPaste = true,
   disabledCopy = true,
-  passwordProps = {},
+  passwordProps = emptyObject,
   required,
   disabled,
   placeholder,

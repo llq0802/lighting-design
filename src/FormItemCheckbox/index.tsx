@@ -1,5 +1,6 @@
 import type { SpinProps } from 'antd';
 import type { CheckboxOptionType } from 'antd/lib/checkbox';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -51,14 +52,14 @@ export interface LFormItemCheckboxProps
 const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   request,
   beforeAll,
-  options = [],
-  checkboxProps = {},
+  options = emptyArray,
+  checkboxProps = emptyObject,
   debounceTime,
   disabled,
   required,
   spin,
   notDependRender,
-  requestOptions = {},
+  requestOptions = emptyObject,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);

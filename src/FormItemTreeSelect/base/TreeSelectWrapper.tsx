@@ -7,6 +7,7 @@ import {
 } from 'ahooks';
 import type { SpinProps, TreeSelectProps } from 'antd';
 import { Form, Spin, TreeSelect } from 'antd';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import {
   useDependValues,
@@ -73,17 +74,17 @@ export type LTreeSelectOption = {
 const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   value,
   onChange,
-  dependencies = [],
-  treeData: outTreeData = [],
+  dependencies = emptyArray,
+  treeData: outTreeData = emptyArray,
   treeCheckable = false,
   request,
   debounceTime,
   disabled,
   placeholder,
   loadData,
-  treeSelectProps = {},
+  treeSelectProps = emptyObject,
   outLoading,
-  requestOptions = {},
+  requestOptions = emptyObject,
   name,
   ...restProps // LFormItem传过来的其他值
 }) => {

@@ -8,6 +8,7 @@ import {
 import type { SelectProps, SpinProps } from 'antd';
 import { Form, Select, Spin } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import {
   useDependValues,
@@ -67,18 +68,18 @@ export interface LSelectOptions {
 const SelectWrapper: FC<SelectWrapperProps> = ({
   value,
   onChange,
-  dependencies = [],
+  dependencies = emptyArray,
   placeholder,
-  options: outOptions = [],
+  options: outOptions = emptyArray,
   request,
   debounceTime,
   all = false,
   disabled,
   allValue = '',
   allLabel = '全部',
-  selectProps = {},
+  selectProps = emptyObject,
   outLoading,
-  requestOptions = {},
+  requestOptions = emptyObject,
   name,
   ...restProps
 }) => {

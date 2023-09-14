@@ -1,4 +1,5 @@
 import type { SpinProps } from 'antd';
+import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -37,7 +38,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   disabled,
   spin,
   count = 5,
-  requestOptions = {},
+  requestOptions = emptyObject,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);

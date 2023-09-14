@@ -1,6 +1,7 @@
 import type { SliderSingleProps } from 'antd';
 import { Slider } from 'antd';
 import type { SliderRangeProps } from 'antd/lib/slider';
+import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -49,7 +50,7 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
   railStyle,
   sliderStyle,
   placeholder,
-  sliderProps = {},
+  sliderProps = emptyObject,
   ...restProps
 }) => {
   const messagePlaceholder = usePlaceholder({

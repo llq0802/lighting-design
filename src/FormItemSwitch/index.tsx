@@ -1,6 +1,7 @@
 import { useMemoizedFn } from 'ahooks';
 import type { SwitchProps } from 'antd';
 import { Switch } from 'antd';
+import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -76,7 +77,7 @@ export interface LFormItemSwitchProps extends LFormItemProps {
 const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
   checkedBg,
   unCheckedBg,
-  switchProps = {},
+  switchProps = emptyObject,
 
   required,
   disabled,

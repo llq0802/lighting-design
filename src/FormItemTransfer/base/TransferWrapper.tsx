@@ -9,6 +9,7 @@ import { ConfigProvider, Spin, Transfer } from 'antd';
 import type { TransferDirection } from 'antd/es/transfer';
 import zhCN from 'antd/locale/zh_CN';
 import classnames from 'classnames';
+import { emptyArray } from 'lighting-design/constants';
 import { useImperativeHandle, type FC } from 'react';
 import type { LFormItemTransferProps } from '..';
 
@@ -41,7 +42,7 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
     fieldNames = { label: 'title', value: 'key' },
     limitMaxCount = 0,
     transferProps,
-    options = [],
+    options = emptyArray,
     request,
     requestOptions,
     actionRef,

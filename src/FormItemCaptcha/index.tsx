@@ -1,4 +1,5 @@
 import type { LCaptchaButtonProps } from 'lighting-design/CaptchaButton';
+import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -58,8 +59,8 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   initText = '获取验证码',
   autoFocusOnGetCaptcha,
   onGetCaptcha,
-  inputProps = {},
-  buttonProps = {},
+  inputProps = emptyObject,
+  buttonProps = emptyObject,
   placeholder,
   disabled,
   cancelRef,

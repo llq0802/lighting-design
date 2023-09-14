@@ -3,6 +3,7 @@ import type { ButtonProps, InputProps, InputRef } from 'antd';
 import { Divider, Input } from 'antd';
 import { LCaptchaButton } from 'lighting-design';
 import type { LCaptchaButtonProps } from 'lighting-design/CaptchaButton';
+import { emptyObject } from 'lighting-design/constants';
 import type { ChangeEvent, CSSProperties, FC } from 'react';
 import { useImperativeHandle, useMemo, useRef, useState } from 'react';
 
@@ -90,8 +91,8 @@ const CodeInput: FC<CodeInputProps> = ({
   onGetCaptcha = () => true,
   autoClick = false,
   autoFocusOnGetCaptcha = true,
-  inputProps = {},
-  buttonProps = {},
+  inputProps = emptyObject,
+  buttonProps = emptyObject,
 
   ...restProps
 }) => {

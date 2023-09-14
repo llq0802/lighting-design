@@ -1,4 +1,5 @@
 import type { SpinProps } from 'antd';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -26,12 +27,12 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   required,
   disabled,
   placeholder,
-  options = [],
+  options = emptyArray,
   request,
   debounceTime,
   spin,
-  cascaderProps = {},
-  requestOptions = {},
+  cascaderProps = emptyObject,
+  requestOptions = emptyObject,
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({

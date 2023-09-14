@@ -1,5 +1,6 @@
 import type { ModalProps } from 'antd';
 import { Modal } from 'antd';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { memo } from 'react';
 
@@ -7,7 +8,12 @@ export interface PreviewProps extends ModalProps {
   imgUrl: string;
 }
 
-const Preview: FC<PreviewProps> = ({ imgUrl = '', title = '预览', style = {}, ...restProps }) => {
+const Preview: FC<PreviewProps> = ({
+  imgUrl = '',
+  title = '预览',
+  style = emptyObject,
+  ...restProps
+}) => {
   return (
     <Modal
       title={title}

@@ -1,5 +1,6 @@
 import type { CascaderProps, ColProps, InputProps } from 'antd';
 import { Cascader, Col, Input, Row } from 'antd';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem';
 import LFormItem from 'lighting-design/FormItem';
@@ -85,14 +86,14 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
   label,
   required = false,
   disabled,
-  options = [],
+  options = emptyArray,
   placeholder = ['请选择省/市/区', '请输入详细地址'],
-  inputFormProps = {},
-  cascaderFormProps = {},
-  cascaderProps = {},
-  inputProps = {},
-  inputColProps = {},
-  cascaderColProps = {},
+  inputFormProps = emptyObject,
+  cascaderFormProps = emptyObject,
+  cascaderProps = emptyObject,
+  inputProps = emptyObject,
+  inputColProps = emptyObject,
+  cascaderColProps = emptyObject,
   style,
   ...restProps
 }) => {

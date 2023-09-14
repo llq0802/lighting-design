@@ -12,6 +12,7 @@ import type {
   CheckboxGroupProps,
 } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import {
   useDependValues,
@@ -79,16 +80,16 @@ export type CheckboxWrapperProps = Record<string, any> &
   }>;
 
 const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
-  value = [],
+  value = emptyArray,
   onChange,
-  dependencies = [],
-  options: outOptions = [],
+  dependencies = emptyArray,
+  options: outOptions = emptyArray,
   request,
   debounceTime,
   beforeAll,
-  checkboxProps = {},
+  checkboxProps = emptyObject,
   disabled,
-  outLoading = {},
+  outLoading = emptyObject,
   notDependRender = <span>请先选择依赖项</span>,
   requestOptions,
   name,

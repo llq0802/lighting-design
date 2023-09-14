@@ -7,6 +7,7 @@ import {
 } from 'ahooks';
 import type { CascaderProps, SpinProps } from 'antd';
 import { Cascader, Form, Spin } from 'antd';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import {
   useDependValues,
@@ -62,13 +63,13 @@ export interface LCascaderOption {
 const CascaderWrapper: FC<CascaderWrapperProps> = ({
   value,
   onChange,
-  dependencies = [],
-  options: outOptions = [],
+  dependencies = emptyArray,
+  options: outOptions = emptyArray,
   request,
   debounceTime,
-  cascaderProps = {},
+  cascaderProps = emptyObject,
   placeholder,
-  outLoading = {},
+  outLoading = emptyObject,
   disabled,
   name,
 

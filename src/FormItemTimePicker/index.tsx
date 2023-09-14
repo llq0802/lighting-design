@@ -3,7 +3,7 @@ import type { TimePickerProps, TimeRangePickerProps } from 'antd';
 import { TimePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import 'dayjs/locale/zh-cn';
-import { TIME_LIST } from 'lighting-design/constants';
+import { emptyObject, TIME_LIST } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -183,7 +183,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
 
   dateValueType = 'string',
   format = 'HH:mm:ss',
-  timePickerProps = {},
+  timePickerProps = emptyObject,
   placeholder,
   disabledHourBefore,
   disabledHourAfter,

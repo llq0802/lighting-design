@@ -11,6 +11,7 @@ import type {
   SegmentedLabeledOption,
   SegmentedValue,
 } from 'antd/lib/segmented';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import {
   useDependValues,
   useIsClearDependValues,
@@ -50,15 +51,15 @@ export type SegmentedWrapperProps = Record<string, any> & {
 const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   value,
   onChange,
-  dependencies = [],
+  dependencies = emptyArray,
   notDependRender = <span>请先选择依赖项</span>,
-  options: outOptions = [],
+  options: outOptions = emptyArray,
   request,
   outLoading,
   disabled,
   debounceTime,
-  segmentedProps = {},
-  requestOptions = {},
+  segmentedProps = emptyObject,
+  requestOptions = emptyObject,
   name,
   ...restProps
 }) => {

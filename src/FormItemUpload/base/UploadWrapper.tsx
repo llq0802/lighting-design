@@ -5,6 +5,7 @@ import type { ImgCropProps } from 'antd-img-crop';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { RcFile, UploadFile } from 'antd/lib/upload';
 import classNames from 'classnames';
+import { emptyObject } from 'lighting-design/constants';
 import { uniqueId } from 'lighting-design/_utils';
 import type { FC } from 'react';
 import { useMemo, useRef, useState } from 'react';
@@ -90,7 +91,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     dragger = false,
     maxSize = 1024 * 1024 * 5,
     onUpload,
-    previewModalProps = {},
+    previewModalProps = emptyObject,
     cropProps,
     buttonProps,
 

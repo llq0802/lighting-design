@@ -6,6 +6,8 @@ toc: content
 
 # 组件总览
 
+务必仔细阅读每一个组件的注意事项！！！
+
 ## 基础组件
 
 - [LCaptchaButton] - 按钮倒计时

@@ -1,5 +1,6 @@
 import type { InputNumberProps } from 'antd';
 import { Input, InputNumber, Space } from 'antd';
+import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem';
 import LFormItem from 'lighting-design/FormItem';
@@ -14,7 +15,7 @@ function NumberRange({
   onChange,
   separator = '~',
   separatorWidth = 30,
-  separatorStyle = {},
+  separatorStyle = emptyObject,
   placeholder,
   disabled,
   leftNumberProps,
@@ -135,9 +136,9 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
   placeholder,
   separatorWidth = 30,
   separator,
-  separatorStyle = {},
-  leftNumberProps = {},
-  rightNumberProps = {},
+  separatorStyle = emptyObject,
+  leftNumberProps = emptyObject,
+  rightNumberProps = emptyObject,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);

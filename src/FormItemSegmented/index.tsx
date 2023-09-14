@@ -3,6 +3,7 @@ import type {
   SegmentedLabeledOption,
   SegmentedValue,
 } from 'antd/lib/segmented';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -44,9 +45,9 @@ export interface LFormItemSegmentedoProps
 const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
   request,
   debounceTime,
-  options = [],
-  segmentedProps = {},
-  requestOptions = {},
+  options = emptyArray,
+  segmentedProps = emptyObject,
+  requestOptions = emptyObject,
   spin,
   disabled,
   notDependRender,

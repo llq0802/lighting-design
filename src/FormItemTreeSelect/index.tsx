@@ -1,4 +1,5 @@
 import type { SpinProps } from 'antd';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -31,7 +32,7 @@ export interface LFormItemTreeSelectProps
 
 const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   required,
-  treeData = [],
+  treeData = emptyArray,
   treeCheckable = false,
   loadData,
   request,
@@ -39,8 +40,8 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   placeholder,
   debounceTime,
   spin,
-  treeSelectProps = {},
-  requestOptions = {},
+  treeSelectProps = emptyObject,
+  requestOptions = emptyObject,
 
   ...restProps
 }) => {

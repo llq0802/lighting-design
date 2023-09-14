@@ -1,5 +1,6 @@
 import type { InputProps } from 'antd';
 
+import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -37,7 +38,7 @@ export interface LFormItemInputProps extends LFormItemProps {
 const LFormItemInput: FC<LFormItemInputProps> = ({
   type,
   disabledWhiteSpace = true,
-  inputProps = {},
+  inputProps = emptyObject,
   required,
   disabled,
   placeholder,

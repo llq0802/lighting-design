@@ -12,6 +12,7 @@ import type {
   SpinProps,
 } from 'antd';
 import { Form, Radio, Spin } from 'antd';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import {
   useDependValues,
   useIsClearDependValues,
@@ -82,7 +83,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   value,
   onChange,
   outLoading,
-  dependencies = [],
+  dependencies = emptyArray,
   disabled,
   options: outOptions,
   request,
@@ -93,8 +94,8 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
 
   notDependRender = <span>请先选择依赖项</span>,
 
-  radioProps = {},
-  requestOptions = {},
+  radioProps = emptyObject,
+  requestOptions = emptyObject,
 
   ...restProps
 }) => {

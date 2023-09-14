@@ -1,4 +1,5 @@
 import type { SelectProps, SpinProps } from 'antd';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -51,13 +52,13 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   all = false,
   allValue = 'all',
   allLabel = '全部',
-  options = [],
+  options = emptyArray,
   disabled,
-  radioProps = {},
+  radioProps = emptyObject,
   placeholder,
   spin,
   notDependRender,
-  requestOptions = {},
+  requestOptions = emptyObject,
 
   required,
   ...restProps

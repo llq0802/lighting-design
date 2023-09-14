@@ -115,7 +115,7 @@ nav:
 
 <code src='./demos/Demo20.tsx' background="#f5f5f5"></code>
 
-### 表格的导入与导出
+### Excel 导入与导出
 
 [表格的导出](/scene/table-Export)
 [表格的导入](/scene/excel-Import)

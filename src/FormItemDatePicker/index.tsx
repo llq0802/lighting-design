@@ -9,6 +9,7 @@ import type {
 } from 'antd/lib/date-picker';
 import type { Dayjs } from 'dayjs';
 import 'dayjs/locale/zh-cn';
+import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -212,7 +213,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
   picker = 'date',
   showTime = false,
   format,
-  pickerProps = {},
+  pickerProps = emptyObject,
   placeholder,
 
   // normalize,
