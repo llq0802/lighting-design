@@ -257,5 +257,17 @@ export default {
         },
       ],
     },
+    {
+      children: [
+        {
+          title: '表格数据的导出',
+          link: '/scene/table-Export',
+        },
+        {
+          title: '解析 Excel 数据成 JSON',
+          link: '/scene/excel-Import',
+        },
+      ],
+    },
   ],
 };

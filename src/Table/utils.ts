@@ -1,9 +1,33 @@
 import { isFunction } from 'lighting-design/_utils';
 import XLSX from 'xlsx-js-style';
 
-type Json2ExcelOptions = {
+type Columns = {
+  title: string;
+  dataIndex: string;
+  /** 表格导出时隐藏是否隐藏该列 */
+  hiddenInExcel?: boolean;
+  /** 表格导出时自定义导出内容 */
+  exportRender?: (
+    val: any,
+    row: Record<string, any>,
+    i: number,
+  ) => string | number;
+  [k: string]: any;
+};
+
+type FieldNames = {
+  title: string;
+  dataIndex: string;
+};
+
+type Excel = {
+  [key: string]: any;
+  s: Record<string, any>;
+};
+
+export type Json2ExcelOptions = {
   /** 文件名称 */
-  fileName: string;
+  fileName?: string;
   /** excel中是否展示文件的名称及表格的标题 ( 会在excel最上方格 )*/
   hasFileName?: boolean;
   /** excel中是否展示表格标题 */
@@ -13,47 +37,29 @@ type Json2ExcelOptions = {
   /** 表格数据 */
   data: Record<string, any>[];
   /** 表格列 */
-  columns: Array<{
-    title: string;
-    dataIndex: string;
-    hiddenInExcel: boolean;
-    exportRender: (row: any) => string | number;
-    [k: string]: any;
-  }>;
-
+  columns: Array<Columns>;
   /** 自定义节点 title、dataIndex 的字段  配合 columns 使用*/
-  fieldNames?: {
-    title: string;
-    dataIndex: string;
-  };
+  fieldNames?: FieldNames;
   /** 自定义表格标题内容样式 */
-  renderFileNameStyle?: (cellValue: string) => string | { [k: string]: any };
+  renderFileNameStyle?: (cellValue: string) => Excel;
   /** 自定义表格表头内容样式 */
-  renderColumnTitleStyle?: (
-    cellValue: string,
-    colIndex: number,
-  ) => string | { [k: string]: any };
+  renderColumnTitleStyle?: (cellValue: string, colIndex: number) => Excel;
 
   /** 自定义表格数据单元格内容样式 */
   renderCellStyle?: (
     cellValue: string,
     rowIndex: number,
     colIndex: number,
-  ) => string | { [k: string]: any };
+  ) => Excel;
 };
-
 /**
- * 生成Excel
- * @param XLSX
- * @param options
- * @returns
+ * 与 LTable 配合把 JSON 数据转成 Excel 并生成 Excel 到本地
+ * @author 李岚清 <https://github.com/llq0802>
+ * @version 2.1.18
+ * @param {Json2ExcelOptions} options 配置对象
+ * @return 无返回值
  */
-// response.setContentType("application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"); //设置文件类型，这里以.xlsx为例
-// 设置文件的原文件名，若文件名中含有中文则需要解码，否则会出现乱码
-// response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "utf-8"));
-// 这步很关键，需要在给前端返回的请求头中添加Content-Disposition字段
-// response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
-export const jsonToExcel = (options: Json2ExcelOptions) => {
+export const json2Excel = (options: Json2ExcelOptions) => {
   const {
     fieldNames = {
       title: 'title',
@@ -74,12 +80,12 @@ export const jsonToExcel = (options: Json2ExcelOptions) => {
 
   if (!Array.isArray(columns)) {
     // eslint-disable-next-line no-console
-    console.error('参数 columns 必须是数组');
+    console.error('参数 columns 必须是数组!');
     return;
   }
   if (!Array.isArray(data)) {
     // eslint-disable-next-line no-console
-    console.error('参数 data 必须是数组');
+    console.error('参数 data 必须是数组!');
     return;
   }
 
@@ -116,8 +122,11 @@ export const jsonToExcel = (options: Json2ExcelOptions) => {
   // 表头在excel中
   if (hasColumnTitle) {
     const columnsTitle = newColumns.map((column: any, index: number) => {
-      if (typeof renderColumnTitleStyle === 'function') {
-        const renderStyleObj = renderColumnTitleStyle(column[titleKey], index);
+      if (isFunction(renderColumnTitleStyle)) {
+        const renderStyleObj = renderColumnTitleStyle?.(
+          column[titleKey],
+          index,
+        );
         return renderStyleObj || column[titleKey];
       }
       return {
@@ -140,12 +149,13 @@ export const jsonToExcel = (options: Json2ExcelOptions) => {
   // 处理列宽和表格数据
   data.forEach((item: any, rowIndex: number) => {
     const row = newColumns.map((column, index: number) => {
-      // 设置单元格自动宽度
-      let value = isFunction(column?.exportRender)
-        ? column.exportRender?.(item)?.toString()
-        : item[column[dataIndexKey]]?.toString();
+      const curVal = item[column[dataIndexKey]];
+      const value = isFunction(column?.exportRender)
+        ? column.exportRender?.(curVal, item, rowIndex)?.toString()
+        : curVal?.toString();
 
       if (value) {
+        // 设置单元格自动宽度
         let curColWidth = minColWidth;
         if (value.charCodeAt(0) > 255) {
           // 中文 (value.length * 2 + 1)留出2个汉字半的宽度
@@ -210,28 +220,25 @@ export const jsonToExcel = (options: Json2ExcelOptions) => {
   XLSX.writeFile(wb, `${fileName}.xlsx`);
 };
 
-type Excel2JsonOptions = {
-  file: File; // 附件
-  fieldNames?: {
-    title: string;
-    dataIndex: string;
-  };
-  columns: Array<{
-    title: string;
-    dataIndex: string;
-    [k: string]: any;
-  }>;
+export type Excel2JsonOptions = {
+  /** 原始文件或者 Blob */
+  file: Blob;
+  /** 自定义节点 title、dataIndex 的字段  配合 columns 使用*/
+  fieldNames?: FieldNames;
+  /** 表格的列 */
+  columns: Array<Omit<Columns, 'hiddenInExcel' | 'exportRender'>>;
 };
 
 /**
- * Excel转Json数据
- * @param XLSX xlsx-js-style
- * @param options
- * @returns
+ * 与 LTable 配合把 Excel 转 Json 数据
+ * @author 李岚清 <https://github.com/llq0802>
+ * @version 2.1.18
+ * @param {Excel2JsonOptions} options 配置对象
+ * @return 返回JSON形式的表格数据
  */
-export const excelToJson = (
+export const excel2Json = (
   options: Excel2JsonOptions,
-): Promise<Record<string, any>> => {
+): Promise<Record<string, any>[]> => {
   return new Promise((resolve, reject) => {
     const {
       file,
@@ -261,7 +268,7 @@ export const excelToJson = (
         type: 'binary', // 手动转化
       });
       // 获取json格式的Excel数据
-      const result = XLSX.utils.sheet_to_json(
+      const result: Record<string, any>[] = XLSX.utils.sheet_to_json(
         workbook.Sheets[workbook.SheetNames[0]],
         {
           defval: 'null', // 单元格为空时的默认值
@@ -269,8 +276,9 @@ export const excelToJson = (
       );
 
       if (Array.isArray(result) && result.length) {
-        result.forEach((item: any) => {
+        result.forEach((item: any, i) => {
           columns.forEach((col: any) => {
+            item.key = `${i}`; // 生成唯一索引
             item[col[dataIndexKey]] = item[col[titleKey]];
             delete item[col[titleKey]];
           });
@@ -295,7 +303,16 @@ const getExcelHeaderRow = (sheet: XLSX.WorkSheet | any) => {
   return headers;
 };
 
-export const getExcelData = (rawFile: Blob) => {
+/**
+ * 解析 Excel 的数据 转成JSON
+ * @author 李岚清 <https://github.com/llq0802>
+ * @version 2.1.18
+ * @param {Blob} rawFile 原始文件对象或 Blob
+ * @return 包含excel头的数组 以及内容数据的body
+ */
+export const getExcelData = (
+  rawFile: Blob,
+): Promise<{ header: string[]; body: Record<string, any>[] }> => {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsArrayBuffer(rawFile);
@@ -305,8 +322,14 @@ export const getExcelData = (rawFile: Blob) => {
       const firstSheetName = workbook.SheetNames[0];
       const worksheet: XLSX.WorkSheet = workbook.Sheets[firstSheetName];
       const header = getExcelHeaderRow(worksheet);
-      const body = XLSX.utils.sheet_to_json(worksheet);
+      const body: Record<string, any>[] = XLSX.utils.sheet_to_json(worksheet);
       resolve({ header, body });
     };
   });
 };
+
+// response.setContentType("application/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8"); //设置文件类型，这里以.xlsx为例
+// 设置文件的原文件名，若文件名中含有中文则需要解码，否则会出现乱码
+// response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(fileName, "utf-8"));
+// 这步很关键，需要在给前端返回的请求头中添加Content-Disposition字段
+// response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");

@@ -23,7 +23,6 @@ nav:
 
 ### 查询框
 
-<code src='./demos/Demo22.tsx' background="#f5f5f5"></code>
 <code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
 
 ### 操作栏
@@ -116,6 +115,11 @@ nav:
 
 <code src='./demos/Demo20.tsx' background="#f5f5f5"></code>
 
+### 表格的导入与导出
+
+[表格的导出](/scene/table-Export)
+[表格的导入](/scene/excel-Import)
+
 ### 编辑表格
 
 [编辑表格行](https://ant.design/components/table-cn#components-table-demo-edit-row)
@@ -167,6 +171,8 @@ nav:
 - 对于很`复杂的表单`作为`LTable`的查询参数时, 可通过自定义表单然后在`onFinish`事件中调用 `tableRef.current.onSearch()` 并在 `request` 中获取表单的值并整合分页参数后传值给接口函数
 
 - 内部默认优化了数据多时性能特别差，滚动页面会特别卡顿问题, 鼠标移入每个单元格`tr`时不会再有 `ant-table-cell-hover`类名, 如果想回到原 Table 默认的类名 请查看 [示例](/components/table#回到-antd-table-默认的-tr-元素属性)
+
+- 无特殊情况，建议把 `columns` 与 `formItems` `toolbarActionConfig` 等引用类型都配置到函数组件的外部作用域。
   :::
 
 ```ts

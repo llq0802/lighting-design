@@ -255,14 +255,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     return tmpColumns;
   }, [columnKeys, outColumns, contentRender]);
 
-  // useDeepCompareEffect(() => {
-  //   const newKeys = outColumns.map(
-  //     (item, i) => `${item?.dataIndex || ''}-${item.key || ''}-${i}`,
-  //   );
-  //   setColumnKeys(newKeys);
-  //   console.log('useUpdateEffect');
-  // }, [outColumns]);
-
   // ==================== 表格大小以及列的处理-结束====================
 
   // 内部loading

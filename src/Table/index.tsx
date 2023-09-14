@@ -8,4 +8,5 @@ export type {
   LTableRequestParams,
   LTableRequestType,
 } from './base/types';
+export * from './utils';
 export default LTable;
