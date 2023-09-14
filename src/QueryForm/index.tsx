@@ -4,15 +4,15 @@ import type { ColProps } from 'antd';
 import { Col, Row, Space, theme, Typography } from 'antd';
 import type { Gutter } from 'antd/es/grid/row';
 import classnames from 'classnames';
+import { emptyObject } from 'lighting-design/constants';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import LFormItem from 'lighting-design/FormItem';
 import type { CSSProperties, FC } from 'react';
 import { cloneElement, memo, useState } from 'react';
 
-const { getDesignToken, useToken } = theme;
-
-const { Text, Link } = Typography;
+const { useToken } = theme;
+const { Link } = Typography;
 const prefixCls = 'lightd-form-query';
 
 interface CollapseProps {
@@ -113,7 +113,7 @@ function LQueryForm(props: LQueryFormProps) {
     isCollapsed = true,
     showColsNumber,
     className,
-    itemColProps = {},
+    itemColProps = emptyObject,
     isSpace = false,
     gutter = 16,
     isApproachLastItem = false,

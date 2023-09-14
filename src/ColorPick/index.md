@@ -21,11 +21,11 @@ nav:
 
 ## API
 
-> -
-
 :::warning{title=注意}
 
 - 其中 `LColorChromePicker` `LColorSketchPicker` 在颜色模式为 `rgb` 时，支持设置透明度。
+
+- 在表单中推荐使用 [LFormItemColor](/components/form-item-color)
 
   :::
 

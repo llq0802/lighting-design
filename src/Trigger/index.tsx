@@ -201,6 +201,7 @@ import { useControllableValue, useUpdateEffect } from 'ahooks';
 import type { PopoverProps, SelectProps } from 'antd';
 import { Popover, Select } from 'antd';
 import classnames from 'classnames';
+import { emptyObject } from 'lighting-design/constants';
 import type { ReactNode } from 'react';
 import React, { cloneElement, useRef } from 'react';
 
@@ -393,8 +394,8 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     destroyOnHide,
 
     children,
-    selectProps = {},
-    popoverProps = {},
+    selectProps = emptyObject,
+    popoverProps = emptyObject,
   } = props;
   const selectRef = useRef<any>();
 

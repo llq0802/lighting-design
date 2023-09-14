@@ -2,6 +2,7 @@ import { useMemoizedFn } from 'ahooks';
 import type { ButtonProps, FormInstance } from 'antd';
 import { Button, Space } from 'antd';
 import type { FormProps } from 'antd/es/form';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { useMemo } from 'react';
 
@@ -42,8 +43,8 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     onReset = () => {},
     submitText = '提交',
     resetText = '重置',
-    submitButtonProps: outSubmitButtonProps = {},
-    resetButtonProps: outResetButtonProps = {},
+    submitButtonProps: outSubmitButtonProps = emptyObject,
+    resetButtonProps: outResetButtonProps = emptyObject,
     showReset = true,
     form,
     render,

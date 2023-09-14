@@ -1,6 +1,7 @@
 import { CheckOutlined, DoubleRightOutlined } from '@ant-design/icons';
 import { useControllableValue } from 'ahooks';
 import classnames from 'classnames';
+import { emptyObject } from 'lighting-design/constants';
 import React, { forwardRef } from 'react';
 import './index.less';
 import useVerify from './useVerify';
@@ -189,13 +190,13 @@ function SliderVerify(props: LSliderVerifyProps) {
     bgColor = '#F2F3F5',
     tips = '请按住滑块，拖动到最右边',
     bar = <DoubleRightOutlined />,
-    barStyle: outBarStyle = {},
-    tipsStyle = {},
-    style: outStyle = {},
+    barStyle: outBarStyle = emptyObject,
+    tipsStyle = emptyObject,
+    style: outStyle = emptyObject,
 
     successBgColor = '#52c41a',
     successTips = '验证已通过',
-    successTipsStyle = {},
+    successTipsStyle = emptyObject,
     successBar = <CheckOutlined />,
 
     successShowBar = true,

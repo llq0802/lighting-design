@@ -47,6 +47,7 @@ const Demo2 = () => {
             tooltip="禁止空格"
           />
         </LStepsForm.StepForm>
+
         <LStepsForm.StepForm name="StepsForm2" title="步骤2">
           <LFormItemInput
             name="phone1"

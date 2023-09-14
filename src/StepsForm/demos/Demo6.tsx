@@ -96,13 +96,13 @@ const Demo2 = () => {
       >
         <LStepsForm.StepForm title="步骤1">
           <LFormItemInput
-            name="name1"
+            name="name11"
             label="名字1"
             required
             tooltip="禁止空格"
           />
           <LFormItemInput
-            name="name2"
+            name="name21"
             label="名字2"
             required
             tooltip="禁止空格"
@@ -110,7 +110,7 @@ const Demo2 = () => {
         </LStepsForm.StepForm>
         <LStepsForm.StepForm title="步骤2">
           <LFormItemInput
-            name="phone"
+            name="phone4"
             label="手机号"
             required
             tooltip="禁止空格 只能输入数字"

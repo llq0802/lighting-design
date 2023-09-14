@@ -2,6 +2,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { DrawerProps } from 'antd';
 import { Drawer, Form } from 'antd';
 import classnames from 'classnames';
+import { emptyObject } from 'lighting-design/constants';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import { isFunction } from 'lighting-design/_utils';
@@ -102,12 +103,12 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     title = '标题',
     width = 600,
     placement = 'right',
-    drawerProps = {},
+    drawerProps = emptyObject,
     actionBarDir = 'footer',
     children,
 
     className,
-    initialValues: outInitialValues = {},
+    initialValues: outInitialValues = emptyObject,
     form: outForm,
     onFinish,
     loading,

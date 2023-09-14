@@ -6,6 +6,7 @@ import {
 import { useFullscreen } from 'ahooks';
 import type { SpaceProps } from 'antd';
 import { ConfigProvider, Space, Tooltip } from 'antd';
+import { emptyObject } from 'lighting-design/constants';
 import type { CSSProperties, FC } from 'react';
 import { useContext } from 'react';
 import TableContext from '../TableContext';
@@ -103,7 +104,7 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
     columnSetting: 3,
   },
   onReloadIconChange,
-  style = {},
+  style = emptyObject,
   ...restProps
 }) => {
   const arrDom = [];

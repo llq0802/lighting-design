@@ -2,6 +2,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import { Tag } from 'antd';
 import classnames from 'classnames';
 import type { ValueType } from 'lighting-design/CardGroup';
+import { emptyArray } from 'lighting-design/constants';
 import type { ReactNode } from 'react';
 
 export type LTagGroupOptions = {
@@ -106,7 +107,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     itemClassName,
     allValue = 'all',
     multiple,
-    options = [],
+    options = emptyArray,
     showAllChecked = true,
     allCheckedText = '全部',
     disabled,

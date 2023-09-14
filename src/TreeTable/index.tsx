@@ -8,6 +8,7 @@ import {
 import type { TableProps } from 'antd';
 import { Checkbox, Table } from 'antd';
 import classnames from 'classnames';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import React from 'react';
 import './index.less';
 import type {
@@ -128,6 +129,7 @@ export type LTreeTableProps = {
     record: Record<string, any>,
     idx: number,
   ) => React.ReactNode;
+  tableProps?: Record<string, any>;
 } & Omit<TableProps<Record<string, any>>, 'columns' | 'dataSource'>;
 
 const prefixCls = 'lightd-tree-table';
@@ -136,9 +138,9 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
   const {
     className,
 
-    fieldNames: outFieldNames = {},
-    columns: outColumns = [],
-    treeData = [],
+    fieldNames: outFieldNames = emptyObject,
+    columns: outColumns = emptyArray,
+    treeData = emptyArray,
     lastColumnMerged = false,
     checkStrictly = false,
     disabled: outDisabled = false,
@@ -156,7 +158,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     value,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onChange,
-    tableProps = {},
+    tableProps = emptyObject,
     ...restProps
   } = props;
 

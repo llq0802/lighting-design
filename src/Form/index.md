@@ -61,6 +61,8 @@ nav:
 
 - `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps`的`preventDefault`为`true`所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
 
+- 动态渲染表单中的某一项请查看 [动态渲染某一项表单项](/components/form-item#使用-shouldupdate-动态渲染)
+
 :::
 
 ```ts

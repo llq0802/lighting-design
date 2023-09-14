@@ -57,7 +57,7 @@ import { LTrigger } from 'lighting-design';
 |   overlayArrow    |  修改弹出层的箭头的显示状态以及修改箭头是否指向目标元素中心  |                       `boolean` \| `{ pointAtCenter: boolean }`                       |               `false`               |
 |    allowClear     |                           清除图标                           |                          `boolean\| { clearIcon :ReactNode}`                          |               `true`                |
 |     placement     |                       弹出层弹出的位置                       |                                      `Placement`                                      |           `'bottomLeft'`            |
-|   destroyOnHide   |             弹出层关闭时是否销毁 `children` 组件             |                                       `boolean`                                       |              `'false'`              |
+|   destroyOnHide   |             弹出层关闭时是否销毁 `children` 组件             |                                       `boolean`                                       |               `false`               |
 |     bordered      |                       组件是否需要边框                       |                                       `boolean`                                       |               `true`                |
 |     disabled      |                           是否禁用                           |                                       `boolean`                                       |               `false`               |
 |    placeholder    |                         placeholder                          |                                       `string`                                        |             `'请选择'`              |

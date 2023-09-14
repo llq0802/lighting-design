@@ -10,6 +10,7 @@ import zhCN from 'antd/es/locale/zh_CN';
 import type { Key } from 'antd/es/table/interface';
 import type { ColumnGroupType, ColumnType } from 'antd/lib/table';
 import classnames from 'classnames';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import {
   useEffect,
@@ -41,11 +42,8 @@ const TdCell = (props: any) => {
   return <td {...restProps} />;
 };
 
-const defaultArray: any[] = [];
 /**
  * 表格组件
- * @param props
- * @returns
  */
 const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const {
@@ -58,8 +56,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     tableRef,
 
     fullScreenBgColor = '#fff',
-    defaultRequestParams = {},
-    requestOptions = {},
+    defaultRequestParams = emptyObject,
+    requestOptions = emptyObject,
     request = async () => {},
     autoRequest = true,
     formInitialValues,
@@ -71,7 +69,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     tableRender,
     showToolbar = true,
     isReady = true,
-    toolbarActionConfig: outToolbarActionConfig = {},
+    toolbarActionConfig: outToolbarActionConfig = emptyObject,
     toolbarRender,
     toolbarLeft,
     toolbarRight,
@@ -85,11 +83,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     tableStyle,
     toolbarStyle,
     size: outSize,
-    columns = defaultArray,
+    columns = emptyArray,
     components,
     style,
 
-    formItems = defaultArray,
+    formItems = emptyArray,
 
     pagination: outPagination,
 
@@ -197,7 +195,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const [currentSize, setCurrentSize] = useRafState(() => outSize);
   // 存储外部columns 是否设置序号
   const outColumns = useMemo(() => {
-    if (contentRender) return defaultArray;
+    if (contentRender) return emptyArray;
     if (isSort) {
       const { current, pageSize } = paginationAction;
       const render = (_: any, __: any, index: number) =>
@@ -233,7 +231,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   }, [outSize]);
 
   const finalColumns = useMemo(() => {
-    if (contentRender) return defaultArray;
+    if (contentRender) return emptyArray;
 
     const tmpColumns: Record<string, any>[] = [];
     const sortColumnKeys = columnKeys.sort((a, b) => {

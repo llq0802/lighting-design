@@ -39,7 +39,7 @@ nav:
 
 :::warning{title=注意}
 
-- 如果要设置高度 请通过 `height` 以保证滚动的计算
+- 如果要设置组件的高度 请通过 `height` 以保证滚动的计算
 
 - 如果要改变字体样式 请通过 `style` 或者 `className`
   :::
@@ -51,7 +51,7 @@ import { LNumberRoll } from 'lighting-design';
 |   参数    |                说明                |                类型                |   默认值   |
 | :-------: | :--------------------------------: | :--------------------------------: | :--------: |
 |   type    |                类型                |         `'date'\|'number'`         | `'number'` |
-|  height   |              组件高度              |          `string\|number`          |    `45`    |
+|  height   |             组件的高度             |          `string\|number`          |    `45`    |
 |   value   |                 值                 |          `string\|number`          |    `1`     |
 | minLength |        最小位数（个位数起）        |              `number`              |    `-`     |
 |   scale   |              缩放大小              |              `number`              |    `1`     |

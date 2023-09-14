@@ -1,6 +1,7 @@
 import { forwardRef, type ReactNode } from 'react';
 // import styles from './index.module.less';
 import classnames from 'classnames';
+import { emptyObject } from 'lighting-design/constants';
 import './index.less';
 
 export interface LH5PreviewProps {
@@ -47,7 +48,7 @@ const LH5Preview = ({
   deviceColor = 'white',
   scale = 1,
   className,
-  style = {},
+  style = emptyObject,
   children,
 }: LH5PreviewProps) => {
   const innerClassName = classnames(

@@ -8,6 +8,7 @@ import {
 import type { FormInstance, StepProps, StepsProps } from 'antd';
 import { Form, Steps } from 'antd';
 import { default as classnames } from 'classnames';
+import { emptyObject } from 'lighting-design/constants';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import { isFunction } from 'lighting-design/_utils';
 import type { FC, MutableRefObject, ReactElement, ReactNode } from 'react';
@@ -192,9 +193,9 @@ const StepsForm: FC<LStepsFormProps> & {
     defaultCurrent = 0,
     actionRef,
     onFinish,
-    stepsProps = {},
-    submitter = {},
-    formProps = {},
+    stepsProps = emptyObject,
+    submitter = emptyObject,
+    formProps = emptyObject,
     stepsRender,
     stepFormRender,
     stepsFormRender,
@@ -496,7 +497,7 @@ const StepsForm: FC<LStepsFormProps> & {
     // 每个表单dom
     formDom = childs.map((itemFrom: any, index) => {
       const isCurrentIndex = stepNum === index;
-      const name = itemFrom.props?.name || `${index}`; // 每个表单的name 没有则用index
+      const name = itemFrom.props?.name || `${index}`; // 每个步骤表单的name 没有则用index
       const currentSubmitter = formSubmitterRef.current[stepNum]; // 当前from的配置
       const buttonAlign = (submitter as Record<string, any>)?.buttonAlign;
 

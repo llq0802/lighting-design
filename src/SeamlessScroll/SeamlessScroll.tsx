@@ -10,6 +10,7 @@ import React, {
 import { throttle } from 'throttle-debounce';
 
 import { useUpdateEffect } from 'ahooks';
+import { emptyArray } from 'lighting-design/constants';
 import type { ReactNode } from 'react';
 declare type EaseType =
   | {
@@ -185,7 +186,7 @@ function dataWarm(list: Record<string, any>[]) {
  */
 const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   const {
-    list = [],
+    list = emptyArray,
     limitScrollNum = 3,
     copyNum: outCopyNum = 1,
     hover = false,

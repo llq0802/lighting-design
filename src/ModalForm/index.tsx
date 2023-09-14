@@ -2,6 +2,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal } from 'antd';
 import classnames from 'classnames';
+import { emptyObject } from 'lighting-design/constants';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
@@ -89,11 +90,11 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     title = '标题',
     width = 600,
     forceRender = false,
-    modalProps = {},
+    modalProps = emptyObject,
     children,
     className,
     form: outForm,
-    initialValues: outInitialValues = {},
+    initialValues: outInitialValues = emptyObject,
     onFinish,
     loading,
     submitter,
