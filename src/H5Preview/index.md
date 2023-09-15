@@ -5,8 +5,7 @@ toc: content
 
 # LH5Preview
 
-用于在 PC 端预览手机内容 , 目前支持 `iPhone6` 的尺寸 `375 x 667` 和
-`iPhone14Pro` 的尺寸 `428 x 868`
+用于在 PC 端预览手机内容 , 目前支持 `iPhone6` 的尺寸 `375 x 667` 与`iPhone14Pro` 的尺寸 `428 x 868`
 
 ## 代码演示
 
@@ -27,6 +26,12 @@ toc: content
 <code src='./demos/Demo4.tsx'></code>
 
 ## API
+
+:::warning{title=注意}
+
+- 不能自行改变组件的宽高 , 只能通过 `scale`等比例缩放来改变以保证手机的尺寸
+
+:::
 
 ```ts
 import { LH5Preview } from 'lighting-design';
