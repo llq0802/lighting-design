@@ -1,6 +1,6 @@
 {
   "name": "lighting-design",
-  "version": "2.1.18",
+  "version": "2.1.19",
   "description": "🎨 Lighting Design 是一款使用 TypeScript + React 编写的实用业务组件库。",
   "keywords": [
     "lighting-design",
@@ -63,7 +63,8 @@
     "react-color": "^2.19.3",
     "react-draggable": "^4.4.5",
     "throttle-debounce": "^5.0.0",
-    "typeit-react": "^2.6.4"
+    "typeit-react": "^2.6.4",
+    "xlsx-js-style": "^1.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
@@ -86,8 +87,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-infinite-scroll-component": "^6.1.0",
-    "stylelint": "^14.9.1",
-    "xlsx-js-style": "^1.2.0"
+    "stylelint": "^14.9.1"
   },
   "peerDependencies": {
     "antd": ">=5.0.0",

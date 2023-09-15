@@ -12,7 +12,7 @@ export interface LFormItemNumberProps extends LFormItemProps {
   /**
    * InputNumber的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LFormItemNumberProps
    *@see https://ant.design/components/input-number-cn/#api
    */
@@ -20,14 +20,14 @@ export interface LFormItemNumberProps extends LFormItemProps {
   /**
    * 最小值
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LFormItemNumberProps
    */
   min?: number;
   /**
    * 最大值
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LFormItemNumberProps
    */
   max?: number;

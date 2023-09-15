@@ -22,21 +22,21 @@ export interface LFormItemSegmentedoProps
   /**
    *当依赖项发生变化时重新请求的防抖时间
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LFormItemSegmentedoProps
    */
   debounceTime?: number;
   /**
    *数据化配置选项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LFormItemSegmentedoProps
    */
   options?: (SegmentedValue | SegmentedLabeledOption)[];
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LFormItemSegmentedoProps
    */
   spin?: SpinProps;

@@ -31,26 +31,71 @@ export interface FormItemIconOptions<T = IconTabsOptions> {
   TwoTone?: T;
 }
 export interface LFormItemIconProps extends LFormItemProps {
-  /** 选择图标后是否展示 (只支持antd内置图标，如果自定义图标请设置inputProps的prefix属性) */
+  /**
+   *选择图标后是否展示 (只支持antd内置图标，如果自定义图标请设置inputProps的prefix属性)
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LFormItemIconProps
+   */
   showIcon?: boolean;
-  /** 弹窗里面所有图标样式 */
+  /**
+   *弹窗里面所有图标样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LFormItemIconProps
+   */
   iconStyle?: React.CSSProperties;
-  /** 选择图标后的图标样式 */
+  /**
+   *选择图标后的图标样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LFormItemIconProps
+   */
   activeIconStyle?: React.CSSProperties;
-  /** input 输入框配置 */
+  /**
+   *Input 输入框配置
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LFormItemIconProps
+   */
   inputProps?: InputProps;
-  /** modal 弹出框配置 */
+  /**
+   *Modal 弹出框配置
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LFormItemIconProps
+   */
   modalProps?: ModalProps;
-  /** tabs 标签页配置 */
+  /**
+   *Tabs 组件配置
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LFormItemIconProps
+   */
   tabsProps?: TabsProps;
-  /** 默认图标配置 */
+  /**
+   *默认图标配置
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LFormItemIconProps
+   */
   options?: FormItemIconOptions;
-  /** 自定义图标配置 */
+  /**
+   *自定义图标配置
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LFormItemIconProps
+   */
   extendRender?: {
     IconFont: any;
     options: FormItemIconTabsExtendOptions[];
   };
-  /** 自定义item渲染 */
+  /**
+   *自定义item渲染
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LFormItemIconProps
+   */
   itemRender?: (item: string, node: React.ReactNode) => React.ReactNode;
 }
 

@@ -38,7 +38,7 @@ export type LStepsFormProps = {
   /**
    * 设置后变为受控模式。当前表单的步骤数。
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LStepsFormProps
    *@see https://ant.design/components/grid-cn#col
    */
@@ -46,7 +46,7 @@ export type LStepsFormProps = {
   /**
    *  发生改变的事件
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   onCurrentChange?: (current: number) => void;
@@ -54,7 +54,7 @@ export type LStepsFormProps = {
   /**
    * 组件最外层容器类名
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   className?: string;
@@ -62,7 +62,7 @@ export type LStepsFormProps = {
   /**
    * 表单外层容器的类名
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   contentClassName?: string;
@@ -70,7 +70,7 @@ export type LStepsFormProps = {
   /**
    * 默认当前的步骤
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   defaultCurrent?: number;
@@ -78,42 +78,42 @@ export type LStepsFormProps = {
   /**
    * 被隐藏时是否销毁 DOM 结构
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   destroyStepForm?: boolean;
   /**
    * 是否将 onFinish 的得到的所有 form 数据合并
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   isMergeValues?: boolean;
   /**
    * 是否提交完成后需要重置
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   isResetFields?: boolean;
   /**
    * 是否准备好
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   isReady?: boolean;
   /**
    * 实例包含一些方法和属性
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   actionRef?: MutableRefObject<LStepsFormActionRef | undefined>;
   /**
    * 在哪步为最终的提交操作, 用于触发 onFinish 默认为表单最后一步
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   submitStepNum?: number;
@@ -121,7 +121,7 @@ export type LStepsFormProps = {
   /**
    * 默认表单最后一步提交成功触发，如果返回true就会自动重置表单(包括StepForm变回第一步)
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   onFinish?: (valuse: Record<string, any>) => Promise<void | boolean>;
@@ -129,7 +129,7 @@ export type LStepsFormProps = {
   /**
    *上一步下一步提交按钮的配置项
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   submitter?: LStepsFormSubmitterProps | false;
@@ -137,14 +137,14 @@ export type LStepsFormProps = {
   /**
    *antd Steps 组件的属性
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   stepsProps?: StepsProps;
   /**
    *LForm 组件的属性
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   formProps?: Omit<
@@ -154,7 +154,7 @@ export type LStepsFormProps = {
   /**
    * 重新渲染整个组件
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   stepsFormRender?: (
@@ -165,14 +165,14 @@ export type LStepsFormProps = {
   /**
    * 重新渲染每个表单组件
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   stepFormRender?: (dom: ReactNode, index: number) => ReactNode;
   /**
    * 重新渲染步骤组件
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.18
+   * @version 2.1.19
    * @memberof LStepsFormProps
    */
   stepsRender?: (dom: ReactNode, items: StepProps[]) => ReactNode;

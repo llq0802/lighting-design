@@ -16,42 +16,42 @@ export interface LEllipsisTextProps extends DOMAttributes<HTMLSpanElement> {
   /**
    *类名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LEllipsisTextProps
    */
   className?: string;
   /**
    *样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LEllipsisTextProps
    */
   style?: CSSProperties;
   /**
    * 最大字符串长度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LEllipsisTextProps
    */
   maxLength?: number;
   /**
    * 最大元素宽度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LEllipsisTextProps
    */
   maxWidth?: number | string;
   /**
    * 自定义空字符的节点
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LEllipsisTextProps
    */
   emptyText?: React.ReactNode;
   /**
    * antd 的 tooltip
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LEllipsisTextProps
    */
   tooltip?: boolean | TooltipProps;

@@ -24,7 +24,7 @@ export interface LFormItemTreeSelectProps
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LFormItemTreeSelectProps
    */
   spin?: SpinProps;

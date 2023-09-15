@@ -24,21 +24,21 @@ export interface LFormItemRadioProps
   /**
    * 依赖项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LFormItemRadioProps
    */
   dependencies?: string[];
   /**
    * 当依赖项发生变化时重新请求的防抖时间
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LFormItemRadioProps
    */
   debounceTime?: number;
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.18
+   *@version 2.1.19
    *@memberof LFormItemRadioProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
