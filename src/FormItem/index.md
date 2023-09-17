@@ -44,7 +44,7 @@ nav:
 
 :::warning{title=注意}
 
-- `LFormItemXXX` 组件均是通过此组件二次封装
+- `LFormItemXXX` 组件均是通过此组件二次封装 , 所以`LFormItemXXX`组件均支持以下的配置项
 
 - `LFormItemXXX` `LFormItem` `Form.Item`必须作为`LForm`或`Form`的子项 , 不能单独使用 , 必须配合 `LForm` 或者 `From` 使用
 

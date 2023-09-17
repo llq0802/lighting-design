@@ -144,7 +144,7 @@ nav:
 
 - 大多数情况尽量使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等 ,特殊场景下你依然可以使用 `dataSource` , 比如: 外层`Skeleton` 骨架屏, 这时 `分页` `loading`都有你来控制
 
-- `request`返回值必须是 `{ success:boolean , data: Record<string, any>[], total: number | string  }`
+- `request`返回值必须是 `{ success:boolean , data: Record<string, any>[], total: number | string  }` 如果与接口返回的数据结构不一致, 请自行处理成符合的数据结构
 
 - `request`的第一个参数为当前的页码和分页数量 如果配置了表单`formItems 的长度大于 0`则还有表单的值 `formValues`
 
@@ -172,7 +172,7 @@ nav:
 
 - 内部默认优化了数据多时性能特别差，滚动页面会特别卡顿问题, 鼠标移入每个单元格`tr`时不会再有 `ant-table-cell-hover`类名, 如果想回到原 Table 默认的类名 请查看 [示例](/components/table#回到-antd-table-默认的-tr-元素属性)
 
-- 无特殊情况，建议把 `columns` 与 `formItems` `toolbarActionConfig` 等引用类型都配置到函数组件的外部作用域。
+- 无特殊情况，建议把 `columns` 与 `formItems` `toolbarActionConfig` `样式对象` 等引用类型都配置到函数组件的外部作用域。
   :::
 
 ```ts

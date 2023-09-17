@@ -15,7 +15,7 @@ order: 1
 
   <img src="https://img.shields.io/github/stars/crazylxr/3dtagcloudforeact.svg" />
 
-Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以 **显著** 的提升制作 CRUD 页面的效率。
+Lighting Design 是基于 Ant Design 扩展的业务场景组件。可以 **显著** 的提升制作 CRUD 页面的效率。
 
 ## 特性
 

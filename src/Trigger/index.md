@@ -36,7 +36,7 @@ import { LTrigger } from 'lighting-design';
 
 - 弹出层的宽度由 `children` 组件控制
 
-- `mode = tag` 下 `value` 配置对象下的 `value` , `label` 属性必须都是数组
+- `mode = 'tag'` 下 `value` 配置对象下的 `value` , `label` 属性必须都是数组
 
 - 如果在 `LForm`或 `Form`中使用，默认接收到的值必须是`{ label: string; value: string; }` ,`fieldNames` 可配置为其他字段名
 
