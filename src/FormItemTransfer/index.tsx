@@ -124,6 +124,7 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
 
+  // 是否为树穿梭或者表格穿梭
   const isCustomTransfer = isFunction(transferProps?.children);
 
   return (
