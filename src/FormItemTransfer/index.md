@@ -44,13 +44,13 @@ toc: content
 
 - `request` 的第一个参数为`page` 第二个参数为`pageSize`, 可配合`pagination` `actionRef`做分页请求
 
-- 在树穿梭框中使用 `limitMaxCount` 无效 ,
+- 在树穿梭框中使用 `limitMaxCount` 无效
 
 - 配置了`limitMaxCount` 你不应该配置全选的功能
 
-- 在不是表格穿梭以及树穿梭的情况下 `contentAfter`为`" "` , `contentInline`为`false` 具体属性说明请看 [LFormItem](/components/form-item) 的 API
+- 在不是`表格穿梭`以及`树穿梭`的情况下 `contentAfter`为`" "` , `contentInline`为`true` , 在`表格穿梭`以及`树穿梭`的情况下 `contentAfter`为`null` , `contentInline`为`false` , 两个属性的具体说明请看 [LFormItem](/components/form-item) 的 API
 
-- `transferProps.listStyle` 可修改组件左右列表的样式 具体请看 antd 穿梭框文档
+- `transferProps.listStyle` 可修改组件左右列表的样式 具体请看 `antd 穿梭框`文档
 
 :::
 
