@@ -57,6 +57,10 @@ export default {
           link: '/components/table',
         },
         {
+          title: 'LEditTable-高级编辑表格',
+          link: '/components/edit-table',
+        },
+        {
           title: 'LList-高级列表',
           link: '/components/list',
         },
