@@ -59,7 +59,7 @@ export interface LFormItemProps extends FormItemProps {
    */
   contentProps?: Record<string, any>;
   /**
-   *  children是否为inline
+   *  children 外层的 div 是否为inline
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.19
    *@memberof LFormItemProps

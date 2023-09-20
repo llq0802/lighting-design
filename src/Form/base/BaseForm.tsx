@@ -158,10 +158,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const formRef = useRef(outForm || form);
   const [loading, setLoading] = useSafeState(outLoading);
   const [initFormValues, setInitFormValues] = useRafState(initialValues ?? {}); // 内部初始值
-  const formId = useMemo(
-    () => `${uniqueId('lightd-form')}__${name ?? ''}}`,
-    [name],
-  );
+  const formId = useMemo(() => name || `${uniqueId('lightd-form')}}}`, [name]);
 
   useUpdateEffect(() => {
     // 准备完成后，重新设置初始值
