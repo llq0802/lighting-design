@@ -15,6 +15,14 @@ nav:
 
 <code src='./demos/Demo2.tsx'></code>
 
+### 竖直模式
+
+<code src='./demos/Demo11.tsx'></code>
+
+### 修改竖直高度
+
+<code src='./demos/Demo12.tsx'></code>
+
 ### 受控模式
 
 <code src='./demos/Demo10.tsx'></code>
@@ -62,9 +70,9 @@ const { StepForm } = LStepsForm;
 
 :::warning{title=注意}
 
-- `isMergeValues` 为 `false` 收集到的值将不合并 此时如果 `LStepsForm.StepForm` 设置了 `name` 属性则以 `name` 作为键
+- `isMergeValues` 为 `false` 收集到的值将不合并 此时如果 `LStepsForm.StepForm` 设置了 `name` 属性则以 `name` 作为键 , 注意此时每 `LStepsForm.StepForm 的 name`不能相同 , 如果 `LStepsForm.StepForm` 没有设置 `name` 属性则以每个 `LStepsForm.StepForm` 的索引作为键,
 
-- 如果 `LStepsForm.StepForm` 没有设置 `name` 属性则以每个 `LStepsForm.StepForm` 的索引作为键
+- `isMergeValues` 为 `true` 将每个`LStepsForm.StepForm`表单的值合并一个对象 , 此时务必保证每个表单中的表单项的`name`不相同
 
 - `LStepsForm` 内容的最外层只能是 `LStepsForm.StepForm`，如果 `LStepsForm.StepForm` 外层有其他元素包裹，将其整体子项封装成一个组件并在 `props` 中将`_stepNum`属性传递给 `LStepsForm.StepForm`
 
@@ -72,41 +80,46 @@ const { StepForm } = LStepsForm;
 
 :::
 
-| 参数             | 说明                                                                                                                                                                                                                                          | 类型                                                                              | 默认值            |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------- |
-| className        | 组件最外层容器类名                                                                                                                                                                                                                            | `string`                                                                          | `-`               |
-| contentClassName | 表单外层容器的类名                                                                                                                                                                                                                            | `string`                                                                          | `-`               |
-| defaultCurrent   | 默认步骤                                                                                                                                                                                                                                      | `number`                                                                          | `0`               |
-| current          | 设置后变为受控模式。当前表单的步骤数。                                                                                                                                                                                                        | `number`                                                                          | `-`               |
-| isResetFields    | `onFinish`返回`true`或`Promise.resolve(true)`时是否可以重置所有表单到初始值和步骤初始值                                                                                                                                                       | `boolean`                                                                         | `true`            |
-| current          | 设置后变为受控模式。当前表单的步骤数。                                                                                                                                                                                                        | `number`                                                                          | `-`               |
-| destroyStepForm  | 被隐藏时是否销毁 DOM 结构                                                                                                                                                                                                                     | `boolean`                                                                         | `false`           |
-| isMergeValues    | 是否将每个表单的值合并后再传入到 `onFinish`的参数中                                                                                                                                                                                           | `boolean`                                                                         | `true`            |
-| submitStepNum    | 在哪一步为最后的提交操作 , 用于触发 `onFinish` 默认为表单最后一步                                                                                                                                                                             | `number`                                                                          | `children.length` |
-| isReady          | 为 `false` 时，禁止上一步、下一步、提交操作。                                                                                                                                                                                                 | `boolean`                                                                         | `true`            |
-| stepsProps       | `antd Steps` 的属性，去掉了 `current` 和 `onChange`                                                                                                                                                                                           | [StepsProps](https://ant.design/components/steps-cn/#api)                         | `-`               |
-| formProps        | `LForm` 的属性，除了没有 `onReset` 和 `submitter` `isReady`                                                                                                                                                                                   | [LFormProps](/components/form)                                                    | `-`               |
-| submitter        | 上一步、下一步、提交按钮的配置 为`false`不渲染                                                                                                                                                                                                | `false \| LStepsFormSubmitterProps`                                               | `-`               |
-| actionRef        | 常用操作引用，便于自定义触发                                                                                                                                                                                                                  | `MutableRefObject<LStepsFormActionRef>`                                           | `-`               |
-| onCurrentChange  | current 发生改变的事件                                                                                                                                                                                                                        | `(current:number) => void`                                                        | `-`               |
-| onFinish         | 全部表单提交成功后调用 , 默认只在最后一步提交之后触发 , 如果配置`submitStepNum`则以在`submitStepNum`步骤时触发. <br>返回`true`或`Promise.resolve(true)`并且`isResetFields`为`true`会重置所有表单 步骤也会回到初始值 , 并且会自动管理`loading` | `async(values) => any`                                                            | `-`               |
-| stepsRender      | 自定义步骤器                                                                                                                                                                                                                                  | `(stepsDom: ReactNode,items: StepsProps['item']) => ReactNode`                    | `-`               |
-| stepFormRender   | 自定义每个表单                                                                                                                                                                                                                                | `(formDom: ReactNode,index:number) => ReactNode`                                  | `-`               |
-| stepsFormRender  | 自定义整个组件                                                                                                                                                                                                                                | `(stepsDom: ReactNode, formDom: ReactNode, submitterDom: ReactNode) => ReactNode` | `-`               |
+| 参数                  | 说明                                                                                                                                                                                                                                          | 类型                                                                              | 默认值            |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------- |
+| direction             | 组件排列模式                                                                                                                                                                                                                                  | `'horizontal' \| 'vertical'`                                                      | `'horizontal'`    |
+| className             | 组件最外层容器类名                                                                                                                                                                                                                            | `string`                                                                          | `-`               |
+| stepsWrapperClassName | `Steps` 组件最外层容器类名                                                                                                                                                                                                                    | `string`                                                                          | `-`               |
+| contentClassName      | 表单外层容器的类名                                                                                                                                                                                                                            | `string`                                                                          | `-`               |
+| style                 | 组件最外层容器样式                                                                                                                                                                                                                            | `CSSProperties`                                                                   | `-`               |
+| stepsWrapperStyle     | `Steps` 组件最外层容器样式                                                                                                                                                                                                                    | `CSSProperties`                                                                   | `-`               |
+| contentStyle          | 表单外层容器的样式                                                                                                                                                                                                                            | `CSSProperties`                                                                   | `-`               |
+| defaultCurrent        | 默认步骤                                                                                                                                                                                                                                      | `number`                                                                          | `0`               |
+| current               | 设置后变为受控模式。当前表单的步骤数。                                                                                                                                                                                                        | `number`                                                                          | `-`               |
+| isResetFields         | `onFinish`返回`true`或`Promise.resolve(true)`时是否可以重置所有表单到初始值和步骤初始值                                                                                                                                                       | `boolean`                                                                         | `true`            |
+| current               | 设置后变为受控模式。当前表单的步骤数。                                                                                                                                                                                                        | `number`                                                                          | `-`               |
+| destroyStepForm       | 被隐藏时是否销毁 DOM 结构                                                                                                                                                                                                                     | `boolean`                                                                         | `false`           |
+| isMergeValues         | 是否将每个表单的值合并后再传入到 `onFinish`的参数中                                                                                                                                                                                           | `boolean`                                                                         | `true`            |
+| submitStepNum         | 在哪一步为最后的提交操作 , 用于触发 `onFinish` 默认为表单最后一步                                                                                                                                                                             | `number`                                                                          | `children.length` |
+| isReady               | 为 `false` 时，禁止上一步、下一步、提交操作。                                                                                                                                                                                                 | `boolean`                                                                         | `true`            |
+| stepsProps            | `antd Steps` 的属性，去掉了 `current` 和 `onChange`                                                                                                                                                                                           | [StepsProps]                                                                      | `-`               |
+| formProps             | `LForm` 的属性，除了没有 `onReset` 和 `submitter` `isReady`                                                                                                                                                                                   | [LFormProps](/components/form)                                                    | `-`               |
+| submitter             | 上一步、下一步、提交按钮的配置 为`false`不渲染                                                                                                                                                                                                | `false \| LStepsFormSubmitterProps`                                               | `-`               |
+| actionRef             | 常用操作引用，便于自定义触发                                                                                                                                                                                                                  | `MutableRefObject<LStepsFormActionRef>`                                           | `-`               |
+| onCurrentChange       | current 发生改变的事件                                                                                                                                                                                                                        | `(current:number) => void`                                                        | `-`               |
+| onFinish              | 全部表单提交成功后调用 , 默认只在最后一步提交之后触发 , 如果配置`submitStepNum`则以在`submitStepNum`步骤时触发. <br>返回`true`或`Promise.resolve(true)`并且`isResetFields`为`true`会重置所有表单 步骤也会回到初始值 , 并且会自动管理`loading` | `async(values) => any`                                                            | `-`               |
+| stepsRender           | 自定义步骤器                                                                                                                                                                                                                                  | `(stepsDom: ReactNode,items: StepsProps['item']) => ReactNode`                    | `-`               |
+| stepFormRender        | 自定义每个表单                                                                                                                                                                                                                                | `(formDom: ReactNode,index:number) => ReactNode`                                  | `-`               |
+| stepsFormRender       | 自定义整个组件                                                                                                                                                                                                                                | `(stepsDom: ReactNode, formDom: ReactNode, submitterDom: ReactNode) => ReactNode` | `-`               |
 
 ### LStepsForm.StepForm
 
 基于 LForm 扩展的表单，没有 `onReset` `isReady`， 除了以下参数，其余和 [LForm](/components/form) 一样。
 
-| 参数          | 说明                                                                                                                                                   | 类型                                                            | 默认值 |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- | ------ |
-| title         | 步骤条标题                                                                                                                                             | `ReactNode`                                                     | `-`    |
-| subTitle      | 步骤条子标题，可选                                                                                                                                     | `ReactNode`                                                     | `-`    |
-| icon          | 步骤图标的类型，可选                                                                                                                                   | `ReactNode`                                                     | `-`    |
-| description   | 步骤的详情描述，可选                                                                                                                                   | `ReactNode`                                                     | `-`    |
-| stepItemProps | 步骤条内的当前步骤配置。与 `antd Steps`的`items`属性相同                                                                                               | [StepsProps.Items](https://ant.design/components/steps-cn/#api) | `-`    |
-| submitter     | 上一步、下一步、提交按钮的配置。会与 LStepsForm 的 submitter 合并，优先级更高。 为`false`不渲染                                                        | `false \|LStepsFormSubmitterProps`                              | `-`    |
-| onFinish      | `(最后一步表单项一般不配置)`当前表单提交成功后调用, 只要不返回`false`或者`Promise.resolve(false)`就会触发下一步或者最后一步的提交并且自动管理`loading` | `async(values) => any`                                          | `-`    |
+| 参数          | 说明                                                                                                                                                   | 类型                               | 默认值 |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- | ------ |
+| title         | 步骤条标题                                                                                                                                             | `ReactNode`                        | `-`    |
+| subTitle      | 步骤条子标题，可选                                                                                                                                     | `ReactNode`                        | `-`    |
+| icon          | 步骤图标的类型，可选                                                                                                                                   | `ReactNode`                        | `-`    |
+| description   | 步骤的详情描述，可选                                                                                                                                   | `ReactNode`                        | `-`    |
+| stepItemProps | 步骤条内的当前步骤配置。与 `antd Steps`的`items`属性相同                                                                                               | [StepsProps.Items]                 | `-`    |
+| submitter     | 上一步、下一步、提交按钮的配置。会与 LStepsForm 的 submitter 合并，优先级更高。 为`false`不渲染                                                        | `false \|LStepsFormSubmitterProps` | `-`    |
+| onFinish      | `(最后一步表单项一般不配置)`当前表单提交成功后调用, 只要不返回`false`或者`Promise.resolve(false)`就会触发下一步或者最后一步的提交并且自动管理`loading` | `async(values) => any`             | `-`    |
 
 ### LStepsFormSubmitterProps
 
@@ -151,3 +164,6 @@ interface LStepsFormActionRef {
   reset: () => void;
 }
 ```
+
+[StepsProps.Items]: https://ant.design/components/steps-cn/#api
+[StepsProps]: https://ant.design/components/steps-cn/#api

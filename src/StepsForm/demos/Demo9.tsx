@@ -22,7 +22,7 @@ const Demo2 = () => {
         submitter={{ buttonAlign: 'center' }}
       >
         <LStepsForm.StepForm
-          name="StepsForm111"
+          name="StepsForm11287921"
           title="步骤1"
           onFinish={async (values) => {
             await awaitTime();
@@ -43,7 +43,7 @@ const Demo2 = () => {
           />
         </LStepsForm.StepForm>
         <LStepsForm.StepForm
-          name="StepsForm222"
+          name="StepsForm227222"
           title="步骤2"
           // 在最后一步的表单项中一般不建议配置
           // onFinish={async (values) => {

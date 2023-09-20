@@ -19,10 +19,11 @@ const Demo2 = () => {
   const actionRef = useRef<LStepsFormActionRef>();
 
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     if (open) {
-      // console.log('actionRef', actionRef.current);
-      actionRef.current.formInstanceList.forEach((item, index) => {
+      actionRef.current?.formInstanceList.forEach((item, index) => {
+        console.log('item', item);
         item.setFieldsValue(formValue);
       });
     }
@@ -35,7 +36,6 @@ const Demo2 = () => {
       </Button>
 
       <LStepsForm
-        // isMergeValues={false}
         actionRef={actionRef}
         onFinish={async (valuse) => {
           await awaitTime();

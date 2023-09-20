@@ -49,11 +49,9 @@ function StepForm({
 
   useEffect(() => {
     // 解决在modal 可能未加载时拿不到 form
-    setTimeout(() => {
-      // 存储每个表单实例
-      ctx.formInstanceListRef.current[_stepNum as number] = outForm || form;
-      ctx?.forgetUpdate();
-    });
+    // 存储每个表单实例
+    ctx.formInstanceListRef.current[_stepNum as number] = outForm || form;
+    ctx?.forgetUpdate();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -36,6 +36,36 @@ export type LStepsFormActionRef = {
 
 export type LStepsFormProps = {
   /**
+   * 指定步骤条方向。目前支持水平（horizontal）和竖直（vertical）两种方向
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LStepsFormProps
+   *@see https://ant.design/components/grid-cn#col
+   */
+  direction?: 'horizontal' | 'vertical';
+  /**
+   *  Steps 组件最外层容器类名
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.19
+   * @memberof LStepsFormProps
+   */
+  stepsWrapperClassName?: string;
+  /**
+   *  Steps 组件最外层容器样式
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.19
+   * @memberof LStepsFormProps
+   */
+  stepsWrapperStyle?: React.CSSProperties;
+
+  /**
+   * 组件最外层容器样式
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.19
+   * @memberof LStepsFormProps
+   */
+  style?: React.CSSProperties;
+  /**
    * 设置后变为受控模式。当前表单的步骤数。
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.19
@@ -58,7 +88,6 @@ export type LStepsFormProps = {
    * @memberof LStepsFormProps
    */
   className?: string;
-
   /**
    * 表单外层容器的类名
    * @author 李岚清 <https://github.com/llq0802>
@@ -66,7 +95,13 @@ export type LStepsFormProps = {
    * @memberof LStepsFormProps
    */
   contentClassName?: string;
-
+  /**
+   * 表单外层容器的样式
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.19
+   * @memberof LStepsFormProps
+   */
+  contentStyle?: React.CSSProperties;
   /**
    * 默认当前的步骤
    * @author 李岚清 <https://github.com/llq0802>
@@ -186,7 +221,15 @@ const StepsForm: FC<LStepsFormProps> & {
 } = (props) => {
   const {
     className,
+    style = emptyObject,
+
     contentClassName,
+    contentStyle = emptyObject,
+
+    stepsWrapperClassName,
+    stepsWrapperStyle = emptyObject,
+
+    direction = 'horizontal',
     isMergeValues = true,
     isResetFields = true,
     isReady = true,
@@ -219,11 +262,9 @@ const StepsForm: FC<LStepsFormProps> & {
 
   // 手动触发更新
   const update = useUpdate();
+  // 延迟到最后更新
   const forgetUpdate = () => {
-    setTimeout(() => {
-      // 延迟到最后更新
-      update();
-    });
+    update();
   };
 
   // 当前步骤
@@ -576,18 +617,38 @@ const StepsForm: FC<LStepsFormProps> & {
       return null;
     }
     const dom = (
-      <Steps {...stepsProps} items={stepsConfigRef.current} current={stepNum} />
+      <Steps
+        {...stepsProps}
+        direction={direction}
+        style={{
+          height: '100%',
+          ...stepsProps?.style,
+        }}
+        items={stepsConfigRef.current}
+        current={stepNum}
+      />
     );
     return stepsRender ? stepsRender(dom, stepsConfigRef.current) : dom;
   };
   const stepsDom = renderStepsDom();
 
   const formContentDom = (
-    <div className={classnames(`${prefixCls}-content`, contentClassName)}>
+    <div
+      className={classnames(`${prefixCls}-content`, contentClassName)}
+      style={contentStyle}
+    >
       {formDom}
     </div>
   );
-  const stepsContentDom = <div className={`${prefixCls}-top`}> {stepsDom}</div>;
+
+  const stepsContentDom = (
+    <div
+      className={classnames(`${prefixCls}-top`, stepsWrapperClassName)}
+      style={stepsWrapperStyle}
+    >
+      {stepsDom}
+    </div>
+  );
 
   return (
     <StepsFormContext.Provider
@@ -607,7 +668,16 @@ const StepsForm: FC<LStepsFormProps> & {
       {stepsFormRender ? (
         stepsFormRender(stepsContentDom, formContentDom, submitterDom)
       ) : (
-        <div className={classnames(prefixCls, className)}>
+        <div
+          className={classnames(
+            prefixCls,
+            {
+              [`${prefixCls}-vertical`]: direction === 'vertical',
+            },
+            className,
+          )}
+          style={style}
+        >
           {stepsContentDom}
           {formContentDom}
         </div>
