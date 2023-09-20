@@ -176,6 +176,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
       <BaseTable
         contentRender={void 0}
         toolbarActionConfig={false}
+        pagination={false}
         dataSource={list}
         rowKey={outRowKey}
         columns={mergedColumns}
