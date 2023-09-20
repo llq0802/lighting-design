@@ -1,6 +1,7 @@
 import { Space } from 'antd';
+import { LFormItemInput, LFormItemNumber } from 'lighting-design';
 import Mock from 'mockjs';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import LEditTable from '../EditableTable';
 
 const defaultData = Mock.mock({
@@ -16,16 +17,18 @@ const defaultData = Mock.mock({
 
 const Demo1 = () => {
   const [editableKeys, setEditableKeys] = useState<string[]>([]);
+  const editTableRef = useRef();
 
   const columns = [
     {
       dataIndex: 'name',
       title: '名字',
-      editable: false,
+      editable: <LFormItemInput />,
     },
     {
       dataIndex: 'age',
       title: '年龄',
+      editable: <LFormItemNumber />,
     },
 
     {
@@ -37,11 +40,13 @@ const Demo1 = () => {
             {editableKeys.includes(record.id) ? (
               <>
                 <a>保存</a>
-                <a>取消</a>
+                <a onClick={() => editTableRef.current?.cancel(record.id)}>
+                  取消
+                </a>
               </>
             ) : (
               <>
-                <a>编辑</a>
+                <a onClick={() => editTableRef.current?.edit(record)}>编辑</a>
                 <a>删除</a>
               </>
             )}
@@ -58,7 +63,8 @@ const Demo1 = () => {
         rowKey="id"
         columns={columns}
         editTableOptions={{
-          editableKeys,
+          editTableRef,
+          editingKeys: editableKeys,
           onEditingKeysChange: setEditableKeys,
         }}
       />

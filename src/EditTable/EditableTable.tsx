@@ -1,9 +1,9 @@
 import { useControllableValue, useDynamicList, useMemoizedFn } from 'ahooks';
 import type { TableProps } from 'antd';
-import { Form } from 'antd';
 import classnames from 'classnames';
 import LForm from 'lighting-design/Form';
 import BaseTable from 'lighting-design/Table/base/BaseTable';
+import { isFunction } from 'lighting-design/_utils';
 import React, { useImperativeHandle, useMemo } from 'react';
 
 const getRowKey = (
@@ -62,6 +62,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
     request,
     columns,
+    size,
     dataSource,
     rowKey: outRowKey,
 
@@ -69,10 +70,10 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
     ...restprops
   } = props;
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
 
   const { list, remove, getKey, move, push, sortList, resetList } =
-    useDynamicList(dataSource);
+    useDynamicList(dataSource ?? []);
 
   console.log('list', list);
 
@@ -90,36 +91,38 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   );
 
   const onEdit = (record: Record<string, any>) => {
+    console.log('form', form.getFieldsValue());
     // form.setFieldsValue({ ...record });
+
     const keyId = getCurentRowKey(record);
     setEditingKeys((prev) => [...prev, keyId]);
     editTableOptions?.onEdit?.(record);
   };
 
   // ====================暴露方法区-开始====================
-  const onCancel = () => {
-    setEditingKeys((prev) => [...prev]);
-    editTableOptions?.onCancel?.();
+  const onCancel = (key: string) => {
+    setEditingKeys((prev) => prev.filter((item) => item !== key));
+    editTableOptions?.onCancel?.(key);
   };
 
   const onSave = async (key: string) => {
-    const row = await form.validateFields();
-    console.log('row', row);
-    const newData = [...(dataSource || [])];
-    const index = newData.findIndex((item) => key === item.key);
-    if (index > -1) {
-      const item = newData[index];
-      newData.splice(index, 1, {
-        ...item,
-        ...row,
-      });
-      // setData(newData);
-      setEditingKeys('');
-    } else {
-      newData.push(row);
-      // setData(newData);
-      setEditingKeys('');
-    }
+    // const row = await form.validateFields();
+    // console.log('row', row);
+    // const newData = [...(dataSource || [])];
+    // const index = newData.findIndex((item) => key === item.key);
+    // if (index > -1) {
+    //   const item = newData[index];
+    //   newData.splice(index, 1, {
+    //     ...item,
+    //     ...row,
+    //   });
+    //   // setData(newData);
+    //   setEditingKeys('');
+    // } else {
+    //   newData.push(row);
+    //   // setData(newData);
+    //   setEditingKeys('');
+    // }
     editTableOptions?.onSave?.();
   };
 
@@ -131,18 +134,38 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
   const mergedColumns = useMemo(() => {
     return columns?.map((col: any) => {
-      if (!col.editable) {
-        return col;
-      }
-      const render = (value, record, index) => {
-        return col.editable;
+      const render = (
+        text: any,
+        record: Record<string, any>,
+        index: number,
+      ) => {
+        const keyId = getCurentRowKey(record);
+
+        if (editingKeys.length && editingKeys.includes(keyId) && col.editable) {
+          return React.cloneElement(col.editable, {
+            // noStyle: true,
+            size: size,
+            name: ['params', getKey(index), col.dataIndex],
+            style: {
+              marginBottom: 0,
+              ...col.editable?.props?.style,
+            },
+          });
+        }
+
+        if (isFunction(col.render)) {
+          return col.render(text, record, index);
+        }
+
+        return text;
       };
+
       return {
         ...col,
         render,
       };
     });
-  }, [columns]);
+  }, [columns, editingKeys.join('')]);
 
   // 暴露外部方法
   useImperativeHandle(editTableOptions.editTableRef, () => ({
@@ -157,26 +180,26 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   }));
   // ====================暴露方法区-结束====================
 
-  console.log('dataSource ', dataSource);
   return (
-    <LForm form={form} submitter={false} component={false}>
+    <LForm form={form} submitter={false} component={false} size={size}>
       <BaseTable
         contentRender={void 0}
-        // dataSource={dataSource}
+        dataSource={list}
         rowKey={outRowKey}
         columns={mergedColumns}
         rowClassName={classnames('light-editable-row', rowClassName)}
-        request={async (...args) => {
-          if (dataSource?.length) {
-            return {
-              success: true,
-              data: dataSource,
-              total: dataSource.length,
-            };
-          }
-          const res = request(...args);
-          return res;
-        }}
+        // request={async (...args) => {
+        //   if (dataSource?.length) {
+        //     return {
+        //       success: true,
+        //       data: dataSource,
+        //       total: dataSource.length,
+        //     };
+        //   }
+        //   const res = request(...args);
+        //   return res;
+        // }}
+        size={size}
         {...restprops}
       />
     </LForm>
