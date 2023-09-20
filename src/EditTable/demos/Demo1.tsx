@@ -1,4 +1,4 @@
-import { Space } from 'antd';
+import { Button, Space } from 'antd';
 import { LFormItemInput, LFormItemNumber } from 'lighting-design';
 import Mock from 'mockjs';
 import { useRef, useState } from 'react';
@@ -7,7 +7,7 @@ import LEditTable from '../EditableTable';
 const defaultData = Mock.mock({
   'list|5': [
     {
-      'id|+1': 1,
+      'id|+1': 11,
       'age|1-99': 20,
       name: '@cname',
       // birthday: '@date',
@@ -39,7 +39,9 @@ const Demo1 = () => {
           <Space>
             {editableKeys.includes(record.id) ? (
               <>
-                <a>保存</a>
+                <a onClick={() => editTableRef.current?.save(record.id)}>
+                  保存
+                </a>
                 <a onClick={() => editTableRef.current?.cancel(record.id)}>
                   取消
                 </a>
@@ -47,7 +49,9 @@ const Demo1 = () => {
             ) : (
               <>
                 <a onClick={() => editTableRef.current?.edit(record)}>编辑</a>
-                <a>删除</a>
+                <a onClick={() => editTableRef.current?.delete(record.id)}>
+                  删除
+                </a>
               </>
             )}
           </Space>
@@ -59,6 +63,10 @@ const Demo1 = () => {
   return (
     <div>
       <LEditTable
+        // size="middle"
+        toolbarLeft={
+          <Button onClick={() => editTableRef.current?.push()}>push</Button>
+        }
         dataSource={defaultData}
         rowKey="id"
         columns={columns}

@@ -17,7 +17,7 @@ const NumberWrapper: FC<NumberWrapperProps> = (props) => {
       min={min}
       max={max}
       autoComplete="off"
-      precision={2}
+      // precision={2}
       style={{ width: '100%' }}
       {...restProps}
       value={value}
