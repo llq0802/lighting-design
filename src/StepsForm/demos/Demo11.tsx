@@ -29,7 +29,7 @@ const Demo2 = () => {
         }}
       >
         <LStepsForm.StepForm
-          name="StepsForm11678"
+          name="StepsForm1145678"
           title="步骤1"
           onFinish={async (values) => {
             await awaitTime();

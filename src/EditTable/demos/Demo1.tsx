@@ -1,8 +1,7 @@
 import { useMount } from 'ahooks';
-import { Button, Space } from 'antd';
+import { Button, Space, Tag } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LFormItemNumber } from 'lighting-design';
-import { awaitTime } from 'lighting-design/_test';
 import Mock from 'mockjs';
 import { useRef, useState } from 'react';
 import LEditTable from '../EditableTable';
@@ -44,6 +43,9 @@ const Demo1 = () => {
       dataIndex: 'age',
       title: '年龄',
       editable: <LFormItemNumber required />,
+      render(val: string) {
+        return <Tag>{val}</Tag>;
+      },
     },
 
     {
@@ -90,15 +92,15 @@ const Demo1 = () => {
             </Button>
           </>
         }
-        // dataSource={defaultData}
-        request={async () => {
-          await awaitTime();
-          return {
-            success: true,
-            data: defaultData,
-            total: defaultData.length,
-          };
-        }}
+        dataSource={defaultData}
+        // request={async () => {
+        //   await awaitTime();
+        //   return {
+        //     success: true,
+        //     data: defaultData,
+        //     total: defaultData.length,
+        //   };
+        // }}
         rowKey="id"
         columns={columns}
         editTableOptions={{
@@ -108,7 +110,7 @@ const Demo1 = () => {
           async onSave(row, isNewRow) {
             console.log('row ', row);
             console.log('isNewRow ', isNewRow);
-            return Promise.reject();
+            // return Promise.reject();
           },
         }}
       />

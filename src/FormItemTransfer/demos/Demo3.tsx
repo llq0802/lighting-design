@@ -39,8 +39,8 @@ export default () => {
         label="穿梭框"
         name="transfer"
         actionRef={actionRef}
-        request={async (page, pageSize) => {
-          console.log(' page-pageSize ', page, pageSize);
+        request={async ({ current, pageSize }) => {
+          console.log(' page-pageSize ', current, pageSize);
           await awaitTime();
           return {
             data: transferMockData,

@@ -18,6 +18,7 @@ const Demo7 = () => {
         </Button>
       </Space>
 
+      {/* 方式一 */}
       <LStepsForm
         onFinish={async (valuse) => {
           await awaitTime();
@@ -40,7 +41,7 @@ const Demo7 = () => {
           );
         }}
       >
-        <LStepsForm.StepForm title="步骤1">
+        <LStepsForm.StepForm title="步骤1" name="dsafui">
           <LFormItemInput
             name={['step1', 'name1']}
             label="名字1"
@@ -54,7 +55,7 @@ const Demo7 = () => {
             tooltip="禁止空格"
           />
         </LStepsForm.StepForm>
-        <LStepsForm.StepForm title="步骤2">
+        <LStepsForm.StepForm title="步骤2" name="dslhjafui">
           <LFormItemInput
             name={['step2', 'phone']}
             label="手机号"
@@ -64,7 +65,7 @@ const Demo7 = () => {
           />
         </LStepsForm.StepForm>
       </LStepsForm>
-
+      {/* 方式二 */}
       <Drawer
         height={330}
         placement="bottom"
@@ -81,7 +82,7 @@ const Demo7 = () => {
             return true;
           }}
         >
-          <LStepsForm.StepForm title="步骤1">
+          <LStepsForm.StepForm title="步骤1" name="dslhjaf1423ui">
             <LFormItemInput
               name={['step1', 'name1']}
               label="名字1"
@@ -95,7 +96,7 @@ const Demo7 = () => {
               tooltip="禁止空格"
             />
           </LStepsForm.StepForm>
-          <LStepsForm.StepForm title="步骤2">
+          <LStepsForm.StepForm title="步骤2" name="dslaf423ui">
             <LFormItemInput
               name={['step2', 'phone']}
               label="手机号"

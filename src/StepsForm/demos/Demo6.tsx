@@ -47,7 +47,7 @@ const Demo2 = () => {
           );
         }}
       >
-        <LStepsForm.StepForm name="step1" title="步骤1">
+        <LStepsForm.StepForm name="step1-1" title="步骤1">
           <LFormItemInput
             name="name1"
             label="名字1"
@@ -61,7 +61,7 @@ const Demo2 = () => {
             tooltip="禁止空格"
           />
         </LStepsForm.StepForm>
-        <LStepsForm.StepForm name="step2" title="步骤2">
+        <LStepsForm.StepForm name="step2-24" title="步骤2">
           <LFormItemInput
             name="phone"
             label="手机号"
@@ -94,7 +94,7 @@ const Demo2 = () => {
           );
         }}
       >
-        <LStepsForm.StepForm title="步骤1">
+        <LStepsForm.StepForm title="步骤1" name="fsd">
           <LFormItemInput
             name="name11"
             label="名字1"
@@ -108,7 +108,7 @@ const Demo2 = () => {
             tooltip="禁止空格"
           />
         </LStepsForm.StepForm>
-        <LStepsForm.StepForm title="步骤2">
+        <LStepsForm.StepForm title="步骤2" name="123jhg123">
           <LFormItemInput
             name="phone4"
             label="手机号"

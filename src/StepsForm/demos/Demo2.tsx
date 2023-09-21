@@ -26,7 +26,7 @@ const Demo2 = () => {
         }}
       >
         <LStepsForm.StepForm
-          name="StepsForm11"
+          name="StepsForm13451"
           title="步骤1"
           onFinish={async (values) => {
             await awaitTime();
@@ -47,7 +47,7 @@ const Demo2 = () => {
           />
         </LStepsForm.StepForm>
         <LStepsForm.StepForm
-          name="StepsForm22"
+          name="StepsForm24572"
           title="步骤2"
           // 在最后一步的表单项中一般不建议配置
           // onFinish={async (values) => {

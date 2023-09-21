@@ -74,11 +74,10 @@ export type LFormItemTransferProps = {
    *@version 2.1.19
    *@memberof LFormItemTransferProps
    */
-  request?: (
-    page: number,
-    pageSize: number,
-    ...args: any[]
-  ) => Promise<{ total: number; data: RecordType[] }>;
+  request?: (info: {
+    current: number;
+    pageSize: number;
+  }) => Promise<{ total: number; data: RecordType[] }>;
   /**
    *ahooks 的配置项
    *@author 李岚清 <https://github.com/llq0802>

@@ -42,9 +42,9 @@ toc: content
 
 - `options` 与 `request` 同时配置时 `options`的优先级更高
 
-- `request` 的第一个参数为`page` 第二个参数为`pageSize`, 可配合`pagination` `actionRef`做分页请求
+- `request` 的参数为 `{ current , pageSize }`, 可配合`pagination` `actionRef`属性做分页请求
 
-- 在树穿梭框中使用 `limitMaxCount` 无效
+- 在`树穿梭框`中使用 `limitMaxCount` 无效
 
 - 配置了`limitMaxCount` 你不应该配置全选的功能
 
@@ -63,7 +63,7 @@ import { LFromItemTransfer } from 'lighting-design';
 | 参数           | 说明                                                                      | 类型                                                                                                   | 默认值                              |
 | -------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------- |
 | options        | 数据源 , 每一项的字段名与 `fieldNames` 配置有关                           | `RecordType[]`                                                                                         | `[]`                                |
-| request        | 请求数据函数                                                              | `(  page: number,  pageSize: number,...args: any[]) => Promise<{ total: number; data:RecordType[]}>`   | `-`                                 |
+| request        | 请求数据函数                                                              | `( info: {current: number; pageSize: number }) => Promise<{ total: number; data:RecordType[]}>`        | `-`                                 |
 | requestOptions | `ahooks` 的配置项 配合 `request` 使用                                     | `Record<string, any>;`                                                                                 | `-`                                 |
 | actionRef      | 包含一些请求分页的方法与属性 配合 request pagination 用于外部控制分页请求 | `MutableRefObject<LFormItemTransferActionRef     \| undefined> `                                       | `-`                                 |
 | limitMaxCount  | 可选的最大数量                                                            | `number`                                                                                               | `-`                                 |

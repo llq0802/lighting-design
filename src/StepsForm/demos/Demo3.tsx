@@ -22,6 +22,7 @@ const Demo = () => {
         actionRef={actionRef}
       >
         <LStepsForm.StepForm
+          name="StepForm789"
           title="步骤1"
           onFinish={async (values) => {
             await awaitTime('', 100);
@@ -33,6 +34,7 @@ const Demo = () => {
         </LStepsForm.StepForm>
 
         <LStepsForm.StepForm
+          name="StepForm82989"
           title="步骤2"
           onFinish={async (values) => {
             console.log('步骤2', values);
