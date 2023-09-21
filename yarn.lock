@@ -4144,8 +4144,8 @@ dumi-assets-types@2.0.0-alpha.0:
   integrity sha512-a/Y5lf0G6gwsEQ9hop/n03CcjmHsGBk384Cz/AEX6mRYrfSpUx/lQvP9HLoXkCzScl9PL1sSmLPnMkgaXDCZLA==
 
 dumi@^2.0.2:
-  version "2.1.19"
-  resolved "https://registry.npmmirror.com/dumi/-/dumi-2.1.19.tgz#3693904096a8de90a36b7206a1708b999b83c8c3"
+  version "2.1.20"
+  resolved "https://registry.npmmirror.com/dumi/-/dumi-2.1.20.tgz#3693904096a8de90a36b7206a1708b999b83c8c3"
   integrity sha512-b0Q7c6T+0Z7if4BWchLomm0E0HgSyQfwB+Sf0KrzF7S+9CXRG9q/Nc0Ebh+9UT/2hPato2cv22UR6Xv280PSOg==
   dependencies:
     "@ant-design/icons-svg" "^4.2.1"
