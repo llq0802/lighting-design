@@ -1,5 +1,8 @@
+import { useMount } from 'ahooks';
 import { Button, Space } from 'antd';
+import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LFormItemNumber } from 'lighting-design';
+import { awaitTime } from 'lighting-design/_test';
 import Mock from 'mockjs';
 import { useRef, useState } from 'react';
 import LEditTable from '../EditableTable';
@@ -15,20 +18,32 @@ const defaultData = Mock.mock({
   ],
 }).list;
 
+const formItems = [
+  <LFormItemInput key="0" name="input4" label="输入框1" />,
+  <LFormItemInput key="1" name="input5" label="输入框2" />,
+  <LFormItemInput key="2" name="input6" label="输入框3" />,
+];
+
 const Demo1 = () => {
+  const tableRef = useRef<LTableInstance>();
+
   const [editableKeys, setEditableKeys] = useState<string[]>([]);
   const editTableRef = useRef();
+
+  useMount(() => {
+    console.log('useMount-tableRef.current', tableRef.current);
+  });
 
   const columns = [
     {
       dataIndex: 'name',
       title: '名字',
-      editable: <LFormItemInput />,
+      editable: <LFormItemInput required />,
     },
     {
       dataIndex: 'age',
       title: '年龄',
-      editable: <LFormItemNumber />,
+      editable: <LFormItemNumber required />,
     },
 
     {
@@ -63,17 +78,38 @@ const Demo1 = () => {
   return (
     <div>
       <LEditTable
-        // size="middle"
+        isSort
+        tableRef={tableRef}
+        formItems={formItems}
+        // size="small"
         toolbarLeft={
-          <Button onClick={() => editTableRef.current?.push()}>push</Button>
+          <>
+            <Button onClick={() => editTableRef.current?.push()}>push</Button>
+            <Button onClick={() => editTableRef.current?.unshift()}>
+              unshift
+            </Button>
+          </>
         }
-        dataSource={defaultData}
+        // dataSource={defaultData}
+        request={async () => {
+          await awaitTime();
+          return {
+            success: true,
+            data: defaultData,
+            total: defaultData.length,
+          };
+        }}
         rowKey="id"
         columns={columns}
         editTableOptions={{
           editTableRef,
           editingKeys: editableKeys,
-          onEditingKeysChange: setEditableKeys,
+          onEditingKeys: setEditableKeys,
+          async onSave(row, isNewRow) {
+            console.log('row ', row);
+            console.log('isNewRow ', isNewRow);
+            return Promise.reject();
+          },
         }}
       />
     </div>

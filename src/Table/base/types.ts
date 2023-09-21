@@ -96,12 +96,14 @@ export type LTableRequest<T = Record<string, any>> = (
 
 export type LTableProps = {
   /**
-   * 表格是否需要排序序号
+   * 表格是否需要排序序号及宽度, 自定义渲染
    * @author 李岚清 <https://github.com/llq0802>
    * @version 2.1.19
    * @memberof LTableProps
    */
-  isSort?: boolean | { width: number | string };
+  isSort?:
+    | boolean
+    | { width?: number | string; render?: (pageCount: number) => ReactNode };
   /**
    * 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询
    * @author 李岚清 <https://github.com/llq0802>

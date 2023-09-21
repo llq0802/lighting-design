@@ -1,4 +1,10 @@
-import { Button, ConfigProvider, Watermark, type FormInstance } from 'antd';
+import {
+  Button,
+  ConfigProvider,
+  Tag,
+  Watermark,
+  type FormInstance,
+} from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import {
   LFormItemDatePicker,
@@ -123,7 +129,11 @@ const Demo15: FC = () => {
       >
         <LTable
           rowKey="key"
-          isSort
+          isSort={{
+            render(page) {
+              return <Tag color="#108ee9">{page}</Tag>;
+            },
+          }}
           fullScreenBgColor="#000"
           toolbarLeft={
             <>

@@ -75,14 +75,14 @@ export const usePlaceholder = (options: {
 };
 
 const randomStr = Math.random().toString(16).substring(2);
-let _id = 1;
+let _id = 0;
 /**
  * 生产唯一id
  * @param prefix
  * @returns
  */
 export function uniqueId(prefix = 'lightd') {
-  ++_id;
+  _id++;
   return `${prefix}-${randomStr}-${_id}`;
 }
 

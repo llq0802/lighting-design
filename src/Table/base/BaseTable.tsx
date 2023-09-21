@@ -11,6 +11,7 @@ import type { Key } from 'antd/es/table/interface';
 import type { ColumnGroupType, ColumnType } from 'antd/lib/table';
 import classnames from 'classnames';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
+import { isFunction } from 'lighting-design/_utils';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import {
   useEffect,
@@ -107,8 +108,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const handleFormRef = useMemoizedFn((refValue: FormInstance) => {
     queryFormRef.current = refValue;
     if (formRef) {
-      if (typeof formRef === 'function') {
-        formRef(refValue);
+      if (isFunction(formRef)) {
+        formRef?.(refValue);
       } else {
         formRef.current = refValue;
       }
@@ -198,13 +199,16 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     if (contentRender) return emptyArray;
     if (isSort) {
       const { current, pageSize } = paginationAction;
-      const render = (_: any, __: any, index: number) =>
-        (current - 1) * (pageSize || 0) + index + 1;
+      const render = (_: any, __: any, index: number) => {
+        const val = (current - 1) * (pageSize || 0) + index + 1;
+        return isFunction(isSort?.render) ? isSort?.render?.(val) : val;
+      };
+
       const sortColumn = {
         title: '序号',
         align: 'center',
         dataIndex: '_SORT_NUM_COLUMN_',
-        width: typeof isSort === 'boolean' ? 80 : isSort?.width,
+        width: typeof isSort === 'boolean' ? 80 : isSort?.width || 80,
         render,
       };
       return [sortColumn, ...columns];
@@ -213,6 +217,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   }, [
     columns,
     typeof isSort === 'boolean' ? isSort : isSort?.width,
+    (typeof isSort !== 'boolean' && isSort?.render) ?? 0,
     paginationAction?.current,
     paginationAction?.pageSize,
     contentRender,
@@ -412,8 +417,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     /** 表格根标签 div */
     rootRef: rootRef,
     /** 表格数据 */
-    tableData:
-      data?.list || (restProps?.dataSource as Record<string, any>[]) || [],
+    tableData: (data?.list ?? restProps?.dataSource ?? []) as Record<
+      string,
+      any
+    >[],
     /** 直接修改当前表格的数据,必须是 { total , data } 的形式 */
     setTableData: setTableData as Dispatch<
       SetStateAction<{ list: Record<string, any>[]; total: number }>
@@ -468,6 +475,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const searchFormDom = useMemo(() => {
     return (
       <SearchForm
+        size={currentSize}
         isReady={isReady}
         loading={currentLoading.spinning}
         ref={handleFormRef}

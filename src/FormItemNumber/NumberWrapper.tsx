@@ -6,7 +6,7 @@ import type { FC } from 'react';
 export type NumberWrapperProps = InputNumberProps;
 
 const NumberWrapper: FC<NumberWrapperProps> = (props) => {
-  const { value, onChange, min, max, ...restProps } = props;
+  const { value, onChange, min, max, precision, ...restProps } = props;
 
   const handleChange = useMemoizedFn((e: number | string | null) => {
     const rawValue = e as string;
@@ -17,7 +17,6 @@ const NumberWrapper: FC<NumberWrapperProps> = (props) => {
       min={min}
       max={max}
       autoComplete="off"
-      // precision={2}
       style={{ width: '100%' }}
       {...restProps}
       value={value}

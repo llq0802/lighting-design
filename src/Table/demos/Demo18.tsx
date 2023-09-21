@@ -49,7 +49,7 @@ const MyLTable: FC = () => {
       columns={columns}
       tableRef={tableRef}
       formRef={formRef}
-      queryFormProps={{ size: 'small', isSpace: true }}
+      queryFormProps={{ isSpace: true }}
       formItems={formItems}
       pagination={{
         showSizeChanger: false,

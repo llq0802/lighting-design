@@ -18,6 +18,13 @@ export interface LFormItemNumberProps extends LFormItemProps {
    */
   numberProps?: InputNumberProps;
   /**
+   * 保留小数点后几位
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.19
+   *@memberof LFormItemNumberProps
+   */
+  precision?: number;
+  /**
    * 最小值
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.19
@@ -36,8 +43,9 @@ export interface LFormItemNumberProps extends LFormItemProps {
 const LFormItemNumber: FC<LFormItemNumberProps> = ({
   required = false,
   disabled,
+  precision,
   min = 0,
-  max = 100,
+  max = 9999,
   numberProps = emptyObject,
   placeholder,
   ...restProps
@@ -60,6 +68,7 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
         placeholder={messageLabel}
         min={min}
         max={max}
+        precision={precision}
         {...numberProps}
       />
     </LFormItem>

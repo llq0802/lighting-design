@@ -28,7 +28,7 @@ toc: content
 ## API
 
 ```ts
-import { LTrigger } from 'lighting-design';
+import { LList } from 'lighting-design';
 ```
 
 除了以下参数，其余和 antd [List](https://ant.design/components/list-cn#list) 组件一样。

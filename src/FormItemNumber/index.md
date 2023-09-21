@@ -31,6 +31,7 @@ import { LFormItemNumber } from 'lighting-design';
 
 | 参数        | 说明                | 类型                                                                   | 默认值 |
 | ----------- | ------------------- | ---------------------------------------------------------------------- | ------ |
+| precision   | 保留小数点后几位    | `number`                                                               | `-`    |
 | min         | 最小值              | `number`                                                               | `0`    |
-| max         | 最大值              | `number`                                                               | `100`  |
+| max         | 最大值              | `number`                                                               | `9999` |
 | numberProps | `InputNumber`的属性 | [InputNumberProps](https://ant.design/components/input-number-cn/#api) | `-`    |
