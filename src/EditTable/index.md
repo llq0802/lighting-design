@@ -5,13 +5,13 @@ toc: content
 
 # LEditTable
 
-处理获取验证码之类的组件, 刷新页面也会继续计时
+基于 `LTable` 封装的高级编辑表格
 
 ## 代码演示
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'  background="#f5f5f5"></code>
+<code src='./demos/Demo2.tsx'  background="#f5f5f5"></code>
 
 ## API
 
