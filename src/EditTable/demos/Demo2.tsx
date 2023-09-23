@@ -85,9 +85,12 @@ const Demo1 = () => {
         labelWidth={100}
         submitter={{ buttonAlign: 'center' }}
         onFinish={async (val) => {
-          // await editTableRef.current?.validateFields();
+          await editTableRef.current?.validateFields();
           console.log(' val ', val);
         }}
+        // onValuesChange={(a, b, c) => {
+        //   console.log('a,b,c===', a, b, c);
+        // }}
         // initialValues={{
         //   list: {
         //     '11': {
@@ -108,29 +111,34 @@ const Demo1 = () => {
           name="list"
           required
           trigger="onValuesChange"
-          validateTrigger="onValuesChange"
+          validateTrigger="onValuesValidate"
           rules={[
             {
               async validator(_: any, value: any) {
-                console.log('value', value);
+                // console.log('validator-value', value);
                 if (!value) return Promise.reject('请填写!');
                 if (!Object.values(value)?.length) {
                   return Promise.reject('请填写!');
                 }
-                const ret = Object.values(value)?.some((items) => {
-                  return Object.values(items).some((item) => !!item === false);
+                const isNot = Object.values(value)?.some((items) => {
+                  if (!Object.values(items)?.length) {
+                    return true;
+                  }
+                  return Object.values(items)?.some((item) => !!item === false);
                 });
 
-                if (ret) {
+                if (isNot) {
                   return Promise.reject('请填写!');
                 }
                 return Promise.resolve();
-                // editTableRef.current?.validateFields();
               },
             },
           ]}
         >
           <LEditTable
+            onValuesChange={(a, b, c, i) => {
+              // console.log('a,b,cLEditTable', a, b, c, i);
+            }}
             isSort
             rowKey="id"
             tableRef={tableRef}

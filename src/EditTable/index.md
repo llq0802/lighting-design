@@ -5,7 +5,7 @@ toc: content
 
 # LEditTable
 
-基于 `LTable` 封装的高级编辑表格
+基于 `LTable` `LForm` 封装的高级编辑表格
 
 ## 代码演示
 
