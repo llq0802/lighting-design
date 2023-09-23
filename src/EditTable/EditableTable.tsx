@@ -68,7 +68,7 @@ export type LEditTableInstance = {
   /** 取消编辑某一行*/
   cancel: (key: Key) => void;
   /** 重置内置表单所有值数据 如果传key 则重置当前行的值*/
-  resetFields: (key: Key) => void;
+  resetFields: (key?: Key) => void;
   /** 设置内置表单全部数据 ( 也可单独设置 )*/
   setFieldsValue: (record: Record<string, any>) => void;
   /** 设置某一行的表单数据 */

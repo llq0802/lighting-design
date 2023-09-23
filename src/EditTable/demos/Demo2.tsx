@@ -62,7 +62,7 @@ const Demo1 = () => {
             </Button>
             <Button
               type="link"
-              onClick={() => editTableRef.current?.reset(record.id)}
+              onClick={() => editTableRef.current?.resetFields(record.id)}
             >
               重置此行
             </Button>
