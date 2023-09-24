@@ -6,6 +6,7 @@ import {
 } from 'ahooks';
 import type { FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
+import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { Key } from 'antd/es/table/interface';
 import type { ColumnGroupType, ColumnType } from 'antd/lib/table';
@@ -109,6 +110,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     queryFormRef.current = refValue;
     if (formRef) {
       if (isFunction(formRef)) {
+        // @ts-ignore
         formRef?.(refValue);
       } else {
         formRef.current = refValue;
@@ -193,7 +195,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   );
 
   // ==================== 表格大小以及列的处理-开始====================
-  const [currentSize, setCurrentSize] = useRafState(() => outSize);
+  const [currentSize, setCurrentSize] = useRafState<SizeType | 'default'>(
+    () => outSize,
+  );
   // 存储外部columns 是否设置序号
   const outColumns = useMemo(() => {
     if (contentRender) return emptyArray;
@@ -473,9 +477,13 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   ]);
 
   const searchFormDom = useMemo(() => {
+    const formSize =
+      currentSize === 'default' || currentSize === 'large'
+        ? 'middle'
+        : currentSize;
     return (
       <SearchForm
-        size={currentSize}
+        size={formSize}
         isReady={isReady}
         loading={currentLoading.spinning}
         ref={handleFormRef}
@@ -489,6 +497,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       />
     );
   }, [
+    currentSize,
     isReady,
     currentLoading.spinning,
     formCardProps,

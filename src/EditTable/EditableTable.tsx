@@ -17,7 +17,7 @@ import type {
   Dispatch,
   Key,
   MutableRefObject,
-  ReactNode,
+  ReactElement,
   SetStateAction,
 } from 'react';
 import React, {
@@ -96,7 +96,7 @@ export type EditTableOptions = {
    * 如果 isTimelyModified = false 则不会触发实时修改
    *
    * @param row 当前行的所有数据 ( 包括主键 id )
-   * @param isNewRow 是否是新增的数据行
+   * @param isNewRow 是否是通过 push unshift insert 新增的数据行
    * @param i 当前行的索引
    *
    */
@@ -110,22 +110,35 @@ export type EditTableOptions = {
    * 如果 isTimelyModified = false 则不会触发实时修改
    *
    * @param key 当前行的数据的key
-   * @param isNewRow 是否是新增的数据行
+   * @param isNewRow 是否是通过 push unshift insert  新增的数据行
    * @param i 当前行的索引
    */
   onDelete?: (key: Key, isNewRow: boolean, i: number) => any;
 };
 
 export type LEditTableProps = {
+  value?: Record<string, Record<string, any>>;
+  onValuesChange?: any;
+
   rowKey: string;
+  /**
+   * 编辑表格的配置项
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.20
+   * @memberof LTableProps
+   */
   editTableOptions?: EditTableOptions;
-  /** 列配置 多了 editable 用于配置表单项 */
+  /**
+   * 编辑表格的列配置 多了 editable 用于配置表单项
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.20
+   * @memberof LTableProps
+   */
   columns: LTableProps['columns'] & {
     /** 为false此项不能编辑 ,  只能为 LFormItemXXX 或 Form.Item */
-    editable?: ReactNode;
+    editable?: ReactElement;
   };
-} & Partial<Omit<LTableProps, 'columns' | 'contentRender'>> &
-  Record<string, any>;
+} & Partial<Omit<LTableProps, 'columns' | 'contentRender'>>;
 
 /**
  * 编辑表格
@@ -139,6 +152,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     contentRender,
     rowClassName,
+    toolbarActionConfig,
 
     request: outRequest,
     columns,
@@ -176,10 +190,9 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
   /** 处理列 */
   const { mergedColumns, itemFieldObj } = useMemo(() => {
-    console.log('useMemo');
     const itemDataIndexObj: Record<string, any> = {};
     const mergedColumns = columns?.map((col: Record<string, any>) => {
-      // 收集新增一行的新增字段名
+      // 收集新增一行的新增字段名 , 排除操作列
       if (col.dataIndex && col.editable) {
         itemDataIndexObj[col.dataIndex] = void 0;
       }
@@ -221,13 +234,24 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
           isValidElement(col?.editable) &&
           editingKeys?.includes(keyId)
         ) {
-          return cloneElement(col.editable, {
-            name: namePath,
-            style: {
-              marginBottom: 0,
-              ...col.editable?.props?.style,
-            },
-          });
+          const { disabledEdit, ...formItemProps } =
+            col?.getEditable?.(text, record, index) ?? {};
+
+          if (!disabledEdit) {
+            return cloneElement(col.editable, {
+              style: {
+                marginBottom: 0,
+                ...col.editable?.props?.style,
+              },
+              ...formItemProps,
+              name: namePath,
+            });
+          }
+
+          if (isFunction(col.render)) {
+            return col.render(text, record, index);
+          }
+          return text;
         }
 
         if (isFunction(col.render)) {
@@ -351,8 +375,6 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     if (!index) index = 0;
     const rowItem = addItemRow(row);
 
-    console.log('onInsert-rowItem', rowItem);
-
     tableRef.current?.setTableData((prev) => {
       const newList = [...prev.list];
       newList.splice(index, 0, rowItem);
@@ -402,9 +424,13 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     push: onPushAndUnshift('push'),
     /** 前面新增 */
     unshift: onPushAndUnshift('unshift'),
+    /** 重置表单 */
     resetFields,
+    /** 设置所有表单项值 */
     setFieldsValue,
+    /** 设置某一行表单项值 */
     setFieldValue,
+    /** 验证表单项值 */
     validateFields,
   }));
   // ====================暴露方法区-结束====================
@@ -419,7 +445,9 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         total: dataSource.length,
       };
     }
+
     const res = await outRequest?.(...args);
+
     alreadyKeysRef.current = res?.data?.map((item) => item[outRowKey]) ?? [];
 
     return (
@@ -452,6 +480,17 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     }
   }, [fromValue]);
 
+  const innerToolbarActionConfig = useMemo(() => {
+    if (!toolbarActionConfig) return false;
+    return {
+      showColumnSetting: false,
+      showDensity: false,
+      showFullscreen: false,
+      showReload: false,
+      ...toolbarActionConfig,
+    };
+  }, [toolbarActionConfig]);
+
   return (
     <LForm
       size={size}
@@ -461,9 +500,6 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
       component={false}
       onValuesChange={(a, b, c) => {
         const { index } = editableKeyMap.current[a];
-        console.log('a', a);
-        console.log('editableKeyMap', editableKeyMap.current);
-
         formProps?.onValuesChange?.(a, b, c);
         formOnValuesChange?.(c, a, b, index);
       }}
@@ -474,18 +510,19 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
           tableRef.current = info;
           if (outTableRef) {
             if (isFunction(outTableRef)) {
-              outTableRef?.(info);
+              (outTableRef as any)?.(info);
             } else {
               outTableRef.current = info;
             }
           }
         }}
         contentRender={void 0}
-        toolbarActionConfig={false}
+        toolbarActionConfig={innerToolbarActionConfig}
         pagination={false}
         rowKey={outRowKey}
         columns={mergedColumns}
         rowClassName={classnames('light-editable-row', rowClassName)}
+        // @ts-ignore
         request={request}
         size={size}
         {...restprops}

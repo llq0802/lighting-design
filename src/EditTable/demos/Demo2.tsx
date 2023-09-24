@@ -36,12 +36,12 @@ const Demo1 = () => {
     {
       dataIndex: 'name',
       title: '名字',
-      editable: <LFormItemInput />,
+      editable: <LFormItemInput required />,
     },
     {
       dataIndex: 'age',
       title: '年龄',
-      editable: <LFormItemNumber />,
+      editable: <LFormItemNumber required />,
     },
     {
       title: '操作',

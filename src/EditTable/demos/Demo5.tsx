@@ -17,7 +17,7 @@ const defaultData = Mock.mock({
   ],
 }).list;
 
-const Demo1 = () => {
+const Demo5 = () => {
   const tableRef = useRef<LTableInstance>();
   const [editingKeys, setEditingKeys] = useState<string[]>([]);
   const editTableRef = useRef<LEditTableInstance>();
@@ -92,7 +92,6 @@ const Demo1 = () => {
   return (
     <div>
       <LEditTable
-        // size="middle"
         isSort
         tableRef={tableRef}
         toolbarLeft={
@@ -117,15 +116,20 @@ const Demo1 = () => {
         rowKey="id"
         columns={columns}
         editTableOptions={{
+          isTimelyModified: false,
           editTableRef,
           editingKeys: editingKeys,
           onEditingKeys: setEditingKeys,
-          onDelete(key, isNewRow, i) {},
-          onSave(row, isNewRow, i) {},
+          onDelete(key, isNewRow, i) {
+            // 调用查询接口后更新表格数据
+          },
+          onSave(row, isNewRow, i) {
+            // 调用查询接口后更新表格数据
+          },
         }}
       />
     </div>
   );
 };
 
-export default Demo1;
+export default Demo5;

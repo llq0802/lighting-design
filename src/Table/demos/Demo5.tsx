@@ -42,6 +42,7 @@ const Demo5: FC = () => {
         //   spinning: true,
         //   size: 'large',
         // }}
+        // size=""
         sticky
         rowKey="key"
         tableRef={tableRef}
