@@ -5,6 +5,7 @@ order: 3
 
 **新增**
 
+- [LEditTable - 高级编辑表格组件](/components/edit-table)
 - [LSliderVerify - 滑块验证组件](/components/slider-verify)
 - [LCardGroup - 卡片选择组件](/components/card-group)
 - [LTagGroup - 标签选择组件](/components/tag-group)

@@ -23,6 +23,7 @@ toc: content
 ## 数据展示
 
 - [LTable] - 高级表格
+- [LEditTable] - 高级编辑表格
 - [LList] - 高级列表
 - [LSeamlessScroll] - 无缝滚动
 - [LCollapseCard] - 折叠卡片
@@ -77,6 +78,7 @@ toc: content
 - [useLazyLoadImage] - 性能更好的懒加载图片
 
 [LEllipsisText]: /components/Ellipsis-Text
+[LEditTable]: /components/edit-table
 [LH5Preview]: /components/h5-preview
 [useWorker]: /components/use-worker
 [useDeepUpdateEffect]: /components/use-deep-update-effect
