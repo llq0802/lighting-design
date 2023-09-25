@@ -7,7 +7,7 @@ import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import { isFunction } from 'lighting-design/_utils';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import { cloneElement, useEffect, useRef, useState } from 'react';
+import { cloneElement, useRef } from 'react';
 
 export interface LDrawerFormProps
   extends Omit<BaseFormProps, 'title' | 'onFinish'>,
@@ -129,7 +129,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
   const _lformRef = useRef<Record<string, any>>();
-  const [myInitialValues, setInitialValues] = useState(outInitialValues ?? {});
+  // const [myInitialValues, setInitialValues] = useState(outInitialValues ?? {});
 
   const handleFinish = useMemoizedFn(async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
@@ -137,19 +137,20 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     if (ret === true) setOpen(false);
   });
 
-  useEffect(() => {
-    if (open) {
-      const openInitialValues = formRef.current?.getFieldsValue();
-      setInitialValues({ ...openInitialValues });
-    }
-  }, [open]);
+  // useEffect(() => {
+  //   if (open) {
+  //     const openInitialValues = formRef.current?.getFieldsValue();
+  //     setInitialValues({ ...openInitialValues });
+  //   }
+  // }, [open]);
 
   return (
     <>
       <BaseForm
         _lformRef={_lformRef}
         className={classnames(prefixCls, className)}
-        initialValues={myInitialValues}
+        // initialValues={myInitialValues}
+        initialValues={outInitialValues}
         loading={loading}
         form={formRef.current}
         onFinish={handleFinish}
@@ -209,15 +210,13 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             }}
             afterOpenChange={(flag) => {
               // 完全关闭后回调
-              if (!flag) {
-                if (isResetFields) {
-                  // formRef.current.resetFields(); // 弹窗关闭后重置表单
-                  formRef.current.setFieldsValue({
-                    ..._lformRef.current,
-                  });
-                }
-                drawerProps?.afterOpenChange?.(flag);
+              if (!flag && isResetFields) {
+                // formRef.current.resetFields(); // 弹窗关闭后重置表单
+                formRef.current.setFieldsValue({
+                  ..._lformRef.current,
+                });
               }
+              drawerProps?.afterOpenChange?.(flag);
             }}
           >
             {formDom}

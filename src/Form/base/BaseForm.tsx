@@ -1,10 +1,4 @@
-import {
-  useDeepCompareEffect,
-  useMemoizedFn,
-  useRafState,
-  useSafeState,
-  useUpdateEffect,
-} from 'ahooks';
+import { useMemoizedFn, useSafeState, useUpdateEffect } from 'ahooks';
 import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
@@ -24,6 +18,13 @@ const prefixCls = 'lightd-form';
 
 export interface BaseFormProps
   extends Omit<FormProps, 'onReset' | 'title' | 'onValuesChange'> {
+  /**
+   *LForm 下面所有的 LFormItemXXX 或者 Form.Item 的 name 的属性值组成的字段数组
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.20
+   *@memberof LFormProps
+   */
+  allFields?: string[];
   /**
    *lable宽度。  同 labelCol={{ flex: '90px' }}
    *@author 李岚清 <https://github.com/llq0802>
@@ -100,6 +101,9 @@ export interface BaseFormProps
   onFinish?: (values: Record<string, any>) => any;
   /**
    * 字段值更新时触发回调事件 (不建议设置每一项的onChange,而是统一在此设置)
+   * @param currentName 当前改变的字段名
+   * @param currentValue 当前改变的字段值
+   * @param allValues 表单所有的数据
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.20
    *@memberof LFormProps
@@ -120,15 +124,18 @@ export const LFormContext = createContext<{
   layout: string;
   labelColProps: Record<string, any>;
   disabled?: boolean;
+  size?: string;
 }>({
   layout: 'horizontal',
   labelColProps: {},
   disabled: void 0,
+  size: void 0,
 });
 
 function BaseForm(props: BaseFormProps): JSX.Element {
   const {
     _lformRef,
+    allFields,
 
     labelWidth = 'auto',
     contentRender,
@@ -157,37 +164,71 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
   const [loading, setLoading] = useSafeState(outLoading);
-  const [initFormValues, setInitFormValues] = useRafState(initialValues ?? {}); // 内部初始值
   const formId = useMemo(() => name || `${uniqueId('lightd-form')}}}`, [name]);
-
-  useUpdateEffect(() => {
-    // 准备完成后，重新设置初始值
-    if (isReady) {
-      formRef.current?.setFieldsValue({ ...initialValues });
-      // setInitFormValues({ ...initialValues });
-      // resetFields 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
-      // formRef.current?.resetFields?.();
-    }
-  }, [isReady]);
-
-  // 深度比较 优化性能
-  useDeepCompareEffect(() => {
-    setTimeout(() => {
-      // 组件第一次加载的时候并且form渲染完成收集初始值.
-      // 如果组件被包裹在弹窗或者抽屉组件中 没有预渲染的话则会提示form绑定失败 获取不到初始值
-      // 解决form实例与moadl绑定失败的问题
-      const initValues = initialValues || formRef.current?.getFieldsValue();
-      setInitFormValues({ ...initValues });
-    }, 16);
-  }, [initialValues]);
 
   useUpdateEffect(() => {
     setLoading(outLoading);
   }, [outLoading]);
 
+  useUpdateEffect(() => {
+    // 准备完成后，重新设置初始值
+    if (isReady) {
+      // 动态设置表单的初始值
+      formRef.current?.setFieldsValue({ ...initialValues });
+      // resetFields 会重置整个 Field，
+      // 因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
+      // formRef.current?.resetFields?.();
+    }
+  }, [isReady]);
+
+  const formItems = Children.toArray(children);
+
+  const getFieldObj = useMemoizedFn((formItems: any[], fields?: any[]) => {
+    let ret: Record<string, any> = {};
+
+    if (!submitter) {
+      return ret;
+    }
+
+    if (fields?.length) {
+      fields.forEach((field: any) => {
+        if (field && typeof field !== 'object') {
+          ret[field] = initialValues?.[field] ?? void 0;
+        } else if (field === 0) {
+          ret[0] = initialValues?.[0] ?? void 0;
+        }
+      });
+
+      return ret;
+    }
+
+    formItems.forEach((item: any) => {
+      const itemName = item?.props?.name;
+      const child = item?.props?.children;
+      if (Children.toArray(child)?.length) {
+        ret = {
+          ...ret,
+          ...getFieldObj(Children.toArray(child), fields),
+        };
+      } else {
+        if (itemName && typeof itemName !== 'object') {
+          ret[itemName] = initialValues?.[itemName] ?? void 0;
+        } else if (itemName === 0) {
+          ret[0] = initialValues?.[0] ?? void 0;
+        }
+      }
+    });
+    return ret;
+  });
+
+  const initFieldValues = useMemo(
+    () => getFieldObj(formItems, allFields),
+    [formItems?.length, allFields?.join(), submitter],
+  );
+
   useImperativeHandle(_lformRef, () => {
-    // 因为initFormValues是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到
-    return initFormValues;
+    // 因为 initFieldValues 是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到
+    return initFieldValues;
   });
 
   const labelColProps = useMemo(() => {
@@ -201,14 +242,36 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     };
   }, [layout, labelWidth, labelCol]);
 
-  const submitterProps = useMemo(() => {
-    return typeof submitter === 'boolean' || !submitter ? {} : submitter;
-  }, [submitter]);
+  const handleOnFinish = useMemoizedFn(async (values) => {
+    if (!isFunction(onFinish)) return;
+
+    const formValues = transformValues
+      ? transformValues(values) ?? values
+      : values;
+    const ret: unknown = onFinish?.(formValues);
+    if (ret instanceof Promise) {
+      setLoading(true);
+      return ret
+        .then((res) => {
+          setLoading(false);
+          return res;
+        })
+        .catch((err) => {
+          setLoading(false);
+          return Promise.reject(err);
+        });
+    }
+  });
+
+  const submitterProps = useMemo(
+    () => (typeof submitter === 'boolean' || !submitter ? {} : submitter),
+    [submitter],
+  );
 
   const submitterDom = useMemo(() => {
     return submitter ? (
       <Submitter
-        initFormValues={initFormValues}
+        initFormValues={initFieldValues}
         onReset={onReset}
         {...submitterProps}
         form={formRef?.current}
@@ -223,34 +286,11 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         }}
       />
     ) : null;
-  }, [initFormValues, isReady, loading, onReset, submitter, submitterProps]);
-
-  const formItems = Children.toArray(children);
+  }, [initFieldValues, isReady, loading, onReset, submitter, submitterProps]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)
     : formItems;
-
-  const handleOnFinish = useMemoizedFn(async (values) => {
-    if (!isFunction(onFinish)) return;
-
-    const formValues = transformValues
-      ? transformValues(values) ?? values
-      : values;
-    const ret: unknown = onFinish(formValues);
-    if (ret instanceof Promise) {
-      setLoading(true);
-      return ret
-        .then((res) => {
-          setLoading(false);
-          return res;
-        })
-        .catch((err) => {
-          setLoading(false);
-          return Promise.reject(err);
-        });
-    }
-  });
 
   const onKeyUp = useMemoizedFn((event) => {
     const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;

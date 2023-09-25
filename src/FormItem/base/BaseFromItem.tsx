@@ -9,6 +9,7 @@ import FormItemWrapper from './FormItemWrapper';
 import './styles.less';
 
 export interface LFormItemProps extends FormItemProps {
+  name?: string[] | string;
   /**
    *lable宽度。  同 labelCol={{ flex: '90px' }}
    *@author 李岚清 <https://github.com/llq0802>
@@ -143,6 +144,11 @@ const LFormItem: FC<LFormItemProps> & {
     ...restFromItemProps
   } = props;
 
+  let curName = name;
+  if (typeof name === 'number') {
+    curName?.toString();
+  }
+
   const { layout, labelColProps: formLabelColProps } = useContext(LFormContext);
 
   const messageLabel = usePlaceholder({
@@ -208,7 +214,7 @@ const LFormItem: FC<LFormItemProps> & {
     const dom1 = (
       <Form.Item
         labelCol={labelColProps}
-        name={name}
+        name={curName}
         required={required}
         shouldUpdate={shouldUpdate}
         rules={itemRules}
@@ -252,7 +258,7 @@ const LFormItem: FC<LFormItemProps> & {
 
           return (
             <Form.Item
-              name={name}
+              name={curName}
               labelCol={labelColProps}
               required={required}
               rules={itemRules}
@@ -281,7 +287,7 @@ const LFormItem: FC<LFormItemProps> & {
 
   const dom3 = (
     <Form.Item
-      name={name}
+      name={curName}
       labelCol={labelColProps}
       required={required}
       rules={itemRules}
