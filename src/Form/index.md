@@ -29,7 +29,7 @@ nav:
 
 <code src='./demos/Demo6.tsx'  ></code>
 
-### 表单的初始值通过异步获取
+### 表单的初始值通过异步动态获取
 
 <code src='./demos/Demo5.tsx' ></code>
 
@@ -52,6 +52,8 @@ nav:
 - `LForm` 的`children`子项必须包含`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`
 
 - 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`
+
+- 当且仅当 `submitter` 不为 `false` 并且 `LFormItemXXX` 或者 `Form.Item`外层嵌套许多层 `div` 导致内置表单无法重置时才需要配置 `allFields`
 
 - 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是给子项设置 `defaultValue`
 
@@ -81,9 +83,10 @@ import { LForm } from 'lighting-design';
 | transformValues |                           在 `onFinish` 调用之前转化表单值 , 返回值会传给 `onFinish` 的参数                           |                   `(values: Record<string, any>) => Record<string, any>`                    |   `-`    |
 |    submitter    |                                      提交、重置按钮相关配置。为`false`将不会渲染                                      |                              `false` \| [LFormSubmitterProps]                               |   `-`    |
 |  isEnterSubmit  |          是否开启回车键提交，为`true`时注意不要配置 `submitter`中 `submitButtonProps` 的 `htmlType='submit'`          |                                          `boolean`                                          |  `true`  |
+|    allFields    |                  `LForm` 下面所有的 `LFormItemXXX` 或者 `Form.Item` 的 `name` 的属性值组成的字段数组                  |                                         `string[]`                                          |   `-`    |
 |     loading     |               设置提交、重置的加载/禁止状态。<br/>如果 `onFinish` 返回异步则无需设置，内部会自动更新。                |                                          `boolean`                                          | `false`  |
 |     isReady     | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。<br/>一般用于异步获取初始值`initialValues` |                                          `boolean`                                          |  `true`  |
-|    onFinish     |            提交数据时触发。如果是`异步函数`，会自动管理`提交丶重置按钮`的 `loading` 无需再设置 `loading`。            |                                      `(values) => any`                                      |   `-`    |
+|    onFinish     |          提交数据时触发。如果是`异步函数`，会自动管理`提交丶重置按钮`的 `loading` 外部无需再设置 `loading`。          |                                      `(values) => any`                                      |   `-`    |
 | onValuesChange  |                       字段值更新时触发回调事件 `(不建议设置每一项的 onChange,而是统一在此设置)`                       |     `(currentName: string, currentValue: any, allValues: Record<string, any>) => void`      |   `-`    |
 |     onReset     |                                                  点击重置按钮的回调                                                   |                                        `(e) => void`                                        |   `-`    |
 |  contentRender  |                                                 自定义渲染`children`                                                  | `(formItemsDom: ReactNode[],submitterDom: ReactNode, form: FormInstance<any>) => ReactNode` |   `-`    |

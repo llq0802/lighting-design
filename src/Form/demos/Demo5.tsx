@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 const Demo5 = () => {
   const [form] = LForm.useForm();
-  const [initialValues, setInitialValues] = useState({ name: '' });
+  const [initialValues, setInitialValues] = useState({ name: '原本的初始值' });
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {

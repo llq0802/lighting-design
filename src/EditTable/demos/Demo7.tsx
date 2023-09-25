@@ -8,6 +8,7 @@ import {
   LFormItemInput,
   LFormItemNumber,
 } from 'lighting-design';
+import { awaitTime } from 'lighting-design/_test';
 import Mock from 'mockjs';
 import { useRef, useState } from 'react';
 
@@ -17,7 +18,6 @@ const defaultData = Mock.mock({
       'id|+1': 11,
       'age|1-99': 20,
       name: '@cname',
-      // birthday: '@date',
     },
   ],
 }).list;
@@ -47,30 +47,26 @@ const Demo1 = () => {
       render: (_, record, index) => {
         return (
           <Space>
-            <Button
-              type="link"
+            <a
               onClick={() =>
                 editTableRef.current?.insert(index + 1, {
                   id: Date.now(),
-                  name: '李岚清',
+                  name: `李岚清${index}`,
                   age: 26,
                 })
               }
             >
               向下插入
-            </Button>
-            <Button
-              type="link"
-              onClick={() => editTableRef.current?.resetFields(record.id)}
-            >
+            </a>
+            <a onClick={() => editTableRef.current?.resetFields(record.id)}>
               重置此行
-            </Button>
-            <Button
-              type="link"
-              onClick={() => editTableRef.current?.delete(record.id)}
-            >
+            </a>
+            <a onClick={() => editTableRef.current?.validateFields(record.id)}>
+              校验此行
+            </a>
+            <a onClick={() => editTableRef.current?.delete(record.id)}>
               删除此行
-            </Button>
+            </a>
           </Space>
         );
       },
@@ -90,18 +86,32 @@ const Demo1 = () => {
         // onValuesChange={(a, b, c) => {
         //   console.log('a,b,c===', a, b, c);
         // }}
-        // initialValues={{
-        //   list: {
-        //     '11': {
-        //       name: '李岚清',
-        //       age: 25,
-        //     },
-        //     '12': {},
-        //     '13': {},
-        //     '14': {},
-        //     '15': {},
-        //   },
-        // }}
+        initialValues={{
+          name: '李彦祖',
+          num: 3,
+          list: {
+            '11': {
+              name: '李岚清',
+              age: 25,
+            },
+            '12': {
+              name: '吴彦祖',
+              age: 45,
+            },
+            '13': {
+              name: '陈冠希',
+              age: 40,
+            },
+            '14': {
+              name: '彭于晏',
+              age: 41,
+            },
+            '15': {
+              name: '李真帅',
+              age: 34,
+            },
+          },
+        }}
       >
         <LFormItemInput name="name" label="名字" required />
 
@@ -136,19 +146,12 @@ const Demo1 = () => {
         >
           <LEditTable
             onValuesChange={(a, b, c, i) => {
-              // console.log('a,b,cLEditTable', a, b, c, i);
+              console.log('a,b,cLEditTable===', a, b, c, i);
             }}
-            isSort
             rowKey="id"
             tableRef={tableRef}
             toolbarLeft={
               <>
-                <Button
-                  type="dashed"
-                  onClick={() => editTableRef.current?.validateFields()}
-                >
-                  校验
-                </Button>
                 <Button
                   icon={<PlusOutlined />}
                   type="dashed"
@@ -162,9 +165,22 @@ const Demo1 = () => {
                 >
                   重置全部
                 </Button>
+                <Button
+                  type="dashed"
+                  onClick={() => editTableRef.current?.validateFields()}
+                >
+                  校验全部
+                </Button>
               </>
             }
-            // dataSource={defaultData}
+            request={async () => {
+              await awaitTime();
+              return {
+                success: true,
+                data: defaultData,
+                total: defaultData.length,
+              };
+            }}
             columns={columns}
             editTableOptions={{
               editTableRef,

@@ -1,11 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
-import type { LTableInstance } from 'lighting-design';
-import { LFormItemInput, LFormItemNumber } from 'lighting-design';
+import type { LEditTableInstance, LTableInstance } from 'lighting-design';
+import { LEditTable, LFormItemInput, LFormItemNumber } from 'lighting-design';
 import Mock from 'mockjs';
 import { useRef, useState } from 'react';
-import type { LEditTableInstance } from '../EditableTable';
-import LEditTable from '../EditableTable';
 
 const defaultData = Mock.mock({
   'list|5': [

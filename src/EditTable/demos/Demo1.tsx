@@ -1,11 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
-import type { LTableInstance } from 'lighting-design';
-import { LFormItemInput, LFormItemNumber } from 'lighting-design';
+import type { LEditTableInstance, LTableInstance } from 'lighting-design';
+import { LEditTable, LFormItemInput, LFormItemNumber } from 'lighting-design';
 import Mock from 'mockjs';
 import { useRef, useState } from 'react';
-import type { LEditTableInstance } from '../EditableTable';
-import LEditTable from '../EditableTable';
 
 const defaultData = Mock.mock({
   'list|5': [
@@ -39,26 +37,19 @@ const Demo1 = () => {
       align: 'center',
       render: (_, record, index) => {
         return (
-          <Space size={0}>
+          <Space>
             {editingKeys.includes(record.id) ? (
               <>
-                <Button
-                  type="link"
-                  onClick={() => editTableRef.current?.save(record.id)}
-                >
+                <a onClick={() => editTableRef.current?.save(record.id)}>
                   保存
-                </Button>
-                <Button
-                  type="link"
-                  onClick={() => editTableRef.current?.cancel(record.id)}
-                >
+                </a>
+                <a onClick={() => editTableRef.current?.cancel(record.id)}>
                   取消
-                </Button>
+                </a>
               </>
             ) : (
               <>
-                <Button
-                  type="link"
+                <a
                   onClick={() =>
                     editTableRef.current?.insert(index + 1, {
                       id: Date.now(),
@@ -68,19 +59,11 @@ const Demo1 = () => {
                   }
                 >
                   插入
-                </Button>
-                <Button
-                  type="link"
-                  onClick={() => editTableRef.current?.edit(record)}
-                >
-                  编辑
-                </Button>
-                <Button
-                  type="link"
-                  onClick={() => editTableRef.current?.delete(record.id)}
-                >
+                </a>
+                <a onClick={() => editTableRef.current?.edit(record)}>编辑</a>
+                <a onClick={() => editTableRef.current?.delete(record.id)}>
                   删除
-                </Button>
+                </a>
               </>
             )}
           </Space>
@@ -92,7 +75,6 @@ const Demo1 = () => {
   return (
     <div>
       <LEditTable
-        // size="middle"
         isSort
         tableRef={tableRef}
         toolbarLeft={
@@ -111,6 +93,9 @@ const Demo1 = () => {
             >
               头部新增
             </Button>
+            <Button onClick={() => editTableRef.current?.resetTableData()}>
+              重置表格数据到初始状态
+            </Button>
           </>
         }
         dataSource={defaultData}
@@ -121,7 +106,9 @@ const Demo1 = () => {
           editingKeys: editingKeys,
           onEditingKeys: setEditingKeys,
           onDelete(key, isNewRow, i) {},
-          onSave(row, isNewRow, i) {},
+          onSave(row, isNewRow, i) {
+            console.log('isNewRow', isNewRow);
+          },
         }}
       />
     </div>

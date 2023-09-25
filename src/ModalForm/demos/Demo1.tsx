@@ -22,13 +22,15 @@ const Demo1 = () => {
           message.success('提交成功');
           return true;
         }}
-        initialValues={{}}
+        initialValues={{
+          name: '李岚清',
+        }}
         trigger={<Button type="primary">打开弹窗</Button>}
       >
-        <LFormItemInput name="input" required label="输入框" />
+        <LFormItemInput name="name" required label="输入框" />
         <LFormItemRadio
           label="单选2"
-          name="LFormItemRadio2"
+          name="radio"
           all
           required
           request={async () => {
