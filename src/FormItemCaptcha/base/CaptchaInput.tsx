@@ -166,6 +166,7 @@ const CodeInput: FC<CodeInputProps> = ({
     <LCaptchaButton
       size={size}
       loading={loading}
+      disabled={disabled}
       start={start}
       type={type === 'inline' || type === 'link' ? 'link' : type}
       {...restButtonProps}

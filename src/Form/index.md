@@ -25,7 +25,7 @@ nav:
 
 <code src='./demos/Demo1.tsx'   ></code>
 
-### 表单禁用
+### 表单禁用与大小
 
 <code src='./demos/Demo6.tsx'  ></code>
 

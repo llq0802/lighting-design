@@ -71,6 +71,7 @@ const Demo1 = () => {
 
   return (
     <LForm
+      size="small"
       disabled
       labelWidth={90}
       submitter={false}
