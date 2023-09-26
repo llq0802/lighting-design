@@ -44,6 +44,9 @@ const mockOptions = {
   '@datetime': '@datetime',
   '@now': '@now',
   '@pick': '@pick(["a", "e", "k", "h", "w"])',
+
+  'Random.image()': Mock.Random.image('300x400', 'Hello World'),
+  // 'Random.dataImage()': Mock.Random.dataImage('300x400'),
 };
 
 const Demo1 = () => {
