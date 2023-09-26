@@ -21,6 +21,10 @@ Mock.js 更多示例代码 [Mock.js 更多示例代码](http://mockjs.com/exampl
 
 ## 代码演示
 
-### 基础用法
+### 常见基础 Mock 示例
 
 <code src='./demos/Demo1.tsx' background="#f5f5f5"></code>
+
+### 常见占位符 Mock 示例
+
+<code src='./demos/Demo2.tsx' background="#f5f5f5"></code>

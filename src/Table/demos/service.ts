@@ -1,5 +1,5 @@
 import type { ColumnsType } from 'antd/lib/table';
-import Mock from 'mockjs';
+import Mock from 'better-mock';
 
 export const columns: ColumnsType<any> = [
   {
