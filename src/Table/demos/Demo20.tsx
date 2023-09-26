@@ -2,17 +2,9 @@ import { Button, type FormInstance } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { LTableInstance } from 'lighting-design';
 import { LTable } from 'lighting-design';
+import Mock from 'mockjs';
 import React, { useRef } from 'react';
-
-const originData: any[] = [];
-
-for (let index = 0; index < 10; index++) {
-  originData.push({
-    key: `${index}`,
-    name: `JohnBrown-${index}`,
-    age: 10 + index,
-  });
-}
+import { originData } from './service';
 
 const Demo20: React.FC = () => {
   const formRef = useRef<FormInstance>();
@@ -43,9 +35,10 @@ const Demo20: React.FC = () => {
               onClick={() => {
                 // 调用修改的接口成功后再执行以下方法
                 tableRef.current?.setTableData((prev) => {
-                  prev.list[index].name = `李岚清-${index}`;
-                  prev.list[index].age = index + 20;
-                  return { ...prev, total: prev.list?.length };
+                  const newList = [...prev.list];
+                  newList[index].name = Mock.Random.cname();
+                  newList[index].age = Mock.Random.integer(10, 60);
+                  return { list: newList, total: newList?.length };
                 });
               }}
             >

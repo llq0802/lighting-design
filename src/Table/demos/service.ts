@@ -1,4 +1,5 @@
 import type { ColumnsType } from 'antd/lib/table';
+import Mock from 'mockjs';
 
 export const columns: ColumnsType<any> = [
   {
@@ -7,7 +8,6 @@ export const columns: ColumnsType<any> = [
     key: 'name',
     align: 'center',
     className: 'my-name-columns',
-    // fixed: 'left',
   },
   {
     title: '年龄',
@@ -23,34 +23,35 @@ export const columns: ColumnsType<any> = [
   },
 ];
 
-export const originData: any[] = [];
-
-for (let index = 0; index < 12; index++) {
-  originData.push({
-    key: index.toString(),
-    name: `Jack ${index + 1}`,
-    age: Math.floor(Math.random() * 60) + 20,
-    address: `London Park no-${index}`,
-  });
-}
-
 interface Item {
   key: string;
   name: string;
   age: number;
   address: string;
 }
-const data: Item[] = [];
-for (let i = 0; i < 60; i++) {
-  data.push({
-    key: i.toString(),
-    name: `Edrward ${i + 1}`,
-    age: Math.floor(Math.random() * 60) + 20,
-    address: `London Park no-${i}`,
-  });
-}
+
+export const originData: Item[] = Mock.mock({
+  'list|10': [
+    {
+      key: '@id',
+      name: '@cname',
+      'age|10-60': 10,
+      address: `@province@city@county`,
+    },
+  ],
+}).list;
 
 export function apiGetUserList(time = 1000): Promise<Record<string, any>> {
+  const data: Item[] = Mock.mock({
+    'list|20-60': [
+      {
+        key: '@id',
+        name: '@cname',
+        'age|10-60': 10,
+        address: `@province@city@county`,
+      },
+    ],
+  }).list;
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({

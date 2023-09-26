@@ -4,16 +4,7 @@ import type { ColumnsType } from 'antd/es/table';
 import type { LTableInstance } from 'lighting-design';
 import { LTable } from 'lighting-design';
 import React, { useRef, useState } from 'react';
-
-const originData: any[] = [];
-
-for (let index = 0; index < 12; index++) {
-  originData.push({
-    key: `${index}`,
-    name: `JohnBrown-${index + 0}`,
-    age: 10 + index,
-  });
-}
+import { apiGetUserList } from './service';
 
 const columns1: ColumnsType<any> = [
   {
@@ -84,10 +75,11 @@ const Demo18: React.FC = () => {
           showQuickJumper: false,
         }}
         request={async (params, requestType) => {
+          const res: Record<string, any> = await apiGetUserList();
           return {
             success: true,
-            data: originData,
-            total: originData.length,
+            data: res.data,
+            total: res.total,
           };
         }}
       />

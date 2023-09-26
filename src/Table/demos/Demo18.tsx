@@ -4,16 +4,7 @@ import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import React, { useRef, useState } from 'react';
-
-const originData: any[] = [];
-
-for (let index = 0; index < 12; index++) {
-  originData.push({
-    key: `${index}`,
-    name: `JohnBrown-${index + 0}`,
-    age: 10 + index,
-  });
-}
+import { originData } from './service';
 
 const columns: ColumnsType<any> = [
   {
@@ -84,7 +75,7 @@ const Demo18: React.FC = () => {
   return (
     <div>
       <Button type="primary" onClick={showModal}>
-        Open Modal
+        打开弹框
       </Button>
       <Modal
         footer={false}

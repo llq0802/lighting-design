@@ -271,6 +271,10 @@ export default {
           title: '解析 Excel 数据成 JSON',
           link: '/scene/excel-Import',
         },
+        {
+          title: 'Mock 数据',
+          link: '/scene/mockjs',
+        },
       ],
     },
   ],

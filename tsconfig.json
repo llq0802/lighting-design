@@ -15,5 +15,5 @@
       "lighting-design/*": ["src/*", "*"]
     }
   },
-  "include": [".dumi/**/*", ".dumirc.ts", "src/**/*", "docs/**/*"]
+  "include": [".dumirc.ts", "src/**/*", "docs/**/*"]
 }

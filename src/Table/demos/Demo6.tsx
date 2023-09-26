@@ -3,25 +3,20 @@ import { Button, Card, Col, Row } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
+import Mock from 'mockjs';
 import type { FC } from 'react';
 import { useRef } from 'react';
 
-const originData = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 10,
-    address: 'New York No. 1 Lake Park',
-  },
-  { key: '2', name: 'Jim Green', age: 42, address: 'London No. 1 Lake Park' },
-  { key: '3', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
-  { key: '4', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
-  { key: '5', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
-  { key: '6', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
-  { key: '7', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
-  { key: '8', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
-  { key: '9', name: 'Joe Black', age: 32, address: 'Sidney No. 1 Lake Park' },
-];
+const originData = Mock.mock({
+  'list|9': [
+    {
+      key: '@id',
+      name: '@cname',
+      'age|10-70': 10,
+      address: `@province@city@county`,
+    },
+  ],
+}).list;
 
 const formItems = [
   <LFormItemInput key="0" name="input4" label="输入框" />,
@@ -43,6 +38,10 @@ const Demo6: FC = () => {
       toolbarLeft={<Button type="primary">新增</Button>}
       toolbarRight={<Button type="primary">审批</Button>}
       formItems={formItems}
+      pagination={{
+        pageSize: 9,
+        pageSizeOptions: [9, 18, 27, 36],
+      }}
       request={async (params, requestType) => {
         await awaitTime();
         return {
@@ -55,7 +54,7 @@ const Demo6: FC = () => {
         <Row gutter={[10, 10]}>
           {list.map((item) => (
             <Col span={8} key={item.key}>
-              <Card title={item.name} />
+              <Card title={`${item.name}-${item.age}`}>{item.address}</Card>
             </Col>
           ))}
         </Row>

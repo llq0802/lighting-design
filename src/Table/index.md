@@ -117,21 +117,23 @@ nav:
 
 ### Excel 导入与导出
 
-[表格的导出](/scene/table-Export)
-[表格的导入](/scene/excel-Import)
+[表格的导出 - json2Excel ](/scene/table-Export) <br>
+[表格的导入 - excel2Json (excel2Json ) ](/scene/excel-Import)
 
 ### 编辑表格
 
-[编辑表格行](https://ant.design/components/table-cn#components-table-demo-edit-row)
-[编辑表格单元格](https://ant.design/components/table-cn#components-table-demo-edit-cell)
+[LEditTable - 高级编辑表格](/components/edit-table) <br>
+[antd - 编辑表格行示例](https://ant.design/components/table-cn#components-table-demo-edit-row) <br>
+[antd - 编辑表格单元格示例](https://ant.design/components/table-cn#components-table-demo-edit-cell) <br>
 
 ### 拖拽表格
 
-[拖拽排序](https://ant.design/components/table-cn#components-table-demo-drag-sorting)
+[拖拽排序](https://ant.design/components/table-cn#components-table-demo-drag-sorting) <br>
 [拖拽手柄](https://ant.design/components/table-cn#components-table-demo-drag-sorting-handler)
 
 ### 虚拟表格
 
+`antd 版本 >= 5.9.0`时可通过 `virtual` 开启虚拟滚动，此时 `scroll.x` 与 `scroll.y` 必须设置且为 `number` 类型。
 [虚拟表格](https://ant.design/components/table-cn#components-table-demo-virtual-list)
 
 ## API
