@@ -74,7 +74,9 @@ const Demo1 = () => {
       size="small"
       disabled
       labelWidth={90}
-      submitter={false}
+      submitter={{
+        buttonAlign: 'center',
+      }}
       form={form}
       onFinish={async (values) => {
         console.log('onFinish-values ', values);

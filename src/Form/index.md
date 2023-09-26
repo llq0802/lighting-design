@@ -25,7 +25,9 @@ nav:
 
 <code src='./demos/Demo1.tsx'   ></code>
 
-### 表单禁用与大小
+### 表单整体禁用与大小
+
+可通过 `LFormItemXXX` 的 `disabled` 和 `size` 单独设置
 
 <code src='./demos/Demo6.tsx'  ></code>
 
