@@ -184,6 +184,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       <Select
+        {...restProps}
         disabled={disabled ?? isClearDepends}
         options={selectOptions}
         placeholder={placeholder}

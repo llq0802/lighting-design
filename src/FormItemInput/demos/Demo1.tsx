@@ -6,11 +6,7 @@ const Demo = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm
-      name="LFormItemInput"
-      form={form}
-      submitter={{ buttonAlign: 'center' }}
-    >
+    <LForm form={form} disabled submitter={{ buttonAlign: 'center' }}>
       <LFormItemInput
         className="myLFormItemInput"
         name="name"

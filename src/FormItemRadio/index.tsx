@@ -54,6 +54,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   allLabel = '全部',
   options = emptyArray,
   disabled,
+  size,
   radioProps = emptyObject,
   placeholder,
   spin,
@@ -101,6 +102,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
         dependencies={restProps?.dependencies}
         options={options}
         request={request}
+        size={size}
         disabled={disabled ?? formDisabled}
         debounceTime={debounceTime}
         outLoading={spin}

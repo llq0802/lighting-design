@@ -36,12 +36,16 @@ export interface LFormItemInputProps extends LFormItemProps {
 }
 
 const LFormItemInput: FC<LFormItemInputProps> = ({
+  size,
+  disabled,
+
   type,
   disabledWhiteSpace = true,
-  inputProps = emptyObject,
   required,
-  disabled,
   placeholder,
+
+  inputProps = emptyObject,
+
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -66,6 +70,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
       {...restProps}
     >
       <InputWrapper
+        size={size}
         disabled={disabled ?? formDisabled}
         placeholder={messageLabel}
         type={type}

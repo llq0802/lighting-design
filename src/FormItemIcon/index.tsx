@@ -105,6 +105,7 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
   activeIconStyle = emptyObject,
   required = false,
   disabled,
+  size,
   options,
   extendRender,
   modalProps,
@@ -130,6 +131,7 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
       {...restProps}
     >
       <IconWrapper
+        size={size}
         showIcon={showIcon}
         iconStyle={iconStyle}
         activeIconStyle={activeIconStyle}

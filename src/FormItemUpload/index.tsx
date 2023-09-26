@@ -104,6 +104,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
     modalOk: '确定',
     modalCancel: '取消',
   },
+  size,
   onUpload,
   fileTypeMessage,
   fileSizeMessage,

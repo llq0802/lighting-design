@@ -62,6 +62,7 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   inputProps = emptyObject,
   buttonProps = emptyObject,
   placeholder,
+  size,
   disabled,
   cancelRef,
 
@@ -72,13 +73,17 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
     placeholder,
     restProps,
   });
+
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem required={required} placeholder={messageLabel} {...restProps}>
       <CaptchaInput
-        maxLength={maxLength}
+        // size={size ?? formSize}
+
+        size={size}
         disabled={disabled ?? formDisabled}
+        maxLength={maxLength}
         type={type}
         onGetCaptcha={onGetCaptcha}
         autoClick={autoClick}
@@ -86,11 +91,11 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
         inputProps={inputProps}
         placeholder={messageLabel}
         buttonProps={{
-          second,
           cacheKey,
+          initText,
+          second,
           disabledText,
           onEnd,
-          initText,
           cancelRef,
           ...buttonProps,
         }}

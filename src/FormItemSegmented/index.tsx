@@ -49,19 +49,21 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
   segmentedProps = emptyObject,
   requestOptions = emptyObject,
   spin,
+  size,
   disabled,
   notDependRender,
 
   required,
   ...restProps
 }) => {
-  const { disabled: formDisabled } = useContext(LFormContext);
+  const { disabled: formDisabled, size: formSize } = useContext(LFormContext);
 
   return (
     <LFormItem required={required} _isSelectType {...restProps}>
       <SegmentedWrapper
         name={restProps.name}
         dependencies={restProps?.dependencies}
+        size={size ?? formSize}
         options={options}
         request={request}
         outLoading={spin}

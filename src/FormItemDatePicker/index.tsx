@@ -218,6 +218,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
 
   // normalize,
   disabled,
+  size,
   required = false,
   ...restProps
 }) => {
@@ -258,6 +259,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
   const dom = useMemo(() => {
     return !rangePicker ? (
       <DatePickerWrapper
+        size={size}
         dateValueType={dateValueType}
         placeholder={placeholder}
         disabledDate={currentDisabledDate}
@@ -269,6 +271,7 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
       />
     ) : (
       <RangePickerWrapper
+        size={size}
         dateValueType={dateValueType}
         placeholder={placeholder}
         disabledDate={currentDisabledDate}

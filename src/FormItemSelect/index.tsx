@@ -54,6 +54,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
 
   required,
   disabled,
+  size,
   placeholder,
   ...restProps
 }) => {
@@ -63,39 +64,35 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
     isSelectType: true,
   });
   const { disabled: formDisabled } = useContext(LFormContext);
+  const rules = [
+    {
+      validator(rule, value) {
+        let errMsg = '';
+        const hasOptValue = options.find((item) => item?.value === value);
+        if (
+          (!value &&
+            value !== 0 &&
+            !hasOptValue &&
+            !(all && allValue === value)) ||
+          ((selectProps?.mode === 'multiple' || selectProps?.mode === 'tags') &&
+            value &&
+            value.length <= 0)
+        ) {
+          errMsg = required ? `${messagePlaceholder}!` : '';
+        }
+        if (errMsg) {
+          return Promise.reject(errMsg);
+        }
+        return Promise.resolve();
+      },
+    },
+  ];
 
   return (
-    <LFormItem
-      required={required}
-      _isSelectType
-      rules={[
-        {
-          validator(rule, value) {
-            let errMsg = '';
-            const hasOptValue = options.find((item) => item?.value === value);
-            if (
-              (!value &&
-                value !== 0 &&
-                !hasOptValue &&
-                !(all && allValue === value)) ||
-              ((selectProps?.mode === 'multiple' ||
-                selectProps?.mode === 'tags') &&
-                value &&
-                value.length <= 0)
-            ) {
-              errMsg = required ? `${messagePlaceholder}!` : '';
-            }
-            if (errMsg) {
-              return Promise.reject(errMsg);
-            }
-            return Promise.resolve();
-          },
-        },
-      ]}
-      {...restProps}
-    >
+    <LFormItem required={required} _isSelectType rules={rules} {...restProps}>
       <SelectWrapper
         name={restProps.name}
+        size={size}
         disabled={disabled ?? formDisabled}
         placeholder={messagePlaceholder}
         dependencies={restProps?.dependencies}

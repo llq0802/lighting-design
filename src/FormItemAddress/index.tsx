@@ -86,6 +86,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
   label,
   required = false,
   disabled,
+  size,
   options = emptyArray,
   placeholder = ['请选择省/市/区', '请输入详细地址'],
   inputFormProps = emptyObject,
@@ -127,6 +128,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
             {...cascaderFormProps}
           >
             <Cascader
+              size={size}
               disabled={disabled ?? formDisabled}
               options={options}
               placeholder={`${placeholder[0]}`}
@@ -154,6 +156,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
             {...inputFormProps}
           >
             <Input
+              size={size}
               disabled={disabled ?? formDisabled}
               placeholder={`${placeholder[1]}`}
               allowClear

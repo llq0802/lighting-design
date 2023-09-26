@@ -7,7 +7,6 @@ const Demo5 = () => {
 
   return (
     <LForm
-      name="LFormItemSelect3"
       form={form}
       labelCol={{ flex: '80px' }}
       submitter={{

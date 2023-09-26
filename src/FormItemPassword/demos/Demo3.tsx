@@ -6,7 +6,6 @@ const Demo3 = () => {
 
   return (
     <LForm
-      name="LFormItemPassword"
       form={form}
       submitter={{ buttonAlign: 'center' }}
       onFinish={(values) => {

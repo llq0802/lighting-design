@@ -4,8 +4,9 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm name="LFormItemCheckbox" form={form}>
+    <LForm form={form}>
       <LFormItemCheckbox
+        label="复选"
         required
         name="select"
         options={[

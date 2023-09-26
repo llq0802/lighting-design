@@ -242,6 +242,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
 
   const radioDom = (
     <Radio.Group
+      {...restProps}
       options={radioOptions}
       disabled={disabled ?? isClearDepends}
       {...radioProps}

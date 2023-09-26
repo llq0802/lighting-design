@@ -85,6 +85,7 @@ const CodeInput: FC<CodeInputProps> = ({
   onChange,
   placeholder,
   disabled,
+  size,
   maxLength,
 
   type = 'default',
@@ -163,6 +164,7 @@ const CodeInput: FC<CodeInputProps> = ({
 
   const captchaButtonDom = (
     <LCaptchaButton
+      size={size}
       loading={loading}
       start={start}
       type={type === 'inline' || type === 'link' ? 'link' : type}
@@ -198,6 +200,7 @@ const CodeInput: FC<CodeInputProps> = ({
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Input
         disabled={disabled}
+        size={size}
         placeholder={placeholder}
         allowClear
         autoComplete="off"

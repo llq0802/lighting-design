@@ -59,6 +59,7 @@ function NumberRange({
         style={{ width: `calc((100% - ${separatorWidth}px) / 2)` }}
       />
       <Input
+        size={restProps?.size}
         disabled
         placeholder={separator}
         style={{
@@ -133,6 +134,7 @@ export type LFormItemNumberRangeProps = {
 const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
   required,
   disabled,
+  size,
   placeholder,
   separatorWidth = 30,
   separator,
@@ -169,6 +171,7 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
   return (
     <LFormItem required={required} rules={rules} {...restProps}>
       <NumberRange
+        size={size}
         disabled={disabled ?? formDisabled}
         separator={separator}
         separatorStyle={separatorStyle}

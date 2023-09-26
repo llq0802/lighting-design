@@ -6,7 +6,7 @@ const Demo1 = () => {
   return (
     <LForm form={form}>
       <LFormItemSegmented
-        label="Demo"
+        label="属性1"
         name="segmented1"
         options={[
           {
@@ -24,6 +24,7 @@ const Demo1 = () => {
         ]}
       />
       <LFormItemSegmented
+        label="属性2"
         name="segmented2"
         options={[
           {
@@ -40,6 +41,7 @@ const Demo1 = () => {
       />
 
       <LFormItemSegmented
+        label="属性3"
         name="segmented3"
         options={[
           {

@@ -41,19 +41,24 @@ export interface LFormItemNumberProps extends LFormItemProps {
 }
 
 const LFormItemNumber: FC<LFormItemNumberProps> = ({
-  required = false,
   disabled,
+  size,
+
+  required = false,
   precision,
   min = 0,
   max = 9999,
-  numberProps = emptyObject,
   placeholder,
+
+  numberProps = emptyObject,
+
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
     placeholder,
     restProps,
   });
+
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
@@ -64,6 +69,7 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
       {...restProps}
     >
       <NumberWrapper
+        size={size}
         disabled={disabled ?? formDisabled}
         placeholder={messageLabel}
         min={min}

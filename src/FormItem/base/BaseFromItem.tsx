@@ -1,5 +1,6 @@
 import type { ColProps, FormItemProps } from 'antd';
 import { Form } from 'antd';
+import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import classnames from 'classnames';
 import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement, useContext, useMemo } from 'react';
@@ -9,6 +10,7 @@ import FormItemWrapper from './FormItemWrapper';
 import './styles.less';
 
 export interface LFormItemProps extends FormItemProps {
+  size?: SizeType;
   name?: string[] | string;
   /**
    *lable宽度。  同 labelCol={{ flex: '90px' }}

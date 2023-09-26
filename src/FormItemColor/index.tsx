@@ -33,17 +33,19 @@ const LFormItemColor: FC<LFormItemColorProps> = ({
   required = false,
   colorType = 'sketch',
   disabled,
+  size,
   colorProps = emptyObject,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   placeholder,
   ...restProps
 }) => {
-  const { disabled: formDisabled } = useContext(LFormContext);
+  const { disabled: formDisabled, size: formSize } = useContext(LFormContext);
 
   const ColorConent = useMemo(() => {
     if (colorType === 'sketch') {
       return (
         <LColorSketchPicker
+          size={size ?? formSize}
           showText
           disabled={disabled ?? formDisabled}
           {...colorProps}
@@ -55,6 +57,7 @@ const LFormItemColor: FC<LFormItemColorProps> = ({
       return (
         <LColorPhotoshopPicker
           showText
+          size={size ?? formSize}
           disabled={disabled ?? formDisabled}
           {...colorProps}
         />
@@ -63,6 +66,7 @@ const LFormItemColor: FC<LFormItemColorProps> = ({
     return (
       <LColorChromePicker
         showText
+        size={size ?? formSize}
         disabled={disabled ?? formDisabled}
         {...colorProps}
       />

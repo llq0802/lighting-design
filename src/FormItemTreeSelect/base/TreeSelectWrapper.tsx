@@ -177,6 +177,7 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       <TreeSelect
+        {...restProps}
         allowClear
         disabled={disabled ?? isClearDepends}
         placeholder={placeholder}

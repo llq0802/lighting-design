@@ -158,6 +158,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
 
   const dom = (
     <Cascader
+      {...restProps}
       disabled={disabled ?? isClearDepends}
       placeholder={placeholder}
       options={selectOptions}

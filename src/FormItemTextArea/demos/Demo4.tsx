@@ -6,7 +6,6 @@ const Demo3 = () => {
 
   return (
     <LForm
-      name="LFormItemTextArea"
       isEnterSubmit={false}
       form={form}
       submitter={{ buttonAlign: 'center' }}
@@ -21,9 +20,10 @@ const Demo3 = () => {
         name="TextArea12"
         label="备注2"
         required
+        wrapperAlignItems="center"
         textAreaProps={{
           showCount: true,
-          autoSize: { minRows: 2, maxRows: 6 },
+          autoSize: { minRows: 4, maxRows: 6 },
         }}
       />
 

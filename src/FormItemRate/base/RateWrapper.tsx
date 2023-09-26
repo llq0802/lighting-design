@@ -132,6 +132,7 @@ const RateWrapper: FC<RateWrapperProps> = ({
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       <Rate
+        {...restProps}
         count={currentCount}
         disabled={disabled ?? isClearDepends}
         {...rateProps}

@@ -184,6 +184,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
   dateValueType = 'string',
   format = 'HH:mm:ss',
   timePickerProps = emptyObject,
+  size,
   placeholder,
   disabledHourBefore,
   disabledHourAfter,
@@ -225,6 +226,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
 
   const dom = (
     <TimePickerWrapper
+      size={size}
       dateValueType={dateValueType}
       rangePicker={rangePicker}
       placeholder={placeholder}

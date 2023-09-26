@@ -31,6 +31,8 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   request,
   debounceTime,
   spin,
+  size,
+
   cascaderProps = emptyObject,
   requestOptions = emptyObject,
   ...restProps
@@ -55,6 +57,7 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
         dependencies={restProps?.dependencies}
         options={options}
         request={request}
+        size={size}
         outLoading={spin}
         debounceTime={debounceTime}
         cascaderProps={cascaderProps}

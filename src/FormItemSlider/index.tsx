@@ -41,6 +41,7 @@ export interface LFormItemSliderProps
 const LFormItemSlider: FC<LFormItemSliderProps> = ({
   required,
   disabled,
+  size,
   min,
   max,
   step,

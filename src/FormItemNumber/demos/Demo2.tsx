@@ -5,11 +5,7 @@ const Demo = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm
-      name="LFormItemNumber"
-      form={form}
-      submitter={{ buttonAlign: 'center' }}
-    >
+    <LForm form={form} submitter={{ buttonAlign: 'center' }}>
       <LFormItemNumber
         name="number1"
         label="金额1"
@@ -26,12 +22,12 @@ const Demo = () => {
         }}
       />
       <LFormItemNumber
-        label="数字"
+        label="小数点后2位数字"
         name="number3"
         required
         max={1000}
         numberProps={{
-          precision: undefined,
+          precision: 2,
         }}
       />
 

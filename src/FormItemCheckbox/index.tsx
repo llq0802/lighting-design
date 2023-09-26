@@ -56,6 +56,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   checkboxProps = emptyObject,
   debounceTime,
   disabled,
+  size,
   required,
   spin,
   notDependRender,

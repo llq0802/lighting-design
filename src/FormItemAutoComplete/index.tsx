@@ -85,6 +85,7 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
   autoCompleteProps,
   required,
   placeholder,
+  size,
   disabled,
   ...restProps
 }) => {
@@ -93,12 +94,14 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
     restProps,
     isSelectType: false,
   });
+
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem required={required} placeholder={messageLabel} {...restProps}>
       {!inputRender ? (
         <AutoComplete
+          size={size}
           disabled={disabled ?? formDisabled}
           allowClear
           options={options}
@@ -112,6 +115,7 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
         />
       ) : (
         <AutoComplete
+          size={size}
           disabled={disabled ?? formDisabled}
           allowClear
           options={options}

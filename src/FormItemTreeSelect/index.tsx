@@ -39,6 +39,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   disabled,
   placeholder,
   debounceTime,
+  size,
   spin,
   treeSelectProps = emptyObject,
   requestOptions = emptyObject,
@@ -61,6 +62,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
         treeData={treeData}
         treeCheckable={treeCheckable}
         request={request}
+        size={size}
         outLoading={spin}
         debounceTime={debounceTime}
         loadData={loadData}

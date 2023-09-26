@@ -37,11 +37,12 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   required,
   disabled,
   spin,
+  size,
   count = 5,
   requestOptions = emptyObject,
   ...restProps
 }) => {
-  const { disabled: formDisabled } = useContext(LFormContext);
+  const { disabled: formDisabled, size: formSize } = useContext(LFormContext);
 
   const messageLabel = usePlaceholder({
     restProps,
@@ -67,6 +68,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
     <LFormItem required={required} _isSelectType rules={rules} {...restProps}>
       <RateWrapper
         name={restProps.name}
+        size={size ?? formSize}
         count={count}
         dependencies={restProps?.dependencies}
         disabled={disabled ?? formDisabled}

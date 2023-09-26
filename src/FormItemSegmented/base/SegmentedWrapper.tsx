@@ -151,6 +151,7 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   const SegmentedDom = (
     //  @ts-ignore
     <Segmented
+      {...restProps}
       disabled={disabled ?? isClearDepends}
       {...segmentedProps}
       options={segmentedOptions}
@@ -158,7 +159,6 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
       onChange={handleChange}
     />
   );
-
   return (
     <Spin
       spinning={loading}

@@ -53,15 +53,15 @@ nav:
 
 - 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`
 
-- 当且仅当 `submitter` 不为 `false` 并且 `LFormItemXXX` 或者 `Form.Item`外层嵌套许多层 `div` 导致内置表单无法重置时才需要配置 `allFields`
+- 当且仅当 `submitter` 不为 `false` 并且 `LFormItemXXX` 或者 `Form.Item`外层嵌套多层 `div` 时建议配置 `allFields` 以提高性能
 
 - 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是给子项设置 `defaultValue`
 
 - 如果要在某一项字段的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一项设置 `onChange` 事件
 
-- 在提交表单时如果要处理获取到的表单值推荐使用 `transformValues`方法
+- 在提交表单时如果要处理格式化获取到的表单数据时推荐使用 `transformValues`方法, 而不是在 `onFinish`中进行处理表单值 , `onFinish`只针对调用`接口函数`
 
-- `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置 onReset 或 提交 onSubmit 事件)`。
+- `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置 onReset 或 提交 onSubmit 事件)`
 
 - `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps.preventDefault = preventDefault` 所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
 

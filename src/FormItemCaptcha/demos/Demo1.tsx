@@ -7,7 +7,6 @@ const Demo1 = () => {
 
   return (
     <LForm
-      name="LFormItemCaptcha"
       form={form}
       submitter={{
         buttonAlign: 'center',

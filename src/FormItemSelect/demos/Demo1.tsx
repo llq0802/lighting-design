@@ -4,12 +4,7 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm
-      name="LFormItemSelect1"
-      form={form}
-      labelWidth={90}
-      submitter={{ buttonAlign: 'center' }}
-    >
+    <LForm form={form} labelWidth={90} submitter={{ buttonAlign: 'center' }}>
       <LFormItemSelect
         label="select1"
         name="select1"

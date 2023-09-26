@@ -4,12 +4,7 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm
-      name="LFormItemSwitch"
-      form={form}
-      labelWidth={85}
-      submitter={{ buttonAlign: 85 }}
-    >
+    <LForm form={form} labelWidth={85} submitter={{ buttonAlign: 85 }}>
       <LFormItemSwitch
         name="state1"
         label="开关"

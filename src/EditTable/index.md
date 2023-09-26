@@ -44,6 +44,7 @@ toc: content
 ## API
 
 :::warning{title=注意}
+自 2.1.20 起新增此组件
 
 - 在 `LForm` 中使用时 或者 有动态新增 删除一行数据时不建议配置 `pagination`
 
@@ -55,10 +56,10 @@ toc: content
 
 - 在 `LFormItem` 的 `rules.validator` 可自定义验证编辑表格在表单中收集到的数据
 
-- 在 `columns.editable` 必须为 `LFormItem` `LFormItemXXX` `Form.Item` 直接在上面配置的属性会对整个列生效 , `columns.getEditable`方法返回的对象通过对参数的判断可对每一项单独设置
+- 在 `columns.editable` 必须为 `LFormItem` `LFormItemXXX` `Form.Item` 直接在上面配置的属性会对整个列生效 , `columns.getEditable`方法返回的对象通过对`参数的判断`可对每一项单独设置
 
   ```
-  // 假设LFormItem的name为list
+  // 下面是在 LForm 中收集到的数据结构, 假设 LFormItem 的 name 为 list
   list:{
     key1:{
       name:xxx,

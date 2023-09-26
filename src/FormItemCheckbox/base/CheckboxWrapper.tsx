@@ -228,6 +228,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         </Checkbox>
       )}
       <Checkbox.Group
+        {...restProps}
         options={checkboxOptions}
         disabled={disabled ?? isClearDepends}
         {...checkboxProps}

@@ -1,4 +1,4 @@
-import { useMemoizedFn, useSafeState, useUpdateEffect } from 'ahooks';
+import { useMemoizedFn, useRafState, useUpdateEffect } from 'ahooks';
 import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
@@ -148,6 +148,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     transformValues,
 
     name,
+    size,
     layout = 'horizontal',
     disabled,
     labelCol,
@@ -163,7 +164,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
-  const [loading, setLoading] = useSafeState(outLoading);
+  const [loading, setLoading] = useRafState(outLoading);
   const formId = useMemo(() => name || `${uniqueId('lightd-form')}}}`, [name]);
 
   useUpdateEffect(() => {
@@ -223,7 +224,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 
   const initFieldValues = useMemo(
     () => getFieldObj(formItems, allFields),
-    [formItems?.length, allFields?.join(), submitter],
+    [formItems, allFields?.join(''), submitter],
   );
 
   useImperativeHandle(_lformRef, () => {
@@ -312,6 +313,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const formDom = (
     <LFormContext.Provider
       value={{
+        size,
         disabled,
         layout,
         labelColProps,
@@ -319,6 +321,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
       }}
     >
       <Form
+        size={size}
         name={formId}
         layout={layout}
         form={formRef.current}

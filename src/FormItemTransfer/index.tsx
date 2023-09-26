@@ -108,6 +108,7 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
   required,
 
   disabled,
+  size,
 
   pagination,
   limitMaxCount,

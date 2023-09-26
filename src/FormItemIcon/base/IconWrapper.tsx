@@ -30,6 +30,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
   onChange,
 
   disabled,
+  size,
   placeholder,
   showIcon,
   iconStyle,
@@ -60,6 +61,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
   return (
     <>
       <Input
+        size={size}
         placeholder={placeholder}
         {...inputProps}
         prefix={prefix}

@@ -22,6 +22,7 @@ const SwitchWrapper = (
     checkedBg,
     disabled,
     style,
+    size,
     ...switchProps
   } = props;
 
@@ -38,9 +39,9 @@ const SwitchWrapper = (
     onChange?.(bool);
   });
   const { disabled: formDisabled } = useContext(LFormContext);
-
   return (
     <Switch
+      size={size === 'small' ? 'small' : 'default'}
       disabled={disabled ?? formDisabled}
       {...switchProps}
       style={styles}
@@ -80,9 +81,12 @@ const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
   switchProps = emptyObject,
 
   required,
+  size,
   disabled,
   ...restProps
 }) => {
+  const { size: formSize } = useContext(LFormContext);
+
   return (
     <LFormItem
       _isSelectType
@@ -91,6 +95,7 @@ const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
       {...restProps}
     >
       <SwitchWrapper
+        size={size ?? formSize}
         checkedBg={checkedBg}
         unCheckedBg={unCheckedBg}
         disabled={disabled}

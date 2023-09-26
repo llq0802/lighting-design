@@ -30,6 +30,7 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
   disabledWhiteSpace = true,
   required = false,
   disabled,
+  size,
   placeholder,
   textAreaProps = emptyObject,
   ...restProps
@@ -48,6 +49,7 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
       {...restProps}
     >
       <TextAreaWrapper
+        size={size}
         disabled={disabled ?? formDisabled}
         disabledWhiteSpace={disabledWhiteSpace}
         placeholder={messagePlaceholder}

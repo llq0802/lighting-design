@@ -59,10 +59,8 @@ const Demo1 = () => {
 
   return (
     <LForm
-      name="FormItemAutoComplete"
       form={form}
-      // labelWidth={100}
-      // labelWrap
+      labelWrap
       labelCol={{ flex: '110px' }}
       submitter={{
         buttonAlign: 110,

@@ -77,6 +77,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   disabledCopy = true,
   passwordProps = emptyObject,
   required,
+  size,
   disabled,
   placeholder,
   highPassWordErrorMsg = `必须同时包含大小写字母 , 数字  , 特殊字符且位数至少8位!`,
@@ -86,47 +87,50 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
     placeholder,
     restProps,
   });
+
   const { disabled: formDisabled } = useContext(LFormContext);
+
+  const rules = [
+    {
+      validator(_, value) {
+        let errMsg = '';
+
+        if (!highPassWord) {
+          if (!value) {
+            errMsg = required
+              ? `${restProps?.messageVariables?.label || messagePlaceholder}!`
+              : '';
+          } else if (value.length < min || value.length > max) {
+            errMsg = `密码为${min}～${max}位`;
+          }
+          if (errMsg) {
+            return Promise.reject(errMsg);
+          }
+          return Promise.resolve();
+        }
+
+        if (PASSWORD_REG.test(value)) {
+          return Promise.resolve();
+        }
+        errMsg =
+          restProps?.messageVariables?.label ||
+          highPassWordErrorMsg ||
+          messagePlaceholder;
+        return Promise.reject(errMsg);
+      },
+    },
+  ];
+
   return (
     <LFormItem
       placeholder={messagePlaceholder}
       required={required}
       validateTrigger="onBlur"
-      rules={[
-        {
-          validator(rule, value) {
-            let errMsg = '';
-
-            if (!highPassWord) {
-              if (!value) {
-                errMsg = required
-                  ? `${
-                      restProps?.messageVariables?.label || messagePlaceholder
-                    }!`
-                  : '';
-              } else if (value.length < min || value.length > max) {
-                errMsg = `密码为${min}～${max}位`;
-              }
-              if (errMsg) {
-                return Promise.reject(errMsg);
-              }
-              return Promise.resolve();
-            }
-
-            if (PASSWORD_REG.test(value)) {
-              return Promise.resolve();
-            }
-            errMsg =
-              restProps?.messageVariables?.label ||
-              highPassWordErrorMsg ||
-              messagePlaceholder;
-            return Promise.reject(errMsg);
-          },
-        },
-      ]}
+      rules={rules}
       {...restProps}
     >
       <PasswordWrapper
+        size={size}
         disabled={disabled ?? formDisabled}
         disabledWhiteSpace={disabledWhiteSpace}
         disabledPaste={disabledPaste}
