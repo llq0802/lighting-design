@@ -1,4 +1,5 @@
 import { Avatar } from 'antd';
+import Mock from 'better-mock';
 import { LList } from 'lighting-design';
 import React from 'react';
 
@@ -9,15 +10,19 @@ interface UserItem {
   img: string;
 }
 
-const data: UserItem[] = [];
-for (let index = 0; index < 500; index++) {
-  data[index] = {
-    id: `${index}0`,
-    name: 'jack',
-    email: '958614130@qq.com',
-    img: `https://randomuser.me/api/portraits/men/${index + 1}.jpg`,
-  };
-}
+const data = Mock.mock({
+  'list|36': [
+    {
+      id: '@guid',
+      name: '@cname',
+      email: '@email',
+      img: `https://randomuser.me/api/portraits/men/${Mock.Random.integer(
+        0,
+        999999,
+      )}.jpg`,
+    },
+  ],
+}).list;
 
 const ContainerHeight = 500;
 const Demo1: React.FC = () => {

@@ -48,7 +48,7 @@ const Demo7: FC = () => {
         // console.log('==params==', params);
         // console.log('requestType ', requestType);
         // console.log('tableRef ', tableRef.current);
-        const res: Record<string, any> = await apiGetUserList();
+        const res: Record<string, any> = await apiGetUserList(params);
         return {
           success: true,
           data: res.data,

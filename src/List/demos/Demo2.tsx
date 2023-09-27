@@ -1,15 +1,20 @@
 import { Card, List } from 'antd';
+import Mock from 'better-mock';
 import { LList } from 'lighting-design';
 
-const data: any[] = [];
-for (let index = 0; index < 30; index++) {
-  data[index] = {
-    title: `Title ${index + 1}`,
-  };
-}
+const data = Mock.mock({
+  'list|36': [
+    {
+      id: '@guid',
+      name: '@cname',
+      title: '@ctitle',
+    },
+  ],
+}).list;
 
 const Demo2 = () => (
   <LList
+    rowKey="id"
     grid={{
       gutter: 16,
       xs: 1,
@@ -28,7 +33,7 @@ const Demo2 = () => (
     }}
     renderItem={(item) => (
       <List.Item>
-        <Card title={item.title}>Card content</Card>
+        <Card title={item.name}>{item.title}</Card>
       </List.Item>
     )}
   />

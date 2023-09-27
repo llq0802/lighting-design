@@ -118,7 +118,7 @@ nav:
 ### Excel 导入与导出
 
 [表格的导出 - json2Excel ](/scene/table-Export) <br>
-[表格的导入 - excel2Json (excel2Json ) ](/scene/excel-Import)
+[表格的导入 - excel2Json 或 getExcelData ](/scene/excel-Import)
 
 ### 编辑表格
 
@@ -144,7 +144,9 @@ nav:
 
 - 必须指定 `rowKey`属性 且必须是数据源的唯一标识的字段, 不能改变
 
-- 大多数情况尽量使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等 ,特殊场景下你依然可以使用 `dataSource` , 比如: 外层`Skeleton` 骨架屏, 这时 `分页` `loading`都有你来控制
+- 绝大多数情况都使用`request`来返回表格的数据，而不是直接配置`dataSource`，这样内部会自动帮你管理`分页`，`loading` 等
+
+- 特殊场景下你依然可以使用 `dataSource` 这时所有`tableRef`内部的方法数据均`无效`, `分页` `loading` 数据渲染都有你来控制
 
 - `request`返回值必须是 `{ success:boolean , data: Record<string, any>[], total: number | string  }` 如果与接口返回的数据结构不一致, 请自行处理成符合的数据结构
 

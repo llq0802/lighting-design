@@ -1,9 +1,9 @@
 import type { FormInstance } from 'antd';
 import { Button, Card, Col, Row } from 'antd';
+import Mock from 'better-mock';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
-import Mock from 'mockjs';
 import type { FC } from 'react';
 import { useRef } from 'react';
 

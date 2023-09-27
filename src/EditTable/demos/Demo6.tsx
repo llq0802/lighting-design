@@ -1,4 +1,5 @@
 import { Button, message, Space, Tag } from 'antd';
+import Mock from 'better-mock';
 import type { LEditTableInstance, LTableInstance } from 'lighting-design';
 import {
   LEditTable,
@@ -8,13 +9,12 @@ import {
   LFormItemSelect,
 } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
-import Mock from 'mockjs';
 import { useRef, useState } from 'react';
 
 const defaultData = Mock.mock({
   'list|25': [
     {
-      'id|+1': 11,
+      id: '@guid',
       'age|1-99': 20,
       name: '@cname',
       birthday: '@date',

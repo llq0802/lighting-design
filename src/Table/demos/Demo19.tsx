@@ -75,7 +75,7 @@ const Demo18: React.FC = () => {
           showQuickJumper: false,
         }}
         request={async (params, requestType) => {
-          const res: Record<string, any> = await apiGetUserList();
+          const res: Record<string, any> = await apiGetUserList(params);
           return {
             success: true,
             data: res.data,

@@ -47,7 +47,7 @@ const Demo3: FC = () => {
       formRef={formRef}
       columns={columns}
       request={async (params, requestType) => {
-        const res: Record<string, any> = await apiGetUserList();
+        const res: Record<string, any> = await apiGetUserList(params);
         return {
           success: true,
           data: res.data,

@@ -90,7 +90,7 @@ const Demo: FC = () => {
           // console.log('==params==', params);
           // console.log('requestType ', requestType);
           setLoading(true);
-          const res: Record<string, any> = await apiGetUserList();
+          const res: Record<string, any> = await apiGetUserList(params);
           return {
             success: true,
             data: res.data,

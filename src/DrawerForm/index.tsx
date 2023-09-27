@@ -2,10 +2,10 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { DrawerProps } from 'antd';
 import { Drawer, Form } from 'antd';
 import classnames from 'classnames';
-import { emptyObject } from 'lighting-design/constants';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import { isFunction } from 'lighting-design/_utils';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { cloneElement, useRef } from 'react';
 
@@ -129,7 +129,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
   const _lformRef = useRef<Record<string, any>>();
-  // const [myInitialValues, setInitialValues] = useState(outInitialValues ?? {});
 
   const handleFinish = useMemoizedFn(async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
@@ -137,19 +136,11 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     if (ret === true) setOpen(false);
   });
 
-  // useEffect(() => {
-  //   if (open) {
-  //     const openInitialValues = formRef.current?.getFieldsValue();
-  //     setInitialValues({ ...openInitialValues });
-  //   }
-  // }, [open]);
-
   return (
     <>
       <BaseForm
         _lformRef={_lformRef}
         className={classnames(prefixCls, className)}
-        // initialValues={myInitialValues}
         initialValues={outInitialValues}
         loading={loading}
         form={formRef.current}

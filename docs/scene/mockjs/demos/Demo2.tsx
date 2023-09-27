@@ -3,7 +3,7 @@ import Mock from 'better-mock';
 import { useState } from 'react';
 
 const mockOptions = {
-  '@emoji': '@emoji(3)',
+  '@emoji': '@emoji(20)',
   '@version': '@version',
   '@guid': '@guid',
   '@id': '@id',

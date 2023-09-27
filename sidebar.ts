@@ -272,7 +272,7 @@ export default {
           link: '/scene/excel-Import',
         },
         {
-          title: 'Mock 数据',
+          title: 'Mock 模拟数据',
           link: '/scene/mockjs',
         },
       ],

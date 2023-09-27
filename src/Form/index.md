@@ -65,7 +65,7 @@ nav:
 
 - `submitButtonProps` `resetButtonProps`额外支持`preventDefault`配置项，如果设置为`true` ，则不触发预置行为`(表单的重置 onReset 或 提交 onSubmit 事件)`
 
-- `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps.preventDefault = preventDefault` 所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
+- `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps.preventDefault = true` 所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
 
 - 动态渲染表单中的某一项请查看示例: [动态渲染表单中某一项表单项](/components/form-item#使用-shouldupdate-动态渲染)
 

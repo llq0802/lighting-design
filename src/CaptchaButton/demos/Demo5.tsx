@@ -1,6 +1,6 @@
 // import { usePagination } from 'ahooks';
 // import { Button, Pagination } from 'antd';
-// import Mock from 'mockjs';
+// import Mock from 'better-mock';
 
 // import { useCreation, useDeepCompareEffect } from 'ahooks';
 // import { Button } from 'antd';

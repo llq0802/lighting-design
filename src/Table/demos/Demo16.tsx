@@ -32,8 +32,8 @@ const Demo16: FC = () => {
         toolbarActionConfig={{
           showFullscreen: false,
         }}
-        request={async () => {
-          const res = await runAsync();
+        request={async (params) => {
+          const res = await runAsync(params);
           return {
             success: res.success,
             data: res.data,

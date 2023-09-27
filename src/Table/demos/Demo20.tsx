@@ -1,8 +1,8 @@
 import { Button, type FormInstance } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import Mock from 'better-mock';
 import type { LTableInstance } from 'lighting-design';
 import { LTable } from 'lighting-design';
-import Mock from 'mockjs';
 import React, { useRef } from 'react';
 import { originData } from './service';
 

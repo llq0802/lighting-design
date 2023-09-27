@@ -49,7 +49,7 @@ const Demo14: FC = () => {
           request={async (params, requestType) => {
             // console.log('==params==', params);
             // console.log('==requestType==', requestType);
-            const res: Record<string, any> = await apiGetUserList();
+            const res: Record<string, any> = await apiGetUserList(params);
             return {
               success: true,
               data: res.data,

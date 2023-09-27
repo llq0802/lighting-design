@@ -1,13 +1,12 @@
 import type { FormInstance } from 'antd';
 import { Button, ConfigProvider } from 'antd';
-import type { ColumnsType } from 'antd/es/table';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
 import { awaitTime } from '../../_test';
 import AddEditModal from './components/S-EditAddModal';
-import { apiGetUserList } from './service';
+import { apiGetUserList, columns } from './service';
 
 const formItems = [
   <LFormItemSelect
@@ -35,28 +34,6 @@ const Demo1: FC = () => {
   const tableRef = useRef<LTableInstance>();
   const [open, setOpen] = useState(false);
   const [editableRecord, setEditablRecord] = useState<Record<string, any>>();
-
-  const columns: ColumnsType<any> = [
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
-      align: 'center',
-      className: 'my-name-columns-999',
-    },
-    {
-      title: '年龄',
-      dataIndex: 'age',
-      key: 'age',
-      align: 'center',
-    },
-    {
-      title: '地址',
-      dataIndex: 'address',
-      key: 'address',
-      align: 'center',
-    },
-  ];
 
   return (
     <>
@@ -107,8 +84,8 @@ const Demo1: FC = () => {
         columns={columns}
         request={async (params, requestType) => {
           // console.log('==params==', params);
-          // console.log('requestType ', requestType);
-          const res: Record<string, any> = await apiGetUserList();
+          // console.log('==requestType==', requestType);
+          const res: Record<string, any> = await apiGetUserList(params);
           return {
             success: true,
             data: res.data,

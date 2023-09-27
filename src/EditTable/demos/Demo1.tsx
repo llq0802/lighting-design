@@ -1,14 +1,14 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
+import Mock from 'better-mock';
 import type { LEditTableInstance, LTableInstance } from 'lighting-design';
 import { LEditTable, LFormItemInput, LFormItemNumber } from 'lighting-design';
-import Mock from 'mockjs';
 import { useRef, useState } from 'react';
 
 const defaultData = Mock.mock({
   'list|5': [
     {
-      'id|+1': 11,
+      id: '@guid',
       'age|1-99': 20,
       name: '@cname',
     },

@@ -114,7 +114,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
   const _lformRef = useRef<Record<string, any>>();
-  // const [myInitialValues, setInitialValues] = useState(outInitialValues ?? {});
   const [disabled, setDisabled] = useState(false);
   const [bounds, setBounds] = useState({
     left: 0,
@@ -151,14 +150,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
       setOpen(false);
     }
   });
-
-  // useEffect(() => {
-  //   // 更新存储表单初始值
-  //   if (open) {
-  //     const openInitialValues = formRef.current?.getFieldsValue();
-  //     setInitialValues({ ...openInitialValues });
-  //   }
-  // }, [open]);
 
   return (
     <>
@@ -260,7 +251,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               afterClose={() => {
                 if (isResetFields) {
                   // formRef.current.resetFields(); // 弹窗关闭后重置表单
-                  console.log('_lformRef.current', _lformRef.current);
                   formRef.current.setFieldsValue({
                     ..._lformRef.current,
                   }); // 弹窗关闭后重置表单

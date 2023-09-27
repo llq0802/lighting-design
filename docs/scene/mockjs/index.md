@@ -4,7 +4,7 @@ toc: content
 nav:
 ---
 
-# Mock 数据
+# Mock 模拟数据
 
 一般我们会使用`Mock.js`库, 这里更推荐 `better-mock`库 [better-mock](https://github.com/lavyun/better-mock)
 
