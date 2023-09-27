@@ -12,13 +12,13 @@ import type {
   CheckboxGroupProps,
 } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import {
   useDependValues,
   useIsClearDependValues,
   useIsFirstRender,
 } from 'lighting-design/_utils';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { CSSProperties, FC, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
@@ -49,7 +49,7 @@ export type CheckboxWrapperProps = Record<string, any> &
     /**
      *请求数据源的异步函数
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.20
+     *@version 2.1.21
      *@memberof LFormItemCheckboxProps
      */
     request: (...args: any[]) => Promise<any>;
@@ -57,14 +57,14 @@ export type CheckboxWrapperProps = Record<string, any> &
     /**
      *自定义全选
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.20
+     *@version 2.1.21
      *@memberof LFormItemCheckboxProps
      */
     beforeAll: LCheckboxBeforeAllProps | boolean;
     /**
      *多选框组件 Props
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.20
+     *@version 2.1.21
      *@memberof LFormItemCheckboxProps
      */
     checkboxProps: CheckboxGroupProps;
@@ -73,7 +73,7 @@ export type CheckboxWrapperProps = Record<string, any> &
     /**
      *依赖项的值为空时展示的内容
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.20
+     *@version 2.1.21
      *@memberof LFormItemCheckboxProps
      */
     notDependRender?: ReactNode;

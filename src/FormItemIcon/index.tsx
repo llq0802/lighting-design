@@ -1,9 +1,9 @@
 import type { InputProps, ModalProps, TabPaneProps, TabsProps } from 'antd';
-import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import React, { useContext } from 'react';
 import IconWrapper from './base/IconWrapper';
@@ -34,56 +34,56 @@ export interface LFormItemIconProps extends LFormItemProps {
   /**
    *选择图标后是否展示 (只支持antd内置图标，如果自定义图标请设置inputProps的prefix属性)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemIconProps
    */
   showIcon?: boolean;
   /**
    *弹窗里面所有图标样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemIconProps
    */
   iconStyle?: React.CSSProperties;
   /**
    *选择图标后的图标样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemIconProps
    */
   activeIconStyle?: React.CSSProperties;
   /**
    *Input 输入框配置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemIconProps
    */
   inputProps?: InputProps;
   /**
    *Modal 弹出框配置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemIconProps
    */
   modalProps?: ModalProps;
   /**
    *Tabs 组件配置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemIconProps
    */
   tabsProps?: TabsProps;
   /**
    *默认图标配置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemIconProps
    */
   options?: FormItemIconOptions;
   /**
    *自定义图标配置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemIconProps
    */
   extendRender?: {
@@ -93,7 +93,7 @@ export interface LFormItemIconProps extends LFormItemProps {
   /**
    *自定义item渲染
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemIconProps
    */
   itemRender?: (item: string, node: React.ReactNode) => React.ReactNode;

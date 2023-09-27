@@ -7,13 +7,13 @@ import {
 } from 'ahooks';
 import type { SpinProps, TreeSelectProps } from 'antd';
 import { Form, Spin, TreeSelect } from 'antd';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import {
   useDependValues,
   useIsClearDependValues,
   useIsFirstRender,
 } from 'lighting-design/_utils';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 
@@ -21,21 +21,21 @@ export type TreeSelectWrapperProps = Record<string, any> & {
   /**
    *数据化配置选项内容
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTreeSelectProps
    */
   treeData?: TreeSelectProps['treeData'];
   /**
    *请求数据异步函数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTreeSelectProps
    */
   request?: (...dependValues: any[]) => Promise<LTreeSelectOption[]>;
   /**
    *是否显示 Checkbox
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTreeSelectProps
    */
   treeCheckable?: boolean;
@@ -43,7 +43,7 @@ export type TreeSelectWrapperProps = Record<string, any> & {
   /**
    *antd树选择组件的 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTreeSelectProps
    */
   treeSelectProps?: TreeSelectProps;
@@ -51,7 +51,7 @@ export type TreeSelectWrapperProps = Record<string, any> & {
   /**
    *异步加载数据
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTreeSelectProps
    */
   loadData?: TreeSelectProps['loadData'];

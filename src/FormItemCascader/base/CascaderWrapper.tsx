@@ -7,13 +7,13 @@ import {
 } from 'ahooks';
 import type { CascaderProps, SpinProps } from 'antd';
 import { Cascader, Form, Spin } from 'antd';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import {
   useDependValues,
   useIsClearDependValues,
   useIsFirstRender,
 } from 'lighting-design/_utils';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
@@ -21,28 +21,28 @@ export type CascaderWrapperProps = Record<string, any> & {
   /**
    * 数据项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCascaderProps
    */
   options?: CascaderProps<any>['options'];
   /**
    * 异步请求函数 用于获取数据
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCascaderProps
    */
   request?: (...args: any[]) => Promise<any>;
   /**
    * 当依赖项发生变化时重新请求的防抖时间
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCascaderProps
    */
   debounceTime?: number;
   /**
    * antd 级联组件 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCascaderProps
    */
   cascaderProps?: CascaderProps<any>;

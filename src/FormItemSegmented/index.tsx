@@ -3,10 +3,10 @@ import type {
   SegmentedLabeledOption,
   SegmentedValue,
 } from 'antd/lib/segmented';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import type { SegmentedWrapperProps } from './base/SegmentedWrapper';
@@ -22,21 +22,21 @@ export interface LFormItemSegmentedoProps
   /**
    *当依赖项发生变化时重新请求的防抖时间
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSegmentedoProps
    */
   debounceTime?: number;
   /**
    *数据化配置选项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSegmentedoProps
    */
   options?: (SegmentedValue | SegmentedLabeledOption)[];
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSegmentedoProps
    */
   spin?: SpinProps;

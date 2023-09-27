@@ -1,9 +1,9 @@
 import type { SpinProps } from 'antd';
-import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import type { RateWrapperProps } from './base/RateWrapper';
@@ -17,14 +17,14 @@ export interface LFormItemRateProps
   /**
    *总共的星数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemRateProps
    */
   count?: number;
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemRateProps
    */
   spin?: SpinProps;

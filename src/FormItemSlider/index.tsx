@@ -1,11 +1,11 @@
 import type { SliderSingleProps } from 'antd';
 import { Slider } from 'antd';
 import type { SliderRangeProps } from 'antd/lib/slider';
-import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
+import { emptyObject } from 'lighting-design/constants';
 import type { CSSProperties, FC } from 'react';
 import { useContext } from 'react';
 
@@ -18,21 +18,21 @@ export interface LFormItemSliderProps
   /**
    *antd 滑块的 props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSliderProps
    */
   sliderProps?: SliderSingleProps | SliderRangeProps;
   /**
    *整个轨道样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSliderProps
    */
   railStyle?: CSSProperties;
   /**
    *Slider 组件根标签样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSliderProps
    */
   sliderStyle?: CSSProperties;

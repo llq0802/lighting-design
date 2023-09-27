@@ -1,9 +1,9 @@
 import type { SpinProps, TransferProps } from 'antd';
-import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { isFunction } from 'lighting-design/_utils';
+import { emptyObject } from 'lighting-design/constants';
 import { useContext, type FC } from 'react';
 import type { FieldNames, RecordType } from './base/TransferWrapper';
 import TransferWrapper from './base/TransferWrapper';
@@ -29,49 +29,49 @@ export type LFormItemTransferProps = {
   /**
    *包含一些请求分页的方法与属性 配合 request pagination 用于外部控制分页请求
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTransferProps
    */
   actionRef?: React.MutableRefObject<LFormItemTransferActionRef | undefined>;
   /**
    *可选的最大数量
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTransferProps
    */
   limitMaxCount?: number;
   /**
    *自定义配置字段名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTransferProps
    */
   fieldNames?: FieldNames;
   /**
    *antd穿梭框的配置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTransferProps
    */
   transferProps?: TransferProps<any[]>;
   /**
    *禁用
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTransferProps
    */
   disabled?: boolean;
   /**
    *分页配置 与 antd 穿梭框的分页配置一样
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTransferProps
    */
   pagination?: TransferProps<any[]>['pagination'];
   /**
    *异步请求函数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTransferProps
    */
   request?: (info: {
@@ -81,21 +81,21 @@ export type LFormItemTransferProps = {
   /**
    *ahooks 的配置项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTransferProps
    */
   requestOptions?: Record<string, any>;
   /**
    *数据源
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTransferProps
    */
   options?: RecordType[];
   /**
    *自定义 loading 需要与 request 配合
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTransferProps
    */
   spin?: SpinProps;

@@ -1,12 +1,12 @@
 import { useMemoizedFn, useUnmount } from 'ahooks';
 import type { ButtonProps, ModalProps, UploadProps } from 'antd';
-import { ConfigProvider, message, Upload } from 'antd';
+import { ConfigProvider, Upload, message } from 'antd';
 import type { ImgCropProps } from 'antd-img-crop';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { RcFile, UploadFile } from 'antd/lib/upload';
 import classNames from 'classnames';
-import { emptyObject } from 'lighting-design/constants';
 import { uniqueId } from 'lighting-design/_utils';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useMemo, useRef, useState } from 'react';
 import {
@@ -15,8 +15,8 @@ import {
   createFileUrl,
   removeFileUrl,
 } from '../../_utils/upload';
-import './styles.less';
 import UploadPreview from './UploadPreview';
+import './styles.less';
 
 export const lightdUploadWrapper = 'lightd-upload-wrapper';
 
@@ -24,7 +24,7 @@ export interface UploadWrapperProps extends UploadProps {
   /**
    *文件类型错误提示
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemUploadProps
    */
   fileTypeMessage?: string | false;
@@ -32,28 +32,28 @@ export interface UploadWrapperProps extends UploadProps {
   /**
    *文件超过最大尺寸提示
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemUploadProps
    */
   fileSizeMessage?: string | false;
   /**
    *自定义文件上传的异步函数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemUploadProps
    */
   onUpload?: (file: File) => Promise<Record<string, any>>;
   /**
    *单个文件最大尺寸，用于校验
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemUploadProps
    */
   maxSize?: number;
   /**
    *支持拖拽
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemUploadProps
    */
   dragger?: boolean;
@@ -61,7 +61,7 @@ export interface UploadWrapperProps extends UploadProps {
   /**
    *内置预览 Modal 的 props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemUploadProps
    */
   previewModalProps?: ModalProps;
@@ -69,14 +69,14 @@ export interface UploadWrapperProps extends UploadProps {
   /**
    *点击预览获取大图URL
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemUploadProps
    */
   onGetPreviewUrl?: (file: File) => Promise<string>;
   /**
    *Button 的 Props 在uploadType为'default'时生效
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemUploadProps
    */
   buttonProps?: ButtonProps;

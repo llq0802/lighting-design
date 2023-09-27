@@ -21,21 +21,21 @@ export interface BaseFormProps
   /**
    *LForm 下面所有的 LFormItemXXX 或者 Form.Item 的 name 的属性值组成的字段数组
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   allFields?: string[];
   /**
    *lable宽度。  同 labelCol={{ flex: '90px' }}
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   labelWidth?: number | 'auto';
   /**
    * 渲染Form组件的children (Form.Item)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   contentRender?: (
@@ -46,56 +46,56 @@ export interface BaseFormProps
   /**
    * 重新渲染Form
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   formRender?: (formDom: ReactElement, submitterDom: ReactNode) => ReactNode;
   /**
    * 表单是否渲染完成  false时，禁止触发 submit。true 时，会对表单初始值重新赋值。
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   isReady?: boolean;
   /**
    * 表单提交按钮的loading (用户提交时会自动管理)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   loading?: boolean;
   /**
    * 默认按钮配置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   submitter?: false | Omit<LFormSubmitterProps, 'form'>;
   /**
    * 重置按钮事件回调
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   onReset?: (event: MouseEvent<HTMLElement>) => void;
   /**
    * 是否按Enter键能提交表单
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   isEnterSubmit?: boolean;
   /**
    * 在 onFinish 调用之前转化表单值 返回结果是 onFinish 的参数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   transformValues?: (values: Record<string, any>) => Record<string, any>;
   /**
    * 提交数据时触发。如果是异步函数，会自动管理 提交和重置按钮的 loading，外部无需再设置 loading。
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   onFinish?: (values: Record<string, any>) => any;
@@ -105,7 +105,7 @@ export interface BaseFormProps
    * @param currentValue 当前改变的字段值
    * @param allValues 表单所有的数据
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormProps
    */
   onValuesChange?(

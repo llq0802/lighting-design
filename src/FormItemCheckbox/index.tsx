@@ -1,9 +1,9 @@
 import type { SpinProps } from 'antd';
 import type { CheckboxOptionType } from 'antd/lib/checkbox';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import type { CheckboxWrapperProps } from './base/CheckboxWrapper';
@@ -17,7 +17,7 @@ export interface LFormItemCheckboxProps
   /**
    *依赖项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
@@ -25,7 +25,7 @@ export interface LFormItemCheckboxProps
   /**
    *当依赖项发生变化时重新请求的防抖时间
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
@@ -33,7 +33,7 @@ export interface LFormItemCheckboxProps
   /**
    *数据源
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
@@ -41,7 +41,7 @@ export interface LFormItemCheckboxProps
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */

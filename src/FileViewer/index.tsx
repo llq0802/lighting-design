@@ -5,8 +5,8 @@ import classnames from 'classnames';
 import type { ReactNode } from 'react';
 import type { FileViewProps } from './FileView';
 import FileView from './FileView';
-import './index.less';
 import FileViewerPictureCard from './PictureCard';
+import './index.less';
 
 export interface LFileViewerProps
   extends ModalProps,
@@ -14,13 +14,13 @@ export interface LFileViewerProps
   /**
    * image 类型的配置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    */
   imagePreview?: LImagePreviewProps;
   /**
    * 文件地址
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@type {string[]}
    *@example url={['地址1','地址2']}
    */
@@ -28,7 +28,7 @@ export interface LFileViewerProps
   /**
    * 是否打开(受控)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    * @type {?boolean}
    * @memberof LFileViewerProps
    */
@@ -36,7 +36,7 @@ export interface LFileViewerProps
   /**
    *默认是否打开
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@type {?boolean}
    *@memberof LFileViewerProps
    */
@@ -44,7 +44,7 @@ export interface LFileViewerProps
   /**
    * 默认是否打开
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@type { (open: boolean) => void }
    *@memberof LFileViewerProps
    */

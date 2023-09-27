@@ -5,7 +5,6 @@ import {
 } from 'ahooks';
 import type { TableProps } from 'antd';
 import classnames from 'classnames';
-import { emptyObject } from 'lighting-design/constants';
 import type { LFormProps } from 'lighting-design/Form';
 import LForm from 'lighting-design/Form';
 import type { LFormItemProps } from 'lighting-design/FormItem';
@@ -15,6 +14,7 @@ import type {
   LTableProps,
 } from 'lighting-design/Table/base/types';
 import { isFunction, uniqueId } from 'lighting-design/_utils';
+import { emptyObject } from 'lighting-design/constants';
 import type {
   Dispatch,
   Key,
@@ -138,7 +138,7 @@ export type LEditTableProps = {
    * @param value 当前行的表单值
    * @param index  索引
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.20
+   * @version 2.1.21
    * @memberof LTableProps
    */
   onValuesChange?: (
@@ -150,21 +150,21 @@ export type LEditTableProps = {
   /**
    * 主键 id 必须是字符串类型
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.20
+   * @version 2.1.21
    * @memberof LTableProps
    */
   rowKey: string;
   /**
    * 编辑表格的配置项
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.20
+   * @version 2.1.21
    * @memberof LTableProps
    */
   editTableOptions?: EditTableOptions;
   /**
    * 编辑表格的列配置 多了 editable属性  getEditable方法  用于配置每一项表单项
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.20
+   * @version 2.1.21
    * @memberof LTableProps
    */
   columns: TableProps<any>['columns'] & {

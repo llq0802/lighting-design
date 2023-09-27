@@ -1,10 +1,10 @@
 import type { InputProps } from 'antd';
 
-import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import type { InputWrapperProps } from './InputWrapper';
@@ -14,21 +14,21 @@ export interface LFormItemInputProps extends LFormItemProps {
   /**
    *输入框类型 扩展了一些类型
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemInputProps
    */
   type?: InputWrapperProps['type'];
   /**
    * 是否禁止输入空格 默认 true
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemInputProps
    */
   disabledWhiteSpace?: boolean;
   /**
    * antd.Input 的其他属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemInputProps
    *@see https://ant.design/components/input-cn/#api
    */

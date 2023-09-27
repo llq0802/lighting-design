@@ -8,13 +8,13 @@ import {
 import type { SelectProps, SpinProps } from 'antd';
 import { Form, Select, Spin } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import {
   useDependValues,
   useIsClearDependValues,
   useIsFirstRender,
 } from 'lighting-design/_utils';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
@@ -30,28 +30,28 @@ export type SelectWrapperProps = Record<string, any> & {
   /**
    *是否需要全部选项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSelectProps
    */
   all?: boolean;
   /**
    *全部选项的值
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSelectProps
    */
   allValue?: number | string;
   /**
    *全部选项的名称
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSelectProps
    */
   allLabel?: ReactNode;
   /**
    *下拉选择器组件 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSelectProps
    */
   selectProps?: SelectProps;

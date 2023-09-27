@@ -3,13 +3,13 @@ import type { TimePickerProps, TimeRangePickerProps } from 'antd';
 import { TimePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import 'dayjs/locale/zh-cn';
-import { emptyObject, TIME_LIST } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import type { DateValueType } from 'lighting-design/_utils/date';
 import { transform2Dayjs } from 'lighting-design/_utils/date';
 import type { Dayjs } from 'lighting-design/_utils/day';
+import { TIME_LIST, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext, useMemo } from 'react';
 
@@ -118,42 +118,42 @@ export interface LFormItemTimePickerProps extends LFormItemProps {
   /**
    *是否是范围时间选择
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTimePickerProps
    */
   rangePicker?: boolean;
   /**
    *表单获取到的值的类型
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTimePickerProps
    */
   dateValueType?: Omit<DateValueType, 'number'>;
   /**
    *禁用当前时间之前的小时 (0 会包括当前小时)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTimePickerProps
    */
   disabledHourBefore?: number;
   /**
    *禁用当前时间之后的小时 (0 会包括当前小时)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTimePickerProps
    */
   disabledHourAfter?: number;
   /**
    *禁用分钟的函数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTimePickerProps
    */
   disabledMinutes?: (selectedHour: number, type?: 'start' | 'end') => number[];
   /**
    *禁用秒的函数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTimePickerProps
    */
   disabledSeconds?: (
@@ -164,14 +164,14 @@ export interface LFormItemTimePickerProps extends LFormItemProps {
   /**
    *同antd时间组件的格式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTimePickerProps
    */
   format?: 'HH:mm:ss' | string;
   /**
    *antd时间组件的 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemTimePickerProps
    */
   timePickerProps?: TimePickerProps | TimeRangePickerProps;

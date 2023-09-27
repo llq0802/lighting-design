@@ -4,7 +4,7 @@ import { Divider, Input } from 'antd';
 import { LCaptchaButton } from 'lighting-design';
 import type { LCaptchaButtonProps } from 'lighting-design/CaptchaButton';
 import { emptyObject } from 'lighting-design/constants';
-import type { ChangeEvent, CSSProperties, FC } from 'react';
+import type { CSSProperties, ChangeEvent, FC } from 'react';
 import { useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 export interface CodeInputProps extends Record<number | string, any> {
@@ -13,56 +13,56 @@ export interface CodeInputProps extends Record<number | string, any> {
   /**
    * 验证码组件类型
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   type?: ButtonProps['type'] | 'inline';
   /**
    *  输入框的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   inputProps?: InputProps;
   /**
    *  按钮的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   buttonProps?: LCaptchaButtonProps & { initText: string };
   /**
    * 组件挂载完成后，自动触发点击按钮。
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   autoClick?: boolean;
   /**
    * onGetCaptcha 请求获取验证成功后，是否自动获取输入框焦点
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   autoFocusOnGetCaptcha?: boolean;
   /**
    * 是否禁用
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   disabled?: boolean;
   /**
    * 验证码最大长度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   maxLength?: number;
   /**
    * 点击按钮触发并请求获取验证码的异步函数。 如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。会自动管理loading
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   onGetCaptcha?: () => boolean | Promise<any>;

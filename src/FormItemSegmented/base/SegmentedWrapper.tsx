@@ -11,12 +11,12 @@ import type {
   SegmentedLabeledOption,
   SegmentedValue,
 } from 'antd/lib/segmented';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import {
   useDependValues,
   useIsClearDependValues,
   useIsFirstRender,
 } from 'lighting-design/_utils';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
 
@@ -27,7 +27,7 @@ export type SegmentedWrapperProps = Record<string, any> & {
   /**
    *antd分段组件 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSegmentedoProps
    */
   segmentedProps?:
@@ -42,7 +42,7 @@ export type SegmentedWrapperProps = Record<string, any> & {
   /**
    *依赖项的值为空时展示的内容
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemSegmentedoProps
    */
   notDependRender?: ReactNode;

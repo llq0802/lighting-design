@@ -1,9 +1,9 @@
 import type { LCaptchaButtonProps } from 'lighting-design/CaptchaButton';
-import { emptyObject } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import type { CodeInputProps } from './base/CaptchaInput';
@@ -27,7 +27,7 @@ export interface LFormItemCaptchaProps
   /**
    *  按钮初始文本
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   initText?: string;
@@ -35,14 +35,14 @@ export interface LFormItemCaptchaProps
   /**
    *  验证码最大长度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   maxLength?: number;
   /**
    *  用于取消重置倒计时
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LFormItemCaptchaProps
    */
   cancelRef?: React.MutableRefObject<(() => void) | undefined>;

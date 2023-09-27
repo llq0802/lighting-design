@@ -7,13 +7,13 @@ import {
 } from 'ahooks';
 import type { RateProps, SpinProps } from 'antd';
 import { Form, Rate, Spin } from 'antd';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import {
   useDependValues,
   useIsClearDependValues,
   useIsFirstRender,
 } from 'lighting-design/_utils';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 
@@ -22,7 +22,7 @@ export type RateWrapperProps = Record<string, any> &
     /**
      *请求总共的星数的异步函数
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.20
+     *@version 2.1.21
      *@memberof LFormItemRateProps
      */
     request: (...args: any[]) => Promise<number>;
@@ -32,7 +32,7 @@ export type RateWrapperProps = Record<string, any> &
     /**
      *antd评分组件 Props
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.20
+     *@version 2.1.21
      *@memberof LFormItemRateProps
      */
     rateProps: RateProps;

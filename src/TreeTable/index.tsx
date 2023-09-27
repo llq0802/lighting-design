@@ -24,104 +24,104 @@ import {
   transformTreeToList,
 } from './util';
 
-export { LTreeTableDataItem, LTreeTableData, LTreeTableFieldNames };
+export { LTreeTableData, LTreeTableDataItem, LTreeTableFieldNames };
 
 export type LTreeTableProps = {
   /**
    *  默认值
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   defaultValue?: ValueType[];
   /**
    * 勾选的值 (受控)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   value?: ValueType[];
   /**
    * 勾选后的回调 (受控)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   onChange?: (values: ValueType[]) => void;
   /**
    *数据项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   treeData: LTreeTableData;
   /**
    *自定义设置字段名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   fieldNames?: LTreeTableFieldNames;
   /**
    *设头部列表标题等Table的字段
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   columns?: Record<string, any>[];
   /**
    *是否合并最后一列
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   lastColumnMerged?: boolean;
   /**
    *是否显示复选框
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   showCheckbox?: boolean;
   /**
    *父子节点选中状态是否不再关联 (各自独立)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   checkStrictly?: boolean;
   /**
    *全部禁用
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   disabled?: boolean;
   /**
    *当该项为空值时填充展示的内容
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   fillEmpty?: React.ReactNode;
   /**
    *为所有复选框设置类名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   checkboxClassName?: string;
   /**
    *为所有复选框设置样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   checkboxStyle?: React.CSSProperties;
   /**
    *自定义多选框的label
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.20
+   *@version 2.1.21
    *@memberof LTreeTableProps
    */
   labelRender?: (
