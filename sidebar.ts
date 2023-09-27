@@ -275,6 +275,10 @@ export default {
           title: 'Mock 模拟数据',
           link: '/scene/mockjs',
         },
+        {
+          title: '下载文件',
+          link: '/scene/download',
+        },
       ],
     },
   ],
