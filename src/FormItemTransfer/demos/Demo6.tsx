@@ -61,7 +61,7 @@ export default () => {
     >
       <LFormItemTransfer
         // options={transferDataSource}
-        request={async (page, pageSize) => {
+        request={async ({ current, pageSize }) => {
           await awaitTime();
           return {
             data: transferDataSource,

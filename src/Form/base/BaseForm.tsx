@@ -164,7 +164,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
-  const [loading, setLoading] = useRafState(outLoading);
+  const [loading, setLoading] = useRafState(() => outLoading);
   const formId = useMemo(() => name || `${uniqueId('lightd-form')}}}`, [name]);
 
   useUpdateEffect(() => {
@@ -287,7 +287,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         }}
       />
     ) : null;
-  }, [initFieldValues, isReady, loading, onReset, submitter, submitterProps]);
+  }, [initFieldValues, isReady, loading, submitter, submitterProps]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)

@@ -1,9 +1,14 @@
+import Mock from 'better-mock';
 import { LForm, LFormItemTransfer } from 'lighting-design';
 
-const transferMockData: any[] = Array.from({ length: 10 }).map((_, i) => ({
-  key: i.toString(),
-  title: `content--${i}`,
-}));
+const transferMockData: any[] = Mock.mock({
+  'list|10': [
+    {
+      key: '@id',
+      title: '@city',
+    },
+  ],
+}).list;
 
 export default () => {
   return (

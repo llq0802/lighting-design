@@ -24,7 +24,15 @@ export declare interface SearchFormProps extends LQueryFormProps {
 
 const SearchForm = forwardRef(
   (
-    { formItems: items = [], cardProps, name, ...restProps }: SearchFormProps,
+    {
+      formItems: items = [],
+      cardProps,
+      name,
+      loading,
+      isReady,
+      submitter,
+      ...restProps
+    }: SearchFormProps,
     ref,
   ) => {
     const [form] = LForm.useForm();
@@ -65,7 +73,26 @@ const SearchForm = forwardRef(
           ...cardProps?.bodyStyle,
         }}
       >
-        <LQueryForm form={form} name={searchFormId} {...restProps}>
+        <LQueryForm
+          form={form}
+          name={searchFormId}
+          loading={loading}
+          isReady={isReady}
+          {...restProps}
+          submitter={{
+            ...submitter,
+            resetButtonProps: {
+              disabled: loading || !isReady,
+              ...submitter?.resetButtonProps,
+            },
+            submitButtonProps: {
+              // loading,
+              loading: false,
+              disabled: loading || !isReady,
+              ...submitter?.submitButtonProps,
+            },
+          }}
+        >
           {dom}
         </LQueryForm>
       </Card>

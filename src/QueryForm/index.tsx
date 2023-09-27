@@ -128,7 +128,10 @@ function LQueryForm(props: LQueryFormProps) {
       layout={layout}
       submitter={
         submitter === undefined || submitter
-          ? { submitText: '查询', ...submitter }
+          ? {
+              submitText: '查询',
+              ...submitter,
+            }
           : submitter
       }
       className={classnames(prefixCls, className)}

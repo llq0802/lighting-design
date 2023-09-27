@@ -94,7 +94,7 @@ export type LTableRequest<T = Record<string, any>> = (
   total: number | string;
 }>;
 
-export type LTableProps = {
+export type LTableProps<T = any> = {
   /**
    * 表格是否需要排序序号及宽度, 自定义渲染
    * @author 李岚清 <https://github.com/llq0802>
@@ -333,4 +333,4 @@ export type LTableProps = {
    * @see https://llq0802.github.io/lighting-design/latest/components/query-form
    */
   queryFormProps?: LQueryFormProps;
-} & TableProps<any>;
+} & TableProps<T>;

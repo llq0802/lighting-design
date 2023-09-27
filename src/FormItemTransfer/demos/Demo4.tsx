@@ -34,7 +34,7 @@ export default () => {
         name="transfer"
         required
         actionRef={actionRef}
-        request={async (page, pageSize) => {
+        request={async ({ current, pageSize }) => {
           await awaitTime();
           return {
             data: transferMockData,

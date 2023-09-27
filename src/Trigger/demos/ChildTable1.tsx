@@ -1,5 +1,6 @@
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import Mock from 'better-mock';
 import React from 'react';
 
 interface DataType {
@@ -15,12 +16,16 @@ const columns: ColumnsType<DataType> = [
   { title: 'Address', dataIndex: 'address' },
 ];
 
-const data: DataType[] = [
-  { key: '1', name: 'John-1', age: 33, address: 'New York No. 1 Lake Park' },
-  { key: '4', name: 'John-2', age: 60, address: 'Sidney No. 1 Lake Park' },
-  { key: '2', name: 'John-3', age: 42, address: 'London No. 1 Lake Park' },
-  { key: '3', name: 'John-4', age: 32, address: 'Sidney No. 1 Lake Park' },
-];
+const dataSource: DataType[] = Mock.mock({
+  'list|25': [
+    {
+      key: '@id',
+      name: '@cname',
+      address: '@county(true)',
+      'age|10-30': 10,
+    },
+  ],
+}).list;
 
 const Tables: React.FC = (props) => {
   const { value: outValue, onChange: outOnChange, open, setOpen } = props;
@@ -46,6 +51,9 @@ const Tables: React.FC = (props) => {
 
   return (
     <Table
+      pagination={{
+        defaultPageSize: 5,
+      }}
       size="small"
       rowSelection={{
         selectedRowKeys: outValue ? [outValue] : [],
@@ -55,7 +63,7 @@ const Tables: React.FC = (props) => {
         ...rowSelection,
       }}
       columns={columns}
-      dataSource={data}
+      dataSource={dataSource}
     />
   );
 };

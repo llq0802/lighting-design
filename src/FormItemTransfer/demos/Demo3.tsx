@@ -1,12 +1,17 @@
+import Mock from 'better-mock';
 import type { LFormItemTransferActionRef } from 'lighting-design';
 import { LForm, LFormItemTransfer } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
 import { useRef } from 'react';
 
-const transferMockData: any[] = Array.from({ length: 20 }).map((_, i) => ({
-  key: i.toString(),
-  title: `content--${i}`,
-}));
+const transferMockData: any[] = Mock.mock({
+  'list|10': [
+    {
+      key: '@id',
+      title: '@city',
+    },
+  ],
+}).list;
 
 const initialTargetKeys = transferMockData
   .filter((item) => Number(item.key) <= 1)

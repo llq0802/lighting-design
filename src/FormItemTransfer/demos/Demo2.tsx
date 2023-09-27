@@ -2,9 +2,23 @@ import { Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import type { TransferItem } from 'antd/es/transfer';
+import Mock from 'better-mock';
 import { LForm, LFormItemTransfer } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
 import { difference } from 'lodash-es';
+
+const mockTags = ['休闲', '网红', '时尚'];
+
+const mockData: RecordType[] = Mock.mock({
+  'list|50': [
+    {
+      key: '@id',
+      title: '@city',
+      'tag|1': mockTags,
+      desc: '@ctitle',
+    },
+  ],
+}).list;
 
 interface RecordType {
   key: string;
@@ -21,15 +35,6 @@ interface DataType {
   disabled: boolean;
   tag: string;
 }
-
-const mockTags = ['cat', 'dog', 'bird'];
-
-const mockData: RecordType[] = Array.from({ length: 20 }).map((_, i) => ({
-  key: i.toString(),
-  title: `content-${i + 1}`,
-  desc: `desc-${i + 1}`,
-  tag: mockTags[i % 3],
-}));
 
 const leftColumns: ColumnsType<DataType> = [
   {
@@ -74,7 +79,7 @@ export default () => {
       }}
     >
       <LFormItemTransfer
-        request={async (page, pageSize) => {
+        request={async ({ current, pageSize }) => {
           await awaitTime();
           return {
             data: mockData,

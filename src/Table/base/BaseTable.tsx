@@ -9,10 +9,9 @@ import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { Key } from 'antd/es/table/interface';
-import type { ColumnGroupType, ColumnType } from 'antd/lib/table';
 import classnames from 'classnames';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { isFunction } from 'lighting-design/_utils';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import {
   useEffect,
@@ -23,8 +22,8 @@ import {
 } from 'react';
 import TableContext from '../TableContext';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
-import './styles.less';
 import ToolbarAction from './ToolBarAction';
+import './styles.less';
 import type { LTableProps, LTableRequestType } from './types';
 
 export const LIGHTD_TABLE = 'lightd-table';
@@ -533,7 +532,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
           )}
           style={{ ...tableStyle, ...style }}
           size={currentSize}
-          columns={finalColumns as (ColumnGroupType<any> | ColumnType<any>)[]}
+          columns={finalColumns}
           dataSource={data?.list || []}
           onChange={handleTableChange}
           pagination={

@@ -1,4 +1,6 @@
 import { Table } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import Mock from 'better-mock';
 import React from 'react';
 
 interface DataType {
@@ -26,26 +28,33 @@ const data: DataType[] = [
   {
     key: '1',
     name: '李岚清',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
+    age: Mock.Random.integer(25, 45),
+    address: Mock.Random.city(true),
   },
   {
     key: '2',
     name: '吴彦祖',
-    age: 42,
-    address: 'London No. 1 Lake Park',
+    age: Mock.Random.integer(25, 45),
+    address: Mock.Random.city(true),
   },
   {
     key: '3',
     name: '陈冠希',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
+    age: Mock.Random.integer(25, 45),
+
+    address: Mock.Random.city(true),
   },
   {
     key: '4',
     name: '刘德华',
-    age: 99,
-    address: 'Sidney No. 1 Lake Park',
+    age: Mock.Random.integer(25, 45),
+    address: Mock.Random.city(true),
+  },
+  {
+    key: '5',
+    name: '彭于晏',
+    age: Mock.Random.integer(25, 45),
+    address: Mock.Random.city(true),
   },
 ];
 

@@ -1,7 +1,14 @@
 import type { ColumnsType } from 'antd/lib/table';
 import Mock from 'better-mock';
 
-export const columns: ColumnsType<any> = [
+interface DataType {
+  key: string;
+  name: string;
+  age: number;
+  address: string;
+}
+
+export const columns: ColumnsType<DataType> = [
   {
     title: '姓名',
     dataIndex: 'name',
@@ -29,15 +36,7 @@ export const columns: ColumnsType<any> = [
   },
 ];
 
-interface Item {
-  key: string;
-  name: string;
-  age: number;
-
-  address: string;
-}
-
-export const originData: Item[] = Mock.mock({
+export const originData: DataType[] = Mock.mock({
   'list|10': [
     {
       key: '@id',
@@ -52,7 +51,7 @@ export const originData: Item[] = Mock.mock({
 
 export function apiGetUserList(
   req = {},
-  time = 1000,
+  time = 800,
 ): Promise<Record<string, any>> {
   const { current, pageSize = 10, formValues = {} } = req;
   const data: Item[] = Mock.mock({
