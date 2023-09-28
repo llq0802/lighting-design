@@ -29,7 +29,7 @@ const Demo2 = () => {
           name="StepsForm13451"
           title="步骤1"
           onFinish={async (values) => {
-            await awaitTime();
+            // await awaitTime();
             console.log('步骤1', values);
           }}
         >

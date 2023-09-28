@@ -6,7 +6,6 @@ const Demo2 = () => {
   return (
     <LForm
       // labelCol={{ flex: '90px' }}
-      name="LTrigger"
       labelWidth={90}
       submitter={{ buttonAlign: 90 }}
       transformValues={(values) => {

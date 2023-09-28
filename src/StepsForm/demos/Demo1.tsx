@@ -27,7 +27,6 @@ const Demo1 = () => {
           await awaitTime();
           console.log('StepsForm-valuse', valuse);
           message.success('提交成功');
-          setOpen1(false);
           return true;
         }}
         stepsFormRender={(stepsDom, formDom, submitterDom) => {
@@ -48,7 +47,7 @@ const Demo1 = () => {
           );
         }}
       >
-        <LStepsForm.StepForm title="步骤1">
+        <LStepsForm.StepForm title="步骤1" name="eqwsd">
           <LFormItemInput
             name={['step1', 'name1']}
             label="名字1"
@@ -62,7 +61,7 @@ const Demo1 = () => {
             tooltip="禁止空格"
           />
         </LStepsForm.StepForm>
-        <LStepsForm.StepForm title="步骤2">
+        <LStepsForm.StepForm title="步骤2" name="fgvfd1">
           <LFormItemInput
             name={['step2', 'phone']}
             label="手机号"
@@ -88,9 +87,10 @@ const Demo1 = () => {
           actionRef={actionRef2}
           onFinish={async (valuse) => {
             console.log('StepsForm-valuse', valuse);
+            return true;
           }}
         >
-          <LStepsForm.StepForm title="步骤1">
+          <LStepsForm.StepForm title="步骤1" name="dsadas">
             <LFormItemInput
               name={['step1', 'name1']}
               label="名字1"
@@ -104,7 +104,7 @@ const Demo1 = () => {
               tooltip="禁止空格"
             />
           </LStepsForm.StepForm>
-          <LStepsForm.StepForm title="步骤2">
+          <LStepsForm.StepForm title="步骤2" name="fsawdf">
             <LFormItemInput
               name={['step2', 'phone']}
               label="手机号"

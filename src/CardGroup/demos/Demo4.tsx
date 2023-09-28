@@ -4,7 +4,6 @@ const Demo4 = () => {
   return (
     <div>
       <LForm
-        name="LCardGroup"
         labelWidth={90}
         submitter={{ buttonAlign: 90 }}
         onFinish={async (values) => {

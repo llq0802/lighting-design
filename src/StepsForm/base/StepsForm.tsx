@@ -343,10 +343,13 @@ const StepsForm: FC<LStepsFormProps> & {
   const reset = useMemoizedFn(() => {
     formDataRef.current = {};
     formInstanceListRef.current.forEach((item, i) => {
-      // item?.resetFields();
-      item?.setFieldsValue({
-        ...formInitialValues.current[i],
-      });
+      if (!Object.keys(formInitialValues.current[i]).length) {
+        item?.resetFields();
+      } else {
+        item?.setFieldsValue({
+          ...formInitialValues.current[i],
+        });
+      }
     });
     setStepNum(defaultCurrent);
   });
@@ -530,7 +533,7 @@ const StepsForm: FC<LStepsFormProps> & {
           ...formConfig,
           ...formProps,
           _stepNum: stepNum, // 注入每个表单(表示当前表单的索引步骤)
-          name: childs?.[stepNum]?.props?.name ?? `${stepNum}`,
+          name: currentFormName,
         })}
       </div>
     );
@@ -602,12 +605,6 @@ const StepsForm: FC<LStepsFormProps> & {
     }
   }, [stepNum]);
 
-  // useEffect(() => {
-  //   // console.log('forgetUpdate ');
-  //   // 强制更新一次 绑定每个步骤的form实例 这种方法如果在Modal可能取不到form实例
-  //   forgetUpdate();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
   // 步骤条
   const renderStepsDom = () => {
     if (
@@ -688,7 +685,6 @@ const StepsForm: FC<LStepsFormProps> & {
 
 StepsForm.StepForm = StepForm;
 
-export type { LStepFormProps } from './StepForm';
 export type { LStepsFormSubmitterProps } from './StepsSubmitter';
 
 export default StepsForm;

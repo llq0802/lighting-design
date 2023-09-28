@@ -13,7 +13,7 @@ import type {
   LTableInstance,
   LTableProps,
 } from 'lighting-design/Table/base/types';
-import { isFunction, uniqueId } from 'lighting-design/_utils';
+import { isFunction, uniqueId, useIsFirstRender } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type {
   Dispatch,
@@ -220,7 +220,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     formProps = emptyObject,
   } = editTableOptions;
   const [form] = LForm.useForm();
-  const isFirstRender = useRef(true);
+  const isFirstRender = useIsFirstRender();
   const tableRef = useRef<LTableInstance>();
   const alreadyTableDataRef = useRef<Record<string, any>[]>([]);
   const editableKeyMap = useRef<Record<string, any>>({});
@@ -524,11 +524,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   };
 
   useDeepCompareEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-    if (!isFirstRender.current && dataSource?.length) {
+    if (!isFirstRender && dataSource?.length) {
       tableRef.current?.setTableData({
         total: dataSource.length,
         list: dataSource,

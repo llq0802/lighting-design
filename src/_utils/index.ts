@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { Children, useMemo, useRef } from 'react';
 
 /**
  * 判断某个值是不是函数类型
@@ -180,4 +180,85 @@ export const _cloneDeep = (obj: any) => {
     return Array.from(clone);
   }
   return clone;
+};
+
+type GetFormInitValuesOptions = {
+  formItems: any[];
+  fields: any[] | undefined;
+  initialValues: Record<string, any> | undefined;
+  submitter: Record<string, any> | false | undefined;
+};
+/**
+ * 获取 LForm表单的初始值
+ * @param {GetFormInitValuesOptions} options 配置项
+ * @return initialValues 收集到的初始表单值
+ */
+export const getFormInitValues = ({
+  formItems,
+  fields,
+  initialValues,
+  submitter,
+}: GetFormInitValuesOptions) => {
+  let ret: Record<string, any> = {};
+  if (submitter === false) {
+    return ret;
+  }
+
+  if (fields?.length) {
+    fields.forEach((field: any) => {
+      if (field && typeof field === 'string') {
+        ret[field] = initialValues?.[field] ?? void 0;
+      } else if (Array.isArray(field) && field?.length) {
+        const field_0 = field[0];
+        const field_1 = field[1];
+        const val = initialValues?.[field_0]?.[field_1] ?? void 0;
+        if (!ret[field_0]) {
+          ret[field_0] = {
+            [field_1]: val,
+          };
+        } else {
+          ret[field_0][field_1] = val;
+        }
+      } else if (field === 0) {
+        ret[0] = initialValues?.[0] ?? void 0;
+      }
+    });
+
+    return ret;
+  }
+
+  formItems.forEach((item: any) => {
+    const itemName = item?.props?.name;
+    const child = item?.props?.children;
+    if (itemName && typeof itemName === 'string') {
+      ret[itemName] = initialValues?.[itemName] ?? void 0;
+    } else if (Array.isArray(itemName) && itemName?.length) {
+      const field_0 = itemName[0];
+      const field_1 = itemName[1];
+      const val = initialValues?.[field_0]?.[field_1] ?? void 0;
+      if (!ret[field_0]) {
+        ret[field_0] = {
+          [field_1]: val,
+        };
+      } else {
+        ret[field_0][field_1] = val;
+      }
+    } else if (itemName === 0) {
+      ret[0] = initialValues?.[0] ?? void 0;
+    }
+
+    if (Children.toArray(child)?.length > 0) {
+      ret = {
+        ...ret,
+        ...getFormInitValues({
+          formItems: Children.toArray(child),
+          fields,
+          initialValues,
+          submitter,
+        }),
+      };
+    }
+  });
+
+  return ret;
 };

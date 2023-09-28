@@ -30,6 +30,9 @@ const Demo2 = () => {
       >
         <LStepsForm.StepForm
           name="StepsForm1145678"
+          initialValues={{
+            name1: '李岚清',
+          }}
           title="步骤1"
           onFinish={async (values) => {
             await awaitTime();

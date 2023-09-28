@@ -10,7 +10,7 @@ import {
   useMemo,
   useRef,
 } from 'react';
-import { isFunction, uniqueId } from '../../_utils';
+import { getFormInitValues, isFunction, uniqueId } from '../../_utils';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
@@ -24,7 +24,7 @@ export interface BaseFormProps
    *@version 2.1.21
    *@memberof LFormProps
    */
-  allFields?: string[];
+  allFields?: string[] | [string, string][];
   /**
    *lable宽度。  同 labelCol={{ flex: '90px' }}
    *@author 李岚清 <https://github.com/llq0802>
@@ -135,7 +135,7 @@ export const LFormContext = createContext<{
 function BaseForm(props: BaseFormProps): JSX.Element {
   const {
     _lformRef,
-    allFields,
+    allFields: fields,
 
     labelWidth = 'auto',
     contentRender,
@@ -184,47 +184,15 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 
   const formItems = Children.toArray(children);
 
-  const getFieldObj = useMemoizedFn((formItems: any[], fields?: any[]) => {
-    let ret: Record<string, any> = {};
-
-    if (!submitter) {
-      return ret;
-    }
-
-    if (fields?.length) {
-      fields.forEach((field: any) => {
-        if (field && typeof field !== 'object') {
-          ret[field] = initialValues?.[field] ?? void 0;
-        } else if (field === 0) {
-          ret[0] = initialValues?.[0] ?? void 0;
-        }
-      });
-
-      return ret;
-    }
-
-    formItems.forEach((item: any) => {
-      const itemName = item?.props?.name;
-      const child = item?.props?.children;
-      if (Children.toArray(child)?.length) {
-        ret = {
-          ...ret,
-          ...getFieldObj(Children.toArray(child), fields),
-        };
-      } else {
-        if (itemName && typeof itemName !== 'object') {
-          ret[itemName] = initialValues?.[itemName] ?? void 0;
-        } else if (itemName === 0) {
-          ret[0] = initialValues?.[0] ?? void 0;
-        }
-      }
-    });
-    return ret;
-  });
-
   const initFieldValues = useMemo(
-    () => getFieldObj(formItems, allFields),
-    [formItems, allFields?.join(''), submitter],
+    () =>
+      getFormInitValues({
+        formItems,
+        fields,
+        initialValues,
+        submitter,
+      }),
+    [formItems, fields?.join(''), submitter, initialValues],
   );
 
   useImperativeHandle(_lformRef, () => {
@@ -317,7 +285,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         disabled,
         layout,
         labelColProps,
-        // formInstance: formRef.current,
+        // formInstance: formRef.current,;
       }}
     >
       <Form

@@ -33,7 +33,7 @@ function StepForm({
   icon,
   description,
   stepItemProps,
-  submitter,
+  submitter, // 不传入 submitter 到基础的 BaseForm
 
   _stepNum,
 
@@ -48,16 +48,15 @@ function StepForm({
   const _lformRef = useRef<Record<string, any>>({});
 
   useEffect(() => {
-    // 解决在modal 可能未加载时拿不到 form
     // 存储每个表单实例
     ctx.formInstanceListRef.current[_stepNum as number] = outForm || form;
+    // 存储每个表单的初始值 (保证获取到初始值，
+    ctx.formInitialValues.current[_stepNum as number] = _lformRef.current;
+    // 因为_lformRef.current是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到)
     ctx?.forgetUpdate();
-
+    // console.log('ctx.formInitialValues.current', ctx.formInitialValues.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // 存储每个表单的初始值 (保证获取到初始值， 因为_lformRef.current是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到)
-  ctx.formInitialValues.current[_stepNum as number] = _lformRef.current;
 
   // 当前表单的提交
   const handleFinsh = useMemoizedFn(async (values) => {
@@ -73,6 +72,7 @@ function StepForm({
         ctx?.setLoading(false);
       }
     }
+
     // 只要onFinish不返回false 就触发自带的下一步和提交
     if (ret !== false) {
       ctx?.onFormFinish(name as string, values);

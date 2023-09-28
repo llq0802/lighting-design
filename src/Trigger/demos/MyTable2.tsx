@@ -69,7 +69,7 @@ const MyTable: FC = (props) => {
         };
       }}
       rowSelection={{
-        selectedRowKeys: outValue,
+        selectedRowKeys: outValue ?? [],
         type: 'checkbox',
         ...rowSelection,
       }}
