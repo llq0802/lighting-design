@@ -7,7 +7,7 @@ nav:
 
 # LDrawerForm
 
-基于 LForm 扩展的高级抽屉表单。
+基于 `LForm` 扩展的高级抽屉表单。
 
 ## 代码演示
 

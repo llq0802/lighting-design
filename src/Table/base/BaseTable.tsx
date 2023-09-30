@@ -112,7 +112,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         // @ts-ignore
         formRef?.(refValue);
       } else {
-        formRef.current = refValue;
+        (formRef as any).current = refValue;
       }
     }
   });

@@ -7,7 +7,7 @@ nav:
 
 # LModalForm
 
-基于 LForm 扩展的弹窗高级表单。
+基于 `LForm` 扩展的弹窗高级表单。
 
 ## 代码演示
 
