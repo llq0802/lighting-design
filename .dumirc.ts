@@ -17,6 +17,7 @@ export default defineConfig({
   publicPath,
   base: publicPath,
   themeConfig: {
+    lastUpdated: false,
     name: 'Lighting Design',
     logo,
     footer:
