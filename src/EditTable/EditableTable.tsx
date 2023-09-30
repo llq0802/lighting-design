@@ -127,6 +127,7 @@ export type EditTableOptions = {
 };
 
 export type LEditTableProps = {
+  rowClassName?: string;
   /**
    * 表单值
    */
@@ -187,9 +188,6 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     // 配合表格使用
     value: fromValue,
     onValuesChange: formOnValuesChange,
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    contentRender,
 
     rowClassName,
     toolbarActionConfig,
@@ -527,7 +525,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     if (!isFirstRender && dataSource?.length) {
       tableRef.current?.setTableData({
         total: dataSource.length,
-        list: dataSource,
+        list: dataSource as any[],
       });
     }
   }, [dataSource]);
@@ -576,7 +574,6 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
             }
           }
         }}
-        contentRender={void 0}
         toolbarActionConfig={innerToolbarActionConfig}
         pagination={false}
         rowKey={outRowKey}
@@ -586,6 +583,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         request={request}
         size={size}
         {...restprops}
+        contentRender={void 0}
       />
     </LForm>
   );

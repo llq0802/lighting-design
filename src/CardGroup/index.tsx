@@ -151,9 +151,9 @@ export default function LCardGroup(props: LCardGroupProps) {
       return;
     }
 
-    if (multiple) {
+    if (multiple && Array.isArray(value)) {
       // 多选
-      if (value?.includes(itemCard.value)) {
+      if (value?.includes?.(itemCard.value)) {
         triggerChange(value?.filter((v) => v !== itemCard.value));
       } else {
         triggerChange([...(value || []), itemCard.value]);
@@ -183,9 +183,10 @@ export default function LCardGroup(props: LCardGroupProps) {
       style={{ gap, ...style }}
     >
       {options.map((item, i) => {
-        const isActive = multiple
-          ? value?.includes(item.value)
-          : value === item.value;
+        const isActive =
+          multiple && Array.isArray(value)
+            ? value?.includes(item.value)
+            : value === item.value;
         return (
           <Card
             {...item?.cardProps}
@@ -193,9 +194,10 @@ export default function LCardGroup(props: LCardGroupProps) {
               `${prefixCls}-item`,
               {
                 [`${prefixCls}-item-disabled`]: item.disabled,
-                [`${prefixCls}-item-active`]: multiple
-                  ? value?.includes(item.value)
-                  : value === item.value,
+                [`${prefixCls}-item-active`]:
+                  multiple && Array.isArray(value)
+                    ? value?.includes(item.value)
+                    : value === item.value,
               },
               item.cardProps?.className,
             )}

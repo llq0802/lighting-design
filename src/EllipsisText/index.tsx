@@ -4,7 +4,7 @@ import type { CSSProperties, DOMAttributes, FC } from 'react';
 import React, { forwardRef } from 'react';
 import './index.less';
 
-function Text({ outRef, children, ...restProps }) {
+function Text({ outRef, children, ...restProps }: any) {
   return (
     <span ref={outRef} {...restProps}>
       {children}
@@ -56,6 +56,7 @@ export interface LEllipsisTextProps extends DOMAttributes<HTMLSpanElement> {
    */
   tooltip?: boolean | TooltipProps;
   children: string;
+  outRef: any;
 }
 
 const prefixCls = 'lightd-ellipsis-text';
@@ -69,7 +70,7 @@ const LEllipsisText: FC<LEllipsisTextProps> = (props) => {
     maxWidth,
     emptyText,
     tooltip = true,
-
+    // @ts-ignore
     outRef,
 
     children: text,
@@ -167,5 +168,5 @@ const LEllipsisText: FC<LEllipsisTextProps> = (props) => {
 };
 
 export default forwardRef(function (props: LEllipsisTextProps, ref) {
-  return <LEllipsisText {...props} outRef={ref}></LEllipsisText>;
+  return <LEllipsisText {...props} outRef={ref as any}></LEllipsisText>;
 });

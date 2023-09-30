@@ -2,10 +2,11 @@ import { useControllableValue } from 'ahooks';
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import classnames from 'classnames';
-import type { CSSProperties, FC, ReactNode } from 'react';
+import { emptyObject } from 'lighting-design/constants';
+import { useMemo, type CSSProperties, type FC, type ReactNode } from 'react';
 import './index.less';
 
-const { Panel } = Collapse;
+// const { Panel } = Collapse;
 
 const prefixCls = 'lightd-collapse-card';
 
@@ -59,6 +60,13 @@ export type LCollapseCardProps = {
    *@memberof LCollapseCardProps
    */
   bordered?: boolean;
+  /**
+   *  是否禁用
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.21
+   *@memberof LCollapseCardProps
+   */
+  disabled?: boolean;
   /**
    *  销毁折叠隐藏的面板
    *@author 李岚清 <https://github.com/llq0802>
@@ -129,104 +137,25 @@ export type LCollapseCardProps = {
    *@memberof LCollapseCardProps
    */
   triggerPosition?: 'header' | 'icon';
-
+  /**
+   * antd折叠卡片的items每一项的属性
+   * @see https://github.com/react-component/collapse/blob/27250ca5415faab16db412b9bff2c131bb4f32fc/src/interface.ts#L6
+   */
+  itemProps: CollapseProps['items'];
   children: ReactNode;
 };
-
-// export default function LCollapseCard(props: LCollapseCardProps) {
-//   const {
-//     title,
-//     extra,
-//     collapsible = true,
-//     collapsePosition = 'extra',
-//     children,
-//     ...restProps
-//   } = props;
-
-//   const refDom = useRef<HTMLDivElement>(null);
-//   const [collapsed, setCollapsed] = useControllableValue(props, {
-//     defaultValue: false,
-//     defaultValuePropName: 'defaultCollapsed',
-//     valuePropName: 'collapsed',
-//     trigger: 'onCollapsed',
-//   });
-
-//   const toggleCollapsed = useMemoizedFn(() => {
-//     // const cardBody = refDom.current?.querySelector(
-//     //   '.ant-card-body',
-//     // ) as HTMLDivElement;
-//     // if (!collapsed) {
-//     //   cardBody.style.transition = 'none';
-//     //   cardBody.style.paddingTop = '24px';
-//     //   cardBody.style.paddingBottom = '24px';
-//     //   cardBody.style.height = 'auto';
-//     //   const _height = cardBody.scrollHeight;
-
-//     //   cardBody.style.height = '0px';
-//     //   cardBody.style.paddingTop = '0px';
-//     //   cardBody.style.paddingBottom = '0px';
-//     //   // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-//     //   cardBody.scrollHeight;
-
-//     //   cardBody.style.transition = '0.3s';
-//     //   cardBody.style.height = `${_height}px`;
-//     //   cardBody.style.paddingTop = '24px';
-//     //   cardBody.style.paddingBottom = '24px';
-//     // } else {
-//     //   cardBody.style.height = '0px';
-//     //   cardBody.style.paddingTop = '0px';
-//     //   cardBody.style.paddingBottom = '0px';
-//     // }
-//     setCollapsed(!collapsed);
-//   });
-
-//   const iconDom = useMemo(() => {
-//     return collapsible ? (
-//       <DownOutlined
-//         className={classnames(`${prefixCls}-collapsePosition-icon`)}
-//         style={{ transform: `rotate(${collapsed ? 0 : 180}deg)` }}
-//         onClick={toggleCollapsed}
-//       />
-//     ) : null;
-//   }, [collapsible, collapsed]);
-
-//   const dom = (
-//     <Card
-//       ref={refDom}
-//       {...restProps}
-//       className={classnames(
-//         prefixCls,
-//         restProps.className,
-
-//         !collapsed && `${prefixCls}-collapsed`,
-//       )}
-//       title={
-//         <>
-//           {collapsePosition === 'title' ? iconDom : null}
-//           {title}
-//         </>
-//       }
-//       extra={
-//         <>
-//           {extra}
-//           {collapsePosition === 'extra' ? iconDom : null}
-//         </>
-//       }
-//     >
-//       {children}
-//     </Card>
-//   );
-
-//   return dom;
-// }
 
 const LCollapseCard: FC<LCollapseCardProps> = (props) => {
   const {
     title,
     extra,
+    style,
+    className,
+    size,
+    forceRender = false,
     ghost = false,
     destroyContent = false,
-    forceRender = false,
+    disabled = false,
     bordered = true,
     collapsible = true,
     collapsePosition = 'right',
@@ -240,7 +169,7 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onCollapsed: outOnCollapsed,
 
-    ...restProps
+    itemProps = emptyObject,
   } = props;
 
   const [collapsed, setCollapsed] = useControllableValue(props, {
@@ -250,16 +179,38 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
     trigger: 'onCollapsed',
   });
 
+  const items: CollapseProps['items'] = [
+    {
+      key: prefixCls,
+      label: title,
+      children,
+      extra,
+      forceRender,
+      ...itemProps,
+    },
+  ];
+
+  const innerCollapsible = useMemo(() => {
+    if (disabled) {
+      return 'disabled';
+    }
+    if (triggerPosition === 'icon') {
+      return 'icon';
+    }
+    return void 0;
+  }, [disabled, triggerPosition]);
+
   return (
     <Collapse
-      collapsible={triggerPosition === 'icon' ? 'icon' : void 0}
-      activeKey={collapsed ? ['1'] : []}
+      items={items}
+      collapsible={innerCollapsible}
+      activeKey={collapsed ? [prefixCls] : []}
       ghost={ghost}
       destroyInactivePanel={destroyContent}
       bordered={bordered}
       expandIcon={expandIcon}
       expandIconPosition={collapsePosition === 'left' ? 'start' : 'end'}
-      size={restProps.size || 'middle'}
+      size={size}
       onChange={(keys) => {
         if (!collapsible) return;
         if (!keys?.length) {
@@ -268,22 +219,44 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
         }
         setCollapsed(true);
       }}
-      {...restProps}
-      className={classnames(prefixCls, restProps.className)}
-      style={restProps.style}
-    >
-      <Panel
-        className={classnames(restProps.contentClassName)}
-        key="1"
-        header={title}
-        extra={extra}
-        showArrow={collapsible}
-        forceRender={forceRender}
-        {...restProps?.panel}
-      >
-        {children}
-      </Panel>
-    </Collapse>
+      className={classnames(prefixCls, className)}
+      style={style}
+    />
+
+    // return (
+    //   <Collapse
+    //     collapsible={triggerPosition === 'icon' ? 'icon' : void 0}
+    //     activeKey={collapsed ? ['1'] : []}
+    //     ghost={ghost}
+    //     destroyInactivePanel={destroyContent}
+    //     bordered={bordered}
+    //     expandIcon={expandIcon}
+    //     expandIconPosition={collapsePosition === 'left' ? 'start' : 'end'}
+    //     size={restProps.size || 'middle'}
+    //     onChange={(keys) => {
+    //       if (!collapsible) return;
+    //       if (!keys?.length) {
+    //         setCollapsed(false);
+    //         return;
+    //       }
+    //       setCollapsed(true);
+    //     }}
+    //     {...restProps}
+    //     className={classnames(prefixCls, restProps.className)}
+    //     style={restProps.style}
+    //   >
+    //     <Panel
+    //       className={classnames(restProps.contentClassName)}
+    //       key="1"
+    //       header={title}
+    //       extra={extra}
+    //       showArrow={collapsible}
+    //       forceRender={forceRender}
+    //       {...(restProps as any)?.panel}
+    //     >
+    //       {children}
+    //     </Panel>
+    //   </Collapse>
   );
 };
 

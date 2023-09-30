@@ -117,7 +117,7 @@ const LCaptchaButton: ForwardRefRenderFunction<
     <Button
       ref={ref as Ref<HTMLElement>}
       {...buttonProps}
-      disabled={buttonProps?.disabled || countdown !== 0}
+      disabled={(buttonProps as any)?.disabled || countdown !== 0}
       onClick={handleButtonClick}
     >
       {countdown === 0
