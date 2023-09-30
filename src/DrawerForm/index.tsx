@@ -108,7 +108,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     children,
 
     className,
-    initialValues: outInitialValues = emptyObject,
     form: outForm,
     onFinish,
     loading,
@@ -141,7 +140,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
       <BaseForm
         _lformRef={_lformRef}
         className={classnames(prefixCls, className)}
-        initialValues={outInitialValues}
         loading={loading}
         form={formRef.current}
         onFinish={handleFinish}

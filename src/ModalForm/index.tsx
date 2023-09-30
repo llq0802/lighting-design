@@ -94,7 +94,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     children,
     className,
     form: outForm,
-    initialValues: outInitialValues = emptyObject,
     onFinish,
     loading,
     submitter,
@@ -156,7 +155,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
       <BaseForm
         _lformRef={_lformRef}
         className={classnames(prefixCls, className)}
-        initialValues={outInitialValues} // 解决form实例与moadl绑定失败的问题
         loading={modalProps?.confirmLoading ?? loading}
         form={formRef.current}
         onFinish={handleFinish}
