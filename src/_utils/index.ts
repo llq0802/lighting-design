@@ -189,9 +189,9 @@ type GetFormInitValuesOptions = {
   submitter: Record<string, any> | false | undefined;
 };
 /**
- * 获取 LForm表单的初始值
+ * 获取 LForm 表单的初始值
  * @param {GetFormInitValuesOptions} options 配置项
- * @return initialValues 收集到的初始表单值
+ * @returns  initialValues 收集到的初始表单值
  */
 export const getFormInitValues = ({
   formItems,
@@ -230,7 +230,11 @@ export const getFormInitValues = ({
   formItems.forEach((item: any) => {
     const itemName = item?.props?.name;
     const child = item?.props?.children;
-    if (itemName && typeof itemName === 'string') {
+    if (
+      itemName &&
+      typeof itemName === 'string' &&
+      !Object.keys(ret).includes(itemName)
+    ) {
       ret[itemName] = initialValues?.[itemName] ?? void 0;
     } else if (Array.isArray(itemName) && itemName?.length) {
       const field_0 = itemName[0];
