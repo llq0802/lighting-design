@@ -93,6 +93,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
             void 0
           ) : (
             <Icon
+              className="lightd-form-item-icon-input-clear"
               onClick={(e) => {
                 onChange?.(void 0);
                 inputProps?.onClear?.(e);
