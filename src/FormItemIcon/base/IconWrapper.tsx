@@ -6,6 +6,7 @@ import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import type { FormItemIconOptions, FormItemIconTabsExtendOptions } from '..';
 import IconModal from './IconModal';
+
 export interface IconWrapperProps {
   value?: string;
   onChange?: (value?: string) => void;
@@ -65,10 +66,6 @@ const IconWrapper: FC<IconWrapperProps> = ({
         placeholder={placeholder}
         {...inputProps}
         prefix={prefix}
-        rootClassName={classnames(
-          'lightd-form-item-icon-input-wrapper',
-          inputProps?.rootClassName,
-        )}
         style={{
           width: '100%',
           cursor: 'pointer',
@@ -85,8 +82,35 @@ const IconWrapper: FC<IconWrapperProps> = ({
           onChange?.(newValue);
           inputProps?.onChange?.(newValue);
         }}
+        className={classnames(
+          'lightd-form-item-icon-input',
+          inputProps?.className,
+        )}
         readOnly
-        allowClear
+        suffix={
+          // <CloseCircleFilled />
+          inputProps?.allowClear === false || !value ? (
+            void 0
+          ) : (
+            <Icon
+              onClick={(e) => {
+                onChange?.(void 0);
+                inputProps?.onClear?.(e);
+              }}
+              component={
+                (antIcons as Record<string, any>)?.['CloseCircleFilled']
+              }
+              style={{
+                margin: 0,
+                color: `rgba(0, 0, 0, 0.25)`,
+                fontSize: 12,
+                verticalAlign: -1,
+                cursor: `pointer`,
+                transition: `color 0.3s`,
+              }}
+            />
+          )
+        }
         autoComplete="off"
       />
 

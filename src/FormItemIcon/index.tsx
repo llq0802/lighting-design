@@ -109,7 +109,7 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
   options,
   extendRender,
   modalProps,
-  tabsProps,
+  tabsProps = emptyObject,
   inputProps = emptyObject,
   itemRender,
   placeholder,
