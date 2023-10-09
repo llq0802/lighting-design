@@ -29,6 +29,14 @@ nav:
 
 ## API
 
+<!-- 'bankCard' | 'idCard' | 'phone' | 'url' | 'email' | 'chinese' -->
+
+:::warning{title=注意}
+
+- `'bankCard' | 'idCard' | 'phone' | 'url' | 'email' | 'chinese'`类型的输入框会自动校验输入的值 , `required`只充当是否展示必填的(`*`)星号
+
+  :::
+
 ```ts
 import { LFormItemInput } from 'lighting-design';
 ```

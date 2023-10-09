@@ -31,3 +31,7 @@ export const IMAGE_TYPES = '.jpg, .jpeg, .png, .gif, .webp, .bmp';
 export const emptyArray: any[] = [];
 
 export const emptyObject: Record<string, any> = {};
+
+export const NUM_REG = /\d/g;
+
+export const EMPTY_REG = /\s+/g;

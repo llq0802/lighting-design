@@ -266,3 +266,5 @@ export const getFormInitValues = ({
 
   return ret;
 };
+
+export const isChrome = navigator.userAgent.indexOf('Chrome') > -1;

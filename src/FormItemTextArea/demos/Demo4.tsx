@@ -9,9 +9,12 @@ const Demo3 = () => {
       isEnterSubmit={false}
       form={form}
       submitter={{ buttonAlign: 'center' }}
+      onFinish={(values) => {
+        console.log('onFinish', values);
+      }}
     >
       <LFormItemTextArea
-        className="myLFormItemInput"
+        className="LFormItemTextArea-1"
         name="TextArea1"
         label="备注1"
         required

@@ -108,6 +108,8 @@ const IconWrapper: FC<IconWrapperProps> = ({
                 verticalAlign: -1,
                 cursor: `pointer`,
                 transition: `color 0.3s`,
+                width: '100%',
+                height: '100%',
               }}
             />
           )
