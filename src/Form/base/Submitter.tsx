@@ -54,15 +54,18 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const { preventDefault: resetPreventDefault, ...resetButtonProps } =
     outResetButtonProps;
 
-  const handleReset = useMemoizedFn((e: MouseEvent<HTMLElement>) => {
+  const handleReset = useMemoizedFn(async (e: MouseEvent<HTMLElement>) => {
     const hasInitFormValues = Object.keys(initFormValues ?? {}).length > 0;
     if (hasInitFormValues) {
       form?.setFieldsValue({ ...initFormValues });
+      const res = await form?.validateFields([]);
+      console.log('res', res);
     } else {
       // resetFields 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
       // form?.resetFields();
       form?.resetFields();
     }
+
     // 由于刚重置表单，使用异步可防止立即触发提交操作，导致数据过时而提交失败。
     // refs: https://github.com/ant-design/ant-design/issues/26747
     Promise.resolve().then(() => onReset?.(e));

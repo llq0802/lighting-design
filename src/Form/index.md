@@ -55,9 +55,9 @@ nav:
 
 - 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`
 
-- 当 `submitter` 不为 `false (默认不为false)` 并且`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`外层嵌套多层 `元素` 时建议配置 `allFields` 以提高组件性能
+- 如果要为组件设置初始值 你应该始终通过 `LForm` 的 `initialValues`属性或 `LFormItem` 的`initialValue`来设置，而不是给子项设置 `defaultValue`
 
-- 如果要为组件设置初始值 你应该始终通过 `LFormItem` 的`initialValue`或者 `LForm` 的 `initialValues`属性来设置，而不是给子项设置 `defaultValue`
+- 当 `submitter` 不为 `false (默认不为false)` 并且`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`外层嵌套多层 `元素` 时建议配置 `allFields` 以提高组件性能, 此时如果设置表单初始值你应该始终通过 `LForm` 的 `initialValues`属性
 
 - 如果要在某一项字段的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一项设置 `onChange` 事件
 
@@ -71,8 +71,8 @@ nav:
 
 - `LFrom` 的重置方法与`Form`的重置方法行为不同, `LFrom`并不会重新`mount`子组件, 所以当你校验不通过时无法回到初始状态, 如果要回到初始检验可通过以下两种方法:
 
-  1. `submitter`自定义按钮渲染后后绑定`form.resetFields`方法
-  2. `resetButtonProps`中设置`preventDefault = true`后在`onClick`中绑定`form.resetFields`
+  1.  `submitter`自定义按钮渲染后后绑定`form.resetFields`方法
+  2.  `resetButtonProps`中设置`preventDefault = true`后在`onClick`中绑定`form.resetFields`
 
 :::
 

@@ -230,16 +230,19 @@ export const getFormInitValues = ({
   formItems.forEach((item: any) => {
     const itemName = item?.props?.name;
     const child = item?.props?.children;
+    const itemInitialValue = item?.props?.initialValue;
+
     if (
       itemName &&
       typeof itemName === 'string' &&
       !Object.keys(ret).includes(itemName)
     ) {
-      ret[itemName] = initialValues?.[itemName] ?? void 0;
+      ret[itemName] = itemInitialValue ?? initialValues?.[itemName] ?? void 0;
     } else if (Array.isArray(itemName) && itemName?.length) {
       const field_0 = itemName[0];
       const field_1 = itemName[1];
-      const val = initialValues?.[field_0]?.[field_1] ?? void 0;
+      const val =
+        (itemInitialValue ?? initialValues)?.[field_0]?.[field_1] ?? void 0;
       if (!ret[field_0]) {
         ret[field_0] = {
           [field_1]: val,
@@ -248,7 +251,7 @@ export const getFormInitValues = ({
         ret[field_0][field_1] = val;
       }
     } else if (itemName === 0) {
-      ret[0] = initialValues?.[0] ?? void 0;
+      ret[0] = itemInitialValue ?? initialValues?.[0] ?? void 0;
     }
 
     if (Children.toArray(child)?.length > 0) {

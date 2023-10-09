@@ -1,4 +1,6 @@
 import { LForm, LFormItemInput } from 'lighting-design';
+import IdentifyCode from './IdentifyCode';
+import renderFieldWithPopover from './renderFieldWithPopover';
 
 const Demo = () => {
   const [form] = LForm.useForm();
@@ -12,27 +14,13 @@ const Demo = () => {
       }}
     >
       <LFormItemInput
-        className="myLFormItemInput"
+        className="myLFormItemInput-4"
         name="name"
         label="名字"
         required
       />
 
       <LFormItemInput
-        name="idCard"
-        type="idCard"
-        label="身份证"
-        // required
-        messageVariables={{ label: '请输入正确的身份证格式!' }}
-      />
-      <LFormItemInput
-        name="phone"
-        label="手机号"
-        type="phone"
-        required
-        messageVariables={{ label: '请输入正确的手机号格式!' }}
-      />
-      {/* <LFormItemInput
         name="name1"
         label="启用空格"
         disabledWhiteSpace={false}
@@ -97,7 +85,7 @@ const Demo = () => {
         renderField={renderFieldWithPopover({
           content: '该方案可用于所有表单项',
         })}
-      /> */}
+      />
     </LForm>
   );
 };
