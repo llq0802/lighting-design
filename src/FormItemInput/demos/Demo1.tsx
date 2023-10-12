@@ -22,10 +22,10 @@ const Demo = () => {
 
       <LFormItemInput
         name="name1"
-        label="启用空格"
-        disabledWhiteSpace={false}
+        label="禁用空格"
+        disabledWhiteSpace
         required
-        tooltip="启用空格"
+        tooltip="禁用空格"
       />
       <LFormItemInput
         name="chinese"

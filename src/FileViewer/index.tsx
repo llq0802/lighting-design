@@ -30,7 +30,7 @@ export interface LFileViewerProps
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
    * @type {?boolean}
-   * @memberof LFileViewerProps
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LFileViewerProps
    */
   open?: boolean;
   /**
@@ -38,7 +38,7 @@ export interface LFileViewerProps
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
    *@type {?boolean}
-   *@memberof LFileViewerProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFileViewerProps
    */
   defaultOpen?: boolean;
   /**
@@ -46,7 +46,7 @@ export interface LFileViewerProps
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
    *@type { (open: boolean) => void }
-   *@memberof LFileViewerProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFileViewerProps
    */
   onOpenChange?: (open: boolean) => void;
 }

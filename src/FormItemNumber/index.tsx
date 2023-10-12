@@ -13,7 +13,7 @@ export interface LFormItemNumberProps extends LFormItemProps {
    * InputNumber的属性
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemNumberProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberProps
    *@see https://ant.design/components/input-number-cn/#api
    */
   numberProps?: InputNumberProps;
@@ -21,21 +21,21 @@ export interface LFormItemNumberProps extends LFormItemProps {
    * 保留小数点后几位
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemNumberProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberProps
    */
   precision?: number;
   /**
    * 最小值
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemNumberProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberProps
    */
   min?: number;
   /**
    * 最大值
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemNumberProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberProps
    */
   max?: number;
 }

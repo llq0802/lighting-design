@@ -23,7 +23,7 @@ export type RateWrapperProps = Record<string, any> &
      *请求总共的星数的异步函数
      *@author 李岚清 <https://github.com/llq0802>
      *@version 2.1.21
-     *@memberof LFormItemRateProps
+     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemRateProps
      */
     request: (...args: any[]) => Promise<number>;
     disabled: boolean;
@@ -33,7 +33,7 @@ export type RateWrapperProps = Record<string, any> &
      *antd评分组件 Props
      *@author 李岚清 <https://github.com/llq0802>
      *@version 2.1.21
-     *@memberof LFormItemRateProps
+     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemRateProps
      */
     rateProps: RateProps;
     outLoading: SpinProps;

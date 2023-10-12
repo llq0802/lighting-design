@@ -31,28 +31,28 @@ export type SelectWrapperProps = Record<string, any> & {
    *是否需要全部选项
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemSelectProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   all?: boolean;
   /**
    *全部选项的值
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemSelectProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   allValue?: number | string;
   /**
    *全部选项的名称
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemSelectProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   allLabel?: ReactNode;
   /**
    *下拉选择器组件 Props
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemSelectProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   selectProps?: SelectProps;
   dependencies?: string[];

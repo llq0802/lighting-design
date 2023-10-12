@@ -9,7 +9,7 @@ export interface LTypeitProps {
    * @author 李岚清 <https://github.com/llq0802>
    * @type { React.CSSProperties }
    * @version 2.1.21
-   * @memberof LTypeitProps
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    */
   style: CSSProperties;
   /**
@@ -17,7 +17,7 @@ export interface LTypeitProps {
    * @author 李岚清 <https://github.com/llq0802>
    * @type { string }
    * @version 2.1.21
-   * @memberof LTypeitProps
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    */
   className: string;
   /**
@@ -25,7 +25,7 @@ export interface LTypeitProps {
    * @author 李岚清 <https://github.com/llq0802>
    * @type { React.ReactNode }
    * @version 2.1.21
-   * @memberof LTypeitProps
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    */
   children: React.ReactNode;
   /**
@@ -33,7 +33,7 @@ export interface LTypeitProps {
    * @author 李岚清 <https://github.com/llq0802>
    * @type { TypeItProps['getBeforeInit'] }
    * @version 2.1.21
-   * @memberof LTypeitProps
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    * @see https://www.typeitjs.com/docs/vanilla/usage/#configuration-options
    */
   getBeforeInit: TypeItProps['getBeforeInit'];
@@ -42,7 +42,7 @@ export interface LTypeitProps {
    * @author 李岚清 <https://github.com/llq0802>
    * @type { TypeItProps }
    * @version 2.1.21
-   * @memberof LTypeitProps
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    * @see https://www.typeitjs.com/docs/vanilla/usage/#configuration-options
    */
   options: TypeItOptions;
@@ -51,7 +51,7 @@ export interface LTypeitProps {
    * @author 李岚清 <https://github.com/llq0802>
    * @type { TypeItProps }
    * @version 2.1.21
-   * @memberof LTypeitProps
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    * @see https://www.typeitjs.com/docs/vanilla/usage/#configuration-options
    */
   props: TypeItProps;

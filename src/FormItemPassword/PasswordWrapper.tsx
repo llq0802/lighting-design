@@ -2,7 +2,6 @@ import { useMemoizedFn } from 'ahooks';
 import { Input } from 'antd';
 import type { PasswordProps } from 'antd/lib/input';
 import type { ChangeEvent, ClipboardEvent, FC } from 'react';
-import { useMemo } from 'react';
 
 export interface PassworldWrapperProps extends PasswordProps {
   disabledWhiteSpace?: boolean;
@@ -14,20 +13,18 @@ const PassworldWrapper: FC<PassworldWrapperProps> = (props) => {
   const {
     value,
     onChange,
-    disabledWhiteSpace = true,
+    disabledWhiteSpace,
     disabledPaste = true,
     disabledCopy = true,
     placeholder = '请输入密码',
     ...restProps
   } = props;
 
-  const isSpace = useMemo(() => disabledWhiteSpace, [disabledWhiteSpace]);
-
   const handleChange = useMemoizedFn((e: ChangeEvent<HTMLInputElement>) => {
     const input = e.target;
     let rawValue = input.value;
     // 禁止输入空格
-    if (isSpace) {
+    if (disabledWhiteSpace) {
       rawValue = rawValue.replace(/\s+/g, '');
     }
     onChange?.(rawValue as any);

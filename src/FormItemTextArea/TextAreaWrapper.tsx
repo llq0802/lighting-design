@@ -10,7 +10,7 @@ export interface TextAreaWrapperProps extends TextAreaProps {
 }
 
 const TextAreaWrapper: FC<TextAreaWrapperProps> = (props) => {
-  const { value, onChange, disabledWhiteSpace = false, ...restProps } = props;
+  const { value, onChange, disabledWhiteSpace, ...restProps } = props;
 
   const lock = useRef(false);
   const [innerValue, setInnerValue] = useState(() => value);

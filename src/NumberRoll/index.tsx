@@ -19,7 +19,7 @@ export interface LNumberRollProps {
    * 组件高度
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number | string}
-   *@memberof LNumberRollProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    *@version 2.1.21
    */
   height: number | string;
@@ -27,7 +27,7 @@ export interface LNumberRollProps {
    * 默认值
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number | string}
-   *@memberof LNumberRollProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    *@version 2.1.21
    */
   value: number | string;
@@ -35,7 +35,7 @@ export interface LNumberRollProps {
    * 最小位数（个位数起）
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number }
-   *@memberof LNumberRollProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    *@version 2.1.21
    **/
   minLength: number;
@@ -48,7 +48,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number }
    *@version 2.1.21
-   *@memberof LNumberRollProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    * */
   speed: number;
   /**
@@ -56,7 +56,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number }
    *@version 2.1.21
-   *@memberof LNumberRollProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   dot: number;
   /**
@@ -64,7 +64,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type {'number' | 'date' }
    *@version 2.1.21
-   *@memberof LNumberRollProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   type: 'number' | 'date';
   /**
@@ -72,7 +72,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number }
    *@version 2.1.21
-   *@memberof LNumberRollProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   scale: number;
   /**
@@ -80,7 +80,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type {React.CSSProperties }
    *@version 2.1.21
-   *@memberof LNumberRollProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   style: CSSProperties;
   /**
@@ -88,7 +88,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type {string }
    *@version 2.1.21
-   *@memberof LNumberRollProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   className: string;
   /**
@@ -96,7 +96,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type { (value: number | string) => void }
    *@version 2.1.21
-   *@memberof LNumberRollProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   onFinish: (value: number | string) => void;
 }

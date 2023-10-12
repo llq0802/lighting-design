@@ -25,7 +25,7 @@ export interface UploadWrapperProps extends UploadProps {
    *文件类型错误提示
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemUploadProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   fileTypeMessage?: string | false;
 
@@ -33,28 +33,28 @@ export interface UploadWrapperProps extends UploadProps {
    *文件超过最大尺寸提示
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemUploadProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   fileSizeMessage?: string | false;
   /**
    *自定义文件上传的异步函数
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemUploadProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   onUpload?: (file: File) => Promise<Record<string, any>>;
   /**
    *单个文件最大尺寸，用于校验
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemUploadProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   maxSize?: number;
   /**
    *支持拖拽
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemUploadProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   dragger?: boolean;
 
@@ -62,7 +62,7 @@ export interface UploadWrapperProps extends UploadProps {
    *内置预览 Modal 的 props
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemUploadProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   previewModalProps?: ModalProps;
 
@@ -70,14 +70,14 @@ export interface UploadWrapperProps extends UploadProps {
    *点击预览获取大图URL
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemUploadProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   onGetPreviewUrl?: (file: File) => Promise<string>;
   /**
    *Button 的 Props 在uploadType为'default'时生效
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemUploadProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   buttonProps?: ButtonProps;
   cropProps?: ImgCropProps;

@@ -20,21 +20,21 @@ export interface LFormItemSelectProps
    *依赖的项
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemSelectProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   dependencies?: string[];
   /**
    *当依赖项发生变化时重新请求的防抖时间
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemSelectProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   debounceTime?: number;
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.21
-   *@memberof LFormItemSelectProps
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
