@@ -27,7 +27,7 @@ export type SegmentedWrapperProps = Record<string, any> & {
   /**
    *antd分段组件 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.21
+   *@version 2.1.22
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSegmentedoProps
    */
   segmentedProps?:
@@ -42,7 +42,7 @@ export type SegmentedWrapperProps = Record<string, any> & {
   /**
    *依赖项的值为空时展示的内容
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.21
+   *@version 2.1.22
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSegmentedoProps
    */
   notDependRender?: ReactNode;
