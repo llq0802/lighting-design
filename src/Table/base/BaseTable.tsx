@@ -10,7 +10,7 @@ import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import zhCN from 'antd/es/locale/zh_CN';
 import type { Key } from 'antd/es/table/interface';
 import classnames from 'classnames';
-import { isFunction } from 'lighting-design/_utils';
+import { getTableColumnsKey, isFunction } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import {
@@ -59,7 +59,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     fullScreenBgColor = '#fff',
     defaultRequestParams = emptyObject,
     requestOptions = emptyObject,
-    request = async () => {},
+    request = async () => emptyObject,
     autoRequest = true,
     formInitialValues,
     queryFormProps,
@@ -197,6 +197,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const [currentSize, setCurrentSize] = useRafState<SizeType | 'default'>(
     () => outSize,
   );
+
+  useUpdateEffect(() => {
+    setCurrentSize(outSize);
+  }, [outSize]);
+
   // 存储外部columns 是否设置序号
   const outColumns = useMemo(() => {
     if (contentRender) return emptyArray;
@@ -228,15 +233,13 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
 
   // 表格展示的列key
   const [columnKeys, setColumnKeys] = useRafState(() =>
-    outColumns.map(
-      (item: Record<string, any>, i) =>
-        `${item?.dataIndex || ''}-${item?.key || ''}-${i}`,
-    ),
+    outColumns.map(getTableColumnsKey),
   );
 
   useUpdateEffect(() => {
-    setCurrentSize(outSize);
-  }, [outSize]);
+    const newKeys = outColumns.map(getTableColumnsKey);
+    setColumnKeys(newKeys);
+  }, [outColumns]);
 
   const finalColumns = useMemo(() => {
     if (contentRender) return emptyArray;
@@ -250,17 +253,14 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     });
     sortColumnKeys.forEach((key) => {
       const columnItem = outColumns.find(
-        (item: Record<string, any>, i) =>
-          `${item?.dataIndex || ''}-${item?.key || ''}-${i}` === key,
+        (item: Record<string, any>, i) => getTableColumnsKey(item, i) === key,
       );
       if (columnItem) {
         tmpColumns.push(columnItem);
       }
     });
-
     return tmpColumns;
-  }, [columnKeys, outColumns, contentRender]);
-
+  }, [columnKeys, contentRender]);
   // ==================== 表格大小以及列的处理-结束====================
 
   // 内部loading

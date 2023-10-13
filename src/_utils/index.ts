@@ -271,3 +271,13 @@ export const getFormInitValues = ({
 };
 
 export const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
+
+/**
+ * - 获取表格列的每一项唯一 key 值
+ * @param col -当前列
+ * @param i 索引
+ * @return key数组
+ */
+export const getTableColumnsKey = (col: Record<string, any>, i: number) => {
+  return `${col?.dataIndex || ''}-${col.key || ''}-${i}`;
+};

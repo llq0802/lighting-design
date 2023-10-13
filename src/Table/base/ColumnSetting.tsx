@@ -1,6 +1,7 @@
 import { SettingOutlined } from '@ant-design/icons';
-import { useMemoizedFn, useUpdateEffect } from 'ahooks';
+import { useMemoizedFn } from 'ahooks';
 import { Checkbox, ConfigProvider, Popover, Tooltip, Tree } from 'antd';
+import { getTableColumnsKey } from 'lighting-design/_utils';
 import type { Key } from 'react';
 import { useContext, useMemo } from 'react';
 import TableContext from '../TableContext';
@@ -17,7 +18,7 @@ const ColumnSetting = () => {
   const treeData = useMemo(() => {
     return outColumns.map((item, i) => {
       return {
-        key: `${item?.dataIndex || ''}-${item.key || ''}-${i}`,
+        key: getTableColumnsKey(item, i),
         title: item.title || '',
       };
     });
@@ -32,22 +33,13 @@ const ColumnSetting = () => {
     [columnKeys, outColumns],
   );
 
-  useUpdateEffect(() => {
-    const newKeys = outColumns.map(
-      (item, i) => `${item?.dataIndex || ''}-${item.key || ''}-${i}`,
-    );
-    setColumnKeys(newKeys);
-  }, [outColumns]);
-
   const handleTreeCheck = useMemoizedFn((keys: Key[]) => {
     setColumnKeys([...keys]);
   });
 
   const onCheckAllChange = useMemoizedFn((e) => {
     if (e.target.checked) {
-      const newKey = outColumns.map(
-        (item, index) => `${item.dataIndex || ''}-${item.key || ''}-${index}`,
-      );
+      const newKey = outColumns.map(getTableColumnsKey);
       setColumnKeys(newKey);
     } else {
       setColumnKeys([]);

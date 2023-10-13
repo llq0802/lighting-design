@@ -31,6 +31,12 @@ const columns2: ColumnsType<any> = [
     dataIndex: 'age',
     key: 'age',
   },
+  {
+    title: '操作',
+    render() {
+      return <Button type="primary">操作</Button>;
+    },
+  },
 ];
 
 const options = [
@@ -42,20 +48,22 @@ const Demo18: React.FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
   const [value4, setValue4] = useState(options[0].value);
-
+  // const [columns, setColumns] = useState(columns1);
   const onChange = ({ target: { value } }: RadioChangeEvent) => {
     setValue4(value);
+    // setColumns(value === '1' ? [...columns1] : [...columns2]);
   };
 
   return (
     <div>
       <LTable
         // showToolbar={false}
+        toolbarActionConfig={false}
         toolbarLeft={
           <Radio.Group
+            defaultValue="1"
             options={options}
             onChange={onChange}
-            value={value4}
             optionType="button"
             // buttonStyle="solid"
           />
@@ -68,6 +76,7 @@ const Demo18: React.FC = () => {
         }
         isSort
         columns={value4 === '1' ? columns1 : columns2}
+        // columns={columns}
         tableRef={tableRef}
         formRef={formRef}
         pagination={{
