@@ -60,7 +60,6 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
       form?.setFieldsValue({ ...initFormValues });
     } else {
       // resetFields 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
-      // form?.resetFields();
       form?.resetFields();
     }
 

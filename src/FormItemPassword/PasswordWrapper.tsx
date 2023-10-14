@@ -1,6 +1,7 @@
 import { useMemoizedFn } from 'ahooks';
 import { Input } from 'antd';
 import type { PasswordProps } from 'antd/lib/input';
+import { EMPTY_REG } from 'lighting-design/constants';
 import type { ChangeEvent, ClipboardEvent, FC } from 'react';
 
 export interface PassworldWrapperProps extends PasswordProps {
@@ -25,7 +26,7 @@ const PassworldWrapper: FC<PassworldWrapperProps> = (props) => {
     let rawValue = input.value;
     // 禁止输入空格
     if (disabledWhiteSpace) {
-      rawValue = rawValue.replace(/\s+/g, '');
+      rawValue = rawValue.replace(EMPTY_REG, '');
     }
     onChange?.(rawValue as any);
   });
