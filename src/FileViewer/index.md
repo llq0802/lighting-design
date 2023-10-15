@@ -7,7 +7,7 @@ nav:
 
 # LFileViewer
 
-文件预览器，目前已支持 `image` `audio` `video` `pdf` 等文件类型预览，其他文件类型会提供点击下载提示。
+简单的文件预览器，目前已支持 `image` `audio` `video` `pdf` 等文件类型预览，其他文件类型会提供点击下载提示。
 
 ## 代码演示
 
@@ -60,11 +60,14 @@ import { LFileViewer } from 'lighting-design';
 
 除以下参数，其余同 [antd Modal](https://ant.design/components/modal-cn#api)
 
-| 参数     | 说明                                                                      | 类型     | 默认值 |
-| -------- | ------------------------------------------------------------------------- | -------- | ------ |
-| fileType | 文件类型，目前仅支持 `'audio'` `'video'` `'pdf'` 等文件类型的预览         | `string` | `-`    |
-| url      | 文件地址                                                                  | `string` | `-`    |
-| fileName | 文件名称，自动设置为 `antd Modal` 的标题，可以通过设置 `title` 自定义标题 | `string` | `-`    |
+> 默认关闭弹窗时会销毁当前预览的组件 可通过`Modal`的`destroyOnClose`属性改变
+
+| 参数         | 说明                                                                      | 类型                 | 默认值 |
+| ------------ | ------------------------------------------------------------------------- | -------------------- | ------ |
+| fileType     | 文件类型，目前仅支持 `'audio'` `'video'` `'pdf'` 等文件类型的预览         | `string`             | `-`    |
+| url          | 文件地址                                                                  | `string`             | `-`    |
+| fileName     | 文件名称，自动设置为 `antd Modal` 的标题，可以通过设置 `title` 自定义标题 | `string`             | `-`    |
+| contentProps | 传递给原生标签的 props 例如 `audio` `video` `video` `a`标签的原生属性     | `Record<string,any>` | `-`    |
 
 ### LFileViewer.PictureCard
 

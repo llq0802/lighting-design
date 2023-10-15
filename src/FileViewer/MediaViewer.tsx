@@ -1,14 +1,17 @@
+import classnames from 'classnames';
+import { isFunction } from 'lighting-design/_utils';
 import type { FunctionComponent } from 'react';
 import { createElement, useEffect, useRef } from 'react';
-
 interface MediaViewerProps {
   url: string;
   mediaType: 'audio' | 'video';
+  contentProps?: Record<string, any>;
 }
 
 const MediaViewer: FunctionComponent<MediaViewerProps> = ({
   url,
   mediaType,
+  contentProps,
 }) => {
   const mediaRef = useRef<HTMLVideoElement>();
 
@@ -23,11 +26,25 @@ const MediaViewer: FunctionComponent<MediaViewerProps> = ({
   }, []);
 
   return createElement(mediaType, {
-    className: `lightd-file-viewer-${mediaType}`,
     src: url,
     controls: true,
-    style: { width: '100%' },
-    ref: mediaRef,
+    ...contentProps,
+    className: classnames(
+      `lightd-file-viewer-${mediaType}`,
+      contentProps?.className,
+    ),
+    style: { width: '100%', ...contentProps?.style },
+    ref: (evt) => {
+      mediaRef.current = evt;
+      if (contentProps?.ref) {
+        if (isFunction(contentProps?.ref)) {
+          // @ts-ignore
+          contentProps?.ref?.(evt);
+        } else {
+          contentProps.ref.current = evt;
+        }
+      }
+    },
   });
 };
 

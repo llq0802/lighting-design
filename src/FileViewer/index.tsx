@@ -2,6 +2,7 @@ import { useControllableValue } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Image, Modal } from 'antd';
 import classnames from 'classnames';
+import { emptyObject } from 'lighting-design/constants';
 import type { ReactNode } from 'react';
 import type { FileViewProps } from './FileView';
 import FileView from './FileView';
@@ -73,6 +74,7 @@ function LFileViewer(props: LFileViewerProps) {
     fileType,
     className,
     imagePreview,
+    contentProps = emptyObject,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -106,17 +108,22 @@ function LFileViewer(props: LFileViewerProps) {
 
   return (
     <Modal
-      open={open}
+      destroyOnClose
+      open={outOpen}
       title={fileName}
       centered
       maskClosable={false}
-      width={fileType === 'pdf' ? '90%' : void 0}
-      footer={null}
+      width={fileType === 'pdf' ? '90vw' : void 0}
+      footer={false}
       {...restProps}
-      style={{ maxWidth: '90%', ...restProps.style }}
       className={classnames('lightd-file-viewer', className)}
     >
-      <FileView url={url as string} fileType={fileType} fileName={fileName} />
+      <FileView
+        contentProps={contentProps}
+        url={url as string}
+        fileType={fileType}
+        fileName={fileName}
+      />
     </Modal>
   );
 }

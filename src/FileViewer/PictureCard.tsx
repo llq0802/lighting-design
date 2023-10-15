@@ -89,15 +89,13 @@ const FileViewerPictureCard: FC<PictureCardProps> = ({
         className={classnames('lightd-file-viewer-picture-card', className)}
         fileList={innerFileList}
         listType="picture-card"
-        onPreview={(file) => {
-          setFileInfo(file);
-          setOpen(true);
-        }}
         showUploadList={{ showRemoveIcon: false }}
-        // previewFile={async (file) => {
-        //   return getFileThumbUrl(file);
-        // }}
         {...uploadProps}
+        onPreview={(file) => {
+          setFileInfo({ ...file });
+          setOpen(true);
+          uploadProps?.onPreview?.(file);
+        }}
       />
       <LFileViewer
         open={open}

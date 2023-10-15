@@ -1,5 +1,9 @@
+import { Typography } from 'antd';
+import classnames from 'classnames';
 import type { FunctionComponent } from 'react';
 import MediaViewer from './MediaViewer';
+
+const { Link } = Typography;
 
 const isIE = window.ActiveXObject || 'ActiveXObject' in window;
 const isPC = () => window.innerWidth > 768;
@@ -12,18 +16,24 @@ export interface FileViewProps {
    *  'image' | 'audio' | 'video' | 'pdf' | 'excel' | 'word'
    */
   fileType: string;
+  contentProps?: Record<string, any>;
 }
 
 const FileView: FunctionComponent<FileViewProps> = ({
+  contentProps,
   fileName,
   url,
   fileType,
 }) => {
   if (fileType === 'audio') {
-    return <MediaViewer url={url} mediaType="audio" />;
+    return (
+      <MediaViewer url={url} mediaType="audio" contentProps={contentProps} />
+    );
   }
   if (fileType === 'video') {
-    return <MediaViewer url={url} mediaType="video" />;
+    return (
+      <MediaViewer url={url} mediaType="video" contentProps={contentProps} />
+    );
   }
   if (fileType === 'pdf') {
     // ref: https://caniuse.com/?search=createObjectURL
@@ -32,8 +42,18 @@ const FileView: FunctionComponent<FileViewProps> = ({
       return (
         <iframe
           src={url}
-          style={{ border: '0 none', width: '100%', height: '80vh' }}
-          className="lightd-file-viewer-iframe"
+          {...contentProps}
+          ref={contentProps?.ref}
+          style={{
+            border: 'none',
+            width: '100%',
+            height: '80vh',
+            ...contentProps?.style,
+          }}
+          className={classnames(
+            'lightd-file-viewer-iframe',
+            contentProps?.className,
+          )}
         />
       );
     }
@@ -44,10 +64,10 @@ const FileView: FunctionComponent<FileViewProps> = ({
       className="lightd-file-viewer-download"
       style={{ textAlign: 'center' }}
     >
-      <span style={{ marginRight: 8 }}>该文件不支持预览，你可尝试</span>
-      <a href={url} download={fileName}>
+      <span style={{ marginRight: 6 }}>该文件不支持预览，你可尝试</span>
+      <Link href={url} title={fileName} download={fileName} {...contentProps}>
         点击下载
-      </a>
+      </Link>
     </div>
   );
 };
