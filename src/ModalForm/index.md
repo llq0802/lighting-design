@@ -45,6 +45,8 @@ nav:
 
 - 某些特殊情况你需要在关闭弹窗时调用`form.resetFields()`手动控制恢复到默认值 , 请将`isResetFields={false}`
 
+- 默认关闭弹窗时不会销毁表单项内容 可通过`Modal`的`destroyOnClose`属性改变
+
 :::
 
 ```ts

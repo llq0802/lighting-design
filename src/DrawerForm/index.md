@@ -55,6 +55,8 @@ nav:
 
 - 如果要在当前 dom 中弹出，`LDrawerForm` 的父元素样式中必须有 `position` 属性
 
+- 默认关闭抽屉时不会销毁表单项内容 可通过`Drawer`的`destroyOnClose`属性改变
+
 :::
 
 ```ts

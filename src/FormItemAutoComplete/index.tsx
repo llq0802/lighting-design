@@ -105,13 +105,13 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
           disabled={disabled ?? formDisabled}
           allowClear
           options={options}
-          style={{ width: '100%' }}
           placeholder={messageLabel}
           onSelect={onSelect}
           onSearch={onSearch}
           onFocus={onFocus}
           onBlur={onBlur}
           {...autoCompleteProps}
+          style={{ width: '100%', ...autoCompleteProps?.style }}
         />
       ) : (
         <AutoComplete
@@ -119,13 +119,13 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
           disabled={disabled ?? formDisabled}
           allowClear
           options={options}
-          style={{ width: '100%' }}
           placeholder={messageLabel}
           onSelect={onSelect}
           onSearch={onSearch}
           onFocus={onFocus}
           onBlur={onBlur}
           {...autoCompleteProps}
+          style={{ width: '100%', ...autoCompleteProps?.style }}
         >
           {inputRender()}
         </AutoComplete>

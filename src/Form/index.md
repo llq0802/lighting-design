@@ -67,7 +67,8 @@ nav:
 
 - `LMoadlForm` `LDrawerForm` 组件内部预设`resetButtonProps.preventDefault = true` 所以不会触发`onReset`事件 , 可通过`resetButtonProps`的`onClick`事件代替
 
-- 动态渲染表单中的某一项请查看示例: [动态渲染表单中某一项表单项](/components/form-item#使用-shouldupdate-动态渲染)
+- 动态渲染表单中的某一项请查看示例: [动态渲染表单中的某一项请查看示例](/components/form-item#使用-shouldupdate-动态渲染)
+- 动态新增或者删除表单项请查看示例: [动态新增或者删除表单项请查看示例](/components/list-form)
 
 - `LFrom` 的重置方法与`Form`的重置方法行为不同, `LFrom`并不会重新`mount`子组件, 所以当你校验不通过时无法回到初始状态, 如果要回到初始检验可通过以下两种方法:
 
