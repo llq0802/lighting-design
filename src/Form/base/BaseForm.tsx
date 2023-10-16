@@ -165,7 +165,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
   const [loading, setLoading] = useRafState(() => outLoading);
-  const formId = useMemo(() => name || `${uniqueId('lightd-form')}}}`, [name]);
+  const formId = useMemo(() => name || `${uniqueId('lightd-form')}`, [name]);
 
   useUpdateEffect(() => {
     setLoading(outLoading);

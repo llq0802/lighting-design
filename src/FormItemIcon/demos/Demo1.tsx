@@ -19,7 +19,6 @@ const Demo = () => {
 
   return (
     <LForm
-      name="LFormItemIcon"
       form={form}
       submitter={{ buttonAlign: 'center' }}
       onValuesChange={(curName, curVal) => {
