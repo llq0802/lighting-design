@@ -71,7 +71,7 @@ const Demo = () => {
         // }}
         contentBefore={
           iconItem &&
-          (antIcons[iconItem] ? (
+          (antIcons[iconItem as keyof typeof antIcons] ? (
             <Icon
               style={{
                 fontSize: 20,
@@ -82,7 +82,7 @@ const Demo = () => {
                 copy(iconItem);
                 message.success('复制成功');
               }}
-              component={antIcons[iconItem]}
+              component={antIcons[iconItem as keyof typeof antIcons] as any}
             />
           ) : (
             <IconFont

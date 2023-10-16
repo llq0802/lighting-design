@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
 import * as antIcons from '@ant-design/icons';
 import Icon, { SearchOutlined } from '@ant-design/icons';
 import { useSetState } from 'ahooks';
@@ -51,7 +50,17 @@ const Index: FC<IconModalProps> = ({
   cancel,
   iconStyle,
   open,
-  options,
+  options = {
+    Outlined: {
+      label: '线性风格',
+    },
+    Filled: {
+      label: '实底风格',
+    },
+    TwoTone: {
+      label: '双色风格',
+    },
+  },
   extendRender,
   itemRender,
   modalProps,
@@ -61,7 +70,9 @@ const Index: FC<IconModalProps> = ({
 
   const antIconList = useCallback((iconType: IconType) => {
     const list = Object.keys(antIcons).filter(
-      (item) => typeof antIcons[item] === 'object' && item.includes(iconType),
+      (item) =>
+        typeof antIcons[item as keyof typeof antIcons] === 'object' &&
+        item.includes(iconType),
     );
     defaultIcon[iconType] = list;
     return list;
@@ -87,7 +98,10 @@ const Index: FC<IconModalProps> = ({
           }}
         >
           {initialIconType.includes(keys) ? (
-            <Icon component={antIcons[val] || <></>} style={iconStyle} />
+            <Icon
+              component={antIcons[val as keyof typeof antIcons] as any}
+              style={iconStyle}
+            />
           ) : (
             IconFont && <IconFont type={val} />
           )}
@@ -97,6 +111,23 @@ const Index: FC<IconModalProps> = ({
     [],
   );
 
+  const [items, setItems] = useState<TabsProps['items']>(() => [
+    { label: `线框风格`, key: 'Outlined' },
+    { label: `实底风格`, key: 'Filled' },
+    { label: `双色风格`, key: 'TwoTone' },
+  ]);
+
+  const onSearch = (
+    e: ChangeEvent<HTMLInputElement>,
+    key: IconType | string,
+  ) => {
+    const { value } = e.target;
+    const filterIcon = defaultIcon[key as IconType].filter((item: string) =>
+      item.toLowerCase().includes(value.toLowerCase()),
+    );
+    setIconMode({ [key]: filterIcon });
+  };
+
   const IconListDom = (list: string[], key: IconType | string) => {
     return (
       <>
@@ -104,7 +135,10 @@ const Index: FC<IconModalProps> = ({
           style={{ marginBlock: 16 }}
           addonAfter={<SearchOutlined />}
           placeholder="在此搜索图标"
-          onChange={(e) => onSearch(e, key)}
+          allowClear
+          onChange={(e) => {
+            onSearch(e, key);
+          }}
         />
 
         <>
@@ -128,47 +162,27 @@ const Index: FC<IconModalProps> = ({
     );
   };
 
-  const [items, setItems] = useState<TabsProps['items']>(() => [
-    { label: `线框风格`, key: 'Outlined' },
-    { label: `实底风格`, key: 'Filled' },
-    { label: `双色风格`, key: 'TwoTone' },
-  ]);
-
-  const onSearch = (
-    e: ChangeEvent<HTMLInputElement>,
-    key: IconType | string,
-  ) => {
-    const { value } = e.target;
-    const filterIcon = defaultIcon[key as IconType].filter((item: string) =>
-      item.toLowerCase().includes(value.toLowerCase()),
-    );
-
-    setIconMode({ [key]: filterIcon });
-  };
-
   useEffect(() => {
     const itemList: any = [];
+    Object.entries(options).forEach(
+      ([key, { label, ...itemProps }]: [any, any]) => {
+        setIconMode({ [key]: antIconList(key) });
+        if (itemProps.children && typeof itemProps.children === 'function') {
+          itemList.push({
+            label,
+            ...itemProps,
+            children: itemProps.children(
+              antIconList(key),
+              IconListDom(iconMode[key], key),
+            ),
+            key,
+          });
+        } else {
+          itemList.push({ label, ...itemProps, key });
+        }
+      },
+    );
     IconFont = extendRender?.IconFont;
-    if (options) {
-      Object.entries(options).forEach(
-        ([key, { label, ...itemProps }]: [any, any]) => {
-          setIconMode({ [key]: antIconList(key) });
-          if (itemProps.children && typeof itemProps.children === 'function') {
-            itemList.push({
-              label,
-              ...itemProps,
-              children: itemProps.children(
-                antIconList(key),
-                IconListDom(iconMode[key], key),
-              ),
-              key,
-            });
-          } else {
-            itemList.push({ label, ...itemProps, key });
-          }
-        },
-      );
-    }
     if (extendRender && extendRender?.options.length > 0) {
       extendRender.options.forEach((item) => {
         if (item.children && typeof item.children === 'function') {
@@ -185,13 +199,11 @@ const Index: FC<IconModalProps> = ({
         defaultIcon[item.key as IconType] = item.data;
       });
     }
-
     if (itemList.length !== 0) setItems(itemList);
   }, []);
 
   return (
     <Modal
-      destroyOnClose
       title="选择图标"
       width={880}
       footer={false}
@@ -208,12 +220,12 @@ const Index: FC<IconModalProps> = ({
         activeKey={activeKey}
         items={
           items &&
-          items.map((item) => {
+          items.map((item: any) => {
             if (!item.children) {
               return {
                 ...item,
                 children: IconListDom(
-                  iconMode[item.key] ? iconMode[item.key] : item.data,
+                  iconMode[item.key] ? iconMode[item.key] : item.data || [],
                   item.key,
                 ),
               };

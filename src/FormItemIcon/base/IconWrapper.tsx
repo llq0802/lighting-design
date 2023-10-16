@@ -31,7 +31,6 @@ const IconWrapper: FC<IconWrapperProps> = ({
   onChange,
 
   disabled,
-  size,
   placeholder,
   showIcon,
   iconStyle,
@@ -62,7 +61,6 @@ const IconWrapper: FC<IconWrapperProps> = ({
   return (
     <>
       <Input
-        size={size}
         placeholder={placeholder}
         {...inputProps}
         prefix={prefix}
@@ -80,7 +78,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
         onChange={(e) => {
           const newValue = e?.target?.value === '' ? void 0 : (value as string);
           onChange?.(newValue);
-          inputProps?.onChange?.(newValue);
+          inputProps?.onChange?.(newValue as any);
         }}
         className={classnames(
           'lightd-form-item-icon-input',
@@ -94,9 +92,8 @@ const IconWrapper: FC<IconWrapperProps> = ({
           ) : (
             <Icon
               className="lightd-form-item-icon-input-clear"
-              onClick={(e) => {
+              onClick={() => {
                 onChange?.(void 0);
-                inputProps?.onClear?.(e);
               }}
               component={
                 (antIcons as Record<string, any>)?.['CloseCircleFilled']
@@ -124,7 +121,9 @@ const IconWrapper: FC<IconWrapperProps> = ({
           setOpen(false);
           onChange?.(key as any);
         }}
-        cancel={(f) => setOpen(f)}
+        cancel={(f) => {
+          setOpen(f);
+        }}
         options={options}
         itemRender={itemRender}
         modalProps={modalProps}
