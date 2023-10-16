@@ -2,6 +2,7 @@ import Icon, * as antIcons from '@ant-design/icons';
 import type { InputProps, ModalProps, TabsProps } from 'antd';
 import { Input } from 'antd';
 import classnames from 'classnames';
+import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import type { FC } from 'react';
 import { useMemo, useState } from 'react';
 import type { FormItemIconOptions, FormItemIconTabsExtendOptions } from '..';
@@ -24,12 +25,13 @@ export interface IconWrapperProps {
   };
   itemRender?: (item: string, node: React.ReactNode) => React.ReactNode;
   inputProps?: InputProps;
+  size: LFormItemProps['size'];
 }
 
 const IconWrapper: FC<IconWrapperProps> = ({
   value,
   onChange,
-
+  size,
   disabled,
   placeholder,
   showIcon,
@@ -61,6 +63,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
   return (
     <>
       <Input
+        size={size}
         placeholder={placeholder}
         {...inputProps}
         prefix={prefix}
@@ -86,7 +89,6 @@ const IconWrapper: FC<IconWrapperProps> = ({
         )}
         readOnly
         suffix={
-          // <CloseCircleFilled />
           inputProps?.allowClear === false || !value ? (
             void 0
           ) : (
@@ -121,9 +123,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
           setOpen(false);
           onChange?.(key as any);
         }}
-        cancel={(f) => {
-          setOpen(f);
-        }}
+        cancel={(f) => setOpen(f)}
         options={options}
         itemRender={itemRender}
         modalProps={modalProps}

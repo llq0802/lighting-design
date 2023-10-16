@@ -101,6 +101,7 @@ export interface LFormItemIconProps extends LFormItemProps {
 
 const LFormItemIcon: FC<LFormItemIconProps> = ({
   showIcon = true,
+  size,
   iconStyle = emptyObject,
   activeIconStyle = emptyObject,
   required = false,
@@ -130,6 +131,7 @@ const LFormItemIcon: FC<LFormItemIconProps> = ({
       {...restProps}
     >
       <IconWrapper
+        size={size}
         showIcon={showIcon}
         iconStyle={iconStyle}
         activeIconStyle={activeIconStyle}

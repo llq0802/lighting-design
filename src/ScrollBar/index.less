@@ -11,6 +11,10 @@
   content-visibility: auto;
   contain-intrinsic-size: 300px;
 
+  /* 兼容火狐浏览器 */
+  scrollbar-color: var(--lightd-scrollbar-bg-color) transparent; /* 滑块颜色  滚动条背景颜色 */
+  scrollbar-width: thin; /* 滚动条宽度有三种：thin、auto、none */
+
   /* 通用滚动条样式 */
   &::-webkit-scrollbar {
     width: var(--lightd-scrollbar-width);
@@ -41,9 +45,18 @@
   &::-webkit-scrollbar {
     display: none;
   }
+
+  /* 兼容火狐浏览器 */
+  scrollbar-width: none; /* 滚动条宽度有三种：thin、auto、none */
 }
 
 .@{prefixCls}.@{prefixCls}-hover {
+  scrollbar-color: transparent transparent; /* 滑块颜色  滚动条背景颜色 */
+
+  &:hover {
+    scrollbar-color: var(--lightd-scrollbar-bg-color) transparent; /* 滑块颜色  滚动条背景颜色 */
+  }
+
   &:hover::-webkit-scrollbar-thumb {
     background-color: var(--lightd-scrollbar-bg-color);
   }
