@@ -307,3 +307,48 @@ export const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
 export const getTableColumnsKey = (col: Record<string, any>, i: number) => {
   return `${col?.dataIndex || ''}-${col.key || ''}-${i}`;
 };
+
+/**
+ * rem宽度适配计算
+ * @param size
+ * @returns
+ */
+const fontSize = (size: number, designWidth = 1920) => {
+  const clientWidth =
+    window.innerWidth ||
+    document.documentElement.clientWidth ||
+    document.body.clientWidth;
+
+  if (!clientWidth) return size;
+
+  const widthRate = clientWidth / designWidth; // 设计图宽度
+  return size * widthRate;
+};
+
+/**
+ *
+ * @param option
+ * @param changeFields
+ * @returns
+ */
+export const transformOption = (
+  option: Record<string, any>,
+  changeFields: string[] = [],
+) => {
+  Object.keys(option).forEach((key) => {
+    if (changeFields.includes(key) && typeof option[key] === 'number') {
+      option[key] = fontSize(option[key]);
+    }
+
+    if (typeof option[key] === 'object') {
+      if (Array.isArray(option[key])) {
+        option[key].forEach((item: Record<string, any>) => {
+          transformOption(item);
+        });
+      } else {
+        transformOption(option[key]);
+      }
+    }
+  });
+  return option;
+};
