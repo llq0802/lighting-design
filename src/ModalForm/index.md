@@ -37,7 +37,7 @@ nav:
 
 :::warning{title=注意}
 
-- `LMoadlForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`，如果只是展示内容 (`例如表格 列表 详情`) 请使用`antd`的弹窗组件
+- `LMoadlForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`，如果只是展示内容 (`例如表格 列表 详情`) 请使用`antd`的弹窗组件或`Nice Modal`
 
 - `LMoadlForm` 的`底部操作栏`通过 `LForm` 的`submitter`属性配置
 
@@ -45,7 +45,7 @@ nav:
 
 - 某些特殊情况你需要在关闭弹窗时调用`form.resetFields()`手动控制恢复到默认值 , 请将`isResetFields={false}`
 
-- 默认关闭弹窗时不会销毁表单项内容 可通过`Modal`的`destroyOnClose`属性改变
+- 关闭弹窗时默认不会销毁表单项内容 可通过`Modal`的`destroyOnClose`属性改变
 
 :::
 

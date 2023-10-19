@@ -53,6 +53,10 @@ export default {
       title: '数据展示',
       children: [
         {
+          title: 'LECharts-echarts容器组件',
+          link: '/components/Echarts',
+        },
+        {
           title: 'LTable-高级表格',
           link: '/components/table',
         },

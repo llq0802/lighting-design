@@ -9,6 +9,32 @@ import { Children, useMemo, useRef } from 'react';
 export function isFunction(patch: any): boolean {
   return typeof patch === 'function';
 }
+/**
+ * 判断某个值是不是字符串
+ * @export 判断某个值是不是字符串
+ * @param {*} patch 传递的变量
+ * @return {boolean} 是不是字符串
+ */
+export function isString(patch: any): boolean {
+  return typeof patch === 'string';
+}
+
+/**
+ * 保留 object 中的部分内容
+ * @param obj
+ * @param keys
+ */
+export function pick(
+  obj: Record<string, unknown> | undefined,
+  keys: string[],
+): Record<string, unknown> | undefined {
+  if (!obj) return void 0;
+  const r = {};
+  keys.forEach((key) => {
+    r[key] = obj[key];
+  });
+  return r;
+}
 
 /**
  * 合并组件 props

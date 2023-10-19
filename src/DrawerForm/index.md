@@ -45,7 +45,7 @@ nav:
 
 :::warning{title=注意}
 
-- `LDrawerForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`，如果只是展示内容 (`例如表格 列表 详情`) 请使用`antd`的抽屉组件
+- `LDrawerForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`，如果只是展示内容 (`例如表格 列表 详情`) 请使用`antd`的抽屉组件或`Nice Modal`
 
 - `LDrawerForm` 的`底部操作栏`通过 `LForm` 的`submitter`属性配置
 
@@ -55,7 +55,7 @@ nav:
 
 - 如果要在当前 dom 中弹出，`LDrawerForm` 的父元素样式中必须有 `position` 属性
 
-- 默认关闭抽屉时不会销毁表单项内容 可通过`Drawer`的`destroyOnClose`属性改变
+- 关闭抽屉时默认不会销毁表单项内容 可通过`Drawer`的`destroyOnClose`属性改变
 
 :::
 
