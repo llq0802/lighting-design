@@ -1,19 +1,23 @@
+import type { TabsProps } from 'antd';
 import { Tabs } from 'antd';
-import LECharts from '../index';
+import { LECharts } from 'lighting-design';
 
 const Chart2 = () => {
   const option = {
     tooltip: {},
     legend: {
-      data: ['销量-2'],
+      data: ['销量2'],
+      textStyle: {
+        fontSize: 14,
+      },
     },
     xAxis: {
-      data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
+      data: ['衬衫2', '羊毛衫2', '雪纺衫2', '裤子2', '高跟鞋2', '袜子2'],
     },
     yAxis: {},
     series: [
       {
-        name: '销量-2',
+        name: '销量2',
         type: 'bar',
         itemStyle: {
           color: {
@@ -41,21 +45,24 @@ const Chart2 = () => {
     ],
   };
 
-  return <LECharts style={{}} option={option} />;
+  return <LECharts option={option} />;
 };
 const Chart1 = () => {
   const option = {
     tooltip: {},
     legend: {
-      data: ['销量'],
+      data: ['销量1'],
+      textStyle: {
+        fontSize: 14,
+      },
     },
     xAxis: {
-      data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子'],
+      data: ['衬衫1', '羊毛衫1', '雪纺衫1', '裤子1', '高跟鞋1', '袜子1'],
     },
     yAxis: {},
     series: [
       {
-        name: '销量',
+        name: '销量1',
         type: 'bar',
         itemStyle: {
           color: {
@@ -83,7 +90,7 @@ const Chart1 = () => {
     ],
   };
 
-  return <LECharts style={{}} option={option} />;
+  return <LECharts option={option} />;
 };
 
 const items: TabsProps['items'] = [
@@ -100,16 +107,12 @@ const items: TabsProps['items'] = [
   {
     key: '3',
     label: 'Tab 3',
-    children: 'Content of Tab Pane 3',
+    children: <Chart2></Chart2>,
   },
 ];
 
 const Demo1 = () => {
-  const onChange = (key: string) => {
-    // console.log(key);
-  };
-
-  return <Tabs defaultActiveKey="1" items={items} onChange={onChange} />;
+  return <Tabs defaultActiveKey="1" items={items} />;
 };
 
 export default Demo1;

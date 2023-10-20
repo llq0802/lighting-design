@@ -7,6 +7,8 @@ export { default as LCollapseCard } from './CollapseCard';
 export * from './ColorPick';
 export * from './DrawerForm';
 export { default as LDrawerForm } from './DrawerForm';
+export * from './Echarts';
+export { default as LECharts } from './Echarts';
 export * from './EditTable';
 export { default as LEditTable } from './EditTable';
 export * from './EllipsisText';

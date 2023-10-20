@@ -21,6 +21,8 @@ import { bind, clear } from 'size-sensor';
 import './index.less';
 import type { LEChartsProps } from './tyeps';
 
+export type { LEChartsInstance, LEChartsOption, LEChartsProps } from './tyeps';
+
 const prefixCls = 'lightd-echarts';
 
 const pickKeys = [
@@ -35,30 +37,27 @@ const LECharts: FC<LEChartsProps> = (props) => {
   const {
     className,
     style,
+    option,
     echartsRef,
     onEvents,
     onChartReady,
-    autoResize = true,
-    option,
     notMerge = false,
-    lazyUpdate = false,
+    lazyUpdate = true,
     showLoading,
     loadingOption = null,
     shouldSetOption,
+    theme,
+    opts,
+    autoResize = true,
     autoResizeDuration = 800,
     designWidth = 1920,
     autoResizeFields,
-    theme,
-    opts,
   } = props;
   const ref = useRef<HTMLDivElement | null>(null);
   const echartsInstanceRef = useRef<ECharts>();
   const isInitialResize = useRef(true);
   const unBind = useRef<() => void>();
   const prevProps = usePrevious(props);
-
-  // const prevPropsRef = useRef();
-  // const prevProps = prevPropsRef.current;
 
   /** 初始化实例 */
   const initEchartsInstance = useMemoizedFn(async () => {
@@ -88,12 +87,25 @@ const LECharts: FC<LEChartsProps> = (props) => {
   });
 
   /** 更新图表 */
-  const updateEChartsOption = useMemoizedFn((echartOption = option) => {
+  const updateEChartsOption = useMemoizedFn(() => {
+    let echartOption;
+    if (
+      autoResize &&
+      autoResizeFields !== false &&
+      (autoResizeFields?.length || autoResizeFields === void 0)
+    ) {
+      echartOption = transformEchartsOption(
+        fastDeepClone(option), // 必须先深克隆
+        [...new Set(['fontSize', ...(autoResizeFields || [])])],
+        designWidth,
+      );
+    } else {
+      echartOption = option;
+    }
     const echartInstance = echartsInstanceRef.current;
     echartInstance?.setOption(echartOption, notMerge, lazyUpdate);
     if (showLoading) echartInstance?.showLoading(loadingOption);
     else echartInstance?.hideLoading();
-    return echartInstance;
   });
 
   /** 绑定图表实例事件 */
@@ -130,14 +142,13 @@ const LECharts: FC<LEChartsProps> = (props) => {
 
     if (isFunction(onChartReady)) onChartReady?.(echartInstance);
 
-    if (ref.current && autoResize) {
-      unBind.current = bind(ref.current, (dom) => {
-        if (dom!.clientWidth > 0 && dom!.clientHeight > 0) {
-          // eslint-disable-next-line @typescript-eslint/no-use-before-define
-          resize();
-        }
-      });
-    }
+    if (!ref.current || !autoResize) return;
+
+    unBind.current = bind(ref.current, (dom) => {
+      if (dom!.clientWidth <= 0 || dom!.clientHeight <= 0) return;
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      resize();
+    });
   });
 
   /** 销毁当前图表实例并取消dom宽高监听 */
@@ -151,7 +162,7 @@ const LECharts: FC<LEChartsProps> = (props) => {
       } catch (e) {
         console.warn(e);
       }
-      echarts.dispose(ref.current);
+      echarts?.dispose(ref.current);
     }
   });
 
@@ -164,19 +175,12 @@ const LECharts: FC<LEChartsProps> = (props) => {
           autoResizeFields !== false &&
           (autoResizeFields?.length || autoResizeFields === void 0)
         ) {
-          const newOption = transformEchartsOption(
-            fastDeepClone(option), // 必须先深克隆
-            [...new Set(['fontSize', ...(autoResizeFields ?? [])])],
-            designWidth,
-          );
-          updateEChartsOption(newOption);
+          updateEChartsOption();
         }
         echartsInstance?.resize({
           width: 'auto',
           height: 'auto',
-          animation: {
-            duration: autoResizeDuration,
-          },
+          animation: { duration: autoResizeDuration },
         });
       } catch (e) {
         console.warn(e);
@@ -190,6 +194,8 @@ const LECharts: FC<LEChartsProps> = (props) => {
   });
 
   useUpdateEffect(() => {
+    // 第二步优化性能
+
     // 如果返回 false 直接不更新
     if (isFunction(shouldSetOption) && !shouldSetOption?.(prevProps, props)) {
       return;
@@ -204,14 +210,12 @@ const LECharts: FC<LEChartsProps> = (props) => {
       !isEqual(prevProps?.opts, opts) ||
       !isEqual(prevProps?.onEvents, onEvents)
     ) {
-      // prevPropsRef.current = props;
       dispose();
       renderNewEcharts();
       return;
     }
 
     if (!isEqual(pick(prevProps, pickKeys), pick(props, pickKeys))) {
-      // prevPropsRef.current = props;
       updateEChartsOption();
     }
 
@@ -220,7 +224,6 @@ const LECharts: FC<LEChartsProps> = (props) => {
       !isEqual(prevProps?.style, style) ||
       !isEqual(prevProps?.className, className)
     ) {
-      // prevPropsRef.current = props;
       resize();
     }
   }, [

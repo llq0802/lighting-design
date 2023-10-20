@@ -15,6 +15,8 @@ declare type Opts = {
   height?: number | string | 'auto';
 };
 
+export type LEChartsOption = EChartsOption & Record<string, any>;
+
 export type LEChartsInstance = {
   /** echarts的实例 */
   echartsInstanceRef: MutableRefObject<ECharts | undefined>;
@@ -55,7 +57,7 @@ export type LEChartsProps = {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
    *@see echarts配置文档 https://www.isqqw.com/echarts-doc/zh/api.html#echarts EChartsOption
    */
-  readonly option: EChartsOption;
+  readonly option: LEChartsOption;
   /**
    *echarts 初始化时的主题
    *@author 李岚清 <https://github.com/llq0802>
@@ -94,7 +96,7 @@ export type LEChartsProps = {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
    *@see echarts配置文档 https://www.isqqw.com/echarts-doc/zh/api.html#echartsInstance.showLoading EChartsOption
    */
-  readonly loadingOption?: any;
+  readonly loadingOption?: Record<string, any>;
   /**
    *echarts.init方法的opts配置
    *@author 李岚清 <https://github.com/llq0802>

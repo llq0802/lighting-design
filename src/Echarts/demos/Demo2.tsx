@@ -1,9 +1,9 @@
 import { Button } from 'antd';
 import Mock from 'better-mock';
-import type { EChartsOption } from 'echarts';
+import type { LEChartsOption } from 'lighting-design';
+import { LECharts } from 'lighting-design';
 import { cloneDeep } from 'lodash-es';
 import { useState } from 'react';
-import LECharts from '../index';
 
 const defaultOption = {
   tooltip: {},
@@ -55,7 +55,7 @@ const defaultOption = {
 
 const Chart1 = () => {
   const [count, setCount] = useState(0);
-  const [option, setOption] = useState<EChartsOption>(defaultOption);
+  const [option, setOption] = useState<LEChartsOption>(defaultOption);
   return (
     <div>
       <div>
@@ -64,7 +64,7 @@ const Chart1 = () => {
             setCount(count + 1);
           }}
         >
-          更新count: {count}
+          更新count不会影响 LECharts 组件的渲染: {count}
         </Button>
 
         <Button
