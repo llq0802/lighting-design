@@ -1,4 +1,4 @@
-import { _cloneDeep } from 'lighting-design/_utils';
+import { fastDeepClone } from 'lighting-design/_utils';
 import { useCallback, useImperativeHandle, useRef } from 'react';
 
 export declare type UseShowInstance<
@@ -55,12 +55,12 @@ export default function useShow(
   useImperativeHandle(funcRef, () => {
     return {
       onShow(data) {
-        ref.current = _cloneDeep(data);
+        ref.current = fastDeepClone(data);
         if (opsOnShow) opsOnShow(ref.current);
       },
 
       onHide(data) {
-        if (opsOnHide) opsOnHide(_cloneDeep(data));
+        if (opsOnHide) opsOnHide(fastDeepClone(data));
       },
 
       getChildData() {

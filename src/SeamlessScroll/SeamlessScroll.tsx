@@ -7,9 +7,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { throttle } from 'throttle-debounce';
 
-import { useUpdateEffect } from 'ahooks';
+import { useDebounceFn, useUpdateEffect } from 'ahooks';
 import { emptyArray } from 'lighting-design/constants';
 import type { ReactNode } from 'react';
 declare type EaseType =
@@ -397,20 +396,21 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   };
 
   // 滚轮事件
-  const throttleFunc = throttle(30, (e: React.WheelEvent<HTMLDivElement>) => {
-    cancle();
-    const singleStep = !!realSingleStopHeight ? realSingleStopHeight : 20;
-    if (e.deltaY < 0) {
-      animation('down', singleStep, true);
-    }
-    if (e.deltaY > 0) {
-      animation('up', singleStep, true);
-    }
-  });
-  // 滚轮事件
-  const onWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    throttleFunc(e);
-  };
+  const { run: onWheel } = useDebounceFn(
+    (e: React.WheelEvent<HTMLDivElement>) => {
+      cancle();
+      const singleStep = !!realSingleStopHeight ? realSingleStopHeight : 20;
+      if (e.deltaY < 0) {
+        animation('down', singleStep, true);
+      }
+      if (e.deltaY > 0) {
+        animation('up', singleStep, true);
+      }
+    },
+    {
+      wait: 100,
+    },
+  );
 
   // 开始滚动
   const startMove = () => {

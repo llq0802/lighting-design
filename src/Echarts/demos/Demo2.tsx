@@ -1,6 +1,7 @@
 import { Button } from 'antd';
 import Mock from 'better-mock';
 import type { EChartsOption } from 'echarts';
+import { cloneDeep } from 'lodash-es';
 import { useState } from 'react';
 import LECharts from '../index';
 
@@ -9,7 +10,7 @@ const defaultOption = {
   legend: {
     data: ['销量'],
     textStyle: {
-      fontSize: 18,
+      fontSize: 20,
     },
   },
   xAxis: {
@@ -68,7 +69,7 @@ const Chart1 = () => {
 
         <Button
           onClick={() => {
-            const newOpt = JSON.parse(JSON.stringify(option));
+            const newOpt = cloneDeep(option);
             newOpt.series[0].data = [
               Mock.Random.integer(5, 40),
               Mock.Random.integer(5, 40),

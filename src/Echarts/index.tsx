@@ -9,13 +9,27 @@ import classnames from 'classnames';
 import type { ECharts, EChartsType } from 'echarts';
 import * as echarts from 'echarts';
 import isEqual from 'fast-deep-equal';
-import { isFunction, isString, pick } from 'lighting-design/_utils';
+import {
+  fastDeepClone,
+  isFunction,
+  isString,
+  pick,
+  transformEchartsOption,
+} from 'lighting-design/_utils';
 import { memo, useImperativeHandle, useRef, type FC } from 'react';
 import { bind, clear } from 'size-sensor';
 import './index.less';
 import type { LEChartsProps } from './tyeps';
 
 const prefixCls = 'lightd-echarts';
+
+const pickKeys = [
+  'option',
+  'notMerge',
+  'lazyUpdate',
+  'showLoading',
+  'loadingOption',
+];
 
 const LECharts: FC<LEChartsProps> = (props) => {
   const {
@@ -31,7 +45,9 @@ const LECharts: FC<LEChartsProps> = (props) => {
     showLoading,
     loadingOption = null,
     shouldSetOption,
-    resizeDuration = 800,
+    autoResizeDuration = 800,
+    designWidth = 1920,
+    autoResizeFields,
     theme,
     opts,
   } = props;
@@ -40,6 +56,7 @@ const LECharts: FC<LEChartsProps> = (props) => {
   const isInitialResize = useRef(true);
   const unBind = useRef<() => void>();
   const prevProps = usePrevious(props);
+
   // const prevPropsRef = useRef();
   // const prevProps = prevPropsRef.current;
 
@@ -71,34 +88,36 @@ const LECharts: FC<LEChartsProps> = (props) => {
   });
 
   /** 更新图表 */
-  const updateEChartsOption = useMemoizedFn(() => {
+  const updateEChartsOption = useMemoizedFn((echartOption = option) => {
     const echartInstance = echartsInstanceRef.current;
-    echartInstance?.setOption(option, notMerge, lazyUpdate);
+    echartInstance?.setOption(echartOption, notMerge, lazyUpdate);
     if (showLoading) echartInstance?.showLoading(loadingOption);
     else echartInstance?.hideLoading();
     return echartInstance;
   });
 
   /** 绑定图表实例事件 */
-  const bindEvents = (
-    instance: ECharts,
-    events: Record<string, (params: any, ins: ECharts) => void>,
-  ) => {
-    function _bindEvent(
-      eventName: string,
-      func: (params: any, ins: ECharts) => void,
-    ) {
-      if (isString(eventName) && isFunction(func)) {
-        instance.on(eventName, (param: any) => {
-          func(param, instance);
-        });
+  const bindEvents = useMemoizedFn(
+    (
+      instance: ECharts,
+      events: Record<string, (params: any, ins: ECharts) => void>,
+    ) => {
+      function _bindEvent(
+        eventName: string,
+        func: (params: any, ins: ECharts) => void,
+      ) {
+        if (isString(eventName) && isFunction(func)) {
+          instance.on(eventName, (param: any) => {
+            func(param, instance);
+          });
+        }
       }
-    }
 
-    Object.keys(events)?.forEach((eventName) => {
-      _bindEvent(eventName, events[eventName]);
-    });
-  };
+      Object.keys(events)?.forEach((eventName) => {
+        _bindEvent(eventName, events[eventName]);
+      });
+    },
+  );
   /** 创建图表 */
   const renderNewEcharts = useMemoizedFn(async () => {
     await initEchartsInstance();
@@ -139,14 +158,24 @@ const LECharts: FC<LEChartsProps> = (props) => {
   /** 调用图标实例 resize函数 并加动画 */
   const resize = useMemoizedFn(() => {
     const echartsInstance = echartsInstanceRef.current;
-    console.log('resize');
     if (!isInitialResize.current) {
       try {
+        if (
+          autoResizeFields !== false &&
+          (autoResizeFields?.length || autoResizeFields === void 0)
+        ) {
+          const newOption = transformEchartsOption(
+            fastDeepClone(option), // 必须先深克隆
+            [...new Set(['fontSize', ...(autoResizeFields ?? [])])],
+            designWidth,
+          );
+          updateEChartsOption(newOption);
+        }
         echartsInstance?.resize({
           width: 'auto',
           height: 'auto',
           animation: {
-            duration: resizeDuration,
+            duration: autoResizeDuration,
           },
         });
       } catch (e) {
@@ -180,13 +209,6 @@ const LECharts: FC<LEChartsProps> = (props) => {
       renderNewEcharts();
       return;
     }
-    const pickKeys = [
-      'option',
-      'notMerge',
-      'lazyUpdate',
-      'showLoading',
-      'loadingOption',
-    ];
 
     if (!isEqual(pick(prevProps, pickKeys), pick(props, pickKeys))) {
       // prevPropsRef.current = props;
@@ -235,5 +257,5 @@ const LECharts: FC<LEChartsProps> = (props) => {
     <div ref={ref} className={classnames(prefixCls, className)} style={style} />
   );
 };
-
+// 第一步优化性能
 export default memo(LECharts);

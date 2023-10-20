@@ -12,8 +12,8 @@ declare module '*.jpeg';
 declare module '*.gif';
 declare module '*.bmp';
 declare module '*.tiff';
-declare module 'throttle-debounce';
 declare module 'react-color';
+declare module 'lodash-es';
 
 /**
  * 从某一类型中选出某些字段为可选

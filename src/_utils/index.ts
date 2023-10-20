@@ -1,4 +1,10 @@
 import { Children, useMemo, useRef } from 'react';
+import rfdc from 'rfdc';
+
+/**
+ * 深克隆对象
+ */
+export const fastDeepClone = rfdc();
 
 /**
  * 判断某个值是不是函数类型
@@ -29,7 +35,7 @@ export function pick(
   keys: string[],
 ): Record<string, unknown> | undefined {
   if (!obj) return void 0;
-  const r = {};
+  const r: Record<string, any> = {};
   keys.forEach((key) => {
     r[key] = obj[key];
   });
@@ -193,20 +199,20 @@ export const isTrueArray = (value: any) => {
  * @param obj
  * @returns
  */
-export const _cloneDeep = (obj: any) => {
-  if (obj === null) return null;
-  let clone = Object.assign({}, obj);
-  Object.keys(clone).forEach(
-    (key) =>
-      (clone[key] =
-        typeof obj[key] === 'object' ? _cloneDeep(obj[key]) : obj[key]),
-  );
-  if (Array.isArray(obj)) {
-    clone.length = obj.length;
-    return Array.from(clone);
-  }
-  return clone;
-};
+// export const fastDeepClone = (obj: any) => {
+//   if (obj === null) return null;
+//   let clone = Object.assign({}, obj);
+//   Object.keys(clone).forEach(
+//     (key) =>
+//       (clone[key] =
+//         typeof obj[key] === 'object' ? fastDeepClone(obj[key]) : obj[key]),
+//   );
+//   if (Array.isArray(obj)) {
+//     clone.length = obj.length;
+//     return Array.from(clone);
+//   }
+//   return clone;
+// };
 
 type GetFormInitValuesOptions = {
   formItems: any[];
@@ -318,35 +324,37 @@ const fontSize = (size: number, designWidth = 1920) => {
     window.innerWidth ||
     document.documentElement.clientWidth ||
     document.body.clientWidth;
-
   if (!clientWidth) return size;
-
   const widthRate = clientWidth / designWidth; // 设计图宽度
   return size * widthRate;
 };
 
 /**
- *
+ * 转化echarts的 option 找到能resize的字段
  * @param option
  * @param changeFields
- * @returns
+ * @param designWidth
+ * @returns 新的 option
  */
-export const transformOption = (
+export const transformEchartsOption = (
   option: Record<string, any>,
   changeFields: string[] = [],
+  designWidth = 1920,
 ) => {
+  if (!changeFields?.length) {
+    return option;
+  }
   Object.keys(option).forEach((key) => {
     if (changeFields.includes(key) && typeof option[key] === 'number') {
-      option[key] = fontSize(option[key]);
+      option[key] = fontSize(option[key], designWidth);
     }
-
     if (typeof option[key] === 'object') {
       if (Array.isArray(option[key])) {
         option[key].forEach((item: Record<string, any>) => {
-          transformOption(item);
+          transformEchartsOption(item, changeFields, designWidth);
         });
       } else {
-        transformOption(option[key]);
+        transformEchartsOption(option[key], changeFields, designWidth);
       }
     }
   });
