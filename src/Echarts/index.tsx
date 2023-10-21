@@ -131,6 +131,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     if (!ref.current) return;
 
     unBind.current = bind(ref.current, (dom) => {
+      // 解决闪动问题
       if (dom!.clientWidth <= 0 || dom!.clientHeight <= 0) return;
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       if (autoResize) resize();
@@ -176,10 +177,6 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
       }
     }
     isInitialResize.current = false;
-  });
-
-  useMount(() => {
-    renderNewEcharts();
   });
 
   useUpdateEffect(() => {
@@ -232,6 +229,9 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     className,
   ]);
 
+  useMount(() => {
+    renderNewEcharts();
+  });
   useUnmount(() => {
     dispose();
   });
