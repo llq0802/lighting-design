@@ -33,7 +33,7 @@ const pickKeys = [
   'loadingOption',
 ];
 
-const LECharts: FC<LEChartsProps> = (props) => {
+const LECharts: FC<LEChartsProps> = memo((props) => {
   const {
     className,
     style,
@@ -60,7 +60,7 @@ const LECharts: FC<LEChartsProps> = (props) => {
   const unBind = useRef<() => void>();
   const prevProps = usePrevious(props);
 
-  /** 初始化实例 */
+  /** echarts.init 初始化实例 */
   const initEchartsInstance = useMemoizedFn(async () => {
     return new Promise((resolve) => {
       const echartsInstance = (echartsInstanceRef.current = echarts.init(
@@ -68,22 +68,7 @@ const LECharts: FC<LEChartsProps> = (props) => {
         theme,
         opts,
       ));
-      echartsInstance?.on?.('finished', () => {
-        const width = ref.current!.clientWidth;
-        const height = ref.current!.clientHeight;
-        echarts.dispose(ref.current!);
-        const opts = {
-          width,
-          height,
-          ...props.opts,
-        };
-        const newIns = (echartsInstanceRef.current = echarts.init(
-          ref.current,
-          theme,
-          opts,
-        ));
-        resolve(newIns);
-      });
+      resolve(echartsInstance);
     });
   });
 
@@ -263,6 +248,7 @@ const LECharts: FC<LEChartsProps> = (props) => {
   return (
     <div ref={ref} className={classnames(prefixCls, className)} style={style} />
   );
-};
+});
+
 // 第一步优化性能
-export default memo(LECharts);
+export default LECharts;
