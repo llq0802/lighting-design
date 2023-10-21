@@ -41,10 +41,11 @@ const LECharts: FC<LEChartsProps> = (props) => {
     echartsRef,
     onEvents,
     onChartReady,
+    onChartResize,
     notMerge = false,
     lazyUpdate = true,
     showLoading,
-    loadingOption = null,
+    loadingOption,
     shouldSetOption,
     theme,
     opts,
@@ -142,12 +143,14 @@ const LECharts: FC<LEChartsProps> = (props) => {
 
     if (isFunction(onChartReady)) onChartReady?.(echartInstance);
 
-    if (!ref.current || !autoResize) return;
+    if (!ref.current) return;
 
     unBind.current = bind(ref.current, (dom) => {
       if (dom!.clientWidth <= 0 || dom!.clientHeight <= 0) return;
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      resize();
+      if (autoResize) resize();
+
+      onChartResize?.(echartInstance, dom);
     });
   });
 
@@ -177,6 +180,7 @@ const LECharts: FC<LEChartsProps> = (props) => {
         ) {
           updateEChartsOption();
         }
+
         echartsInstance?.resize({
           width: 'auto',
           height: 'auto',

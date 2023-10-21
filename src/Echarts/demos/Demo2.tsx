@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Space } from 'antd';
 import Mock from 'better-mock';
 import type { LEChartsOption } from 'lighting-design';
 import { LECharts } from 'lighting-design';
@@ -58,8 +58,9 @@ const Chart1 = () => {
   const [option, setOption] = useState<LEChartsOption>(defaultOption);
   return (
     <div>
-      <div>
+      <Space>
         <Button
+          type="primary"
           onClick={() => {
             setCount(count + 1);
           }}
@@ -68,9 +69,10 @@ const Chart1 = () => {
         </Button>
 
         <Button
+          type="primary"
           onClick={() => {
-            const newOpt = cloneDeep(option);
-            newOpt.series[0].data = [
+            const newOption = cloneDeep(option);
+            newOption.series[0].data = [
               Mock.Random.integer(5, 40),
               Mock.Random.integer(5, 40),
               Mock.Random.integer(5, 40),
@@ -78,14 +80,12 @@ const Chart1 = () => {
               Mock.Random.integer(5, 40),
               Mock.Random.integer(5, 40),
             ];
-            setOption({
-              ...newOpt,
-            });
+            setOption(newOption);
           }}
         >
           更新option
         </Button>
-      </div>
+      </Space>
       <LECharts option={option} />
     </div>
   );

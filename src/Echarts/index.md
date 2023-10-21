@@ -25,6 +25,8 @@ React 版本的 ECharts 容器组件 对比 `echarts-for-react` 有如下特性:
 
 ### 在`Tabs`中使用
 
+可根据实际情况给 `Tabs` 设置 `destroyInactiveTabPane` 属性
+
 <code src='./demos/Demo1.tsx'></code>
 
 ### ECharts API
@@ -35,24 +37,47 @@ React 版本的 ECharts 容器组件 对比 `echarts-for-react` 有如下特性:
 
 <code src='./demos/Demo4.tsx'></code>
 
+### 实时动态数据
+
+<code src='./demos/Demo5.tsx'></code>
+
+### SVG 渲染器
+
+关于使用 canvas 还是 svg 渲染器请查看 [echarts](https://echarts.apache.org/handbook/zh/best-practices/canvas-vs-svg) 官方文档
+
+<code src='./demos/Demo6.tsx'></code>
+
+### 设置其他属性
+
+设置 Loading Theme style 等
+
+<code src='./demos/Demo7.tsx'></code>
+
+### 取消响应式
+
+<code src='./demos/Demo8.tsx'></code>
+
 ## API
 
 :::warning{title=注意}
 
 - 使用该组件时必须保证项目中已安装了`echarts`或者通过`cdn`引入了`echarts`
 
+- 建议搭配 `echarts v5` 使用以便获得新特性与性能优化
+
+- 如果要使用`Web GL` 请先安装 `echarts-gl`
+
 - 根组件的默认样式为 `width: 100%; height: 33vh;` 可根据实际需求修改
 
-- 当要改变 `option`时 , 你必须先深克隆原`option (可使用 lodash.cloneDeep)` 然后再 `setOpions({...新的深克隆后的option})`
+- 当要改变 `option`时 , 你必须先 **深克隆** 原`option (可使用 lodash.cloneDeep)` 然后再 `setOpions({...新的深克隆后的option})`
 
 - `designWidth` `autoResizeFields` `autoResizeDuration` 都只在 `autoResize`为`true`时生效
 
 - `autoResizeFields` 说明:
 
-  - 响应式大小的计算根据 `designWidth`
+  - `autoResize` 为 `true` 时生效, 响应式大小的计算根据 `designWidth`
   - 默认会对`fontSize`进行设置 如果为`autoResizeFields`为`false`则所有字段都不会做响应式
-
-- 建议搭配 `echarts v5` 使用以便获得新特性
+  - 字段的值必须是 `number`类型或者`字符串的数字`
 
   :::
 
@@ -73,6 +98,7 @@ import { LECharts } from 'lighting-design';
 |   loadingOption    |                               在 showLoading 为 true 时生效, echarts 实例的 showLoading 的配置项                               |                           ` Record<string, any>`                            |      `-`       |
 |        opts        |                                                 echarts.init 方法的 opts 配置                                                  |                                   `Opts`                                    |      `-`       |
 |    onChartReady    |                                         图表渲染完成时的回调 回调的参数为当前图表实例                                          |                        `(instance: ECharts) => void`                        |      `-`       |
+|   onChartResize    |                                 图表大小发生改变时的回调 回调的参数为当前图表实例与根元素 dom                                  |             `(instance: ECharts, dom: HTMLDivElement) => void`              |      `-`       |
 |      onEvents      |                                                         echarts 的事件                                                         |           ` Record<string, (params: any, ins: ECharts) => void>`            |      `-`       |
 |  shouldSetOption   |                                            是否能更新图表 返回 false 将不会更新图表                                            | `( prevProps: LEChartsProps \| undefined, props: LEChartsProps) => boolean` |      `-`       |
 |     autoResize     |                                当 echarts 的容器 dom 大小发生变化时,是否自动 resize 默认为 true                                |                                  `boolean`                                  |     `true`     |

@@ -319,14 +319,24 @@ export const getTableColumnsKey = (col: Record<string, any>, i: number) => {
  * @param size
  * @returns
  */
-const fontSize = (size: number, designWidth = 1920) => {
+const autoFontSize = (size: number | string, designWidth = 1920) => {
   const clientWidth =
     window.innerWidth ||
     document.documentElement.clientWidth ||
     document.body.clientWidth;
+
   if (!clientWidth) return size;
+
   const widthRate = clientWidth / designWidth; // 设计图宽度
-  return size * widthRate;
+
+  if (
+    typeof size === 'number' ||
+    (typeof size === 'string' && !Object.is(NaN, parseFloat(size)))
+  ) {
+    return +size * widthRate;
+  }
+
+  return 14;
 };
 
 /**
@@ -345,8 +355,11 @@ export const transformEchartsOption = (
     return option;
   }
   Object.keys(option).forEach((key) => {
-    if (changeFields.includes(key) && typeof option[key] === 'number') {
-      option[key] = fontSize(option[key], designWidth);
+    if (
+      changeFields.includes(key) &&
+      ['number', 'string'].includes(typeof option[key])
+    ) {
+      option[key] = autoFontSize(option[key], designWidth);
     }
     if (typeof option[key] === 'object') {
       if (Array.isArray(option[key])) {

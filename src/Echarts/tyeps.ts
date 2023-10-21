@@ -113,6 +113,13 @@ export type LEChartsProps = {
    */
   readonly onChartReady?: (instance: ECharts) => void;
   /**
+   *图表大小发生改变时的回调 回调的参数为当前图表实例与根元素dom
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.22
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
+   */
+  readonly onChartResize?: (instance: ECharts, dom: HTMLDivElement) => void;
+  /**
    *echarts的事件
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.22
