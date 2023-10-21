@@ -1,5 +1,5 @@
 import { DownOutlined } from '@ant-design/icons';
-import { useControllableValue, useUpdateEffect } from 'ahooks';
+import { useControllableValue } from 'ahooks';
 import type { PopoverProps, SelectProps } from 'antd';
 import { Popover, Select } from 'antd';
 import classnames from 'classnames';
@@ -223,14 +223,14 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     setOpen: setIsOpen,
   });
 
-  useUpdateEffect(() => {
-    if (Object.prototype.toString.call(state).slice(8, -1) !== 'Object') {
-      setState({
-        [fieldNames.label]: void 0,
-        [fieldNames.value]: void 0,
-      });
-    }
-  }, [state]);
+  // useUpdateEffect(() => {
+  //   if (Object.prototype.toString.call(state).slice(8, -1) !== 'Object') {
+  //     setState({
+  //       [fieldNames.label]: void 0,
+  //       [fieldNames.value]: void 0,
+  //     });
+  //   }
+  // }, [state]);
 
   const innerSuffixIcon = suffixIcon || (
     <DownOutlined
@@ -277,7 +277,7 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
         tagRender={tagRender}
         mode={outMode === 'default' ? void 0 : 'multiple'}
         onChange={setState}
-        value={state?.[fieldNames.label] ?? void 0}
+        value={state?.[fieldNames.label]}
         notFoundContent={null}
         options={void 0}
         onInputKeyDown={(e) => {
