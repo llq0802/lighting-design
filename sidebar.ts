@@ -283,6 +283,10 @@ export default {
           title: '下载文件',
           link: '/scene/download',
         },
+        {
+          title: '大屏适配',
+          link: '/scene/big-Screen',
+        },
       ],
     },
   ],

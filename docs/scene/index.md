@@ -9,8 +9,10 @@ order: 1
 - [excel2Json-getExcelData] - 解析 Excel 数据成 JSON
 - [better-mock] - Mock 模拟数据的最佳库
 - [download] - 关于浏览器下载的实践
+- [bigScreen] - 关于大屏适配的实践
 
 [json2Excel]: /scene/table-Export
 [excel2Json-getExcelData]: /scene/excel-Import
 [better-mock]: /scene/excel-Import
 [download]: /scene/download
+[bigScreen]: /scene/big-Screen
