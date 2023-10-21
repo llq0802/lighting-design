@@ -5,12 +5,13 @@ order: 3
 
 **新增**
 
+- [LECharts - echarts 容器组件](/components/Echarts)
 - [LEditTable - 高级编辑表格组件](/components/edit-table)
 - [LSliderVerify - 滑块验证组件](/components/slider-verify)
 - [LCardGroup - 卡片选择组件](/components/card-group)
 - [LTagGroup - 标签选择组件](/components/tag-group)
 - [LCollapseCard - 折叠卡片组件](/components/collapse-card)
-- [LSeamlesScroll - 无缝滚动组件](/components/seamles-scroll)
+- [LSeamlesScroll - 无缝滚动组件](/components/seamless-scroll)
 - [LScrollBar - 滚动条组件](/components/scroll-bar)
 - [LTreeTable - 树表格组件](/components/tree-table)
 - [LH5Preview - H5 预览组件](/components/h5-preview)

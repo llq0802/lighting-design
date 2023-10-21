@@ -22,6 +22,7 @@ toc: content
 
 ## 数据展示
 
+- [LECharts] - echarts 容器组件
 - [LTable] - 高级表格
 - [LEditTable] - 高级编辑表格
 - [LList] - 高级列表
@@ -77,6 +78,7 @@ toc: content
 - [useDeepUpdateEffect] - 深度依赖项更新时的副作用
 - [useLazyLoadImage] - 性能更好的懒加载图片
 
+[LECharts]: /components/Echarts
 [LEllipsisText]: /components/Ellipsis-Text
 [LEditTable]: /components/edit-table
 [LH5Preview]: /components/h5-preview
@@ -95,7 +97,7 @@ toc: content
 [lcaptchabutton]: /components/captcha-button
 [ltable]: /components/table
 [llist]: /components/list
-[lseamlessscroll]: /components/seamles-scroll
+[lseamlessscroll]: /components/seamless-scroll
 [LCollapseCard]: /components/collapse-card
 [LCardGroup]: /components/card-group
 [LTagGroup]: /components/tag-group

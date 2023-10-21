@@ -60,6 +60,7 @@ React 版本的 ECharts 容器组件 对比 `echarts-for-react` 有如下特性:
 ## API
 
 :::warning{title=注意}
+自 2.1.23 起新增此组件
 
 - 使用该组件时必须保证项目中已安装了`echarts`或者通过`cdn`引入了`echarts`
 
