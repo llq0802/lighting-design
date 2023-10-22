@@ -44,6 +44,8 @@ import { LTrigger } from 'lighting-design';
 
 - `children`接受到的`value`为`value.value` `onChange`传的值必须是`{ label: xxx; value: xxx }` ,`fieldNames` 可配置为其他字段名
 
+- 与表格结合时 `rowSelection` 中的 `preserveSelectedRowKeys` 属性建议设置为 `true` 即当数据被删除时仍然保留选项的 key
+
 - 当屏幕空间足够时，会按照 `placement` 的设置进行弹层。当空间不足时则会取反向位置进行弹层`（例如 top 不够时，会改为 bottom，topLeft 不够时会改为 bottomLeft）`。单一方向如 `top bottom left right`当贴边时进行自动位移
 
   :::

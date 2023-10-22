@@ -19,7 +19,8 @@ const columns: ColumnsType<DataType> = [
 const dataSource: DataType[] = Mock.mock({
   'list|25': [
     {
-      key: '@id',
+      // key: '@id',
+      'key|+1': 1,
       name: '@cname',
       address: '@county(true)',
       'age|10-30': 10,

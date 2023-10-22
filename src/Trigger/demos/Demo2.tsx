@@ -8,14 +8,14 @@ const Demo2 = () => {
       // labelCol={{ flex: '90px' }}
       labelWidth={90}
       submitter={{ buttonAlign: 90 }}
-      transformValues={(values) => {
-        const { trigger1, trigger2, ...restValues } = values;
-        return {
-          ...restValues,
-          trigger1Id: trigger1?.value,
-          trigger2Id: trigger2?.value,
-        };
-      }}
+      // transformValues={(values) => {
+      //   const { trigger1, trigger2, ...restValues } = values;
+      //   return {
+      //     ...restValues,
+      //     trigger1Id: trigger1?.value,
+      //     trigger2Id: trigger2?.value,
+      //   };
+      // }}
       onFinish={async (values) => {
         console.log('values', values);
       }}

@@ -209,12 +209,10 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
   });
 
   const [state, setState] = useControllableValue<ValueType>(props, {
-    defaultValue: { [fieldNames.label]: void 0, [fieldNames.value]: void 0 },
     defaultValuePropName: 'defaultValue',
     valuePropName: 'value',
     trigger: 'onChange',
   });
-
   const content = cloneElement(children, {
     // @ts-ignore
     value: state?.[fieldNames.value],
@@ -222,15 +220,6 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     open: isOpen,
     setOpen: setIsOpen,
   });
-
-  // useUpdateEffect(() => {
-  //   if (Object.prototype.toString.call(state).slice(8, -1) !== 'Object') {
-  //     setState({
-  //       [fieldNames.label]: void 0,
-  //       [fieldNames.value]: void 0,
-  //     });
-  //   }
-  // }, [state]);
 
   const innerSuffixIcon = suffixIcon || (
     <DownOutlined
@@ -263,7 +252,7 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
         {...selectProps}
         ref={selectRef}
         className={classnames(prefixCls, className)}
-        style={{ width: width, ...style }}
+        style={{ width, ...style }}
         removeIcon={false}
         showSearch={false}
         virtual={false}
