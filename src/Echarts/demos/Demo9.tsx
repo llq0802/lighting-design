@@ -1,7 +1,12 @@
 import { message } from 'antd';
 import * as echarts from 'echarts';
 import { LECharts } from 'lighting-design';
+import localforage from 'localforage';
 import { useEffect, useState } from 'react';
+
+const store = localforage.createInstance({
+  name: 'lightd',
+});
 
 const uploadedDataURL =
   'https://img.isqqw.com/profile/upload/2023/09/27/f99fb3b0-8d57-4f85-a15c-958cd18fda15.svg';
@@ -535,7 +540,6 @@ const defaultOption = {
     transitionDuration: 0,
     extraCssText: 'z-index:100',
     formatter: function (params, ticket, callback) {
-      console.log(params);
       // 根据业务自己拓展要显示的内容
       let res = '';
       let name = params.name;
@@ -746,17 +750,29 @@ const defaultOption = {
 const Demo9 = () => {
   const [option, setOption] = useState();
   useEffect(() => {
-    window
-      .fetch(uploadedDataURL)
-      .then((res) => res.text())
-      .then((res) => {
-        echarts.registerMap('mapSvgKey', { svg: res });
+    (async () => {
+      // 将 svg 缓存到indexDB
+      const storeRes = await store.getItem('mapSvgKey');
+
+      if (storeRes) {
+        echarts.registerMap('mapSvgKey', { svg: storeRes });
         setOption(defaultOption);
-      })
-      .catch((error) => {
-        console.log('error', error);
-        message.error('地图数据获取失败');
-      });
+        return;
+      }
+
+      window
+        .fetch(uploadedDataURL)
+        .then((res) => res.text())
+        .then(async (res) => {
+          await store.setItem('mapSvgKey', res);
+          echarts.registerMap('mapSvgKey', { svg: res });
+          setOption(defaultOption);
+        })
+        .catch((error) => {
+          console.log('error', error);
+          message.error('地图数据获取失败');
+        });
+    })();
   }, []);
   return option ? (
     <LECharts
