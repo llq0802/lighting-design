@@ -59,9 +59,21 @@ React 版本的 ECharts 容器组件 对比 `echarts-for-react` 有如下特性:
 
 <code src='./demos/Demo8.tsx'></code>
 
-<!-- ### 地图
+### SVG 地图
 
-<code src='./demos/Demo8.tsx'></code> -->
+<code src='./demos/Demo9.tsx'></code>
+
+### JSON 地图-重庆主城
+
+<code src='./demos/Demo10.tsx'></code>
+
+### JSON 地图-重庆 1
+
+<code src='./demos/Demo11.tsx'></code>
+
+### JSON 地图-重庆 2
+
+<code src='./demos/Demo12.tsx'></code>
 
 ## API
 

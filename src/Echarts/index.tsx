@@ -16,6 +16,7 @@ import {
   pick,
   transformEchartsOption,
 } from 'lighting-design/_utils';
+import { emptyObject } from 'lighting-design/constants';
 import { memo, useImperativeHandle, useRef, type FC } from 'react';
 import { bind, clear } from 'size-sensor';
 import './index.less';
@@ -37,7 +38,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
   const {
     className,
     style,
-    option,
+    option = emptyObject,
     echartsRef,
     onEvents,
     onChartReady,
@@ -88,6 +89,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     } else {
       echartOption = option;
     }
+
     const echartInstance = echartsInstanceRef.current;
     echartInstance?.setOption(echartOption, notMerge, lazyUpdate);
     if (showLoading) echartInstance?.showLoading(loadingOption);

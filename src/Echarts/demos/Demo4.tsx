@@ -149,7 +149,7 @@ let option = {
 
 const Demo4 = () => {
   function onChartReady(echarts) {
-    console.log('echarts is ready', echarts);
+    // console.log('echarts is ready', echarts);
   }
 
   function onChartClick(param, echarts) {

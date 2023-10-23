@@ -21,7 +21,7 @@ const DEFAULT_OPTION = {
     },
   },
   grid: {
-    top: 60,
+    top: 80,
     left: 30,
     right: 60,
     bottom: 30,
@@ -149,8 +149,6 @@ const DEFAULT_OPTION = {
 };
 
 const Page: React.FC = () => {
-  let count;
-
   const [option, setOption] = useState(DEFAULT_OPTION);
 
   function fetchNewData() {
@@ -167,8 +165,10 @@ const Page: React.FC = () => {
 
     newOption.xAxis[0].data.shift();
     newOption.xAxis[0].data.push(axisData);
+
+    const count = newOption.xAxis[1].data.at(-1) + 1;
     newOption.xAxis[1].data.shift();
-    newOption.xAxis[1].data.push(count++);
+    newOption.xAxis[1].data.push(count);
 
     setOption(newOption);
   }
@@ -179,7 +179,7 @@ const Page: React.FC = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  });
+  }, [option]);
 
   return <LECharts option={option} />;
 };
