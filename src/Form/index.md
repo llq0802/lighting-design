@@ -72,7 +72,7 @@ nav:
 
 - `LFrom` 的重置方法与`Form`的重置方法行为不同, `LFrom`并不会重新`mount`子组件, 所以当你校验不通过时无法回到初始状态, 如果要回到初始检验可通过以下两种方法:
 
-  1.  `submitter`自定义按钮渲染后后绑定`form.resetFields`方法
+  1.  `submitter`自定义按钮渲染后绑定`form.resetFields`方法
   2.  `resetButtonProps`中设置`preventDefault = true`后在`onClick`中绑定`form.resetFields`
 
 :::
