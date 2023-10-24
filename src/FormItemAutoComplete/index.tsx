@@ -12,28 +12,28 @@ export type LFormItemAutoCompleteProps = {
   /**
    * 自定义输入框
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
    */
   inputRender?: () => ReactElement;
   /**
    * 被选中时调用，参数为选中项的 value 值
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
    */
   onSelect?: AutoCompleteProps['onSelect'];
   /**
    * 搜索补全项的时候调用
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
    */
   onSearch?: AutoCompleteProps['onSearch'];
   /**
    * AutoComplete 的 onFocus
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
    */
 
@@ -41,35 +41,35 @@ export type LFormItemAutoCompleteProps = {
   /**
    * AutoComplete 的 onBlur
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
    */
   onBlur?: AutoCompleteProps['onBlur'];
   /**
    * 数据化配置选项内容
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
    */
   options?: DefaultOptionType[];
   /**
    * antd自动补全组件 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
    */
   autoCompleteProps?: AutoCompleteProps;
   /**
    * 是否禁用
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
    */
   disabled?: boolean;
   /**
    * placeholder 提示语
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
    */
   placeholder?: string;
