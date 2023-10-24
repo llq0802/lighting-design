@@ -15,7 +15,7 @@ declare type Opts = {
   height?: number | string | 'auto';
 };
 
-export type LEChartsOption = EChartsOption & Record<string, any>;
+export type LEChartsOption = EChartsOption | Record<string, any>;
 
 export type LEChartsInstance = {
   /** echarts的实例 */
