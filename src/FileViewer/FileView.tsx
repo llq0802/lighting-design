@@ -60,13 +60,12 @@ const FileView: FunctionComponent<FileViewProps> = ({
   }
 
   return (
-    <div
-      className="lightd-file-viewer-download"
-      style={{ textAlign: 'center' }}
-    >
-      <span style={{ marginRight: 6 }}>该文件不支持预览，你可尝试</span>
+    <div className="lightd-file-viewer-download">
+      <span className="lightd-file-viewer-download-desc">
+        该文件不支持预览，你可尝试
+      </span>
       <Link href={url} title={fileName} download={fileName} {...contentProps}>
-        点击下载
+        <b>点击下载</b>
       </Link>
     </div>
   );
