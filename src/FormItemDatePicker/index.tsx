@@ -147,28 +147,28 @@ export interface LFormItemDatePickerProps extends LFormItemProps {
   /**
    *禁用今天的前面的日期 为`0`时包括今天
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   disabledDateBefore?: number;
   /**
    *禁用今天的后面的日期 为`0`时包括今天
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   disabledDateAfter?: number;
   /**
    *是否展示时间 (时分秒)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   showTime?: TimePickerProps | boolean;
   /**
    *日期格式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   format?: string;
@@ -176,21 +176,21 @@ export interface LFormItemDatePickerProps extends LFormItemProps {
   /**
    *表单获取到的时间格式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   dateValueType?: DateValueType;
   /**
    *日期类型
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   picker?: Picker;
   /**
    *antd日期组件的 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.22
+   *@version 2.1.23
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   pickerProps?:

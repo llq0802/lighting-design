@@ -6,4 +6,8 @@ node_modules
 .DS_Store
 /latest
 /es
+<<<<<<< HEAD
 .history/
+=======
+.history
+>>>>>>> 403a20b9f1fda9dedbad65762d8847609991f781

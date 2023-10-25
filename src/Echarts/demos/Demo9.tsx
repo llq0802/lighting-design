@@ -4,12 +4,13 @@ import { LECharts } from 'lighting-design';
 import localforage from 'localforage';
 import { useEffect, useState } from 'react';
 
-const store = localforage.createInstance({
-  name: 'lightd',
-});
+const isDev = process.env.NODE_ENV === 'development';
+const version = 'latest';
+const publicPath = !isDev ? `/lighting-design/${version}/` : '/';
 
-const uploadedDataURL =
-  'https://img.isqqw.com/profile/upload/2023/09/27/f99fb3b0-8d57-4f85-a15c-958cd18fda15.svg';
+const store = localforage.createInstance({ name: 'lightd' });
+
+const uploadedDataURL = `${publicPath}map_svg.svg`;
 
 const provinces = [
   {
@@ -564,6 +565,7 @@ const defaultOption = {
     // 如果宽高比大于 1 则宽度为 100，如果小于 1 则高度为 100，保证了不超过 100x100 的区域
     // layoutSize: 100,
     zoom: 1.3,
+    id: 'mapSvgKey',
     map: 'mapSvgKey',
     itemStyle: {
       borderWidth: 0,
@@ -751,9 +753,9 @@ const Demo9 = () => {
   const [option, setOption] = useState();
   useEffect(() => {
     (async () => {
-      // 将 svg 缓存到indexDB
       const storeRes = await store.getItem('mapSvgKey');
 
+      // 先判断indexDB有资源没
       if (storeRes) {
         echarts.registerMap('mapSvgKey', { svg: storeRes });
         setOption(defaultOption);
@@ -764,6 +766,7 @@ const Demo9 = () => {
         .fetch(uploadedDataURL)
         .then((res) => res.text())
         .then(async (res) => {
+          // 将 svg 缓存到indexDB
           await store.setItem('mapSvgKey', res);
           echarts.registerMap('mapSvgKey', { svg: res });
           setOption(defaultOption);
@@ -775,19 +778,7 @@ const Demo9 = () => {
     })();
   }, []);
   return option ? (
-    <LECharts
-      style={{ height: '70vh' }}
-      option={option}
-      onEvents={{
-        click: function (params, myChart) {
-          myChart.dispatchAction({
-            type: 'highlight',
-            geoIndex: 0,
-            name: params.name,
-          });
-        },
-      }}
-    />
+    <LECharts style={{ height: '70vh' }} option={option} />
   ) : (
     'loading...'
   );

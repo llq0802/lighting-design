@@ -11,7 +11,7 @@ const option = {
   backgroundColor: '#013954',
   geo: {
     map: 'cq1',
-    aspectScale: 0.75, // 长宽比
+    aspectScale: 1, // 长宽比
     zoom: 1.1,
     roam: false,
     itemStyle: {
@@ -31,11 +31,10 @@ const option = {
               color: '#274d68', // 100% 处的颜色
             },
           ],
-          globalCoord: true, // 缺省为 false
         },
         shadowColor: 'rgb(58,115,192)',
-        shadowOffsetX: 10,
-        shadowOffsetY: 11,
+        shadowOffsetX: 4,
+        shadowOffsetY: 6,
       },
       emphasis: {
         areaColor: '#2AB8FF',
@@ -52,23 +51,16 @@ const option = {
       type: 'map',
       roam: false,
       label: {
-        normal: {
-          show: true,
-          textStyle: {
-            color: '#1DE9B6',
-          },
-        },
-        emphasis: {
-          textStyle: {
-            color: 'rgb(183,185,14)',
-          },
+        show: true,
+        textStyle: {
+          color: '#1DE9B6',
         },
       },
 
       itemStyle: {
         normal: {
           borderColor: 'rgb(147, 235, 248)',
-          borderWidth: 1,
+          borderWidth: 2,
           areaColor: {
             type: 'radial',
             x: 0.5,
@@ -84,7 +76,6 @@ const option = {
                 color: '#274d68', // 100% 处的颜色
               },
             ],
-            globalCoord: true, // 缺省为 false
           },
         },
         emphasis: {
@@ -94,7 +85,7 @@ const option = {
         },
       },
       zoom: 1.1,
-      //     roam: false,
+      aspectScale: 1, // 长宽比
       map: 'cq1', // 使用
       // data: this.difficultData //热力图数据   不同区域 不同的底色
     },
@@ -106,8 +97,15 @@ const Demo12 = () => {
   return (
     <LECharts
       option={option}
-      style={{
-        height: '70vh',
+      style={{ height: '70vh' }}
+      onEvents={{
+        click(params, myChart) {
+          myChart.dispatchAction({
+            type: 'highlight',
+            geoIndex: 0,
+            name: params.name,
+          });
+        },
       }}
     />
   );
