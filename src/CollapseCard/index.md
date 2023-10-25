@@ -41,8 +41,8 @@ import { LCollapseCard } from 'lighting-design';
 |   collapsible    |              是否能展开              |                  `boolean`                  |  `true`  |
 |   forceRender    |      被隐藏时是否渲染 DOM 结构       |                  `boolean`                  | `false`  |
 |      ghost       |          使面板透明且无边框          |                  `boolean`                  | `false`  |
-|     bordered     |           带边框风格的面板           |                  `boolean`                  | `false`  |
-|     disabled     |               是否禁用               |                  `boolean`                  |  `true`  |
+|     bordered     |           带边框风格的面板           |                  `boolean`                  |  `true`  |
+|     disabled     |               是否禁用               |                  `boolean`                  | `false`  |
 |  destroyContent  |          销毁折叠隐藏的面板          |                  `boolean`                  | `false`  |
 | collapsePosition |             设置图标位置             |               `left \| right`               | `right`  |
 |      title       |                 标题                 |                 `ReactNode`                 |   `-`    |
