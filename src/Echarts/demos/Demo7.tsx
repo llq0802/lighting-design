@@ -392,7 +392,7 @@ const Demo7 = () => {
         option={option}
         showLoading
         loadingOption={loadingOption}
-        style={{ height: '30vh' }}
+        style={{ height: '50vh' }}
       />
       <Divider>
         <Button

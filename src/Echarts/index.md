@@ -88,14 +88,15 @@ React 版本的 ECharts 容器组件 对比 `echarts-for-react` 有如下特性:
 
 - 根组件的默认样式为 `width: 100%; height: 33vh;` 可根据实际需求修改
 
-- 当要改变 `option`时 , 你必须先 **深克隆** 原`option (可使用 lodash.cloneDeep)` 然后再 `setOpions({...新的深克隆后的option})`
+- 当要改变 `option`时 , 你必须先 **深克隆** 原`option (可使用 lodash.cloneDeep)` 然后再 `setOpions(新的深克隆后的option)`
 
 - `designWidth` `autoResizeFields` `autoResizeDuration` 都只在 `autoResize`为`true`时生效
 
 - `autoResizeFields` 说明:
 
   - `autoResize` 为 `true` 时生效, 响应式大小的计算根据 `designWidth`
-  - 默认会对`fontSize`进行设置 如果为`autoResizeFields`为`false`则所有字段都不会做响应式
+  - 如果为`autoResizeFields`为`false`则所有字段都不会做响应式
+  - 默认会对`fontSize`响应式, 但必须书写`fontSize`属性才会有响应式, 不书写则不会做响应式
   - 字段的值必须是 `number`类型或者`字符串的数字`
 
   :::
