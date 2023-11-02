@@ -21,6 +21,10 @@ export interface LFormSubmitterProps {
   onReset?: (event: MouseEvent<HTMLElement>) => void;
   /** 提交回调 */
   onSubmit?: (event: MouseEvent<HTMLElement>) => void;
+  /** 是否能按enter建提交 */
+  isEnterSubmit?: boolean;
+  /** 表单是否准备完成 */
+  isReady?: boolean;
   /** 是否展示重置按钮 */
   showReset?: boolean;
   /** form实例 */
@@ -38,6 +42,8 @@ export interface LFormSubmitterProps {
 
 const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const {
+    isEnterSubmit,
+    isReady,
     initFormValues,
     onSubmit = () => {},
     onReset = () => {},
@@ -96,6 +102,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
       <Button
         key="submit-lightd-form"
         type="primary"
+        htmlType={isEnterSubmit && isReady ? 'submit' : 'button'}
         {...submitButtonProps}
         onClick={submitClick}
       >
@@ -108,6 +115,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     }
     return ret;
   }, [
+    isEnterSubmit,
     handleReset,
     handleSubmit,
     resetButtonProps,

@@ -240,6 +240,8 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const submitterDom = useMemo(() => {
     return submitter ? (
       <Submitter
+        isReady={isReady}
+        isEnterSubmit={isEnterSubmit}
         initFormValues={initFieldValues}
         onReset={onReset}
         {...submitterProps}
@@ -255,23 +257,30 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         }}
       />
     ) : null;
-  }, [initFieldValues, isReady, loading, submitter, submitterProps]);
+  }, [
+    initFieldValues,
+    isReady,
+    loading,
+    submitter,
+    submitterProps,
+    isEnterSubmit,
+  ]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)
     : formItems;
 
-  const onKeyUp = useMemoizedFn((event) => {
-    const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
-    if (
-      isEnterSubmit &&
-      buttonHtmlType !== 'submit' &&
-      event.key === 'Enter' &&
-      isReady
-    ) {
-      formRef.current?.submit();
-    }
-  });
+  // const onKeyUp = useMemoizedFn((event) => {
+  //   const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
+  //   if (
+  //     isEnterSubmit &&
+  //     buttonHtmlType !== 'submit' &&
+  //     event.key === 'Enter' &&
+  //     isReady
+  //   ) {
+  //     formRef.current?.submit();
+  //   }
+  // });
 
   const innerOnValuesChange = useMemoizedFn((changedValues, allValues) => {
     const [currentName, currentValue] = Object.entries(changedValues)?.[0];
@@ -297,8 +306,8 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         initialValues={initialValues}
         className={classnames(prefixCls, className)}
         onFinish={handleOnFinish}
-        onKeyUp={onKeyUp}
         onValuesChange={innerOnValuesChange}
+        // onKeyPress={onKeyPress}
         {...restProps}
       >
         <Form.Item noStyle shouldUpdate>
