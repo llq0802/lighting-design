@@ -139,7 +139,7 @@ export type LEditTableProps = {
    * @param value 当前行的表单值
    * @param index  索引
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.23
+   * @version 2.1.24
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   onValuesChange?: (
@@ -151,21 +151,21 @@ export type LEditTableProps = {
   /**
    * 主键 id 必须是字符串类型
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.23
+   * @version 2.1.24
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   rowKey: string;
   /**
    * 编辑表格的配置项
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.23
+   * @version 2.1.24
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   editTableOptions?: EditTableOptions;
   /**
    * 编辑表格的列配置 多了 editable属性  getEditable方法  用于配置每一项表单项
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.23
+   * @version 2.1.24
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   columns: TableProps<any>['columns'] & {
