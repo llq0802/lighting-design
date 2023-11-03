@@ -3,6 +3,7 @@ import {
   usePagination,
   useRafState,
   useUpdateEffect,
+  useUpdateLayoutEffect,
 } from 'ahooks';
 import type { FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
@@ -198,7 +199,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     () => outSize,
   );
 
-  useUpdateEffect(() => {
+  useUpdateLayoutEffect(() => {
     setCurrentSize(outSize);
   }, [outSize]);
 

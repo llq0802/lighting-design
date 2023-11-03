@@ -1,4 +1,9 @@
-import { useMemoizedFn, useRafState, useUpdateEffect } from 'ahooks';
+import {
+  useMemoizedFn,
+  useRafState,
+  useUpdateEffect,
+  useUpdateLayoutEffect,
+} from 'ahooks';
 import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
@@ -167,7 +172,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const [loading, setLoading] = useRafState(() => outLoading);
   const formId = useMemo(() => name || `${uniqueId('lightd-form')}`, [name]);
 
-  useUpdateEffect(() => {
+  useUpdateLayoutEffect(() => {
     setLoading(outLoading);
   }, [outLoading]);
 
