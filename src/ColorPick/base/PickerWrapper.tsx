@@ -4,7 +4,6 @@ import { Popover } from 'antd';
 import classNames from 'classnames';
 import type { FC, ReactElement } from 'react';
 import { cloneElement } from 'react';
-import type { ColorResult } from 'react-color';
 import { transformColor } from '../utils';
 import BaseColor, { prefixCls } from './BaseColor';
 import './styles.less';
@@ -50,7 +49,7 @@ const PickerWrapper: FC<PickerWrapperProps> = ({
     trigger: 'onOpenChange',
   });
 
-  const handleChange = useMemoizedFn((color: ColorResult) => {
+  const handleChange = useMemoizedFn((color) => {
     onChange?.(transformColor(color, colorMode));
   });
 

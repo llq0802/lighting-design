@@ -222,41 +222,6 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
       className={classnames(prefixCls, className)}
       style={style}
     />
-
-    // return (
-    //   <Collapse
-    //     collapsible={triggerPosition === 'icon' ? 'icon' : void 0}
-    //     activeKey={collapsed ? ['1'] : []}
-    //     ghost={ghost}
-    //     destroyInactivePanel={destroyContent}
-    //     bordered={bordered}
-    //     expandIcon={expandIcon}
-    //     expandIconPosition={collapsePosition === 'left' ? 'start' : 'end'}
-    //     size={restProps.size || 'middle'}
-    //     onChange={(keys) => {
-    //       if (!collapsible) return;
-    //       if (!keys?.length) {
-    //         setCollapsed(false);
-    //         return;
-    //       }
-    //       setCollapsed(true);
-    //     }}
-    //     {...restProps}
-    //     className={classnames(prefixCls, restProps.className)}
-    //     style={restProps.style}
-    //   >
-    //     <Panel
-    //       className={classnames(restProps.contentClassName)}
-    //       key="1"
-    //       header={title}
-    //       extra={extra}
-    //       showArrow={collapsible}
-    //       forceRender={forceRender}
-    //       {...(restProps as any)?.panel}
-    //     >
-    //       {children}
-    //     </Panel>
-    //   </Collapse>
   );
 };
 

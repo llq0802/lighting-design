@@ -14,7 +14,7 @@ import IconVideo from './images/icon-video.png';
 import IconWord from './images/icon-word.png';
 import IconZip from './images/icon-zip.png';
 
-function getFileThumbUrl(file): string {
+function getFileThumbUrl(file: Record<string, any>): string {
   const { fileType } = file;
 
   if (fileType === 'image') {
@@ -71,7 +71,14 @@ const FileViewerPictureCard: FC<PictureCardProps> = ({
     url: string;
     fileName: string;
     fileType: string;
-  }>({});
+  }>({
+    url: '',
+    thumbUrl: '',
+    name: '',
+    uid: '',
+    fileName: '',
+    fileType: 'img',
+  });
   const [open, setOpen] = useState(false);
 
   const innerFileList = useMemo(() => {
@@ -87,11 +94,13 @@ const FileViewerPictureCard: FC<PictureCardProps> = ({
     <>
       <Upload
         className={classnames('lightd-file-viewer-picture-card', className)}
+        // @ts-ignore
         fileList={innerFileList}
         listType="picture-card"
         showUploadList={{ showRemoveIcon: false }}
         {...uploadProps}
         onPreview={(file) => {
+          // @ts-ignore
           setFileInfo({ ...file });
           setOpen(true);
           uploadProps?.onPreview?.(file);
