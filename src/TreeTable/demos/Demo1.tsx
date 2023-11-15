@@ -27,9 +27,9 @@ const Demo1 = () => {
       </Space>
       <Divider />
       <LTreeTable
-        onChange={(vals) => {
-          console.log('vals', vals);
-        }}
+        // onChange={(vals) => {
+        //   console.log('vals', vals);
+        // }}
         treeData={data1}
         lastColumnMerged={lastColumnMerged}
         showCheckbox={showCheckbox}

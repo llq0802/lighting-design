@@ -192,9 +192,10 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     [lastColumnMerged, treeData, fieldNames],
   );
 
-  const hiddenCheckboxClassName = useCreation(() => {
-    return !showCheckbox ? `${prefixCls}-checkbox-hidden` : '';
-  }, [showCheckbox]);
+  const hiddenCheckboxClassName = useCreation(
+    () => (!showCheckbox ? `${prefixCls}-checkbox-hidden` : ''),
+    [showCheckbox],
+  );
 
   const compactData = useCreation(
     () => compactTree(treeData, fieldNames, showCheckbox),
@@ -333,6 +334,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
       Array.from(newCheckList),
       Array.from(newIndetermaniteList),
     );
+
     setCheckList(newChecks);
     setIndeterminateList(newIndetermanites);
   });
@@ -399,7 +401,15 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
           : fillEmpty;
       },
     }));
-  }, [outColumns, innerColumns, labelKey, valueKey, fillEmpty]);
+  }, [
+    outColumns,
+    innerColumns,
+    labelKey,
+    valueKey,
+    fillEmpty,
+    checkList,
+    indeterminateList,
+  ]);
 
   return (
     <Table
