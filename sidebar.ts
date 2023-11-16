@@ -164,6 +164,10 @@ export default {
           link: '/components/form-item-auto-complete',
         },
         {
+          title: 'Mentions- @ 提及输入框',
+          link: '/components/form-item-mentions',
+        },
+        {
           title: 'Select-下拉框',
           link: '/components/form-item-select',
         },

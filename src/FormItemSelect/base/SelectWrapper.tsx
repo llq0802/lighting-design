@@ -189,8 +189,8 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
         options={selectOptions}
         placeholder={placeholder}
         allowClear
-        style={{ width: '100%' }}
         {...selectProps}
+        style={{ width: '100%', ...selectProps?.style }}
         value={value}
         onChange={handleChange}
       />

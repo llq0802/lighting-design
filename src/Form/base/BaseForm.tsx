@@ -275,18 +275,6 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     ? contentRender(formItems, submitterDom, formRef?.current)
     : formItems;
 
-  // const onKeyUp = useMemoizedFn((event) => {
-  //   const buttonHtmlType = submitterProps?.submitButtonProps?.htmlType;
-  //   if (
-  //     isEnterSubmit &&
-  //     buttonHtmlType !== 'submit' &&
-  //     event.key === 'Enter' &&
-  //     isReady
-  //   ) {
-  //     formRef.current?.submit();
-  //   }
-  // });
-
   const innerOnValuesChange = useMemoizedFn((changedValues, allValues) => {
     const [currentName, currentValue] = Object.entries(changedValues)?.[0];
     onValuesChange?.(currentName, currentValue, allValues);
