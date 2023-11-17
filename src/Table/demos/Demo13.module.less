@@ -1,8 +1,10 @@
-.container {
+.root_container {
+  width: auto;
+
   thead .header_row {
     th {
       color: #fff;
-      background: #426396;
+      background-color: #426396;
       border: none;
     }
 
@@ -18,21 +20,21 @@
   :global {
     .ant-table {
       color: #fff;
-      background: transparent;
+      background-color: transparent;
 
-      .ant-table-tbody {
+      tbody.ant-table-tbody {
         > tr {
           > td {
             border: none;
           }
 
-          &:nth-child(even) {
-            background: #0e2b52;
+          &:nth-child(even) > td {
+            background-color: #0e2b52;
           }
         }
 
         > tr.ant-table-row:hover > td {
-          background: #426396;
+          background-color: #426396;
         }
 
         // > tr.ant-table-row:nth-child(even):hover > td {
@@ -44,12 +46,12 @@
       }
     }
 
-    .ant-table-tbody > tr.ant-table-placeholder {
-      background: #0e2b52;
+    .ant-table-tbody > tr.ant-table-placeholder > td {
+      background-color: #0e2b52;
     }
 
     .ant-table-tbody > tr.ant-table-placeholder:hover > td {
-      background: #0e2b52;
+      background-color: #0e2b52;
     }
 
     .ant-empty-normal .ant-empty-description {
@@ -57,7 +59,6 @@
     }
   }
 
-  .root_container,
   .row_container {
     width: auto;
   }

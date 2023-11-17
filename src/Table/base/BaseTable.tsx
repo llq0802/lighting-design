@@ -51,6 +51,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const {
     isSort = false,
     fillSpace = false,
+    showStripe = false,
+    showHover = false,
 
     className,
 
@@ -513,9 +515,21 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         bordered={false}
         {...tableCardProps}
         style={{
+          // @ts-ignore
+          [`--${LIGHTD_CARD}-stripe-bg`]:
+            typeof showStripe === 'string' ? showStripe : '#fafafa',
+          [`--${LIGHTD_CARD}-hover-bg`]:
+            typeof showHover === 'string' ? showHover : '#fafafa',
           ...tableCardProps?.style,
         }}
-        className={classnames(`${LIGHTD_CARD}`, tableCardProps?.className)}
+        className={classnames(
+          LIGHTD_CARD,
+          {
+            [`${LIGHTD_CARD}-stripe`]: showStripe,
+            [`${LIGHTD_CARD}-hover`]: showHover,
+          },
+          tableCardProps?.className,
+        )}
       >
         {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
         <Table
@@ -560,7 +574,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const finallyDom = (
     <div
       ref={rootRef}
-      style={{ ...rootDefaultStyle, ...rootStyle }}
+      style={{
+        ...rootDefaultStyle,
+        ...rootStyle,
+      }}
       className={classnames(LIGHTD_TABLE, rootClassName, {
         [`${LIGHTD_TABLE}-full-screen`]: isFullScreen,
       })}

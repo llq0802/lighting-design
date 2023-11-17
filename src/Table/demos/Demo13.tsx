@@ -4,9 +4,9 @@ import { LFormItemInput, LTable } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
 import type { CSSProperties, FC } from 'react';
 import { useRef } from 'react';
-import styles from './Demo.module.less';
+import styles from './Demo13.module.less';
 import { columns, originData } from './service';
-
+console.log('styles===', styles);
 const formItems = [
   // 添加类名 修改样式
   <LFormItemInput key="1" name="input1" />,
@@ -44,15 +44,15 @@ const Demo13: FC = () => {
       }}
     >
       <LTable
-        rowKey="key"
-        className={styles.container} // antd 表格类名
         rootClassName={styles.root_container} // LTable 组件的根div类名
+        className={styles.container} // antd 表格类名
         rowClassName={styles.row_container} // antd 表格每一行的类名
         onHeaderRow={(col, i) => {
           return {
             className: styles.header_row,
           };
         }}
+        rowKey="key"
         toolbarLeft={
           <>
             <Button type="primary">新增</Button>

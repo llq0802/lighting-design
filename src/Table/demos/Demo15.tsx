@@ -129,6 +129,8 @@ const Demo15: FC = () => {
       >
         <LTable
           rowKey="key"
+          showHover="#426396"
+          // showStripe="#152a52"
           isSort={{
             render(page) {
               return <Tag color="#108ee9">{page}</Tag>;

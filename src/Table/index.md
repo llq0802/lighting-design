@@ -81,6 +81,18 @@ nav:
 
 <code src='./demos/Demo12.tsx' background="#f5f5f5" ></code>
 
+### 填充视口剩余空间
+
+不要在弹窗，抽屉，下拉等组件中使用
+
+<code src='./demos/Demo12.tsx' background="#f5f5f5" ></code>
+
+### 斑马纹与 Hover 高亮
+
+`showStripe` 与 `showHover` 设置字符串可自定义颜色
+
+<code src='./demos/Demo22.tsx' background="#f5f5f5" ></code>
+
 ### 通过 Less 修改样式
 
 <code src='./demos/Demo13.tsx' background="#f5f5f5" ></code>
@@ -94,6 +106,8 @@ nav:
 ### antd.Table 默认的 tr 元素属性
 
 移入每一个单元格`tr`元素会有 `ant-table-cell-hover` 类名
+不建议这样写, 因为 antd 每部使用 js 监听移入移除事件,当数据量大时严重影响性能
+建议使用`showHover`
 
 <code src='./demos/Demo21.tsx' background="#f5f5f5" ></code>
 
@@ -190,6 +204,8 @@ import { LTable } from 'lighting-design';
 | isSort               | 表格是否需要排序序号及宽度, 自定义渲染                                                                       | ` boolean \| { width?: number \| string ; render?: (pageCount: number) => ReactNode  }` | `false`                                                       |
 | fillSpace            | 是否占满视口剩余空间的高度 (为`number`类型时控制距离底部视口还剩多少 )`(不要在弹窗，抽屉，下拉等组件中配置)` | `boolean \| number `                                                                    | `false`                                                       |
 | isReady              | 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询                                                    | `boolean`                                                                               | `true`                                                        |
+| showStripe           | 是否展示带斑马纹的表格，可以更容易区分出不同行的数据。 `true为#fafafa , string类型可设置自定义颜色`          | `boolean\|string`                                                                       | `false`                                                       |
+| showHover            | 鼠标移入每一行是否有 hover 高亮效果 。 `true为#fafafa , string类型可设置自定义颜色`                          | `boolean\|string`                                                                       | `false`                                                       |
 | fullScreenBgColor    | 全屏时显示的背景颜色                                                                                         | `string`                                                                                | `#fff`                                                        |
 | autoRequest          | 是否在第一次渲染时自动请求                                                                                   | `boolean`                                                                               | `true`                                                        |
 | defaultRequestParams | request 额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) 会被注入到 request 的第一个参数对象中         | `Record<string, any>`                                                                   | `-`                                                           |
