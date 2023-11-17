@@ -14,7 +14,7 @@ import ColumnSetting from './ColumnSetting';
 import DensityIcon from './DensityIcon';
 
 // 刷新图标
-const ReloadIcon = ({ onReloadIconChange }) => {
+const ReloadIcon = ({ onReloadIconChange, onColumnChange }) => {
   const { reload, rootRef } = useContext(TableContext);
 
   return (
@@ -131,7 +131,9 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
   if (showColumnSetting) {
     arrDom.push({
       key: orders.columnSetting || 3,
-      dom: <ColumnSetting key="ColumnSetting" />,
+      dom: (
+        <ColumnSetting key="ColumnSetting" onColumnChange={onColumnChange} />
+      ),
     });
   }
   const sortDom = arrDom.sort((a, b) => a.key - b.key).map((item) => item.dom);
