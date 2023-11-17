@@ -14,7 +14,7 @@ import ColumnSetting from './ColumnSetting';
 import DensityIcon from './DensityIcon';
 
 // 刷新图标
-const ReloadIcon = ({ onReloadIconChange, onColumnChange }) => {
+const ReloadIcon = ({ onReloadIconChange }) => {
   const { reload, rootRef } = useContext(TableContext);
 
   return (
@@ -104,6 +104,7 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
     columnSetting: 3,
   },
   onReloadIconChange,
+  onColumnChange,
   style = emptyObject,
   ...restProps
 }) => {
