@@ -176,7 +176,7 @@ export const useIsClearDependValues = (dependValues: any[]) => {
         nameValue === '' ||
         !nameValue?.length,
     );
-  }, [dependValues]);
+  }, dependValues);
 };
 
 /**

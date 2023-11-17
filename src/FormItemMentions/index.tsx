@@ -1,27 +1,43 @@
-import { useRequest } from 'ahooks';
-import { Mentions } from 'antd';
-import LForm from 'lighting-design/Form';
-
+import type { SpinProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
+import MentionsWrapper from './MentionsWrapper';
 
 export interface LFormItemMentionsProps extends LFormItemProps {
   /**
-   *输入框类型对antd输入框扩展了一些类型
+   *配置request时自定义loading效果
+   *@version 2.1.24
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
+   */
+  spin?: SpinProps;
+  /**
+   *异步请求数据函数
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.24
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
    */
-  type?: InputWrapperProps['type'];
+  request?: (...depends: any[]) => Promise<LSelectOptions[]>;
   /**
-   * - 是否禁止输入空格
-   *
-   * - 在 mac 笔记本上使用原生输入法时不建议设置
+   *配置request的其他配置项
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.24
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
+   */
+  requestOptions?: Record<string, any>;
+  /**
+   *request请求的依赖项数组 如果依赖项发生变化则会自动执行 request
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.24
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
+   */
+  refreshDeps?: any[];
+  /**
+   *数据项
    *@author 李岚清 <https://github.com/llq0802>
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
    *@version 2.1.24
@@ -50,25 +66,11 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
   requestOptions = emptyObject,
   ...restProps
 }) => {
-  const form = LForm.useFormInstance();
-
   const messageLabel = usePlaceholder({
     placeholder,
     restProps,
   });
   const { disabled: formDisabled } = useContext(LFormContext);
-
-  const { run, loading, data } = useRequest(request || (async () => []), {
-    ...requestOptions,
-    manual: true,
-  });
-
-  useEffect(() => {
-    if (request && !outOptions?.length) {
-      form.setFieldValue(restProps?.name, void 0);
-      run(refreshDeps);
-    }
-  }, refreshDeps);
 
   return (
     <LFormItem
@@ -78,15 +80,27 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
       {...restProps}
     >
       {/* <Spin spinning={loading} style={publicSpinStyle} {...spin}> */}
-      <Mentions
+      {/* <Mentions
         disabled={disabled || formDisabled}
         autoComplete="off"
         placeholder={messageLabel}
         options={outOptions || data || []}
         {...mentionsProps}
         style={{ width: '100%', ...mentionsProps?.style }}
-      />
+      /> */}
       {/* </Spin> */}
+      <MentionsWrapper
+        name={restProps?.name}
+        dependencies={restProps?.dependencies}
+        placeholder={messageLabel}
+        spin={spin}
+        request={request}
+        requestOptions={requestOptions}
+        mentionsProps={mentionsProps}
+        outOptions={outOptions}
+        refreshDeps={refreshDeps}
+        disabled={disabled || formDisabled}
+      />
     </LFormItem>
   );
 };
