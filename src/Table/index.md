@@ -81,12 +81,6 @@ nav:
 
 <code src='./demos/Demo12.tsx' background="#f5f5f5" ></code>
 
-### 填充视口剩余空间
-
-不要在弹窗，抽屉，下拉等组件中使用
-
-<code src='./demos/Demo12.tsx' background="#f5f5f5" ></code>
-
 ### 斑马纹与 Hover 高亮
 
 `showStripe` 与 `showHover` 设置字符串可自定义颜色
@@ -188,7 +182,7 @@ nav:
 
 - 对于很`复杂的表单`作为`LTable`的查询参数时, 可通过自定义表单然后在`onFinish`事件中调用 `tableRef.current.onSearch()` 并在 `request` 中获取表单的值并整合分页参数后传值给接口函数
 
-- 内部默认优化了数据多时性能特别差，滚动页面会特别卡顿问题, 鼠标移入每个单元格`tr`时不会再有 `ant-table-cell-hover`类名, 如果想回到原 Table 默认的类名 请查看 [示例](/components/table#antdtable-默认的-tr-元素属性)
+- 内部默认优化了数据多时性能特别差，滚动页面会特别卡顿问题, 鼠标移入每个单元格`tr`时不会再有 `ant-table-cell-hover`类名, 如果想回到原 Table 默认的类名 请查看 [示例](/components/table#antdtable-默认的-tr-元素属性), 如果需要 hover 效果推荐使用 `showHover`
 
 - 无特殊情况，建议把 `columns` 与 `formItems` `toolbarActionConfig` `样式对象` 等引用类型都配置到函数组件的外部作用域。
   :::

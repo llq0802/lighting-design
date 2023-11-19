@@ -28,16 +28,17 @@ const MentionsWrapper = ({
     ...requestOptions,
     manual: true,
   });
+
   useDeepCompareEffect(() => {
     if (request && !outOptions?.length) {
-      run(refreshDeps);
+      run(...refreshDeps);
     }
   }, []);
 
   useDeepUpdateEffect(() => {
-    if (request && !outOptions?.length) {
+    if (request && !outOptions?.length && refreshDeps?.length) {
       form.setFieldValue(name, void 0);
-      if (!isClear) run(refreshDeps);
+      if (!isClear) run(...refreshDeps);
     }
   }, refreshDeps);
 

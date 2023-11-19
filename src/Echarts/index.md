@@ -69,9 +69,13 @@ React 版本的 ECharts 容器组件 对比 `echarts-for-react` 有如下特性:
 
 ### JSON 地图-重庆 1
 
+重庆地图的宽高比为`95:100`
+
 <code src='./demos/Demo11.tsx'></code>
 
 ### JSON 地图-重庆 2
+
+重庆地图的宽高比为`95:100`
 
 <code src='./demos/Demo12.tsx'></code>
 

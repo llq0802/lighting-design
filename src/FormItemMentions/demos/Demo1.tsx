@@ -3,7 +3,7 @@ import LFormItemMentions from '..';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
-  // const select1Val = LForm.useWatch('select1', form);
+  const select1Val = LForm.useWatch('select1', form);
 
   return (
     <LForm
@@ -38,24 +38,24 @@ const Demo1 = () => {
         label="标签1"
         name="mentions-1"
         dependencies={['select1']}
-        // refreshDeps={[select1Val]}
-        // request={async (value) => {
-        //   console.log('value', value);
-        //   return new Promise((resolve) => {
-        //     setTimeout(() => {
-        //       resolve([
-        //         { value: 'afc163', label: 'afc163', key: 'afc163' },
-        //         { value: 'zombieJ', label: 'zombieJ', key: 'zombieJ' },
-        //         { value: 'yesmeck', label: 'yesmeck', key: 'yesmeck' },
-        //       ]);
-        //     }, 2000);
-        //   });
-        // }}
-        options={[
-          { value: 'afc163', label: 'afc163' },
-          { value: 'zombieJ', label: 'zombieJ' },
-          { value: 'yesmeck', label: 'yesmeck' },
-        ]}
+        refreshDeps={[select1Val]}
+        request={async (value) => {
+          console.log('value', value);
+          return new Promise((resolve) => {
+            setTimeout(() => {
+              resolve([
+                { value: 'afc163', label: 'afc163', key: 'afc163' },
+                { value: 'zombieJ', label: 'zombieJ', key: 'zombieJ' },
+                { value: 'yesmeck', label: 'yesmeck', key: 'yesmeck' },
+              ]);
+            }, 2000);
+          });
+        }}
+        // options={[
+        //   { value: 'afc163', label: 'afc163' },
+        //   { value: 'zombieJ', label: 'zombieJ' },
+        //   { value: 'yesmeck', label: 'yesmeck' },
+        // ]}
       />
     </LForm>
   );
