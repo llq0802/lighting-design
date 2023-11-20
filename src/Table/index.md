@@ -342,6 +342,8 @@ export type LToolbarActionProps = {
   showFullscreen?: boolean;
   /** 点击刷新图标的回调 */
   onReloadIconChange?: () => void;
+  /** 点击列图标中每一项复选框改变后的回调 */
+  onColumnIconChange?: (keys: string[]) => void;
   /** 内置图标的排序 需从大于等于 1 开始设置*/
   orders?: {
     reload: number;

@@ -5,6 +5,7 @@ import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper
 import { useIsClearDependValues } from 'lighting-design/_utils';
 import { emptyArray } from 'lighting-design/constants';
 import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
+import { useImperativeHandle } from 'react';
 
 const MentionsWrapper = ({
   dependencies = emptyArray,
@@ -17,6 +18,7 @@ const MentionsWrapper = ({
   placeholder,
   refreshDeps,
   name,
+  actionRef,
 
   ...restProps
 }) => {
@@ -24,10 +26,12 @@ const MentionsWrapper = ({
 
   const isClear = useIsClearDependValues(refreshDeps);
 
-  const { run, loading, data } = useRequest(request || (async () => []), {
+  const requestRes = useRequest<any, any[]>(request || (async () => []), {
     ...requestOptions,
     manual: true,
   });
+
+  const { run, loading, data } = requestRes;
 
   useDeepCompareEffect(() => {
     if (request && !outOptions?.length) {
@@ -41,6 +45,8 @@ const MentionsWrapper = ({
       if (!isClear) run(...refreshDeps);
     }
   }, refreshDeps);
+
+  useImperativeHandle(actionRef, () => requestRes);
 
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...spin}>

@@ -76,6 +76,8 @@ export type LToolbarActionProps = {
   showFullscreen?: boolean;
   /** 点击刷新图标的回调 */
   onReloadIconChange?: () => void;
+  /** 点击列表图标每一项的回调 */
+  onColumnIconChange?: (keys: string[]) => void;
   /** 内置图标的排序 */
   orders?: {
     reload: number;
@@ -104,7 +106,7 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
     columnSetting: 3,
   },
   onReloadIconChange,
-  onColumnChange,
+  onColumnIconChange,
   style = emptyObject,
   ...restProps
 }) => {
@@ -133,11 +135,16 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
     arrDom.push({
       key: orders.columnSetting || 3,
       dom: (
-        <ColumnSetting key="ColumnSetting" onColumnChange={onColumnChange} />
+        <ColumnSetting
+          key="ColumnSetting"
+          onColumnIconChange={onColumnIconChange}
+        />
       ),
     });
   }
-  const sortDom = arrDom.sort((a, b) => a.key - b.key).map((item) => item.dom);
+  const sortDom = arrDom
+    .toSorted((a, b) => a.key - b.key)
+    .map((item) => item.dom);
   return (
     <Space size={10} {...restProps} style={{ fontSize: 16, ...style }}>
       {sortDom}

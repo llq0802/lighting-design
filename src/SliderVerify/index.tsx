@@ -28,12 +28,19 @@ interface SliderVerifyProps {
    */
   onChange?: (bool: boolean) => void;
   /**
-   * 拖动完成后自定义验证逻辑
+   * 拖动完成鼠标抬起后的回调
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.24
    *@see 官网 https://llq0802.github.io/lighting-design/latest LSliderVerifyProps
    */
-  onVerify?: (num: number) => boolean;
+  onMouseUp?: (num: number) => void;
+  /**
+   * 拖动过程时的回调
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.24
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LSliderVerifyProps
+   */
+  onProcess?: (num: number) => void;
   /**
    * 验证成功的回调
    *@author 李岚清 <https://github.com/llq0802>
@@ -178,7 +185,8 @@ function SliderVerify(props: LSliderVerifyProps) {
   const {
     outRef,
 
-    onVerify,
+    onProcess,
+    onMouseUp,
 
     className,
     onSuccess,
@@ -210,7 +218,8 @@ function SliderVerify(props: LSliderVerifyProps) {
 
   // width - barWidth  = tips的width
   const { isMove, barLeft, modalWidth, refBar } = useVerify({
-    onVerify,
+    onProcess,
+    onMouseUp,
     value,
     onChange,
     onSuccess,

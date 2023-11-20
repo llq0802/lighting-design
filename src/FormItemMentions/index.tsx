@@ -51,6 +51,7 @@ export interface LFormItemMentionsProps extends LFormItemProps {
    *@see https://ant.design/components/input-cn/#api
    */
   mentionsProps?: MentionsProps;
+  actionRef: any;
 }
 
 const LFormItemMentions: FC<LFormItemMentionsProps> = ({
@@ -64,6 +65,7 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
   request,
   refreshDeps = emptyArray,
   requestOptions = emptyObject,
+  actionRef,
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -93,6 +95,7 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
         name={restProps?.name}
         dependencies={restProps?.dependencies}
         placeholder={messageLabel}
+        actionRef={actionRef}
         spin={spin}
         request={request}
         requestOptions={requestOptions}

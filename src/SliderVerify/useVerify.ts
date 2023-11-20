@@ -1,9 +1,11 @@
+import { useMemoizedFn } from 'ahooks';
 import { useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 interface IOptions {
   value: boolean;
   onChange: (bool: boolean) => void;
-  onVerify?: (num: number) => void;
+  onProcess?: (num: number) => void;
+  onMouseUp?: (num: number) => void;
   onSuccess?: () => void;
   innerRef?: any;
   width: number;
@@ -24,7 +26,8 @@ interface ITmpData {
 
 export default function useSliderVerify(options: IOptions) {
   const {
-    onVerify,
+    onProcess,
+    onMouseUp: outOnMouseUp,
     value,
     onChange,
     onSuccess,
@@ -45,32 +48,34 @@ export default function useSliderVerify(options: IOptions) {
   const [barLeft, setBarLeft] = useState(0);
   const [modalWidth, setModalWidth] = useState(0);
 
-  const hasOnVerify = !!onVerify;
+  // 滑块的onMouseDown
+  const onMouseDown = useMemoizedFn((e: any) => {
+    refTmpData.current.offX = e.pageX;
+    document.addEventListener('mousemove', onMove);
+  });
 
   // body文档的移动事件
-  const onMove = (e: any) => {
+  const onMove = useMemoizedFn((e: any) => {
+    refTmpData.current.isMove = true;
+
     const diff = e.pageX - refTmpData.current.offX;
     let barLeft = diff;
     let modalWidth = diff;
     refTmpData.current.diff = diff;
-    refTmpData.current.isMove = true;
 
     // 边界判断 最大值
-    if (!hasOnVerify && barLeft + difference >= refTmpData.current.max) {
+    if (barLeft + difference >= refTmpData.current.max) {
       barLeft = refTmpData.current.max; // 是最大 max 的值
       modalWidth = width; // 最大宽度 是 外面容器的宽度
       refTmpData.current.isMove = false;
       onChange?.(true);
       onSuccess?.();
+      setTimeout(() => {
+        outOnMouseUp?.(barLeft);
+      });
       // 移除事件
       document.removeEventListener('mousemove', onMove);
       refBar.current.removeEventListener('mousedown', onMouseDown);
-    }
-
-    if (hasOnVerify && barLeft + difference >= refTmpData.current.max) {
-      refTmpData.current.diff = refTmpData.current.max;
-      barLeft = refTmpData.current.max; // 是最大 max 的值
-      modalWidth = width; // 最大宽度 是 外面容器的宽度
     }
 
     // 边界判断 小于 0
@@ -79,21 +84,13 @@ export default function useSliderVerify(options: IOptions) {
       barLeft = 0;
       modalWidth = 0;
     }
-
     setBarLeft(barLeft);
     setModalWidth(modalWidth);
-  };
-
-  // 滑块的onMouseDown
-  const onMouseDown = (e: any) => {
-    document.addEventListener('mousemove', onMove);
-    if (!hasOnVerify) {
-      refTmpData.current.offX = e.pageX;
-    }
-  };
+    onProcess?.(barLeft);
+  });
 
   // body文档的onMouseUp
-  const onMouseUp = () => {
+  const onMouseUp = useMemoizedFn(() => {
     document.removeEventListener('mousemove', onMove);
     // 回到最初位置
     if (refTmpData.current.diff + difference < refTmpData.current.max) {
@@ -102,10 +99,8 @@ export default function useSliderVerify(options: IOptions) {
       setModalWidth(0);
     }
 
-    if (hasOnVerify) {
-      onVerify(refTmpData.current.diff);
-    }
-  };
+    outOnMouseUp?.(refTmpData.current.diff);
+  });
 
   useEffect(() => {
     const left = refBar.current.getBoundingClientRect().left;
@@ -121,6 +116,7 @@ export default function useSliderVerify(options: IOptions) {
     return () => {
       document.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseup', onMouseUp);
+      refBar.current?.removeEventListener?.('mousedown', onMouseDown);
     };
   }, [value]);
 
@@ -129,7 +125,7 @@ export default function useSliderVerify(options: IOptions) {
     setModalWidth(0);
     onChange?.(false);
     document.removeEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.removeEventListener('mouseup', onMouseUp);
   };
 
   useImperativeHandle(innerRef, () => ({

@@ -7,7 +7,7 @@ import { useContext, useMemo } from 'react';
 import TableContext from '../TableContext';
 import { LIGHTD_TABLE } from './BaseTable';
 
-const ColumnSetting = ({ onColumnChange }) => {
+const ColumnSetting = ({ onColumnIconChange }) => {
   const {
     columns: outColumns = [],
     columnKeys = [],
@@ -35,7 +35,7 @@ const ColumnSetting = ({ onColumnChange }) => {
 
   const handleTreeCheck = useMemoizedFn((keys: Key[]) => {
     setColumnKeys([...keys]);
-    onColumnChange?.([...keys]);
+    onColumnIconChange?.([...keys]);
   });
 
   const onCheckAllChange = useMemoizedFn((e) => {

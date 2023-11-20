@@ -21,6 +21,7 @@ toc: content
 
 :::warning{title=注意}
 
+- 如果想要响应式宽度, 请在组件外部自行监听窗口大小变化, 然后更新`width`与`barWidth`的值
 - 想要圆形的效果 请同时设置 `style={{ borderRadius: height / 2 }}` `barStyle={{ borderRadius: height / 2  }}`
 
   :::
@@ -52,6 +53,8 @@ import { LSliderVerify } from 'lighting-design';
 | successTipsStyle | 成功后文字提示 div 的样式  |                    `React.CSSProperties`                     |            `-`             |
 |    onSuccess     |       验证成功的回调       |                         `() => void`                         |            `- `            |
 |     onChange     |  受控时 value 值变化事件   |              `(val:string \| string[]) => void`              |            `- `            |
+|    onProcess     |      拖动过程时的回调      |                   ` (num: number) => void`                   |            `- `            |
+|    onMouseUp     |  拖动完成鼠标抬起后的回调  |                   ` (num: number) => void`                   |            `- `            |
 
 ### LSliderVerifyInstance
 

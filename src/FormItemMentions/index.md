@@ -7,19 +7,7 @@ nav:
 
 # LFormItemMentions
 
-输入框
-
-**特点**
-
-- 默认失焦校验
-- 默认不能输入空格
-- 内置常见正则校验
-  - `phone` 类型 只能输入以 1 开头的 11 位手机号
-  - `idCard`类型 支持 1/2 代(15 位/18 位数字)最后一位可为数字或字符大小写`X`
-  - `bankCard`类型 只能输入 10 到 30 位数字，覆盖对公/私账户
-  - `email`类型 覆盖绝大多数邮箱校验
-  - `url`类型 覆盖绝大多数 URL 校验
-  - `chinese`类型 只能是中文汉字，不能包含其他
+提及输入框
 
 ## 代码演示
 
@@ -41,8 +29,11 @@ import { LFormItemMentions } from 'lighting-design';
 
 除了以下参数，其余和 [LFormItem](/components/form-item#api) 一样。
 
-| 参数               | 说明             | 类型                                                                                       | 默认值  |
-| ------------------ | ---------------- | ------------------------------------------------------------------------------------------ | ------- |
-| inputProps         | `Input`的属性    | [InputProps](https://ant.design/components/input-cn/#api)                                  | `-`     |
-| disabledWhiteSpace | 是否禁用输入空格 | `boolean`                                                                                  | `false` |
-| type               | `内置输入框类型` | `InputProps['type'] \| 'bankCard' \| 'idCard' \| 'phone' \| 'url' \| 'email' \| 'chinese'` | `text`  |
+| 参数           | 说明                                                                            | 类型                | 默认值  |
+| -------------- | ------------------------------------------------------------------------------- | ------------------- | ------- |
+| options        | 数据源                                                                          | `{}[]`              | `-`     |
+| request        | 异步请求数据的函数                                                              | `()=>Promise<{}[]>` | `-`     |
+| requestOptions | 配置 request 时 的其他配置项                                                    | `boolean`           | `false` |
+| refreshDeps    | 配置 request 时 request 请求的依赖项数组 如果依赖项发生变化则会自动执行 request | `any[]`             | `[]`    |
+| spin           | 配置 request 时自定义 loading 效果                                              | `SpinProps`         | `-`     |
+| actionRef      | 配置 request 时 useRequest 的全部返回值                                         | `any`               | `-`     |
