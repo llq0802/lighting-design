@@ -28,7 +28,7 @@ export type LCheckboxBeforeAllProps =
       /**
        * 变化时的回调函数
        */
-      onChange?: (e: CheckboxValueType[]) => void;
+      onChange?: (checked: boolean) => void;
     }
   | true;
 
@@ -98,7 +98,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   });
   const { run, loading, data } = requestRes;
 
-  useMount(async () => {
+  useMount(() => {
     if (!request || outOptions?.length || checkboxProps.options?.length) return;
     run(...dependValues);
   });
@@ -124,41 +124,33 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   }, [beforeAll]);
 
   const checkAllChange = useMemoizedFn((e: CheckboxChangeEvent) => {
-    let checkAllValue: CheckboxValueType[] = [];
-    if (e.target.checked) {
+    const checked = e.target.checked;
+    let checkAllValue: CheckboxValueType[] | undefined = void 0;
+    if (checked) {
       // 排除disabled为true的数据
       checkAllValue = checkboxOptions
         .filter((item: CheckboxOptionType) => !item.disabled)
         .map((items: CheckboxOptionType) => items.value);
     }
     setIndeterminate(false);
-    setCheckAll(e.target.checked);
+    setCheckAll(checked);
     onChange?.(checkAllValue);
-    outBeforeAll?.onChange?.(checkAllValue);
+    outBeforeAll?.onChange?.(checked);
   });
   const handleChange = useMemoizedFn((checkedValue: CheckboxValueType[]) => {
-    if (beforeAll) {
-      // 排除disabled为true的数据
-      const optLength = checkboxOptions.filter((item: CheckboxOptionType) => !item.disabled).length;
-
-      setIndeterminate(!!checkedValue.length && checkedValue.length < optLength);
-      setCheckAll(checkedValue.length === optLength);
-    }
-    checkboxProps?.onChange?.(checkedValue);
     onChange?.(checkedValue);
+    checkboxProps?.onChange?.(checkedValue);
   });
 
   useDeepCompareEffect(() => {
-    if (beforeAll) {
-      if (!value?.length) {
-        setCheckAll(false);
-        setIndeterminate(false);
-      } else {
-        const isAll =
-          checkboxOptions.filter((item: CheckboxOptionType) => !item.disabled).length ===
-          value?.length;
-        setCheckAll(isAll);
-      }
+    if (!beforeAll) return;
+    if (!value?.length) {
+      setCheckAll(false);
+      setIndeterminate(false);
+    } else {
+      const isAll = checkboxOptions.filter((item) => !item.disabled).length === value?.length;
+      setIndeterminate(!isAll);
+      setCheckAll(isAll);
     }
   }, [value]);
 

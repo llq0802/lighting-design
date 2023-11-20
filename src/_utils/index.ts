@@ -338,7 +338,7 @@ export const transformEchartsOption = (
  * @param data
  * @returns
  */
-export const getOptions = (opt1 = [], opt2 = [], data?: any[] | undefined) => {
+export const getOptions = (opt1: any[] = [], opt2: any[] = [], data?: any[] | undefined) => {
   if (opt1?.length) {
     return opt1;
   }

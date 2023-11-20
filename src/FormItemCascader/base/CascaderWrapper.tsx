@@ -1,21 +1,12 @@
-import {
-  useDeepCompareEffect,
-  useMemoizedFn,
-  useRequest,
-  useSafeState,
-  useUpdateEffect,
-} from 'ahooks';
+import { useMemoizedFn, useMount, useRequest } from 'ahooks';
 import type { CascaderProps, SpinProps } from 'antd';
 import { Cascader, Form, Spin } from 'antd';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import {
-  useDependValues,
-  useIsClearDependValues,
-  useIsFirstRender,
-} from 'lighting-design/_utils';
+import { getOptions, useDependValues, useIsClearDependValues } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
+import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
 import type { FC, ReactNode } from 'react';
-import { useMemo, useState } from 'react';
+import { useImperativeHandle, useMemo } from 'react';
 
 export type CascaderWrapperProps = Record<string, any> & {
   /**
@@ -63,6 +54,7 @@ export interface LCascaderOption {
 const CascaderWrapper: FC<CascaderWrapperProps> = ({
   value,
   onChange,
+  actionRef,
   dependencies = emptyArray,
   options: outOptions = emptyArray,
   request,
@@ -76,92 +68,46 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   requestOptions,
   ...restProps // LFormItem 传过来的其他值
 }) => {
-  const [optsRequest, setOptsRequest] = useState<LCascaderOption[]>([]);
-  const [loading, setLoading] = useSafeState<boolean>(
-    outLoading?.spinning || false,
-  );
-  const hasLoading = useMemo(
-    () => Reflect.has(outLoading, 'spinning'),
-    [outLoading],
-  );
-  const isFirst = useIsFirstRender(); // 组件是否第一次挂载
-  const { run } = useRequest(request || (async () => []), {
+  const form = Form.useFormInstance();
+  const dependValues = useDependValues(dependencies, restProps);
+  const hasEmptyDepends = useIsClearDependValues(dependValues);
+
+  const requestRes = useRequest(request || (async () => []), {
     ...requestOptions,
     manual: true,
     debounceWait: debounceTime,
-    onSuccess: (result) => {
-      if (!hasLoading) setLoading(false);
-      setOptsRequest([...result]);
-    },
-    onError: () => {
-      if (!hasLoading) setLoading(false);
-      setOptsRequest([]);
-    },
+  });
+  const { run, loading, data } = requestRes;
+
+  useMount(() => {
+    if (!request || outOptions?.length || cascaderProps.options?.length) return;
+    run(...dependValues);
   });
 
-  useUpdateEffect(() => {
-    if (hasLoading) setLoading(outLoading?.spinning || false);
-  }, [outLoading]);
+  useDeepUpdateEffect(() => {
+    if (!request || outOptions?.length || cascaderProps.options?.length) return;
+    form.setFieldValue(name, void 0);
+    if (!hasEmptyDepends) run(...dependValues);
+  }, dependValues);
 
-  const form = Form.useFormInstance();
-  const dependValues = useDependValues(dependencies, restProps);
-  const isClearDepends = useIsClearDependValues(dependValues);
+  const cascaderOptions = useMemo(() => {
+    const innerOptions = getOptions(outOptions, cascaderProps.options, data);
+    return innerOptions;
+  }, [outOptions, data, cascaderProps.options]);
 
-  const opts = useMemo(
-    () => cascaderProps.options || outOptions,
-    [cascaderProps.options, outOptions],
-  );
-
-  useDeepCompareEffect(() => {
-    if (!request) return;
-    // 组件第一次加载时调用request
-    if (isFirst) {
-      (async () => {
-        try {
-          if (!hasLoading) setLoading(true);
-          const newOptions = await request(...dependValues);
-          setOptsRequest([...newOptions]);
-        } catch (error) {
-          setOptsRequest([]);
-        }
-        if (!hasLoading) setLoading(false);
-      })();
-    } else {
-      // 依赖项变化时清空
-      if (value?.length) {
-        form.setFieldValue(name, void 0);
-      }
-      // 防抖调用
-      if (!isClearDepends) {
-        if (!hasLoading) setLoading(true);
-        run(...dependValues);
-      }
-    }
-  }, [dependValues]);
-
-  const selectOptions = useMemo<LCascaderOption[]>(() => {
-    if (isClearDepends) {
-      return [];
-    } else if (optsRequest?.length > 0) {
-      return optsRequest;
-    } else if (opts.length > 0) {
-      return opts;
-    } else {
-      return [];
-    }
-  }, [isClearDepends, opts, optsRequest]);
+  useImperativeHandle(actionRef, () => requestRes);
 
   const handleCahnge = useMemoizedFn((value, selectedOptions) => {
-    cascaderProps?.onChange?.(value, selectedOptions);
     onChange?.(value, selectedOptions);
+    cascaderProps?.onChange?.(value, selectedOptions);
   });
 
   const dom = (
     <Cascader
       {...restProps}
-      disabled={disabled ?? isClearDepends}
+      disabled={disabled ?? hasEmptyDepends}
       placeholder={placeholder}
-      options={selectOptions}
+      options={cascaderOptions}
       {...cascaderProps}
       value={value}
       onChange={handleCahnge}

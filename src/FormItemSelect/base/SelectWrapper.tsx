@@ -212,7 +212,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   });
   const { run, loading, data } = requestRes;
 
-  useMount(async () => {
+  useMount(() => {
     if (!request || outOptions?.length || selectProps.options?.length) return;
     run(...dependValues);
   });

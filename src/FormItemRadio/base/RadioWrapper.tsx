@@ -96,7 +96,7 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
     debounceWait: debounceTime,
   });
   const { run, loading, data } = requestRes;
-  useMount(async () => {
+  useMount(() => {
     if (!request || outOptions?.length || radioProps.options?.length) return;
     run(...dependValues);
   });

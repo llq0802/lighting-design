@@ -12,11 +12,10 @@ const Demo2 = () => {
     >
       <LFormItemCheckbox
         initialValue={['1', '2', '3']}
-        required
         label="选择1"
         name="select"
         beforeAll={{
-          label: '全部',
+          label: '全选',
           onChange(e) {
             console.log(e);
           },
@@ -36,7 +35,6 @@ const Demo2 = () => {
         label="选择2"
         name="select2"
         beforeAll
-        required
         options={[
           { label: '上班', value: '1' },
           { label: '睡觉', value: '2' },

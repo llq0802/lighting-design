@@ -1,9 +1,17 @@
 import { LoadingOutlined } from '@ant-design/icons';
+import { useMount } from 'ahooks';
+import type { LFormItemActionRef } from 'lighting-design';
 import { LForm, LFormItemCheckbox } from 'lighting-design';
+import { useRef } from 'react';
 import { awaitTime } from '../../_test';
 
 const Demo4 = () => {
   const [form] = LForm.useForm();
+  const actionRef = useRef<LFormItemActionRef>();
+
+  useMount(() => {
+    console.log('actionRef.current', actionRef.current);
+  });
 
   return (
     <LForm

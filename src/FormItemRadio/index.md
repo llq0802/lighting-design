@@ -47,18 +47,19 @@ import { LFormItemRadio } from 'lighting-design';
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
-| 参数            | 说明                                 | 类型                                                      | 默认值                        |
-| --------------- | ------------------------------------ | --------------------------------------------------------- | ----------------------------- |
-| options         | 数据源                               | `LRadioOptions[]`                                         | `[]`                          |
-| request         | 请求数据源的异步函数                 | `(...depends: any[]) => Promise<LRadioOptions[]>`         | `-`                           |
-| requestOptions  | ahook 的 request 的配置项            | `-`                                                       | `-`                           |
-| debounceTime    | 当依赖项发生变化时重新请求的防抖时间 | `number`                                                  | `-`                           |
-| spin            | 自定义 loading 效果                  | [SpinProps](https://ant.design/components/spin-cn/#api)   | `-`                           |
-| all             | 是否需要全部选项                     | `boolean `                                                | `false`                       |
-| allLabel        | 全部选项的名称                       | `string `                                                 | `全部`                        |
-| allValue        | 全部选项的值                         | `string`                                                  | `'all'`                       |
-| notDependRender | 依赖项的值为空时展示的内容           | ` ReactNode`                                              | `<span>请先选择依赖项</span>` |
-| radioProps      | 单选组件 Props                       | [RadioProps](https://ant.design/components/radio-cn/#api) | `-`                           |
+| 参数            | 说明                                    | 类型                                                      | 默认值                        |
+| --------------- | --------------------------------------- | --------------------------------------------------------- | ----------------------------- |
+| options         | 数据源                                  | `LRadioOptions[]`                                         | `[]`                          |
+| request         | 请求数据源的异步函数                    | `(...depends: any[]) => Promise<LRadioOptions[]>`         | `-`                           |
+| requestOptions  | ahook 的 request 的配置项               | `-`                                                       | `-`                           |
+| debounceTime    | 当依赖项发生变化时重新请求的防抖时间    | `number`                                                  | `-`                           |
+| spin            | 自定义 loading 效果                     | [SpinProps](https://ant.design/components/spin-cn/#api)   | `-`                           |
+| all             | 是否需要全部选项                        | `boolean `                                                | `false`                       |
+| allLabel        | 全部选项的名称                          | `string `                                                 | `全部`                        |
+| allValue        | 全部选项的值                            | `string`                                                  | `'all'`                       |
+| notDependRender | 依赖项的值为空时展示的内容              | ` ReactNode`                                              | `<span>请先选择依赖项</span>` |
+| radioProps      | 单选组件 Props                          | [RadioProps](https://ant.design/components/radio-cn/#api) | `-`                           |
+| actionRef       | 配置 request 时 useRequest 的全部返回值 | `LFormItemActionRef`                                      | `-`                           |
 
 ### LRadioOption
 
