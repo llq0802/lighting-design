@@ -13,12 +13,7 @@ export interface LFormItemRadioProps
   extends LFormItemProps,
     Pick<
       RadioWrapperProps,
-      | 'radioProps'
-      | 'request'
-      | 'all'
-      | 'allValue'
-      | 'allLabel'
-      | 'notDependRender'
+      'radioProps' | 'request' | 'all' | 'allValue' | 'allLabel' | 'notDependRender'
     >,
     Pick<SelectProps, 'options'> {
   /**
@@ -43,7 +38,20 @@ export interface LFormItemRadioProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
+  /**
+   *ahook 的 request 的配置项
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.24
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
+   */
   requestOptions?: Record<string, any>;
+  /**
+   *配置 request 时 useRequest 的返回值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
+   *@version 2.1.24
+   */
+  actionRef?: React.MutableRefObject<LFormItemActionRef>;
 }
 
 const LFormItemRadio: FC<LFormItemRadioProps> = ({
@@ -62,6 +70,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   requestOptions = emptyObject,
 
   required,
+  actionRef,
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -80,12 +89,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
           validator(rule, value) {
             let errMsg = '';
             const hasOptValue = options.find((item) => item?.value === value);
-            if (
-              !value &&
-              value !== 0 &&
-              !hasOptValue &&
-              !(all && allValue === value)
-            ) {
+            if (!value && value !== 0 && !hasOptValue && !(all && allValue === value)) {
               errMsg = required ? `${messageLabel}!` : '';
             }
             if (errMsg) {
@@ -100,6 +104,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
       <RadioWrapper
         name={restProps.name}
         dependencies={restProps?.dependencies}
+        actionRef={actionRef}
         options={options}
         request={request}
         size={size}

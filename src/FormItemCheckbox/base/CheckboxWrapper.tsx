@@ -1,26 +1,14 @@
-import {
-  useDeepCompareEffect,
-  useMemoizedFn,
-  useRequest,
-  useSafeState,
-  useUpdateEffect,
-} from 'ahooks';
+import { useDeepCompareEffect, useMemoizedFn, useMount, useRequest } from 'ahooks';
 import type { CheckboxOptionType, SpinProps } from 'antd';
 import { Checkbox, Form, Spin } from 'antd';
-import type {
-  CheckboxChangeEvent,
-  CheckboxGroupProps,
-} from 'antd/lib/checkbox';
+import type { CheckboxChangeEvent, CheckboxGroupProps } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import {
-  useDependValues,
-  useIsClearDependValues,
-  useIsFirstRender,
-} from 'lighting-design/_utils';
+import { getOptions, useDependValues, useIsClearDependValues } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
+import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
 import type { CSSProperties, FC, ReactNode } from 'react';
-import { useMemo, useState } from 'react';
+import { useImperativeHandle, useMemo, useState } from 'react';
 
 export type LCheckboxOptions = CheckboxOptionType;
 export type LCheckboxBeforeAllProps =
@@ -81,6 +69,7 @@ export type CheckboxWrapperProps = Record<string, any> &
 
 const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   value = emptyArray,
+  actionRef,
   onChange,
   dependencies = emptyArray,
   options: outOptions = emptyArray,
@@ -97,68 +86,35 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
 }) => {
   const [indeterminate, setIndeterminate] = useState<boolean>(false);
   const [checkAll, setCheckAll] = useState<boolean>(false);
-  const [loading, setLoading] = useSafeState<boolean>(
-    outLoading?.spinning || false,
-  );
-  const [optsRequest, setOptsRequest] = useState<LCheckboxOptions[]>([]);
-  const isFirst = useIsFirstRender();
 
-  const hasLoading = useMemo(
-    () => Reflect.has(outLoading, 'spinning'),
-    [outLoading],
-  );
-  const { run } = useRequest(request || (async () => []), {
+  const form = Form.useFormInstance();
+  const dependValues = useDependValues(dependencies, restProps);
+  const hasEmptyDepends = useIsClearDependValues(dependValues);
+
+  const requestRes = useRequest(request || (async () => []), {
     ...requestOptions,
     manual: true,
     debounceWait: debounceTime,
-    onSuccess: (result) => {
-      if (!hasLoading) setLoading(false);
-      setOptsRequest([...result]);
-    },
-    onError: () => {
-      if (!hasLoading) setLoading(false);
-      setOptsRequest([]);
-    },
+  });
+  const { run, loading, data } = requestRes;
+
+  useMount(async () => {
+    if (!request || outOptions?.length || checkboxProps.options?.length) return;
+    run(...dependValues);
   });
 
-  useUpdateEffect(() => {
-    if (hasLoading) setLoading(outLoading?.spinning || false);
-  }, [outLoading]);
-  const form = Form.useFormInstance();
-  const dependValues = useDependValues(dependencies, restProps);
-  const isClearDepends = useIsClearDependValues(dependValues);
+  useDeepUpdateEffect(() => {
+    if (!request || outOptions?.length || checkboxProps.options?.length) return;
+    form.setFieldValue(name, void 0);
+    if (!hasEmptyDepends) run(...dependValues);
+  }, dependValues);
 
-  const opts = useMemo(() => {
-    const rawOptions = checkboxProps.options || outOptions;
-    return rawOptions;
-  }, [outOptions, checkboxProps.options]);
+  const checkboxOptions = useMemo(() => {
+    const innerOptions = getOptions(outOptions, checkboxProps.options, data);
+    return innerOptions;
+  }, [outOptions, data, checkboxProps.options]);
 
-  useDeepCompareEffect(() => {
-    if (!request) return;
-    // 组件第一次加载时调用request
-    if (isFirst) {
-      (async () => {
-        try {
-          if (!hasLoading) setLoading(true);
-          const newOptions = await request(...dependValues);
-          setOptsRequest([...newOptions]);
-        } catch (error) {
-          setOptsRequest([]);
-        }
-        if (!hasLoading) setLoading(false);
-      })();
-    } else {
-      if (value?.length) {
-        form.setFieldValue(name, void 0);
-      }
-
-      // 防抖调用
-      if (!isClearDepends) {
-        if (!hasLoading) setLoading(true);
-        run(...dependValues);
-      }
-    }
-  }, [dependValues]);
+  useImperativeHandle(actionRef, () => requestRes);
 
   const outBeforeAll = useMemo(() => {
     if (typeof beforeAll === 'boolean') {
@@ -167,17 +123,6 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     return beforeAll;
   }, [beforeAll]);
 
-  const checkboxOptions = useMemo(() => {
-    if (isClearDepends) {
-      return [];
-    } else if (optsRequest?.length > 0) {
-      return optsRequest;
-    } else if (opts.length > 0) {
-      return opts;
-    } else {
-      return [];
-    }
-  }, [isClearDepends, opts, optsRequest]);
   const checkAllChange = useMemoizedFn((e: CheckboxChangeEvent) => {
     let checkAllValue: CheckboxValueType[] = [];
     if (e.target.checked) {
@@ -194,13 +139,9 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   const handleChange = useMemoizedFn((checkedValue: CheckboxValueType[]) => {
     if (beforeAll) {
       // 排除disabled为true的数据
-      const optLength = checkboxOptions.filter(
-        (item: CheckboxOptionType) => !item.disabled,
-      ).length;
+      const optLength = checkboxOptions.filter((item: CheckboxOptionType) => !item.disabled).length;
 
-      setIndeterminate(
-        !!checkedValue.length && checkedValue.length < optLength,
-      );
+      setIndeterminate(!!checkedValue.length && checkedValue.length < optLength);
       setCheckAll(checkedValue.length === optLength);
     }
     checkboxProps?.onChange?.(checkedValue);
@@ -208,9 +149,16 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   });
 
   useDeepCompareEffect(() => {
-    if (beforeAll && !value?.length) {
-      setCheckAll(false);
-      setIndeterminate(false);
+    if (beforeAll) {
+      if (!value?.length) {
+        setCheckAll(false);
+        setIndeterminate(false);
+      } else {
+        const isAll =
+          checkboxOptions.filter((item: CheckboxOptionType) => !item.disabled).length ===
+          value?.length;
+        setCheckAll(isAll);
+      }
     }
   }, [value]);
 
@@ -220,7 +168,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         <Checkbox
           indeterminate={indeterminate}
           style={{ marginRight: 8, ...outBeforeAll?.style }}
-          disabled={disabled ?? (outBeforeAll?.disabled || isClearDepends)}
+          disabled={disabled ?? (outBeforeAll?.disabled || hasEmptyDepends)}
           onChange={checkAllChange}
           checked={checkAll}
         >
@@ -230,7 +178,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       <Checkbox.Group
         {...restProps}
         options={checkboxOptions}
-        disabled={disabled ?? isClearDepends}
+        disabled={disabled ?? hasEmptyDepends}
         {...checkboxProps}
         value={value}
         onChange={handleChange}
@@ -240,7 +188,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
 
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
-      {isClearDepends ? notDependRender : checkboxDom}
+      {hasEmptyDepends ? notDependRender : checkboxDom}
     </Spin>
   );
 };

@@ -3,6 +3,7 @@ import type { CheckboxOptionType } from 'antd/lib/checkbox';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import type { LFormItemActionRef } from 'lighting-design/FormItemSelect';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
@@ -10,10 +11,7 @@ import type { CheckboxWrapperProps } from './base/CheckboxWrapper';
 import CheckboxWrapper from './base/CheckboxWrapper';
 export interface LFormItemCheckboxProps
   extends LFormItemProps,
-    Pick<
-      CheckboxWrapperProps,
-      'checkboxProps' | 'request' | 'beforeAll' | 'notDependRender'
-    > {
+    Pick<CheckboxWrapperProps, 'checkboxProps' | 'request' | 'beforeAll' | 'notDependRender'> {
   /**
    *依赖项
    *@author 李岚清 <https://github.com/llq0802>
@@ -46,17 +44,31 @@ export interface LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
+  /**
+   *配置 request 时 useRequest 的返回值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
+   *@version 2.1.24
+   */
+  actionRef?: React.MutableRefObject<LFormItemActionRef>;
+  /**
+   *ahook 的 request 的配置项
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.24
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
+   */
   requestOptions?: Record<string, any>;
 }
 
 const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
+  size,
+  actionRef,
   request,
   beforeAll,
   options = emptyArray,
   checkboxProps = emptyObject,
   debounceTime,
   disabled,
-  size,
   required,
   spin,
   notDependRender,
@@ -71,6 +83,7 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
         name={restProps.name}
         dependencies={restProps?.dependencies}
         notDependRender={notDependRender}
+        actionRef={actionRef}
         options={options}
         request={request}
         disabled={disabled ?? formDisabled}
@@ -84,9 +97,6 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   );
 };
 
-export type {
-  LCheckboxBeforeAllProps,
-  LCheckboxOptions,
-} from './base/CheckboxWrapper';
+export type { LCheckboxBeforeAllProps, LCheckboxOptions } from './base/CheckboxWrapper';
 
 export default LFormItemCheckbox;

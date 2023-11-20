@@ -37,6 +37,8 @@ export * from './FormItemIcon';
 export { default as LFormItemIcon } from './FormItemIcon';
 export * from './FormItemInput';
 export { default as LFormItemInput } from './FormItemInput';
+export * from './FormItemMentions';
+export { default as LFormItemMentions } from './FormItemMentions';
 export * from './FormItemNumber';
 export { default as LFormItemNumber } from './FormItemNumber';
 export * from './FormItemNumberRange';

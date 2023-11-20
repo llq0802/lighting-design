@@ -1,3 +1,4 @@
+import type { Result } from 'ahooks/lib/useRequest/src/types';
 import type { SelectProps, SpinProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
@@ -5,16 +6,15 @@ import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import type { SelectWrapperProps } from './base/SelectWrapper';
 import SelectWrapper from './base/SelectWrapper';
 
+export type LFormItemActionRef = Result<any, any[]> | undefined;
+
 export interface LFormItemSelectProps
   extends LFormItemProps,
-    Pick<
-      SelectWrapperProps,
-      'selectProps' | 'request' | 'all' | 'allValue' | 'allLabel'
-    >,
+    Pick<SelectWrapperProps, 'selectProps' | 'request' | 'all' | 'allValue' | 'allLabel'>,
     Pick<SelectProps, 'options'> {
   /**
    *依赖的项
@@ -38,6 +38,19 @@ export interface LFormItemSelectProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
   spin?: SpinProps;
+  /**
+   *配置 request 时 useRequest 的返回值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
+   *@version 2.1.24
+   */
+  actionRef?: React.MutableRefObject<LFormItemActionRef>;
+  /**
+   *ahook 的 request 的配置项
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.24
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
+   */
   requestOptions?: Record<string, any>;
 }
 
@@ -56,6 +69,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   disabled,
   size,
   placeholder,
+  actionRef,
   ...restProps
 }) => {
   const messagePlaceholder = usePlaceholder({
@@ -68,12 +82,9 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
     {
       validator(rule, value) {
         let errMsg = '';
-        const hasOptValue = options.find((item) => item?.value === value);
+        const hasOptValue = options?.find((item) => item?.value === value);
         if (
-          (!value &&
-            value !== 0 &&
-            !hasOptValue &&
-            !(all && allValue === value)) ||
+          (!value && value !== 0 && !hasOptValue && !(all && allValue === value)) ||
           ((selectProps?.mode === 'multiple' || selectProps?.mode === 'tags') &&
             value &&
             value.length <= 0)
@@ -105,6 +116,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
         allLabel={allLabel}
         selectProps={selectProps}
         requestOptions={requestOptions}
+        actionRef={actionRef}
       />
     </LFormItem>
   );

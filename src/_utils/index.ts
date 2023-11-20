@@ -1,3 +1,4 @@
+import { emptyArray } from 'lighting-design/constants';
 import { Children, useMemo, useRef } from 'react';
 import rfdc from 'rfdc';
 
@@ -142,7 +143,7 @@ export const useIsFirstRender = (): boolean => {
 export const useDependValues = (dependencies: string[], restProps: Record<string, any>) => {
   return useMemo(() => {
     if (!dependencies?.length) {
-      return [];
+      return emptyArray;
     }
     return dependencies?.map((nameStr) => restProps[nameStr]);
   }, [dependencies, restProps]);
@@ -328,4 +329,24 @@ export const transformEchartsOption = (
     }
   });
   return option;
+};
+
+/**
+ * 获取组件的 options 属性
+ * @param opt1
+ * @param opt2
+ * @param data
+ * @returns
+ */
+export const getOptions = (opt1 = [], opt2 = [], data?: any[] | undefined) => {
+  if (opt1?.length) {
+    return opt1;
+  }
+  if (opt2?.length) {
+    return opt1;
+  }
+  if (data?.length) {
+    return data;
+  }
+  return emptyArray;
 };

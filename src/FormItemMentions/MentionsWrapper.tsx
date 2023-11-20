@@ -1,14 +1,12 @@
-import { useDeepCompareEffect, useRequest } from 'ahooks';
+import { useMount, useRequest } from 'ahooks';
 import { Mentions, Spin } from 'antd';
 import LForm from 'lighting-design/Form';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import { useIsClearDependValues } from 'lighting-design/_utils';
-import { emptyArray } from 'lighting-design/constants';
 import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
 import { useImperativeHandle } from 'react';
 
 const MentionsWrapper = ({
-  dependencies = emptyArray,
   mentionsProps,
   request,
   disabled,
@@ -22,7 +20,7 @@ const MentionsWrapper = ({
   onChange,
   value,
   ...restProps
-}) => {
+}: Record<string, any>) => {
   const form = LForm.useFormInstance();
 
   const isClear = useIsClearDependValues(refreshDeps);
@@ -34,11 +32,11 @@ const MentionsWrapper = ({
 
   const { run, loading, data } = requestRes;
 
-  useDeepCompareEffect(() => {
+  useMount(() => {
     if (request && !outOptions?.length) {
       run(...refreshDeps);
     }
-  }, []);
+  });
 
   useDeepUpdateEffect(() => {
     if (request && !outOptions?.length && refreshDeps?.length) {

@@ -1,9 +1,7 @@
-import { LForm, LFormItemSelect } from 'lighting-design';
-import LFormItemMentions from '..';
+import { LForm, LFormItemMentions, LFormItemSelect } from 'lighting-design';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
-  const select1Val = LForm.useWatch('select1', form);
 
   return (
     <LForm

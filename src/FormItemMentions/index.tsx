@@ -1,8 +1,8 @@
-import type { Result } from 'ahooks/lib/useRequest/src/types';
 import type { MentionProps, SpinProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import type { LFormItemActionRef } from 'lighting-design/FormItemSelect';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
@@ -31,7 +31,7 @@ export interface LFormItemMentionsProps extends LFormItemProps {
    *@version 2.1.24
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
    */
-  request?: (...depends: any[]) => Promise<LSelectOptions[]>;
+  request?: (...depends: any[]) => Promise<LMentionsOptions[]>;
   /**
    *配置request的其他配置项
    *@author 李岚清 <https://github.com/llq0802>
@@ -54,14 +54,20 @@ export interface LFormItemMentionsProps extends LFormItemProps {
    */
   options?: LMentionsOptions[];
   /**
-   * antd.Input 的其他属性
+   * antd.Mentions 的其他属性
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.24
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
    *@see https://ant.design/components/input-cn/#api
    */
   mentionsProps?: MentionProps;
-  actionRef?: React.MutableRefObject<Result<any, any[]> | undefined>;
+  /**
+   *配置 request 时 useRequest 的返回值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
+   *@version 2.1.24
+   */
+  actionRef?: React.MutableRefObject<LFormItemActionRef>;
 }
 
 const LFormItemMentions: FC<LFormItemMentionsProps> = ({

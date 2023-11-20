@@ -40,4 +40,5 @@ import { LFormItemMentions } from 'lighting-design';
 | requestOptions | 配置 request 时 的其他配置项                                                    | `boolean`                                         | `false` |
 | refreshDeps    | 配置 request 时 request 请求的依赖项数组 如果依赖项发生变化则会自动执行 request | `any[]`                                           | `[]`    |
 | spin           | 配置 request 时自定义 loading 效果                                              | `SpinProps`                                       | `-`     |
-| actionRef      | 配置 request 时 useRequest 的全部返回值                                         | `any`                                             | `-`     |
+| actionRef      | 配置 request 时 useRequest 的全部返回值                                         | `LFormItemActionRef`                              | `-`     |
+| mentionsProps  | antd.Mentions 的其他属性                                                        | `MentionProps`                                    | `-`     |
