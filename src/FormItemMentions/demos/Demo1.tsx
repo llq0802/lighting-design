@@ -37,25 +37,16 @@ const Demo1 = () => {
         required
         label="标签1"
         name="mentions-1"
-        dependencies={['select1']}
-        refreshDeps={[select1Val]}
-        request={async (value) => {
-          console.log('value', value);
-          return new Promise((resolve) => {
-            setTimeout(() => {
-              resolve([
-                { value: 'afc163', label: 'afc163', key: 'afc163' },
-                { value: 'zombieJ', label: 'zombieJ', key: 'zombieJ' },
-                { value: 'yesmeck', label: 'yesmeck', key: 'yesmeck' },
-              ]);
-            }, 2000);
-          });
+        options={[
+          { value: 'afc163', label: 'afc163' },
+          { value: 'zombieJ', label: 'zombieJ' },
+          { value: 'yesmeck', label: 'yesmeck' },
+        ]}
+        mentionsProps={{
+          onChange(val) {
+            console.log('onChange', val);
+          },
         }}
-        // options={[
-        //   { value: 'afc163', label: 'afc163' },
-        //   { value: 'zombieJ', label: 'zombieJ' },
-        //   { value: 'yesmeck', label: 'yesmeck' },
-        // ]}
       />
     </LForm>
   );

@@ -52,6 +52,8 @@ nav:
 
 - 配置了`required`属性将开启内置验证是否为空数据或空数组 , 大多数情况不需要开发者传`rules`属性 ，如果业务验证有其他检验规则则传入 `rules`
 
+- 配置了`dependencies` 属性, 在 `LFormItem`的子组件的 `props` 会接收到`dependencies`的值, 例如`dependencies={['age']}` 那么子组件的 `props` 中会包含`{ age:xxx, ...其他属性 }`
+
 - `contentInline` 只在配置了 `contentBefore` 或 `contentAfter` 时生效 。如果想强制为行盒又不想展示前后内容，可配置 `contentAfter`为 `' '`
 
 - `placeholder`默认为字符串类型的 `label` 且会在前面拼接`请输入`或 `请选择`，可通过传入 `placeholder` 进行覆盖
@@ -105,9 +107,7 @@ import { Popover, Space } from 'antd';
       id: string;
       [key: string]: any;
     }) => {
-      return (
-        <Space>通过 renderField 渲染 :{React.cloneElement(dom, props)}</Space>
-      );
+      return <Space>通过 renderField 渲染 :{React.cloneElement(dom, props)}</Space>;
     };
     return <CustomField />;
   }}
@@ -127,9 +127,7 @@ import { Popover, Space } from 'antd';
       return (
         <Popover
           trigger="focus"
-          getPopupContainer={(e) =>
-            (e?.parentNode || document.body) as HTMLElement
-          }
+          getPopupContainer={(e) => (e?.parentNode || document.body) as HTMLElement}
           // ...其他 Popover 的属性
         >
           {React.cloneElement(dom, props)}

@@ -19,7 +19,8 @@ const MentionsWrapper = ({
   refreshDeps,
   name,
   actionRef,
-
+  onChange,
+  value,
   ...restProps
 }) => {
   const form = LForm.useFormInstance();
@@ -57,7 +58,12 @@ const MentionsWrapper = ({
         placeholder={placeholder}
         options={outOptions || data || []}
         {...mentionsProps}
+        onChange={(value) => {
+          onChange?.(value);
+          mentionsProps.onChange?.(value);
+        }}
         style={{ width: '100%', ...mentionsProps?.style }}
+        value={value}
       />
     </Spin>
   );

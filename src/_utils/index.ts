@@ -139,20 +139,17 @@ export const useIsFirstRender = (): boolean => {
  * @param restProps
  * @returns
  */
-export const useDependValues = (
-  dependencies: string[],
-  restProps: Record<string, any>,
-) => {
+export const useDependValues = (dependencies: string[], restProps: Record<string, any>) => {
   return useMemo(() => {
     if (!dependencies?.length) {
       return [];
     }
-    return dependencies?.map((nameStr) => restProps[nameStr]) ?? [];
+    return dependencies?.map((nameStr) => restProps[nameStr]);
   }, [dependencies, restProps]);
 };
 
 /**
- * 判断依赖项的值是否有空或undefined null或者空数组
+ * 判断依赖项的值是否有 undefined null 空字符串 空数组
  * @param dependValues
  * @returns
  */
@@ -161,20 +158,12 @@ export const useIsClearDependValues = (dependValues: any[]) => {
     if (!dependValues?.length) return false;
 
     if (dependValues?.length === 1) {
-      return dependValues?.some(
-        (nameValue) =>
-          nameValue === void 0 ||
-          nameValue === null ||
-          nameValue === '' ||
-          !nameValue?.length,
-      );
+      const nameValue = dependValues?.[0];
+      return nameValue === void 0 || nameValue === null || nameValue === '' || !nameValue?.length;
     }
     return dependValues?.every(
       (nameValue) =>
-        nameValue === void 0 ||
-        nameValue === null ||
-        nameValue === '' ||
-        !nameValue?.length,
+        nameValue === void 0 || nameValue === null || nameValue === '' || !nameValue?.length,
     );
   }, dependValues);
 };
@@ -244,17 +233,12 @@ export const getFormInitValues = ({
     const child = item?.props?.children;
     const itemInitialValue = item?.props?.initialValue;
 
-    if (
-      itemName &&
-      typeof itemName === 'string' &&
-      !Object.keys(ret).includes(itemName)
-    ) {
+    if (itemName && typeof itemName === 'string' && !Object.keys(ret).includes(itemName)) {
       ret[itemName] = itemInitialValue ?? initialValues?.[itemName] ?? void 0;
     } else if (Array.isArray(itemName) && itemName?.length) {
       const field_0 = itemName[0];
       const field_1 = itemName[1];
-      const val =
-        (itemInitialValue ?? initialValues)?.[field_0]?.[field_1] ?? void 0;
+      const val = (itemInitialValue ?? initialValues)?.[field_0]?.[field_1] ?? void 0;
       if (!ret[field_0]) {
         ret[field_0] = {
           [field_1]: val,
@@ -301,18 +285,13 @@ export const getTableColumnsKey = (col: Record<string, any>, i: number) => {
  */
 const autoFontSize = (size: number | string, designWidth = 1920) => {
   const clientWidth =
-    window.innerWidth ||
-    document.documentElement.clientWidth ||
-    document.body.clientWidth;
+    window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
   if (!clientWidth) return size;
 
   const widthRate = clientWidth / designWidth; // 设计图宽度
 
-  if (
-    typeof size === 'number' ||
-    (typeof size === 'string' && !Object.is(NaN, parseFloat(size)))
-  ) {
+  if (typeof size === 'number' || (typeof size === 'string' && !Object.is(NaN, parseFloat(size)))) {
     return +size * widthRate;
   }
 
@@ -335,10 +314,7 @@ export const transformEchartsOption = (
     return option;
   }
   Object.keys(option).forEach((key) => {
-    if (
-      changeFields.includes(key) &&
-      ['number', 'string'].includes(typeof option[key])
-    ) {
+    if (changeFields.includes(key) && ['number', 'string'].includes(typeof option[key])) {
       option[key] = autoFontSize(option[key], designWidth);
     }
     if (typeof option[key] === 'object') {

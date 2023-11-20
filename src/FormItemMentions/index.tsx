@@ -1,4 +1,5 @@
-import type { SpinProps } from 'antd';
+import type { Result } from 'ahooks/lib/useRequest/src/types';
+import type { MentionProps, SpinProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
@@ -7,6 +8,15 @@ import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import MentionsWrapper from './MentionsWrapper';
+
+type LMentionsOptions = {
+  value: string;
+  label: string;
+  key?: string;
+  disabled?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+};
 
 export interface LFormItemMentionsProps extends LFormItemProps {
   /**
@@ -42,7 +52,7 @@ export interface LFormItemMentionsProps extends LFormItemProps {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
    *@version 2.1.24
    */
-  options?: any[];
+  options?: LMentionsOptions[];
   /**
    * antd.Input 的其他属性
    *@author 李岚清 <https://github.com/llq0802>
@@ -50,8 +60,8 @@ export interface LFormItemMentionsProps extends LFormItemProps {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
    *@see https://ant.design/components/input-cn/#api
    */
-  mentionsProps?: MentionsProps;
-  actionRef: any;
+  mentionsProps?: MentionProps;
+  actionRef?: React.MutableRefObject<Result<any, any[]> | undefined>;
 }
 
 const LFormItemMentions: FC<LFormItemMentionsProps> = ({

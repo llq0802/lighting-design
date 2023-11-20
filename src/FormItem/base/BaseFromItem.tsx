@@ -164,8 +164,9 @@ const LFormItem: FC<LFormItemProps> & {
       classnames(
         prefixCls,
         {
-          [`${prefixCls}-wrapper-label-${wrapperAlignItems}`]:
-            restFromItemProps?.label ? true : false,
+          [`${prefixCls}-wrapper-label-${wrapperAlignItems}`]: restFromItemProps?.label
+            ? true
+            : false,
         },
         className,
       ),
@@ -183,10 +184,7 @@ const LFormItem: FC<LFormItemProps> & {
                 let errMsg = '';
                 if ((!val && val !== 0) || !isTrueArray(val)) {
                   errMsg = required
-                    ? `${
-                        restFromItemProps?.messageVariables?.label ||
-                        messageLabel
-                      }!`
+                    ? `${restFromItemProps?.messageVariables?.label || messageLabel}!`
                     : '';
                 }
 
@@ -224,8 +222,7 @@ const LFormItem: FC<LFormItemProps> & {
         {...restFromItemProps}
       >
         {(form) => {
-          const contentChildren =
-            typeof children === 'function' ? children(form) : children;
+          const contentChildren = typeof children === 'function' ? children(form) : children;
           return (
             <FormItemWrapper
               className={contentClassName}
@@ -235,9 +232,7 @@ const LFormItem: FC<LFormItemProps> & {
               contentInline={contentInline}
               {...contentProps}
             >
-              {renderField
-                ? renderField(contentChildren as ReactElement, props)
-                : contentChildren}
+              {renderField ? renderField(contentChildren as ReactElement, props) : contentChildren}
             </FormItemWrapper>
           );
         }}
@@ -252,8 +247,9 @@ const LFormItem: FC<LFormItemProps> & {
       <Form.Item noStyle dependencies={dependencies}>
         {(form) => {
           const depFields = form.getFieldsValue(dependencies);
-          const innerChildren =
-            typeof children === 'function' ? children(form) : children;
+
+          const innerChildren = typeof children === 'function' ? children(form) : children;
+
           const contentChildren = isValidElement(innerChildren)
             ? cloneElement(innerChildren as ReactElement, { ...depFields })
             : innerChildren;

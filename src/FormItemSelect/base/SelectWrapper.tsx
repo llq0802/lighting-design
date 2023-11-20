@@ -9,11 +9,7 @@ import type { SelectProps, SpinProps } from 'antd';
 import { Form, Select, Spin } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import {
-  useDependValues,
-  useIsClearDependValues,
-  useIsFirstRender,
-} from 'lighting-design/_utils';
+import { useDependValues, useIsClearDependValues, useIsFirstRender } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC, ReactNode } from 'react';
 import { useMemo, useState } from 'react';
@@ -21,9 +17,7 @@ import { useMemo, useState } from 'react';
 export type SelectWrapperProps = Record<string, any> & {
   request?: (
     ...depends: any[]
-  ) => Promise<
-    { label: ReactNode; value: string | number; [key: string]: any }[]
-  >;
+  ) => Promise<{ label: ReactNode; value: string | number; [key: string]: any }[]>;
   debounceTime?: number;
   disabled?: boolean;
   placeholder?: string;
@@ -86,13 +80,12 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   const [optsRequest, setOptsRequest] = useState<LSelectOptions[]>([]);
   const isFirst = useIsFirstRender(); // 组件是否第一次挂载
 
-  const [loading, setLoading] = useSafeState<boolean>(
-    outLoading?.spinning || false,
-  );
-  const hasLoading = useMemo(
-    () => Reflect.has(outLoading ?? {}, 'spinning'),
-    [outLoading],
-  );
+  const form = Form.useFormInstance();
+
+  const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
+
+  const hasLoading = useMemo(() => Reflect.has(outLoading ?? {}, 'spinning'), [outLoading]);
+
   useUpdateEffect(() => {
     if (hasLoading) setLoading(outLoading?.spinning || false);
   }, [outLoading]);
@@ -127,7 +120,6 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     return rawOptions;
   }, [all, allLabel, allValue, outOptions, selectProps.options]);
 
-  const form = Form.useFormInstance();
   useDeepCompareEffect(() => {
     if (!request) return;
     // 组件第一次加载时调用request
@@ -137,10 +129,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
           if (!hasLoading) setLoading(true);
           const newOptions = await request(...dependValues);
           if (all && newOptions?.length > 0) {
-            setOptsRequest([
-              { label: allLabel, value: allValue },
-              ...newOptions,
-            ]);
+            setOptsRequest([{ label: allLabel, value: allValue }, ...newOptions]);
           } else {
             setOptsRequest([...newOptions]);
           }
