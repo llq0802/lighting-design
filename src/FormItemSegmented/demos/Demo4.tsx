@@ -32,25 +32,25 @@ const Demo4 = () => {
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
-        notDependRender='请先选择select44'
+        notDependRender="请先选择select44"
         request={async (select44) => {
           console.log('select44 ', select44);
           let data: Record<string, any>[] = [];
-          if (select4 === 'a') {
+          if (select44 === 'a') {
             data = [
               { label: 'A1', value: 'a1' },
               { label: 'B1', value: 'b1' },
               { label: 'C1', value: 'c1' },
             ];
           }
-          if (select4 === 'b') {
+          if (select44 === 'b') {
             data = [
               { label: 'A2', value: 'a2' },
               { label: 'B2', value: 'b2' },
               { label: 'C2', value: 'c2' },
             ];
           }
-          if (select4 === 'c') {
+          if (select44 === 'c') {
             data = [
               { label: 'A3', value: 'a3' },
               { label: 'B3', value: 'b3' },

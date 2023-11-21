@@ -83,8 +83,8 @@ import { LFormItem } from 'lighting-design';
 | contentAlignItems | 当配置了 `contentBefore` 或者 `contentAfter` 时组件原本子项内容`(label 的右边)`与 `contentBefore` 或者 `contentAfter` 与垂直的对齐方式 | `'center' \| 'start' \| 'end'`                               | `'center'` |
 | wrapperAlignItems | 当配置了 `label` 时组件左边的 `label` 与右边整体的内容区域 `( 如果配置了 contentBefore 或者 contentAfter 则包含它们 )` 的垂直对齐方式  | `'center' \| 'start' \| 'end'`                               | `'start'`  |
 | ownColSpans       | 只在作为`LQueryForm`组件的子项生效，与`antd.Col`组件的配置一样，配置单独这一项占多数份                                                 | [ColProps](https://ant.design/components/grid-cn/#col)       | `-`        |
-| disabled          | 是否禁用组件, 所有的内置`LFormItemXXX`组件均支持<br>如果自定义组件则需要开发者自己控制内部`children`的禁用                             | `boolean`                                                    | `false`    |
-| size              | 组件大小, 所有的内置`LFormItemXXX`组件均支持<br>如果自定义组件则需要开发者自己控制内部`children`的大小                                 | `'large' \| 'middle' \| 'small'`                             | `-`        |
+| disabled          | 是否禁用组件, 几乎所有的内置`LFormItemXXX`组件均支持<br>如果自定义组件则需要开发者自己控制内部`children`的禁用                         | `boolean`                                                    | `false`    |
+| size              | 组件大小, 几乎所有的内置`LFormItemXXX`组件均支持<br>如果自定义组件则需要开发者自己控制内部`children`的大小                             | `'large' \| 'middle' \| 'small'`                             | `-`        |
 | placeholder       | 组件的 placeholder<br>自定义组件则需要开发者自己控制内部`children`的 placeholder                                                       | `string\|string[]`                                           | `-`        |
 | renderField       | 重新渲染 `LFormItem` 的子组件                                                                                                          | `(dom: ReactElement, props: LFormItemProps) => ReactElement` | `-`        |
 | renderFormItem    | 重新渲染整个 `LFormItem` 组件                                                                                                          | `(dom: ReactElement) => ReactElement`                        | `-`        |

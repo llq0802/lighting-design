@@ -25,6 +25,8 @@ export interface LFormSubmitterProps {
   isEnterSubmit?: boolean;
   /** 表单是否准备完成 */
   isReady?: boolean;
+  /** 内部的重置按钮是否使用 form.resetFields() */
+  isAntdReset?: boolean;
   /** 是否展示重置按钮 */
   showReset?: boolean;
   /** form实例 */
@@ -32,10 +34,7 @@ export interface LFormSubmitterProps {
   /** 同Form的wrapperCol */
   wrapperCol?: FormProps['wrapperCol'];
   /** 重新渲染函数 */
-  render?: (
-    dom: ReactElement[],
-    props: LFormSubmitterProps,
-  ) => ReactNode[] | ReactNode | false;
+  render?: (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode | false;
   /** 按钮位置 */
   buttonAlign?: 'left' | 'right' | 'center' | number;
 }
@@ -44,6 +43,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const {
     isEnterSubmit,
     isReady,
+    isAntdReset = false,
     initFormValues,
     onSubmit = () => {},
     onReset = () => {},
@@ -55,15 +55,13 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     form,
     render,
   } = props;
-  const { preventDefault: submitPreventDefault, ...submitButtonProps } =
-    outSubmitButtonProps;
-  const { preventDefault: resetPreventDefault, ...resetButtonProps } =
-    outResetButtonProps;
+  const { preventDefault: submitPreventDefault, ...submitButtonProps } = outSubmitButtonProps;
+  const { preventDefault: resetPreventDefault, ...resetButtonProps } = outResetButtonProps;
 
   const resetClick = useMemoizedFn((e) => {
     if (!resetPreventDefault) {
-      const hasInitFormValues = Object.keys(initFormValues ?? {}).length > 0;
-      if (hasInitFormValues) {
+      // const hasInitFormValues = Object.keys(initFormValues ?? {}).length > 0;
+      if (!isAntdReset) {
         form?.setFieldsValue({ ...initFormValues });
       } else {
         // resetFields 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
@@ -86,11 +84,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const dom = useMemo(() => {
     const ret = [
       // 默认设置为重置
-      <Button
-        key="reset-lightd-form"
-        {...resetButtonProps}
-        onClick={resetClick}
-      >
+      <Button key="reset-lightd-form" {...resetButtonProps} onClick={resetClick}>
         {resetText}
       </Button>,
       // 默认设置为提交

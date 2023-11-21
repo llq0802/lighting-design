@@ -1,21 +1,12 @@
-import {
-  useDeepCompareEffect,
-  useMemoizedFn,
-  useRequest,
-  useSafeState,
-  useUpdateEffect,
-} from 'ahooks';
+import { useMemoizedFn, useMount, useRequest } from 'ahooks';
 import type { SpinProps, TreeSelectProps } from 'antd';
 import { Form, Spin, TreeSelect } from 'antd';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import {
-  useDependValues,
-  useIsClearDependValues,
-  useIsFirstRender,
-} from 'lighting-design/_utils';
+import { getOptions, useDependValues, useIsClearDependValues } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
+import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
 import type { FC } from 'react';
-import { useMemo, useState } from 'react';
+import { useImperativeHandle, useMemo } from 'react';
 
 export type TreeSelectWrapperProps = Record<string, any> & {
   /**
@@ -72,6 +63,8 @@ export type LTreeSelectOption = {
 };
 
 const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
+  actionRef,
+  treeDataSimpleMode,
   value,
   onChange,
   dependencies = emptyArray,
@@ -88,89 +81,40 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
   name,
   ...restProps // LFormItem传过来的其他值
 }) => {
-  const [inTreeData, setInTreeData] = useState<LTreeSelectOption[]>([]);
-  const [loading, setLoading] = useSafeState<boolean>(
-    outLoading?.spinning || false,
-  );
-  const isFirstRender = useIsFirstRender(); // 组件是否第一次挂载
+  const form = Form.useFormInstance();
+  const dependValues = useDependValues(dependencies, restProps);
+  const hasEmptyDepends = useIsClearDependValues(dependValues);
 
-  const hasLoading = useMemo(
-    () => Reflect.has(outLoading ?? {}, 'spinning'),
-    [outLoading],
-  );
-
-  const { run } = useRequest(request || (async () => []), {
+  const requestRes = useRequest(request || (async () => []), {
     ...requestOptions,
     manual: true,
     debounceWait: debounceTime,
-    onSuccess: (result) => {
-      if (!hasLoading) setLoading(false);
-
-      setInTreeData([...result]);
-    },
-    onError: () => {
-      if (!hasLoading) setLoading(false);
-      setInTreeData([]);
-    },
   });
+  const { run, loading, data } = requestRes;
 
-  useUpdateEffect(() => {
-    if (hasLoading) setLoading(outLoading?.spinning || false);
-  }, [outLoading]);
+  useMount(() => {
+    if (!request || outTreeData?.length || treeSelectProps.treeData?.length) return;
+    run(...dependValues);
+  });
+  useImperativeHandle(actionRef, () => requestRes);
 
-  const form = Form.useFormInstance();
-  const dependValues = useDependValues(dependencies, restProps);
-  const isClearDepends = useIsClearDependValues(dependValues);
-
-  const memoTreeDate = useMemo(
-    () => treeSelectProps.treeData || outTreeData,
-    [treeSelectProps.treeData, outTreeData],
-  );
-
-  useDeepCompareEffect(() => {
-    if (!request) return;
-    // 组件第一次加载时调用request
-    if (isFirstRender) {
-      (async () => {
-        try {
-          if (!hasLoading) setLoading(true);
-          const newData = await request(...dependValues);
-          setInTreeData([...newData]);
-        } catch (error) {
-          setInTreeData([]);
-        }
-        if (!hasLoading) setLoading(false);
-      })();
-    } else {
-      if (value?.length) {
-        form.setFieldValue(name, void 0);
-      }
-      // 防抖调用
-      if (!isClearDepends) {
-        if (!hasLoading) setLoading(true);
-        run(...dependValues);
-      }
-    }
-  }, [dependValues]);
+  useDeepUpdateEffect(() => {
+    if (!request || outTreeData?.length || treeSelectProps.treeData?.length) return;
+    form.setFieldValue(name, void 0);
+    if (!hasEmptyDepends) run(...dependValues);
+  }, dependValues);
 
   const treeSelectData = useMemo(() => {
-    if (isClearDepends) {
-      return [];
-    } else if (inTreeData?.length > 0) {
-      return inTreeData;
-    } else if (memoTreeDate?.length > 0) {
-      return memoTreeDate;
-    } else {
-      return [];
-    }
-  }, [isClearDepends, memoTreeDate, inTreeData]);
+    const innerOptions = getOptions(outTreeData, treeSelectProps.treeData, data);
+    return innerOptions;
+  }, [outTreeData, data, treeSelectProps.treeData]);
 
   const handleChange = useMemoizedFn(
     (vals: string | string[], labelList: React.ReactNode[], extra: any) => {
+      onChange?.(vals);
       if (treeSelectProps?.onChange) {
         treeSelectProps.onChange(vals, labelList, extra);
       }
-      onChange?.(vals);
     },
   );
 
@@ -179,14 +123,15 @@ const TreeSelectWrapper: FC<TreeSelectWrapperProps> = ({
       <TreeSelect
         {...restProps}
         allowClear
-        disabled={disabled ?? isClearDepends}
+        disabled={disabled ?? hasEmptyDepends}
         placeholder={placeholder}
         treeData={treeSelectData}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-        style={{ width: '100%' }}
         treeCheckable={treeCheckable}
         loadData={loadData}
+        treeDataSimpleMode={treeDataSimpleMode}
         {...treeSelectProps}
+        style={{ width: '100%', ...treeSelectProps?.style }}
         value={value}
         onChange={handleChange}
       />

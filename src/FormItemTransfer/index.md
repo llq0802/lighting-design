@@ -96,9 +96,6 @@ export type LFormItemTransferActionRef = {
     changeCurrent: (current: number) => void;
     changePageSize: (pageSize: number) => void;
   };
-  /** 数据源 */
-  data: RecordType[];
-  /** 更新数据的state */
-  setData: React.Dispatch<React.SetStateAction<RecordType[]>>;
+  // ...其他属性方法与useRequest的返回值相同
 };
 ```

@@ -13,12 +13,7 @@ const Demo = () => {
         console.log('values', values);
       }}
     >
-      <LFormItemInput
-        className="myLFormItemInput-4"
-        name="name"
-        label="名字"
-        required
-      />
+      <LFormItemInput className="myLFormItemInput-4" name="name" label="名字" required />
 
       <LFormItemInput
         name="name1"
@@ -70,12 +65,7 @@ const Demo = () => {
         type="url"
         messageVariables={{ label: '请输入正确的网址格式!' }}
       />
-      <LFormItemInput
-        label="图片验证码"
-        name="code"
-        required
-        contentAfter={<IdentifyCode />}
-      />
+      <LFormItemInput label="图片验证码" name="code" required contentAfter={<IdentifyCode />} />
       <LFormItemInput
         required
         validateTrigger={['onChange', 'onBlur']}

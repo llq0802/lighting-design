@@ -216,6 +216,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     if (!request || outOptions?.length || selectProps.options?.length) return;
     run(...dependValues);
   });
+  useImperativeHandle(actionRef, () => requestRes);
 
   useDeepUpdateEffect(() => {
     if (!request || outOptions?.length || selectProps.options?.length) return;
@@ -230,8 +231,6 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     }
     return innerOptions;
   }, [all, outOptions, data, selectProps.options]);
-
-  useImperativeHandle(actionRef, () => requestRes);
 
   const handleChange = useMemoizedFn(
     (val: string, items: DefaultOptionType | DefaultOptionType[]) => {

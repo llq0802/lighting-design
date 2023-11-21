@@ -3,7 +3,7 @@ import { Children, useMemo, useRef } from 'react';
 import rfdc from 'rfdc';
 
 /**
- * 深克隆对象
+ * 快速深克隆函数
  */
 export const fastDeepClone = rfdc();
 
@@ -202,7 +202,7 @@ export const getFormInitValues = ({
   submitter,
 }: GetFormInitValuesOptions) => {
   let ret: Record<string, any> = {};
-  if (submitter === false) {
+  if (submitter === false || submitter?.isAntdReset) {
     return ret;
   }
 

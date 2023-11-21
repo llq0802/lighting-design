@@ -1,39 +1,7 @@
 import { LForm, LFormItemCascader, LFormItemSelect } from 'lighting-design';
 
-const options: any[] = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
+import china_city from './china_city.json';
+const options: any[] = china_city;
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
@@ -58,14 +26,15 @@ const Demo1 = () => {
 
       <LFormItemCascader
         label="级联选择"
-        name={'cascader'}
+        name="cascader"
         required
-        request={async (params) => {
-          console.log('request-params', params);
-          // if (!params) return [];
-          return options;
-        }}
+        options={options}
         cascaderProps={{
+          fieldNames: {
+            label: 'name',
+            value: 'code',
+            children: 'children',
+          },
           onChange(value) {
             console.log('value111', value);
           },

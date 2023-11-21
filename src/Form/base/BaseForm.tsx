@@ -1,28 +1,16 @@
-import {
-  useMemoizedFn,
-  useRafState,
-  useUpdateEffect,
-  useUpdateLayoutEffect,
-} from 'ahooks';
+import { useMemoizedFn, useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
 import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
-import {
-  Children,
-  createContext,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-} from 'react';
+import { Children, createContext, useImperativeHandle, useMemo, useRef } from 'react';
 import { getFormInitValues, isFunction, uniqueId } from '../../_utils';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
 const prefixCls = 'lightd-form';
 
-export interface BaseFormProps
-  extends Omit<FormProps, 'onReset' | 'title' | 'onValuesChange'> {
+export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title' | 'onValuesChange'> {
   /**
    *LForm 下面所有的 LFormItemXXX 或者 Form.Item 的 name 的属性值组成的字段数组
    *@author 李岚清 <https://github.com/llq0802>
@@ -113,11 +101,7 @@ export interface BaseFormProps
    *@version 2.1.24
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
    */
-  onValuesChange?(
-    currentName: string,
-    currentValue: any,
-    allValues: Record<string, any>,
-  ): void;
+  onValuesChange?(currentName: string, currentValue: any, allValues: Record<string, any>): void;
 
   children?: ReactNode;
 
@@ -189,6 +173,11 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 
   const formItems = Children.toArray(children);
 
+  const submitterProps = useMemo(
+    () => (typeof submitter === 'boolean' || !submitter ? {} : submitter),
+    [submitter],
+  );
+
   const initFieldValues = useMemo(
     () =>
       getFormInitValues({
@@ -219,9 +208,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const handleOnFinish = useMemoizedFn(async (values) => {
     if (!isFunction(onFinish)) return;
 
-    const formValues = transformValues
-      ? transformValues(values) ?? values
-      : values;
+    const formValues = transformValues ? transformValues(values) ?? values : values;
     const ret: unknown = onFinish?.(formValues);
     if (ret instanceof Promise) {
       setLoading(true);
@@ -236,11 +223,6 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         });
     }
   });
-
-  const submitterProps = useMemo(
-    () => (typeof submitter === 'boolean' || !submitter ? {} : submitter),
-    [submitter],
-  );
 
   const submitterDom = useMemo(() => {
     return submitter ? (
@@ -262,14 +244,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         }}
       />
     ) : null;
-  }, [
-    initFieldValues,
-    isReady,
-    loading,
-    submitter,
-    submitterProps,
-    isEnterSubmit,
-  ]);
+  }, [initFieldValues, isReady, loading, submitter, submitterProps, isEnterSubmit]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)
@@ -315,9 +290,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     </LFormContext.Provider>
   );
 
-  return (
-    formRender ? formRender(formDom, submitterDom) : formDom
-  ) as JSX.Element;
+  return (formRender ? formRender(formDom, submitterDom) : formDom) as JSX.Element;
 }
 
 export default BaseForm;

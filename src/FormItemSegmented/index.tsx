@@ -1,11 +1,9 @@
 import type { SpinProps } from 'antd';
-import type {
-  SegmentedLabeledOption,
-  SegmentedValue,
-} from 'antd/lib/segmented';
+import type { SegmentedLabeledOption, SegmentedValue } from 'antd/lib/segmented';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import type { LFormItemActionRef } from 'lighting-design/FormItemSelect';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
@@ -14,10 +12,7 @@ import SegmentedWrapper from './base/SegmentedWrapper';
 
 export interface LFormItemSegmentedoProps
   extends LFormItemProps,
-    Pick<
-      SegmentedWrapperProps,
-      'segmentedProps' | 'request' | 'notDependRender'
-    > {
+    Pick<SegmentedWrapperProps, 'segmentedProps' | 'request' | 'notDependRender'> {
   dependencies?: string[];
   /**
    *当依赖项发生变化时重新请求的防抖时间
@@ -40,6 +35,20 @@ export interface LFormItemSegmentedoProps
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSegmentedoProps
    */
   spin?: SpinProps;
+  /**
+   *ahook 的 request 的配置项
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.24
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
+   */
+  requestOptions?: Record<string, any>;
+  /**
+   *配置 request 时 useRequest 的返回值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
+   *@version 2.1.24
+   */
+  actionRef?: React.MutableRefObject<LFormItemActionRef>;
 }
 
 const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
@@ -50,6 +59,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
   requestOptions = emptyObject,
   spin,
   size,
+  actionRef,
   disabled,
   notDependRender,
 
@@ -64,6 +74,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
         name={restProps.name}
         dependencies={restProps?.dependencies}
         size={size ?? formSize}
+        actionRef={actionRef}
         options={options}
         request={request}
         outLoading={spin}

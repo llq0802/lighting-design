@@ -2,6 +2,7 @@ import type { SelectProps, SpinProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import type { LFormItemActionRef } from 'lighting-design/FormItemSelect';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';

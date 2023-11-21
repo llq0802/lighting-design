@@ -43,6 +43,8 @@ nav:
 
 :::warning{title=注意}
 
+- `request`与`options`同时配置时 `options`优先级更高
+
 - `request` 的参数集合`depends` 为 `LFormItem` 组件 `dependencies` 属性依赖项字段的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除或者禁用选择
 
 :::
@@ -57,6 +59,7 @@ import { LFormItemCheckbox } from 'lighting-design';
 | --------------- | --------------------------------------- | --------------------------------------------------------------- | ----------------------------- |
 | options         | 数据源                                  | `LCheckboxOptions[]`                                            | `-`                           |
 | request         | 请求数据源的异步函数                    | `(...depends: any[]) => Promise<LCheckboxOptions[]>`            | `-`                           |
+| requestOptions  | ahook 的 request 的配置项               | `-`                                                             | `-`                           |
 | debounceTime    | 当依赖项发生变化时重新请求的防抖时间    | `number`                                                        | `-`                           |
 | beforeAll       | 自定义全选                              | `LCheckboxBeforeAllProps \| boolean `                           | `-`                           |
 | spin            | 自定义 loading 效果                     | [SpinProps](https://ant.design/components/spin-cn/#api)         | `-`                           |

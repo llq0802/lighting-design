@@ -118,10 +118,8 @@ const RadioWrapper: FC<RadioWrapperProps> = ({
   useImperativeHandle(actionRef, () => requestRes);
 
   const handleChange = useMemoizedFn((val: RadioChangeEvent) => {
-    if (radioProps?.onChange) {
-      radioProps?.onChange(val);
-    }
     onChange?.(val);
+    radioProps?.onChange?.(val);
   });
 
   const radioDom = (

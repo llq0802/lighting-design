@@ -1,3 +1,4 @@
+import type { PaginationResult } from 'ahooks/lib/usePagination/types';
 import type { SpinProps, TransferProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
@@ -8,22 +9,7 @@ import { useContext, type FC } from 'react';
 import type { FieldNames, RecordType } from './base/TransferWrapper';
 import TransferWrapper from './base/TransferWrapper';
 
-export type LFormItemTransferActionRef = {
-  /** 分页信息及方法 */
-  pagination: {
-    current: number;
-    pageSize: number;
-    total: number;
-    totalPage: number;
-    onChange: (current: number, pageSize: number) => void;
-    changeCurrent: (current: number) => void;
-    changePageSize: (pageSize: number) => void;
-  };
-  /** 数据源 */
-  data: RecordType[];
-  /** 更新数据的state */
-  setData: React.Dispatch<React.SetStateAction<RecordType[]>>;
-};
+export type LFormItemTransferActionRef = PaginationResult<any, any>;
 
 export type LFormItemTransferProps = {
   /**

@@ -1,24 +1,13 @@
-import {
-  useDeepCompareEffect,
-  useMemoizedFn,
-  useRequest,
-  useSafeState,
-  useUpdateEffect,
-} from 'ahooks';
+import { useMemoizedFn, useMount, useRequest } from 'ahooks';
 import type { SegmentedProps, SpinProps } from 'antd';
 import { Form, Segmented, Spin } from 'antd';
-import type {
-  SegmentedLabeledOption,
-  SegmentedValue,
-} from 'antd/lib/segmented';
-import {
-  useDependValues,
-  useIsClearDependValues,
-  useIsFirstRender,
-} from 'lighting-design/_utils';
+import type { SegmentedValue } from 'antd/lib/segmented';
+import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
+import { getOptions, useDependValues, useIsClearDependValues } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
+import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
 import type { FC, ReactNode } from 'react';
-import { useMemo, useState } from 'react';
+import { useImperativeHandle, useMemo } from 'react';
 
 export type SegmentedWrapperProps = Record<string, any> & {
   request?: (...args: any[]) => Promise<any>;
@@ -49,6 +38,7 @@ export type SegmentedWrapperProps = Record<string, any> & {
 };
 
 const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
+  actionRef,
   value,
   onChange,
   dependencies = emptyArray,
@@ -63,96 +53,45 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   name,
   ...restProps
 }) => {
-  const [optsRequest, setOptsRequest] = useState<
-    (SegmentedValue | SegmentedLabeledOption)[]
-  >([]);
-  const [loading, setLoading] = useSafeState<boolean>(
-    outLoading?.spinning || false,
-  );
+  const form = Form.useFormInstance();
+  const dependValues = useDependValues(dependencies, restProps);
+  const hasEmptyDepends = useIsClearDependValues(dependValues);
 
-  const hasLoading = useMemo(
-    () => Reflect.has(outLoading ?? {}, 'spinning'),
-    [outLoading],
-  );
-  const isFirst = useIsFirstRender(); // 组件是否第一次挂载
-
-  const { run } = useRequest(request || (async () => []), {
+  const requestRes = useRequest(request || (async () => []), {
     ...requestOptions,
     manual: true,
     debounceWait: debounceTime,
-    onSuccess: (result) => {
-      if (!hasLoading) setLoading(false);
-      setOptsRequest([...result]);
-    },
-    onError: () => {
-      if (!hasLoading) setLoading(false);
-      setOptsRequest([]);
-    },
+  });
+  const { run, loading, data } = requestRes;
+  useMount(() => {
+    if (!request || outOptions?.length || segmentedProps.options?.length) return;
+    run(...dependValues);
   });
 
-  useUpdateEffect(() => {
-    if (hasLoading) setLoading(outLoading?.spinning || false);
-  }, [outLoading]);
-
-  const form = Form.useFormInstance();
-  const dependValues = useDependValues(dependencies, restProps);
-  const isClearDepends = useIsClearDependValues(dependValues);
-
-  const opts = useMemo(() => {
-    const rawOptions = segmentedProps?.options || outOptions;
-    return rawOptions;
-  }, [outOptions, segmentedProps?.options]);
-
-  useDeepCompareEffect(() => {
-    if (!request) return;
-    // 组件第一次加载时调用request
-    if (isFirst) {
-      (async () => {
-        try {
-          if (!hasLoading) setLoading(true);
-          const newOptions = await request(...dependValues);
-          setOptsRequest(newOptions);
-        } catch (error) {
-          setOptsRequest([]);
-        }
-        if (!hasLoading) setLoading(false);
-      })();
-    } else {
-      if (value !== void 0) {
-        form.setFieldValue(name, void 0);
-      }
-      // 防抖调用
-      if (!isClearDepends) {
-        if (!hasLoading) setLoading(true);
-        run(...dependValues);
-      }
-    }
-  }, [dependValues]);
+  useDeepUpdateEffect(() => {
+    if (!request || outOptions?.length || segmentedProps.options?.length) return;
+    form.setFieldValue(name, void 0);
+    if (!hasEmptyDepends) run(...dependValues);
+  }, dependValues);
 
   const segmentedOptions = useMemo(() => {
-    if (isClearDepends) {
-      return [];
-    } else if (optsRequest?.length > 0) {
-      return optsRequest;
-    } else if (opts.length > 0) {
-      return opts;
-    } else {
-      return [];
-    }
-  }, [isClearDepends, opts, optsRequest]);
+    const innerOptions = getOptions(outOptions, segmentedProps.options, data);
+    return innerOptions;
+  }, [outOptions, data, segmentedProps.options]);
+
+  useImperativeHandle(actionRef, () => requestRes);
 
   const handleChange = useMemoizedFn((val: SegmentedValue) => {
+    onChange?.(val);
     if (segmentedProps?.onChange) {
       segmentedProps?.onChange(val);
     }
-    onChange?.(val);
   });
 
   const SegmentedDom = (
-    //  @ts-ignore
     <Segmented
       {...restProps}
-      disabled={disabled ?? isClearDepends}
+      disabled={disabled ?? hasEmptyDepends}
       {...segmentedProps}
       options={segmentedOptions}
       value={value}
@@ -160,12 +99,8 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
     />
   );
   return (
-    <Spin
-      spinning={loading}
-      style={{ marginLeft: 40, width: 'fit-content' }}
-      {...outLoading}
-    >
-      {!isClearDepends ? SegmentedDom : notDependRender}
+    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
+      {!hasEmptyDepends ? SegmentedDom : notDependRender}
     </Spin>
   );
 };

@@ -11,15 +11,7 @@ const Demo1 = () => {
       }}
     >
       <LFormItemRate label="评分" name="rate1" required />
-      <LFormItemRate
-        label="半心"
-        name="rate2"
-        required
-        rateProps={{
-          allowHalf: true,
-          count: 7,
-        }}
-      />
+      <LFormItemRate label="半心" name="rate2" required count={7} allowHalf />
     </LForm>
   );
 };

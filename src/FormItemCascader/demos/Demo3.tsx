@@ -1,41 +1,8 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { LForm, LFormItemCascader } from 'lighting-design';
 import { awaitTime } from '../../_test';
-
-const options: any[] = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
+import china_city from './china_city.json';
+const options: any[] = china_city;
 
 const Index = () => {
   const [form] = LForm.useForm();
@@ -52,6 +19,13 @@ const Index = () => {
             return result.data;
           }
         }}
+        cascaderProps={{
+          fieldNames: {
+            label: 'name',
+            value: 'code',
+            children: 'children',
+          },
+        }}
       />
       <LFormItemCascader
         label="级联选择"
@@ -65,6 +39,13 @@ const Index = () => {
           if (result.success) {
             return result.data;
           }
+        }}
+        cascaderProps={{
+          fieldNames: {
+            label: 'name',
+            value: 'code',
+            children: 'children',
+          },
         }}
       />
     </LForm>

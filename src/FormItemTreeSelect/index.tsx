@@ -2,6 +2,7 @@ import type { SpinProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import type { LFormItemActionRef } from 'lighting-design/FormItemSelect';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
@@ -13,12 +14,7 @@ export interface LFormItemTreeSelectProps
   extends LFormItemProps,
     Pick<
       TreeSelectWrapperProps,
-      | 'treeData'
-      | 'request'
-      | 'treeSelectProps'
-      | 'debounceTime'
-      | 'treeCheckable'
-      | 'loadData'
+      'treeData' | 'request' | 'treeSelectProps' | 'debounceTime' | 'treeCheckable' | 'loadData'
     > {
   dependencies?: string[];
   /**
@@ -28,12 +24,35 @@ export interface LFormItemTreeSelectProps
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
    */
   spin?: SpinProps;
+  /**
+   *配置 request 时 useRequest 的返回值
+   *@author 李岚清 <https://github.com/llq0802>
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
+   *@version 2.1.24
+   */
+  actionRef?: React.MutableRefObject<LFormItemActionRef>;
+  /**
+   *ahook 的 request 的配置项
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.24
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
+   */
+  requestOptions?: Record<string, any>;
+  /**
+   *是否使用简单格式的 treeData
+   *@author 李岚清 <https://github.com/llq0802>
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
+   *@version 2.1.24
+   */
+  treeDataSimpleMode?: boolean;
 }
 
 const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
+  actionRef,
   required,
   treeData = emptyArray,
   treeCheckable = false,
+  treeDataSimpleMode = false,
   loadData,
   request,
   disabled,
@@ -57,6 +76,8 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
     <LFormItem required={required} _isSelectType {...restProps}>
       <TreeSelectWrapper
         disabled={disabled ?? formDisabled}
+        treeDataSimpleMode={treeDataSimpleMode}
+        actionRef={actionRef}
         placeholder={messagePlaceholder}
         dependencies={restProps?.dependencies}
         treeData={treeData}

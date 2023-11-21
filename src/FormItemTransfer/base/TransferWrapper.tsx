@@ -1,10 +1,4 @@
-import {
-  useDeepCompareEffect,
-  useLatest,
-  useMemoizedFn,
-  usePagination,
-  useRafState,
-} from 'ahooks';
+import { useDeepCompareEffect, useLatest, useMemoizedFn, usePagination, useRafState } from 'ahooks';
 import { ConfigProvider, Spin, Transfer } from 'antd';
 import type { TransferDirection } from 'antd/es/transfer';
 import zhCN from 'antd/locale/zh_CN';
@@ -58,7 +52,7 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
   const [opt, setOpt] = useRafState(() => options);
   const optRef = useLatest(opt); // 得到最新的值 防止闭包
 
-  const { loading, pagination: reqPagination } = usePagination(
+  const requestRes = usePagination(
     // @ts-ignore
     async (...args) => {
       if (options?.length) {
@@ -81,12 +75,15 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
       },
     },
   );
+  const { loading, pagination: reqPagination, mutate, data, ...rest } = requestRes;
 
   useImperativeHandle(actionRef, () => {
     return {
-      pagination: reqPagination,
+      ...rest,
       data: optRef.current,
-      setData: setOpt,
+      mutate: setOpt,
+      loading,
+      pagination,
     };
   });
 
@@ -98,11 +95,7 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
    * @return {void} 无返回值
    */
   const isDisabled = useMemoizedFn(
-    (
-      sourList: RecordType[],
-      targetList: RecordType[],
-      canCount: number,
-    ): void => {
+    (sourList: RecordType[], targetList: RecordType[], canCount: number): void => {
       // 设置disabled
       if (canCount > 0 && sourList.length >= canCount) {
         sourList.forEach((item: RecordType) => {
@@ -121,9 +114,7 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
   useDeepCompareEffect(() => {
     if (value?.length && limitMaxCount) {
       // 得到左侧数据
-      const sourceSelectedList = optRef.current.filter(
-        (item) => !value.includes(item[valueKey]),
-      );
+      const sourceSelectedList = optRef.current.filter((item) => !value.includes(item[valueKey]));
       const targetSelectedList = optRef.current
         .filter((item) => value.includes(item[valueKey]))
         .map((item) => ({ ...item, disabled: false }));
@@ -143,11 +134,7 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
   }, [options]);
 
   const onChange = useMemoizedFn(
-    (
-      nextTargetKeys: string[],
-      direction: TransferDirection,
-      moveKeys: string[],
-    ) => {
+    (nextTargetKeys: string[], direction: TransferDirection, moveKeys: string[]) => {
       if (limitMaxCount) {
         if (direction === 'left') {
           const newList = optRef.current.map((item) => {
@@ -185,8 +172,7 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
       if (!limitMaxCount || rightSelectedKeys?.length) return;
 
       // 得到可选择的个数: 减去右侧、左侧已选择的个数
-      const canSelectCount =
-        limitMaxCount - value.length - leftSelectedKeys.length;
+      const canSelectCount = limitMaxCount - value.length - leftSelectedKeys.length;
       // 此时左侧的数据
       const sourceSelectedList = optRef.current.filter(
         (item: RecordType) => ![...value].includes(item[valueKey]),
@@ -225,9 +211,7 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
           titles={['数据源', '已选择']}
           rowKey={(record: Record<string, any>) => record[valueKey]}
           dataSource={optRef.current}
-          render={(item: Record<string, any>) =>
-            item[labelKey] ?? item[valueKey]
-          }
+          render={(item: Record<string, any>) => item[labelKey] ?? item[valueKey]}
           {...transferProps}
           {...restProps}
           listStyle={{

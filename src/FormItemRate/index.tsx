@@ -1,19 +1,13 @@
-import type { SpinProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
-import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import type { RateWrapperProps } from './base/RateWrapper';
 import RateWrapper from './base/RateWrapper';
 
-export interface LFormItemRateProps
-  extends LFormItemProps,
-    Pick<RateWrapperProps, 'rateProps' | 'request'> {
-  dependencies?: string[];
-  debounceTime?: number;
+export interface LFormItemRateProps extends LFormItemProps, Pick<RateWrapperProps, 'rateProps'> {
   /**
    *总共的星数
    *@author 李岚清 <https://github.com/llq0802>
@@ -22,24 +16,21 @@ export interface LFormItemRateProps
    */
   count?: number;
   /**
-   *自定义 loading 效果
+   *是否需要半心
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.24
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemRateProps
    */
-  spin?: SpinProps;
+  allowHalf?: boolean;
 }
 
 const LFormItemRate: FC<LFormItemRateProps> = ({
-  request,
-  debounceTime,
   rateProps,
   required,
   disabled,
-  spin,
   size,
+  allowHalf,
   count = 5,
-  requestOptions = emptyObject,
   ...restProps
 }) => {
   const { disabled: formDisabled, size: formSize } = useContext(LFormContext);
@@ -67,16 +58,11 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   return (
     <LFormItem required={required} _isSelectType rules={rules} {...restProps}>
       <RateWrapper
-        name={restProps.name}
         size={size ?? formSize}
+        allowHalf={allowHalf}
         count={count}
-        dependencies={restProps?.dependencies}
         disabled={disabled ?? formDisabled}
-        outLoading={spin}
-        request={request}
-        debounceTime={debounceTime}
         rateProps={rateProps}
-        requestOptions={requestOptions}
       />
     </LFormItem>
   );
