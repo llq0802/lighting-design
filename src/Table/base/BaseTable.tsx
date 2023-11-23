@@ -249,12 +249,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
   // 表格分页页码丶排序等改变时触发
   const handleTableChange = useMemoizedFn((pagination, filters, sorter, extra) => {
-    console.log('pagination ', pagination);
-    console.log('filters ', filters);
-    console.log('sorter ', sorter);
-    console.log('extra ', extra);
-
     onChange?.(pagination, filters, sorter, extra);
+    if (extra.action !== 'paginate') return;
     if (hasFromItems) {
       const formValues = queryFormRef.current?.getFieldsValue();
       run(
