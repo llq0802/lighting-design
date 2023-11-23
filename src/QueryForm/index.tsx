@@ -92,12 +92,12 @@ export interface LQueryFormProps extends BaseFormProps {
 }
 
 const defualtColSpan = {
-  xs: 24,
-  sm: 24,
-  md: 12,
-  lg: 8,
-  xl: 6,
-  xxl: 6,
+  xs: 24, // 屏幕 < 576px 响应式栅格
+  sm: 24, // 屏幕 ≥ 576px 响应式栅格，
+  md: 12, // 屏幕 ≥ 768px 响应式栅格
+  lg: 8, // 屏幕 ≥ 992px 响应式栅格
+  xl: 8, // 屏幕 ≥ 1200px 响应式栅格
+  xxl: 6, // 屏幕 ≥ 1600px 响应式栅格
 };
 
 const submitterColStyle: CSSProperties = {
@@ -137,8 +137,7 @@ function LQueryForm(props: LQueryFormProps) {
       className={classnames(prefixCls, className)}
       contentRender={(formItemsDom, submitterDom) => {
         const enabledCollapse =
-          typeof showColsNumber === 'number' &&
-          showColsNumber < formItemsDom?.length;
+          typeof showColsNumber === 'number' && showColsNumber < formItemsDom?.length;
         const colSpans = !isSpace
           ? {
               ...defualtColSpan,
@@ -150,8 +149,7 @@ function LQueryForm(props: LQueryFormProps) {
           <Row gutter={gutter}>
             {formItemsDom?.map((itemDom: any, index: number) => {
               const { ownColSpans = {}, ...restItemProps } = itemDom.props;
-              const hidden =
-                collapsed && enabledCollapse && index >= showColsNumber;
+              const hidden = collapsed && enabledCollapse && index >= showColsNumber;
               return (
                 <Col
                   key={itemDom?.key || itemDom.name + index.toString()}
@@ -174,15 +172,10 @@ function LQueryForm(props: LQueryFormProps) {
                 justifyContent: `flex-${isApproachLastItem ? 'start' : 'end'}`,
               }}
             >
-              <LFormItem
-                colon={false}
-                className={classnames(`${prefixCls}-submitter`)}
-              >
+              <LFormItem colon={false} className={classnames(`${prefixCls}-submitter`)}>
                 <Space>
                   {submitterDom}
-                  {enabledCollapse && (
-                    <Collapse collapsed={collapsed} onToggle={setCollapsed} />
-                  )}
+                  {enabledCollapse && <Collapse collapsed={collapsed} onToggle={setCollapsed} />}
                 </Space>
               </LFormItem>
             </Col>

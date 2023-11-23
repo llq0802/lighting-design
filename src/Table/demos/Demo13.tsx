@@ -6,7 +6,6 @@ import type { CSSProperties, FC } from 'react';
 import { useRef } from 'react';
 import styles from './Demo13.module.less';
 import { columns, originData } from './service';
-console.log('styles===', styles);
 const formItems = [
   // 添加类名 修改样式
   <LFormItemInput key="1" name="input1" />,

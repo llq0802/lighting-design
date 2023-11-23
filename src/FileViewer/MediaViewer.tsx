@@ -8,11 +8,7 @@ interface MediaViewerProps {
   contentProps?: Record<string, any>;
 }
 
-const MediaViewer: FunctionComponent<MediaViewerProps> = ({
-  url,
-  mediaType,
-  contentProps,
-}) => {
+const MediaViewer: FunctionComponent<MediaViewerProps> = ({ url, mediaType, contentProps }) => {
   const mediaRef = useRef<HTMLVideoElement>();
 
   useEffect(() => {
@@ -29,10 +25,7 @@ const MediaViewer: FunctionComponent<MediaViewerProps> = ({
     src: url,
     controls: true,
     ...contentProps,
-    className: classnames(
-      `lightd-file-viewer-${mediaType}`,
-      contentProps?.className,
-    ),
+    className: classnames(`lightd-file-viewer-${mediaType}`, contentProps?.className),
     style: { width: '100%', ...contentProps?.style },
     ref: (evt) => {
       mediaRef.current = evt;

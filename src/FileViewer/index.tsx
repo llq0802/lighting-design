@@ -9,9 +9,7 @@ import FileView from './FileView';
 import FileViewerPictureCard from './PictureCard';
 import './index.less';
 
-export interface LFileViewerProps
-  extends ModalProps,
-    Omit<FileViewProps, 'url'> {
+export interface LFileViewerProps extends ModalProps, Omit<FileViewProps, 'url'> {
   /**
    * image 类型的配置
    *@author 李岚清 <https://github.com/llq0802>
@@ -113,7 +111,7 @@ function LFileViewer(props: LFileViewerProps) {
       title={fileName}
       centered
       maskClosable={false}
-      width={fileType === 'pdf' ? '90vw' : void 0}
+      width={fileType === 'pdf' ? '70vw' : void 0}
       footer={false}
       {...restProps}
       className={classnames('lightd-file-viewer', className)}

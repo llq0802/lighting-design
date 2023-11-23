@@ -60,10 +60,21 @@ import { LQueryForm } from 'lighting-design';
 | isSpace            | 是否水平紧凑模式 (`类似行盒元素依次排列，不足宽则会换行`)                                    | `boolean`                                              | `false`                                            |
 | isApproachLastItem | `重置 查询`按钮组是否紧挨着最后的表单项                                                      | `boolean`                                              | `false`                                            |
 | gutter             | 配置每一项的间隔                                                                             | `number\|[number,number]`                              | `16`                                               |
-| itemColProps       | 每个控件外层`Col组件`的栅格配置，`isSpace`为`false`时生效                                    | [ColProps](https://ant.design/components/grid-cn/#col) | `{ xs: 24, sm: 24, md: 12, lg: 8, xl: 6, xxl: 6 }` |
+| itemColProps       | 每个控件外层`Col组件`的栅格配置，`isSpace`为`false`时生效                                    | [ColProps](https://ant.design/components/grid-cn/#col) | `{ xs: 24, sm: 24, md: 12, lg: 8, xl: 8, xxl: 6 }` |
 | isCollapsed        | 默认状态下是否折叠超出的表单项                                                               | `boolean`                                              | `true`                                             |
 | showColsNumber     | `isCollapsed`为`true`时生效，显示的表单控件数量，不能超过控件的总数量，为`0`时不显示全部控件 | `number`                                               | `-`                                                |
 
 ## 支持响应式
 
-`isSpace` 为 `false` 时 下的 `itemColProps` 默认为 `{ xs: 24, sm: 24, md: 12, lg: 8, xl: 6, xxl: 6 }`，可以通过 `itemColProps` 修改。
+`isSpace` 为 `false` 时 下的 `itemColProps` 默认为 `{ xs: 24, sm: 24, md: 12, lg: 8, xl: 8, xxl: 6 }`，可以通过 `itemColProps` 修改。
+
+```js
+const itemColProps = {
+  xs: 24, // 屏幕 < 576px 响应式栅格
+  sm: 24, // 屏幕 ≥ 576px 响应式栅格，
+  md: 12, // 屏幕 ≥ 768px 响应式栅格
+  lg: 8, // 屏幕 ≥ 992px 响应式栅格
+  xl: 8, // 屏幕 ≥ 1200px 响应式栅格
+  xxl: 6, // 屏幕 ≥ 1600px 响应式栅格
+};
+```

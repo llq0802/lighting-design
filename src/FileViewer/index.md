@@ -62,12 +62,12 @@ import { LFileViewer } from 'lighting-design';
 
 > 默认关闭弹窗时会销毁当前预览的组件 可通过`Modal`的`destroyOnClose`属性改变
 
-| 参数         | 说明                                                                      | 类型                 | 默认值 |
-| ------------ | ------------------------------------------------------------------------- | -------------------- | ------ |
-| fileType     | 文件类型，目前仅支持 `'audio'` `'video'` `'pdf'` 等文件类型的预览         | `string`             | `-`    |
-| url          | 文件地址                                                                  | `string`             | `-`    |
-| fileName     | 文件名称，自动设置为 `antd Modal` 的标题，可以通过设置 `title` 自定义标题 | `string`             | `-`    |
-| contentProps | 传递给原生标签的 props 例如 `audio` `video` `video` `a`标签的原生属性     | `Record<string,any>` | `-`    |
+| 参数         | 说明                                                                                                 | 类型                 | 默认值 |
+| ------------ | ---------------------------------------------------------------------------------------------------- | -------------------- | ------ |
+| fileType     | 文件类型，目前仅支持 `'audio'` `'video'` `'pdf'` 等文件类型的预览                                    | `string`             | `-`    |
+| url          | 文件地址                                                                                             | `string`             | `-`    |
+| fileName     | 文件名称，自动设置为 `antd Modal` 的标题，可以通过设置 `title` 自定义标题                            | `string`             | `-`    |
+| contentProps | 传递给原生标签的 props, 例如 `audio` `video` `video` `a` `iframe`标签的 `style className onClick` 等 | `Record<string,any>` | `-`    |
 
 ### LFileViewer.PictureCard
 

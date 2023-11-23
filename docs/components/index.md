@@ -47,6 +47,7 @@ toc: content
 
 - [LFormItem] - 高级表单项
 - [LFormItemInput] - 高级输入框
+- [LFormItemMentions] - 高级@提及输入框
 - [LFormItemNumber] - 高级数字输入框
 - [LFormItemNumberRange] - 高级数字范围输入框
 - [LFormItemPassword] - 高级密码框
@@ -78,6 +79,7 @@ toc: content
 - [useDeepUpdateEffect] - 深度依赖项更新时的副作用
 - [useLazyLoadImage] - 性能更好的懒加载图片
 
+[LFormItemMentions]: /components/form-item-mentions
 [LECharts]: /components/Echarts
 [LEllipsisText]: /components/Ellipsis-Text
 [LEditTable]: /components/edit-table
