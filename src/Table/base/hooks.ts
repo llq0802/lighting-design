@@ -179,3 +179,24 @@ export function useMergeLoading(requestLoading, outLoading) {
     };
   }, [typeof outLoading === 'boolean' ? outLoading : outLoading?.spinning, requestLoading]);
 }
+/**
+ * 合并toolbar的配置
+ * @param requestLoading
+ * @param outLoading
+ * @returns
+ */
+export function useMergeToolbarActionConfig(outToolbarActionConfig) {
+  return useMemo(() => {
+    if (!outToolbarActionConfig) {
+      return false;
+    }
+    return {
+      showReload: true,
+      showColumnSetting: true,
+      showDensity: true,
+      showFullscreen: true,
+      ...outToolbarActionConfig,
+    };
+    // JSON序列化时 当含有 undefined , 函数 日期对象会有问题 这儿根据实际情况可以使用
+  }, [JSON.stringify(outToolbarActionConfig)]);
+}

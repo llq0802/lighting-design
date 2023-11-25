@@ -175,7 +175,7 @@ const LFormItem: FC<LFormItemProps> & {
 
   const itemRules = useMemo(
     () =>
-      rules && rules?.length > 0
+      Array.isArray(rules) && rules.length > 0
         ? rules
         : [
             {

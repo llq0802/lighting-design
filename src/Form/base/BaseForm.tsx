@@ -2,6 +2,7 @@ import { useMemoizedFn, useRafState, useUpdateEffect, useUpdateLayoutEffect } fr
 import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
 import { Children, createContext, useImperativeHandle, useMemo, useRef } from 'react';
 import { getFormInitValues, isFunction, uniqueId } from '../../_utils';
@@ -124,7 +125,7 @@ export const LFormContext = createContext<{
 function BaseForm(props: BaseFormProps): JSX.Element {
   const {
     _lformRef,
-    allFields: fields,
+    allFields: fields = emptyArray,
 
     labelWidth = 'auto',
     contentRender,
@@ -174,7 +175,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const formItems = Children.toArray(children);
 
   const submitterProps = useMemo(
-    () => (typeof submitter === 'boolean' || !submitter ? {} : submitter),
+    () => (typeof submitter === 'boolean' || !submitter ? emptyObject : submitter),
     [submitter],
   );
 
@@ -189,10 +190,8 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     [formItems, fields?.join(''), submitter, initialValues],
   );
 
-  useImperativeHandle(_lformRef, () => {
-    // 因为 initFieldValues 是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到
-    return initFieldValues;
-  });
+  // 因为 initFieldValues 是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到
+  useImperativeHandle(_lformRef, () => initFieldValues);
 
   const labelColProps = useMemo(() => {
     const labelFlex =
@@ -244,7 +243,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         }}
       />
     ) : null;
-  }, [initFieldValues, isReady, loading, submitter, submitterProps, isEnterSubmit]);
+  }, [initFieldValues, isReady, loading, !!submitter, submitterProps, isEnterSubmit]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)
@@ -294,11 +293,3 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 }
 
 export default BaseForm;
-
-// rules: [
-//   {
-//     pattern: /^(?!0)\d{1,3}$/,
-//     message: '只能输入1~999整数',
-//     required: true
-//   },
-// ],

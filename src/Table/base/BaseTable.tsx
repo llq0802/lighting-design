@@ -15,6 +15,7 @@ import {
   useFillSpace,
   useMergeLoading,
   useMergePagination,
+  useMergeToolbarActionConfig,
   useTableColumn,
   useTableSize,
 } from './hooks';
@@ -118,19 +119,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
 
   // 合并内置表格工具栏配置
-  const toolbarActionConfig = useMemo(() => {
-    if (!outToolbarActionConfig) {
-      return false;
-    }
-    return {
-      showReload: true,
-      showColumnSetting: true,
-      showDensity: true,
-      showFullscreen: true,
-      ...outToolbarActionConfig,
-    };
-    // JSON序列化时 当含有 undefined , 函数 日期对象会有问题 这儿根据实际情况可以使用
-  }, [JSON.stringify(outToolbarActionConfig)]);
+  const toolbarActionConfig = useMergeToolbarActionConfig(outToolbarActionConfig);
 
   // 根标签全屏样式
   const rootDefaultStyle = useMemo(
@@ -139,7 +128,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   );
 
   // 是否有查询框组
-  const hasFromItems = useMemo(() => formItems?.length > 0, [formItems]);
+  const hasFromItems = useMemo(() => formItems?.length > 0, [formItems?.length]);
 
   // 合并分页
   const { outPaginationCurrent, outPaginationPageSize } = useMergePagination(outPagination);
@@ -355,7 +344,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   }, [
     currentSize,
     isReady,
-    currentLoading.spinning,
+    currentLoading?.spinning,
     formCardProps,
     formInitialValues,
     formItems,

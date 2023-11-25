@@ -1,4 +1,4 @@
-import { emptyArray } from 'lighting-design/constants';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { Children, useMemo, useRef } from 'react';
 import rfdc from 'rfdc';
 
@@ -201,11 +201,11 @@ export const getFormInitValues = ({
   initialValues,
   submitter,
 }: GetFormInitValuesOptions) => {
-  let ret: Record<string, any> = {};
   if (submitter === false || submitter?.isAntdReset) {
-    return ret;
+    return emptyObject;
   }
 
+  let ret: Record<string, any> = {};
   if (fields?.length) {
     fields.forEach((field: any) => {
       if (field && typeof field === 'string') {
