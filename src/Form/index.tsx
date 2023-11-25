@@ -1,4 +1,5 @@
 import { Form, Space } from 'antd';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC, ReactElement, ReactNode } from 'react';
 import LFormItem from '../FormItem';
 import type { BaseFormProps } from './base/BaseForm';
@@ -17,16 +18,14 @@ const LForm: FC<LFormProps> & {
   useFormInstance: typeof Form.useFormInstance;
   useWatch: typeof Form.useWatch;
 } = ({ submitter, ...restProps }) => {
-  const submitterProps =
-    typeof submitter === 'boolean' || !submitter ? {} : submitter;
+  const submitterProps = typeof submitter === 'boolean' || !submitter ? emptyObject : submitter;
   const { render, ...restSubmitterProps } = submitterProps;
   const submitterConfig =
-    typeof submitter === 'undefined' || submitter
+    submitter === void 0 || submitter
       ? {
           render: (dom: ReactNode) => {
             //  默认配置的dom
-            const newDom =
-              Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom;
+            const newDom = Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom;
 
             return (
               <Form.Item
@@ -35,9 +34,7 @@ const LForm: FC<LFormProps> & {
                 style={{
                   marginBottom: 0,
                   paddingLeft:
-                    typeof submitter?.buttonAlign === 'number'
-                      ? `${submitter?.buttonAlign}px`
-                      : 0,
+                    typeof submitter?.buttonAlign === 'number' ? `${submitter?.buttonAlign}px` : 0,
                 }}
                 wrapperCol={submitterProps?.wrapperCol}
               >
@@ -50,11 +47,7 @@ const LForm: FC<LFormProps> & {
                         : 'initial',
                   }}
                 >
-                  {render ? (
-                    <>{render(newDom as ReactElement[], submitterProps)}</>
-                  ) : (
-                    newDom
-                  )}
+                  {render ? <>{render(newDom as ReactElement[], submitterProps)}</> : newDom}
                 </div>
               </Form.Item>
             );

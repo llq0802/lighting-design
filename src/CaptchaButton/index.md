@@ -17,11 +17,11 @@ toc: content
 
 <code src='./demos/Demo3.tsx'></code>
 
-### 3s 后再倒计时
+### 3s 后再倒计
 
 <code src='./demos/Demo2.tsx'></code>
 
-<!-- <code src='./demos/Demo6.tsx'></code> -->
+<!-- <code src='./demos/Demo7.tsx'></code> -->
 
 ## API
 

@@ -104,6 +104,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     }
     return ret;
   }, [
+    isReady,
     isEnterSubmit,
     resetButtonProps,
     resetPreventDefault,

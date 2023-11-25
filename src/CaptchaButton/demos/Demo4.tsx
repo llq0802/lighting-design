@@ -9,7 +9,7 @@
 //   const [count2, setCount2] = useState(0);
 
 import { Button } from 'antd';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 
 //   useEffect(() => {
 //     // document.body.addEventListener('click', () => {
@@ -97,6 +97,7 @@ import { memo, useCallback, useMemo, useState } from 'react';
 function AAA() {
   const [count, setCount] = useState(0);
   // console.log(' AAA');
+  const refObj = useRef({});
 
   const info = useMemo(() => {
     return {
@@ -120,10 +121,6 @@ function AAA() {
   //   handle: () => {},
   // };
 
-  const MemoCCC = useMemo(() => {
-    return <CCC></CCC>;
-  }, [() => {}]);
-
   return (
     <div>
       <div>AAA 组件 {count}</div>
@@ -135,8 +132,7 @@ function AAA() {
       {/* <BBB age={25} info={{}} handle={() => {}}></BBB> */}
       <BBB age={25} info={info} handle={handle}></BBB>
       {/* <BBB {...props}></BBB> */}
-      {/* <CCC></CCC> */}
-      {MemoCCC}
+      <CCC refObj={refObj}></CCC>
     </div>
   );
 }
@@ -146,10 +142,11 @@ const BBB = memo(function (props) {
 
   return <div>BBB 组件</div>;
 });
-const CCC = function (props) {
+
+const CCC = memo(function (props) {
   console.log(' CCC', props);
 
   return <div>CCC 组件</div>;
-};
+});
 
 export default AAA;
