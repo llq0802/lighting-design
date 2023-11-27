@@ -64,10 +64,10 @@ export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
  * @param LCaptchaButtonProps
  * @returns
  */
-const LCaptchaButton: ForwardRefRenderFunction<
-  RefObject<HTMLInputElement>,
-  LLCaptchaButtonProps
-> = (props, ref) => {
+const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCaptchaButtonProps> = (
+  props,
+  ref,
+) => {
   const {
     start = true,
     second = 60,
@@ -80,9 +80,9 @@ const LCaptchaButton: ForwardRefRenderFunction<
     ...buttonProps
   } = props;
 
-  const [targetDate, setTargetDate] = useSessionStorageState<
-    number | undefined
-  >(cacheKey, { defaultValue: 0 });
+  const [targetDate, setTargetDate] = useSessionStorageState<number | undefined>(cacheKey, {
+    defaultValue: 0,
+  });
 
   const [countdown] = useCountDown({
     targetDate,

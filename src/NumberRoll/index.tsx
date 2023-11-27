@@ -1,17 +1,9 @@
 import { useMemoizedFn } from 'ahooks';
 import classnames from 'classnames';
-import type {
-  CSSProperties,
-  DOMAttributes,
-  FC,
-  ReactElement,
-  ReactNode,
-} from 'react';
+import type { CSSProperties, DOMAttributes, FC, ReactElement, ReactNode } from 'react';
 import React, { useEffect, useRef } from 'react';
 import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
-import ItemChildren, {
-  NumberRoll_NumberArray,
-} from './components/ItemChildren';
+import ItemChildren, { NumberRoll_NumberArray } from './components/ItemChildren';
 import './index.less';
 
 export interface LNumberRollProps {
@@ -117,66 +109,57 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
 }) => {
   const domRef = useRef<HTMLDivElement>(null);
 
-  const getNumDom = useMemoizedFn(
-    (newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
-      const decimalFlag = newStr.join('').indexOf('.') === -1; // 判断是否没有小数
-      const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
-      const numberDom: any[] = []; // 整数位数
-      newStr.forEach((o, i) => {
-        if (decimalFlag) {
-          // 设置分隔符 不是第0个，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
-          if (
-            i !== 0 &&
-            (newStr.length - i) % 3 === 0 &&
-            symbol !== '' &&
-            symbol !== '.' &&
-            o !== '.'
-          ) {
-            numberDom.push((key: React.Key | null | undefined) => (
-              <div className={`${prefixCls}-animate-dot`} key={key}>
-                <span>{symbol}</span>
-              </div>
-            ));
-          }
-        } else {
-          // 设置分隔符 不是第0个，必须整数，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
-          if (
-            i !== 0 &&
-            i <= newStr.length - decimal &&
-            (newStr.length - decimal - i) % 3 === 0 &&
-            symbol !== '' &&
-            symbol !== '.' &&
-            o !== '.'
-          ) {
-            numberDom.push((key: React.Key | null | undefined) => (
-              <div className={`${prefixCls}-animate-dot`} key={key}>
-                <span>{symbol}</span>
-              </div>
-            ));
-          }
-        }
-
-        if (type === 'date') {
-          numberDom.push((key: React.Key) => (
-            <DataChildren num={o} key={key} />
-          ));
-        } else {
-          numberDom.push((key: React.Key) => (
-            <ItemChildren num={o} key={key} />
+  const getNumDom = useMemoizedFn((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
+    const decimalFlag = newStr.join('').indexOf('.') === -1; // 判断是否没有小数
+    const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
+    const numberDom: any[] = []; // 整数位数
+    newStr.forEach((o, i) => {
+      if (decimalFlag) {
+        // 设置分隔符 不是第0个，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
+        if (
+          i !== 0 &&
+          (newStr.length - i) % 3 === 0 &&
+          symbol !== '' &&
+          symbol !== '.' &&
+          o !== '.'
+        ) {
+          numberDom.push((key: React.Key | null | undefined) => (
+            <div className={`${prefixCls}-animate-dot`} key={key}>
+              <span>{symbol}</span>
+            </div>
           ));
         }
-      });
+      } else {
+        // 设置分隔符 不是第0个，必须整数，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
+        if (
+          i !== 0 &&
+          i <= newStr.length - decimal &&
+          (newStr.length - decimal - i) % 3 === 0 &&
+          symbol !== '' &&
+          symbol !== '.' &&
+          o !== '.'
+        ) {
+          numberDom.push((key: React.Key | null | undefined) => (
+            <div className={`${prefixCls}-animate-dot`} key={key}>
+              <span>{symbol}</span>
+            </div>
+          ));
+        }
+      }
 
-      return (
-        <div
-          className={`${prefixCls}-animate`}
-          style={{ transform: `scale(${scale})`, height }}
-        >
-          {numberDom.map((item, index: number) => item(index))}
-        </div>
-      );
-    },
-  );
+      if (type === 'date') {
+        numberDom.push((key: React.Key) => <DataChildren num={o} key={key} />);
+      } else {
+        numberDom.push((key: React.Key) => <ItemChildren num={o} key={key} />);
+      }
+    });
+
+    return (
+      <div className={`${prefixCls}-animate`} style={{ transform: `scale(${scale})`, height }}>
+        {numberDom.map((item, index: number) => item(index))}
+      </div>
+    );
+  });
 
   // 将数字,字符串转换为字符串数组，如果有最小位数则往前拼接“0”
   const valToArr = useMemoizedFn((val: number | any): string[] => {
@@ -199,7 +182,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
       try {
         newStr = val.toFixed(dot).split('');
       } catch (error) {
-        // console.error(error);
+        console.error(error);
       }
     }
 
@@ -215,9 +198,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
 
   // 设置动画number类型
   const loadAnimateNumer = useMemoizedFn(() => {
-    const domList = domRef.current!.querySelectorAll(
-      `.${prefixCls}-animate-dom`,
-    );
+    const domList = domRef.current!.querySelectorAll(`.${prefixCls}-animate-dom`);
     if (!domList) return;
     for (const itemDom of [...(domList as any)]) {
       const dataNum = itemDom.getAttribute('data-num') || 0;
@@ -231,9 +212,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
 
   // 设置动画date类型
   const loadAnimateDate = useMemoizedFn(() => {
-    const domList = domRef.current!.querySelectorAll(
-      `.${prefixCls}-animate-dom`,
-    );
+    const domList = domRef.current!.querySelectorAll(`.${prefixCls}-animate-dom`);
 
     if (!domList) return;
     for (const itemDom of [...(domList as any)]) {
@@ -250,9 +229,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
           : -dataNum * _height;
 
       itemStyle.transform = `translateY(${y}px)`;
-      itemStyle.transition = `${
-        dataNum === ':' || dataNum === ' ' ? 0 : speed / 1000
-      }s`;
+      itemStyle.transition = `${dataNum === ':' || dataNum === ' ' ? 0 : speed / 1000}s`;
     }
   });
 
@@ -272,11 +249,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
   }, [value]);
 
   return (
-    <div
-      className={classnames(prefixCls, className)}
-      style={style}
-      ref={domRef}
-    >
+    <div className={classnames(prefixCls, className)} style={style} ref={domRef}>
       {getNumDom(type === 'date' ? String(value).split('') : valToArr(value))}
     </div>
   );

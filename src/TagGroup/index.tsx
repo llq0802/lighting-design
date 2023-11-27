@@ -3,7 +3,7 @@ import { Tag } from 'antd';
 import classnames from 'classnames';
 import type { ValueType } from 'lighting-design/CardGroup';
 import { emptyArray } from 'lighting-design/constants';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 export type LTagGroupOptions = {
   label: ReactNode;
@@ -40,6 +40,14 @@ export interface LTagGroupProps {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
    */
   className?: string;
+  /**
+   * 容器样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.24
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
+   */
+  style?: CSSProperties;
+
   /**
    *  每一项的类名
    *@author 李岚清 <https://github.com/llq0802>
@@ -103,13 +111,14 @@ const { CheckableTag } = Tag;
 
 export default function LTagGroup(props: LTagGroupProps) {
   const {
+    style,
     className,
     itemClassName,
-    allValue = 'all',
-    multiple,
     options = emptyArray,
-    showAllChecked = true,
+    multiple = false,
+    showAllChecked = false,
     allCheckedText = '全部',
+    allValue = 'all',
     disabled,
     cancelable = false,
   } = props;
@@ -118,18 +127,14 @@ export default function LTagGroup(props: LTagGroupProps) {
     defaultValue: multiple ? [] : void 0,
   });
 
-  // 如果是多选，且没有默认值，则默认值视为空数组
-  // if (multiple && value === undefined) {
-  //   value=[]
-  // }
-
   // 是否是多选
   const isMultiple = multiple;
 
-  // 是否是空值
-  const isEmpty = isMultiple
-    ? value?.length === options.length
-    : (value as unknown as string) === allValue;
+  // 是否全选
+  const isAllChecked =
+    isMultiple && Array.isArray(value)
+      ? value?.length === options.length
+      : (value as unknown as string) === allValue;
 
   const triggerChange = useMemoizedFn((newValue: any) => {
     if (onChange) {
@@ -170,7 +175,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     let newValue: any;
     // 选中时
     if (checked) {
-      if (isMultiple) {
+      if (isMultiple && Array.isArray(value)) {
         newValue = [...(value || []), curItem.value];
       } else {
         newValue = curItem.value;
@@ -179,7 +184,7 @@ export default function LTagGroup(props: LTagGroupProps) {
       triggerChange(newValue);
     } else {
       // 没有选中时
-      if (isMultiple) {
+      if (isMultiple && Array.isArray(value)) {
         newValue = value?.filter((v: any) => v !== curItem.value);
         triggerChange(newValue);
       } else {
@@ -192,11 +197,11 @@ export default function LTagGroup(props: LTagGroupProps) {
   });
 
   return (
-    <span className={classnames(prefixCls, className)}>
+    <span className={classnames(prefixCls, className)} style={style}>
       {showAllChecked && (
         <CheckableTag
           key="all"
-          checked={isEmpty}
+          checked={isAllChecked}
           onChange={handleAllSelect}
           className={classnames(`${prefixCls}-item-all`, itemClassName)}
         >
