@@ -198,5 +198,9 @@ export function useMergeToolbarActionConfig(outToolbarActionConfig) {
       ...outToolbarActionConfig,
     };
     // JSON序列化时 当含有 undefined , 函数 日期对象会有问题 这儿根据实际情况可以使用
-  }, [JSON.stringify(outToolbarActionConfig)]);
+  }, [
+    JSON.stringify(outToolbarActionConfig),
+    outToolbarActionConfig?.onColumnIconChange,
+    outToolbarActionConfig?.onReloadIconChange,
+  ]);
 }

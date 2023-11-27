@@ -1,11 +1,11 @@
-import { useMemoizedFn, useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
+import { useMemoizedFn, useUpdateEffect } from 'ahooks';
 import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
 import { Children, createContext, useImperativeHandle, useMemo, useRef } from 'react';
-import { getFormInitValues, isFunction, uniqueId } from '../../_utils';
+import { getFormInitValues, isFunction, uniqueId, useLoading } from '../../_utils';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
@@ -117,7 +117,7 @@ export const LFormContext = createContext<{
   size?: string;
 }>({
   layout: 'horizontal',
-  labelColProps: {},
+  labelColProps: emptyObject,
   disabled: void 0,
   size: void 0,
 });
@@ -154,21 +154,16 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
-  const [loading, setLoading] = useRafState(() => outLoading);
-  const formId = useMemo(() => name || `${uniqueId('lightd-form')}`, [name]);
-
-  useUpdateLayoutEffect(() => {
-    setLoading(outLoading);
-  }, [outLoading]);
+  const formId = useMemo(() => name || uniqueId('lightd-form'), [name]);
+  const [loading, setLoading] = useLoading(outLoading);
 
   useUpdateEffect(() => {
     // 准备完成后，重新设置初始值
     if (isReady) {
       // 动态设置表单的初始值
       formRef.current?.setFieldsValue({ ...initialValues });
-      // resetFields 会重置整个 Field，
+      // formRef.current?.resetFields?.() 会重置整个 Field，
       // 因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
-      // formRef.current?.resetFields?.();
     }
   }, [isReady]);
 
@@ -187,7 +182,13 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         initialValues,
         submitter,
       }),
-    [formItems, fields?.join(''), submitter, initialValues],
+    [
+      formItems,
+      fields?.join(''),
+      JSON.stringify(submitter),
+      (submitter as LFormSubmitterProps)?.render,
+      initialValues,
+    ],
   );
 
   // 因为 initFieldValues 是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到
@@ -197,7 +198,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     const labelFlex =
       layout !== 'vertical' && labelWidth && labelWidth !== 'auto'
         ? { flex: `0 0 ${labelWidth}px` }
-        : {};
+        : emptyObject;
     return {
       ...labelFlex,
       ...labelCol,
@@ -274,7 +275,6 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         className={classnames(prefixCls, className)}
         onFinish={handleOnFinish}
         onValuesChange={innerOnValuesChange}
-        // onKeyPress={onKeyPress}
         {...restProps}
       >
         <Form.Item noStyle shouldUpdate>

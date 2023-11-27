@@ -2,6 +2,7 @@ import type { ColProps, FormItemProps } from 'antd';
 import { Form } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import classnames from 'classnames';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement, useContext, useMemo } from 'react';
 import { LFormContext } from '../../Form/base/BaseForm';
@@ -202,7 +203,7 @@ const LFormItem: FC<LFormItemProps> & {
     const labelFlex =
       layout !== 'vertical' && labelWidth && labelWidth !== 'auto'
         ? { flex: `0 0 ${labelWidth}px` }
-        : {};
+        : emptyObject;
     return {
       ...formLabelColProps,
       ...labelFlex,

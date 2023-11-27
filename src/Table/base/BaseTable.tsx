@@ -136,7 +136,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // useRequest请求
   const {
     // refresh,
-    // params,
+    params,
     data,
     run,
     loading: requestLoading,
@@ -199,7 +199,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         {
           current: 1,
           pageSize: paginationAction?.pageSize || outPaginationPageSize,
-          formValues: formValues,
+          formValues,
         },
         type,
       );
@@ -240,13 +240,14 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const handleTableChange = useMemoizedFn((pagination, filters, sorter, extra) => {
     onChange?.(pagination, filters, sorter, extra);
     if (extra.action !== 'paginate') return;
+
     if (hasFromItems) {
       const formValues = queryFormRef.current?.getFieldsValue();
       run(
         {
           current: pagination.current || 1,
-          pageSize: pagination.pageSize,
-          formValues: formValues,
+          pageSize: pagination.pageSize || 10,
+          formValues,
         },
         'onReload',
       );

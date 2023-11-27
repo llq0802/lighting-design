@@ -1,3 +1,4 @@
+import { useRafState, useUpdateLayoutEffect } from 'ahooks';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { Children, useMemo, useRef } from 'react';
 import rfdc from 'rfdc';
@@ -202,6 +203,9 @@ export const getFormInitValues = ({
   submitter,
 }: GetFormInitValuesOptions) => {
   if (submitter === false || submitter?.isAntdReset) {
+    if (initialValues) {
+      return initialValues;
+    }
     return emptyObject;
   }
 
@@ -349,4 +353,17 @@ export const getOptions = (opt1: any[] = [], opt2: any[] = [], data?: any[] | un
     return data;
   }
   return emptyArray;
+};
+
+/**
+ * 设置与监听loading
+ * @param {boolean} outLoading 初始值 loading
+ * @return
+ */
+export const useLoading = (
+  outLoading: boolean,
+): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
+  const [loading, setLoading] = useRafState(() => outLoading);
+  useUpdateLayoutEffect(() => setLoading(outLoading), [outLoading]);
+  return [loading, setLoading];
 };

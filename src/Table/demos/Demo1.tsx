@@ -94,11 +94,7 @@ const Demo1: FC = () => {
         }}
       />
       {/* 如果没有使用表格的全屏toolbarActionConfig.showFullscreen ，就不用包裹 ConfigProvider */}
-      <ConfigProvider
-        getPopupContainer={() =>
-          tableRef.current?.rootRef.current || document.body
-        }
-      >
+      <ConfigProvider getPopupContainer={() => tableRef.current?.rootRef.current || document.body}>
         <AddEditModal
           open={open}
           onOpenChange={setOpen}
