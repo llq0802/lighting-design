@@ -12,14 +12,9 @@ import './styles.less';
 export const LIGHTD_CARD = 'lightd-card';
 
 export declare interface SearchFormProps extends LQueryFormProps {
-  formItems?: Exclude<
-    ReactNode,
-    string | number | boolean | null | undefined
-  >[];
+  formItems?: Exclude<ReactNode, string | number | boolean | null | undefined>[];
   cardProps?: CardProps;
-  ref?:
-    | React.MutableRefObject<FormInstance | undefined>
-    | ((instance: FormInstance<any>) => void);
+  ref?: React.MutableRefObject<FormInstance | undefined> | ((instance: FormInstance<any>) => void);
 }
 
 const SearchForm = forwardRef(
@@ -37,10 +32,7 @@ const SearchForm = forwardRef(
   ) => {
     const [form] = LForm.useForm();
     useImperativeHandle(ref, () => form);
-    const searchFormId = useMemo(
-      () => name || uniqueId('lightd-table-search-form'),
-      [name],
-    );
+    const searchFormId = useMemo(() => name || uniqueId('lightd-table-search-form'), [name]);
 
     const dom = useMemo(() => {
       if (items?.length <= 0) {
@@ -48,10 +40,7 @@ const SearchForm = forwardRef(
       }
       return items?.map((item: any, index: number) =>
         cloneElement(item, {
-          key:
-            item?.key ||
-            item?.props?.key ||
-            item?.props?.name + index.toString(),
+          key: item?.key || item?.props?.key || item?.props?.name + index.toString(),
         }),
       );
     }, [items]);
@@ -64,14 +53,8 @@ const SearchForm = forwardRef(
         bordered={false}
         {...cardProps}
         className={classNames(`${LIGHTD_CARD}`, cardProps?.className)}
-        style={{
-          marginBottom: 16,
-          ...cardProps?.style,
-        }}
-        bodyStyle={{
-          paddingBottom: 0,
-          ...cardProps?.bodyStyle,
-        }}
+        style={{ marginBottom: 16, ...cardProps?.style }}
+        bodyStyle={{ paddingBottom: 0, ...cardProps?.bodyStyle }}
       >
         <LQueryForm
           form={form}

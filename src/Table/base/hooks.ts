@@ -76,7 +76,7 @@ export function useTableColumn({ contentRender, isSort, paginationAction, column
       const sortColumn = {
         title: '序号',
         align: 'center',
-        dataIndex: '_SORT_NUM_COLUMN_',
+        dataIndex: '_SERIAL_NUMNER_COLUMN_',
         width: typeof isSort === 'boolean' ? 80 : isSort?.width || 80,
         render,
       };
@@ -108,7 +108,7 @@ export function useTableColumn({ contentRender, isSort, paginationAction, column
 
     const sortColumnKeys = columnKeys.toSorted(
       (a: string, b: string) =>
-        parseInt(a?.split('-')?.at(-1) ?? '0') - parseInt(b?.split('-')?.at(-1) ?? '0'),
+        Number(a?.split('-')?.at(-1) ?? '0') - Number(b?.split('-')?.at(-1) ?? '0'),
     );
     sortColumnKeys.forEach((key: string) => {
       const columnItem = outColumns.find(
@@ -198,9 +198,5 @@ export function useMergeToolbarActionConfig(outToolbarActionConfig) {
       ...outToolbarActionConfig,
     };
     // JSON序列化时 当含有 undefined , 函数 日期对象会有问题 这儿根据实际情况可以使用
-  }, [
-    JSON.stringify(outToolbarActionConfig),
-    outToolbarActionConfig?.onColumnIconChange,
-    outToolbarActionConfig?.onReloadIconChange,
-  ]);
+  }, [JSON.stringify(outToolbarActionConfig)]);
 }

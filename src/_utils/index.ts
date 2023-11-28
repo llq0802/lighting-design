@@ -203,7 +203,7 @@ export const getFormInitValues = ({
   submitter,
 }: GetFormInitValuesOptions) => {
   if (submitter === false || submitter?.isAntdReset) {
-    if (initialValues) {
+    if (initialValues && Object.keys(initialValues).length) {
       return initialValues;
     }
     return emptyObject;
@@ -279,9 +279,8 @@ export const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
  * @param i 索引
  * @return key数组
  */
-export const getTableColumnsKey = (col: Record<string, any>, i: number) => {
-  return `${col?.dataIndex || ''}-${col.key || ''}-${i}`;
-};
+export const getTableColumnsKey = (col: Record<string, any>, i: number) =>
+  `${col?.dataIndex || ''}-${col.key || ''}-${i}`;
 
 /**
  * rem宽度适配计算

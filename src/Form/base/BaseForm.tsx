@@ -171,7 +171,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 
   const submitterProps = useMemo(
     () => (typeof submitter === 'boolean' || !submitter ? emptyObject : submitter),
-    [submitter],
+    [JSON.stringify(submitter), (submitter as LFormSubmitterProps)?.render],
   );
 
   const initFieldValues = useMemo(
@@ -187,11 +187,11 @@ function BaseForm(props: BaseFormProps): JSX.Element {
       fields?.join(''),
       JSON.stringify(submitter),
       (submitter as LFormSubmitterProps)?.render,
-      initialValues,
+      JSON.stringify(initialValues),
     ],
   );
 
-  // 因为 initFieldValues 是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到
+  // 因为 initFieldValues 是上一次的初始值，在 BaseForm 的父组件中需要手动更新一次组件才能获取到
   useImperativeHandle(_lformRef, () => initFieldValues);
 
   const labelColProps = useMemo(() => {
@@ -207,7 +207,6 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 
   const handleOnFinish = useMemoizedFn(async (values) => {
     if (!isFunction(onFinish)) return;
-
     const formValues = transformValues ? transformValues(values) ?? values : values;
     const ret: unknown = onFinish?.(formValues);
     if (ret instanceof Promise) {
