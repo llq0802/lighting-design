@@ -203,7 +203,7 @@ export const getFormInitValues = ({
   submitter,
 }: GetFormInitValuesOptions) => {
   if (submitter === false || submitter?.isAntdReset) {
-    if (initialValues && Object.keys(initialValues).length) {
+    if (initialValues) {
       return initialValues;
     }
     return emptyObject;
