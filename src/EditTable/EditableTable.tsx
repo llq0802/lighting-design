@@ -1,34 +1,15 @@
-import {
-  useControllableValue,
-  useDeepCompareEffect,
-  useMemoizedFn,
-} from 'ahooks';
+import { useControllableValue, useDeepCompareEffect, useMemoizedFn } from 'ahooks';
 import type { TableProps } from 'antd';
 import classnames from 'classnames';
 import type { LFormProps } from 'lighting-design/Form';
 import LForm from 'lighting-design/Form';
 import type { LFormItemProps } from 'lighting-design/FormItem';
 import BaseTable from 'lighting-design/Table/base/BaseTable';
-import type {
-  LTableInstance,
-  LTableProps,
-} from 'lighting-design/Table/base/types';
+import type { LTableInstance, LTableProps } from 'lighting-design/Table/base/types';
 import { isFunction, uniqueId, useIsFirstRender } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
-import type {
-  Dispatch,
-  Key,
-  MutableRefObject,
-  ReactElement,
-  SetStateAction,
-} from 'react';
-import React, {
-  cloneElement,
-  isValidElement,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-} from 'react';
+import type { Dispatch, Key, MutableRefObject, ReactElement, SetStateAction } from 'react';
+import React, { cloneElement, isValidElement, useImperativeHandle, useMemo, useRef } from 'react';
 
 const getRowKey = (rowKey: any) => {
   if (isFunction(rowKey)) {
@@ -139,7 +120,7 @@ export type LEditTableProps = {
    * @param value 当前行的表单值
    * @param index  索引
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.24
+   * @version 2.1.25
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   onValuesChange?: (
@@ -151,32 +132,28 @@ export type LEditTableProps = {
   /**
    * 主键 id 必须是字符串类型
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.24
+   * @version 2.1.25
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   rowKey: string;
   /**
    * 编辑表格的配置项
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.24
+   * @version 2.1.25
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   editTableOptions?: EditTableOptions;
   /**
    * 编辑表格的列配置 多了 editable属性  getEditable方法  用于配置每一项表单项
    * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.24
+   * @version 2.1.25
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   columns: TableProps<any>['columns'] & {
     /** 为false此项不能编辑 ,  只能为 LFormItemXXX 或 Form.Item */
     editable?: ReactElement;
     /** 自定义配置每一项 LFormItemXXX 的配置 */
-    getEditable?: (
-      val: any,
-      row: Record<string, any>,
-      i: number,
-    ) => Omit<LFormItemProps, 'name'>;
+    getEditable?: (val: any, row: Record<string, any>, i: number) => Omit<LFormItemProps, 'name'>;
   };
 } & Partial<Omit<LTableProps, 'columns' | 'contentRender'>>;
 
@@ -223,15 +200,12 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   const alreadyTableDataRef = useRef<Record<string, any>[]>([]);
   const editableKeyMap = useRef<Record<string, any>>({});
 
-  const [editingKeys, setEditingKeys] = useControllableValue<string[]>(
-    editTableOptions,
-    {
-      defaultValue: [],
-      defaultValuePropName: 'defaultEditingKeys',
-      valuePropName: 'editingKeys',
-      trigger: 'onEditingKeys',
-    },
-  );
+  const [editingKeys, setEditingKeys] = useControllableValue<string[]>(editTableOptions, {
+    defaultValue: [],
+    defaultValuePropName: 'defaultEditingKeys',
+    valuePropName: 'editingKeys',
+    trigger: 'onEditingKeys',
+  });
 
   /** 获取每一行主键 id 的值 */
   const getRowKeyValue = useMemoizedFn(
@@ -247,11 +221,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         itemDataIndexObj[col.dataIndex] = void 0;
       }
 
-      const render = (
-        text: any,
-        record: Record<string, any>,
-        index: number,
-      ) => {
+      const render = (text: any, record: Record<string, any>, index: number) => {
         const keyId = getRowKeyValue(record);
         const namePath = [keyId, col.dataIndex]; // 把同一行的字段放在一个对象中
 
@@ -271,21 +241,14 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
             };
           }
 
-          if (
-            !editableKeyMap.current[keyId].dataIndexs.includes(col.dataIndex)
-          ) {
+          if (!editableKeyMap.current[keyId].dataIndexs.includes(col.dataIndex)) {
             editableKeyMap.current[keyId].dataIndexs.push(col.dataIndex);
             editableKeyMap.current[keyId].nameList.push(namePath);
           }
         }
 
-        if (
-          col.editable &&
-          isValidElement(col?.editable) &&
-          editingKeys?.includes(keyId)
-        ) {
-          const { disabledEdit, ...formItemProps } =
-            col?.getEditable?.(text, record, index) ?? {};
+        if (col.editable && isValidElement(col?.editable) && editingKeys?.includes(keyId)) {
+          const { disabledEdit, ...formItemProps } = col?.getEditable?.(text, record, index) ?? {};
 
           if (!disabledEdit) {
             return cloneElement(col.editable, {
@@ -333,8 +296,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
   /** 判断表格某一行是否是新增的数据*/
   const isAddNewRowData = useMemoizedFn(
-    (key) =>
-      !alreadyTableDataRef.current?.find((item) => item[outRowKey] === key),
+    (key) => !alreadyTableDataRef.current?.find((item) => item[outRowKey] === key),
   );
 
   // ====================暴露方法区-开始====================

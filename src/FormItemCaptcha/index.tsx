@@ -13,21 +13,13 @@ export interface LFormItemCaptchaProps
   extends LFormItemProps,
     Pick<
       CodeInputProps,
-      | 'onGetCaptcha'
-      | 'type'
-      | 'inputProps'
-      | 'buttonProps'
-      | 'autoClick'
-      | 'autoFocusOnGetCaptcha'
+      'onGetCaptcha' | 'type' | 'inputProps' | 'buttonProps' | 'autoClick' | 'autoFocusOnGetCaptcha'
     >,
-    Pick<
-      LCaptchaButtonProps,
-      'cacheKey' | 'second' | 'disabledText' | 'onEnd'
-    > {
+    Pick<LCaptchaButtonProps, 'cacheKey' | 'second' | 'disabledText' | 'onEnd'> {
   /**
    *  按钮初始文本
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   initText?: string;
@@ -35,14 +27,14 @@ export interface LFormItemCaptchaProps
   /**
    *  验证码最大长度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   maxLength?: number;
   /**
    *  用于取消重置倒计时
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   cancelRef?: React.MutableRefObject<(() => void) | undefined>;

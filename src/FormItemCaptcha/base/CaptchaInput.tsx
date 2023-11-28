@@ -13,56 +13,56 @@ export interface CodeInputProps extends Record<number | string, any> {
   /**
    * 验证码组件类型
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   type?: ButtonProps['type'] | 'inline';
   /**
    *  输入框的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   inputProps?: InputProps;
   /**
    *  按钮的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   buttonProps?: LCaptchaButtonProps & { initText: string };
   /**
    * 组件挂载完成后，自动触发点击按钮。
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   autoClick?: boolean;
   /**
    * onGetCaptcha 请求获取验证成功后，是否自动获取输入框焦点
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   autoFocusOnGetCaptcha?: boolean;
   /**
    * 是否禁用
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   disabled?: boolean;
   /**
    * 验证码最大长度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   maxLength?: number;
   /**
    * 点击按钮触发并请求获取验证码的异步函数。 如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。会自动管理loading
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   onGetCaptcha?: () => boolean | Promise<any>;
@@ -101,30 +101,27 @@ const CodeInput: FC<CodeInputProps> = ({
   const [start, setStart] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { onClick, onEnd, initText, ...restButtonProps } =
-    buttonProps as LCaptchaButtonProps & {
-      initText: string;
-    };
+  const { onClick, onEnd, initText, ...restButtonProps } = buttonProps as LCaptchaButtonProps & {
+    initText: string;
+  };
 
   // 点击按钮
-  const onButtonClick = useMemoizedFn(
-    async (e: React.MouseEvent<HTMLElement>) => {
-      if (disabled) return;
-      setLoading(true);
-      onClick?.(e);
-      try {
-        // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。
-        await checkResult(onGetCaptcha);
-        setStart(true); // 只有当获取验证码成功时才进行倒计时
-        if (autoFocusOnGetCaptcha) {
-          inputRef.current!.focus();
-        }
-      } catch {
-      } finally {
-        setLoading(false);
+  const onButtonClick = useMemoizedFn(async (e: React.MouseEvent<HTMLElement>) => {
+    if (disabled) return;
+    setLoading(true);
+    onClick?.(e);
+    try {
+      // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。
+      await checkResult(onGetCaptcha);
+      setStart(true); // 只有当获取验证码成功时才进行倒计时
+      if (autoFocusOnGetCaptcha) {
+        inputRef.current!.focus();
       }
-    },
-  );
+    } catch {
+    } finally {
+      setLoading(false);
+    }
+  });
 
   const handleEnd = useMemoizedFn(() => {
     setStart(false);
@@ -172,11 +169,7 @@ const CodeInput: FC<CodeInputProps> = ({
       {...restButtonProps}
       onClick={onButtonClick}
       onEnd={handleEnd}
-      ref={
-        buttonRef as unknown as React.RefObject<
-          React.RefObject<HTMLInputElement>
-        >
-      }
+      ref={buttonRef as unknown as React.RefObject<React.RefObject<HTMLInputElement>>}
       style={buttonStyle}
     >
       {initText}

@@ -16,14 +16,14 @@ export interface LFormItemColorProps extends LFormItemProps {
   /**
    * LColor 组件 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemColorProps
    */
   colorProps?: ColorSketchPickerProps | ColorChromePickerProps;
   /**
    *内置组件类型
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemColorProps
    */
   colorType?: 'sketch' | 'chrome' | 'photoshop';

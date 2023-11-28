@@ -31,10 +31,7 @@ export function customDisabledHours(
   }
 
   if (hasBefore && hasAfter) {
-    const ret = TIME_LIST.slice(
-      hour - disabledHourBefore + 1,
-      hour + disabledHourAfter,
-    );
+    const ret = TIME_LIST.slice(hour - disabledHourBefore + 1, hour + disabledHourAfter);
     return TIME_LIST.filter((item) => !ret.includes(item));
   } else if (hasBefore) {
     const ret = TIME_LIST.slice(0, hour - disabledHourBefore + 1);
@@ -57,10 +54,7 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
   ...restProps
 }) => {
   const handleChange = useMemoizedFn(
-    (
-      value: Dayjs | [Dayjs, Dayjs] | undefined,
-      formatString: [string, string],
-    ) => {
+    (value: Dayjs | [Dayjs, Dayjs] | undefined, formatString: [string, string]) => {
       if (dateValueType === 'string') {
         onChange?.(formatString, value);
       } else if (dateValueType === 'dayjs') {
@@ -118,42 +112,42 @@ export interface LFormItemTimePickerProps extends LFormItemProps {
   /**
    *是否是范围时间选择
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   rangePicker?: boolean;
   /**
    *表单获取到的值的类型
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   dateValueType?: Omit<DateValueType, 'number'>;
   /**
    *禁用当前时间之前的小时 (0 会包括当前小时)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   disabledHourBefore?: number;
   /**
    *禁用当前时间之后的小时 (0 会包括当前小时)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   disabledHourAfter?: number;
   /**
    *禁用分钟的函数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   disabledMinutes?: (selectedHour: number, type?: 'start' | 'end') => number[];
   /**
    *禁用秒的函数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   disabledSeconds?: (
@@ -164,14 +158,14 @@ export interface LFormItemTimePickerProps extends LFormItemProps {
   /**
    *同antd时间组件的格式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   format?: 'HH:mm:ss' | string;
   /**
    *antd时间组件的 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   timePickerProps?: TimePickerProps | TimeRangePickerProps;
@@ -196,31 +190,19 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
 
-  const currentDisabledTime = useMemoizedFn(
-    (now: Dayjs, type: 'start' | 'end') => {
-      return {
-        disabledHours: () =>
-          customDisabledHours(
-            now.hour(),
-            disabledHourBefore,
-            disabledHourAfter,
-          ),
-        disabledMinutes: (selectedHour: number) =>
-          disabledMinutes(selectedHour, type),
-        disabledSeconds: (selectedHour: number, selectedMinute: number) =>
-          disabledSeconds(selectedHour, selectedMinute, type),
+  const currentDisabledTime = useMemoizedFn((now: Dayjs, type: 'start' | 'end') => {
+    return {
+      disabledHours: () => customDisabledHours(now.hour(), disabledHourBefore, disabledHourAfter),
+      disabledMinutes: (selectedHour: number) => disabledMinutes(selectedHour, type),
+      disabledSeconds: (selectedHour: number, selectedMinute: number) =>
+        disabledSeconds(selectedHour, selectedMinute, type),
 
-        ...timePickerProps?.disabledTime?.(now, type),
-      };
-    },
-  );
+      ...timePickerProps?.disabledTime?.(now, type),
+    };
+  });
 
   const showNow = useMemo(
-    () =>
-      !(
-        typeof disabledHourBefore === 'number' ||
-        typeof disabledHourAfter === 'number'
-      ),
+    () => !(typeof disabledHourBefore === 'number' || typeof disabledHourAfter === 'number'),
     [disabledHourBefore, disabledHourAfter],
   );
 

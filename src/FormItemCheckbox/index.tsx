@@ -15,7 +15,7 @@ export interface LFormItemCheckboxProps
   /**
    *依赖项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
@@ -23,7 +23,7 @@ export interface LFormItemCheckboxProps
   /**
    *当依赖项发生变化时重新请求的防抖时间
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
@@ -31,7 +31,7 @@ export interface LFormItemCheckboxProps
   /**
    *数据源
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
@@ -39,7 +39,7 @@ export interface LFormItemCheckboxProps
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
    *@See (https://ant.design/components/spin-cn/#api)
    */
@@ -48,13 +48,13 @@ export interface LFormItemCheckboxProps
    *配置 request 时 useRequest 的返回值
    *@author 李岚清 <https://github.com/llq0802>
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   *@version 2.1.24
+   *@version 2.1.25
    */
   actionRef?: React.MutableRefObject<LFormItemActionRef>;
   /**
    *ahook 的 request 的配置项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   requestOptions?: Record<string, any>;

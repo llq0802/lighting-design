@@ -16,49 +16,49 @@ export interface LModalFormProps
   /**
    *  弹窗标题
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
    */
   title?: ReactNode;
   /**
    * 预渲染Modal内容
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
    */
   forceRender?: boolean;
   /**
    * 是否在关闭弹窗时重置表单到初始值
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
    */
   isResetFields?: boolean;
   /**
    * 是否允许拖动
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
    */
   isDraggable?: boolean;
   /**
    * Moadl的宽
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
    */
   width?: ModalProps['width'];
   /**
    * 打开弹窗的按钮
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
    */
   trigger?: ReactElement;
   /**
    * Moadl的其他配置属性 某些属性已被重写
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
    *@see https://ant.design/components/modal-cn#api
    */
@@ -66,19 +66,17 @@ export interface LModalFormProps
   /**
    * 弹窗打开关闭的回调
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
    */
   onOpenChange?: (open: boolean) => void;
   /**
    *  表单提交 只有返回true时才关闭弹窗
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
    */
-  onFinish?: (
-    values: Record<string, any>,
-  ) => void | undefined | true | Promise<any>;
+  onFinish?: (values: Record<string, any>) => void | undefined | true | Promise<any>;
 }
 const prefixCls = 'lightd-form-modal';
 
@@ -123,24 +121,20 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
 
-  const onStart = useMemoizedFn(
-    (_event: DraggableEvent, uiData: DraggableData) => {
-      const { clientWidth, clientHeight } = window.document.documentElement;
-      const targetRect = draggleRef.current?.getBoundingClientRect();
-      if (!targetRect) return;
-      setBounds({
-        left: -targetRect.left + uiData.x,
-        right: clientWidth - (targetRect.right - uiData.x),
-        top: -targetRect.top + uiData.y,
-        bottom: clientHeight - (targetRect.bottom - uiData.y),
-      });
-    },
-  );
-  const onStop = useMemoizedFn(
-    (_event: DraggableEvent, uiData: DraggableData) => {
-      setPosition({ x: uiData.x, y: uiData.y });
-    },
-  );
+  const onStart = useMemoizedFn((_event: DraggableEvent, uiData: DraggableData) => {
+    const { clientWidth, clientHeight } = window.document.documentElement;
+    const targetRect = draggleRef.current?.getBoundingClientRect();
+    if (!targetRect) return;
+    setBounds({
+      left: -targetRect.left + uiData.x,
+      right: clientWidth - (targetRect.right - uiData.x),
+      top: -targetRect.top + uiData.y,
+      bottom: clientHeight - (targetRect.bottom - uiData.y),
+    });
+  });
+  const onStop = useMemoizedFn((_event: DraggableEvent, uiData: DraggableData) => {
+    setPosition({ x: uiData.x, y: uiData.y });
+  });
 
   const handleFinish = useMemoizedFn(async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
@@ -184,8 +178,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                       style={{
                         display: 'flex',
                         justifyContent:
-                          (typeof submitter?.buttonAlign === 'string' &&
-                            submitter?.buttonAlign) ||
+                          (typeof submitter?.buttonAlign === 'string' && submitter?.buttonAlign) ||
                           'right',
                       }}
                     >
@@ -208,10 +201,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               forceRender={forceRender}
               {...modalProps}
               className={classnames('lightd-modal', modalProps.className)}
-              wrapClassName={classnames(
-                'lightd-modal-wrap',
-                modalProps.wrapClassName,
-              )}
+              wrapClassName={classnames('lightd-modal-wrap', modalProps.wrapClassName)}
               open={open}
               onCancel={(e) => {
                 setOpen(false);
@@ -237,10 +227,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               forceRender={forceRender}
               {...modalProps}
               className={classnames('lightd-modal', modalProps.className)}
-              wrapClassName={classnames(
-                'lightd-modal-wrap',
-                modalProps.wrapClassName,
-              )}
+              wrapClassName={classnames('lightd-modal-wrap', modalProps.wrapClassName)}
               open={open}
               onCancel={(e) => {
                 setOpen(false);
@@ -266,9 +253,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                   onStart={(event, uiData) => onStart(event, uiData)}
                   onStop={(event, uiData) => onStop(event, uiData)}
                 >
-                  <div ref={draggleRef}>
-                    {modalProps?.modalRender?.(modalDom) ?? modalDom}
-                  </div>
+                  <div ref={draggleRef}>{modalProps?.modalRender?.(modalDom) ?? modalDom}</div>
                 </Draggable>
               )}
               title={

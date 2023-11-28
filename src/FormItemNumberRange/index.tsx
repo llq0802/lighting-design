@@ -26,11 +26,7 @@ function NumberRange({
     if (Array.isArray(valuePair)) {
       //   仅在两个值均为数字时才做比较并转换
       const [value0, value1] = valuePair;
-      if (
-        typeof value0 === 'number' &&
-        typeof value1 === 'number' &&
-        value0 > value1
-      ) {
+      if (typeof value0 === 'number' && typeof value1 === 'number' && value0 > value1) {
         onChange?.([value1, value0]);
       } else if (value0 === void 0 && value1 === void 0) {
         onChange?.(void 0);
@@ -93,21 +89,21 @@ export type LFormItemNumberRangeProps = {
   /**
    * 中间连接符号
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    */
   separator?: string;
   /**
    * 中间连接符号的宽度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    */
   separatorWidth?: number;
   /**
    * 中间元素的样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    */
   separatorStyle?: React.CSSProperties;
@@ -115,7 +111,7 @@ export type LFormItemNumberRangeProps = {
   /**
    * 左边 InputNumber 的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    *@see https://ant.design/components/input-number-cn/#api
    */
@@ -124,7 +120,7 @@ export type LFormItemNumberRangeProps = {
   /**
    * 右边 InputNumber 的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    *@see https://ant.design/components/input-number-cn/#api
    */
@@ -154,9 +150,7 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
     {
       validator(_, value: number[] | undefined) {
         let errMsg = '';
-        const newValue = Array.isArray(value)
-          ? value.filter((item) => item || item === 0)
-          : [];
+        const newValue = Array.isArray(value) ? value.filter((item) => item || item === 0) : [];
         if (newValue?.length !== 2) {
           errMsg = required ? `${messageLabel}!` : '';
         }

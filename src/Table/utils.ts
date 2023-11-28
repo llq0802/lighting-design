@@ -7,11 +7,7 @@ type Columns = {
   /** 表格导出时隐藏是否隐藏该列 */
   hiddenInExcel?: boolean;
   /** 表格导出时自定义导出内容 */
-  exportRender?: (
-    val: any,
-    row: Record<string, any>,
-    i: number,
-  ) => string | number;
+  exportRender?: (val: any, row: Record<string, any>, i: number) => string | number;
   [k: string]: any;
 };
 
@@ -46,16 +42,12 @@ export type Json2ExcelOptions = {
   renderColumnTitleStyle?: (cellValue: string, colIndex: number) => Excel;
 
   /** 自定义表格数据单元格内容样式 */
-  renderCellStyle?: (
-    cellValue: string,
-    rowIndex: number,
-    colIndex: number,
-  ) => Excel;
+  renderCellStyle?: (cellValue: string, rowIndex: number, colIndex: number) => Excel;
 };
 /**
  * 与 LTable 配合把 JSON 数据转成 Excel 并生成 Excel 到本地
  * @author 李岚清 <https://github.com/llq0802>
- * @version 2.1.24
+ * @version 2.1.25
  * @param {Json2ExcelOptions} options 配置对象
  * @return 无返回值
  */
@@ -123,10 +115,7 @@ export const json2Excel = (options: Json2ExcelOptions) => {
   if (hasColumnTitle) {
     const columnsTitle = newColumns.map((column: any, index: number) => {
       if (isFunction(renderColumnTitleStyle)) {
-        const renderStyleObj = renderColumnTitleStyle?.(
-          column[titleKey],
-          index,
-        );
+        const renderStyleObj = renderColumnTitleStyle?.(column[titleKey], index);
         return renderStyleObj || column[titleKey];
       }
       return {
@@ -232,13 +221,11 @@ export type Excel2JsonOptions = {
 /**
  * 与 LTable 配合把 Excel 转 Json 数据
  * @author 李岚清 <https://github.com/llq0802>
- * @version 2.1.24
+ * @version 2.1.25
  * @param {Excel2JsonOptions} options 配置对象
  * @return 返回JSON形式的表格数据
  */
-export const excel2Json = (
-  options: Excel2JsonOptions,
-): Promise<Record<string, any>[]> => {
+export const excel2Json = (options: Excel2JsonOptions): Promise<Record<string, any>[]> => {
   return new Promise((resolve, reject) => {
     const {
       file,
@@ -306,7 +293,7 @@ const getExcelHeaderRow = (sheet: XLSX.WorkSheet | any) => {
 /**
  * 解析 Excel 的数据 转成JSON
  * @author 李岚清 <https://github.com/llq0802>
- * @version 2.1.24
+ * @version 2.1.25
  * @param {Blob} rawFile 原始文件对象或 Blob
  * @return 包含excel头的数组 以及内容数据的body
  */

@@ -1,28 +1,12 @@
-import {
-  useControllableValue,
-  useCreation,
-  useMemoizedFn,
-  useMount,
-  useRafState,
-} from 'ahooks';
+import { useControllableValue, useCreation, useMemoizedFn, useMount, useRafState } from 'ahooks';
 import type { TableProps } from 'antd';
 import { Checkbox, Table } from 'antd';
 import classnames from 'classnames';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import React from 'react';
 import './index.less';
-import type {
-  LTreeTableData,
-  LTreeTableDataItem,
-  LTreeTableFieldNames,
-  ValueType,
-} from './util';
-import {
-  compactTree,
-  findTreeNode,
-  getNodeChilren,
-  transformTreeToList,
-} from './util';
+import type { LTreeTableData, LTreeTableDataItem, LTreeTableFieldNames, ValueType } from './util';
+import { compactTree, findTreeNode, getNodeChilren, transformTreeToList } from './util';
 
 export { LTreeTableData, LTreeTableDataItem, LTreeTableFieldNames };
 
@@ -30,98 +14,98 @@ export type LTreeTableProps = {
   /**
    *  默认值
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   defaultValue?: ValueType[];
   /**
    * 勾选的值 (受控)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   value?: ValueType[];
   /**
    * 勾选后的回调 (受控)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   onChange?: (values: ValueType[]) => void;
   /**
    *数据项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   treeData: LTreeTableData;
   /**
    *自定义设置字段名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   fieldNames?: LTreeTableFieldNames;
   /**
    *设头部列表标题等Table的字段
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   columns?: Record<string, any>[];
   /**
    *是否合并最后一列
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   lastColumnMerged?: boolean;
   /**
    *是否显示复选框
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   showCheckbox?: boolean;
   /**
    *父子节点选中状态是否不再关联 (各自独立)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   checkStrictly?: boolean;
   /**
    *全部禁用
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   disabled?: boolean;
   /**
    *当该项为空值时填充展示的内容
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   fillEmpty?: React.ReactNode;
   /**
    *为所有复选框设置类名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   checkboxClassName?: string;
   /**
    *为所有复选框设置样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   checkboxStyle?: React.CSSProperties;
   /**
    *自定义多选框的label
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTreeTableProps
    */
   labelRender?: (
@@ -167,9 +151,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     ...props,
   });
 
-  const [indeterminateList, setIndeterminateList] = useRafState<ValueType[]>(
-    [],
-  );
+  const [indeterminateList, setIndeterminateList] = useRafState<ValueType[]>([]);
 
   const fieldNames = useCreation(
     () => ({
@@ -204,19 +186,13 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
 
   // 处理当前值的父级选中与半选中
   const processParentChecked = useMemoizedFn(
-    (
-      currentValue?: ValueType,
-      checks?: ValueType[],
-      indetermanites?: ValueType[],
-    ) => {
+    (currentValue?: ValueType, checks?: ValueType[], indetermanites?: ValueType[]) => {
       const newChecks = new Set(checks || []);
       const newIndetermanites = new Set(indetermanites || []);
 
       // 递归处理父级勾选
       function recursion(parentVal: ValueType) {
-        const currParentItem = compactData.find(
-          (item) => item[valueKey] === parentVal,
-        );
+        const currParentItem = compactData.find((item) => item[valueKey] === parentVal);
 
         if (currParentItem) {
           let childAllChecked = true; // 是否在值列表中选中了其所有子项  默认全部都选中
@@ -401,15 +377,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
           : fillEmpty;
       },
     }));
-  }, [
-    outColumns,
-    innerColumns,
-    labelKey,
-    valueKey,
-    fillEmpty,
-    checkList,
-    indeterminateList,
-  ]);
+  }, [outColumns, innerColumns, labelKey, valueKey, fillEmpty, checkList, indeterminateList]);
 
   return (
     <Table

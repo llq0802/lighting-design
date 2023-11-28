@@ -9,22 +9,11 @@ import type { FC } from 'react';
 import { useContext, useMemo } from 'react';
 
 const SwitchWrapper = (
-  props: Pick<
-    LFormItemSwitchProps,
-    'checkedBg' | 'unCheckedBg' | 'switchProps'
-  > &
+  props: Pick<LFormItemSwitchProps, 'checkedBg' | 'unCheckedBg' | 'switchProps'> &
     Record<string, any>,
 ) => {
-  const {
-    checked,
-    onChange,
-    unCheckedBg,
-    checkedBg,
-    disabled,
-    style,
-    size,
-    ...switchProps
-  } = props;
+  const { checked, onChange, unCheckedBg, checkedBg, disabled, style, size, ...switchProps } =
+    props;
 
   const styles = useMemo(() => {
     return checked
@@ -55,21 +44,21 @@ export interface LFormItemSwitchProps extends LFormItemProps {
   /**
    *antd Swicth的 props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSwitchProps
    */
   switchProps?: SwitchProps;
   /**
    *打开时的背景颜色
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSwitchProps
    */
   checkedBg?: string;
   /**
    *关闭时的背景颜色
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSwitchProps
    */
   unCheckedBg?: string;
@@ -88,12 +77,7 @@ const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
   const { size: formSize } = useContext(LFormContext);
 
   return (
-    <LFormItem
-      _isSelectType
-      valuePropName="checked"
-      required={required}
-      {...restProps}
-    >
+    <LFormItem _isSelectType valuePropName="checked" required={required} {...restProps}>
       <SwitchWrapper
         size={size ?? formSize}
         checkedBg={checkedBg}

@@ -11,28 +11,25 @@ import { useContext } from 'react';
 
 export interface LFormItemSliderProps
   extends LFormItemProps,
-    Pick<
-      SliderSingleProps,
-      'min' | 'max' | 'step' | 'marks' | 'handleStyle' | 'trackStyle'
-    > {
+    Pick<SliderSingleProps, 'min' | 'max' | 'step' | 'marks' | 'handleStyle' | 'trackStyle'> {
   /**
    *antd 滑块的 props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSliderProps
    */
   sliderProps?: SliderSingleProps | SliderRangeProps;
   /**
    *整个轨道样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSliderProps
    */
   railStyle?: CSSProperties;
   /**
    *Slider 组件根标签样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSliderProps
    */
   sliderStyle?: CSSProperties;
@@ -62,12 +59,7 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem
-      required={required}
-      _isSelectType
-      placeholder={messagePlaceholder}
-      {...restProps}
-    >
+    <LFormItem required={required} _isSelectType placeholder={messagePlaceholder} {...restProps}>
       <Slider
         min={min}
         max={max}

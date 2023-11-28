@@ -2,11 +2,7 @@ import { useMemoizedFn } from 'ahooks';
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/zh_CN';
-import type {
-  MonthPickerProps,
-  RangePickerProps,
-  WeekPickerProps,
-} from 'antd/lib/date-picker';
+import type { MonthPickerProps, RangePickerProps, WeekPickerProps } from 'antd/lib/date-picker';
 import type { Dayjs } from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
@@ -32,9 +28,7 @@ type RangePickerWrapperProps = any & RangePickerProps;
  * @param param0
  * @returns
  */
-const DatePickerWrapper: FC<
-  DatePickerProps | MonthPickerProps | WeekPickerProps | any
-> = ({
+const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps | any> = ({
   dateValueType,
   value,
   onChange,
@@ -43,35 +37,33 @@ const DatePickerWrapper: FC<
   style,
   ...restProps
 }) => {
-  const handleDatePickerChange = useMemoizedFn(
-    (val: Dayjs | null, str: string) => {
-      if (!val) {
-        onChange(void 0);
-        return;
-      }
-      switch (dateValueType) {
-        case 'string':
-          {
-            onChange(str);
-          }
-          break;
-        case 'dayjs':
-          {
-            onChange(val);
-          }
-          break;
-        case 'number':
-          {
-            const timestamp = val!?.valueOf();
-            onChange(timestamp);
-          }
-          break;
-        default:
-          onChange(val, str);
-          break;
-      }
-    },
-  );
+  const handleDatePickerChange = useMemoizedFn((val: Dayjs | null, str: string) => {
+    if (!val) {
+      onChange(void 0);
+      return;
+    }
+    switch (dateValueType) {
+      case 'string':
+        {
+          onChange(str);
+        }
+        break;
+      case 'dayjs':
+        {
+          onChange(val);
+        }
+        break;
+      case 'number':
+        {
+          const timestamp = val!?.valueOf();
+          onChange(timestamp);
+        }
+        break;
+      default:
+        onChange(val, str);
+        break;
+    }
+  });
 
   return (
     <DatePicker
@@ -147,28 +139,28 @@ export interface LFormItemDatePickerProps extends LFormItemProps {
   /**
    *禁用今天的前面的日期 为`0`时包括今天
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   disabledDateBefore?: number;
   /**
    *禁用今天的后面的日期 为`0`时包括今天
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   disabledDateAfter?: number;
   /**
    *是否展示时间 (时分秒)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   showTime?: TimePickerProps | boolean;
   /**
    *日期格式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   format?: string;
@@ -176,29 +168,24 @@ export interface LFormItemDatePickerProps extends LFormItemProps {
   /**
    *表单获取到的时间格式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   dateValueType?: DateValueType;
   /**
    *日期类型
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
   picker?: Picker;
   /**
    *antd日期组件的 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
-  pickerProps?:
-    | DatePickerProps
-    | MonthPickerProps
-    | WeekPickerProps
-    | RangePickerProps
-    | any;
+  pickerProps?: DatePickerProps | MonthPickerProps | WeekPickerProps | RangePickerProps | any;
 
   /** 是否是范围日期选择 */
   rangePicker?: boolean;
@@ -224,17 +211,10 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
 
-  const currentPicker = useMemo(
-    () => pickerProps.picker || picker,
-    [pickerProps.picker, picker],
-  );
+  const currentPicker = useMemo(() => pickerProps.picker || picker, [pickerProps.picker, picker]);
   const currentFormat = useMemo(
     () =>
-      getDateFormat(
-        pickerProps.format || format,
-        currentPicker,
-        pickerProps.showTime || showTime,
-      ),
+      getDateFormat(pickerProps.format || format, currentPicker, pickerProps.showTime || showTime),
     [format, pickerProps.format, currentPicker, pickerProps.showTime, showTime],
   );
 

@@ -13,13 +13,13 @@ export interface LFileViewerProps extends ModalProps, Omit<FileViewProps, 'url'>
   /**
    * image 类型的配置
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    */
   imagePreview?: LImagePreviewProps;
   /**
    * 文件地址
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@type {string[]}
    *@example url={['地址1','地址2']}
    */
@@ -27,7 +27,7 @@ export interface LFileViewerProps extends ModalProps, Omit<FileViewProps, 'url'>
   /**
    * 是否打开(受控)
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    * @type {?boolean}
    * @see 官网 https://llq0802.github.io/lighting-design/latest LFileViewerProps
    */
@@ -35,7 +35,7 @@ export interface LFileViewerProps extends ModalProps, Omit<FileViewProps, 'url'>
   /**
    *默认是否打开
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@type {?boolean}
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFileViewerProps
    */
@@ -43,7 +43,7 @@ export interface LFileViewerProps extends ModalProps, Omit<FileViewProps, 'url'>
   /**
    * 默认是否打开
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@type { (open: boolean) => void }
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFileViewerProps
    */

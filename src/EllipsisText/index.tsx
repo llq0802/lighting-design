@@ -16,42 +16,42 @@ export interface LEllipsisTextProps extends DOMAttributes<HTMLSpanElement> {
   /**
    *类名
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
    */
   className?: string;
   /**
    *样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
    */
   style?: CSSProperties;
   /**
    * 最大字符串长度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
    */
   maxLength?: number;
   /**
    * 最大元素宽度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
    */
   maxWidth?: number | string;
   /**
    * 自定义空字符的节点
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
    */
   emptyText?: React.ReactNode;
   /**
    * antd 的 tooltip
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
    */
   tooltip?: boolean | TooltipProps;
@@ -87,27 +87,16 @@ const LEllipsisText: FC<LEllipsisTextProps> = (props) => {
   const tooltipProps = typeof tooltip !== 'boolean' ? tooltip : {};
   // 最大字数省略
   if (maxLength) {
-    const renderText =
-      text?.length > maxLength ? `${text?.slice(0, maxLength)}...` : text;
+    const renderText = text?.length > maxLength ? `${text?.slice(0, maxLength)}...` : text;
 
     return tooltip ? (
       <Tooltip title={text} {...tooltipProps}>
-        <Text
-          className={inenerClassName}
-          style={style}
-          {...restProps}
-          outRef={outRef}
-        >
+        <Text className={inenerClassName} style={style} {...restProps} outRef={outRef}>
           {renderText}
         </Text>
       </Tooltip>
     ) : (
-      <Text
-        className={inenerClassName}
-        style={style}
-        {...restProps}
-        outRef={outRef}
-      >
+      <Text className={inenerClassName} style={style} {...restProps} outRef={outRef}>
         {renderText}
       </Text>
     );
@@ -146,22 +135,12 @@ const LEllipsisText: FC<LEllipsisTextProps> = (props) => {
 
   return tooltip ? (
     <Tooltip title={text} {...tooltipProps}>
-      <Text
-        className={inenerClassName}
-        style={style}
-        outRef={outRef}
-        {...restProps}
-      >
+      <Text className={inenerClassName} style={style} outRef={outRef} {...restProps}>
         {text}
       </Text>
     </Tooltip>
   ) : (
-    <Text
-      className={inenerClassName}
-      style={style}
-      outRef={outRef}
-      {...restProps}
-    >
+    <Text className={inenerClassName} style={style} outRef={outRef} {...restProps}>
       {text}
     </Text>
   );

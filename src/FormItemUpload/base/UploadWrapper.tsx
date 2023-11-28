@@ -9,12 +9,7 @@ import { uniqueId } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useMemo, useRef, useState } from 'react';
-import {
-  checkFileSize,
-  checkFileType,
-  createFileUrl,
-  removeFileUrl,
-} from '../../_utils/upload';
+import { checkFileSize, checkFileType, createFileUrl, removeFileUrl } from '../../_utils/upload';
 import UploadPreview from './UploadPreview';
 import './styles.less';
 
@@ -24,7 +19,7 @@ export interface UploadWrapperProps extends UploadProps {
   /**
    *文件类型错误提示
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   fileTypeMessage?: string | false;
@@ -32,28 +27,28 @@ export interface UploadWrapperProps extends UploadProps {
   /**
    *文件超过最大尺寸提示
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   fileSizeMessage?: string | false;
   /**
    *自定义文件上传的异步函数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   onUpload?: (file: File) => Promise<Record<string, any>>;
   /**
    *单个文件最大尺寸，用于校验
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   maxSize?: number;
   /**
    *支持拖拽
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   dragger?: boolean;
@@ -61,7 +56,7 @@ export interface UploadWrapperProps extends UploadProps {
   /**
    *内置预览 Modal 的 props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   previewModalProps?: ModalProps;
@@ -69,14 +64,14 @@ export interface UploadWrapperProps extends UploadProps {
   /**
    *点击预览获取大图URL
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   onGetPreviewUrl?: (file: File) => Promise<string>;
   /**
    *Button 的 Props 在uploadType为'default'时生效
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.24
+   *@version 2.1.25
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   buttonProps?: ButtonProps;
@@ -122,30 +117,24 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
   });
 
   // 上传前验证
-  const handleBeforeUpload = useMemoizedFn(
-    (file: RcFile, fileList: RcFile[]) => {
-      // 检查是否支持文件类型
-      const isSupportFileType = checkFileType(file, accept);
-      if (!isSupportFileType && fileTypeMessage) {
-        message.error(fileTypeMessage.replace(/x/gi, accept));
-        return Upload.LIST_IGNORE;
-      }
-      // 检查是否超过文件大小
-      const isLessThanFileSize = checkFileSize(file, maxSize);
-      if (!isLessThanFileSize && fileSizeMessage) {
-        message.error(
-          fileSizeMessage.replace(/x/gi, `${maxSize / 1024 / 1024}M`),
-        );
-        return Upload.LIST_IGNORE;
-      }
-      // 若返回 false 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，
-      // 可以返回 Upload.LIST_IGNORE， 此时列表中将不展示此文件。
-      // action没有传地址则停止上传(不会生产status,percent ,response等)
-      return beforeUpload
-        ? beforeUpload(file, fileList)
-        : !!action || !!onUpload || !!customRequest;
-    },
-  );
+  const handleBeforeUpload = useMemoizedFn((file: RcFile, fileList: RcFile[]) => {
+    // 检查是否支持文件类型
+    const isSupportFileType = checkFileType(file, accept);
+    if (!isSupportFileType && fileTypeMessage) {
+      message.error(fileTypeMessage.replace(/x/gi, accept));
+      return Upload.LIST_IGNORE;
+    }
+    // 检查是否超过文件大小
+    const isLessThanFileSize = checkFileSize(file, maxSize);
+    if (!isLessThanFileSize && fileSizeMessage) {
+      message.error(fileSizeMessage.replace(/x/gi, `${maxSize / 1024 / 1024}M`));
+      return Upload.LIST_IGNORE;
+    }
+    // 若返回 false 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，
+    // 可以返回 Upload.LIST_IGNORE， 此时列表中将不展示此文件。
+    // action没有传地址则停止上传(不会生产status,percent ,response等)
+    return beforeUpload ? beforeUpload(file, fileList) : !!action || !!onUpload || !!customRequest;
+  });
 
   // 自定义上传
   const internalCustomRequest = useMemoizedFn((obj: any) => {
@@ -226,23 +215,16 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
       return;
     }
     if (onGetPreviewUrl) {
-      file.preview = await onGetPreviewUrl(
-        (file?.originFileObj || file) as File,
-      );
+      file.preview = await onGetPreviewUrl((file?.originFileObj || file) as File);
     } else if (file?.originFileObj instanceof File) {
       // base64 路径太大，可能导致卡顿问题
-      file.preview = createFileUrl(
-        uniqueKey,
-        file.uid,
-        (file?.originFileObj || file) as File,
-      );
+      file.preview = createFileUrl(uniqueKey, file.uid, (file?.originFileObj || file) as File);
     } else {
       file.preview = file.url || file.thumbUrl || file.preview;
     }
 
     const previewUlr = file.preview || '';
-    const previewTitle =
-      file.name || previewUlr.substring(previewUlr.lastIndexOf('/') + 1);
+    const previewTitle = file.name || previewUlr.substring(previewUlr.lastIndexOf('/') + 1);
     setPreviewProps({
       open: true,
       imgUrl: previewUlr,
@@ -250,10 +232,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     });
   });
 
-  const UploadContent = useMemo(
-    () => (dragger ? Upload.Dragger : Upload),
-    [dragger],
-  );
+  const UploadContent = useMemo(() => (dragger ? Upload.Dragger : Upload), [dragger]);
 
   // 组件卸载时 清除url内存
   useUnmount(() => {
@@ -284,11 +263,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
         {...restProps}
       />
       {isShowPreview && !restProps.onPreview && (
-        <UploadPreview
-          {...previewProps}
-          {...previewModalProps}
-          onCancel={handlePreviewCancel}
-        />
+        <UploadPreview {...previewProps} {...previewModalProps} onCancel={handlePreviewCancel} />
       )}
     </ConfigProvider>
   );
