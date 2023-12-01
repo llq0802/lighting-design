@@ -1,14 +1,10 @@
-import {
-  FullscreenExitOutlined,
-  FullscreenOutlined,
-  ReloadOutlined,
-} from '@ant-design/icons';
+import { FullscreenExitOutlined, FullscreenOutlined, ReloadOutlined } from '@ant-design/icons';
 import { useFullscreen } from 'ahooks';
 import type { SpaceProps } from 'antd';
 import { ConfigProvider, Space, Tooltip } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import type { CSSProperties, FC } from 'react';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import TableContext from '../TableContext';
 import ColumnSetting from './ColumnSetting';
 import DensityIcon from './DensityIcon';
@@ -33,14 +29,11 @@ const ReloadIcon = ({ onReloadIconChange }) => {
 // 全屏
 const FullscreenIcon = () => {
   const { rootRef, setFullScreen } = useContext(TableContext);
-  const [isFull, { enterFullscreen, exitFullscreen }] = useFullscreen(
-    rootRef?.current,
-    {
-      onExit() {
-        setFullScreen?.(false);
-      },
+  const [isFull, { enterFullscreen, exitFullscreen }] = useFullscreen(rootRef?.current, {
+    onExit() {
+      setFullScreen?.(false);
     },
-  );
+  });
 
   return isFull ? (
     <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
@@ -110,41 +103,35 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
   style = emptyObject,
   ...restProps
 }) => {
-  const arrDom = [];
-  if (showReload) {
-    arrDom.push({
-      key: orders.reload || 0,
-      dom: (
-        <ReloadIcon onReloadIconChange={onReloadIconChange} key="ReloadIcon" />
-      ),
-    });
-  }
-  if (showDensity) {
-    arrDom.push({
-      key: orders.density || 1,
-      dom: <DensityIcon key="DensityIcon" />,
-    });
-  }
-  if (showFullscreen) {
-    arrDom.push({
-      key: orders.fullscreen || 2,
-      dom: <FullscreenIcon key="FullscreenIcon" />,
-    });
-  }
-  if (showColumnSetting) {
-    arrDom.push({
-      key: orders.columnSetting || 3,
-      dom: (
-        <ColumnSetting
-          key="ColumnSetting"
-          onColumnIconChange={onColumnIconChange}
-        />
-      ),
-    });
-  }
-  const sortDom = arrDom
-    .toSorted((a, b) => a.key - b.key)
-    .map((item) => item.dom);
+  const sortDom = useMemo(() => {
+    const arrDom = [];
+    if (showReload) {
+      arrDom.push({
+        key: orders.reload || 0,
+        dom: <ReloadIcon onReloadIconChange={onReloadIconChange} key="ReloadIcon" />,
+      });
+    }
+    if (showDensity) {
+      arrDom.push({
+        key: orders.density || 1,
+        dom: <DensityIcon key="DensityIcon" />,
+      });
+    }
+    if (showFullscreen) {
+      arrDom.push({
+        key: orders.fullscreen || 2,
+        dom: <FullscreenIcon key="FullscreenIcon" />,
+      });
+    }
+    if (showColumnSetting) {
+      arrDom.push({
+        key: orders.columnSetting || 3,
+        dom: <ColumnSetting key="ColumnSetting" onColumnIconChange={onColumnIconChange} />,
+      });
+    }
+    return arrDom.toSorted((a, b) => a.key - b.key).map((item) => item.dom);
+  }, [showReload, showDensity, showFullscreen, showColumnSetting, JSON.stringify(orders)]);
+
   return (
     <Space size={10} {...restProps} style={{ fontSize: 16, ...style }}>
       {sortDom}

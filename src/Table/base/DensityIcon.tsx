@@ -5,6 +5,12 @@ import { useContext } from 'react';
 import TableContext from '../TableContext';
 import { LIGHTD_TABLE } from './BaseTable';
 
+const items = [
+  { label: '默认', key: 'default' },
+  { label: '中等', key: 'middle' },
+  { label: '紧凑', key: 'small' },
+];
+
 const DensityIcon = () => {
   const { size, setSize, rootRef } = useContext(TableContext);
 
@@ -18,15 +24,9 @@ const DensityIcon = () => {
           style: { width: 80 },
           selectedKeys: [!size || size === 'large' ? 'default' : size],
           onClick({ key }) {
-            setSize?.(
-              key as SetStateAction<'middle' | 'small' | 'large' | undefined>,
-            );
+            setSize?.(key as SetStateAction<'middle' | 'small' | 'large' | undefined>);
           },
-          items: [
-            { label: '默认', key: 'default' },
-            { label: '中等', key: 'middle' },
-            { label: '紧凑', key: 'small' },
-          ],
+          items,
         }}
       >
         <Tooltip title="表格密度">
