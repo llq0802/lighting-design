@@ -24,7 +24,7 @@ const columns: ColumnsType<any> = [
 
 const formItems = [<LFormItemInput key="0" name="input4" label="输入框" />];
 
-const MyLTable: FC = () => {
+const MyLTable: FC = ({ open, date }) => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
 
@@ -47,6 +47,9 @@ const MyLTable: FC = () => {
         showQuickJumper: false,
       }}
       request={async (params, requestType) => {
+        console.log('==request-open ==>', open);
+        console.log('==request-date ==>', date);
+
         return {
           success: true,
           data: originData,

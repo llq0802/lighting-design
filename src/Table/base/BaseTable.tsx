@@ -101,7 +101,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const tablecardref = useRef<HTMLDivElement>(null);
   const _lformRef = useRef<Record<string, any>>({});
-  const isInit = useRef<boolean>(false); // 是否第一次自动请求
+  const isInited = useRef<boolean>(false); // 是否第一次自动请求
   const [isFullScreen, setFullScreen] = useRafState(false);
   // 绑定SearchForm组件form实例在内部
   const queryFormRef = useRef<FormInstance | null>(null);
@@ -136,7 +136,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // useRequest请求
   const {
     // refresh,
-    params,
+    // params,
     data,
     run,
     loading: requestLoading,
@@ -144,7 +144,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     pagination: paginationAction,
   } = usePagination(
     async (args, requestType: LTableRequestType) => {
-      isInit.current = false;
+      isInited.current = false;
       const res = await request({ ...args }, requestType);
       // 必须设置success为true data必须为数组长度大于0 才会有数据
       if (res?.success && Array.isArray(res.data) && res.data.length > 0) {
@@ -176,84 +176,82 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // ==================== 表格方法开始====================
   // 重置所有表单数据，从第一页开始显示、查询数据
   const handleReset = useMemoizedFn(() => {
-    if (hasFromItems) {
-      const formValues = _lformRef.current;
-      queryFormRef.current?.setFieldsValue({ ...formValues });
-      run(
-        {
-          current: 1,
-          pageSize: outPaginationPageSize,
-          formValues,
-        },
-        'onReset',
-      );
+    if (!hasFromItems) {
+      paginationAction.onChange(outPaginationCurrent, outPaginationPageSize);
       return;
     }
-    paginationAction.onChange(outPaginationCurrent, outPaginationPageSize);
+    const formValues = _lformRef.current;
+    queryFormRef.current?.setFieldsValue({ ...formValues });
+    run(
+      {
+        current: 1,
+        pageSize: outPaginationPageSize,
+        formValues,
+      },
+      'onReset',
+    );
   });
   // 根据条件，从第一页开始显示、查询数据
-  const handleSearch = useMemoizedFn((type = 'onSearch') => {
-    if (hasFromItems) {
-      const formValues = queryFormRef.current?.getFieldsValue();
-      run(
-        {
-          current: 1,
-          pageSize: paginationAction?.pageSize || outPaginationPageSize,
-          formValues,
-        },
-        type,
-      );
+  const handleSearch = useMemoizedFn(() => {
+    if (!hasFromItems) {
+      paginationAction.changeCurrent(1);
       return;
     }
-    paginationAction.changeCurrent(1);
-  });
-  // 根据当前条件和页码 查询数据
-  const handleReload = useMemoizedFn(() => {
-    if (hasFromItems) {
-      const formValues = queryFormRef.current?.getFieldsValue();
-      run(
-        {
-          current: paginationAction?.current,
-          pageSize: paginationAction?.pageSize,
-          formValues: formValues,
-        },
-        'onReload',
-      );
-      return;
-    }
-    paginationAction.changeCurrent(paginationAction?.current);
-  });
-  // 表单查询 保留表单参数 保留pageSize  重置page为 1
-  const handleSearchFormFinish = useMemoizedFn((formValues: Record<string, any>) => {
-    const defaultPar = isInit.current ? { ...defaultRequestParams } : {};
+    const formValues = queryFormRef.current?.getFieldsValue();
     run(
       {
         current: 1,
         pageSize: paginationAction?.pageSize || outPaginationPageSize,
         formValues,
-        ...defaultPar,
       },
-      isInit.current ? 'onInit' : 'onSearch',
+      'onSearch',
+    );
+  });
+  // 根据当前条件和页码 查询数据
+  const handleReload = useMemoizedFn(() => {
+    if (!hasFromItems) {
+      paginationAction.changeCurrent(paginationAction?.current);
+      return;
+    }
+    const formValues = queryFormRef.current?.getFieldsValue();
+    run(
+      {
+        current: paginationAction?.current,
+        pageSize: paginationAction?.pageSize,
+        formValues: formValues,
+      },
+      'onReload',
+    );
+  });
+  // 表单查询 保留表单参数 保留pageSize  重置page为 1
+  const handleSearchFormFinish = useMemoizedFn((formValues: Record<string, any>) => {
+    run(
+      {
+        current: 1,
+        pageSize: paginationAction?.pageSize || outPaginationPageSize,
+        formValues,
+        ...(isInited.current ? defaultRequestParams : {}),
+      },
+      isInited.current ? 'onInit' : 'onSearch',
     );
   });
   // 表格分页页码丶排序等改变时触发
   const handleTableChange = useMemoizedFn((pagination, filters, sorter, extra) => {
     onChange?.(pagination, filters, sorter, extra);
     if (extra.action !== 'paginate') return;
-
-    if (hasFromItems) {
-      const formValues = queryFormRef.current?.getFieldsValue();
-      run(
-        {
-          current: pagination.current || 1,
-          pageSize: pagination.pageSize || 10,
-          formValues,
-        },
-        'onReload',
-      );
+    if (!hasFromItems) {
+      paginationAction.onChange(pagination?.current || 1, pagination?.pageSize);
       return;
     }
-    paginationAction.onChange(pagination?.current || 1, pagination?.pageSize);
+    const formValues = queryFormRef.current?.getFieldsValue();
+    run(
+      {
+        current: pagination.current || 1,
+        pageSize: pagination.pageSize || 10,
+        formValues,
+      },
+      'onReload',
+    );
   });
   // ==================== 表格方法结束====================
 
@@ -265,7 +263,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   useEffect(() => {
     if (!autoRequest || !isReady) return;
     if (hasFromItems) {
-      isInit.current = true;
+      isInited.current = true;
       queryFormRef.current?.submit();
       return;
     }
