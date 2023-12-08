@@ -318,10 +318,16 @@ export const transformEchartsOption = (
     return option;
   }
   Object.keys(option).forEach((key) => {
-    if (changeFields.includes(key) && ['number', 'string'].includes(typeof option[key])) {
-      option[key] = autoFontSize(option[key], designWidth);
+    if (changeFields.includes(key)) {
+      if (typeof option[key] === 'number') {
+        option[key] = autoFontSize(option[key], designWidth);
+      }
+      if (typeof option[key] === 'string' && !window.isNaN(option[key])) {
+        option[key] = autoFontSize(option[key], designWidth);
+      }
     }
-    if (typeof option[key] === 'object') {
+
+    if (typeof option[key] === 'object' && option[key] !== null) {
       if (Array.isArray(option[key])) {
         option[key].forEach((item: Record<string, any>) => {
           transformEchartsOption(item, changeFields, designWidth);
