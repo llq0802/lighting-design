@@ -90,7 +90,6 @@ export function useTableColumn({ contentRender, isSort, paginationAction, column
     typeof isSort !== 'boolean' && isSort?.render,
     paginationAction?.current,
     paginationAction?.pageSize,
-    contentRender,
   ]);
 
   // 表格展示的列key
@@ -119,7 +118,7 @@ export function useTableColumn({ contentRender, isSort, paginationAction, column
       }
     });
     return tmpColumns;
-  }, [columnKeys?.join(''), contentRender]);
+  }, [columnKeys?.join('')]);
 
   return {
     finalColumns,

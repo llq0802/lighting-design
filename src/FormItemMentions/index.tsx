@@ -97,16 +97,6 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
       validateTrigger="onBlur"
       {...restProps}
     >
-      {/* <Spin spinning={loading} style={publicSpinStyle} {...spin}> */}
-      {/* <Mentions
-        disabled={disabled || formDisabled}
-        autoComplete="off"
-        placeholder={messageLabel}
-        options={outOptions || data || []}
-        {...mentionsProps}
-        style={{ width: '100%', ...mentionsProps?.style }}
-      /> */}
-      {/* </Spin> */}
       <MentionsWrapper
         name={restProps?.name}
         dependencies={restProps?.dependencies}

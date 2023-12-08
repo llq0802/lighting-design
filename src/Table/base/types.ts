@@ -31,11 +31,11 @@ export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset';
 
 export type LTableInstance = {
   /** 根据条件，当前页，当前分页数量、刷新数据 */
-  onReload: () => void;
+  onReload: (extraParams?: Record<string, any>) => void;
   /** 重置数据，从第一页以及默认的分页数量开始显示、查询数据 */
-  onReset: () => void;
+  onReset: (extraParams?: Record<string, any>) => void;
   /** 根据条件，从第一页以及当前的分页数量开始显示、查询数据 */
-  onSearch: () => void;
+  onSearch: (extraParams?: Record<string, any>) => void;
   /** 表格根标签 div */
   rootRef: RefObject<HTMLDivElement>;
   /** 表格数据 */

@@ -251,7 +251,7 @@ export type LTableRequestParams = {
   pageSize: number;
   /** 表单数据 */
   formValues?: Record<string, any>;
-  /** 其他参数 */
+  /** 通过表格的 onReload  onReset  onSearch  方法或者 defaultRequestParams 传递其他额外参数 */
   [key: string]: any;
 };
 ```
@@ -291,11 +291,11 @@ export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset' |
 ```ts
 export type MutableRefObject<LTableInstance|undefined > = {
   // 根据条件，当前页，分页数量、刷新数据
-  onReload: () => void;
+  onReload: (extraParams?: Record<string, any>) => void;
   // 重置数据，从第一页以及默认的分页数量开始显示、查询数据
-  onReset: () => void;
+  onReset: (extraParams?: Record<string, any>) => void;
   // 根据条件，从第一页以及当前的分页数量开始显示、查询数据
-  onSearch: () => void;
+  onSearch: (extraParams?: Record<string, any>) => void;
   // 表格根标签div
   rootRef: RefObject<HTMLDivElement>;
   // 表格数据

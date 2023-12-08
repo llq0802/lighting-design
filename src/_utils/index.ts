@@ -287,7 +287,7 @@ export const getTableColumnsKey = (col: Record<string, any>, i: number) =>
  * @param size
  * @returns
  */
-const autoFontSize = (size: number | string, designWidth = 1920) => {
+const autoFontSize = (size: number, designWidth = 1920) => {
   const clientWidth =
     window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 
@@ -295,7 +295,7 @@ const autoFontSize = (size: number | string, designWidth = 1920) => {
 
   const widthRate = clientWidth / designWidth; // 设计图宽度
 
-  if (typeof size === 'number' || (typeof size === 'string' && !Object.is(NaN, parseFloat(size)))) {
+  if (!window.isNaN(size)) {
     return +size * widthRate;
   }
 

@@ -100,8 +100,8 @@ React 版本的 ECharts 容器组件 对比 `echarts-for-react` 有如下特性:
 
   - `autoResize` 为 `true` 时生效, 响应式大小的计算根据 `designWidth`
   - 如果为`autoResizeFields`为`false`则所有字段都不会做响应式
-  - 默认会对`fontSize`响应式, 但必须书写`fontSize`属性才会有响应式, 不书写则不会做响应式
-  - 字段的值必须是 `number`类型或者`字符串的数字`
+  - 默认会对`fontSize`响应式, 但在`Echarts`的`option`必须书写`fontSize`属性才会有响应式, 不书写则不会做响应式
+  - 字段的值必须是 `number`类型或者`有效的字符串数字` 百分比的字符串会被忽略, 如`left: '10%'`
 
   :::
 

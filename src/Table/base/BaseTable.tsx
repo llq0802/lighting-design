@@ -123,7 +123,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
 
   // 根标签全屏样式
   const rootDefaultStyle = useMemo(
-    () => (isFullScreen ? { backgroundColor: fullScreenBgColor } : {}),
+    () => (isFullScreen ? { backgroundColor: fullScreenBgColor } : emptyObject),
     [isFullScreen],
   );
 
@@ -175,7 +175,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
 
   // ==================== 表格方法开始====================
   // 重置所有表单数据，从第一页开始显示、查询数据
-  const handleReset = useMemoizedFn(() => {
+  const handleReset = useMemoizedFn((extraParams?: Record<string, any>) => {
     if (!hasFromItems) {
       paginationAction.onChange(outPaginationCurrent, outPaginationPageSize);
       return;
@@ -187,12 +187,13 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         current: 1,
         pageSize: outPaginationPageSize,
         formValues,
+        ...extraParams,
       },
       'onReset',
     );
   });
   // 根据条件，从第一页开始显示、查询数据
-  const handleSearch = useMemoizedFn(() => {
+  const handleSearch = useMemoizedFn((extraParams?: Record<string, any>) => {
     if (!hasFromItems) {
       paginationAction.changeCurrent(1);
       return;
@@ -203,12 +204,13 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         current: 1,
         pageSize: paginationAction?.pageSize || outPaginationPageSize,
         formValues,
+        ...extraParams,
       },
       'onSearch',
     );
   });
   // 根据当前条件和页码 查询数据
-  const handleReload = useMemoizedFn(() => {
+  const handleReload = useMemoizedFn((extraParams?: Record<string, any>) => {
     if (!hasFromItems) {
       paginationAction.changeCurrent(paginationAction?.current);
       return;
@@ -219,6 +221,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         current: paginationAction?.current,
         pageSize: paginationAction?.pageSize,
         formValues: formValues,
+        ...extraParams,
       },
       'onReload',
     );
@@ -262,12 +265,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 初始化请求
   useEffect(() => {
     if (!autoRequest || !isReady) return;
-    if (hasFromItems) {
-      isInited.current = true;
-      queryFormRef.current?.submit();
+    if (!hasFromItems) {
+      paginationAction.changeCurrent(1);
       return;
     }
-    paginationAction.changeCurrent(1);
+    isInited.current = true;
+    queryFormRef.current?.submit();
   }, [autoRequest, isReady]);
   // ==================== table副作用结束====================
 
@@ -321,7 +324,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         </div>
       </div>
     );
-  }, [showToolbar, toolbarActionConfig, toolbarLeft, toolbarRight, toolbarStyle]);
+  }, [showToolbar, toolbarActionConfig, toolbarLeft, toolbarRight, JSON.stringify(toolbarStyle)]);
 
   const searchFormDom = useMemo(() => {
     const formSize = currentSize === 'default' || currentSize === 'large' ? 'middle' : currentSize;
@@ -349,6 +352,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     formItems,
     queryFormProps,
   ]);
+
   const tableDom = (
     <Spin {...currentLoading}>
       <Card

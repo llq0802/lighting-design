@@ -75,10 +75,20 @@ const Demo1: FC = () => {
           </>
         }
         toolbarRight={
-          <Button type="primary" onClick={() => tableRef.current?.onReset()}>
-            重置表单,分页并重新请求
+          <Button
+            type="primary"
+            onClick={() =>
+              tableRef.current?.onReset({
+                a: 999,
+              })
+            }
+          >
+            重置表单,分页并重新请求传递额外请求参数
           </Button>
         }
+        defaultRequestParams={{
+          a: 111,
+        }}
         formItems={formItems}
         formRef={formRef}
         columns={columns}

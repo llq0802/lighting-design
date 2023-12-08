@@ -47,6 +47,8 @@ nav:
 
 - 可通过`itemColProps`配置响应式 , 通过`isSpace`配置水平进紧凑模式
 
+- 通过` LFormItemXXX` 的 `itemColSpan`属性配置单独这一项占额外的数份
+
 :::
 
 ```ts

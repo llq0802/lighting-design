@@ -163,7 +163,7 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
   ];
 
   return (
-    <LFormItem required={required} rules={rules} {...restProps}>
+    <LFormItem required={required} rules={rules} validateTrigger="onBlur" {...restProps}>
       <NumberRange
         size={size}
         disabled={disabled ?? formDisabled}

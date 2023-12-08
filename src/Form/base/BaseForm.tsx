@@ -203,7 +203,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
       ...labelFlex,
       ...labelCol,
     };
-  }, [layout, labelWidth, labelCol]);
+  }, [layout, labelWidth, JSON.stringify(labelCol)]);
 
   const handleOnFinish = useMemoizedFn(async (values) => {
     if (!isFunction(onFinish)) return;
@@ -243,7 +243,14 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         }}
       />
     ) : null;
-  }, [initFieldValues, isReady, loading, !!submitter, submitterProps, isEnterSubmit]);
+  }, [
+    JSON.stringify(initFieldValues),
+    isReady,
+    loading,
+    !!submitter,
+    submitterProps,
+    isEnterSubmit,
+  ]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)
