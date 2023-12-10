@@ -63,7 +63,13 @@ export function useTableSize(outSize) {
  * @param outSize
  * @returns
  */
-export function useTableColumn({ contentRender, isSort, paginationAction, columns }) {
+export function useTableColumn({
+  contentRender,
+  isSort,
+  paginationAction,
+  columns,
+  toolbarActionConfig,
+}) {
   const outColumns = useMemo(() => {
     if (contentRender) return emptyArray;
     if (isSort) {
@@ -93,15 +99,37 @@ export function useTableColumn({ contentRender, isSort, paginationAction, column
   ]);
 
   // 表格展示的列key
-  const [columnKeys, setColumnKeys] = useRafState(() => outColumns.map(getTableColumnsKey));
+  const [columnKeys, setColumnKeys] = useRafState(() => {
+    if (toolbarActionConfig === false) {
+      return emptyArray;
+    }
+    if (!toolbarActionConfig?.showColumnSetting) {
+      return emptyArray;
+    }
+    return outColumns.map(getTableColumnsKey);
+  });
 
   useUpdateEffect(() => {
+    if (toolbarActionConfig === false) {
+      return;
+    }
+    if (!toolbarActionConfig?.showColumnSetting) {
+      return;
+    }
+
     const newKeys = outColumns.map(getTableColumnsKey);
     setColumnKeys(newKeys);
-  }, [outColumns]);
+  }, [outColumns, toolbarActionConfig]);
 
   const finalColumns = useMemo(() => {
     if (contentRender) return emptyArray;
+
+    if (toolbarActionConfig === false) {
+      return outColumns;
+    }
+    if (!toolbarActionConfig?.showColumnSetting) {
+      return outColumns;
+    }
 
     const tmpColumns: Record<string, any>[] = [];
 
@@ -118,7 +146,7 @@ export function useTableColumn({ contentRender, isSort, paginationAction, column
       }
     });
     return tmpColumns;
-  }, [columnKeys?.join('')]);
+  }, [outColumns, columnKeys?.join(''), toolbarActionConfig]);
 
   return {
     finalColumns,

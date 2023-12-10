@@ -31,7 +31,6 @@ const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
   >{`当前显示${range[0]}-${range[1]}条，共 ${total} 条数据`}</span>
 );
 
-// 注意 TdCell 要提到Table作用域外声明
 const TdCell = (props: any) => {
   // onMouseEnter, onMouseLeave在数据量多的时候，会严重阻塞表格单元格渲染，严重影响性能
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -171,6 +170,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     isSort,
     paginationAction,
     columns,
+    toolbarActionConfig,
   });
 
   // ==================== 表格方法开始====================

@@ -40,12 +40,8 @@ const Demo1 = () => {
           <Space>
             {editingKeys.includes(record.id) ? (
               <>
-                <a onClick={() => editTableRef.current?.save(record.id)}>
-                  保存
-                </a>
-                <a onClick={() => editTableRef.current?.cancel(record.id)}>
-                  取消
-                </a>
+                <a onClick={() => editTableRef.current?.save(record.id)}>保存</a>
+                <a onClick={() => editTableRef.current?.cancel(record.id)}>取消</a>
               </>
             ) : (
               <>
@@ -61,9 +57,7 @@ const Demo1 = () => {
                   插入
                 </a>
                 <a onClick={() => editTableRef.current?.edit(record)}>编辑</a>
-                <a onClick={() => editTableRef.current?.delete(record.id)}>
-                  删除
-                </a>
+                <a onClick={() => editTableRef.current?.delete(record.id)}>删除</a>
               </>
             )}
           </Space>
@@ -104,7 +98,10 @@ const Demo1 = () => {
         editTableOptions={{
           editTableRef,
           editingKeys: editingKeys,
-          onEditingKeys: setEditingKeys,
+          onEditingKeys: (keys) => {
+            console.log('==keys====>', keys);
+            setEditingKeys(keys);
+          },
           onDelete(key, isNewRow, i) {},
           onSave(row, isNewRow, i) {
             console.log('isNewRow', isNewRow);

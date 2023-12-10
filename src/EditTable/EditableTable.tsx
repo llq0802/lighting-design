@@ -178,10 +178,10 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
     editTableOptions = emptyObject,
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    contentRender,
     ...restprops
   } = props;
-
-  // console.log('restprops', restprops);
 
   const {
     isTimelyModified = true,
@@ -248,7 +248,8 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         }
 
         if (col.editable && isValidElement(col?.editable) && editingKeys?.includes(keyId)) {
-          const { disabledEdit, ...formItemProps } = col?.getEditable?.(text, record, index) ?? {};
+          const { disabledEdit = false, ...formItemProps } =
+            col?.getEditable?.(text, record, index) ?? {};
 
           if (!disabledEdit) {
             return cloneElement(col.editable, {
@@ -278,7 +279,6 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         render,
       };
     });
-
     return {
       mergedColumns,
       itemFieldObj: itemDataIndexObj,
@@ -545,7 +545,6 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         request={request}
         size={size}
         {...restprops}
-        contentRender={void 0}
       />
     </LForm>
   );
