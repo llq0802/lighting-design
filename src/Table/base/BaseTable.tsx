@@ -24,7 +24,6 @@ import type { LTableProps, LTableRequestType } from './types';
 
 export const LIGHTD_TABLE = 'lightd-table';
 
-// 显示数据总量
 const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
   <span
     className={`${LIGHTD_TABLE}-pagination-show-total`}
