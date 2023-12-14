@@ -1,3 +1,4 @@
+import type { PaginationOptions } from 'ahooks/lib/usePagination/types';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
 import type { CardProps, FormInstance, TableProps } from 'antd';
 import type { LQueryFormProps } from 'lighting-design/QueryForm';
@@ -342,4 +343,28 @@ export type LTableProps<T = any> = {
    * @see https://llq0802.github.io/lighting-design/latest/components/query-form
    */
   queryFormProps?: LQueryFormProps;
+  requestSuccess?: PaginationOptions<
+    { list: Record<string, any>[]; total: number },
+    [
+      {
+        current: number;
+        pageSize: number;
+        formValues?: Record<string, any>;
+        [key: string]: any;
+      },
+      'onInit' | 'onSearch' | 'onReload' | 'onReset' | undefined,
+    ]
+  >['onSuccess'];
+  requestFinally?: PaginationOptions<
+    { list: Record<string, any>[]; total: number },
+    [
+      {
+        current: number;
+        pageSize: number;
+        formValues?: Record<string, any>;
+        [key: string]: any;
+      },
+      'onInit' | 'onSearch' | 'onReload' | 'onReset' | undefined,
+    ]
+  >['onFinally'];
 } & TableProps<T>;
