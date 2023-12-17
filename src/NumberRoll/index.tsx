@@ -246,12 +246,16 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
     } else if (type === 'date') {
       loadAnimateDate();
     }
+    let timer: NodeJS.Timeout;
     if (onFinish) {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         onFinish?.(value);
         clearTimeout(timer);
       }, speed);
     }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [value]);
 
   return (
