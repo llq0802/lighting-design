@@ -1,19 +1,7 @@
 import classnames from 'classnames';
 import type { FC } from 'react';
 
-export const NumberRoll_NumberArray = [
-  '0',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  '.',
-];
+export const NumberRoll_NumberArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
 
 interface PropsType {
   num: string;
@@ -33,8 +21,8 @@ const ItemChildren: FC<PropsType> = ({ num }) => {
       {NumberRoll_NumberArray.map((item, i) => (
         <span
           className={classnames(
-            `${prefixCls}-animate-span`,
-            isDel(item) ? `${prefixCls}-animate-span-del` : '',
+            `${prefixCls}-animate-dom-span`,
+            isDel(item) ? `${prefixCls}-animate-dom-span-del` : '',
           )}
           key={i}
         >

@@ -113,6 +113,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
     const decimalFlag = newStr.join('').indexOf('.') === -1; // 判断是否没有小数
     const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
     const numberDom: any[] = []; // 整数位数
+
     newStr.forEach((o, i) => {
       if (decimalFlag) {
         // 设置分隔符 不是第0个，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
@@ -125,7 +126,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
         ) {
           numberDom.push((key: React.Key | null | undefined) => (
             <div className={`${prefixCls}-animate-dot`} key={key}>
-              <span>{symbol}</span>
+              <span className={`${prefixCls}-animate-dot-span`}>{symbol}</span>
             </div>
           ));
         }
@@ -141,7 +142,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
         ) {
           numberDom.push((key: React.Key | null | undefined) => (
             <div className={`${prefixCls}-animate-dot`} key={key}>
-              <span>{symbol}</span>
+              <span className={`${prefixCls}-animate-dot-span`}>{symbol}</span>
             </div>
           ));
         }
@@ -153,9 +154,14 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
         numberDom.push((key: React.Key) => <ItemChildren num={o} key={key} />);
       }
     });
-
     return (
-      <div className={`${prefixCls}-animate`} style={{ transform: `scale(${scale})`, height }}>
+      <div
+        className={`${prefixCls}-animate`}
+        style={{
+          transform: `scale(${scale})`,
+          [`--${prefixCls}-height`]: typeof height === 'number' ? `${height}px` : height,
+        }}
+      >
         {numberDom.map((item, index: number) => item(index))}
       </div>
     );
@@ -185,9 +191,9 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
         console.error(error);
       }
     }
-
     // 拼接最小位数(个位数起)
     const integer = newStr.join('').indexOf('.'); // 整数位数
+
     if (minLength > 1 && minLength !== integer && minLength > integer) {
       for (let i = 0; i < minLength - integer; i++) {
         newStr.unshift('0');

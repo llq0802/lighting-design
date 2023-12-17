@@ -1,43 +1,82 @@
+// @NumberRollPrefixCls: ~'lightd-number-roll';
+
+// .@{NumberRollPrefixCls} {
+//   user-select: none;
+//   font-size: 36px;
+
+//   &-animate {
+//     // display: flex;
+//     position: relative;
+//     height: var(--lightd-number-roll-height);
+//     line-height: var(--lightd-number-roll-height);
+//     overflow: hidden;
+//   }
+
+//   &-animate-dom {
+//     float: left;
+//     display: flex;
+//     flex-direction: column;
+//     align-items: center;
+//   }
+
+//   &-animate-dom-del {
+//     width: 20px;
+//   }
+
+//   &-animate-dot {
+//     width: 14px;
+//     font-size: 30px;
+//     text-align: center;
+//   }
+
+//   &-animate-dot,
+//   &-animate-dom {
+//     span {
+//       display: grid;
+//       place-items: center;
+//       height: var(--lightd-number-roll-height);
+//     }
+//   }
+// }
+
 @NumberRollPrefixCls: ~'lightd-number-roll';
 
 .@{NumberRollPrefixCls} {
+  display: flex;
+  align-items: center;
   user-select: none;
   font-size: 36px;
 
   &-animate {
     position: relative;
-    height: 45px;
     overflow: hidden;
-    line-height: 45px;
-  }
-
-  &-animate-dom {
-    position: relative;
-    top: 0;
-    float: left;
-    // width: 24px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-  }
-
-  &-animate-dom-del {
-    width: 20px;
-  }
-
-  &-animate-dot {
-    float: left;
-    width: 14px;
-    font-size: 30px;
-    text-align: center;
+    height: var(--lightd-number-roll-height);
+    line-height: var(--lightd-number-roll-height);
   }
 
   &-animate-dot,
   &-animate-dom {
-    span {
-      float: left;
-      width: 100%;
-      height: 45px;
-    }
+    text-align: center;
+    float: left;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
   }
+
+  &-animate-dot-span,
+  &-animate-dom-span {
+    text-align: center;
+    line-height: 1;
+    width: 100%;
+    height: var(--lightd-number-roll-height);
+    font-size: 36px;
+  }
+
+  &-animate-dot-span {
+    line-height: 0.8;
+    width: 16px;
+  }
+  // &-animate-dom-span-del {
+  //   width: min-content;
+  // }
 }

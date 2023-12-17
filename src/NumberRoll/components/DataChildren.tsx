@@ -35,8 +35,8 @@ const DataChildren: FC<PropsType> = ({ num }) => {
       {NumberRoll_DaterArray.map((item, i) => (
         <span
           className={classnames(
-            `${prefixCls}-animate-span`,
-            isDel(item) ? `${prefixCls}-animate-span-del` : '',
+            `${prefixCls}-animate-dom-span`,
+            isDel(item) ? `${prefixCls}-animate-dom-span-del` : '',
           )}
           key={i}
         >
