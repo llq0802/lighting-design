@@ -97,10 +97,10 @@ const prefixCls = 'lightd-number-roll';
 const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
   className,
   style,
-  height = 45,
+  height = 36,
   type = 'number',
   minLength = 1,
-  speed = 500,
+  speed = 600,
   value = 0,
   symbol = '',
   dot = 0,

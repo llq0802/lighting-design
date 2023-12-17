@@ -45,20 +45,21 @@
   display: flex;
   align-items: center;
   user-select: none;
-  font-size: 36px;
+  line-height: 1;
 
   &-animate {
     position: relative;
     overflow: hidden;
     height: var(--lightd-number-roll-height);
     line-height: var(--lightd-number-roll-height);
+    font-size: var(--lightd-number-roll-height);
   }
 
   &-animate-dot,
   &-animate-dom {
+    line-height: 1;
     text-align: center;
     float: left;
-    line-height: 1;
     display: flex;
     flex-direction: column;
   }
@@ -69,11 +70,11 @@
     line-height: 1;
     width: 100%;
     height: var(--lightd-number-roll-height);
-    font-size: 36px;
+    font-size: var(--lightd-number-roll-height);
   }
 
   &-animate-dot-span {
-    line-height: 0.8;
+    line-height: 0.72;
     width: 16px;
   }
   // &-animate-dom-span-del {
