@@ -1,20 +1,23 @@
 import classnames from 'classnames';
 import type { FC } from 'react';
+import { isNumber } from '..';
 
 export const NumberRoll_NumberArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
 
 interface PropsType {
   num: string;
+  index: number;
+  itemNumStyle?: React.CSSProperties;
+  itemCharStyle?: React.CSSProperties;
 }
 const prefixCls = 'lightd-number-roll';
-const ItemChildren: FC<PropsType> = ({ num }) => {
-  const isDel = (item: string) => item === '.';
-
+const ItemChildren: FC<PropsType> = ({ num, itemNumStyle, itemCharStyle }) => {
+  const numStyle = itemNumStyle || {};
   return (
     <div
       className={classnames(
         `${prefixCls}-animate-dom`,
-        isDel(num) ? `${prefixCls}-animate-dom-del` : '',
+        !isNumber(num) ? `${prefixCls}-animate-dom-char` : '',
       )}
       data-num={num}
     >
@@ -22,8 +25,12 @@ const ItemChildren: FC<PropsType> = ({ num }) => {
         <span
           className={classnames(
             `${prefixCls}-animate-dom-span`,
-            isDel(item) ? `${prefixCls}-animate-dom-span-del` : '',
+            !isNumber(item) ? `${prefixCls}-animate-dom-span-char` : '',
           )}
+          style={{
+            ...numStyle,
+            ...(!isNumber(item) ? itemCharStyle : {}),
+          }}
           key={i}
         >
           {item}

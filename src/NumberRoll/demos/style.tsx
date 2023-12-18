@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import { LNumberRoll } from 'lighting-design';
 import type { FC } from 'react';
 import { useState } from 'react';
-import './index.less';
 
 const center = {
   display: 'flex',
@@ -20,9 +19,18 @@ const Demo: FC = () => {
   return (
     <LNumberRoll
       style={center}
-      className="my-number-style"
       value={value}
       type="date"
+      height={70}
+      fontSize={50}
+      itemNumStyle={{
+        backgroundColor: '#000',
+        color: '#fff',
+        fontWeight: 'bold',
+        margin: '0 2px',
+        width: 50,
+        outline: '2px solid #fff',
+      }}
     />
   );
 };

@@ -11,13 +11,13 @@ const center = {
 const Demo: FC = () => {
   const [value, setValue] = useState<string>(dayjs().format('HH:mm:ss'));
   const [value3] = useState<string>(dayjs().format('YYYY-MM-DD'));
-  const [value2, setValue2] = useState<string>(
-    dayjs().format('YYYY-MM-DD HH:mm:ss'),
-  );
+  const [value2, setValue2] = useState<string>(dayjs().format('YYYY-MM-DD HH:mm:ss'));
+  const [value4, setValue4] = useState<string>(dayjs().format('YYYY/MM/DD HH:mm:ss'));
 
   useInterval(() => {
     setValue(dayjs().format('HH:mm:ss'));
     setValue2(dayjs().format('YYYY-MM-DD HH:mm:ss'));
+    setValue4(dayjs().format('YYYY/MM/DD HH:mm:ss'));
   }, 2000);
 
   return (
@@ -34,6 +34,8 @@ const Demo: FC = () => {
       <LNumberRoll style={center} value={value3} type="date" />
       <br />
       <LNumberRoll style={center} value={value2} type="date" />
+      <br />
+      <LNumberRoll style={center} value={value4} type="date" />
     </>
   );
 };

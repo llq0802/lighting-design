@@ -1,44 +1,3 @@
-// @NumberRollPrefixCls: ~'lightd-number-roll';
-
-// .@{NumberRollPrefixCls} {
-//   user-select: none;
-//   font-size: 36px;
-
-//   &-animate {
-//     // display: flex;
-//     position: relative;
-//     height: var(--lightd-number-roll-height);
-//     line-height: var(--lightd-number-roll-height);
-//     overflow: hidden;
-//   }
-
-//   &-animate-dom {
-//     float: left;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//   }
-
-//   &-animate-dom-del {
-//     width: 20px;
-//   }
-
-//   &-animate-dot {
-//     width: 14px;
-//     font-size: 30px;
-//     text-align: center;
-//   }
-
-//   &-animate-dot,
-//   &-animate-dom {
-//     span {
-//       display: grid;
-//       place-items: center;
-//       height: var(--lightd-number-roll-height);
-//     }
-//   }
-// }
-
 @NumberRollPrefixCls: ~'lightd-number-roll';
 
 .@{NumberRollPrefixCls} {
@@ -52,7 +11,7 @@
     overflow: hidden;
     height: var(--lightd-number-roll-height);
     line-height: var(--lightd-number-roll-height);
-    font-size: var(--lightd-number-roll-height);
+    font-size: var(--lightd-number-roll-font-size);
   }
 
   &-animate-dot,
@@ -62,22 +21,28 @@
     float: left;
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 
   &-animate-dot-span,
   &-animate-dom-span {
     text-align: center;
     line-height: 1;
-    width: 100%;
+    width: auto;
     height: var(--lightd-number-roll-height);
-    font-size: var(--lightd-number-roll-height);
+    font-size: var(--lightd-number-roll-font-size);
+    display: grid;
+    place-items: center;
+  }
+
+  &-animate-dom-span-char {
+    // width: min-content;
+    width: auto;
   }
 
   &-animate-dot-span {
     line-height: 0.72;
     width: 16px;
+    place-items: inherit;
   }
-  // &-animate-dom-span-del {
-  //   width: min-content;
-  // }
 }

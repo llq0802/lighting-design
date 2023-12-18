@@ -1,19 +1,20 @@
+import { useInterval } from 'ahooks';
 import { LNumberRoll } from 'lighting-design';
 import type { FC } from 'react';
 import { useState } from 'react';
 
 const center = {
-  // display: 'flex',
-  // justifyContent: 'center',
+  display: 'flex',
+  justifyContent: 'center',
 };
 const Demo: FC = () => {
-  const [value, setValue] = useState(101.1);
+  const [value, setValue] = useState(10);
 
-  // useInterval(() => {
-  //   setValue((num) => (num > Number.MAX_SAFE_INTEGER ? 10 : num + 10));
-  // }, 2000);
+  useInterval(() => {
+    setValue((num) => (num > Number.MAX_SAFE_INTEGER ? 10 : num + 10));
+  }, 2000);
 
-  return <LNumberRoll style={center} value={value} />;
+  return <LNumberRoll style={center} value={value} speed={500} />;
 };
 
 export default Demo;

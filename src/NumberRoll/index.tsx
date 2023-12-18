@@ -6,15 +6,25 @@ import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
 import ItemChildren, { NumberRoll_NumberArray } from './components/ItemChildren';
 import './index.less';
 
+export const isNumber = (val: any) => !window.isNaN(parseFloat(val));
+
 export interface LNumberRollProps {
   /**
-   * 组件高度
+   * 组件的高度 尽量同 fontSize一致
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number | string}
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    *@version 2.1.25
    */
   height: number | string;
+  /**
+   * 字体的大小 尽量同 height一致
+   *@author 李岚清 <https://github.com/llq0802>
+   *@type {number | string}
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
+   *@version 2.1.25
+   */
+  fontSize: number | string;
   /**
    * 默认值
    *@author 李岚清 <https://github.com/llq0802>
@@ -76,6 +86,30 @@ export interface LNumberRollProps {
    */
   style: CSSProperties;
   /**
+   * 每一项数值类型滚动的样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@type {React.CSSProperties }
+   *@version 2.1.25
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
+   */
+  itemNumStyle: CSSProperties;
+  /**
+   * 每一项不是数值类型滚动的样式 比如value中包函 '.' ':' '-' '/'
+   *@author 李岚清 <https://github.com/llq0802>
+   *@type {React.CSSProperties }
+   *@version 2.1.25
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
+   */
+  itemCharStyle: CSSProperties;
+  /**
+   * 分隔符的的样式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@type {React.CSSProperties }
+   *@version 2.1.25
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
+   */
+  symbolStyle: CSSProperties;
+  /**
    * 类名
    *@author 李岚清 <https://github.com/llq0802>
    *@type {string }
@@ -97,7 +131,11 @@ const prefixCls = 'lightd-number-roll';
 const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
   className,
   style,
+  itemNumStyle,
+  itemCharStyle,
+  symbolStyle,
   height = 36,
+  fontSize = 36,
   type = 'number',
   minLength = 1,
   speed = 600,
@@ -124,9 +162,12 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
           symbol !== '.' &&
           o !== '.'
         ) {
+          // 分隔符
           numberDom.push((key: React.Key | null | undefined) => (
             <div className={`${prefixCls}-animate-dot`} key={key}>
-              <span className={`${prefixCls}-animate-dot-span`}>{symbol}</span>
+              <span className={`${prefixCls}-animate-dot-span`} style={symbolStyle}>
+                {symbol}
+              </span>
             </div>
           ));
         }
@@ -140,18 +181,37 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
           symbol !== '.' &&
           o !== '.'
         ) {
+          // 分隔符
           numberDom.push((key: React.Key | null | undefined) => (
             <div className={`${prefixCls}-animate-dot`} key={key}>
-              <span className={`${prefixCls}-animate-dot-span`}>{symbol}</span>
+              <span className={`${prefixCls}-animate-dot-span`} style={symbolStyle}>
+                {symbol}
+              </span>
             </div>
           ));
         }
       }
 
       if (type === 'date') {
-        numberDom.push((key: React.Key) => <DataChildren num={o} key={key} />);
+        numberDom.push((key: React.Key) => (
+          <DataChildren
+            num={o}
+            key={key}
+            index={key}
+            itemNumStyle={itemNumStyle}
+            itemCharStyle={itemCharStyle}
+          />
+        ));
       } else {
-        numberDom.push((key: React.Key) => <ItemChildren num={o} key={key} />);
+        numberDom.push((key: React.Key) => (
+          <ItemChildren
+            num={o}
+            key={key}
+            index={key}
+            itemNumStyle={itemNumStyle}
+            itemCharStyle={itemCharStyle}
+          />
+        ));
       }
     });
     return (
@@ -160,6 +220,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
         style={{
           transform: `scale(${scale})`,
           [`--${prefixCls}-height`]: typeof height === 'number' ? `${height}px` : height,
+          [`--${prefixCls}-font-size`]: typeof height === 'number' ? `${fontSize}px` : fontSize,
         }}
       >
         {numberDom.map((item, index: number) => item(index))}
@@ -208,11 +269,11 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
     if (!domList) return;
     for (const itemDom of [...(domList as any)]) {
       const dataNum = itemDom.getAttribute('data-num') || 0;
-      const _height = itemDom.offsetHeight / NumberRoll_NumberArray.length;
+      const _itemheight = itemDom.offsetHeight / NumberRoll_NumberArray.length;
       const itemStyle = itemDom.style;
-      const y = dataNum === '.' ? -10 * _height : -dataNum * _height;
+      const y = dataNum === '.' ? -10 * _itemheight : -dataNum * _itemheight;
       itemStyle.transform = `translateY(${y}px)`;
-      itemStyle.transition = `${dataNum === '.' ? 0 : speed / 1000}s`;
+      itemStyle.transition = `${!isNumber(dataNum) ? 0 : speed / 1000}s`;
     }
   });
 
@@ -225,6 +286,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
       const dataNum = itemDom.getAttribute('data-num') || 0;
       const _height = itemDom.offsetHeight / NumberRoll_DaterArray.length;
       const itemStyle = itemDom.style;
+
       const y =
         dataNum === ':'
           ? -10 * _height
@@ -232,10 +294,12 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
           ? -11 * _height
           : dataNum === '-'
           ? -12 * _height
+          : dataNum === '/'
+          ? -13 * _height
           : -dataNum * _height;
 
       itemStyle.transform = `translateY(${y}px)`;
-      itemStyle.transition = `${dataNum === ':' || dataNum === ' ' ? 0 : speed / 1000}s`;
+      itemStyle.transition = `${!isNumber(dataNum) ? 0 : speed / 1000}s`;
     }
   });
 

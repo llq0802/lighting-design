@@ -9,11 +9,11 @@ const center = {
 };
 const Demo: FC = () => {
   const [value, setValue] = useState(() => {
-    return Number((Math.random() * 1000000000).toFixed(2)) as number;
+    return Number((Math.random() * 1000000000).toFixed(4)) as number;
   });
 
   useInterval(() => {
-    const random = Number((Math.random() * 1000000000).toFixed(2)) as number;
+    const random = Number((Math.random() * 1000000000).toFixed(4)) as number;
     setValue(random);
   }, 5000);
 
