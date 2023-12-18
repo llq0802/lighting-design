@@ -32,6 +32,12 @@ Lighting Design 是基于 Ant Design 扩展的业务场景组件。可以 **显�
 |    `V1` 版本    | `V4` 版本  |
 |    `V2` 版本    | `V5` 版本  |
 
+## 与 ProComponents 区别
+
+[ProComponents](https://procomponents.ant.design/)非常优秀, Lighting Design 部分灵感与需求来自与它，使用得当能大大减少开发时间，
+但由于其配置太过于复杂, 且学习成本很高往往劝退很多人, Lighting Design 组件库则更加精简，只包含常用的业务组件与基础组件, 配置简单且几乎兼容 antd 所有属性,
+更加适合业务需求, 且组件库与业务需求高度契合, 且组件库的文档与组件的使用方式也更加符合业务需求
+
 ## 与其他库互补
 
 - TanStackQuery [服务状态管理](https://tanstack.com/query/v4/docs/react/examples/react/basic)
