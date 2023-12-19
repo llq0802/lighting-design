@@ -2,6 +2,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { CardProps } from 'antd';
 import { Card, theme } from 'antd';
 import classnames from 'classnames';
+import { emptyArray } from 'lighting-design/constants';
 import type { CSSProperties, ReactNode } from 'react';
 import './index.less';
 
@@ -115,7 +116,7 @@ const prefixCls = 'lightd-card-group';
 
 export default function LCardGroup(props: LCardGroupProps) {
   const {
-    options = [],
+    options = emptyArray,
     multiple = false,
     cancelable = false,
     disabled = false,

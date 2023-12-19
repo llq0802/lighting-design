@@ -1,7 +1,7 @@
 import { useMemoizedFn } from 'ahooks';
 import classnames from 'classnames';
 import type { CSSProperties, DOMAttributes, FC, ReactElement, ReactNode } from 'react';
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
 import ItemChildren, { NumberRoll_NumberArray } from './components/ItemChildren';
 import './index.less';
@@ -255,7 +255,7 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
     // 拼接最小位数(个位数起)
     const integer = newStr.join('').indexOf('.'); // 整数位数
 
-    if (minLength > 1 && minLength !== integer && minLength > integer) {
+    if (minLength > 1 && minLength < val.toString().lenght && minLength > integer) {
       for (let i = 0; i < minLength - integer; i++) {
         newStr.unshift('0');
       }
@@ -329,4 +329,4 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
   );
 };
 
-export default LNumberRoll;
+export default memo(LNumberRoll);

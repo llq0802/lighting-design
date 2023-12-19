@@ -7,7 +7,7 @@ const Demo3 = () => {
   return (
     <LForm
       form={form}
-      submitter={{ buttonAlign: 'center' }}
+      submitter={{ buttonAlign: 'center', isAntdReset: true }}
       onFinish={(values) => {
         console.log('values', values);
       }}
@@ -26,12 +26,7 @@ const Demo3 = () => {
         min={6}
         validateTrigger="onChange"
       />
-      <LFormItemPassword
-        name="password3"
-        label="高强度密码"
-        required
-        highPassWord
-      />
+      <LFormItemPassword name="password3" label="高强度密码" required highPassWord />
 
       <LFormItemPassword
         required
