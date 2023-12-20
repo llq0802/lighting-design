@@ -372,6 +372,7 @@ type RequestSuccess = (
       pageSize: number;
       formValues?: Record<string, any> | undefined;
     },
+    'onInit' | 'onSearch' | 'onReload' | 'onReset' | undefined,
   ],
 ) => void;
 ```
@@ -379,13 +380,22 @@ type RequestSuccess = (
 ### RequestFinally
 
 ```ts
-type RequestFinally = ((params: [{
-    [key: string]: any;
-    current: number;
-    pageSize: number;
-    formValues?: Record<string, any> | undefined;
-}, "onReset" | "onInit" | "onSearch" | "onReload" | undefined], data?: {
-    ...;
-} | undefined, e?: Error | undefined) => void) | undefined
-
+type RequestFinally =
+  | ((
+      params: [
+        {
+          [key: string]: any;
+          current: number;
+          pageSize: number;
+          formValues?: Record<string, any> | undefined;
+        },
+        'onReset' | 'onInit' | 'onSearch' | 'onReload' | undefined,
+      ],
+      data: {
+        list: Record<string, any>[];
+        total: number;
+      },
+      e?: Error | undefined,
+    ) => void)
+  | undefined;
 ```
