@@ -2,7 +2,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { CardProps } from 'antd';
 import { Card, theme } from 'antd';
 import classnames from 'classnames';
-import { emptyArray } from 'lighting-design/constants';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { CSSProperties, ReactNode } from 'react';
 import './index.less';
 
@@ -19,6 +19,13 @@ export type LCardGroupOptions = {
 };
 
 export interface LCardGroupProps {
+  /**
+   *是否把每个选项的 label 包装到 value 中，会把  value 类型从 string 变为 { value: string, label: ReactNode } 的格式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.25
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LCardGroupProps
+   */
+  labelInValue?: boolean;
   /**
    *默认值
    *@author 李岚清 <https://github.com/llq0802>
@@ -118,21 +125,23 @@ export default function LCardGroup(props: LCardGroupProps) {
   const {
     options = emptyArray,
     multiple = false,
+    labelInValue = false,
     cancelable = false,
     disabled = false,
     gap = 8,
     className,
     style,
-    cardBodyStyle = {},
-    cardStyle = {},
-    activeStyle = {},
+    cardBodyStyle = emptyObject,
+    cardStyle = emptyObject,
+    activeStyle = emptyObject,
   } = props;
 
   const { token } = useToken();
 
-  const [value, onChange] = useControllableValue<ValueType>(props, {
+  const [val, onChange] = useControllableValue<ValueType>(props, {
     defaultValue: multiple ? [] : void 0,
   });
+  const value = multiple ? val || [] : val;
 
   if (disabled) {
     options?.forEach((item) => {
@@ -151,22 +160,22 @@ export default function LCardGroup(props: LCardGroupProps) {
     if (itemCard.disabled || disabled) {
       return;
     }
-
+    const val = labelInValue ? itemCard : itemCard.value;
     if (multiple && Array.isArray(value)) {
       // 多选
       if (value?.includes?.(itemCard.value)) {
         triggerChange(value?.filter((v) => v !== itemCard.value));
       } else {
-        triggerChange([...(value || []), itemCard.value]);
+        triggerChange([...(value || emptyArray), val]);
       }
     } else {
       // 单选
       if (itemCard.value === value) {
         if (cancelable) {
-          triggerChange([]);
+          triggerChange(emptyArray);
         }
       } else {
-        triggerChange(itemCard.value);
+        triggerChange(val);
       }
     }
   });
@@ -209,7 +218,7 @@ export default function LCardGroup(props: LCardGroupProps) {
               borderColor: isActive ? token.colorPrimary : void 0,
               ...cardStyle,
               ...item.cardProps?.style,
-              ...(isActive ? activeStyle : {}),
+              ...(isActive ? activeStyle : emptyObject),
             }}
             bodyStyle={{
               ...cardBodyStyle,

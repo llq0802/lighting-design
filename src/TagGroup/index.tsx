@@ -123,9 +123,10 @@ export default function LTagGroup(props: LTagGroupProps) {
     cancelable = false,
   } = props;
 
-  const [value, onChange] = useControllableValue<ValueType>(props, {
+  const [val, onChange] = useControllableValue<ValueType>(props, {
     defaultValue: multiple ? [] : void 0,
   });
+  const value = multiple ? val || [] : val;
 
   // 是否是多选
   const isMultiple = multiple;
