@@ -2,7 +2,7 @@ import { useControllableValue } from 'ahooks';
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
 import classnames from 'classnames';
-import { emptyObject } from 'lighting-design/constants';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useMemo, type CSSProperties, type FC, type ReactNode } from 'react';
 import './index.less';
 
@@ -204,7 +204,7 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
     <Collapse
       items={items}
       collapsible={innerCollapsible}
-      activeKey={collapsed ? [prefixCls] : []}
+      activeKey={collapsed ? [prefixCls] : emptyArray}
       ghost={ghost}
       destroyInactivePanel={destroyContent}
       bordered={bordered}

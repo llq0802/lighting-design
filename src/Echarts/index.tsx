@@ -1,10 +1,4 @@
-import {
-  useMemoizedFn,
-  useMount,
-  usePrevious,
-  useUnmount,
-  useUpdateEffect,
-} from 'ahooks';
+import { useMemoizedFn, useMount, usePrevious, useUnmount, useUpdateEffect } from 'ahooks';
 import classnames from 'classnames';
 import type { ECharts, EChartsType } from 'echarts';
 import * as echarts from 'echarts';
@@ -16,7 +10,7 @@ import {
   pick,
   transformEchartsOption,
 } from 'lighting-design/_utils';
-import { emptyObject } from 'lighting-design/constants';
+import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { memo, useImperativeHandle, useRef, type FC } from 'react';
 import { bind, clear } from 'size-sensor';
 import './index.less';
@@ -26,13 +20,7 @@ export type { LEChartsInstance, LEChartsOption, LEChartsProps } from './tyeps';
 
 const prefixCls = 'lightd-echarts';
 
-const pickKeys = [
-  'option',
-  'notMerge',
-  'lazyUpdate',
-  'showLoading',
-  'loadingOption',
-];
+const pickKeys = ['option', 'notMerge', 'lazyUpdate', 'showLoading', 'loadingOption'];
 
 const LECharts: FC<LEChartsProps> = memo((props) => {
   const {
@@ -64,11 +52,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
   /** echarts.init 初始化实例 */
   const initEchartsInstance = useMemoizedFn(async () => {
     return new Promise((resolve) => {
-      const echartsInstance = (echartsInstanceRef.current = echarts.init(
-        ref.current,
-        theme,
-        opts,
-      ));
+      const echartsInstance = (echartsInstanceRef.current = echarts.init(ref.current, theme, opts));
       resolve(echartsInstance);
     });
   });
@@ -83,7 +67,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     ) {
       echartOption = transformEchartsOption(
         fastDeepClone(option), // 必须先深克隆
-        [...new Set(['fontSize', ...(autoResizeFields || [])])],
+        [...new Set(['fontSize', ...(autoResizeFields || emptyArray)])],
         designWidth,
       );
     } else {
@@ -98,14 +82,8 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
 
   /** 绑定图表实例事件 */
   const bindEvents = useMemoizedFn(
-    (
-      instance: ECharts,
-      events: Record<string, (params: any, ins: ECharts) => void>,
-    ) => {
-      function _bindEvent(
-        eventName: string,
-        func: (params: any, ins: ECharts) => void,
-      ) {
+    (instance: ECharts, events: Record<string, (params: any, ins: ECharts) => void>) => {
+      function _bindEvent(eventName: string, func: (params: any, ins: ECharts) => void) {
         if (isString(eventName) && isFunction(func)) {
           instance.on(eventName, (param: any) => {
             func(param, instance);
@@ -208,10 +186,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     }
 
     // 如果 style 或者  className 变化 重新resize
-    if (
-      !isEqual(prevProps?.style, style) ||
-      !isEqual(prevProps?.className, className)
-    ) {
+    if (!isEqual(prevProps?.style, style) || !isEqual(prevProps?.className, className)) {
       resize();
     }
   }, [
@@ -247,9 +222,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     };
   });
 
-  return (
-    <div ref={ref} className={classnames(prefixCls, className)} style={style} />
-  );
+  return <div ref={ref} className={classnames(prefixCls, className)} style={style} />;
 });
 
 // 第一步优化性能

@@ -147,11 +147,11 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
   } = props;
 
   const [checkList, setCheckList] = useControllableValue<ValueType[]>({
-    defaultValue: defaultValue || [],
+    defaultValue: defaultValue || emptyArray,
     ...props,
   });
 
-  const [indeterminateList, setIndeterminateList] = useRafState<ValueType[]>([]);
+  const [indeterminateList, setIndeterminateList] = useRafState<ValueType[]>(emptyArray);
 
   const fieldNames = useCreation(
     () => ({
@@ -187,8 +187,8 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
   // 处理当前值的父级选中与半选中
   const processParentChecked = useMemoizedFn(
     (currentValue?: ValueType, checks?: ValueType[], indetermanites?: ValueType[]) => {
-      const newChecks = new Set(checks || []);
-      const newIndetermanites = new Set(indetermanites || []);
+      const newChecks = new Set(checks || emptyArray);
+      const newIndetermanites = new Set(indetermanites || emptyArray);
 
       // 递归处理父级勾选
       function recursion(parentVal: ValueType) {
@@ -264,7 +264,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
 
   const handleChange = useMemoizedFn((subItem: LTreeTableDataItem) => {
     const newCheckList = new Set(checkList || []);
-    const newIndetermaniteList = new Set(indeterminateList || []);
+    const newIndetermaniteList = new Set(indeterminateList || emptyArray);
 
     const currentValue = subItem[valueKey];
     const currentChecked = newCheckList.has(currentValue);
@@ -278,7 +278,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
 
     if (checkStrictly) {
       setCheckList([...newCheckList]);
-      setIndeterminateList([]);
+      setIndeterminateList(emptyArray);
       return;
     }
 
@@ -337,7 +337,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
       ? innerColumns
       : outColumns?.length
       ? outColumns.map((item) => item)
-      : [];
+      : emptyArray;
 
     return internalColumns.map((item, i) => ({
       ...item,
@@ -345,7 +345,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
       ...outColumns?.[i],
       onCell: (record: Record<string, any>, rowIndex: number) => {
         const col = record[item.dataIndex];
-        const outOnCell = outColumns?.[i]?.onCell?.(record, rowIndex) ?? {};
+        const outOnCell = outColumns?.[i]?.onCell?.(record, rowIndex) ?? emptyObject;
         return {
           ...outOnCell,
           rowSpan: col.rowSpan,
@@ -386,7 +386,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
       {...restProps}
       {...tableProps}
       className={classnames(prefixCls, className, tableProps?.className)}
-      dataSource={realDataSource ?? []}
+      dataSource={realDataSource ?? emptyArray}
       columns={realColumns}
     />
   );
