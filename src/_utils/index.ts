@@ -372,3 +372,35 @@ export const useLoading = (
   useUpdateLayoutEffect(() => setLoading(outLoading), [outLoading]);
   return [loading, setLoading];
 };
+
+// dispose 处理
+// format  格式化
+// transform 转化
+/**
+ * 转化单选多选组件传入的value
+ * @param param0
+ * @returns
+ */
+export const transformValue = ({ value, multiple, labelInValue }) => {
+  if (labelInValue) {
+    if (multiple) {
+      return value?.map?.((item) => (typeof item === 'object' ? item?.value : item)) ?? emptyArray;
+    }
+    return typeof value === 'object' ? value?.value : value;
+  }
+  return multiple ? value || emptyArray : value;
+};
+/**
+ * 转化单选多选组件onChange的value
+ * @param param0
+ * @returns
+ */
+export const transformChangeValue = ({ value, multiple, labelInValue, options }) => {
+  if (labelInValue) {
+    if (multiple) {
+      return options.filter((item) => value?.includes?.(item.value));
+    }
+    return options.find((item) => item.value === value);
+  }
+  return value;
+};

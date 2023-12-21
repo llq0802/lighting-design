@@ -2,8 +2,9 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { CardProps } from 'antd';
 import { Card, theme } from 'antd';
 import classnames from 'classnames';
+import { transformChangeValue, transformValue } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
-import type { CSSProperties, ReactNode } from 'react';
+import { useMemo, type CSSProperties, type ReactNode } from 'react';
 import './index.less';
 
 const { useToken } = theme;
@@ -139,9 +140,12 @@ export default function LCardGroup(props: LCardGroupProps) {
   const { token } = useToken();
 
   const [val, onChange] = useControllableValue<ValueType>(props, {
-    defaultValue: multiple ? [] : void 0,
+    defaultValue: props?.defaultValue || multiple ? emptyArray : void 0,
   });
-  const value = multiple ? val || [] : val;
+  const value = useMemo(
+    () => transformValue({ value: val, multiple, labelInValue }),
+    [val, multiple, labelInValue],
+  );
 
   if (disabled) {
     options?.forEach((item) => {
@@ -150,9 +154,8 @@ export default function LCardGroup(props: LCardGroupProps) {
   }
 
   const triggerChange = useMemoizedFn((value: any) => {
-    if (onChange) {
-      onChange(value);
-    }
+    const val = transformChangeValue({ value, multiple, labelInValue, options });
+    onChange?.(val);
   });
 
   const handleSelect = useMemoizedFn((itemCard: any) => {
@@ -160,22 +163,22 @@ export default function LCardGroup(props: LCardGroupProps) {
     if (itemCard.disabled || disabled) {
       return;
     }
-    const val = labelInValue ? itemCard : itemCard.value;
+
     if (multiple && Array.isArray(value)) {
       // 多选
       if (value?.includes?.(itemCard.value)) {
         triggerChange(value?.filter((v) => v !== itemCard.value));
       } else {
-        triggerChange([...(value || emptyArray), val]);
+        triggerChange([...(value || emptyArray), itemCard.value]);
       }
     } else {
       // 单选
       if (itemCard.value === value) {
         if (cancelable) {
-          triggerChange(emptyArray);
+          triggerChange(void 0);
         }
       } else {
-        triggerChange(val);
+        triggerChange(itemCard.value);
       }
     }
   });

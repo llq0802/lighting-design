@@ -1,9 +1,7 @@
 import { defineConfig } from 'dumi';
 import sidebar from './sidebar';
-
 // const { defaultAlgorithm, defaultSeed } = theme;
 // const mapToken = defaultAlgorithm(defaultSeed);
-
 // https://llq0802.github.io
 const isDev = process.env.NODE_ENV === 'development';
 const version = 'latest';
@@ -20,8 +18,7 @@ export default defineConfig({
     lastUpdated: false,
     name: 'Lighting Design',
     logo,
-    footer:
-      'Open-source MIT Licensed | Copyright © 2020-present Powered by llq0802',
+    footer: 'Open-source MIT Licensed | Copyright © 2020-present Powered by llq0802',
     socialLinks: {
       github: 'https://github.com/llq0802/lighting-design/tree/v2',
     },
@@ -37,7 +34,7 @@ export default defineConfig({
         link: 'https://github.com/llq0802/lighting-design/tree/v2',
       },
       {
-        title: '更新日志',
+        title: '更新日志-v2.1.25',
         link: 'https://github.com/llq0802/lighting-design/releases',
       },
     ],

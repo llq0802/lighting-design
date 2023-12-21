@@ -4,7 +4,12 @@ export default function Demo() {
   return (
     <div>
       <LCardGroup
-        defaultValue="1"
+        labelInValue
+        defaultValue={['1']}
+        multiple
+        onChange={(v) => {
+          console.log('change-v', v);
+        }}
         options={[
           {
             value: '1',
@@ -17,7 +22,6 @@ export default function Demo() {
           {
             value: '3',
             label: '云闪付',
-            disabled: true,
           },
         ]}
       />

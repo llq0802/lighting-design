@@ -1,23 +1,23 @@
-import { LCardGroup, LTrigger } from 'lighting-design';
+import { LTagGroup, LTrigger } from 'lighting-design';
 
 const options = [
-  { value: '1', label: '支付宝' },
-  { value: '2', label: '微信' },
-  { value: '3', label: '云闪付' },
+  { value: '1', label: '香蕉' },
+  { value: '2', label: '苹果' },
+  { value: '3', label: '葡萄' },
 ];
 
-const MyLCardGroup = (props) => {
+const MyLTagGroup = (props) => {
   console.log('==MyLCardGroup-props====>', props);
 
   return (
-    <LCardGroup
+    <LTagGroup
       {...props}
       onChange={(val) => {
         if (props.multiple) {
           const value = val?.map((item) => item.value) || [];
           const label = val?.map((item) => item.label) || [];
           props?.onChange?.({
-            label: props?.mode === 'tag' ? label : label.join(' / '),
+            label: props?.mode === 'tag' ? label : label.join(' , '),
             value,
           });
           return;
@@ -34,22 +34,22 @@ const MyLCardGroup = (props) => {
   );
 };
 
-const Demo5 = () => {
+const Demo6 = () => {
   return (
     <div>
-      <h3>单选-LCardGroup</h3>
+      <h3>单选-LTagGroup</h3>
       <LTrigger defaultValue={options[0]} labelInValue>
-        <MyLCardGroup />
+        <MyLTagGroup />
       </LTrigger>
-      <h3>多选-LCardGroup</h3>
+      <h3>多选-LTagGroup</h3>
       <LTrigger>
-        <MyLCardGroup multiple />
+        <MyLTagGroup multiple />
       </LTrigger>
-      <h3>多选Tag-LCardGroup</h3>
+      <h3>多选Tag-LTagGroup</h3>
       <LTrigger mode="tag">
-        <MyLCardGroup multiple mode="tag" />
+        <MyLTagGroup multiple mode="tag" />
       </LTrigger>
     </div>
   );
 };
-export default Demo5;
+export default Demo6;

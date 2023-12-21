@@ -22,6 +22,13 @@ type ValueType = {
 
 export type LTriggerProps = {
   /**
+   * 是否把传入子组件 value 的值 从 value.value 变为 { value: xxx, label: xxx } 的格式
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.25
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
+   */
+  labelInValue?: boolean;
+  /**
    * 显示的模式
    * @author 李岚清 <https://github.com/llq0802>
    * @type { 'default' | 'tag' }
@@ -173,7 +180,7 @@ export type LTriggerProps = {
 
 const LTrigger: React.FC<LTriggerProps> = (props) => {
   const {
-    // Select属性
+    labelInValue = false,
     mode: outMode = 'default',
     width = 250,
     bordered = true,
@@ -188,7 +195,6 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     style,
     tagRender,
 
-    // Popover属性
     overlayArrow = false,
     overlayClassName,
     overlayStyle,
@@ -209,13 +215,14 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
   });
 
   const [state, setState] = useControllableValue<ValueType>(props, {
+    defaultValue: props.defaultValue,
     defaultValuePropName: 'defaultValue',
     valuePropName: 'value',
     trigger: 'onChange',
   });
   const content = cloneElement(children, {
     // @ts-ignore
-    value: state?.[fieldNames.value],
+    value: labelInValue ? state : state?.[fieldNames.value],
     onChange: setState,
     open: isOpen,
     setOpen: setIsOpen,

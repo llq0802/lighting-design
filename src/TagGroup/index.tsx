@@ -2,8 +2,9 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import { Tag } from 'antd';
 import classnames from 'classnames';
 import type { ValueType } from 'lighting-design/CardGroup';
+import { transformChangeValue, transformValue } from 'lighting-design/_utils';
 import { emptyArray } from 'lighting-design/constants';
-import type { CSSProperties, ReactNode } from 'react';
+import { useMemo, type CSSProperties, type ReactNode } from 'react';
 
 export type LTagGroupOptions = {
   label: ReactNode;
@@ -12,6 +13,13 @@ export type LTagGroupOptions = {
 };
 
 export interface LTagGroupProps {
+  /**
+   *是否把每个选项的 label 包装到 value 中，会把  value 类型从 string 变为 { value: string, label: ReactNode } 的格式
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.25
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LCardGroupProps
+   */
+  labelInValue?: boolean;
   /**
    * 受控值
    *@author 李岚清 <https://github.com/llq0802>
@@ -116,6 +124,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     itemClassName,
     options = emptyArray,
     multiple = false,
+    labelInValue = false,
     showAllChecked = false,
     allCheckedText = '全部',
     allValue = 'all',
@@ -124,34 +133,33 @@ export default function LTagGroup(props: LTagGroupProps) {
   } = props;
 
   const [val, onChange] = useControllableValue<ValueType>(props, {
-    defaultValue: multiple ? [] : void 0,
+    defaultValue: props?.defaultValue || multiple ? emptyArray : void 0,
   });
-  const value = multiple ? val || [] : val;
-
-  // 是否是多选
-  const isMultiple = multiple;
+  const value = useMemo(
+    () => transformValue({ value: val, multiple, labelInValue }),
+    [val, multiple, labelInValue],
+  );
 
   // 是否全选
   const isAllChecked =
-    isMultiple && Array.isArray(value)
+    multiple && Array.isArray(value)
       ? value?.length === options.length
       : (value as unknown as string) === allValue;
 
-  const triggerChange = useMemoizedFn((newValue: any) => {
-    if (onChange) {
-      onChange(newValue);
-    }
+  const triggerChange = useMemoizedFn((value: any) => {
+    const val = transformChangeValue({ value, multiple, labelInValue, options });
+    onChange?.(val);
   });
 
   /** 全选 */
   const handleAllSelect = useMemoizedFn((bool: boolean) => {
     if (disabled) return;
     let newValue: any;
-    if (isMultiple) {
+    if (multiple) {
       if (bool) {
         newValue = options?.map((item) => item.value);
       } else {
-        newValue = [];
+        newValue = emptyArray;
       }
     } else {
       if (bool) {
@@ -176,7 +184,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     let newValue: any;
     // 选中时
     if (checked) {
-      if (isMultiple && Array.isArray(value)) {
+      if (multiple && Array.isArray(value)) {
         newValue = [...(value || []), curItem.value];
       } else {
         newValue = curItem.value;
@@ -185,7 +193,7 @@ export default function LTagGroup(props: LTagGroupProps) {
       triggerChange(newValue);
     } else {
       // 没有选中时
-      if (isMultiple && Array.isArray(value)) {
+      if (multiple && Array.isArray(value)) {
         newValue = value?.filter((v: any) => v !== curItem.value);
         triggerChange(newValue);
       } else {
@@ -209,12 +217,12 @@ export default function LTagGroup(props: LTagGroupProps) {
           {allCheckedText}
         </CheckableTag>
       )}
-      {(options || []).map((item: any) => (
+      {options.map((item: any) => (
         <CheckableTag
           className={classnames(`${prefixCls}-item`, itemClassName)}
           key={item.value}
           checked={
-            isMultiple
+            multiple
               ? value !== void 0 &&
                 Array.isArray(value) &&
                 value?.includes(item.value as unknown as string)
