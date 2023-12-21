@@ -6,7 +6,6 @@ const Demo1 = () => {
   return (
     <>
       <LQueryForm
-        name="query-form-5"
         itemColProps={{
           xs: 24,
           sm: 24,

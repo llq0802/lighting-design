@@ -1,9 +1,4 @@
-import {
-  LForm,
-  LFormItemDatePicker,
-  LFormItemInput,
-  LQueryForm,
-} from 'lighting-design';
+import { LForm, LFormItemDatePicker, LFormItemInput, LQueryForm } from 'lighting-design';
 
 const Demo7 = () => {
   const [form] = LForm.useForm();

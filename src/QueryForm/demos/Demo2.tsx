@@ -7,7 +7,6 @@ const Demo1 = () => {
     <>
       <LQueryForm
         isSpace
-        name="query-form-2"
         form={form}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);

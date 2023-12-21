@@ -127,7 +127,7 @@ function LQueryForm(props: LQueryFormProps) {
     <BaseForm
       layout={layout}
       submitter={
-        submitter === undefined || submitter
+        submitter === void 0 || submitter
           ? {
               submitText: '查询',
               ...submitter,
@@ -143,7 +143,7 @@ function LQueryForm(props: LQueryFormProps) {
               ...defualtColSpan,
               ...itemColProps,
             }
-          : {};
+          : emptyObject;
 
         return (
           <Row gutter={gutter}>

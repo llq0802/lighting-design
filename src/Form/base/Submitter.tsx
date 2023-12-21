@@ -75,13 +75,14 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   });
   const submitClick = useMemoizedFn((e) => {
     if (!submitPreventDefault) {
-      form?.submit();
+      if (!isEnterSubmit && isReady) form?.submit();
       Promise.resolve().then(() => onSubmit?.(e));
     }
     submitButtonProps?.onClick?.(e);
   });
 
   const dom = useMemo(() => {
+    const htmlType = isEnterSubmit && isReady ? 'submit' : 'button';
     const ret = [
       // 默认设置为重置
       <Button key="reset-lightd-form" {...resetButtonProps} onClick={resetClick}>
@@ -91,7 +92,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
       <Button
         key="submit-lightd-form"
         type="primary"
-        htmlType={isEnterSubmit && isReady ? 'submit' : 'button'}
+        htmlType={htmlType}
         {...submitButtonProps}
         onClick={submitClick}
       >

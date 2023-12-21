@@ -6,7 +6,6 @@ const Demo1 = () => {
   return (
     <>
       <LQueryForm
-        name="query-form-1"
         form={form}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);

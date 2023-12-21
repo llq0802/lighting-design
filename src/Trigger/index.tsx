@@ -237,6 +237,8 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     />
   );
 
+  const value = state?.[fieldNames.label] === 0 ? 0 : state?.[fieldNames.label] || void 0;
+
   return (
     <Popover
       {...popoverProps}
@@ -273,7 +275,7 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
         tagRender={tagRender}
         mode={outMode === 'default' ? void 0 : 'multiple'}
         onChange={setState}
-        value={state?.[fieldNames.label]}
+        value={value}
         notFoundContent={null}
         options={void 0}
         onInputKeyDown={(e) => {
