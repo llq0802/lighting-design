@@ -12,21 +12,21 @@ export type TreeSelectWrapperProps = Record<string, any> & {
   /**
    *数据化配置选项内容
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
    */
   treeData?: TreeSelectProps['treeData'];
   /**
    *请求数据异步函数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
    */
   request?: (...dependValues: any[]) => Promise<LTreeSelectOption[]>;
   /**
    *是否显示 Checkbox
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
    */
   treeCheckable?: boolean;
@@ -34,7 +34,7 @@ export type TreeSelectWrapperProps = Record<string, any> & {
   /**
    *antd树选择组件的 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
    */
   treeSelectProps?: TreeSelectProps;
@@ -42,7 +42,7 @@ export type TreeSelectWrapperProps = Record<string, any> & {
   /**
    *异步加载数据
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
    */
   loadData?: TreeSelectProps['loadData'];

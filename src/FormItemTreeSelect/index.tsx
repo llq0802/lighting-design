@@ -20,7 +20,7 @@ export interface LFormItemTreeSelectProps
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
    */
   spin?: SpinProps;
@@ -28,13 +28,13 @@ export interface LFormItemTreeSelectProps
    *配置 request 时 useRequest 的返回值
    *@author 李岚清 <https://github.com/llq0802>
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
-   *@version 2.1.25
+   *@version 2.1.26
    */
   actionRef?: React.MutableRefObject<LFormItemActionRef>;
   /**
    *ahook 的 request 的配置项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
    */
   requestOptions?: Record<string, any>;
@@ -42,7 +42,7 @@ export interface LFormItemTreeSelectProps
    *是否使用简单格式的 treeData
    *@author 李岚清 <https://github.com/llq0802>
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTreeSelectProps
-   *@version 2.1.25
+   *@version 2.1.26
    */
   treeDataSimpleMode?: boolean;
 }

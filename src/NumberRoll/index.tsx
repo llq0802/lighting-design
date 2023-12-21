@@ -14,7 +14,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number | string}
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   *@version 2.1.25
+   *@version 2.1.26
    */
   height: number | string;
   /**
@@ -22,7 +22,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number | string}
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   *@version 2.1.25
+   *@version 2.1.26
    */
   fontSize: number | string;
   /**
@@ -30,7 +30,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number | string}
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   *@version 2.1.25
+   *@version 2.1.26
    */
   value: number | string;
   /**
@@ -38,7 +38,7 @@ export interface LNumberRollProps {
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number }
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   *@version 2.1.25
+   *@version 2.1.26
    **/
   minLength: number;
   /**
@@ -49,7 +49,7 @@ export interface LNumberRollProps {
    * 动画速度 ms
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number }
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    * */
   speed: number;
@@ -57,7 +57,7 @@ export interface LNumberRollProps {
    * 保留几位小数
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number }
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   dot: number;
@@ -65,7 +65,7 @@ export interface LNumberRollProps {
    * 组件的类型
    *@author 李岚清 <https://github.com/llq0802>
    *@type {'number' | 'date' }
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   type: 'number' | 'date';
@@ -73,7 +73,7 @@ export interface LNumberRollProps {
    * 缩放大小
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number }
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   scale: number;
@@ -81,7 +81,7 @@ export interface LNumberRollProps {
    * 样式
    *@author 李岚清 <https://github.com/llq0802>
    *@type {React.CSSProperties }
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   style: CSSProperties;
@@ -89,7 +89,7 @@ export interface LNumberRollProps {
    * 每一项数值类型滚动的样式
    *@author 李岚清 <https://github.com/llq0802>
    *@type {React.CSSProperties }
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   itemNumStyle: CSSProperties;
@@ -97,7 +97,7 @@ export interface LNumberRollProps {
    * 每一项不是数值类型滚动的样式 比如value中包函 '.' ':' '-' '/'
    *@author 李岚清 <https://github.com/llq0802>
    *@type {React.CSSProperties }
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   itemCharStyle: CSSProperties;
@@ -105,7 +105,7 @@ export interface LNumberRollProps {
    * 分隔符的的样式
    *@author 李岚清 <https://github.com/llq0802>
    *@type {React.CSSProperties }
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   symbolStyle: CSSProperties;
@@ -113,7 +113,7 @@ export interface LNumberRollProps {
    * 类名
    *@author 李岚清 <https://github.com/llq0802>
    *@type {string }
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   className: string;
@@ -121,7 +121,7 @@ export interface LNumberRollProps {
    * 动画结束的回调
    *@author 李岚清 <https://github.com/llq0802>
    *@type { (value: number | string) => void }
-   *@version 2.1.25
+   *@version 2.1.26
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
    */
   onFinish: (value: number | string) => void;
