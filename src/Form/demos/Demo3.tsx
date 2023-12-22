@@ -7,7 +7,13 @@ const Demo5 = () => {
   return (
     <>
       <LForm
+        form={form}
         labelWidth={90}
+        // 不能使用回车键提交
+        isEnterSubmit={false}
+        onFinish={async (values) => {
+          console.log('自定义提交 / 重置按钮onFinish-values ', values);
+        }}
         submitter={{
           buttonAlign: 'center',
           showReset: false,
@@ -21,12 +27,8 @@ const Demo5 = () => {
             );
           },
         }}
-        form={form}
-        onFinish={async (values) => {
-          console.log('onFinish-values ', values);
-        }}
       >
-        <LFormItemInput name="name333" required label="姓名" />
+        <LFormItemInput name="name" label="姓名" />
       </LForm>
     </>
   );

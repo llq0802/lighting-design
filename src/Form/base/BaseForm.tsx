@@ -227,7 +227,6 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     return submitter ? (
       <Submitter
         isReady={isReady}
-        isEnterSubmit={isEnterSubmit}
         initFormValues={initFieldValues}
         onReset={onReset}
         {...submitterProps}
@@ -243,14 +242,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         }}
       />
     ) : null;
-  }, [
-    JSON.stringify(initFieldValues),
-    isReady,
-    loading,
-    !!submitter,
-    submitterProps,
-    isEnterSubmit,
-  ]);
+  }, [JSON.stringify(initFieldValues), isReady, loading, !!submitter, submitterProps]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)
@@ -259,6 +251,13 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const innerOnValuesChange = useMemoizedFn((changedValues, allValues) => {
     const [currentName, currentValue] = Object.entries(changedValues)?.[0];
     onValuesChange?.(currentName, currentValue, allValues);
+  });
+
+  const handleOnKeyPress = useMemoizedFn((e) => {
+    const htmlType = submitterProps?.submitButtonProps?.htmlType;
+    if (!isEnterSubmit && e.key === 'Enter' && htmlType !== 'submit') {
+      e.preventDefault();
+    }
   });
 
   const formDom = (
@@ -281,6 +280,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         className={classnames(prefixCls, className)}
         onFinish={handleOnFinish}
         onValuesChange={innerOnValuesChange}
+        onKeyPress={handleOnKeyPress}
         {...restProps}
       >
         <Form.Item noStyle shouldUpdate>
