@@ -10,6 +10,7 @@ const Demo2 = () => {
   return (
     <div>
       <LStepsForm
+        isAntdReset
         direction="vertical"
         stepsProps={{
           className: 'my-vertical-LStepsForm',
@@ -39,18 +40,8 @@ const Demo2 = () => {
             console.log('步骤1', values);
           }}
         >
-          <LFormItemInput
-            name="name1"
-            label="名字1"
-            required
-            tooltip="禁止空格"
-          />
-          <LFormItemInput
-            name="name2"
-            label="名字2"
-            required
-            tooltip="禁止空格"
-          />
+          <LFormItemInput name="name1" label="名字1" required tooltip="禁止空格" />
+          <LFormItemInput name="name2" label="名字2" required tooltip="禁止空格" />
         </LStepsForm.StepForm>
         <LStepsForm.StepForm
           name="StepsForm231652"

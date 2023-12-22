@@ -6,22 +6,17 @@ import classnames from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import { isFunction } from 'lighting-design/_utils';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useLayoutEffect, useRef } from 'react';
 import StepsFormContext from './StepsFormContext';
 import type { LStepsFormSubmitterProps } from './StepsSubmitter';
 
 export interface LStepFormProps
-  extends Omit<
-      BaseFormProps,
-      'title' | 'onReset' | 'contentRender' | 'submitter' | 'isReady'
-    >,
+  extends Omit<BaseFormProps, 'title' | 'onReset' | 'contentRender' | 'submitter' | 'isReady'>,
     Pick<StepProps, 'title' | 'icon' | 'subTitle' | 'description'> {
   /** antd Steps 组件的items属性*/
   stepItemProps?: StepProps;
   /** 上一步下一步提交按钮的配置 优先级比StepsForm的submitter高*/
-  submitter?:
-    | Omit<LStepsFormSubmitterProps, 'total' | 'current' | 'form'>
-    | false;
+  submitter?: Omit<LStepsFormSubmitterProps, 'total' | 'current' | 'form'> | false;
   /** 当前步骤(索引) 内部使用*/
   readonly _stepNum?: number;
 }
@@ -33,10 +28,12 @@ function StepForm({
   icon,
   description,
   stepItemProps,
-  submitter, // 不传入 submitter 到基础的 BaseForm
+
+  submitter, // 不传入 到基础的 BaseForm
 
   _stepNum,
 
+  isEnterSubmit = true,
   name,
   className,
   onFinish,
@@ -45,16 +42,17 @@ function StepForm({
 }: LStepFormProps) {
   const ctx = useContext(StepsFormContext);
   const [form] = Form.useForm();
+  const formRef = useRef(outForm || form);
   const _lformRef = useRef<Record<string, any>>({});
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // 存储每个表单实例
-    ctx.formInstanceListRef.current[_stepNum as number] = outForm || form;
+    ctx.formInstanceListRef.current[_stepNum as number] = formRef.current;
+
     // 存储每个表单的初始值 (保证获取到初始值，
     ctx.formInitialValues.current[_stepNum as number] = _lformRef.current;
     // 因为_lformRef.current是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到)
     ctx?.forgetUpdate();
-    // console.log('ctx.formInitialValues.current', ctx.formInitialValues.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -89,11 +87,13 @@ function StepForm({
   return (
     <BaseForm
       _lformRef={_lformRef}
+      isEnterSubmit={isEnterSubmit}
       name={name}
       className={classnames(prefixCls, className)}
       form={outForm || form}
       onFinish={handleFinsh}
       {...restProps}
+      submitter={ctx?.isAntdReset ? false : void 0}
     />
   );
 }

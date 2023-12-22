@@ -111,6 +111,7 @@ function LQueryForm(props: LQueryFormProps) {
     layout = 'horizontal',
     submitter,
     isCollapsed = true,
+    isEnterSubmit = true,
     showColsNumber,
     className,
     itemColProps = emptyObject,
@@ -122,17 +123,21 @@ function LQueryForm(props: LQueryFormProps) {
   } = props;
 
   const [collapsed, setCollapsed] = useState(isCollapsed);
-
   return (
     <BaseForm
+      isEnterSubmit={isEnterSubmit}
       layout={layout}
       submitter={
         submitter === void 0 || submitter
           ? {
               submitText: '查询',
               ...submitter,
+              submitButtonProps: {
+                ...submitter?.submitButtonProps,
+                htmlType: isEnterSubmit ? 'submit' : 'button',
+              },
             }
-          : submitter
+          : false
       }
       className={classnames(prefixCls, className)}
       contentRender={(formItemsDom, submitterDom) => {

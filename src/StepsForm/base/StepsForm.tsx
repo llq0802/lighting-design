@@ -132,6 +132,13 @@ export type LStepsFormProps = {
    */
   isResetFields?: boolean;
   /**
+   * 内部的重置按钮是否使用 form.resetFields() true时会每次重置就会重新挂挂载子组件
+   * @author 李岚清 <https://github.com/llq0802>
+   * @version 2.1.26
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LStepsFormProps
+   */
+  isAntdReset?: boolean;
+  /**
    * 是否准备好
    * @author 李岚清 <https://github.com/llq0802>
    * @version 2.1.26
@@ -224,6 +231,7 @@ const StepsForm: FC<LStepsFormProps> & {
 
     direction = 'horizontal',
     isMergeValues = true,
+    isAntdReset = false,
     isResetFields = true,
     isReady = true,
     defaultCurrent = 0,
@@ -248,7 +256,7 @@ const StepsForm: FC<LStepsFormProps> & {
   const stepsConfigRef = useRef<StepProps[]>([]); // 步骤条配置
   const formSubmitterRef = useRef<any[]>([]); // 每个表单的操作配置
   const formInstanceListRef = useRef<FormInstance[]>([]); // 每个步骤的form实例
-  const formInitialValues = useRef<Record<string, any>[]>([]); // 全部表单初始数据
+  const formInitialValues = useRef<Record<string, any>[]>([]); // 每个步骤表单初始数据
   const formDataRef = useRef<Record<string, any>>({}); // 全部表单最终数据
   const [loading, setLoading] = useSafeState(false);
   let currentFormName = '0';
@@ -283,7 +291,6 @@ const StepsForm: FC<LStepsFormProps> & {
       stepItemProps,
       submitter: childSubmitter,
     } = (childItem as ReactElement).props;
-
     // 配置Steps组件的item属性
     stepsConfigRef.current[index] = {
       key: `${index}`,
@@ -332,12 +339,10 @@ const StepsForm: FC<LStepsFormProps> & {
   const reset = useMemoizedFn(() => {
     formDataRef.current = {};
     formInstanceListRef.current.forEach((item, i) => {
-      if (!Object.keys(formInitialValues.current[i]).length) {
+      if (isAntdReset || !Object.keys(formInitialValues.current[i]).length) {
         item?.resetFields();
       } else {
-        item?.setFieldsValue({
-          ...formInitialValues.current[i],
-        });
+        item?.setFieldsValue({ ...formInitialValues.current[i] });
       }
     });
     setStepNum(defaultCurrent);
@@ -633,6 +638,7 @@ const StepsForm: FC<LStepsFormProps> & {
         loading,
         setLoading,
         forgetUpdate,
+        isAntdReset,
       }}
     >
       {stepsFormRender ? (

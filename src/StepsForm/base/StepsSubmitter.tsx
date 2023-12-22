@@ -1,6 +1,7 @@
 import type { ButtonProps } from 'antd';
 import { Button, Space } from 'antd';
 import type { LFormSubmitterProps } from 'lighting-design/Form/base/Submitter';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC, FormEvent, ReactElement, ReactNode } from 'react';
 import { useContext } from 'react';
 import StepsFormContext from './StepsFormContext';
@@ -39,27 +40,24 @@ export interface LStepsFormSubmitterProps
 
   /** 自定义渲染 */
   render?:
-    | ((
-        dom: ReactElement[],
-        props: LStepsFormSubmitterProps,
-      ) => ReactNode[] | ReactNode | false)
+    | ((dom: ReactElement[], props: LStepsFormSubmitterProps) => ReactNode[] | ReactNode | false)
     | false;
 }
 
 const StepsFormSubmitter: FC<LStepsFormSubmitterProps> = (props) => {
   const {
     prevText = '上一步',
-    prevButtonProps = {},
+    prevButtonProps = emptyObject,
     onPrev = () => {},
     showPrev = true,
 
     nextText = '下一步',
-    nextButtonProps = {},
+    nextButtonProps = emptyObject,
     onNext = () => {},
     showNext = true,
 
     submitText = '确定',
-    submitButtonProps = {},
+    submitButtonProps = emptyObject,
     onSubmit = () => {},
 
     forceShowPrev = false,
@@ -78,14 +76,18 @@ const StepsFormSubmitter: FC<LStepsFormSubmitterProps> = (props) => {
   };
 
   const handleNext = (e) => {
-    form?.submit(); // 提交表单验证
+    if (nextButtonProps?.htmlType !== 'submit') {
+      form?.submit(); // 提交表单验证
+    }
     onNext?.(e);
     nextButtonProps?.onClick?.(e);
   };
 
   const handleSubmit = (e) => {
-    form?.submit(); // 提交表单验证
-    onSubmit?.(e);
+    if (submitButtonProps?.htmlType !== 'submit') {
+      form?.submit(); // 提交表单验证
+    }
+    Promise.resolve().then(() => onSubmit?.(e));
     submitButtonProps?.onClick?.(e);
   };
 
@@ -102,12 +104,7 @@ const StepsFormSubmitter: FC<LStepsFormSubmitterProps> = (props) => {
   );
 
   const submitButton = (
-    <Button
-      key="submit"
-      type="primary"
-      {...submitButtonProps}
-      onClick={handleSubmit}
-    >
+    <Button key="submit" type="primary" {...submitButtonProps} onClick={handleSubmit}>
       {submitText}
     </Button>
   );

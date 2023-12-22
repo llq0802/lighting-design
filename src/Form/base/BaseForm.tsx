@@ -227,6 +227,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     return submitter ? (
       <Submitter
         isReady={isReady}
+        isEnterSubmit={isEnterSubmit}
         initFormValues={initFieldValues}
         onReset={onReset}
         {...submitterProps}
@@ -242,7 +243,14 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         }}
       />
     ) : null;
-  }, [JSON.stringify(initFieldValues), isReady, loading, !!submitter, submitterProps]);
+  }, [
+    JSON.stringify(initFieldValues),
+    isReady,
+    loading,
+    !!submitter,
+    submitterProps,
+    isEnterSubmit,
+  ]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)
@@ -280,7 +288,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         className={classnames(prefixCls, className)}
         onFinish={handleOnFinish}
         onValuesChange={innerOnValuesChange}
-        onKeyPress={handleOnKeyPress}
+        onKeyDown={handleOnKeyPress}
         {...restProps}
       >
         <Form.Item noStyle shouldUpdate>

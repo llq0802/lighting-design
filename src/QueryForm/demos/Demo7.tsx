@@ -7,6 +7,7 @@ const Demo7 = () => {
     <>
       <LQueryForm
         form={form}
+        isEnterSubmit={false}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
         }}
