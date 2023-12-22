@@ -12,28 +12,28 @@ export type CascaderWrapperProps = Record<string, any> & {
   /**
    * 数据项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.26
+   *@version 2.1.27
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCascaderProps
    */
   options?: CascaderProps<any>['options'];
   /**
    * 异步请求函数 用于获取数据
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.26
+   *@version 2.1.27
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCascaderProps
    */
   request?: (...args: any[]) => Promise<any>;
   /**
    * 当依赖项发生变化时重新请求的防抖时间
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.26
+   *@version 2.1.27
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCascaderProps
    */
   debounceTime?: number;
   /**
    * antd 级联组件 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.26
+   *@version 2.1.27
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCascaderProps
    */
   cascaderProps?: CascaderProps<any>;

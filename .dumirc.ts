@@ -34,7 +34,7 @@ export default defineConfig({
         link: 'https://github.com/llq0802/lighting-design/tree/v2',
       },
       {
-        title: '更新日志 - V2.1.26',
+        title: '更新日志 - V2.1.27',
         link: 'https://github.com/llq0802/lighting-design/releases',
       },
     ],

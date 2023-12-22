@@ -47,7 +47,7 @@ export type Json2ExcelOptions = {
 /**
  * 与 LTable 配合把 JSON 数据转成 Excel 并生成 Excel 到本地
  * @author 李岚清 <https://github.com/llq0802>
- * @version 2.1.26
+ * @version 2.1.27
  * @param {Json2ExcelOptions} options 配置对象
  * @return 无返回值
  */
@@ -221,7 +221,7 @@ export type Excel2JsonOptions = {
 /**
  * 与 LTable 配合把 Excel 转 Json 数据
  * @author 李岚清 <https://github.com/llq0802>
- * @version 2.1.26
+ * @version 2.1.27
  * @param {Excel2JsonOptions} options 配置对象
  * @return 返回JSON形式的表格数据
  */
@@ -293,7 +293,7 @@ const getExcelHeaderRow = (sheet: XLSX.WorkSheet | any) => {
 /**
  * 解析 Excel 的数据 转成JSON
  * @author 李岚清 <https://github.com/llq0802>
- * @version 2.1.26
+ * @version 2.1.27
  * @param {Blob} rawFile 原始文件对象或 Blob
  * @return 包含excel头的数组 以及内容数据的body
  */
