@@ -52,7 +52,11 @@ function NumberRange({
           handleChange(0, changedValue);
           leftNumberProps?.onChange?.(changedValue);
         }}
-        style={{ width: `calc((100% - ${separatorWidth}px) / 2)` }}
+        style={{
+          width: `calc((100% - ${
+            typeof separatorWidth === 'string' ? separatorWidth : `${separatorWidth}px`
+          }) / 2)`,
+        }}
       />
       <Input
         size={restProps?.size}
@@ -77,7 +81,11 @@ function NumberRange({
           handleChange(1, changedValue);
           rightNumberProps?.onChange?.(changedValue);
         }}
-        style={{ width: `calc((100% - ${separatorWidth}px) / 2)` }}
+        style={{
+          width: `calc((100% - ${
+            typeof separatorWidth === 'string' ? separatorWidth : `${separatorWidth}px`
+          }) / 2)`,
+        }}
       />
     </Space.Compact>
   );
@@ -99,7 +107,7 @@ export type LFormItemNumberRangeProps = {
    *@version 2.1.27
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    */
-  separatorWidth?: number;
+  separatorWidth?: number | string;
   /**
    * 中间元素的样式
    *@author 李岚清 <https://github.com/llq0802>

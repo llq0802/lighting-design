@@ -30,7 +30,7 @@ import { LFormItemNumberRange } from 'lighting-design';
 | 参数             | 说明                    | 类型                                                                   | 默认值 |
 | ---------------- | ----------------------- | ---------------------------------------------------------------------- | ------ |
 | separator        | 中间连接符号            | `string`                                                               | `'~'`  |
-| separatorWidth   | 中间连接符号的宽度      | `number`                                                               | `30`   |
+| separatorWidth   | 中间连接符号的宽度      | `number\|string`                                                       | `30`   |
 | separatorStyle   | 中间元素的样式          | `CSSProperties`                                                        | `-`    |
 | leftNumberProps  | 左边`InputNumber`的属性 | [InputNumberProps](https://ant.design/components/input-number-cn/#api) | `-`    |
 | rightNumberProps | 右边`InputNumber`的属性 | [InputNumberProps](https://ant.design/components/input-number-cn/#api) | `-`    |

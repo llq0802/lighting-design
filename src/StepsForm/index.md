@@ -91,7 +91,7 @@ const { StepForm } = LStepsForm;
 | contentStyle          | 表单外层容器的样式                                                                                                                                                                                                                            | `CSSProperties`                                                                   | `-`               |
 | defaultCurrent        | 默认步骤                                                                                                                                                                                                                                      | `number`                                                                          | `0`               |
 | current               | 设置后变为受控模式。当前表单的步骤数。                                                                                                                                                                                                        | `number`                                                                          | `-`               |
-| isAntdReset           | 内部的重置是否使用 form.resetFields() true 时会每次重置就会重新挂挂载子组件                                                                                                                                                                   | `boolean`                                                                         | `true`            |
+| isAntdReset           | 内部的重置是否使用 `form.resetFields() true `时会每次重置就会重新挂挂载子组件                                                                                                                                                                 | `boolean`                                                                         | `false`           |
 | isResetFields         | `onFinish`返回`true`或`Promise.resolve(true)`时是否可以重置所有表单到初始值和步骤初始值                                                                                                                                                       | `boolean`                                                                         | `true`            |
 | current               | 设置后变为受控模式。当前表单的步骤数。                                                                                                                                                                                                        | `number`                                                                          | `-`               |
 | destroyStepForm       | 被隐藏时是否销毁 DOM 结构                                                                                                                                                                                                                     | `boolean`                                                                         | `false`           |
@@ -110,7 +110,7 @@ const { StepForm } = LStepsForm;
 
 ### LStepsForm.StepForm
 
-基于 LForm 扩展的表单，没有 `onReset` `isReady`， 除了以下参数，其余和 [LForm](/components/form) 一样。
+基于 LForm 扩展的表单，没有 `onReset` `isReady`， `submitter`不与`LForm`的相同 除了以下参数，其余和 [LForm](/components/form) 一样。
 
 | 参数          | 说明                                                                                                                                                   | 类型                               | 默认值 |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- | ------ |
