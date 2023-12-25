@@ -404,3 +404,9 @@ export const transformChangeValue = ({ value, multiple, labelInValue, options })
   }
   return value;
 };
+
+export const BUTTON_ALIGN_Map = {
+  left: 'flex-start',
+  center: 'center',
+  right: 'flex-end',
+};

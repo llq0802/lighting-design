@@ -4,7 +4,7 @@ import { Drawer, Form } from 'antd';
 import classnames from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
-import { isFunction } from 'lighting-design/_utils';
+import { BUTTON_ALIGN_Map, isFunction } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { cloneElement, useRef } from 'react';
@@ -142,7 +142,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
         form={formRef.current}
         onFinish={handleFinish}
         submitter={
-          typeof submitter === 'undefined' || submitter
+          submitter === void 0 || submitter
             ? {
                 resetText: '取消',
                 submitText: '确认',
@@ -184,10 +184,9 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             footerStyle={{
               display: 'flex',
               justifyContent:
-                (submitter &&
-                  typeof submitter?.buttonAlign === 'string' &&
-                  submitter?.buttonAlign) ||
-                'center',
+                submitter && typeof submitter?.buttonAlign === 'string'
+                  ? BUTTON_ALIGN_Map[submitter?.buttonAlign]
+                  : 'center',
               ...drawerProps.footerStyle,
             }}
             open={open}

@@ -2,6 +2,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal } from 'antd';
 import classnames from 'classnames';
+import { BUTTON_ALIGN_Map } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
@@ -153,7 +154,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
         form={formRef.current}
         onFinish={handleFinish}
         submitter={
-          typeof submitter === 'undefined' || submitter
+          submitter === void 0 || submitter
             ? {
                 resetText: modalProps?.cancelText || '取消',
                 submitText: modalProps?.okText || '确认',
@@ -178,8 +179,9 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                       style={{
                         display: 'flex',
                         justifyContent:
-                          (typeof submitter?.buttonAlign === 'string' && submitter?.buttonAlign) ||
-                          'right',
+                          typeof submitter?.buttonAlign === 'string'
+                            ? BUTTON_ALIGN_Map[submitter?.buttonAlign]
+                            : 'flex-end',
                       }}
                     >
                       {submitter?.render

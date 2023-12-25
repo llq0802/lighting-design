@@ -1,4 +1,5 @@
 import { Form, Space } from 'antd';
+import { BUTTON_ALIGN_Map } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC, ReactElement, ReactNode } from 'react';
 import LFormItem from '../FormItem';
@@ -43,7 +44,7 @@ const LForm: FC<LFormProps> & {
                     display: 'flex',
                     justifyContent:
                       typeof submitter?.buttonAlign === 'string'
-                        ? submitter?.buttonAlign
+                        ? BUTTON_ALIGN_Map[submitter?.buttonAlign]
                         : 'initial',
                   }}
                 >
