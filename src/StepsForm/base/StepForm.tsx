@@ -90,7 +90,7 @@ function StepForm({
       isEnterSubmit={isEnterSubmit}
       name={name}
       className={classnames(prefixCls, className)}
-      form={outForm || form}
+      form={formRef.current}
       onFinish={handleFinsh}
       {...restProps}
       submitter={ctx?.isAntdReset ? false : void 0}

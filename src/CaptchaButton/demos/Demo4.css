@@ -1,11 +1,8 @@
 .loading-wave {
-  /* width: 300px; */
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* align-items: flex-end; */
 }
 
 .loading-bar {
