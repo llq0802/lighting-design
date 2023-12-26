@@ -1,9 +1,5 @@
 import { type FormInstance } from 'antd';
-import type {
-  LTableInstance,
-  LTableRequestParams,
-  LTableRequestType,
-} from 'lighting-design';
+import type { LTableInstance, LTableRequestParams, LTableRequestType } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef } from 'react';
@@ -43,6 +39,14 @@ const Demo5: FC = () => {
         //   size: 'large',
         // }}
         // size=""
+        toolbarActionConfig={{
+          onColumnIconChange(keys) {
+            console.log('keys ', keys);
+          },
+          onReloadIconChange() {
+            console.log('onReloadIconChange');
+          },
+        }}
         sticky
         rowKey="key"
         tableRef={tableRef}

@@ -25,7 +25,7 @@ export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title' | 'on
    *@version 2.1.27
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
    */
-  labelWidth?: number | 'auto';
+  labelWidth?: number | 'auto' | string;
   /**
    * 渲染Form组件的children (Form.Item)
    *@author 李岚清 <https://github.com/llq0802>
@@ -171,7 +171,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
 
   const submitterProps = useMemo(
     () => (typeof submitter === 'boolean' || !submitter ? emptyObject : submitter),
-    [JSON.stringify(submitter), (submitter as LFormSubmitterProps)?.render],
+    [submitter],
   );
 
   const initFieldValues = useMemo(
@@ -182,23 +182,23 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         initialValues,
         submitter,
       }),
-    [
-      formItems,
-      fields?.join(''),
-      JSON.stringify(submitter),
-      (submitter as LFormSubmitterProps)?.render,
-      JSON.stringify(initialValues),
-    ],
+    [formItems, fields?.join(''), submitter, JSON.stringify(initialValues)],
   );
 
   // 因为 initFieldValues 是上一次的初始值，在 BaseForm 的父组件中需要手动更新一次组件才能获取到
   useImperativeHandle(_lformRef, () => initFieldValues);
 
   const labelColProps = useMemo(() => {
-    const labelFlex =
-      layout !== 'vertical' && labelWidth && labelWidth !== 'auto'
-        ? { flex: `0 0 ${labelWidth}px` }
-        : emptyObject;
+    let labelFlex = {};
+    if (layout === 'vertical' || labelWidth === 'auto') {
+      labelFlex = {};
+    } else if (labelWidth && typeof labelWidth === 'number') {
+      labelFlex = { flex: `0 0 ${labelWidth}px` };
+    } else if (labelWidth && typeof labelWidth === 'string') {
+      labelFlex = { flex: `0 0 ${labelWidth}` };
+    } else {
+      labelFlex = {};
+    }
     return {
       ...labelFlex,
       ...labelCol,

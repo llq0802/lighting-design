@@ -1,5 +1,5 @@
 import { Form, Space } from 'antd';
-import { BUTTON_ALIGN_Map } from 'lighting-design/_utils';
+import { BUTTON_ALIGN_MAP } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC, ReactElement, ReactNode } from 'react';
 import LFormItem from '../FormItem';
@@ -35,7 +35,12 @@ const LForm: FC<LFormProps> & {
                 style={{
                   marginBottom: 0,
                   paddingLeft:
-                    typeof submitter?.buttonAlign === 'number' ? `${submitter?.buttonAlign}px` : 0,
+                    typeof submitter?.buttonAlign === 'number'
+                      ? `${submitter?.buttonAlign}px`
+                      : typeof submitter?.buttonAlign === 'string' &&
+                        !isNaN(parseFloat(submitter?.buttonAlign))
+                      ? `${submitter?.buttonAlign}`
+                      : 0,
                 }}
                 wrapperCol={submitterProps?.wrapperCol}
               >
@@ -44,7 +49,7 @@ const LForm: FC<LFormProps> & {
                     display: 'flex',
                     justifyContent:
                       typeof submitter?.buttonAlign === 'string'
-                        ? BUTTON_ALIGN_Map[submitter?.buttonAlign]
+                        ? BUTTON_ALIGN_MAP[submitter?.buttonAlign]
                         : 'initial',
                   }}
                 >

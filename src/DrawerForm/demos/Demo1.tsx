@@ -28,12 +28,7 @@ const Demo1 = () => {
           input: '寸金乃买寸光阴',
         }}
       >
-        <LFormItemColor
-          colorType="chrome"
-          label="颜色选择"
-          name="color"
-          required
-        />
+        <LFormItemColor colorType="chrome" label="颜色选择" name="color" required />
         <LFormItemInput name="input" required label="输入框" />
       </LDrawerForm>
       <Button type="primary" onClick={() => setOpen(true)}>

@@ -6,8 +6,8 @@ const Demo5 = () => {
   return (
     <>
       <LForm
-        labelWidth={90}
-        submitter={{ buttonAlign: 90 }}
+        labelWidth="10rem"
+        submitter={{ buttonAlign: '10rem' }}
         form={form}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);

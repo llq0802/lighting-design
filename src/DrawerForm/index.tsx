@@ -1,10 +1,11 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { DrawerProps } from 'antd';
-import { Drawer, Form } from 'antd';
+import { Drawer } from 'antd';
 import classnames from 'classnames';
+import LForm from 'lighting-design/Form';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
-import { BUTTON_ALIGN_Map, isFunction } from 'lighting-design/_utils';
+import { BUTTON_ALIGN_MAP, isFunction } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { cloneElement, useRef } from 'react';
@@ -123,7 +124,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     trigger: 'onOpenChange',
   });
 
-  const [form] = Form.useForm();
+  const [form] = LForm.useForm();
   const formRef = useRef(outForm || form);
   const _lformRef = useRef<Record<string, any>>();
 
@@ -185,7 +186,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
               display: 'flex',
               justifyContent:
                 submitter && typeof submitter?.buttonAlign === 'string'
-                  ? BUTTON_ALIGN_Map[submitter?.buttonAlign]
+                  ? BUTTON_ALIGN_MAP[submitter?.buttonAlign]
                   : 'center',
               ...drawerProps.footerStyle,
             }}
@@ -197,10 +198,11 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             afterOpenChange={(flag) => {
               // 完全关闭后回调
               if (!flag && isResetFields) {
-                // formRef.current.resetFields(); // 弹窗关闭后重置表单
-                formRef.current.setFieldsValue({
-                  ..._lformRef.current,
-                });
+                if (submitter && submitter.isAntdReset) {
+                  formRef.current.resetFields(); // 弹窗关闭后重置表单
+                } else {
+                  formRef.current.setFieldsValue({ ..._lformRef.current });
+                }
               }
               drawerProps?.afterOpenChange?.(flag);
             }}

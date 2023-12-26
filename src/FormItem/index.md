@@ -72,7 +72,7 @@ import { LFormItem } from 'lighting-design';
 
 | 参数              | 说明                                                                                                                                   | 类型                                                         | 默认值     |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ---------- |
-| labelWidth        | label 宽度 , 同 `labelCol={{ flex: 'xxx px' }}` 默认继承 `LForm`的 `labelWidth` 如果配置则以当前配置为准                               | `number \| 'auto'`                                           | `-`        |
+| labelWidth        | label 宽度 , 同 `labelCol={{ flex: 'xxx px' }}` 默认继承 `LForm`的 `labelWidth` 如果配置则以当前配置为准                               | `string\|number \| 'auto'`                                   | `-`        |
 | className         | 整个组件最外层容器类名                                                                                                                 | `string`                                                     | `-`        |
 | style             | 整个组件最外层容器样式                                                                                                                 | `CSSProperties`                                              | `-`        |
 | contentClassName  | 被包裹组件的最外层容器类名 , 配置 `contentAfter` 或者 `contentBefore` 生效                                                             | `string`                                                     | `-`        |

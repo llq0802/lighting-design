@@ -1,3 +1,4 @@
+import { TeamOutlined } from '@ant-design/icons';
 import { Button, message } from 'antd';
 import { LDrawerForm, LForm, LFormItemInput } from 'lighting-design';
 import { awaitTime } from '../../_test';
@@ -8,6 +9,11 @@ const Demo4 = () => {
   return (
     <div>
       <LDrawerForm
+        submitter={{
+          submitButtonProps: {
+            icon: <TeamOutlined />,
+          },
+        }}
         initialValues={{ name: '张三' }}
         form={form}
         title="新增"

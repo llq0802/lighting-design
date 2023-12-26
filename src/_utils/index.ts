@@ -405,8 +405,8 @@ export const transformChangeValue = ({ value, multiple, labelInValue, options })
   return value;
 };
 
-export const BUTTON_ALIGN_Map = {
+export const BUTTON_ALIGN_MAP = {
   left: 'flex-start',
   center: 'center',
   right: 'flex-end',
-};
+} as const;

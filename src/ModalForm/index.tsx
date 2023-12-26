@@ -2,7 +2,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal } from 'antd';
 import classnames from 'classnames';
-import { BUTTON_ALIGN_Map } from 'lighting-design/_utils';
+import { BUTTON_ALIGN_MAP } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
@@ -180,7 +180,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                         display: 'flex',
                         justifyContent:
                           typeof submitter?.buttonAlign === 'string'
-                            ? BUTTON_ALIGN_Map[submitter?.buttonAlign]
+                            ? BUTTON_ALIGN_MAP[submitter?.buttonAlign]
                             : 'flex-end',
                       }}
                     >
@@ -191,7 +191,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                   );
                 },
               }
-            : submitter // 这是 false
+            : false // 这是 false
         }
         formRender={(formDom, submitterDom) => {
           return !isDraggable ? (
@@ -211,10 +211,11 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               }}
               afterClose={() => {
                 if (isResetFields) {
-                  // formRef.current.resetFields(); // 弹窗关闭后重置表单
-                  formRef.current.setFieldsValue({
-                    ..._lformRef.current,
-                  }); // 弹窗关闭后重置表单
+                  if (submitter && submitter.isAntdReset) {
+                    formRef.current.resetFields(); // 弹窗关闭后重置表单
+                  } else {
+                    formRef.current.setFieldsValue({ ..._lformRef.current });
+                  }
                 }
                 modalProps?.afterClose?.();
               }}

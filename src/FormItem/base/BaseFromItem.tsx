@@ -2,7 +2,6 @@ import type { ColProps, FormItemProps } from 'antd';
 import { Form } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import classnames from 'classnames';
-import { emptyObject } from 'lighting-design/constants';
 import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement, useContext, useMemo } from 'react';
 import { LFormContext } from '../../Form/base/BaseForm';
@@ -19,7 +18,7 @@ export interface LFormItemProps extends FormItemProps {
    *@version 2.1.27
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemProps
    */
-  labelWidth?: number | 'auto';
+  labelWidth?: number | 'auto' | string;
   /**
    * 重新渲染LFormItem的children组件
    *@author 李岚清 <https://github.com/llq0802>
@@ -200,10 +199,17 @@ const LFormItem: FC<LFormItemProps> & {
   );
 
   const labelColProps = useMemo(() => {
-    const labelFlex =
-      layout !== 'vertical' && labelWidth && labelWidth !== 'auto'
-        ? { flex: `0 0 ${labelWidth}px` }
-        : emptyObject;
+    let labelFlex = {};
+    if (layout === 'vertical' || labelWidth === 'auto') {
+      labelFlex = {};
+    } else if (labelWidth && typeof labelWidth === 'number') {
+      labelFlex = { flex: `0 0 ${labelWidth}px` };
+    } else if (labelWidth && typeof labelWidth === 'string') {
+      labelFlex = { flex: `0 0 ${labelWidth}` };
+    } else {
+      labelFlex = {};
+    }
+
     return {
       ...formLabelColProps,
       ...labelFlex,

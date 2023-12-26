@@ -212,9 +212,11 @@ export function useMergeLoading(requestLoading, outLoading) {
  * @param outLoading
  * @returns
  */
-export function useMergeToolbarActionConfig(outToolbarActionConfig) {
+export function useMergeToolbarActionConfig(actionConfig) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { split, ...outToolbarActionConfig } = actionConfig;
   return useMemo(() => {
-    if (!outToolbarActionConfig) {
+    if (!actionConfig) {
       return false;
     }
     return {
@@ -222,7 +224,7 @@ export function useMergeToolbarActionConfig(outToolbarActionConfig) {
       showColumnSetting: true,
       showDensity: true,
       showFullscreen: true,
-      ...outToolbarActionConfig,
+      ...actionConfig,
     };
     // JSON序列化时 当含有 undefined , 函数 日期对象会有问题 这儿根据实际情况可以使用
   }, [JSON.stringify(outToolbarActionConfig)]);
