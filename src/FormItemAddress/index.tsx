@@ -10,56 +10,56 @@ export interface LFormItemAddressProps<DataNodeType = any> extends Omit<LFormIte
   /**
    *数据源
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.27
+   *@version 2.1.28
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAddressProps
    */
   options?: CascaderProps<DataNodeType>['options'];
   /**
    * 字段数组 如 ['location', 'address']
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.27
+   *@version 2.1.28
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAddressProps
    */
   names: [LFormItemProps['name'], LFormItemProps['name']];
   /**
    * Input组件的props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.27
+   *@version 2.1.28
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAddressProps
    */
   inputProps?: InputProps;
   /**
    * Cascader组件的props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.27
+   *@version 2.1.28
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAddressProps
    */
   cascaderProps?: CascaderProps<DataNodeType>;
   /**
    * 输入框外层Form.Item的 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.27
+   *@version 2.1.28
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAddressProps
    */
   inputFormProps?: LFormItemProps;
   /**
    *  级联组件外层Form.Itme的 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.27
+   *@version 2.1.28
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAddressProps
    */
   cascaderFormProps?: LFormItemProps;
   /**
    *  输入框外层Col 组件的 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.27
+   *@version 2.1.28
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAddressProps
    */
   inputColProps?: ColProps;
   /**
    *  级联组件外层Col 组件的 Props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.27
+   *@version 2.1.28
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAddressProps
    */
   cascaderColProps?: ColProps;

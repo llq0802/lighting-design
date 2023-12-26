@@ -10,7 +10,7 @@ export type RateWrapperProps = Record<string, any> &
     /**
      *antd评分组件 Props
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.27
+     *@version 2.1.28
      *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemRateProps
      */
     rateProps: RateProps;

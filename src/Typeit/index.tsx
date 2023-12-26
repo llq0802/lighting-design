@@ -8,7 +8,7 @@ export interface LTypeitProps {
    * 样式
    * @author 李岚清 <https://github.com/llq0802>
    * @type { React.CSSProperties }
-   * @version 2.1.27
+   * @version 2.1.28
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    */
   style: CSSProperties;
@@ -16,7 +16,7 @@ export interface LTypeitProps {
    * 类名
    * @author 李岚清 <https://github.com/llq0802>
    * @type { string }
-   * @version 2.1.27
+   * @version 2.1.28
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    */
   className: string;
@@ -24,7 +24,7 @@ export interface LTypeitProps {
    * ReactNode
    * @author 李岚清 <https://github.com/llq0802>
    * @type { React.ReactNode }
-   * @version 2.1.27
+   * @version 2.1.28
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    */
   children: React.ReactNode;
@@ -32,7 +32,7 @@ export interface LTypeitProps {
    * typeit-react 的 getBeforeInit
    * @author 李岚清 <https://github.com/llq0802>
    * @type { TypeItProps['getBeforeInit'] }
-   * @version 2.1.27
+   * @version 2.1.28
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    * @see https://www.typeitjs.com/docs/vanilla/usage/#configuration-options
    */
@@ -41,7 +41,7 @@ export interface LTypeitProps {
    * typeit-react 的 options
    * @author 李岚清 <https://github.com/llq0802>
    * @type { TypeItProps }
-   * @version 2.1.27
+   * @version 2.1.28
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    * @see https://www.typeitjs.com/docs/vanilla/usage/#configuration-options
    */
@@ -50,7 +50,7 @@ export interface LTypeitProps {
    * typeit-react 的 Props { @link}
    * @author 李岚清 <https://github.com/llq0802>
    * @type { TypeItProps }
-   * @version 2.1.27
+   * @version 2.1.28
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTypeitProps
    * @see https://www.typeitjs.com/docs/vanilla/usage/#configuration-options
    */
