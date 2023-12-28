@@ -9,10 +9,9 @@ import {
 const Demo2 = () => {
   return (
     <LForm
-      // labelCol={{ flex: '90px' }}
+      labelCol={{ flex: '90px' }}
       name="LSliderVerify"
       labelWidth={90}
-      submitter={{ buttonAlign: 90 }}
       onFinish={async (values) => {
         console.log('values', values);
       }}
@@ -36,10 +35,7 @@ const Demo2 = () => {
         label="滑块验证2"
         rules={[{ required: true, message: '请按住滑块，拖动到最右边' }]}
       >
-        <LSliderVerify
-          style={{ borderRadius: 16 }}
-          barStyle={{ borderRadius: 16 }}
-        />
+        <LSliderVerify style={{ borderRadius: 16 }} barStyle={{ borderRadius: 16 }} />
       </LFormItem>
     </LForm>
   );

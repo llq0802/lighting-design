@@ -26,7 +26,7 @@ export interface LNumberRollProps {
    */
   fontSize: number | string;
   /**
-   * 默认值
+   * 值
    *@author 李岚清 <https://github.com/llq0802>
    *@type {number | string}
    *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps

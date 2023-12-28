@@ -214,7 +214,7 @@ function SliderVerify(props: LSliderVerifyProps) {
   const [value, onChange] = useControllableValue(props, {
     defaultValue: props?.defaultValue ?? false,
   });
-  const success = value;
+  const success = !!value;
 
   // width - barWidth  = tips的width
   const { isMove, barLeft, modalWidth, refBar } = useVerify({

@@ -238,10 +238,11 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               }}
               afterClose={() => {
                 if (isResetFields) {
-                  // formRef.current.resetFields(); // 弹窗关闭后重置表单
-                  formRef.current.setFieldsValue({
-                    ..._lformRef.current,
-                  }); // 弹窗关闭后重置表单
+                  if (submitter && submitter.isAntdReset) {
+                    formRef.current.resetFields(); // 弹窗关闭后重置表单
+                  } else {
+                    formRef.current.setFieldsValue({ ..._lformRef.current });
+                  }
                 }
                 modalProps?.afterClose?.();
                 setPosition({ x: 0, y: 0 });
