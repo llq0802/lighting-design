@@ -156,13 +156,13 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       defaultPageSize: outPaginationPageSize,
       ...(requestOptions as Record<string, any>),
       manual: true,
-      onSuccess(data, params) {
-        restProps.requestSuccess?.(data, params);
-        requestOptions?.onSuccess?.(data, params);
+      onSuccess(...args) {
+        restProps.requestSuccess?.(...args);
+        requestOptions?.onSuccess?.(...args);
       },
-      onFinally(params, data, e) {
-        restProps.requestFinally?.(data, params);
-        requestOptions?.onFinally?.(params, data, e);
+      onFinally(...args) {
+        restProps.requestFinally?.(...args);
+        requestOptions?.onFinally?.(...args);
       },
     },
   );
