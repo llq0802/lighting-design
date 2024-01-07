@@ -31,7 +31,13 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
     <Link
       onClick={handleCollapse}
       className={`${prefixCls}-collapse`}
-      style={{ whiteSpace: 'nowrap', color: token?.colorPrimary }}
+      style={{
+        whiteSpace: 'nowrap',
+        color: token?.colorPrimary,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
       {collapsed ? '展开' : '收起'}
       <DownOutlined
@@ -103,7 +109,7 @@ const defualtColSpan = {
 const submitterColStyle: CSSProperties = {
   display: 'flex',
   flex: '1',
-  flexWrap: 'nowrap',
+  flexWrap: 'wrap',
 };
 
 function LQueryForm(props: LQueryFormProps) {
