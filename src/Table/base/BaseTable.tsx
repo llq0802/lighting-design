@@ -1,8 +1,8 @@
 import { useMemoizedFn, usePagination, useRafState } from 'ahooks';
 import type { FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
+import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import zhCN from 'antd/es/locale/zh_CN';
-import type { Key } from 'antd/es/table/interface';
 import classnames from 'classnames';
 import { isFunction } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
@@ -10,7 +10,7 @@ import type { Dispatch, FC, SetStateAction } from 'react';
 import { useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import TableContext from '../TableContext';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
-import ToolbarAction from './ToolBarAction';
+import ToolbarAction, { TdCell, showTotal } from './ToolBarAction';
 import {
   useFillSpace,
   useMergeLoading,
@@ -23,19 +23,6 @@ import './styles.less';
 import type { LTableProps, LTableRequestType } from './types';
 
 export const LIGHTD_TABLE = 'lightd-table';
-
-const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
-  <span
-    className={`${LIGHTD_TABLE}-pagination-show-total`}
-  >{`当前显示${range[0]}-${range[1]}条，共 ${total} 条数据`}</span>
-);
-
-const TdCell = (props: any) => {
-  // onMouseEnter, onMouseLeave在数据量多的时候，会严重阻塞表格单元格渲染，严重影响性能
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { onMouseEnter, onMouseLeave, ...restProps } = props;
-  return <td {...restProps} />;
-};
 
 /**
  * 表格组件
@@ -334,7 +321,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   }, [showToolbar, toolbarActionConfig, toolbarLeft, toolbarRight, JSON.stringify(toolbarStyle)]);
 
   const searchFormDom = useMemo(() => {
-    const formSize = currentSize === 'default' || currentSize === 'large' ? 'middle' : currentSize;
+    const formSize =
+      currentSize === 'default' || currentSize === 'large' ? 'middle' : (currentSize as SizeType);
     return (
       <SearchForm
         size={formSize}

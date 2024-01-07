@@ -3,9 +3,10 @@ import { useFullscreen } from 'ahooks';
 import type { SpaceProps } from 'antd';
 import { ConfigProvider, Space, Tooltip } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
-import type { CSSProperties, FC } from 'react';
+import type { CSSProperties, FC, Key } from 'react';
 import { useContext, useMemo } from 'react';
 import TableContext from '../TableContext';
+import { LIGHTD_TABLE } from './BaseTable';
 import ColumnSetting from './ColumnSetting';
 import DensityIcon from './DensityIcon';
 
@@ -137,6 +138,19 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
       {sortDom}
     </Space>
   );
+};
+
+export const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
+  <span
+    className={`${LIGHTD_TABLE}-pagination-show-total`}
+  >{`当前显示${range[0]}-${range[1]}条，共 ${total} 条数据`}</span>
+);
+
+export const TdCell = (props: any) => {
+  // onMouseEnter, onMouseLeave在数据量多的时候，会严重阻塞表格单元格渲染，严重影响性能
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { onMouseEnter, onMouseLeave, ...restProps } = props;
+  return <td {...restProps} />;
 };
 
 export default ToolbarAction;
