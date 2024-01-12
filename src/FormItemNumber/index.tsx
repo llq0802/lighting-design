@@ -62,12 +62,7 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem
-      required={required}
-      placeholder={messageLabel}
-      validateTrigger="onBlur"
-      {...restProps}
-    >
+    <LFormItem required={required} placeholder={messageLabel} {...restProps}>
       <NumberWrapper
         size={size}
         disabled={disabled ?? formDisabled}

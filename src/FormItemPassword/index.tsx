@@ -117,13 +117,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   ];
 
   return (
-    <LFormItem
-      placeholder={messagePlaceholder}
-      required={required}
-      validateTrigger="onBlur"
-      rules={rules}
-      {...restProps}
-    >
+    <LFormItem placeholder={messagePlaceholder} required={required} rules={rules} {...restProps}>
       <PasswordWrapper
         size={size}
         disabled={disabled ?? formDisabled}

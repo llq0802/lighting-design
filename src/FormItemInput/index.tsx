@@ -64,13 +64,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   );
 
   return (
-    <LFormItem
-      placeholder={messageLabel}
-      required={required}
-      rules={rules}
-      validateTrigger="onBlur"
-      {...restProps}
-    >
+    <LFormItem placeholder={messageLabel} required={required} rules={rules} {...restProps}>
       <InputWrapper
         size={size}
         disabled={disabled ?? formDisabled}

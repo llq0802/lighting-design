@@ -42,12 +42,7 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem
-      required={required}
-      placeholder={messagePlaceholder}
-      validateTrigger="onBlur"
-      {...restProps}
-    >
+    <LFormItem required={required} placeholder={messagePlaceholder} {...restProps}>
       <TextAreaWrapper
         size={size}
         disabled={disabled ?? formDisabled}
