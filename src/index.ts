@@ -5,6 +5,8 @@ export { default as LCardGroup } from './CardGroup';
 export * from './CollapseCard';
 export { default as LCollapseCard } from './CollapseCard';
 export * from './ColorPick';
+export * from './Descriptions';
+export { default as LDescriptions } from './Descriptions';
 export * from './DrawerForm';
 export { default as LDrawerForm } from './DrawerForm';
 export * from './Echarts';
