@@ -121,13 +121,13 @@ function LQueryForm(props: LQueryFormProps) {
     showColsNumber,
     className,
     itemColProps = emptyObject,
-    isSpace = false,
+    isSpace: outIsSpace = false,
     gutter = 16,
     isApproachLastItem = false,
 
     ...restProps
   } = props;
-
+  const isSpace = outIsSpace || layout === 'inline';
   const [collapsed, setCollapsed] = useState(isCollapsed);
   return (
     <BaseForm
