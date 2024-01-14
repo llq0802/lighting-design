@@ -88,6 +88,7 @@
     "prettier": "^2.7.1",
     "prettier-plugin-organize-imports": "^3.0.0",
     "prettier-plugin-packagejson": "^2.2.18",
+    "rc-use-hooks": "^2.0.3",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-infinite-scroll-component": "^6.1.0",

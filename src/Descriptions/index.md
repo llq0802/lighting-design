@@ -15,6 +15,30 @@ nav:
 
 <code src='./demos/Demo1.tsx' background='#f5f5f5'></code>
 
+### title 与 extra
+
+<code src='./demos/Demo2.tsx' background='#f5f5f5'></code>
+
+### 结合 Card
+
+<code src='./demos/Demo3.tsx' background='#f5f5f5'></code>
+
+### 布局模式
+
+<code src='./demos/Demo4.tsx' background='#f5f5f5'></code>
+
+### 响应式一行展示几列
+
+<code src='./demos/Demo7.tsx' background='#f5f5f5'></code>
+
+### 与 Modal 结合
+
+<code src='./demos/Demo5.tsx' background='#f5f5f5'></code>
+
+### 自定义渲染
+
+<code src='./demos/Demo6.tsx' background='#f5f5f5'></code>
+
 ## API
 
 :::warning{title=注意}
@@ -46,7 +70,7 @@ import { LDescriptions } from 'lighting-design';
 | titleWidth   | 每一项标题宽度                                                            | `number \| string`                       | `-`            |
 | titleWrap    | 每一项标题过长时是否换行                                                  | `boolean`                                | `false`        |
 | colon        | 每一项标题后面是否加上`：`符号                                            | `boolean`                                | `true`         |
-| isLastBlock  | 最后一项标题是否占满`包含块`                                              | `boolean`                                | `true`         |
+| isLastBlock  | 最后一项是否占满`包含块`                                                  | `boolean`                                | `true`         |
 | marginBottom | 每一项的`marginBottom`值                                                  | `number \| string`                       | `16`           |
 | loading      | loading                                                                   | `boolean \| SpinProps`                   | `-`            |
 | record       | 字段数据源                                                                | `Record<string, ReactNode>`              | `-`            |

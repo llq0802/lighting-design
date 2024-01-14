@@ -1,26 +1,41 @@
+import Mock from 'better-mock';
 import { LDescriptions } from 'lighting-design';
 
-export default function Demo1() {
+const record = Mock.mock({
+  name: '@cname',
+  address: '@county(true)',
+  ip: '@ip',
+  'age|20-50': 20,
+  date: '@date',
+  phone: '@phone',
+  email: '@email(163.com)',
+  desc: '@cparagraph(2)',
+  sex: '@pick(["男", "女",])',
+  guid: '@id',
+  version: '@version',
+});
+
+const Demo1 = () => {
   return (
     <div>
       <LDescriptions
-        colon={false}
-        title="大萨达"
-        extra="发送"
-        titleWidth={120}
         columns={[
+          { title: '编码', dataIndex: 'guid' },
           { title: '姓名', dataIndex: 'name' },
-          { title: 'Age', dataIndex: 'age' },
-          { title: 'Address', dataIndex: 'address' },
-          { title: 'Desc', dataIndex: 'desc' },
+          { title: '性别', dataIndex: 'sex' },
+          { title: '年龄', dataIndex: 'age' },
+          { title: '出生日期', dataIndex: 'date' },
+          { title: '地址', dataIndex: 'address' },
+          { title: 'IP', dataIndex: 'ip' },
+          { title: '手机号', dataIndex: 'phone' },
+          { title: '邮箱', dataIndex: 'email' },
+          { title: '版本', dataIndex: 'version' },
+          { title: '描述', dataIndex: 'desc' },
         ]}
-        record={{
-          name: '李岚清',
-          age: 20,
-          address: <div style={{ color: 'red', fontWeight: 700, fontSize: 18 }}>北京</div>,
-          desc: '姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名姓名',
-        }}
+        record={record}
       />
     </div>
   );
-}
+};
+
+export default Demo1;

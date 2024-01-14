@@ -25,6 +25,7 @@ toc: content
 - [LECharts] - echarts 容器组件
 - [LTable] - 高级表格
 - [LEditTable] - 高级编辑表格
+- [LDescriptions] - 高级描述列表
 - [LList] - 高级列表
 - [LSeamlessScroll] - 无缝滚动
 - [LCollapseCard] - 折叠卡片
@@ -79,6 +80,7 @@ toc: content
 - [useDeepUpdateEffect] - 深度依赖项更新时的副作用
 - [useLazyLoadImage] - 性能更好的懒加载图片
 
+[LDescriptions]: /components/Descriptions
 [LFormItemMentions]: /components/form-item-mentions
 [LECharts]: /components/Echarts
 [LEllipsisText]: /components/Ellipsis-Text

@@ -2325,7 +2325,7 @@ ahooks-v3-count@^1.0.0:
   resolved "https://registry.npmjs.org/ahooks-v3-count/-/ahooks-v3-count-1.0.0.tgz#ddeb392e009ad6e748905b3cbf63a9fd8262ca80"
   integrity sha512-V7uUvAwnimu6eh/PED4mCDjE7tokeZQLKlxg9lCTMPhN+NjsSbtdacByVlR1oluXQzD3MOw55wylDmQo4+S9ZQ==
 
-ahooks@^3.7.6:
+ahooks@^3.7.6, ahooks@^3.7.8:
   version "3.7.8"
   resolved "https://registry.npmjs.org/ahooks/-/ahooks-3.7.8.tgz#3fa3c491cd153e884a32b0c4192fc72cf84c4332"
   integrity sha512-e/NMlQWoCjaUtncNFIZk3FG1ImSkV/JhScQSkTqnftakRwdfZWSw6zzoWSG9OMYqPNs2MguDYBUFFC6THelWXA==
@@ -9668,6 +9668,17 @@ rc-upload@~4.3.4:
     classnames "^2.2.5"
     rc-util "^5.2.0"
 
+rc-use-hooks@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.npmmirror.com/rc-use-hooks/-/rc-use-hooks-2.0.3.tgz#11897b128f3b7e35219d2b4c3c7b06af2ea7cb83"
+  integrity sha512-bqi0DT7ZvsCQBC2H+k3YpwiXDmB6I48RLXLXppgqnWYgtvEINCAdVcWjLeZKXFSAkpjXxXYOFuqdEAYnXg9eNw==
+  dependencies:
+    "@koale/useworker" "^4.0.2"
+    ahooks "^3.7.8"
+    copy-to-clipboard "^3.3.3"
+    lodash-es "^4.17.21"
+    use-animate-number "^1.0.5"
+
 rc-util@^5.0.1, rc-util@^5.16.1, rc-util@^5.17.0, rc-util@^5.18.1, rc-util@^5.2.0, rc-util@^5.20.1, rc-util@^5.21.0, rc-util@^5.24.4, rc-util@^5.25.2, rc-util@^5.26.0, rc-util@^5.27.0, rc-util@^5.28.0, rc-util@^5.30.0, rc-util@^5.31.1, rc-util@^5.32.2, rc-util@^5.33.0, rc-util@^5.34.1, rc-util@^5.35.0, rc-util@^5.36.0, rc-util@^5.37.0:
   version "5.37.0"
   resolved "https://registry.npmjs.org/rc-util/-/rc-util-5.37.0.tgz#6df9a55cb469b41b6995530a45b5f3dd3219a4ea"
@@ -11692,6 +11703,11 @@ url@^0.11.0, url@^0.11.1:
   dependencies:
     punycode "^1.4.1"
     qs "^6.11.2"
+
+use-animate-number@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.npmmirror.com/use-animate-number/-/use-animate-number-1.0.5.tgz#c224fd3ce81d0b563a5215d714aaa98ad8c67470"
+  integrity sha512-zAavKn83Z6V6wlatpEp+fmbAS6vMA3tISudw04eSeyXc0AZG98JDDK1U+gmMxV/oATcub+ijgrENMPqHue+SiA==
 
 use-isomorphic-layout-effect@^1.1.1:
   version "1.1.2"
