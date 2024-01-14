@@ -22,6 +22,10 @@ export type LDescriptionItem = {
   colStyle?: React.CSSProperties;
   tooltip?: FormItemProps['tooltip'];
   required?: boolean;
+  /** 空节点展示的内容 */
+  emptyNode?: ReactNode;
+  /** 是否禁用当前项 */
+  disabled?: boolean;
   /** 重新渲染当前项 */
   render?: (curVal: ReactNode, record: Record<string, ReactNode>, index: number) => ReactNode;
 };
@@ -98,7 +102,7 @@ export type LDescriptionsProps = {
    */
   titleAlign?: 'left' | 'right';
   /**
-   *每一项标题宽度
+   *每一项标题宽度 只在 layout 为 horizontal 生效
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LDescriptionsProps
@@ -119,7 +123,7 @@ export type LDescriptionsProps = {
    */
   colon?: boolean;
   /**
-   *最后一项标题是否占满包含块
+   *最后一项是否占满包含块
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LDescriptionsProps
@@ -194,7 +198,8 @@ const LDescriptions: FC<LDescriptionsProps> = ({
       colSpan: outColumn,
     };
   }, [outColumn]);
-  const isSpace = layout === 'inline';
+  const isInline = layout === 'inline';
+  const isHorizontal = layout === 'horizontal';
   return (
     <Spin {...spinProps}>
       <Form
@@ -213,8 +218,9 @@ const LDescriptions: FC<LDescriptionsProps> = ({
           <div
             style={{
               display: 'flex',
-              marginBottom: 24,
+              marginBottom: 16,
               justifyContent: 'space-between',
+              alignItems: 'center',
               ...headerStyle,
             }}
           >
@@ -234,39 +240,48 @@ const LDescriptions: FC<LDescriptionsProps> = ({
                 tooltip,
                 colStyle,
                 required,
+                emptyNode,
                 titleWidth: itemTitleWidth,
-                col = {},
+                col: itemCol = {},
               },
               i,
             ) => {
               const curVal = record[dataIndex];
               const isLastItem = i === columns.length - 1;
               const getSpanNum = () => {
-                if (isSpace) return void 0;
-                if (typeof column !== 'number') return void 0;
-                if (isLastItem) return isLastBlock ? void 0 : span || Math.floor(24 / column);
-                return span || Math.floor(24 / column);
+                if (typeof column !== 'number' || isInline) {
+                  return {};
+                }
+
+                if (isLastItem) {
+                  return {
+                    span: isLastBlock ? void 0 : span || Math.floor(24 / (column || 3)),
+                  };
+                }
+                return {
+                  span: span || Math.floor(24 / (column || 3)),
+                };
               };
 
               return (
                 <Col
                   key={dataIndex || i}
-                  span={getSpanNum()}
+                  {...getSpanNum()}
                   {...colSpan}
-                  {...col}
+                  {...itemCol}
                   style={colStyle}
                   flex={isLastItem && isLastBlock ? 1 : void 0}
                 >
                   <LFormItem
                     required={required}
                     tooltip={tooltip}
-                    labelWidth={!isSpace ? itemTitleWidth || titleWidth : void 0}
+                    labelWidth={isHorizontal ? itemTitleWidth || titleWidth : void 0}
                     labelAlign={titleAlign}
                     label={title}
-                    colon={colon}
+                    colon={!!colon}
                     style={{ marginBottom, ...itemStyle }}
                   >
-                    {render ? render?.(curVal, record, i) : curVal}
+                    {render ? render?.(curVal, record, i) : curVal ?? emptyNode}
                   </LFormItem>
                 </Col>
               );
