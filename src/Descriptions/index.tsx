@@ -269,7 +269,10 @@ const LDescriptions: FC<LDescriptionsProps> = ({
                   {...getSpanNum()}
                   {...colSpan}
                   {...itemCol}
-                  style={colStyle}
+                  style={{
+                    maxWidth: isLastItem && isLastBlock ? '100%' : void 0,
+                    ...colStyle,
+                  }}
                   flex={isLastItem && isLastBlock ? 1 : void 0}
                 >
                   <LFormItem
