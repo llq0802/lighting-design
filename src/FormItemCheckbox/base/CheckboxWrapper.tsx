@@ -37,7 +37,7 @@ export type CheckboxWrapperProps = Record<string, any> &
     /**
      *请求数据源的异步函数
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.28
+     *@version 2.1.29
      *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
      */
     request: (...args: any[]) => Promise<any>;
@@ -45,14 +45,14 @@ export type CheckboxWrapperProps = Record<string, any> &
     /**
      *自定义全选
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.28
+     *@version 2.1.29
      *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
      */
     beforeAll: LCheckboxBeforeAllProps | boolean;
     /**
      *多选框组件 Props
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.28
+     *@version 2.1.29
      *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
      */
     checkboxProps: CheckboxGroupProps;
@@ -61,7 +61,7 @@ export type CheckboxWrapperProps = Record<string, any> &
     /**
      *依赖项的值为空时展示的内容
      *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.28
+     *@version 2.1.29
      *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
      */
     notDependRender?: ReactNode;
