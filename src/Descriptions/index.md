@@ -43,11 +43,11 @@ nav:
 
 :::warning{title=注意}
 
-- 其中 `LColorChromePicker` `LColorSketchPicker` 在颜色模式为 `rgb` 时，支持设置透明度。
+- `title`,`extra`, `columns` 里面的 `title` , `record` 里面的`值`都可以值自定义的`ReactNode`
 
-- 在表单中推荐使用 [LFormItemColor](/components/form-item-color)
+- `colon` 为`string`时可以设置冒号的颜色
 
-  :::
+:::
 
 ```ts
 import { LDescriptions } from 'lighting-design';
@@ -69,7 +69,7 @@ import { LDescriptions } from 'lighting-design';
 | titleAlign   | 每一项标题对齐方式                                                        | `'left' \| 'right'`                      | `'right'`      |
 | titleWidth   | 每一项标题宽度                                                            | `number \| string`                       | `-`            |
 | titleWrap    | 每一项标题过长时是否换行                                                  | `boolean`                                | `false`        |
-| colon        | 每一项标题后面是否加上`：`符号                                            | `boolean`                                | `true`         |
+| colon        | 每一项标题后面是否加上`：`符号, string 时可以自定义颜色                   | `boolean\|string`                        | `true`         |
 | isLastBlock  | 最后一项是否占满`包含块`                                                  | `boolean`                                | `true`         |
 | marginBottom | 每一项的`marginBottom`值                                                  | `number \| string`                       | `16`           |
 | loading      | loading                                                                   | `boolean \| SpinProps`                   | `-`            |
