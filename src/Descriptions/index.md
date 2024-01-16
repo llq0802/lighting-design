@@ -95,6 +95,8 @@ export type LDescriptionItem = {
   /** Col的样式 */
   colStyle?: React.CSSProperties;
   tooltip?: FormItemProps['tooltip'];
+  /** 当前项为空时展示的值 */
+  emptyNode?: React.ReactNode;
   /** 是否展示星星 */
   required?: boolean;
   /** 重新渲染当前项 */
