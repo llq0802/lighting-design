@@ -105,7 +105,6 @@ export interface LFormItemProps extends FormItemProps {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemProps
    */
   ownColSpans?: ColProps;
-
   /** 控制是否是选择类型的表单项组件 (一般内部使用) */
   _isSelectType?: boolean;
 }

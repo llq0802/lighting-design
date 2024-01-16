@@ -25,7 +25,7 @@ const FormItemWrapper: FC<FormItemWrapperProps> = ({
   before = null,
   contentInline = false,
   children,
-  ...formItemProps // {value,onChange,...}
+  ...formItemProps // {id,value,onChange,...}
 }) => {
   const innerChildrenProps = { ...(children?.props ?? {}) }; // <Child value={value} onChange={onChange} .../>
   const allProps = composeProps(innerChildrenProps, formItemProps, true);
@@ -39,25 +39,17 @@ const FormItemWrapper: FC<FormItemWrapperProps> = ({
   if (!after && !before) {
     return childrenView === void 0 ? null : childrenView;
   } else {
-    const beforeView = before && (
-      <div className={`${prefixCls}-before`}>{before}</div>
-    );
-    const afterView = after && (
-      <div className={`${prefixCls}-after`}>{after}</div>
-    );
+    const beforeView = before && <div className={`${prefixCls}-before`}>{before}</div>;
+    const afterView = after && <div className={`${prefixCls}-after`}>{after}</div>;
     const contentView = (
-      <div
-        className={`${prefixCls}-content`}
-        style={contentInline ? { flex: 'initial' } : {}}
-      >
+      <div className={`${prefixCls}-content`} style={contentInline ? { flex: 'initial' } : {}}>
         {childrenView}
       </div>
     );
 
     const wrapperStyle = alignItems
       ? {
-          alignItems:
-            alignItems === 'center' ? alignItems : `flex-${alignItems}`,
+          alignItems: alignItems === 'center' ? alignItems : `flex-${alignItems}`,
         }
       : {};
 

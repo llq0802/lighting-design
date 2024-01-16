@@ -45,10 +45,9 @@ export function pick(
 }
 
 /**
- * 合并组件 props
- * @template T
- * @param {T} originProps
- * @param {Partial<T>} patchProps
+ * 合并两个`props`属性, 并对两个`props`的方法进行合并调用
+ * @param {T} originProps 原始props
+ * @param {Partial<T>} patchProps 需要合并覆盖的的props
  * @param {boolean} [isAll]
  * @return {*}
  */
