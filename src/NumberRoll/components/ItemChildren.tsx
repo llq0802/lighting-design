@@ -6,7 +6,7 @@ export const NumberRoll_NumberArray = ['0', '1', '2', '3', '4', '5', '6', '7', '
 
 interface PropsType {
   num: string;
-  index: number;
+  index: React.Key;
   itemNumStyle?: React.CSSProperties;
   itemCharStyle?: React.CSSProperties;
 }

@@ -1,7 +1,8 @@
 import { useMemoizedFn } from 'ahooks';
 import classnames from 'classnames';
-import type { CSSProperties, DOMAttributes, FC, ReactElement, ReactNode } from 'react';
-import React, { memo, useEffect, useRef } from 'react';
+import { debounce } from 'lodash-es';
+import type { CSSProperties, DOMAttributes, ReactElement, ReactNode } from 'react';
+import { forwardRef, memo, useEffect, useImperativeHandle, useRef } from 'react';
 import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
 import ItemChildren, { NumberRoll_NumberArray } from './components/ItemChildren';
 import './index.less';
@@ -126,25 +127,34 @@ export interface LNumberRollProps {
    */
   onFinish: (value: number | string) => void;
 }
+
+export type LNumberRollRefProps = {
+  /** 更新数字错位 */
+  loadAnimate: () => void;
+};
+
 const prefixCls = 'lightd-number-roll';
 
-const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
-  className,
-  style,
-  itemNumStyle,
-  itemCharStyle,
-  symbolStyle,
-  height = 36,
-  fontSize = 36,
-  type = 'number',
-  minLength = 1,
-  speed = 600,
-  value = 0,
-  symbol = '',
-  dot = 0,
-  scale = 1,
-  onFinish,
-}) => {
+const LNumberRoll = (
+  {
+    className,
+    style,
+    itemNumStyle,
+    itemCharStyle,
+    symbolStyle,
+    height = 36,
+    fontSize = 36,
+    type = 'number',
+    minLength = 1,
+    speed = 600,
+    value = 0,
+    symbol = '',
+    dot = 0,
+    scale = 1,
+    onFinish,
+  }: Partial<LNumberRollProps>,
+  ref: React.Ref<LNumberRollRefProps>,
+) => {
   const domRef = useRef<HTMLDivElement>(null);
 
   const getNumDom = useMemoizedFn((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
@@ -303,13 +313,19 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
     }
   });
 
-  // 更新
-  useEffect(() => {
+  const onLoadAnimate = debounce(() => {
     if (type === 'number') {
       loadAnimateNumer();
     } else if (type === 'date') {
       loadAnimateDate();
     }
+  }, 200);
+
+  useImperativeHandle(ref, () => ({ loadAnimate: onLoadAnimate }));
+
+  // 更新
+  useEffect(() => {
+    onLoadAnimate();
     let timer: NodeJS.Timeout;
     if (onFinish) {
       timer = setTimeout(() => {
@@ -329,4 +345,4 @@ const LNumberRoll: FC<Partial<LNumberRollProps>> = ({
   );
 };
 
-export default memo(LNumberRoll);
+export default forwardRef(memo(LNumberRoll));
