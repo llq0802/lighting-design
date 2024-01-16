@@ -280,7 +280,6 @@ const LNumberRoll = (
     for (const itemDom of [...(domList as any)]) {
       const dataNum = itemDom.getAttribute('data-num') || 0;
       const _itemheight = +(itemDom.offsetHeight / NumberRoll_NumberArray.length).toFixed(1);
-      console.log('_itemheight', _itemheight);
       const itemStyle = itemDom.style;
       const y = dataNum === '.' ? -10 * _itemheight : -dataNum * _itemheight;
       itemStyle.transform = `translateY(${y}px)`;
