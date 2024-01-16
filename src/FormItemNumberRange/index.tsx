@@ -97,21 +97,21 @@ export type LFormItemNumberRangeProps = {
   /**
    * 中间连接符号
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    */
   separator?: string;
   /**
    * 中间连接符号的宽度
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    */
   separatorWidth?: number | string;
   /**
    * 中间元素的样式
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    */
   separatorStyle?: React.CSSProperties;
@@ -119,7 +119,7 @@ export type LFormItemNumberRangeProps = {
   /**
    * 左边 InputNumber 的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    *@see https://ant.design/components/input-number-cn/#api
    */
@@ -128,7 +128,7 @@ export type LFormItemNumberRangeProps = {
   /**
    * 右边 InputNumber 的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
    *@see https://ant.design/components/input-number-cn/#api
    */
@@ -171,7 +171,7 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
   ];
 
   return (
-    <LFormItem required={required} rules={rules} validateTrigger="onBlur" {...restProps}>
+    <LFormItem required={required} rules={rules} {...restProps}>
       <NumberRange
         size={size}
         disabled={disabled ?? formDisabled}

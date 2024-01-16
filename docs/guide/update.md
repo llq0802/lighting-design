@@ -5,6 +5,7 @@ order: 3
 
 **新增**
 
+- [LDescriptions - 高级描述列表](/components/Descriptions)
 - [LECharts - echarts 容器组件](/components/Echarts)
 - [LEditTable - 高级编辑表格组件](/components/edit-table)
 - [LSliderVerify - 滑块验证组件](/components/slider-verify)

@@ -23,13 +23,13 @@ export interface LFormItemCascaderProps
    *配置 request 时 useRequest 的返回值
    *@author 李岚清 <https://github.com/llq0802>
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   *@version 2.1.28
+   *@version 2.1.29
    */
   actionRef?: React.MutableRefObject<LFormItemActionRef>;
   /**
    *ahook 的 request 的配置项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   requestOptions?: Record<string, any>;

@@ -68,15 +68,16 @@ import { LQueryForm } from 'lighting-design';
 
 ## 支持响应式
 
-`isSpace` 为 `false` 时 下的 `itemColProps` 默认为 `{ xs: 24, sm: 24, md: 12, lg: 8, xl: 8, xxl: 6 }`，可以通过 `itemColProps` 修改。
+- `isSpace` 为 `false` 时 下的 `itemColProps` 默认为 `{ xs: 24, sm: 24, md: 12, lg: 8, xl: 8, xxl: 6 }`，可通过`itemColProps`修改。
+- 可通过 `antd` 的 `主题定制` 修改 `screen[XS|SM|MD|LG|XL|XXL]` 来修改断点值（自 5.1.0 起）。
 
 ```js
 const itemColProps = {
-  xs: 24, // 屏幕 < 576px 响应式栅格
-  sm: 24, // 屏幕 ≥ 576px 响应式栅格，
-  md: 12, // 屏幕 ≥ 768px 响应式栅格
-  lg: 8, // 屏幕 ≥ 992px 响应式栅格
-  xl: 8, // 屏幕 ≥ 1200px 响应式栅格
-  xxl: 6, // 屏幕 ≥ 1600px 响应式栅格
+  xs: 24, // 默认屏幕 < 576px 响应式栅格
+  sm: 24, // 默认屏幕 ≥ 576px 响应式栅格，
+  md: 12, // 默认屏幕 ≥ 768px 响应式栅格
+  lg: 8, // 默认屏幕 ≥ 992px 响应式栅格
+  xl: 8, // 默认屏幕 ≥ 1200px 响应式栅格
+  xxl: 6, // 默认屏幕 ≥ 1600px 响应式栅格
 };
 ```

@@ -12,42 +12,42 @@ export interface LFormItemPasswordProps extends LFormItemProps {
   /**
    * 密码最小位数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
    */
   min?: number;
   /**
    * 密码最大位数
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
    */
   max?: number;
   /**
    * 是否开启高强度密码验证
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
    */
   highPassWord?: boolean;
   /**
    * 开启高强度密码验证错误后的提示
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
    */
   highPassWordErrorMsg?: string;
   /**
    * 是否禁用空格输入
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
    */
   disabledWhiteSpace?: boolean;
   /**
    * Input.Password 的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
    *@see https://ant.design/components/input-cn/#Input.Password
    */
@@ -55,14 +55,14 @@ export interface LFormItemPasswordProps extends LFormItemProps {
   /**
    *  是否禁用粘贴
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
    */
   disabledPaste?: boolean;
   /**
    *  是否禁用复制
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
    */
   disabledCopy?: boolean;
@@ -117,13 +117,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   ];
 
   return (
-    <LFormItem
-      placeholder={messagePlaceholder}
-      required={required}
-      validateTrigger="onBlur"
-      rules={rules}
-      {...restProps}
-    >
+    <LFormItem placeholder={messagePlaceholder} required={required} rules={rules} {...restProps}>
       <PasswordWrapper
         size={size}
         disabled={disabled ?? formDisabled}

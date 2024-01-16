@@ -12,14 +12,14 @@ export interface LFormItemTextAreaProps extends LFormItemProps {
   /**
    *是否禁用空格
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTextAreaProps
    */
   disabledWhiteSpace?: boolean;
   /**
    *  Input.TextArea或者Input的属性
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTextAreaProps
    *@see https://ant.design/components/input-cn#inputtextarea
    */
@@ -42,12 +42,7 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem
-      required={required}
-      placeholder={messagePlaceholder}
-      validateTrigger="onBlur"
-      {...restProps}
-    >
+    <LFormItem required={required} placeholder={messagePlaceholder} {...restProps}>
       <TextAreaWrapper
         size={size}
         disabled={disabled ?? formDisabled}

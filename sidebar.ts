@@ -65,6 +65,10 @@ export default {
           link: '/components/edit-table',
         },
         {
+          title: 'LDescriptions-高级描述列表',
+          link: '/components/descriptions',
+        },
+        {
           title: 'LList-高级列表',
           link: '/components/list',
         },

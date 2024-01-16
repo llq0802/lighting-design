@@ -17,28 +17,28 @@ export interface LFormItemSegmentedoProps
   /**
    *当依赖项发生变化时重新请求的防抖时间
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSegmentedoProps
    */
   debounceTime?: number;
   /**
    *数据化配置选项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSegmentedoProps
    */
   options?: (SegmentedValue | SegmentedLabeledOption)[];
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSegmentedoProps
    */
   spin?: SpinProps;
   /**
    *ahook 的 request 的配置项
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   requestOptions?: Record<string, any>;
@@ -46,7 +46,7 @@ export interface LFormItemSegmentedoProps
    *配置 request 时 useRequest 的返回值
    *@author 李岚清 <https://github.com/llq0802>
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   *@version 2.1.28
+   *@version 2.1.29
    */
   actionRef?: React.MutableRefObject<LFormItemActionRef>;
 }

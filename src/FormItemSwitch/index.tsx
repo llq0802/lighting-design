@@ -44,21 +44,21 @@ export interface LFormItemSwitchProps extends LFormItemProps {
   /**
    *antd Swicth的 props
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSwitchProps
    */
   switchProps?: SwitchProps;
   /**
    *打开时的背景颜色
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSwitchProps
    */
   checkedBg?: string;
   /**
    *关闭时的背景颜色
    *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.28
+   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSwitchProps
    */
   unCheckedBg?: string;
