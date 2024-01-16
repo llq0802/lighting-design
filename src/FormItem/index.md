@@ -40,6 +40,10 @@ nav:
 
 <code src='./demos/Demo4.tsx'></code>
 
+### 兼容 Form.Item 的其他配置
+
+<code src='./demos/Demo6.tsx'></code>
+
 ## API
 
 :::warning{title=注意}
