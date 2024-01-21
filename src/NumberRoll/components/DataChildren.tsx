@@ -21,7 +21,7 @@ export const NumberRoll_DaterArray = [
 
 interface PropsType {
   num: string;
-  index: number;
+  index: React.Key;
   itemNumStyle?: React.CSSProperties;
   itemCharStyle?: React.CSSProperties;
 }
