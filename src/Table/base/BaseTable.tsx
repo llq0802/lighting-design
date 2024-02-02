@@ -220,18 +220,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       'onReload',
     );
   });
-  // 表单查询 保留表单参数 保留pageSize  重置page为 1
-  const handleSearchFormFinish = useMemoizedFn((formValues: Record<string, any>) => {
-    run(
-      {
-        current: 1,
-        pageSize: paginationAction?.pageSize || outPaginationPageSize,
-        formValues,
-        ...(isInited.current ? defaultRequestParams : {}),
-      },
-      isInited.current ? 'onInit' : 'onSearch',
-    );
-  });
+
   // 表格分页页码丶排序等改变时触发
   const handleTableChange = useMemoizedFn((pagination, filters, sorter, extra) => {
     onChange?.(pagination, filters, sorter, extra);
@@ -250,6 +239,25 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       'onReload',
     );
   });
+  // 表单查询 保留表单参数 保留pageSize  重置page为 1
+  const handleSearchFormFinish = useMemoizedFn((formValues: Record<string, any>) => {
+    run(
+      {
+        current: 1,
+        pageSize: paginationAction?.pageSize || outPaginationPageSize,
+        formValues,
+        ...(isInited.current ? defaultRequestParams : {}),
+      },
+      isInited.current ? 'onInit' : 'onSearch',
+    );
+    queryFormProps?.onFinish?.(formValues);
+  });
+  // 表单重置
+  const handleSearchFormReset = useMemoizedFn((e) => {
+    handleReset({});
+    queryFormProps?.onReset?.(e);
+  });
+
   // ==================== 表格方法结束====================
 
   // ==================== table副作用开始====================
@@ -331,7 +339,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         ref={handleFormRef}
         cardProps={formCardProps}
         onFinish={handleSearchFormFinish}
-        onReset={handleReset}
+        onReset={handleSearchFormReset}
         formItems={formItems}
         initialValues={formInitialValues}
         _lformRef={_lformRef}

@@ -87,7 +87,9 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     maxSize = 1024 * 1024 * 5,
     onUpload,
     previewModalProps = emptyObject,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     cropProps,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     buttonProps,
 
     onGetPreviewUrl,
