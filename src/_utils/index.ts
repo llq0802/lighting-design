@@ -1,6 +1,7 @@
-import { useRafState, useUpdateLayoutEffect } from 'ahooks';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
-import { Children, useMemo, useRef } from 'react';
+import { useMemoizedFn, useRafState, useUpdateLayoutEffect } from 'ahooks';
+import type { FormInstance } from 'antd';
+import { emptyArray } from 'lighting-design/constants';
+import { useMemo, useRef } from 'react';
 import rfdc from 'rfdc';
 
 /**
@@ -184,92 +185,6 @@ export const isTrueArray = (value: any) => {
   return true;
 };
 
-type GetFormInitValuesOptions = {
-  formItems: any[];
-  fields: any[] | undefined;
-  initialValues: Record<string, any> | undefined;
-  submitter: Record<string, any> | false | undefined;
-};
-/**
- * 获取 LForm 表单的初始值
- * @param {GetFormInitValuesOptions} options 配置项
- * @returns  initialValues 收集到的初始表单值
- */
-export const getFormInitValues = ({
-  formItems,
-  fields,
-  initialValues,
-  submitter,
-}: GetFormInitValuesOptions) => {
-  if (submitter === false || submitter?.isAntdReset) {
-    if (initialValues) {
-      return initialValues;
-    }
-    return emptyObject;
-  }
-
-  let ret: Record<string, any> = {};
-  if (fields?.length) {
-    fields.forEach((field: any) => {
-      if (field && typeof field === 'string') {
-        ret[field] = initialValues?.[field] ?? void 0;
-      } else if (Array.isArray(field) && field?.length) {
-        const field_0 = field[0];
-        const field_1 = field[1];
-        const val = initialValues?.[field_0]?.[field_1] ?? void 0;
-        if (!ret[field_0]) {
-          ret[field_0] = {
-            [field_1]: val,
-          };
-        } else {
-          ret[field_0][field_1] = val;
-        }
-      } else if (field === 0) {
-        ret[0] = initialValues?.[0] ?? void 0;
-      }
-    });
-
-    return ret;
-  }
-
-  formItems.forEach((item: any) => {
-    const itemName = item?.props?.name;
-    const child = item?.props?.children;
-    const itemInitialValue = item?.props?.initialValue;
-
-    if (itemName && typeof itemName === 'string' && !Object.keys(ret).includes(itemName)) {
-      ret[itemName] = itemInitialValue ?? initialValues?.[itemName] ?? void 0;
-    } else if (Array.isArray(itemName) && itemName?.length) {
-      const field_0 = itemName[0];
-      const field_1 = itemName[1];
-      const val = (itemInitialValue ?? initialValues)?.[field_0]?.[field_1] ?? void 0;
-      if (!ret[field_0]) {
-        ret[field_0] = {
-          [field_1]: val,
-        };
-      } else {
-        ret[field_0][field_1] = val;
-      }
-    } else if (itemName === 0) {
-      ret[0] = itemInitialValue ?? initialValues?.[0] ?? void 0;
-    }
-
-    if (Children.toArray(child)?.length > 0) {
-      ret = {
-        ...ret,
-        ...getFormInitValues({
-          formItems: Children.toArray(child),
-          fields,
-          initialValues,
-          submitter,
-        }),
-      };
-    }
-  });
-
-  return ret;
-};
-
 export const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
 
 /**
@@ -409,3 +324,118 @@ export const BUTTON_ALIGN_MAP = {
   center: 'center',
   right: 'flex-end',
 } as const;
+
+/**
+ * 通过initValues和allValues获取表单的初始值
+ * @param initialValues from 的 initialValues
+ * @param allValues from 的 allValues
+ * @returns 新的表单初始值
+ */
+export const getFormInitialValues = (initialValues: Record<string, any>, allValues = {}) => {
+  return Object.keys(allValues).reduce((prev: Record<string, any>, cur: string) => {
+    prev[cur] = initialValues?.[cur] ?? void 0;
+    return prev;
+  }, {});
+};
+
+/**
+ * 通过initValues和allValues设置表单的初始值
+ * @param form from 的 实例
+ * @param initialValues from 的 initialValues
+ * @returns 重置表单初始值的方法
+ */
+export const useFormInitValues = (form?: FormInstance, initialValues = {}) => {
+  return useMemoizedFn(() => {
+    const newInitVals = getFormInitialValues(initialValues, form?.getFieldsValue());
+    form?.setFieldsValue({ ...newInitVals });
+  });
+};
+
+// type GetFormInitValuesOptions = {
+//   formItems: any[];
+//   fields: any[] | undefined;
+//   initialValues: Record<string, any> | undefined;
+//   submitter: Record<string, any> | false | undefined;
+// };
+// /**
+//  * 获取 LForm 表单的初始值
+//  * @param {GetFormInitValuesOptions} options 配置项
+//  * @returns  initialValues 收集到的初始表单值
+//  */
+// export const getFormInitValues = ({
+//   formItems,
+//   fields,
+//   initialValues,
+//   submitter,
+// }: GetFormInitValuesOptions) => {
+//   if (initialValues) {
+//     return initialValues;
+//   }
+//   if (submitter === false || submitter?.isAntdReset) {
+//     // if (initialValues) {
+//     //   return initialValues;
+//     // }
+//     return emptyObject;
+//   }
+
+//   let ret: Record<string, any> = {};
+//   if (fields?.length) {
+//     fields.forEach((field: any) => {
+//       if (field && typeof field === 'string') {
+//         ret[field] = initialValues?.[field] ?? void 0;
+//       } else if (Array.isArray(field) && field?.length) {
+//         const field_0 = field[0];
+//         const field_1 = field[1];
+//         const val = initialValues?.[field_0]?.[field_1] ?? void 0;
+//         if (!ret[field_0]) {
+//           ret[field_0] = {
+//             [field_1]: val,
+//           };
+//         } else {
+//           ret[field_0][field_1] = val;
+//         }
+//       } else if (field === 0) {
+//         ret[0] = initialValues?.[0] ?? void 0;
+//       }
+//     });
+
+//     return ret;
+//   }
+
+//   formItems.forEach((item: any) => {
+//     const itemName = item?.props?.name;
+//     const child = item?.props?.children;
+//     const itemInitialValue = item?.props?.initialValue;
+
+//     if (itemName && typeof itemName === 'string' && !Object.keys(ret).includes(itemName)) {
+//       ret[itemName] = itemInitialValue ?? initialValues?.[itemName] ?? void 0;
+//     } else if (Array.isArray(itemName) && itemName?.length) {
+//       const field_0 = itemName[0];
+//       const field_1 = itemName[1];
+//       const val = (itemInitialValue ?? initialValues)?.[field_0]?.[field_1] ?? void 0;
+//       if (!ret[field_0]) {
+//         ret[field_0] = {
+//           [field_1]: val,
+//         };
+//       } else {
+//         ret[field_0][field_1] = val;
+//       }
+//     } else if (itemName === 0) {
+//       ret[0] = itemInitialValue ?? initialValues?.[0] ?? void 0;
+//     }
+
+//     if (Children.toArray(child)?.length > 0) {
+//       ret = {
+//         ...ret,
+//         ...getFormInitValues({
+//           formItems: Children.toArray(child),
+//           fields,
+//           initialValues,
+//           submitter,
+//         }),
+//       };
+//     }
+//   });
+
+//   return ret;
+// };
