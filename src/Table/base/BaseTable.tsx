@@ -85,7 +85,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const tablecardref = useRef<HTMLDivElement>(null);
-  const _lformRef = useRef<Record<string, any>>({});
   const isInited = useRef<boolean>(false); // 是否第一次自动请求
   const [isFullScreen, setFullScreen] = useRafState(false);
   // 绑定SearchForm组件form实例在内部
@@ -174,8 +173,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       paginationAction.onChange(outPaginationCurrent, outPaginationPageSize);
       return;
     }
-    const formValues = _lformRef.current;
-    queryFormRef.current?.setFieldsValue({ ...formValues });
+    const formValues = queryFormRef.current?.getFieldsValue();
     run(
       {
         current: 1,
@@ -220,7 +218,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       'onReload',
     );
   });
-
   // 表格分页页码丶排序等改变时触发
   const handleTableChange = useMemoizedFn((pagination, filters, sorter, extra) => {
     onChange?.(pagination, filters, sorter, extra);
@@ -241,6 +238,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
   // 表单查询 保留表单参数 保留pageSize  重置page为 1
   const handleSearchFormFinish = useMemoizedFn((formValues: Record<string, any>) => {
+    queryFormProps?.onFinish?.(formValues);
     run(
       {
         current: 1,
@@ -250,12 +248,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       },
       isInited.current ? 'onInit' : 'onSearch',
     );
-    queryFormProps?.onFinish?.(formValues);
   });
   // 表单重置
   const handleSearchFormReset = useMemoizedFn((e) => {
-    handleReset({});
     queryFormProps?.onReset?.(e);
+    handleReset({});
   });
 
   // ==================== 表格方法结束====================
@@ -342,7 +339,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         onReset={handleSearchFormReset}
         formItems={formItems}
         initialValues={formInitialValues}
-        _lformRef={_lformRef}
         {...queryFormProps}
       />
     );

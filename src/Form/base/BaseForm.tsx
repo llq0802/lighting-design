@@ -171,19 +171,6 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     [submitter],
   );
 
-  // const initFieldValues = useMemo(
-  //   () =>
-  //     getFormInitValues({
-  //       formItems,
-  //       fields,
-  //       initialValues,
-  //       submitter,
-  //     }),
-  //   [formItems, fields?.join(''), submitter, JSON.stringify(initialValues)],
-  // );
-  // 因为 initFieldValues 是上一次的初始值，在 BaseForm 的父组件中需要手动更新一次组件才能获取到
-  // useImperativeHandle(_lformRef, () => initFieldValues);
-
   const labelColProps = useMemo(() => {
     let labelFlex = {};
     if (layout === 'vertical' || labelWidth === 'auto') {

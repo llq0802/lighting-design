@@ -31,9 +31,13 @@ nav:
 
 <code src='./demos/Demo6.tsx'  ></code>
 
-### 表单的初始值通过异步动态获取
+### 表单 initialValues 通过异步动态获取设置
 
 <code src='./demos/Demo5.tsx' ></code>
+
+### 通过 form.setFieldsValue 设置初始值
+
+<code src='./demos/Demo8.tsx' ></code>
 
 ### 某一项的值变化后的副作用
 
@@ -53,13 +57,11 @@ nav:
 
 - `LForm` 的`children`子项必须包含`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`
 
-- 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`
+- 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`, <mark> 支持动态设置 initialValues 初始值 </mark>
 
 - 如果要为组件设置初始值 你应该始终通过 `LForm` 的 `initialValues`属性或 `LFormItem` 的`initialValue`来设置，而不是给子项设置 `defaultValue`
 
-- 当 `submitter` 不为 `false (默认不为false)` 并且`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`外层嵌套多层 `元素` 时建议配置 `allFields` 以提高组件性能, 此时如果设置表单初始值你应该始终通过 `LForm` 的 `initialValues`属性
-
-- 如果要在某一项字段的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一项设置 `onChange` 事件
+- 如果要在某一项字段的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一表单项设置 `onChange` 事件
 
 - 在提交表单时如果要处理格式化获取到的表单数据时推荐使用 `transformValues`方法, 而不是在 `onFinish`中进行处理表单值 , `onFinish`只针对调用`接口函数`
 
@@ -92,7 +94,6 @@ import { LForm } from 'lighting-design';
 | transformValues |                           在 `onFinish` 调用之前转化表单值 , 返回值会传给 `onFinish` 的参数                           |                   `(values: Record<string, any>) => Record<string, any>`                    |   `-`    |
 |    submitter    |                                      提交、重置按钮相关配置。为`false`将不会渲染                                      |                              `false` \| [LFormSubmitterProps]                               |   `-`    |
 |  isEnterSubmit  |                              是否开启回车键提交 `如果自定义渲染且不使用内部 dom 则无效`                               |                                          `boolean`                                          |  `true`  |
-|    allFields    |           `LForm` 下面所有的 `LFormItemXXX` 或 `LFormItem` 或 `Form.Item` 的 `name` 的属性值组成的字段数组            |                               `string[] \| [string,string][]`                               |   `-`    |
 |     loading     |               设置提交、重置的加载/禁止状态。<br/>如果 `onFinish` 返回异步则无需设置，内部会自动更新。                |                                          `boolean`                                          | `false`  |
 |     isReady     | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。<br/>一般用于异步获取初始值`initialValues` |                                          `boolean`                                          |  `true`  |
 |    onFinish     |          提交数据时触发。如果是`异步函数`，会自动管理`提交丶重置按钮`的 `loading` 外部无需再设置 `loading`。          |                                      `(values) => any`                                      |   `-`    |

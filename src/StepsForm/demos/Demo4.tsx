@@ -26,7 +26,7 @@ const Demo4 = () => {
         actionRef={actionRef}
         onFinish={async (valuse) => {
           console.log('StepsForm-valuse', valuse);
-          await awaitTime();
+          await awaitTime(800, 500);
           message.success('提交成功');
           return true;
         }}
@@ -36,7 +36,7 @@ const Demo4 = () => {
         <LStepsForm.StepForm
           title="步骤1"
           onFinish={async (values) => {
-            await awaitTime();
+            await awaitTime(800, 500);
             console.log('步骤1', values);
           }}
         >

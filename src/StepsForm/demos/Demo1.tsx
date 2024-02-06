@@ -24,9 +24,10 @@ const Demo1 = () => {
       <LStepsForm
         actionRef={actionRef1}
         onFinish={async (valuse) => {
-          await awaitTime();
-          console.log('StepsForm-valuse', valuse);
+          await awaitTime(500, 500);
+          console.log('Modal1-StepsForm-valuse', valuse);
           message.success('提交成功');
+          setOpen1(false);
           return true;
         }}
         stepsFormRender={(stepsDom, formDom, submitterDom) => {
@@ -47,28 +48,16 @@ const Demo1 = () => {
           );
         }}
       >
-        <LStepsForm.StepForm title="步骤1" name="eqwsd">
-          <LFormItemInput
-            name={['step1', 'name1']}
-            label="名字1"
-            required
-            tooltip="禁止空格"
-          />
-          <LFormItemInput
-            name={['step1', 'name2']}
-            label="名字2"
-            required
-            tooltip="禁止空格"
-          />
+        <LStepsForm.StepForm
+          title="步骤1"
+          name="eqwsd"
+          initialValues={{ step1: { name1: '吴彦祖', name2: '陈冠希' } }}
+        >
+          <LFormItemInput name={['step1', 'name1']} label="名字1" required />
+          <LFormItemInput name={['step1', 'name2']} label="名字2" required />
         </LStepsForm.StepForm>
         <LStepsForm.StepForm title="步骤2" name="fgvfd1">
-          <LFormItemInput
-            name={['step2', 'phone']}
-            label="手机号"
-            required
-            tooltip="禁止空格 只能输入数字"
-            type="phone"
-          />
+          <LFormItemInput name={['step2', 'name3']} label="名字3" required />
         </LStepsForm.StepForm>
       </LStepsForm>
       {/* 方式二*/}
@@ -86,32 +75,26 @@ const Demo1 = () => {
           submitter={{ buttonAlign: 'right' }}
           actionRef={actionRef2}
           onFinish={async (valuse) => {
-            console.log('StepsForm-valuse', valuse);
+            console.log('Modal2-StepsForm-valuse', valuse);
+            await awaitTime(500, 500);
+            setTimeout(() => setOpen2(false));
             return true;
           }}
         >
-          <LStepsForm.StepForm title="步骤1" name="dsadas">
-            <LFormItemInput
-              name={['step1', 'name1']}
-              label="名字1"
-              required
-              tooltip="禁止空格"
-            />
-            <LFormItemInput
-              name={['step1', 'name2']}
-              label="名字2"
-              required
-              tooltip="禁止空格"
-            />
+          <LStepsForm.StepForm
+            title="步骤1"
+            name="dsadas"
+            initialValues={{ step1: { name1: '盖伦', name2: '蛮王' } }}
+          >
+            <LFormItemInput name={['step1', 'name1']} label="名字1" required />
+            <LFormItemInput name={['step1', 'name2']} label="名字2" required />
           </LStepsForm.StepForm>
-          <LStepsForm.StepForm title="步骤2" name="fsawdf">
-            <LFormItemInput
-              name={['step2', 'phone']}
-              label="手机号"
-              required
-              tooltip="禁止空格 只能输入数字"
-              type="phone"
-            />
+          <LStepsForm.StepForm
+            title="步骤2"
+            name="fsawdf"
+            initialValues={{ step2: { name3: '剑姬' } }}
+          >
+            <LFormItemInput name={['step2', 'name3']} label="名字3" required />
           </LStepsForm.StepForm>
         </LStepsForm>
       </Modal>

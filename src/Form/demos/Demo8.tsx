@@ -1,25 +1,20 @@
 import { LForm, LFormItemInput } from 'lighting-design';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-const Demo5 = () => {
+const Demo8 = () => {
   const [form] = LForm.useForm();
-  const [initialValues, setInitialValues] = useState({ name: '原本的初始值' });
-  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
-      setIsReady(true);
-      setInitialValues({ name: '这是通过异步动态设置的 initialValues' });
+      form.setFieldsValue({ name: '这是通过 form.setFieldsValue 设置的 初始值' });
     }, 2000);
   }, []);
 
   return (
     <LForm
-      isReady={isReady}
       labelWrap
       labelCol={{ flex: '90px' }}
       submitter={{ buttonAlign: 90 }}
-      initialValues={initialValues}
       form={form}
       onFinish={async (values) => {
         console.log('onFinish-values ', values);
@@ -31,4 +26,4 @@ const Demo5 = () => {
   );
 };
 
-export default Demo5;
+export default Demo8;

@@ -14,9 +14,16 @@ const Demo5 = () => {
         onFinish={async (values) => {
           console.log('自定义提交 / 重置按钮onFinish-values ', values);
         }}
+        onReset={() => {
+          console.log('== onReset ====>');
+        }}
         submitter={{
           buttonAlign: 'center',
-          showReset: false,
+          resetButtonProps: {
+            onClick() {
+              console.log('== onClick ====>');
+            },
+          },
           render(dom) {
             return (
               <Space>

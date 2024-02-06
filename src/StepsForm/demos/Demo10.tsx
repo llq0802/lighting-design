@@ -34,18 +34,8 @@ const Demo2 = () => {
             console.log('步骤1', values);
           }}
         >
-          <LFormItemInput
-            name="name1"
-            label="名字1"
-            required
-            tooltip="禁止空格"
-          />
-          <LFormItemInput
-            name="name2"
-            label="名字2"
-            required
-            tooltip="禁止空格"
-          />
+          <LFormItemInput name="name1" label="名字1" required tooltip="禁止空格" />
+          <LFormItemInput name="name2" label="名字2" required tooltip="禁止空格" />
         </LStepsForm.StepForm>
 
         <LStepsForm.StepForm name="StepsFor4m26785" title="步骤2">

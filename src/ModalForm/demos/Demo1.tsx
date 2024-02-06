@@ -1,10 +1,5 @@
 import { Button, message } from 'antd';
-import {
-  LForm,
-  LFormItemInput,
-  LFormItemRadio,
-  LModalForm,
-} from 'lighting-design';
+import { LForm, LFormItemInput, LFormItemRadio, LModalForm } from 'lighting-design';
 import { awaitTime } from '../../_test';
 
 const Demo1 = () => {

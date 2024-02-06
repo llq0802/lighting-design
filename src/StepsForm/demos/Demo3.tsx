@@ -14,7 +14,7 @@ const Demo = () => {
         formProps={{ labelWidth: 90 }}
         submitStepNum={2}
         onFinish={async (values) => {
-          await awaitTime('', 1000);
+          await awaitTime(800, 500);
           console.log('onFinish-values', values);
           // 因为第二步已经提交，这里手动触发下一步
           actionRef.current!.next();

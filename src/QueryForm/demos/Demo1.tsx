@@ -10,8 +10,11 @@ const Demo1 = () => {
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
         }}
+        initialValues={{
+          input1: '默认值',
+        }}
       >
-        <LFormItemInput name="inpu1" required label="输入框1" />
+        <LFormItemInput name="input1" required label="输入框1" />
         <LFormItemInput name="input2" required label="输入框2" />
         <LFormItemInput name="input3" required label="输入框3" />
       </LQueryForm>
