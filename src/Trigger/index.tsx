@@ -4,8 +4,8 @@ import type { PopoverProps, SelectProps } from 'antd';
 import { Popover, Select } from 'antd';
 import classnames from 'classnames';
 import { emptyObject } from 'lighting-design/constants';
-import type { ReactNode } from 'react';
-import React, { cloneElement, useRef } from 'react';
+import type { JSXElementConstructor, ReactElement, SetStateAction } from 'react';
+import React, { cloneElement } from 'react';
 
 const prefixCls = 'lightd-trigger';
 
@@ -162,7 +162,7 @@ export type LTriggerProps = {
    * @version 2.1.29
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
-  children: ReactNode;
+  children: ReactElement<any, string | JSXElementConstructor<any>>;
   selectProps?: SelectProps;
   popoverProps?: PopoverProps;
 } & Pick<
@@ -173,7 +173,7 @@ export type LTriggerProps = {
   | 'style'
   | 'size'
   | 'suffixIcon'
-  | 'bordered'
+  | 'variant'
   | 'className'
   | 'style'
 >;
@@ -183,7 +183,7 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     labelInValue = false,
     mode: outMode = 'default',
     width = 250,
-    bordered = true,
+    variant,
     allowClear = true,
     suffixIcon,
     className,
@@ -205,7 +205,6 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     selectProps = emptyObject,
     popoverProps = emptyObject,
   } = props;
-  const selectRef = useRef<any>();
 
   const [isOpen, setIsOpen] = useControllableValue<boolean>(props, {
     defaultValue: false,
@@ -221,7 +220,6 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     trigger: 'onChange',
   });
   const content = cloneElement(children, {
-    // @ts-ignore
     value: labelInValue ? state : state?.[fieldNames.value],
     onChange: setState,
     open: isOpen,
@@ -248,10 +246,7 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
       trigger="click"
       rootClassName={`${prefixCls}-overlay`}
       placement={placement}
-      onOpenChange={(b) => {
-        selectRef.current?.blur?.();
-        setIsOpen(b);
-      }}
+      onOpenChange={(b) => setIsOpen(b)}
       getPopupContainer={getPopupContainer}
       destroyTooltipOnHide={destroyOnHide}
       overlayClassName={overlayClassName}
@@ -259,14 +254,13 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
     >
       <Select
         {...selectProps}
-        ref={selectRef}
         className={classnames(prefixCls, className)}
         style={{ width, ...style }}
         removeIcon={false}
         showSearch={false}
         virtual={false}
         size={size}
-        bordered={bordered}
+        variant={variant}
         allowClear={allowClear}
         suffixIcon={innerSuffixIcon}
         placeholder={placeholder}
@@ -275,7 +269,7 @@ const LTrigger: React.FC<LTriggerProps> = (props) => {
         tagRender={tagRender}
         mode={outMode === 'default' ? void 0 : 'multiple'}
         onChange={setState}
-        value={value}
+        value={value as SetStateAction<ValueType> | null | undefined}
         notFoundContent={null}
         options={void 0}
         onInputKeyDown={(e) => {
