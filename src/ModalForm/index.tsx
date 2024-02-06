@@ -2,7 +2,7 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal } from 'antd';
 import classnames from 'classnames';
-import { BUTTON_ALIGN_MAP } from 'lighting-design/_utils';
+import { BUTTON_ALIGN_MAP, useFormInitValues } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
@@ -111,7 +111,6 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
 
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
-  const _lformRef = useRef<Record<string, any>>();
   const [disabled, setDisabled] = useState(false);
   const [bounds, setBounds] = useState({
     left: 0,
@@ -145,10 +144,11 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     }
   });
 
+  const resetFormInitValues = useFormInitValues(formRef.current, restProps.initialValues);
+
   return (
     <>
       <BaseForm
-        _lformRef={_lformRef}
         className={classnames(prefixCls, className)}
         loading={modalProps?.confirmLoading ?? loading}
         form={formRef.current}
@@ -214,7 +214,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                   if (submitter && submitter.isAntdReset) {
                     formRef.current.resetFields(); // 弹窗关闭后重置表单
                   } else {
-                    formRef.current.setFieldsValue({ ..._lformRef.current });
+                    resetFormInitValues();
                   }
                 }
                 modalProps?.afterClose?.();
@@ -241,7 +241,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                   if (submitter && submitter.isAntdReset) {
                     formRef.current.resetFields(); // 弹窗关闭后重置表单
                   } else {
-                    formRef.current.setFieldsValue({ ..._lformRef.current });
+                    resetFormInitValues();
                   }
                 }
                 modalProps?.afterClose?.();
