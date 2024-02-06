@@ -22,7 +22,7 @@ const Demo2 = () => {
     >
       <LFormItemInput name="input" label="输入框" />
       <LFormItem required name="trigger1" label="单选表格">
-        <LTrigger>
+        <LTrigger variant="filled">
           <ChildTable1 />
         </LTrigger>
       </LFormItem>

@@ -39,9 +39,11 @@ nav:
 
 :::warning{title=注意}
 
-- `beforeUpload` 若返回 `false 或 Promise.reject()` 不会生产 `status` ，`response`，`percent`
+- `beforeUpload` 若返回 `false 或 Promise.reject()` 当前的文件 `file` 或者 `fileList` 不会有 `status` ，`response`属性
 
-- `beforeUpload` 若返回 `Upload.LIST_IGNORE`， 此时列表中将不展示此文件。
+- `beforeUpload` 若返回 `Upload.LIST_IGNORE`， 此时列表中将不展示此文件。且不会触发 `onChange`事件
+
+- `file` 的 `thumbUrl` 属性为内置的图片缩略图地址(默认为 dase64)，
 
 - 想修改图片大小后或者头像大小 可通过`uploadProps`传入`className`类名 然后进行覆盖`.ant-upload.ant-upload-select`的样式
   :::
