@@ -5,8 +5,8 @@ import { createContext } from 'react';
 export type StepsFormContextProps = {
   /** 当前步骤 */
   current: number;
-  /** 步骤总长度 */
-  total: number;
+  /** 在哪一步为最终的提交 默认为最后一步 即子项长度减一 */
+  submitStepNum: number;
   /** 所有form实例数组 */
   formInstanceListRef: MutableRefObject<FormInstance<any>[]>;
   formInitialValues: MutableRefObject<any[]>;

@@ -9,7 +9,7 @@ import StepsFormContext from './StepsFormContext';
 export interface LStepsFormSubmitterProps
   extends Pick<
     LFormSubmitterProps,
-    'submitText' | 'submitButtonProps' | 'form' | 'wrapperCol' | 'buttonAlign'
+    'submitText' | 'submitButtonProps' | 'wrapperCol' | 'buttonAlign'
   > {
   /** 上一步按钮的文字 */
   prevText?: ReactNode;
@@ -63,12 +63,10 @@ const StepsFormSubmitter: FC<LStepsFormSubmitterProps> = (props) => {
     forceShowPrev = false,
     forceShowNext = false,
     forceShowSubmit = false,
-
-    form,
     render,
   } = props;
 
-  const { total = 0, current = 0 } = useContext(StepsFormContext);
+  const { submitStepNum = 0, current = 0, formInstanceListRef } = useContext(StepsFormContext);
 
   const handlePrev = (e) => {
     onPrev?.(e);
@@ -77,6 +75,7 @@ const StepsFormSubmitter: FC<LStepsFormSubmitterProps> = (props) => {
 
   const handleNext = (e) => {
     if (nextButtonProps?.htmlType !== 'submit') {
+      const form = formInstanceListRef.current[current];
       form?.submit(); // 提交表单验证
     }
     onNext?.(e);
@@ -85,6 +84,7 @@ const StepsFormSubmitter: FC<LStepsFormSubmitterProps> = (props) => {
 
   const handleSubmit = (e) => {
     if (submitButtonProps?.htmlType !== 'submit') {
+      const form = formInstanceListRef.current[current];
       form?.submit(); // 提交表单验证
     }
     Promise.resolve().then(() => onSubmit?.(e));
@@ -111,8 +111,10 @@ const StepsFormSubmitter: FC<LStepsFormSubmitterProps> = (props) => {
 
   const createDom = () => {
     let prevView = current !== 0 && showPrev ? prevButton : null;
-    let nextView = current < total - 1 && showNext ? nextButton : null;
-    let submitView = current === total - 1 ? submitButton : null;
+
+    let nextView = current < submitStepNum && showNext ? nextButton : null;
+
+    let submitView = current >= submitStepNum ? submitButton : null;
 
     if (forceShowPrev && !prevView) {
       prevView = prevButton;

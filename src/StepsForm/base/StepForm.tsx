@@ -5,8 +5,8 @@ import { Form } from 'antd';
 import classnames from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
-import { isFunction } from 'lighting-design/_utils';
-import { useContext, useLayoutEffect, useRef } from 'react';
+import { getFormInitialValues, isFunction } from 'lighting-design/_utils';
+import { useContext, useEffect, useRef } from 'react';
 import StepsFormContext from './StepsFormContext';
 import type { LStepsFormSubmitterProps } from './StepsSubmitter';
 
@@ -43,18 +43,17 @@ function StepForm({
   const ctx = useContext(StepsFormContext);
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
-  const _lformRef = useRef<Record<string, any>>({});
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     // 存储每个表单实例
     ctx.formInstanceListRef.current[_stepNum as number] = formRef.current;
-
     // 存储每个表单的初始值 (保证获取到初始值，
-    ctx.formInitialValues.current[_stepNum as number] = _lformRef.current;
-    // 因为_lformRef.current是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到)
-    ctx?.forgetUpdate();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const newInitialValues = getFormInitialValues(
+      restProps?.initialValues || {},
+      formRef.current.getFieldsValue(),
+    );
+    ctx.formInitialValues.current[_stepNum as number] = newInitialValues;
+  }, [JSON.stringify(restProps?.initialValues)]);
 
   // 当前表单的提交
   const handleFinsh = useMemoizedFn(async (values) => {
@@ -74,7 +73,7 @@ function StepForm({
     // 只要onFinish不返回false 就触发自带的下一步和提交
     if (ret !== false) {
       ctx?.onFormFinish(name as string, values);
-      if (ctx.total - 1 === _stepNum) {
+      if (ctx.submitStepNum === _stepNum) {
         // 最后一步触发提交
         ctx.submit();
         return;
@@ -86,7 +85,6 @@ function StepForm({
 
   return (
     <BaseForm
-      _lformRef={_lformRef}
       isEnterSubmit={isEnterSubmit}
       name={name}
       className={classnames(prefixCls, className)}
