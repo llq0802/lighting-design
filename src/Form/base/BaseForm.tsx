@@ -2,10 +2,10 @@ import { useMemoizedFn, useUpdateEffect } from 'ahooks';
 import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
+import { emptyObject } from 'lighting-design/constants';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
-import { Children, createContext, useImperativeHandle, useMemo, useRef } from 'react';
-import { getFormInitValues, isFunction, uniqueId, useLoading } from '../../_utils';
+import { Children, createContext, useMemo, useRef } from 'react';
+import { isFunction, uniqueId, useLoading } from '../../_utils';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
 
@@ -124,9 +124,6 @@ export const LFormContext = createContext<{
 
 function BaseForm(props: BaseFormProps): JSX.Element {
   const {
-    _lformRef,
-    allFields: fields = emptyArray,
-
     labelWidth = 'auto',
     contentRender,
     formRender,
@@ -165,7 +162,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
       // formRef.current?.resetFields?.() 会重置整个 Field，
       // 因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
     }
-  }, [isReady]);
+  }, [isReady, JSON.stringify(initialValues)]);
 
   const formItems = Children.toArray(children);
 
@@ -174,19 +171,18 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     [submitter],
   );
 
-  const initFieldValues = useMemo(
-    () =>
-      getFormInitValues({
-        formItems,
-        fields,
-        initialValues,
-        submitter,
-      }),
-    [formItems, fields?.join(''), submitter, JSON.stringify(initialValues)],
-  );
-
+  // const initFieldValues = useMemo(
+  //   () =>
+  //     getFormInitValues({
+  //       formItems,
+  //       fields,
+  //       initialValues,
+  //       submitter,
+  //     }),
+  //   [formItems, fields?.join(''), submitter, JSON.stringify(initialValues)],
+  // );
   // 因为 initFieldValues 是上一次的初始值，在 BaseForm 的父组件中需要手动更新一次组件才能获取到
-  useImperativeHandle(_lformRef, () => initFieldValues);
+  // useImperativeHandle(_lformRef, () => initFieldValues);
 
   const labelColProps = useMemo(() => {
     let labelFlex = {};
@@ -228,7 +224,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
       <Submitter
         isReady={isReady}
         isEnterSubmit={isEnterSubmit}
-        initFormValues={initFieldValues}
+        initFormValues={initialValues}
         onReset={onReset}
         {...submitterProps}
         form={formRef?.current}
@@ -243,14 +239,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         }}
       />
     ) : null;
-  }, [
-    JSON.stringify(initFieldValues),
-    isReady,
-    loading,
-    !!submitter,
-    submitterProps,
-    isEnterSubmit,
-  ]);
+  }, [JSON.stringify(initialValues), isReady, loading, !!submitter, submitterProps, isEnterSubmit]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)

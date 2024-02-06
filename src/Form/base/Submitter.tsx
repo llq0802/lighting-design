@@ -2,6 +2,7 @@ import { useMemoizedFn } from 'ahooks';
 import type { ButtonProps, FormInstance } from 'antd';
 import { Button, Space } from 'antd';
 import type { FormProps } from 'antd/es/form';
+import { useFormInitValues } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { useMemo } from 'react';
@@ -44,7 +45,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     isEnterSubmit = true,
     isReady,
     isAntdReset = false,
-    initFormValues,
+    initFormValues = {},
     onSubmit = () => {},
     onReset = () => {},
     submitText = '提交',
@@ -58,11 +59,12 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const { preventDefault: submitPreventDefault, ...submitButtonProps } = outSubmitButtonProps;
   const { preventDefault: resetPreventDefault, ...resetButtonProps } = outResetButtonProps;
 
+  const restFormInitValues = useFormInitValues(form, initFormValues);
+
   const resetClick = useMemoizedFn((e) => {
     if (!resetPreventDefault) {
-      // const hasInitFormValues = Object.keys(initFormValues ?? {}).length > 0;
       if (!isAntdReset) {
-        form?.setFieldsValue({ ...initFormValues });
+        restFormInitValues();
       } else {
         // resetFields 会重置整个 Field，因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
         form?.resetFields();
