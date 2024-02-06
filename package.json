@@ -76,7 +76,7 @@
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",
-    "antd": "^5.8.0",
+    "antd": "^5.14.0",
     "better-mock": "^0.3.6",
     "dumi": "^2.1.0",
     "eslint": "^8.23.0",
