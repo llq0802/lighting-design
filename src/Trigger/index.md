@@ -1,6 +1,8 @@
 ---
 title: LTrigger
 toc: content
+demo:
+  cols: 2
 ---
 
 # LTrigger
