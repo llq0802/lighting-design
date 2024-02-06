@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import LForm from 'lighting-design/Form';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
-import { BUTTON_ALIGN_MAP, isFunction } from 'lighting-design/_utils';
+import { BUTTON_ALIGN_MAP, isFunction, useFormInitValues } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { cloneElement, useRef } from 'react';
@@ -126,7 +126,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
 
   const [form] = LForm.useForm();
   const formRef = useRef(outForm || form);
-  const _lformRef = useRef<Record<string, any>>();
 
   const handleFinish = useMemoizedFn(async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
@@ -134,10 +133,11 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     if (ret === true) setOpen(false);
   });
 
+  const resetFormInitValues = useFormInitValues(formRef.current, restProps.initialValues);
+
   return (
     <>
       <BaseForm
-        _lformRef={_lformRef}
         className={classnames(prefixCls, className)}
         loading={loading}
         form={formRef.current}
@@ -201,7 +201,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
                 if (submitter && submitter.isAntdReset) {
                   formRef.current.resetFields(); // 弹窗关闭后重置表单
                 } else {
-                  formRef.current.setFieldsValue({ ..._lformRef.current });
+                  resetFormInitValues();
                 }
               }
               drawerProps?.afterOpenChange?.(flag);
