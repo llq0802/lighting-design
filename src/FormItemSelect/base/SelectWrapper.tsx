@@ -54,134 +54,6 @@ export interface LSelectOptions {
   disabled?: boolean;
 }
 
-// const SelectWrapper: FC<SelectWrapperProps> = ({
-//   value,
-//   onChange,
-//   dependencies = emptyArray,
-//   placeholder,
-//   options: outOptions = emptyArray,
-//   request,
-//   debounceTime,
-//   all = false,
-//   disabled,
-//   allValue = '',
-//   allLabel = '全部',
-//   selectProps = emptyObject,
-//   outLoading,
-//   requestOptions = emptyObject,
-//   name,
-//   ...restProps
-// }) => {
-//   const [optsRequest, setOptsRequest] = useState<LSelectOptions[]>([]);
-//   const isFirst = useIsFirstRender(); // 组件是否第一次挂载
-
-//   const form = Form.useFormInstance();
-
-//   const [loading, setLoading] = useSafeState<boolean>(outLoading?.spinning || false);
-
-//   const hasLoading = useMemo(() => Reflect.has(outLoading ?? {}, 'spinning'), [outLoading]);
-
-//   useUpdateEffect(() => {
-//     if (hasLoading) setLoading(outLoading?.spinning || false);
-//   }, [outLoading]);
-
-//   const { run } = useRequest(request || (async () => []), {
-//     ...requestOptions,
-//     manual: true,
-//     debounceWait: debounceTime,
-//     onSuccess: (result) => {
-//       if (!hasLoading) setLoading(false);
-//       if (all && result?.length > 0) {
-//         setOptsRequest([{ label: allLabel, value: allValue }, ...result]);
-//       } else {
-//         setOptsRequest([...result]);
-//       }
-//     },
-//     onError: () => {
-//       setOptsRequest([]);
-//       if (!hasLoading) setLoading(false);
-//     },
-//   });
-
-//   const dependValues = useDependValues(dependencies, restProps);
-//   const isClearDepends = useIsClearDependValues(dependValues);
-
-//   const options = useMemo<LSelectOptions[]>(() => {
-//     const rawOptions = selectProps.options || outOptions;
-//     if (all && rawOptions?.length > 0) {
-//       const retOptions = [{ label: allLabel, value: allValue }, ...rawOptions];
-//       return retOptions;
-//     }
-//     return rawOptions;
-//   }, [all, allLabel, allValue, outOptions, selectProps.options]);
-
-//   useDeepCompareEffect(() => {
-//     if (!request) return;
-//     // 组件第一次加载时调用request
-//     if (isFirst) {
-//       (async () => {
-//         try {
-//           if (!hasLoading) setLoading(true);
-//           const newOptions = await request(...dependValues);
-//           if (all && newOptions?.length > 0) {
-//             setOptsRequest([{ label: allLabel, value: allValue }, ...newOptions]);
-//           } else {
-//             setOptsRequest([...newOptions]);
-//           }
-//         } catch (error) {
-//           setOptsRequest([]);
-//         }
-//         if (!hasLoading) setLoading(false);
-//       })();
-//     } else {
-//       if (value !== void 0) {
-//         form.setFieldValue(name, void 0);
-//       }
-//       // 防抖调用
-//       if (!isClearDepends) {
-//         if (!hasLoading) setLoading(true);
-//         run(...dependValues);
-//       }
-//     }
-//   }, [dependValues]);
-
-//   const selectOptions = useMemo(() => {
-//     if (isClearDepends) {
-//       return [];
-//     } else if (optsRequest?.length > 0) {
-//       return optsRequest;
-//     } else if (options.length > 0) {
-//       return options;
-//     } else {
-//       return [];
-//     }
-//   }, [isClearDepends, options, optsRequest]);
-
-//   const handleChange = useMemoizedFn(
-//     (val: string, items: DefaultOptionType | DefaultOptionType[]) => {
-//       if (selectProps?.onChange) {
-//         selectProps?.onChange(val, items);
-//       }
-//       onChange?.(val);
-//     },
-//   );
-//   return (
-//     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
-//       <Select
-//         {...restProps}
-//         disabled={disabled ?? isClearDepends}
-//         options={selectOptions}
-//         placeholder={placeholder}
-//         allowClear
-//         {...selectProps}
-//         style={{ width: '100%', ...selectProps?.style }}
-//         value={value}
-//         onChange={handleChange}
-//       />
-//     </Spin>
-//   );
-// };
-
 const SelectWrapper: FC<SelectWrapperProps> = ({
   value,
   onChange,
@@ -192,7 +64,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   debounceTime,
   all = false,
   disabled,
-  allValue = '',
+  allValue = 'all',
   allLabel = '全部',
   selectProps = emptyObject,
   outLoading,
@@ -225,9 +97,17 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   }, dependValues);
 
   const selectOptions = useMemo(() => {
+    const { fieldNames = {}, mode } = selectProps;
+
     const innerOptions = getOptions(outOptions, selectProps.options, data);
-    if (all && innerOptions?.length > 0) {
-      return [{ label: allLabel, value: allValue }, ...innerOptions];
+    if (all && innerOptions?.length > 0 && mode !== 'tags' && mode !== 'multiple') {
+      return [
+        {
+          [fieldNames?.label ?? 'label']: allLabel,
+          [fieldNames?.value ?? 'value']: allValue,
+        },
+        ...innerOptions,
+      ];
     }
     return innerOptions;
   }, [all, outOptions, data, selectProps.options]);
@@ -240,6 +120,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
       onChange?.(val);
     },
   );
+
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       <Select
