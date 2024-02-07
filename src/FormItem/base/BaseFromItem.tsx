@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement, useContext, useMemo } from 'react';
 import { LFormContext } from '../../Form/base/BaseForm';
-import { isTrueArray, usePlaceholder } from '../../_utils';
+import { isLegalValue, usePlaceholder } from '../../_utils';
 import FormItemWrapper from './FormItemWrapper';
 import './styles.less';
 
@@ -153,9 +153,9 @@ const LFormItem: FC<LFormItemProps> & {
   const { layout, labelColProps: formLabelColProps } = useContext(LFormContext);
 
   const messageLabel = usePlaceholder({
-    restProps: restFromItemProps,
-    isSelectType: _isSelectType,
     placeholder,
+    isSelectType: _isSelectType,
+    restProps: restFromItemProps,
   });
 
   const itemClassnames = useMemo(
@@ -178,10 +178,9 @@ const LFormItem: FC<LFormItemProps> & {
         ? rules
         : [
             {
-              validator(_: any, value: any) {
-                const val = typeof value === 'string' ? value.trim() : value;
+              async validator(_: any, value: any) {
                 let errMsg = '';
-                if ((!val && val !== 0) || !isTrueArray(val)) {
+                if (!isLegalValue(value)) {
                   errMsg = required
                     ? `${restFromItemProps?.messageVariables?.label || messageLabel}!`
                     : '';
@@ -194,7 +193,7 @@ const LFormItem: FC<LFormItemProps> & {
               },
             },
           ],
-    [messageLabel, required, rules],
+    [messageLabel, required, rules, restFromItemProps?.messageVariables?.label],
   );
 
   const labelColProps = useMemo(() => {
