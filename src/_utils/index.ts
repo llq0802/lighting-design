@@ -182,7 +182,7 @@ export const isTrueArray = (value: any) => {
     }
     return value.filter((item: any) => item || item === 0)?.length;
   }
-  return true;
+  return false;
 };
 
 export const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
@@ -261,15 +261,15 @@ export const transformEchartsOption = (
  * @param data
  * @returns
  */
-export const getOptions = (opt1: any[] = [], opt2: any[] = [], data?: any[] | undefined) => {
+export const getOptions = (opt1: any[] = [], opt2: any[] = [], opt3?: any[] | undefined) => {
   if (opt1?.length) {
     return opt1;
   }
   if (opt2?.length) {
     return opt1;
   }
-  if (data?.length) {
-    return data;
+  if (opt3?.length) {
+    return opt3;
   }
   return emptyArray;
 };
