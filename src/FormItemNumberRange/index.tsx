@@ -160,7 +160,7 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
         let errMsg = '';
         const newValue = Array.isArray(value) ? value.filter((item) => item || item === 0) : [];
         if (newValue?.length !== 2) {
-          errMsg = required ? `${messageLabel}!` : '';
+          errMsg = required ? `${restProps?.messageVariables?.label || messageLabel}!` : '';
         }
         if (errMsg) {
           return Promise.reject(errMsg);
