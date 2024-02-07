@@ -6,12 +6,7 @@ const Demo = () => {
 
   return (
     <LForm form={form} submitter={{ buttonAlign: 'center' }}>
-      <LFormItemNumber
-        name="number1"
-        label="金额1"
-        required
-        contentAfter={<div>$</div>}
-      />
+      <LFormItemNumber name="number1" label="金额1" required contentAfter={<div>$</div>} />
 
       <LFormItemNumber
         label="金额2"
@@ -38,8 +33,7 @@ const Demo = () => {
         initialValue={1000}
         numberProps={{
           precision: undefined,
-          formatter: (value) =>
-            `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+          formatter: (value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
           parser: (value) => value!.replace(/\$\s?|(,*)/g, ''),
         }}
       />
