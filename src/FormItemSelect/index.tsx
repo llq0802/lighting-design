@@ -14,8 +14,14 @@ export type LFormItemActionRef = Result<any, any[]> | undefined;
 
 export interface LFormItemSelectProps
   extends LFormItemProps,
-    Pick<SelectWrapperProps, 'selectProps' | 'request' | 'all' | 'allValue' | 'allLabel'>,
-    Pick<SelectProps, 'options'> {
+    Pick<SelectWrapperProps, 'selectProps' | 'request' | 'all' | 'allValue' | 'allLabel'> {
+  /**
+   *数据源
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.29
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
+   */
+  options?: SelectProps['options'] | Record<string, any>[];
   /**
    *依赖的项
    *@author 李岚清 <https://github.com/llq0802>
@@ -54,11 +60,24 @@ export interface LFormItemSelectProps
   requestOptions?: Record<string, any>;
 }
 
+const validatorSelectVal = (value, mode, all, allValue) => {
+  /*   (!value && value !== 0 && !hasOptValue && !(all && allValue === value))
+  ||
+  ((selectProps?.mode === 'multiple' || selectProps?.mode === 'tags') &&  value && value.length <= 0 */
+  if (mode === 'multiple' || mode === 'tags') {
+    return value && value?.length > 0;
+  }
+  if (typeof value === 'number' || (all && allValue === value)) {
+    return true;
+  }
+  return !!value;
+};
+
 const LFormItemSelect: FC<LFormItemSelectProps> = ({
   request,
   debounceTime,
   all = false,
-  allValue = '',
+  allValue = 'all',
   allLabel = '全部',
   options = emptyArray,
   selectProps = emptyObject,
@@ -70,6 +89,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   size,
   placeholder,
   actionRef,
+  messageVariables,
   ...restProps
 }) => {
   const messagePlaceholder = usePlaceholder({
@@ -80,16 +100,10 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
   const rules = [
     {
-      validator(rule, value) {
+      validator(rule, value: any) {
         let errMsg = '';
-        const hasOptValue = options?.find((item) => item?.value === value);
-        if (
-          (!value && value !== 0 && !hasOptValue && !(all && allValue === value)) ||
-          ((selectProps?.mode === 'multiple' || selectProps?.mode === 'tags') &&
-            value &&
-            value.length <= 0)
-        ) {
-          errMsg = required ? `${messagePlaceholder}!` : '';
+        if (!validatorSelectVal(value, selectProps?.mode, all, allValue)) {
+          errMsg = required ? `${messageVariables?.label || messagePlaceholder}!` : '';
         }
         if (errMsg) {
           return Promise.reject(errMsg);
@@ -100,7 +114,13 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   ];
 
   return (
-    <LFormItem required={required} _isSelectType rules={rules} {...restProps}>
+    <LFormItem
+      required={required}
+      _isSelectType
+      rules={rules}
+      messageVariables={messageVariables}
+      {...restProps}
+    >
       <SelectWrapper
         name={restProps.name}
         size={size}
