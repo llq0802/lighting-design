@@ -171,18 +171,27 @@ export const useIsClearDependValues = (dependValues: any[]) => {
 };
 
 /**
- * 判断是否是真数组(只有0的数组算数组)
+ * 验证是否合法值
+ * @description`'' NaN false undefined null [] {} 不合法`,  `0 合法`
  * @param {String} value
  * @returns
  */
-export const isTrueArray = (value: any) => {
+export const isLegalValue = (value: any) => {
+  if (typeof value === 'number' && !Number.isNaN(value)) {
+    return true;
+  }
   if (Array.isArray(value)) {
     if (!value?.length) {
       return false;
     }
-    return value.filter((item: any) => item || item === 0)?.length;
+    return value.filter((item: any) => !!item || item === 0)?.length > 0;
   }
-  return false;
+
+  if (Object.prototype.toString.call(value) === '[object Object]') {
+    return Object.keys(value).length > 0;
+  }
+
+  return !!value;
 };
 
 export const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
