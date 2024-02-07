@@ -67,7 +67,7 @@ const validatorSelectVal = (value, mode, all, allValue) => {
   if (mode === 'multiple' || mode === 'tags') {
     return value && value?.length > 0;
   }
-  if (typeof value === 'number' || (all && allValue === value)) {
+  if ((typeof value === 'number' && !Number.isNaN(value)) || (all && allValue === value)) {
     return true;
   }
   return !!value;
