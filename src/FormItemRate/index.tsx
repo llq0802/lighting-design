@@ -45,7 +45,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
       validator(rule, value: number) {
         let errMsg = '';
         if (!value) {
-          errMsg = required ? `${messageLabel}!` : '';
+          errMsg = required ? `${restProps?.messageVariables?.label || messageLabel}!` : '';
         }
         if (errMsg) {
           return Promise.reject(errMsg);
