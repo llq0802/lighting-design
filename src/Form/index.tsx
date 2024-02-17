@@ -27,7 +27,6 @@ const LForm: FC<LFormProps> & {
           render: (dom: ReactNode) => {
             //  默认配置的dom
             const newDom = Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom;
-
             return (
               <Form.Item
                 colon={false}
@@ -45,11 +44,13 @@ const LForm: FC<LFormProps> & {
                 wrapperCol={submitterProps?.wrapperCol}
               >
                 <div
+                  className="lightd-form-submitter-wrapper"
                   style={{
                     display: 'flex',
                     justifyContent:
                       typeof submitter?.buttonAlign === 'string'
-                        ? BUTTON_ALIGN_MAP[submitter?.buttonAlign]
+                        ? // @ts-ignore
+                          BUTTON_ALIGN_MAP[submitter?.buttonAlign]
                         : 'initial',
                   }}
                 >

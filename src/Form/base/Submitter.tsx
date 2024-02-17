@@ -44,7 +44,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const {
     isEnterSubmit = true,
     isReady,
-    isAntdReset = false,
+    isAntdReset = true,
     initFormValues = {},
     onSubmit = () => {},
     onReset = () => {},

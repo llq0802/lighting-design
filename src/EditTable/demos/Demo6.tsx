@@ -14,7 +14,7 @@ import { useRef, useState } from 'react';
 const defaultData = Mock.mock({
   'list|25': [
     {
-      id: '@guid',
+      'id|+1': 1,
       'age|1-99': 20,
       name: '@cname',
       birthday: '@date',

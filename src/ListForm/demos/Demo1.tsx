@@ -10,6 +10,13 @@ const Demo1 = () => {
           console.log('values', values);
         }}
         submitter={{ buttonAlign: 'center' }}
+        // initialValues={{
+        //   input: '名字',
+        //   list: [
+        //     { first: '345', last: '57' },
+        //     { first: '687', last: '3278' },
+        //   ],
+        // }}
       >
         <LFormItemInput name="input" label="其他输入的字段" />
 
@@ -17,18 +24,13 @@ const Demo1 = () => {
           {(fields, { add, remove, move }, { errors }) => {
             return (
               <>
-                {fields.map(({ key, name, ...restField }) => {
+                {fields.map((field) => {
+                  const { key, name, ...restField } = field;
+                  console.log('==field====>', field);
+
                   return (
-                    <LFormItem
-                      label="名字"
-                      key={key}
-                      style={{ marginBottom: 0 }}
-                    >
-                      <Space
-                        key={key}
-                        style={{ display: 'flex', width: '100%' }}
-                        align="baseline"
-                      >
+                    <LFormItem label="名字" key={key} style={{ marginBottom: 0 }}>
+                      <Space key={key} style={{ display: 'flex', width: '100%' }} align="baseline">
                         <LFormItemInput
                           {...restField}
                           placeholder="请输入 First 名"
@@ -50,12 +52,7 @@ const Demo1 = () => {
                 })}
 
                 <LFormItem>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    block
-                    icon={<PlusOutlined />}
-                  >
+                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                     增加一项
                   </Button>
                 </LFormItem>

@@ -61,6 +61,7 @@ toc: content
   ```
   // 下面是在 LForm 中收集到的数据结构, 假设 LFormItem 的 name 为 list
   list:{
+    // key1 key2 为列表每一项的唯一主键
     key1:{
       name:xxx,
       age:xxx

@@ -15,7 +15,7 @@ const Demo5 = () => {
 
   return (
     <LForm
-      isReady={isReady}
+      // isReady={isReady}
       labelWrap
       labelCol={{ flex: '90px' }}
       submitter={{ buttonAlign: 90 }}
@@ -25,7 +25,12 @@ const Demo5 = () => {
         console.log('onFinish-values ', values);
       }}
     >
-      <LFormItemInput name="name" required label="姓名姓名姓名姓名" />
+      <LFormItemInput
+        name="name"
+        required
+        label="姓名姓名姓名姓名"
+        // initialValue={initialValues.name}
+      />
       <LFormItemInput name="name1" required label="字段名" />
     </LForm>
   );

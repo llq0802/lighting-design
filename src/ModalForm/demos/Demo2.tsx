@@ -23,12 +23,10 @@ const Demo1 = () => {
         submitter={{
           render(dom) {
             return (
-              <>
-                <Button onClick={() => form1.setFieldsValue({ name: null })}>
-                  重置
-                </Button>
+              <Space>
+                <Button onClick={() => form1.setFieldsValue({ name: null })}>重置</Button>
                 {dom}
-              </>
+              </Space>
             );
           },
         }}
@@ -86,10 +84,10 @@ const Demo1 = () => {
           buttonAlign: 'left',
           render(dom) {
             return (
-              <>
+              <Space>
                 {dom}
                 <Button>其他</Button>
-              </>
+              </Space>
             );
           },
         }}

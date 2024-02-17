@@ -13,7 +13,13 @@ const Demo = () => {
         console.log('values', values);
       }}
     >
-      <LFormItemInput className="myLFormItemInput-4" name="name" label="名字" required />
+      <LFormItemInput
+        className="myLFormItemInput-4"
+        label="名字"
+        name="name"
+        required
+        initialValue={99}
+      />
 
       <LFormItemInput
         name="name1"

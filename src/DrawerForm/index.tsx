@@ -186,7 +186,8 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
               display: 'flex',
               justifyContent:
                 submitter && typeof submitter?.buttonAlign === 'string'
-                  ? BUTTON_ALIGN_MAP[submitter?.buttonAlign]
+                  ? // @ts-ignore
+                    BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'center'
                   : 'center',
               ...drawerProps.footerStyle,
             }}

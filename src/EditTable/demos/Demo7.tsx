@@ -2,20 +2,14 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import Mock from 'better-mock';
 import type { LEditTableInstance, LTableInstance } from 'lighting-design';
-import {
-  LEditTable,
-  LForm,
-  LFormItem,
-  LFormItemInput,
-  LFormItemNumber,
-} from 'lighting-design';
+import { LEditTable, LForm, LFormItem, LFormItemInput, LFormItemNumber } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
 import { useRef, useState } from 'react';
 
 const defaultData = Mock.mock({
   'list|5': [
     {
-      id: '@guid',
+      'id|+1': 11,
       'age|1-99': 20,
       name: '@cname',
     },
@@ -27,9 +21,7 @@ const Demo1 = () => {
 
   const editTableRef = useRef<LEditTableInstance>();
   const tableRef = useRef<LTableInstance>();
-  const [editableKeys, setEditableKeys] = useState<string[]>(
-    defaultData?.map((item) => item.id),
-  );
+  const [editableKeys, setEditableKeys] = useState<string[]>(defaultData?.map((item) => item.id));
 
   const columns = [
     {
@@ -58,15 +50,9 @@ const Demo1 = () => {
             >
               向下插入
             </a>
-            <a onClick={() => editTableRef.current?.resetFields(record.id)}>
-              重置此行
-            </a>
-            <a onClick={() => editTableRef.current?.validateFields(record.id)}>
-              校验此行
-            </a>
-            <a onClick={() => editTableRef.current?.delete(record.id)}>
-              删除此行
-            </a>
+            <a onClick={() => editTableRef.current?.resetFields(record.id)}>重置此行</a>
+            <a onClick={() => editTableRef.current?.validateFields(record.id)}>校验此行</a>
+            <a onClick={() => editTableRef.current?.delete(record.id)}>删除此行</a>
           </Space>
         );
       },
@@ -159,16 +145,10 @@ const Demo1 = () => {
                 >
                   头部新增
                 </Button>
-                <Button
-                  type="dashed"
-                  onClick={() => editTableRef.current?.resetFields()}
-                >
+                <Button type="dashed" onClick={() => editTableRef.current?.resetFields()}>
                   重置全部
                 </Button>
-                <Button
-                  type="dashed"
-                  onClick={() => editTableRef.current?.validateFields()}
-                >
+                <Button type="dashed" onClick={() => editTableRef.current?.validateFields()}>
                   校验全部
                 </Button>
               </>

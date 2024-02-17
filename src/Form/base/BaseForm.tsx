@@ -73,6 +73,13 @@ export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title' | 'on
    */
   onReset?: (event: MouseEvent<HTMLElement>) => void;
   /**
+   * 内部的重置按钮是否使用 form.resetFields()
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.29
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
+   */
+  isAntdReset?: boolean;
+  /**
    * 是否按Enter键能提交表单
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.29
@@ -131,6 +138,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     loading: outLoading = false,
     isEnterSubmit = true,
     isReady = true,
+    isAntdReset = true,
     onReset,
     transformValues,
 
@@ -158,13 +166,23 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     // 准备完成后，重新设置初始值
     if (isReady) {
       // 动态设置表单的初始值
-      formRef.current?.setFieldsValue({ ...initialValues });
-      // formRef.current?.resetFields?.() 会重置整个 Field，
+      // formRef.current?.setFieldsValue({ ...initialValues });
+      // formRef.current?.resetFields?.(); // 会重置整个 Field，
       // 因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
+      if (isAntdReset) {
+        formRef.current?.resetFields?.();
+      } else {
+        formRef.current?.setFieldsValue({ ...initialValues });
+      }
     }
   }, [isReady, JSON.stringify(initialValues)]);
 
   const formItems = Children.toArray(children);
+
+  // const innerInitialValues = useMemo(() => {
+  //   return getFormItemInitValues(formItems, initialValues);
+  // }, [JSON.stringify(initialValues)]);
+  // console.log('==innerInitialValues====>', innerInitialValues);
 
   const submitterProps = useMemo(
     () => (typeof submitter === 'boolean' || !submitter ? emptyObject : submitter),
@@ -206,13 +224,31 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     }
   });
 
+  const innerOnValuesChange = useMemoizedFn((changedValues, allValues) => {
+    const [currentName, currentValue] = Object.entries(changedValues)?.[0];
+    onValuesChange?.(currentName, currentValue, allValues);
+  });
+
+  const handleOnKeyPress = useMemoizedFn((e) => {
+    const htmlType = submitterProps?.submitButtonProps?.htmlType;
+    if (!isEnterSubmit && e.key === 'Enter' && htmlType !== 'submit') {
+      e.preventDefault();
+    }
+
+    if (restProps?.onKeyDown) {
+      restProps?.onKeyDown(e);
+    }
+  });
+
   const submitterDom = useMemo(() => {
     return submitter ? (
       <Submitter
         isReady={isReady}
         isEnterSubmit={isEnterSubmit}
         initFormValues={initialValues}
+        // initFormValues={innerInitialValues}
         onReset={onReset}
+        isAntdReset={isAntdReset}
         {...submitterProps}
         form={formRef?.current}
         resetButtonProps={{
@@ -232,32 +268,8 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     ? contentRender(formItems, submitterDom, formRef?.current)
     : formItems;
 
-  const innerOnValuesChange = useMemoizedFn((changedValues, allValues) => {
-    const [currentName, currentValue] = Object.entries(changedValues)?.[0];
-    onValuesChange?.(currentName, currentValue, allValues);
-  });
-
-  const handleOnKeyPress = useMemoizedFn((e) => {
-    const htmlType = submitterProps?.submitButtonProps?.htmlType;
-    if (!isEnterSubmit && e.key === 'Enter' && htmlType !== 'submit') {
-      e.preventDefault();
-    }
-
-    if (restProps?.onKeyDown) {
-      restProps?.onKeyDown(e);
-    }
-  });
-
   const formDom = (
-    <LFormContext.Provider
-      value={{
-        size,
-        disabled,
-        layout,
-        labelColProps,
-        // formInstance: formRef.current,
-      }}
-    >
+    <LFormContext.Provider value={{ size, disabled, layout, labelColProps }}>
       <Form
         size={size}
         name={formId}

@@ -216,7 +216,6 @@ const StepsForm: FC<LStepsFormProps> & {
     },
     reset: () => {
       if (!isReady) return;
-      // if (!isResetFields) return;
       reset();
     },
   }));

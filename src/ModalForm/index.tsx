@@ -1,6 +1,6 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
-import { Form, Modal } from 'antd';
+import { Form, Modal, Space } from 'antd';
 import classnames from 'classnames';
 import { BUTTON_ALIGN_MAP, useFormInitValues } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
@@ -173,20 +173,21 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                     submitter?.resetButtonProps?.onClick?.(e);
                   },
                 },
-                render: (submitterDom, submitterProps) => {
+                render: (dom, submitterProps) => {
+                  const newDom = Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom;
+
                   return (
                     <div
                       style={{
                         display: 'flex',
                         justifyContent:
                           typeof submitter?.buttonAlign === 'string'
-                            ? BUTTON_ALIGN_MAP[submitter?.buttonAlign]
+                            ? // @ts-ignore
+                              BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'flex-end'
                             : 'flex-end',
                       }}
                     >
-                      {submitter?.render
-                        ? submitter?.render(submitterDom, submitterProps)
-                        : submitterDom}
+                      {submitter?.render ? submitter?.render(dom, submitterProps) : newDom}
                     </div>
                   );
                 },

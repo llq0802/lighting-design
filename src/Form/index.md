@@ -23,19 +23,19 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'   ></code>
+<!-- <code src='./demos/Demo1.tsx'   ></code>
 
 ### 表单整体禁用与大小
 
 可通过 `LFormItemXXX` 的 `disabled` 和 `size` 单独设置
 
-<code src='./demos/Demo6.tsx'  ></code>
+<code src='./demos/Demo6.tsx'  ></code> -->
 
 ### 表单 initialValues 通过异步动态获取设置
 
 <code src='./demos/Demo5.tsx' ></code>
 
-### 通过 form.setFieldsValue 设置初始值
+<!-- ### 通过 form.setFieldsValue 设置初始值
 
 <code src='./demos/Demo8.tsx' ></code>
 
@@ -49,7 +49,7 @@ nav:
 
 ### 自定义提交 / 重置按钮
 
-<code src='./demos/Demo3.tsx' ></code>
+<code src='./demos/Demo3.tsx' ></code> -->
 
 ## API
 
@@ -57,9 +57,9 @@ nav:
 
 - `LForm` 的`children`子项必须包含`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`
 
-- 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`, <mark> 支持动态设置 initialValues 初始值 </mark>
+- 如果要为组件设置初始值 你应该始终通过 `LForm` 的 `initialValues`属性 , 不建议使用 `LFormItem` 的`initialValue`来设置或者在子项设置 `defaultValue`
 
-- 如果要为组件设置初始值 你应该始终通过 `LForm` 的 `initialValues`属性或 `LFormItem` 的`initialValue`来设置，而不是给子项设置 `defaultValue`
+- 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`, <mark> 仅在使用内置重置按钮时支持动态设置 initialValues 初始值 </mark>
 
 - 如果要在某一项字段的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一表单项设置 `onChange` 事件
 

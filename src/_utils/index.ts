@@ -1,7 +1,7 @@
 import { useMemoizedFn, useRafState, useUpdateLayoutEffect } from 'ahooks';
 import type { FormInstance } from 'antd';
 import { emptyArray } from 'lighting-design/constants';
-import { useMemo, useRef } from 'react';
+import { Children, useMemo, useRef } from 'react';
 import rfdc from 'rfdc';
 
 /**
@@ -332,7 +332,7 @@ export const BUTTON_ALIGN_MAP = {
   left: 'flex-start',
   center: 'center',
   right: 'flex-end',
-} as const;
+};
 
 /**
  * 通过initValues和allValues获取表单的初始值
@@ -360,6 +360,41 @@ export const useFormInitValues = (form?: FormInstance, initialValues = {}) => {
   });
 };
 
+export const getFormItemInitValues = (formItems, initialValues) => {
+  let ret: Record<string, any> = {};
+
+  formItems.forEach((item: any) => {
+    const itemName = item?.props?.name;
+    const itemInitialValue = item?.props?.initialValue;
+
+    const child = item?.props?.children;
+
+    if (typeof itemName === 'string' || typeof itemName === 'number') {
+      ret[itemName] = itemInitialValue ?? initialValues?.[itemName] ?? void 0;
+    } else if (Array.isArray(itemName) && itemName?.length === 2) {
+      const field_0 = itemName[0];
+      const field_1 = itemName[1];
+      const val = itemInitialValue ?? initialValues?.[field_0]?.[field_1] ?? void 0;
+      if (!ret[field_0]) {
+        ret[field_0] = {
+          [field_1]: val,
+        };
+      } else {
+        ret[field_0][field_1] = val;
+      }
+    }
+
+    if (Children.toArray(child)?.length > 0) {
+      ret = {
+        ...ret,
+        ...getFormItemInitValues(Children.toArray(child), initialValues),
+      };
+    }
+  });
+
+  return ret;
+};
+
 // type GetFormInitValuesOptions = {
 //   formItems: any[];
 //   fields: any[] | undefined;
@@ -371,21 +406,21 @@ export const useFormInitValues = (form?: FormInstance, initialValues = {}) => {
 //  * @param {GetFormInitValuesOptions} options 配置项
 //  * @returns  initialValues 收集到的初始表单值
 //  */
-// export const getFormInitValues = ({
+// export const getFormItemInitValues = ({
 //   formItems,
 //   fields,
 //   initialValues,
 //   submitter,
 // }: GetFormInitValuesOptions) => {
-//   if (initialValues) {
-//     return initialValues;
-//   }
-//   if (submitter === false || submitter?.isAntdReset) {
-//     // if (initialValues) {
-//     //   return initialValues;
-//     // }
-//     return emptyObject;
-//   }
+//   // if (initialValues) {
+//   //   return initialValues;
+//   // }
+//   // if (submitter === false || submitter?.isAntdReset) {
+//   //   // if (initialValues) {
+//   //   //   return initialValues;
+//   //   // }
+//   //   return emptyObject;
+//   // }
 
 //   let ret: Record<string, any> = {};
 //   if (fields?.length) {
@@ -436,7 +471,7 @@ export const useFormInitValues = (form?: FormInstance, initialValues = {}) => {
 //     if (Children.toArray(child)?.length > 0) {
 //       ret = {
 //         ...ret,
-//         ...getFormInitValues({
+//         ...getFormItemInitValues({
 //           formItems: Children.toArray(child),
 //           fields,
 //           initialValues,
