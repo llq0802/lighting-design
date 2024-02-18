@@ -16,15 +16,7 @@ const Demo = () => {
           prefix: '￥',
         }}
       />
-      <LFormItemNumber
-        label="小数点后2位数字"
-        name="number3"
-        required
-        max={1000}
-        numberProps={{
-          precision: 2,
-        }}
-      />
+      <LFormItemNumber label="小数点后2位数字" name="number3" required max={1000} precision={2} />
 
       <LFormItemNumber
         name="number66"

@@ -54,8 +54,8 @@ const MentionsWrapper = ({
         disabled={disabled ?? isClear}
         autoComplete="off"
         placeholder={placeholder}
-        options={outOptions || data || []}
         {...mentionsProps}
+        options={outOptions || mentionsProps?.options || data || []}
         onChange={(value) => {
           onChange?.(value);
           mentionsProps.onChange?.(value);

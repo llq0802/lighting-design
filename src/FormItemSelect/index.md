@@ -35,7 +35,7 @@ nav:
 
 :::warning{title=注意}
 
-- 数据优先级: `组件本身 options` > `selectProps.options` > `request 返回值`
+- 数据优先级: `selectProps.options` > 组件本身的`options` > `request 返回值`
 
 - `all`只在单选生效, 如果想在多选也有`全部`选项 , 需要配置`selectProps.dropdownRender`自行执行处理
 
@@ -51,16 +51,18 @@ import { LFormItemSelect } from 'lighting-design';
 
 | 参数           | 说明                                    | 类型                                                        | 默认值  |
 | -------------- | --------------------------------------- | ----------------------------------------------------------- | ------- |
+| mode           | 设置 Select 的模式为多选或标签          | `multiple \| tags`                                          | `-`     |
 | options        | 数据化配置选项内容                      | `LSelectOptions[]`                                          | `-`     |
 | request        | 异步请求数据函数                        | `(...depends: any[]) => Promise<LSelectOptions[]>`          | `-`     |
 | requestOptions | ahook 的 request 的配置项               | `-`                                                         | `-`     |
-| debounceTime   | 当依赖项发生变化时重新请求的防抖时间    | `number`                                                    | `-`     |
+| showSearch     | 配置是否可搜索                          | `boolean `                                                  | `false` |
 | all            | 是否需要全部选项 `(只再单选模式下生效)` | `boolean `                                                  | `false` |
 | allLabel       | 全部选项的名称                          | `string `                                                   | `全部`  |
 | allValue       | 全部选项的值                            | `string`                                                    | `'all'` |
 | spin           | 配置`request`时自定义`loading`效果      | [SpinProps](https://ant.design/components/spin-cn/#api)     | `-`     |
-| selectProps    | 选择器组件 Props                        | [SelectProps](https://ant.design/components/select-cn/#api) | `-`     |
+| fieldNames     | 自定义字段名                            | `SelectProps['fieldNames']`                                 | `-`     |
 | actionRef      | 配置 request 时 useRequest 的全部返回值 | `LFormItemActionRef`                                        | `-`     |
+| selectProps    | 选择器组件 Props                        | [SelectProps](https://ant.design/components/select-cn/#api) | `-`     |
 
 ### LSelectOptions
 

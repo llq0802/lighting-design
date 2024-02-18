@@ -27,9 +27,9 @@ import { LFormItemNumber } from 'lighting-design';
 
 除了以下参数，其余和 [LFormItem](/components/form-item#api) 一样。
 
-| 参数        | 说明                | 类型                                                                   | 默认值 |
-| ----------- | ------------------- | ---------------------------------------------------------------------- | ------ |
-| precision   | 保留小数点后几位    | `number`                                                               | `-`    |
-| min         | 最小值              | `number`                                                               | `0`    |
-| max         | 最大值              | `number`                                                               | `9999` |
-| numberProps | `InputNumber`的属性 | [InputNumberProps](https://ant.design/components/input-number-cn/#api) | `-`    |
+| 参数        | 说明                | 类型                                                                   | 默认值  |
+| ----------- | ------------------- | ---------------------------------------------------------------------- | ------- |
+| precision   | 保留小数点后几位    | `number`                                                               | `-`     |
+| min         | 最小值              | `number`                                                               | `0`     |
+| max         | 最大值              | `number`                                                               | `99999` |
+| numberProps | `InputNumber`的属性 | [InputNumberProps](https://ant.design/components/input-number-cn/#api) | `-`     |

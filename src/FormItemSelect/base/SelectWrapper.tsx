@@ -1,21 +1,17 @@
-import { useMemoizedFn, useMount, useRequest } from 'ahooks';
-import type { SelectProps, SpinProps } from 'antd';
+import { useMount, useRequest } from 'ahooks';
+import type { SpinProps } from 'antd';
 import { Form, Select, Spin } from 'antd';
-import type { DefaultOptionType } from 'antd/lib/select';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import { getOptions, useDependValues, useIsClearDependValues } from 'lighting-design/_utils';
+import { useDependValues, useIsClearDependValues } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
 import type { FC, ReactNode } from 'react';
-import { useImperativeHandle, useMemo } from 'react';
+import { useImperativeHandle } from 'react';
 
 export type SelectWrapperProps = Record<string, any> & {
   request?: (
     ...depends: any[]
   ) => Promise<{ label: ReactNode; value: string | number; [key: string]: any }[]>;
-  debounceTime?: number;
-  disabled?: boolean;
-  placeholder?: string;
   /**
    *是否需要全部选项
    *@author 李岚清 <https://github.com/llq0802>
@@ -37,14 +33,7 @@ export type SelectWrapperProps = Record<string, any> & {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   allLabel?: ReactNode;
-  /**
-   *下拉选择器组件 Props
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   */
-  selectProps?: SelectProps;
-  dependencies?: string[];
+
   outLoading?: SpinProps;
 };
 
@@ -61,12 +50,10 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   placeholder,
   options: outOptions = emptyArray,
   request,
-  debounceTime,
   all = false,
   disabled,
   allValue = 'all',
   allLabel = '全部',
-  selectProps = emptyObject,
   outLoading,
   requestOptions = emptyObject,
   name,
@@ -76,63 +63,58 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   const form = Form.useFormInstance();
   const dependValues = useDependValues(dependencies, restProps);
   const hasEmptyDepends = useIsClearDependValues(dependValues);
-
-  const requestRes = useRequest(request || (async () => []), {
-    ...requestOptions,
-    manual: true,
-    debounceWait: debounceTime,
-  });
+  const requestRes = useRequest(
+    async (...args) => {
+      if (outOptions?.length) return outOptions;
+      if (request) {
+        const result = await request(...args);
+        return result;
+      }
+      return [];
+    },
+    {
+      ...requestOptions,
+      onSuccess(data, params) {
+        const mode = restProps?.mode;
+        const fieldNames = restProps?.fieldNames;
+        if (all && data?.length && mode !== 'tags' && mode !== 'multiple') {
+          requestRes.mutate([
+            { [fieldNames?.label ?? 'label']: allLabel, [fieldNames?.value ?? 'value']: allValue },
+            ...data,
+          ]);
+        }
+        requestOptions?.onSuccess?.(data, params);
+      },
+      manual: true,
+    },
+  );
   const { run, loading, data } = requestRes;
 
-  useMount(() => {
-    if (!request || outOptions?.length || selectProps.options?.length) return;
-    run(...dependValues);
-  });
-  useImperativeHandle(actionRef, () => requestRes);
-
   useDeepUpdateEffect(() => {
-    if (!request || outOptions?.length || selectProps.options?.length) return;
+    if (!request) return;
     form.setFieldValue(name, void 0);
     if (!hasEmptyDepends) run(...dependValues);
   }, dependValues);
 
-  const selectOptions = useMemo(() => {
-    const { fieldNames = {}, mode } = selectProps;
+  useMount(() => {
+    run(...dependValues);
+  });
 
-    const innerOptions = getOptions(outOptions, selectProps.options, data);
-    if (all && innerOptions?.length > 0 && mode !== 'tags' && mode !== 'multiple') {
-      return [
-        {
-          [fieldNames?.label ?? 'label']: allLabel,
-          [fieldNames?.value ?? 'value']: allValue,
-        },
-        ...innerOptions,
-      ];
-    }
-    return innerOptions;
-  }, [all, outOptions, data, selectProps.options]);
+  console.log('==hasEmptyDepends====>', hasEmptyDepends);
 
-  const handleChange = useMemoizedFn(
-    (val: string, items: DefaultOptionType | DefaultOptionType[]) => {
-      if (selectProps?.onChange) {
-        selectProps?.onChange(val, items);
-      }
-      onChange?.(val);
-    },
-  );
+  useImperativeHandle(actionRef, () => requestRes);
 
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       <Select
-        {...restProps}
         disabled={disabled ?? hasEmptyDepends}
-        options={selectOptions}
         placeholder={placeholder}
         allowClear
-        {...selectProps}
-        style={{ width: '100%', ...selectProps?.style }}
+        options={data}
+        {...restProps}
+        style={{ width: '100%', ...restProps?.style }}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
       />
     </Spin>
   );

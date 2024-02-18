@@ -18,7 +18,7 @@ const Demo = () => {
         label="名字"
         name="name"
         required
-        initialValue={99}
+        initialValue="吴彦祖"
       />
 
       <LFormItemInput

@@ -91,12 +91,7 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem
-      placeholder={messageLabel}
-      required={required}
-      validateTrigger="onBlur"
-      {...restProps}
-    >
+    <LFormItem placeholder={messageLabel} required={required} {...restProps}>
       <MentionsWrapper
         name={restProps?.name}
         dependencies={restProps?.dependencies}

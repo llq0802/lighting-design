@@ -47,7 +47,7 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
   required = false,
   precision,
   min = 0,
-  max = 9999,
+  max = 99999,
   placeholder,
 
   numberProps = emptyObject,

@@ -43,7 +43,7 @@ function NumberRange({
     <Space.Compact onBlur={handleOnBlur} block className={prefixCls}>
       <InputNumber
         {...restProps}
-        id={restProps?.id ? `${restProps?.id}-0` : void 0}
+        id={restProps?.id ? `${restProps?.id}-start` : void 0}
         disabled={disabled}
         placeholder={Array.isArray(placeholder) ? placeholder[0] : placeholder}
         {...leftNumberProps}
@@ -72,7 +72,7 @@ function NumberRange({
       />
       <InputNumber
         {...restProps}
-        id={restProps?.id ? `${restProps?.id}-1` : void 0}
+        id={restProps?.id ? `${restProps?.id}-end` : void 0}
         disabled={disabled}
         placeholder={Array.isArray(placeholder) ? placeholder[1] : placeholder}
         {...rightNumberProps}

@@ -13,6 +13,7 @@ const Index = () => {
       submitter={{
         buttonAlign: 80,
       }}
+      isAntdReset={false}
     >
       <LFormItemSelect
         label="select1"
@@ -25,7 +26,6 @@ const Index = () => {
         ]}
       />
       <LFormItemSelect
-        // debounceTime={200} 防抖更新
         dependencies={['select1']}
         label="select2"
         name="select2"
@@ -35,9 +35,7 @@ const Index = () => {
         }}
         request={async (select1) => {
           console.log('select1 ', select1);
-          // if (!select1) {
-          //   return [];
-          // }
+
           let data: Record<string, any>[] = [];
           if (select1 === 'a') {
             data = [{ label: 'A', value: 'a' }];
@@ -48,7 +46,7 @@ const Index = () => {
           if (select1 === 'c') {
             data = [{ label: 'C', value: 'c' }];
           }
-          const result = await awaitTime(data);
+          const result = await awaitTime(data, 500);
           if (result.success) return result.data;
         }}
       />

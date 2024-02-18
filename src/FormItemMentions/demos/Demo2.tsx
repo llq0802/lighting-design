@@ -7,6 +7,7 @@ const Demo1 = () => {
   return (
     <LForm
       form={form}
+      isAntdReset={false}
       onFinish={(res) => {
         console.log('res', res);
       }}

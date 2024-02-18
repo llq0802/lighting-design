@@ -138,3 +138,5 @@ import { LForm } from 'lighting-design';
 | render            | 自定义操作的渲染                                                                                                                                                                                        | ` (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-`    |
 
 [LFormSubmitterProps]: #lformsubmitterprops
+
+## 常见问题 [FAQ](https://ant-design.antgroup.com/components/form-cn#faq)

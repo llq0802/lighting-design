@@ -1,4 +1,4 @@
-import type { Result } from 'ahooks/lib/useRequest/src/types';
+import type { Options, Result } from 'ahooks/lib/useRequest/src/types';
 import type { SelectProps, SpinProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
@@ -14,7 +14,10 @@ export type LFormItemActionRef = Result<any, any[]> | undefined;
 
 export interface LFormItemSelectProps
   extends LFormItemProps,
-    Pick<SelectWrapperProps, 'selectProps' | 'request' | 'all' | 'allValue' | 'allLabel'> {
+    Pick<SelectWrapperProps, 'request' | 'all' | 'allValue' | 'allLabel'>,
+    Pick<SelectProps, 'mode' | 'fieldNames'> {
+  selectProps?: SelectProps;
+  showSearch?: boolean;
   /**
    *数据源
    *@author 李岚清 <https://github.com/llq0802>
@@ -29,13 +32,7 @@ export interface LFormItemSelectProps
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   dependencies?: string[];
-  /**
-   *当依赖项发生变化时重新请求的防抖时间
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   */
-  debounceTime?: number;
+
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
@@ -57,7 +54,7 @@ export interface LFormItemSelectProps
    *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
-  requestOptions?: Record<string, any>;
+  requestOptions?: Options<any, any>;
 }
 
 const validatorSelectVal = (value, mode, all, allValue) => {
@@ -75,7 +72,9 @@ const validatorSelectVal = (value, mode, all, allValue) => {
 
 const LFormItemSelect: FC<LFormItemSelectProps> = ({
   request,
-  debounceTime,
+  showSearch,
+  mode,
+  fieldNames,
   all = false,
   allValue = 'all',
   allLabel = '全部',
@@ -102,7 +101,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
     {
       validator(rule, value: any) {
         let errMsg = '';
-        if (!validatorSelectVal(value, selectProps?.mode, all, allValue)) {
+        if (!validatorSelectVal(value, mode || selectProps?.mode, all, allValue)) {
           errMsg = required ? `${messageVariables?.label || messagePlaceholder}!` : '';
         }
         if (errMsg) {
@@ -123,20 +122,22 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
     >
       <SelectWrapper
         name={restProps.name}
-        size={size}
-        disabled={disabled ?? formDisabled}
         placeholder={messagePlaceholder}
         dependencies={restProps?.dependencies}
-        options={options}
-        request={request}
-        debounceTime={debounceTime}
+        size={size}
         all={all}
-        outLoading={spin}
         allValue={allValue}
         allLabel={allLabel}
-        selectProps={selectProps}
+        request={request}
         requestOptions={requestOptions}
         actionRef={actionRef}
+        outLoading={spin}
+        disabled={disabled ?? formDisabled}
+        options={options}
+        mode={mode}
+        showSearch={showSearch}
+        fieldNames={fieldNames}
+        {...selectProps}
       />
     </LFormItem>
   );

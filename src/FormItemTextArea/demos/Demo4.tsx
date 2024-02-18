@@ -13,16 +13,10 @@ const Demo3 = () => {
         console.log('onFinish', values);
       }}
     >
-      <LFormItemTextArea
-        className="LFormItemTextArea-1"
-        name="TextArea1"
-        label="备注1"
-        required
-      />
+      <LFormItemTextArea name="TextArea1" label="备注1" />
       <LFormItemTextArea
         name="TextArea12"
         label="备注2"
-        required
         wrapperAlignItems="center"
         textAreaProps={{
           showCount: true,
