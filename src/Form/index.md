@@ -57,9 +57,9 @@ nav:
 
 - `LForm` 的`children`子项必须包含`LFormItemXXX` 或 `LFormItem` 或 `Form.Item`
 
-- 如果要为组件设置初始值 你应该始终通过 `LForm` 的 `initialValues`属性 , 不建议使用 `LFormItem` 的`initialValue`来设置或者在子项设置 `defaultValue`
+- 如果要为组件设置初始值 你应该始终通过 `LForm` 的 `initialValues`属性 , 如果某一字段为动态渲染使用则 `LFormItem` 的`initialValue`, 不要为子项设置 `defaultValue`
 
-- 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`, <mark> 仅在使用内置重置按钮时支持动态设置 initialValues 初始值 </mark>
+- 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`, <mark>支持动态设置 LForm 的 initialValues 初始值 </mark>
 
 - 如果要在某一项字段的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一表单项设置 `onChange` 事件
 
@@ -72,11 +72,13 @@ nav:
 - 动态渲染表单中的某一项请查看示例: [动态渲染表单中的某一项请查看示例](/components/form-item#使用-shouldupdate-动态渲染)
 - 动态新增或者删除表单项请查看示例: [动态新增或者删除表单项请查看示例](/components/list-form)
 
-- `LFrom` 的重置方法与`Form`的重置方法行为不同, `LFrom`并不会重新`mount`子组件, 所以当你校验不通过时无法回到初始状态, 如果要回到初始检验可通过以下三种方法:
+- `LFrom` 的重置方法与`Form`的重置方法行为相同, `LFrom`会重新`mount`子组件 `LFormItem` 或 `Form.Item` , 所以当你校验不通过时无法回到初始状态, 且如果有异步加载数据的方法也会重新请求.
 
-  1.  设置 `submitter.isAntdReset 为 true`
-  2.  `submitter`自定义按钮渲染后绑定`form.resetFields`方法
-  3.  `resetButtonProps`中设置`preventDefault = true`后在`onClick`中绑定`form.resetFields`
+你可以通过一下方法来改变内置重置行为:
+
+1.  设置 `isAntdReset 为 false`
+2.  `submitter`自定义按钮渲染(render)后手动设置`form.setFieldsValue()`
+3.  `resetButtonProps`中设置`preventDefault = true`后在`onClick`中绑定`form.setFieldsValue()`
 
 :::
 
