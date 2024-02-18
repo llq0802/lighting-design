@@ -24,6 +24,9 @@ const Demo5 = () => {
       onFinish={async (values) => {
         console.log('onFinish-values ', values);
       }}
+      onFieldsChange={async (changedFields, allFields) => {
+        console.log('onFieldsChange-changedFields ', changedFields, allFields);
+      }}
     >
       <LFormItemInput
         name="name"

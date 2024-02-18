@@ -23,19 +23,19 @@ nav:
 
 ### 基础用法
 
-<!-- <code src='./demos/Demo1.tsx'   ></code>
+<code src='./demos/Demo1.tsx'   ></code>
 
 ### 表单整体禁用与大小
 
 可通过 `LFormItemXXX` 的 `disabled` 和 `size` 单独设置
 
-<code src='./demos/Demo6.tsx'  ></code> -->
+<code src='./demos/Demo6.tsx'  ></code>
 
 ### 表单 initialValues 通过异步动态获取设置
 
 <code src='./demos/Demo5.tsx' ></code>
 
-<!-- ### 通过 form.setFieldsValue 设置初始值
+### 通过 form.setFieldsValue 设置初始值
 
 <code src='./demos/Demo8.tsx' ></code>
 
@@ -49,7 +49,7 @@ nav:
 
 ### 自定义提交 / 重置按钮
 
-<code src='./demos/Demo3.tsx' ></code> -->
+<code src='./demos/Demo3.tsx' ></code>
 
 ## API
 
@@ -94,6 +94,7 @@ import { LForm } from 'lighting-design';
 | transformValues |                           在 `onFinish` 调用之前转化表单值 , 返回值会传给 `onFinish` 的参数                           |                   `(values: Record<string, any>) => Record<string, any>`                    |   `-`    |
 |    submitter    |                                      提交、重置按钮相关配置。为`false`将不会渲染                                      |                              `false` \| [LFormSubmitterProps]                               |   `-`    |
 |  isEnterSubmit  |                              是否开启回车键提交 `如果自定义渲染且不使用内部 dom 则无效`                               |                                          `boolean`                                          |  `true`  |
+|   isAntdReset   |                     内部的重置否使用 `form.resetFields()` `true`时会每次重置就会重新挂挂载子组件                      |                                          `boolean`                                          |  `true`  |
 |     loading     |               设置提交、重置的加载/禁止状态。<br/>如果 `onFinish` 返回异步则无需设置，内部会自动更新。                |                                          `boolean`                                          | `false`  |
 |     isReady     | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。<br/>一般用于异步获取初始值`initialValues` |                                          `boolean`                                          |  `true`  |
 |    onFinish     |          提交数据时触发。如果是`异步函数`，会自动管理`提交丶重置按钮`的 `loading` 外部无需再设置 `loading`。          |                                      `(values) => any`                                      |   `-`    |
@@ -121,18 +122,17 @@ import { LForm } from 'lighting-design';
 </LForm>
 ```
 
-| 参数              | 说明                                                                                                                                                                                                    | 类型                                                                             | 默认值  |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------- |
-| submitText        | 提交按钮文本                                                                                                                                                                                            | `ReactNode`                                                                      | `提交`  |
-| resetText         | 重置按钮文本                                                                                                                                                                                            | `ReactNode`                                                                      | `重置`  |
-| submitButtonProps | 提交按钮属性，和 [Button](https://ant.design/components/button-cn#api) 一致                                                                                                                             | [ButtonProps](https://ant.design/components/button-cn#api)                       | `-`     |
-| resetButtonProps  | 重置按钮属性，和 [Button](https://ant.design/components/button-cn#api) 一致                                                                                                                             | [ButtonProps](https://ant.design/components/button-cn#api)                       | `-`     |
-| wrapperCol        | 只在`LForm`组件中生效 </br>效果和[ Form 的 wrapperCol](https://ant.design/components/form-cn#api)一致                                                                                                   | `ColProps`                                                                       | `-`     |
-| showReset         | 是否渲染重置按钮                                                                                                                                                                                        | `boolean`                                                                        | `true`  |
-| isAntdReset       | 内部的重置按钮是否使用 `form.resetFields()` `true`时会每次重置就会重新挂挂载子组件                                                                                                                      | `boolean`                                                                        | `false` |
-| buttonAlign       | 按钮位置 , 为`number`类型时与`LForm`的`labelWidth`效果一致<br>在 `LMoadlForm` 默认为`right`<br>在 `LDrawerForm` 默认为`center` <br> `LDrawerForm` `LMoadlForm` 只能设置 `'left' \| 'right' \| 'center'` | `'left' \| 'right' \| 'center'\| number\|string`                                 | `-`     |
-| onSubmit          | 点击提交按钮的回调                                                                                                                                                                                      | `(e) => void`                                                                    | `-`     |
-| onReset           | 点击重置按钮的回调 (优先级比 LForm 的 onReset 高)                                                                                                                                                       | `(e) => void`                                                                    | `-`     |
-| render            | 自定义操作的渲染                                                                                                                                                                                        | ` (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-`     |
+| 参数              | 说明                                                                                                                                                                                                    | 类型                                                                             | 默认值 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------ |
+| submitText        | 提交按钮文本                                                                                                                                                                                            | `ReactNode`                                                                      | `提交` |
+| resetText         | 重置按钮文本                                                                                                                                                                                            | `ReactNode`                                                                      | `重置` |
+| submitButtonProps | 提交按钮属性，和 [Button](https://ant.design/components/button-cn#api) 一致                                                                                                                             | [ButtonProps](https://ant.design/components/button-cn#api)                       | `-`    |
+| resetButtonProps  | 重置按钮属性，和 [Button](https://ant.design/components/button-cn#api) 一致                                                                                                                             | [ButtonProps](https://ant.design/components/button-cn#api)                       | `-`    |
+| wrapperCol        | 只在`LForm`组件中生效 </br>效果和[ Form 的 wrapperCol](https://ant.design/components/form-cn#api)一致                                                                                                   | `ColProps`                                                                       | `-`    |
+| showReset         | 是否渲染重置按钮                                                                                                                                                                                        | `boolean`                                                                        | `true` |
+| buttonAlign       | 按钮位置 , 为`number`类型时与`LForm`的`labelWidth`效果一致<br>在 `LMoadlForm` 默认为`right`<br>在 `LDrawerForm` 默认为`center` <br> `LDrawerForm` `LMoadlForm` 只能设置 `'left' \| 'right' \| 'center'` | `'left' \| 'right' \| 'center'\| number\|string`                                 | `-`    |
+| onSubmit          | 点击提交按钮的回调                                                                                                                                                                                      | `(e) => void`                                                                    | `-`    |
+| onReset           | 点击重置按钮的回调 (优先级比 LForm 的 onReset 高)                                                                                                                                                       | `(e) => void`                                                                    | `-`    |
+| render            | 自定义操作的渲染                                                                                                                                                                                        | ` (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-`    |
 
 [LFormSubmitterProps]: #lformsubmitterprops

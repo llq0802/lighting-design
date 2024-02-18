@@ -29,7 +29,7 @@ const StepsForm: FC<LStepsFormProps> & {
 
     direction = 'horizontal',
     isMergeValues = true,
-    isAntdReset = false,
+    isAntdReset = true,
     isResetFields = true,
     isReady = true,
     defaultCurrent = 0,
@@ -130,11 +130,11 @@ const StepsForm: FC<LStepsFormProps> & {
   // 重置
   const reset = useMemoizedFn(() => {
     formDataRef.current = {};
-    formInstanceListRef.current.forEach((item, i) => {
+    formInstanceListRef.current.forEach((itemForm, i) => {
       if (isAntdReset) {
-        item?.resetFields();
+        itemForm?.resetFields();
       } else {
-        item?.setFieldsValue({ ...formInitialValues.current[i] });
+        itemForm?.setFieldsValue({ ...formInitialValues.current[i] });
       }
     });
     setStepNum(defaultCurrent);

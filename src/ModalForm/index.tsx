@@ -36,6 +36,13 @@ export interface LModalFormProps
    */
   isResetFields?: boolean;
   /**
+   * 关闭时是否销毁Modal的子元素
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.29
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
+   */
+  destroyOnClose?: boolean;
+  /**
    * 是否允许拖动
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.29
@@ -84,7 +91,9 @@ const prefixCls = 'lightd-form-modal';
 const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
   const {
     isResetFields = true,
+    isAntdReset = true,
     isDraggable = false,
+    destroyOnClose = false,
     trigger,
     title = '标题',
     width = 600,
@@ -201,6 +210,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               width={width}
               footer={submitterDom}
               maskClosable={false}
+              destroyOnClose={destroyOnClose}
               forceRender={forceRender}
               {...modalProps}
               className={classnames('lightd-modal', modalProps.className)}
@@ -212,7 +222,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               }}
               afterClose={() => {
                 if (isResetFields) {
-                  if (submitter && submitter.isAntdReset) {
+                  if (isAntdReset) {
                     formRef.current.resetFields(); // 弹窗关闭后重置表单
                   } else {
                     resetFormInitValues();
@@ -228,6 +238,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               width={width}
               footer={submitterDom}
               maskClosable={false}
+              destroyOnClose={destroyOnClose}
               forceRender={forceRender}
               {...modalProps}
               className={classnames('lightd-modal', modalProps.className)}
@@ -239,14 +250,13 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               }}
               afterClose={() => {
                 if (isResetFields) {
-                  if (submitter && submitter.isAntdReset) {
+                  if (isAntdReset) {
                     formRef.current.resetFields(); // 弹窗关闭后重置表单
                   } else {
                     resetFormInitValues();
                   }
                 }
                 modalProps?.afterClose?.();
-                setPosition({ x: 0, y: 0 });
               }}
               modalRender={(modalDom) => (
                 <Draggable

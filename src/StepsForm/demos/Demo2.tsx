@@ -7,17 +7,6 @@ import { awaitTime } from '../../_test';
 const Demo2 = () => {
   const actionRef = useRef<LStepsFormActionRef>();
 
-  const [initialValues, setInitialValues] = useState({
-    name1: '李岚清',
-  });
-
-  useEffect(() => {
-    setTimeout(() => {
-      setInitialValues({
-        name1: '大帅哥',
-      });
-    }, 1000);
-  }, []);
 
   return (
     <div>
@@ -36,7 +25,6 @@ const Demo2 = () => {
         <LStepsForm.StepForm
           name="StepsForm13451"
           title="步骤1"
-          initialValues={initialValues}
           submitter={{ buttonAlign: 90 }}
           onFinish={async (values) => {
             // await awaitTime();

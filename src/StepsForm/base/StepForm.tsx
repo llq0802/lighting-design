@@ -47,12 +47,14 @@ function StepForm({
   useEffect(() => {
     // 存储每个表单实例
     ctx.formInstanceListRef.current[_stepNum as number] = formRef.current;
-    // 存储每个表单的初始值 (保证获取到初始值，
-    const newInitialValues = getFormInitialValues(
-      restProps?.initialValues || {},
-      formRef.current.getFieldsValue(),
-    );
-    ctx.formInitialValues.current[_stepNum as number] = newInitialValues;
+    if (!ctx?.isAntdReset) {
+      // 存储每个表单的初始值 (保证获取到初始值，
+      const newInitialValues = getFormInitialValues(
+        restProps?.initialValues || {},
+        formRef.current.getFieldsValue(),
+      );
+      ctx.formInitialValues.current[_stepNum as number] = newInitialValues;
+    }
   }, [JSON.stringify(restProps?.initialValues)]);
 
   // 当前表单的提交
@@ -90,8 +92,10 @@ function StepForm({
       className={classnames(prefixCls, className)}
       form={formRef.current}
       onFinish={handleFinsh}
+      isAntdReset={ctx?.isAntdReset}
       {...restProps}
-      submitter={ctx?.isAntdReset ? false : void 0}
+      submitter={false}
+      isReady
     />
   );
 }

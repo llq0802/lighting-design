@@ -71,6 +71,13 @@ export interface LDrawerFormProps
    */
   isResetFields?: boolean;
   /**
+   * 关闭时是否销毁Drawer的子元素
+   *@author 李岚清 <https://github.com/llq0802>
+   *@version 2.1.29
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
+   */
+  destroyOnClose?: boolean;
+  /**
    *  是否预渲染`LDrawerForm`的内容
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.29
@@ -98,6 +105,8 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
   const {
     trigger,
     isResetFields = true,
+    isAntdReset = true,
+    destroyOnClose = false,
     forceRender = false,
     title = '标题',
     width = 600,
@@ -180,6 +189,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             footer={actionBarDir === 'footer' && submitterDom}
             extra={actionBarDir === 'extra' && submitterDom}
             maskClosable={false}
+            destroyOnClose={destroyOnClose}
             {...drawerProps}
             className={classnames('lightd-drawer', drawerProps.className)}
             footerStyle={{
@@ -199,7 +209,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
             afterOpenChange={(flag) => {
               // 完全关闭后回调
               if (!flag && isResetFields) {
-                if (submitter && submitter.isAntdReset) {
+                if (isAntdReset) {
                   formRef.current.resetFields(); // 弹窗关闭后重置表单
                 } else {
                   resetFormInitValues();

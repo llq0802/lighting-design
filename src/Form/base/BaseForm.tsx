@@ -243,12 +243,12 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const submitterDom = useMemo(() => {
     return submitter ? (
       <Submitter
+        isAntdReset={isAntdReset}
         isReady={isReady}
         isEnterSubmit={isEnterSubmit}
         initFormValues={initialValues}
         // initFormValues={innerInitialValues}
         onReset={onReset}
-        isAntdReset={isAntdReset}
         {...submitterProps}
         form={formRef?.current}
         resetButtonProps={{

@@ -17,8 +17,8 @@ export type StepsFormContextProps = {
   /** 上一步 */
   submit: () => void;
   loading: boolean;
+  isAntdReset: boolean;
   setLoading: Dispatch<React.SetStateAction<boolean>>;
-  forgetUpdate: () => void;
 };
 
 export default createContext<StepsFormContextProps>({});
