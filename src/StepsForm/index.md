@@ -110,7 +110,7 @@ const { StepForm } = LStepsForm;
 
 ### LStepsForm.StepForm
 
-基于 LForm 扩展的表单，没有 `onReset` `isReady`， `submitter`不与`LForm`的相同 除了以下参数，其余和 [LForm](/components/form) 一样。
+基于 LForm 扩展的表单，没有 `onReset` `isReady` `isAntdReset`， `submitter`不与`LForm`的相同 除了以下参数，其余和 [LForm](/components/form) 一样。
 
 | 参数          | 说明                                                                                                                                                   | 类型                               | 默认值 |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------- | ------ |

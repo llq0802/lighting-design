@@ -5,7 +5,7 @@ import { Form } from 'antd';
 import classnames from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
-import { getFormInitialValues, isFunction } from 'lighting-design/_utils';
+import { isFunction } from 'lighting-design/_utils';
 import { useContext, useEffect, useRef } from 'react';
 import StepsFormContext from './StepsFormContext';
 import type { LStepsFormSubmitterProps } from './StepsSubmitter';
@@ -49,10 +49,11 @@ function StepForm({
     ctx.formInstanceListRef.current[_stepNum as number] = formRef.current;
     if (!ctx?.isAntdReset) {
       // 存储每个表单的初始值 (保证获取到初始值，
-      const newInitialValues = getFormInitialValues(
-        restProps?.initialValues || {},
-        formRef.current.getFieldsValue(),
-      );
+      // const newInitialValues = getFormInitialValues(
+      //   restProps?.initialValues || {},
+      //   formRef.current.getFieldsValue(),
+      // );
+      const newInitialValues = formRef.current.getFieldsValue();
       ctx.formInitialValues.current[_stepNum as number] = newInitialValues;
     }
   }, [JSON.stringify(restProps?.initialValues)]);
@@ -92,8 +93,8 @@ function StepForm({
       className={classnames(prefixCls, className)}
       form={formRef.current}
       onFinish={handleFinsh}
-      isAntdReset={ctx?.isAntdReset}
       {...restProps}
+      isAntdReset
       submitter={false}
       isReady
     />

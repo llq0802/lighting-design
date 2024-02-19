@@ -14,6 +14,9 @@ const Index = () => {
         buttonAlign: 80,
       }}
       isAntdReset={false}
+      onFinish={async (vals) => {
+        console.log('==vals====>', vals);
+      }}
     >
       <LFormItemSelect
         label="select1"
@@ -26,6 +29,7 @@ const Index = () => {
         ]}
       />
       <LFormItemSelect
+        placeholder="请先选择 select1"
         dependencies={['select1']}
         label="select2"
         name="select2"
@@ -34,8 +38,7 @@ const Index = () => {
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
         request={async (select1) => {
-          console.log('select1 ', select1);
-
+          // console.log('select1 ', select1);
           let data: Record<string, any>[] = [];
           if (select1 === 'a') {
             data = [{ label: 'A', value: 'a' }];
@@ -47,7 +50,7 @@ const Index = () => {
             data = [{ label: 'C', value: 'c' }];
           }
           const result = await awaitTime(data, 500);
-          if (result.success) return result.data;
+          return result.data;
         }}
       />
     </LForm>

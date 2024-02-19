@@ -1,13 +1,14 @@
-import { useMemoizedFn, useUpdateEffect } from 'ahooks';
+import { useMemoizedFn } from 'ahooks';
 import type { FormInstance, FormProps } from 'antd';
 import { Form } from 'antd';
 import classnames from 'classnames';
 import { emptyObject } from 'lighting-design/constants';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
-import { Children, createContext, useMemo, useRef } from 'react';
-import { isFunction, uniqueId, useLoading } from '../../_utils';
+import { Children, createContext, useImperativeHandle, useMemo, useRef } from 'react';
+import { isFunction, uniqueId } from '../../_utils';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
+import { useLFormInitialValues, useLoading } from './hooks';
 
 const prefixCls = 'lightd-form';
 
@@ -114,19 +115,21 @@ export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title' | 'on
   children?: ReactNode;
 
   /** 内部使用：表单初始值。（因为_lformRef.current是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到） */
-  _lformRef?: any;
+  _formInitValRef?: any;
 }
 
 export const LFormContext = createContext<{
   layout: string;
   labelColProps: Record<string, any>;
+  initialValues: Record<string, any>;
   disabled?: boolean;
   size?: string;
 }>({
   layout: 'horizontal',
-  labelColProps: emptyObject,
+  labelColProps: {},
   disabled: void 0,
   size: void 0,
+  initialValues: {},
 });
 
 function BaseForm(props: BaseFormProps): JSX.Element {
@@ -154,6 +157,8 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     className,
     onValuesChange,
 
+    _formInitValRef,
+
     ...restProps
   } = props;
 
@@ -162,27 +167,16 @@ function BaseForm(props: BaseFormProps): JSX.Element {
   const formId = useMemo(() => name || uniqueId('lightd-form'), [name]);
   const [loading, setLoading] = useLoading(outLoading);
 
-  useUpdateEffect(() => {
-    // 准备完成后，重新设置初始值
-    if (isReady) {
-      // 动态设置表单的初始值
-      // formRef.current?.setFieldsValue({ ...initialValues });
-      // formRef.current?.resetFields?.(); // 会重置整个 Field，
-      // 因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
-      if (isAntdReset) {
-        formRef.current?.resetFields?.();
-      } else {
-        formRef.current?.setFieldsValue({ ...initialValues });
-      }
-    }
-  }, [isReady, JSON.stringify(initialValues)]);
+  const innerInitVal = useLFormInitialValues({
+    form: formRef.current,
+    isAntdReset,
+    isReady,
+    initialValues,
+  });
 
   const formItems = Children.toArray(children);
 
-  // const innerInitialValues = useMemo(() => {
-  //   return getFormItemInitValues(formItems, initialValues);
-  // }, [JSON.stringify(initialValues)]);
-  // console.log('==innerInitialValues====>', innerInitialValues);
+  useImperativeHandle(_formInitValRef, () => innerInitVal);
 
   const submitterProps = useMemo(
     () => (typeof submitter === 'boolean' || !submitter ? emptyObject : submitter),
@@ -244,9 +238,9 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     return submitter ? (
       <Submitter
         isAntdReset={isAntdReset}
-        isReady={isReady}
         isEnterSubmit={isEnterSubmit}
-        initFormValues={initialValues}
+        isReady={isReady}
+        initFormValues={innerInitVal}
         // initFormValues={innerInitialValues}
         onReset={onReset}
         {...submitterProps}
@@ -262,14 +256,16 @@ function BaseForm(props: BaseFormProps): JSX.Element {
         }}
       />
     ) : null;
-  }, [JSON.stringify(initialValues), isReady, loading, !!submitter, submitterProps, isEnterSubmit]);
+  }, [JSON.stringify(innerInitVal), isReady, loading, !!submitter, submitterProps]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)
     : formItems;
 
   const formDom = (
-    <LFormContext.Provider value={{ size, disabled, layout, labelColProps }}>
+    <LFormContext.Provider
+      value={{ size, disabled, layout, labelColProps, initialValues: innerInitVal }}
+    >
       <Form
         size={size}
         name={formId}

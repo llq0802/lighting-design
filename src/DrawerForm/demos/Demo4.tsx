@@ -17,6 +17,7 @@ const Demo4 = () => {
         initialValues={{ name: '张三' }}
         form={form}
         title="新增"
+        isAntdReset={false}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
           await awaitTime();
@@ -26,6 +27,7 @@ const Demo4 = () => {
         trigger={<Button type="primary">打开抽屉</Button>}
       >
         <LFormItemInput name="name" required label="姓名" />
+        <LFormItemInput name="name1" required label="姓名1" initialValue="大师" />
       </LDrawerForm>
     </div>
   );

@@ -1,6 +1,4 @@
 import { LForm, LFormItemInput } from 'lighting-design';
-import IdentifyCode from './IdentifyCode';
-import renderFieldWithPopover from './renderFieldWithPopover';
 
 const Demo = () => {
   const [form] = LForm.useForm();
@@ -12,6 +10,10 @@ const Demo = () => {
       onFinish={(values) => {
         console.log('values', values);
       }}
+      initialValues={{
+        name2: 'llq',
+      }}
+      isAntdReset={false}
     >
       <LFormItemInput
         className="myLFormItemInput-4"
@@ -20,8 +22,9 @@ const Demo = () => {
         required
         initialValue="吴彦祖"
       />
+      <LFormItemInput label="名字2" name="name2" required />
 
-      <LFormItemInput
+      {/* <LFormItemInput
         name="name1"
         label="禁用空格"
         disabledWhiteSpace
@@ -81,7 +84,7 @@ const Demo = () => {
         renderField={renderFieldWithPopover({
           content: '该方案可用于所有表单项',
         })}
-      />
+      /> */}
     </LForm>
   );
 };

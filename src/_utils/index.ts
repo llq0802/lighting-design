@@ -1,6 +1,7 @@
-import { useMemoizedFn, useRafState, useUpdateLayoutEffect } from 'ahooks';
+import { useMemoizedFn } from 'ahooks';
 import type { FormInstance } from 'antd';
 import { emptyArray } from 'lighting-design/constants';
+import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
 import { Children, useMemo, useRef } from 'react';
 import rfdc from 'rfdc';
 
@@ -29,20 +30,35 @@ export function isString(patch: any): boolean {
 }
 
 /**
- * 保留 object 中的部分内容
- * @param obj
- * @param keys
+ * 从对象中选择指定的属性
+ * @param obj 要选择属性的对象
+ * @param keys 要选择的属性的键名数组
+ * @returns 选择后的属性对象，如果对象为空则返回undefined
  */
 export function pick(
   obj: Record<string, unknown> | undefined,
   keys: string[],
 ): Record<string, unknown> | undefined {
   if (!obj) return void 0;
-  const r: Record<string, any> = {};
+  const result: Record<string, unknown> = {};
   keys.forEach((key) => {
-    r[key] = obj[key];
+    if (obj.hasOwnProperty(key)) {
+      result[key] = obj[key];
+    }
   });
-  return r;
+  return result;
+}
+/**
+ * 从对象中移除指定的属性。
+ * @param obj - 要操作的对象。
+ * @param keys - 要移除的属性名数组。
+ * @returns 移除指定属性后的新对象。
+ */
+export function omit<T extends Record<string, any>>(obj: T, keys: string[]): T {
+  const keySet = new Set(keys);
+  const entries = Object.entries(obj);
+  const filteredEntries = entries.filter(([key]) => !keySet.has(key));
+  return Object.fromEntries(filteredEntries) as T;
 }
 
 /**
@@ -141,12 +157,52 @@ export const useIsFirstRender = (): boolean => {
  * @param restProps
  * @returns
  */
-export const useDependValues = (dependencies: string[], restProps: Record<string, any>) => {
+export const useDependencies = ({ dependencies, dependenciesObj, request, run, form, name }) => {
+  const dependArr = useMemo(() => {
+    if (!dependencies?.length || !dependenciesObj) return [];
+    return dependencies
+      ?.map((k: string) => dependenciesObj[k])
+      .filter((it: any) => it !== void 0 && it !== null && it !== '');
+  }, [dependencies, dependenciesObj]);
+
+  const hasEmpty = useMemo<boolean>(() => {
+    if (!request || !dependencies?.length || !dependenciesObj) return false;
+    return !dependArr?.length;
+    // return dependArr?.every(
+    //   (val: any) => val === void 0 || val === null || val === '' || val?.length === 0,
+    // );
+  }, [dependencies, dependenciesObj, dependArr]);
+
+  useDeepUpdateEffect(() => {
+    console.log('==useDeepUpdateEffect-dependArr====>', name, dependArr, hasEmpty);
+    if (!request) return;
+    form.setFieldValue(name, void 0);
+    run(...dependArr);
+  }, dependArr);
+
+  return {
+    dependValues: dependArr,
+    hasDependValuesEmpty: hasEmpty,
+  };
+};
+
+/**
+ * 获取依赖项的值
+ * @param dependencies
+ * @param restProps
+ * @returns
+ */
+export const useDependValues = (
+  dependencies: string[],
+  restProps: Record<string, any> | undefined,
+) => {
   return useMemo(() => {
-    if (!dependencies?.length) {
+    if (!dependencies?.length || !restProps) {
       return emptyArray;
     }
-    return dependencies?.map((nameStr) => restProps[nameStr]);
+    return dependencies
+      ?.map((nameStr) => restProps[nameStr])
+      .filter((it) => it !== void 0 && it !== null && it !== '');
   }, [dependencies, restProps]);
 };
 
@@ -157,13 +213,17 @@ export const useDependValues = (dependencies: string[], restProps: Record<string
  */
 export const useIsClearDependValues = (dependValues: any[]) => {
   return useMemo(() => {
-    if (!dependValues?.length) return false;
+    const depVals = dependValues.filter((item) => item !== void 0 || item !== null || item !== '');
 
-    if (dependValues?.length === 1) {
-      const nameValue = dependValues?.[0];
-      return nameValue === void 0 || nameValue === null || nameValue === '' || !nameValue?.length;
+    if (!depVals?.length) return false;
+
+    if (depVals?.length === 1) {
+      const nameValue = depVals?.[0];
+      return (
+        nameValue === void 0 || nameValue === null || nameValue === '' || nameValue?.length === 0
+      );
     }
-    return dependValues?.every(
+    return depVals?.every(
       (nameValue) =>
         nameValue === void 0 || nameValue === null || nameValue === '' || !nameValue?.length,
     );
@@ -281,19 +341,6 @@ export const getOptions = (opt1: any[] = [], opt2: any[] = [], opt3?: any[] | un
     return opt3;
   }
   return emptyArray;
-};
-
-/**
- * 设置与监听loading
- * @param {boolean} outLoading 初始值 loading
- * @return
- */
-export const useLoading = (
-  outLoading: boolean,
-): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
-  const [loading, setLoading] = useRafState(() => outLoading);
-  useUpdateLayoutEffect(() => setLoading(outLoading), [outLoading]);
-  return [loading, setLoading];
 };
 
 // dispose 处理

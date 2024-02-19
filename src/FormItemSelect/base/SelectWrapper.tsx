@@ -1,10 +1,9 @@
-import { useMount, useRequest } from 'ahooks';
+import { useRequest } from 'ahooks';
 import type { SpinProps } from 'antd';
 import { Form, Select, Spin } from 'antd';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import { useDependValues, useIsClearDependValues } from 'lighting-design/_utils';
+import { omit, pick, useDependencies } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
-import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
 import type { FC, ReactNode } from 'react';
 import { useImperativeHandle } from 'react';
 
@@ -45,24 +44,26 @@ export interface LSelectOptions {
 
 const SelectWrapper: FC<SelectWrapperProps> = ({
   value,
-  onChange,
   dependencies = emptyArray,
-  placeholder,
   options: outOptions = emptyArray,
-  request,
   all = false,
-  disabled,
   allValue = 'all',
   allLabel = '全部',
-  outLoading,
+
+  request,
   requestOptions = emptyObject,
+  outLoading,
+
+  disabled,
   name,
   actionRef,
   ...restProps
 }) => {
+  const selectProps = omit(restProps, dependencies);
+  const dependenciesObj = pick(restProps, dependencies);
   const form = Form.useFormInstance();
-  const dependValues = useDependValues(dependencies, restProps);
-  const hasEmptyDepends = useIsClearDependValues(dependValues);
+  // const dependenciesObj = useDependValues(dependencies, depValues);
+
   const requestRes = useRequest(
     async (...args) => {
       if (outOptions?.length) return outOptions;
@@ -85,36 +86,30 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
         }
         requestOptions?.onSuccess?.(data, params);
       },
-      manual: true,
     },
   );
+
   const { run, loading, data } = requestRes;
 
-  useDeepUpdateEffect(() => {
-    if (!request) return;
-    form.setFieldValue(name, void 0);
-    if (!hasEmptyDepends) run(...dependValues);
-  }, dependValues);
-
-  useMount(() => {
-    run(...dependValues);
+  const { dependValues, hasDependValuesEmpty } = useDependencies({
+    dependencies,
+    dependenciesObj,
+    request,
+    run,
+    form,
+    name,
   });
 
-  console.log('==hasEmptyDepends====>', hasEmptyDepends);
-
   useImperativeHandle(actionRef, () => requestRes);
-
   return (
     <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       <Select
-        disabled={disabled ?? hasEmptyDepends}
-        placeholder={placeholder}
+        disabled={disabled || hasDependValuesEmpty}
         allowClear
         options={data}
-        {...restProps}
+        {...selectProps}
         style={{ width: '100%', ...restProps?.style }}
         value={value}
-        onChange={onChange}
       />
     </Spin>
   );

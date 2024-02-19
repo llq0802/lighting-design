@@ -15,26 +15,19 @@ const Demo5 = () => {
 
   return (
     <LForm
-      // isReady={isReady}
+      form={form}
+      isReady={isReady}
+      disabled={!isReady}
       labelWrap
       labelCol={{ flex: '90px' }}
       submitter={{ buttonAlign: 90 }}
       initialValues={initialValues}
-      form={form}
       onFinish={async (values) => {
         console.log('onFinish-values ', values);
       }}
-      onFieldsChange={async (changedFields, allFields) => {
-        console.log('onFieldsChange-changedFields ', changedFields, allFields);
-      }}
     >
-      <LFormItemInput
-        name="name"
-        required
-        label="姓名姓名姓名姓名"
-        // initialValue={initialValues.name}
-      />
-      <LFormItemInput name="name1" required label="字段名" />
+      <LFormItemInput name="name" required label="姓名姓名姓名姓名" />
+      <LFormItemInput name="name1" required label="字段名" initialValue="llq" />
     </LForm>
   );
 };

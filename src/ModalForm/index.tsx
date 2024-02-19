@@ -2,12 +2,12 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
 import { Form, Modal, Space } from 'antd';
 import classnames from 'classnames';
-import { BUTTON_ALIGN_MAP, useFormInitValues } from 'lighting-design/_utils';
+import { BUTTON_ALIGN_MAP } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import { cloneElement, useRef, useState } from 'react';
+import { cloneElement, useEffect, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
 
@@ -117,16 +117,10 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     valuePropName: 'open',
     trigger: 'onOpenChange',
   });
-
   const [form] = Form.useForm();
   const formRef = useRef(outForm || form);
   const [disabled, setDisabled] = useState(false);
-  const [bounds, setBounds] = useState({
-    left: 0,
-    top: 0,
-    bottom: 0,
-    right: 0,
-  });
+  const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
 
@@ -153,7 +147,13 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     }
   });
 
-  const resetFormInitValues = useFormInitValues(formRef.current, restProps.initialValues);
+  // const resetFormInitValues = useFormInitValues(formRef.current, restProps.initialValues);
+  const [initVal, setIninVal] = useState(() => restProps.initialValues || {});
+  useEffect(() => {
+    if (!isAntdReset && open) {
+      setIninVal({ ...formRef.current.getFieldsValue(), ...initVal });
+    }
+  }, [open]);
 
   return (
     <>
@@ -225,7 +225,8 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
                   if (isAntdReset) {
                     formRef.current.resetFields(); // 弹窗关闭后重置表单
                   } else {
-                    resetFormInitValues();
+                    // resetFormInitValues();
+                    formRef.current.setFieldsValue({ ...initVal });
                   }
                 }
                 modalProps?.afterClose?.();
@@ -251,9 +252,10 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
               afterClose={() => {
                 if (isResetFields) {
                   if (isAntdReset) {
-                    formRef.current.resetFields(); // 弹窗关闭后重置表单
+                    formRef.current.resetFields();
                   } else {
-                    resetFormInitValues();
+                    // resetFormInitValues();
+                    formRef.current.setFieldsValue({ ...initVal });
                   }
                 }
                 modalProps?.afterClose?.();

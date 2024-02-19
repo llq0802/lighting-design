@@ -111,7 +111,6 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
       },
     },
   ];
-
   return (
     <LFormItem
       required={required}
@@ -132,7 +131,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
         requestOptions={requestOptions}
         actionRef={actionRef}
         outLoading={spin}
-        disabled={disabled ?? formDisabled}
+        disabled={disabled || formDisabled}
         options={options}
         mode={mode}
         showSearch={showSearch}

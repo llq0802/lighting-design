@@ -1,12 +1,11 @@
 import { message } from 'antd';
 import type { LStepsFormActionRef } from 'lighting-design';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { awaitTime } from '../../_test';
 
 const Demo2 = () => {
   const actionRef = useRef<LStepsFormActionRef>();
-
 
   return (
     <div>
@@ -42,7 +41,13 @@ const Demo2 = () => {
           //   console.log('步骤2', values);
           // }}
         >
-          <LFormItemInput name="name3" label="名字3" required tooltip="禁止空格" />
+          <LFormItemInput
+            name="name3"
+            label="名字3"
+            required
+            tooltip="禁止空格"
+            initialValue="大萨"
+          />
         </LStepsForm.StepForm>
       </LStepsForm>
     </div>

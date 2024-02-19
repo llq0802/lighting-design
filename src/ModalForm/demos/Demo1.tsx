@@ -5,6 +5,10 @@ import { awaitTime } from '../../_test';
 const Demo1 = () => {
   const [form] = LForm.useForm();
 
+
+
+  
+
   return (
     <div>
       <LModalForm
@@ -18,7 +22,7 @@ const Demo1 = () => {
           return true;
         }}
         initialValues={{
-          name: '李岚清',
+          name: '刘德华',
         }}
         trigger={<Button type="primary">打开弹窗</Button>}
       >
@@ -26,7 +30,7 @@ const Demo1 = () => {
         <LFormItemRadio
           label="单选2"
           name="radio"
-          all
+          initialValue="open"
           required
           request={async () => {
             const result = await awaitTime(
