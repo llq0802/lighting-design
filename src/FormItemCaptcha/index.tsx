@@ -15,7 +15,7 @@ export interface LFormItemCaptchaProps
       CodeInputProps,
       'onGetCaptcha' | 'type' | 'inputProps' | 'buttonProps' | 'autoClick' | 'autoFocusOnGetCaptcha'
     >,
-    Pick<LCaptchaButtonProps, 'cacheKey' | 'second' | 'disabledText' | 'onEnd'> {
+    Pick<LCaptchaButtonProps, 'cacheKey' | 'second' | 'disabledText' | 'onEnd' | 'actionRef'> {
   /**
    *  按钮初始文本
    *@author 李岚清 <https://github.com/llq0802>
@@ -23,7 +23,6 @@ export interface LFormItemCaptchaProps
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   initText?: string;
-
   /**
    *  验证码最大长度
    *@author 李岚清 <https://github.com/llq0802>
@@ -31,13 +30,6 @@ export interface LFormItemCaptchaProps
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   maxLength?: number;
-  /**
-   *  用于取消重置倒计时
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
-   */
-  cancelRef?: React.MutableRefObject<(() => void) | undefined>;
 }
 
 const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
@@ -45,18 +37,20 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   second,
   disabledText,
   onEnd,
+  actionRef,
+
   type = 'default',
   maxLength = 6,
   autoClick,
   initText = '获取验证码',
   autoFocusOnGetCaptcha,
+
   onGetCaptcha,
   inputProps = emptyObject,
   buttonProps = emptyObject,
   placeholder,
   size,
   disabled,
-  cancelRef,
 
   required,
   ...restProps
@@ -71,7 +65,6 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   return (
     <LFormItem required={required} placeholder={messageLabel} {...restProps}>
       <CaptchaInput
-        // size={size ?? formSize}
         size={size}
         disabled={disabled ?? formDisabled}
         maxLength={maxLength}
@@ -82,12 +75,12 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
         inputProps={inputProps}
         placeholder={messageLabel}
         buttonProps={{
-          cacheKey,
-          initText,
           second,
           disabledText,
           onEnd,
-          cancelRef,
+          actionRef,
+          cacheKey,
+          initText,
           ...buttonProps,
         }}
       />

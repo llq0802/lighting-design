@@ -7,9 +7,7 @@ import { emptyObject } from 'lighting-design/constants';
 import type { CSSProperties, ChangeEvent, FC } from 'react';
 import { useImperativeHandle, useMemo, useRef, useState } from 'react';
 
-export interface CodeInputProps extends Record<number | string, any> {
-  value?: any;
-  onChange?: (value: any) => void;
+export interface CodeInputProps extends Record<string, any> {
   /**
    * 验证码组件类型
    *@author 李岚清 <https://github.com/llq0802>
@@ -45,13 +43,6 @@ export interface CodeInputProps extends Record<number | string, any> {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   autoFocusOnGetCaptcha?: boolean;
-  /**
-   * 是否禁用
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
-   */
-  disabled?: boolean;
   /**
    * 验证码最大长度
    *@author 李岚清 <https://github.com/llq0802>
@@ -101,16 +92,15 @@ const CodeInput: FC<CodeInputProps> = ({
   const [start, setStart] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { onClick, onEnd, initText, ...restButtonProps } = buttonProps as LCaptchaButtonProps & {
-    initText: string;
-  };
+  const { onClick, onEnd, initText, ...restButtonProps } = buttonProps;
 
   // 点击按钮
   const onButtonClick = useMemoizedFn(async (e: React.MouseEvent<HTMLElement>) => {
     if (disabled) return;
-    setLoading(true);
     onClick?.(e);
+    if (restButtonProps?.actionRef) return Promise.reject(false);
     try {
+      setLoading(true);
       // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。
       await checkResult(onGetCaptcha);
       setStart(true); // 只有当获取验证码成功时才进行倒计时
@@ -205,10 +195,7 @@ const CodeInput: FC<CodeInputProps> = ({
         {...inputProps}
         onChange={handleOnChange}
         value={value}
-        style={{
-          ...defaultStyle.input,
-          ...inputProps?.style,
-        }}
+        style={{ ...defaultStyle.input, ...inputProps?.style }}
         suffix={
           type === 'inline' ? (
             <>
