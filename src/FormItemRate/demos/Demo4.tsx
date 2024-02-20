@@ -14,22 +14,8 @@ const Demo4 = () => {
           character: '哈',
         }}
       />
-      <LFormItemRate
-        label="评分"
-        name="rate2"
-        initialValue={3}
-        rateProps={{
-          character: <HeartOutlined />,
-        }}
-      />
-      <LFormItemRate
-        label="评分"
-        name="rate3"
-        initialValue={3}
-        rateProps={{
-          character: 'B',
-        }}
-      />
+      <LFormItemRate label="评分" name="rate2" initialValue={3} character={<HeartOutlined />} />
+      <LFormItemRate label="评分" name="rate3" initialValue={3} character="B" />
     </LForm>
   );
 };

@@ -32,10 +32,7 @@ const Demo3 = () => {
           {
             label: (
               <div style={{ padding: 4 }}>
-                <Avatar
-                  style={{ backgroundColor: '#87d068' }}
-                  icon={<UserOutlined />}
-                />
+                <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
                 <div>User 3</div>
               </div>
             ),

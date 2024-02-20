@@ -18,17 +18,13 @@ const Demo5 = () => {
         name="rate1"
         label="评分"
         initialValue={3}
-        rateProps={{
-          character: ({ index }) => index + 1,
-        }}
+        character={({ index }) => index + 1}
       />
       <LFormItemRate
         name="rate2"
         label="评分"
         initialValue={3}
-        rateProps={{
-          character: ({ index }) => customIcons[index + 1],
-        }}
+        character={({ index }) => customIcons[index + 1]}
       />
     </LForm>
   );

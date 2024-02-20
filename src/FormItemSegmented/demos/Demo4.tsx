@@ -1,5 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { LForm, LFormItemSegmented, LFormItemSelect } from 'lighting-design';
+import { LForm, LFormItemSegmented } from 'lighting-design';
 import { awaitTime } from '../../_test';
 
 const Demo4 = () => {
@@ -13,26 +13,13 @@ const Demo4 = () => {
         buttonAlign: 80,
       }}
     >
-      <LFormItemSelect
-        label="select44"
-        name="select44"
-        required
-        options={[
-          { label: 'A', value: 'a' },
-          { label: 'B', value: 'b' },
-          { label: 'C', value: 'c' },
-        ]}
-      />
       <LFormItemSegmented
-        // debounceTime={200} 防抖更新
-        dependencies={['select44']}
         label="select2"
         name="select2"
         required
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
-        notDependRender="请先选择select44"
         request={async (select44) => {
           console.log('select44 ', select44);
           let data: Record<string, any>[] = [];

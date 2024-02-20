@@ -43,20 +43,12 @@ const Demo1 = () => {
       <LFormItemSegmented
         label="属性3"
         name="segmented3"
+        block
         options={[
-          {
-            label: 'List',
-            value: 'List',
-          },
-          {
-            label: 'Kanban',
-            value: 'Kanban',
-          },
-          {
-            label: 'item',
-            value: 'item',
-            disabled: true,
-          },
+          { label: 'List', value: 'List' },
+          { label: 'Kanban', value: 'Kanban' },
+          { label: 'item', value: 'item' },
+          { label: 'das', value: 'das' },
         ]}
       />
     </LForm>

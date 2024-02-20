@@ -1,13 +1,13 @@
+import type { RateProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import type { FC } from 'react';
 import { useContext } from 'react';
-import type { RateWrapperProps } from './base/RateWrapper';
 import RateWrapper from './base/RateWrapper';
 
-export interface LFormItemRateProps extends LFormItemProps, Pick<RateWrapperProps, 'rateProps'> {
+export interface LFormItemRateProps extends LFormItemProps {
   /**
    *总共的星数
    *@author 李岚清 <https://github.com/llq0802>
@@ -22,6 +22,8 @@ export interface LFormItemRateProps extends LFormItemProps, Pick<RateWrapperProp
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemRateProps
    */
   allowHalf?: boolean;
+  character?: RateProps['character'];
+  rateProps?: RateProps;
 }
 
 const LFormItemRate: FC<LFormItemRateProps> = ({
@@ -30,6 +32,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   disabled,
   size,
   allowHalf,
+  character,
   count = 5,
   ...restProps
 }) => {
@@ -61,8 +64,9 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
         size={size ?? formSize}
         allowHalf={allowHalf}
         count={count}
+        character={character}
         disabled={disabled ?? formDisabled}
-        rateProps={rateProps}
+        {...rateProps}
       />
     </LFormItem>
   );

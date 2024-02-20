@@ -50,13 +50,11 @@ import { LFormItemSegmented } from 'lighting-design';
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
-| 参数            | 说明                                    | 类型                                                                                                                       | 默认值                        |
-| --------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| options         | 数据化配置选项内容                      | ` string[] \| number[] \| Array<{ label: ReactNode value: string icon? ReactNode disabled?: boolean className?: string }>` | `[]`                          |
-| request         | 请求数据函数                            | `(...depends: any[]) => Promise<Options[]>`                                                                                | `-`                           |
-| requestOptions  | ahook 的 request 的配置项               | `-`                                                                                                                        | `-`                           |
-| debounceTime    | 当依赖项发生变化时重新请求的防抖时间    | `number`                                                                                                                   | `-`                           |
-| spin            | 自定义 loading 效果                     | [spinProps](https://ant.design/components/spin-cn/#api)                                                                    | `-`                           |
-| notDependRender | 依赖项的值为空时展示的内容              | ` ReactNode`                                                                                                               | `<span>请先选择依赖项</span>` |
-| segmentedProps  | `antd`分段组件 Props                    | [SegmentedProps](https://ant.design/components/segmented-cn/#api)                                                          | `-`                           |
-| actionRef       | 配置 request 时 useRequest 的全部返回值 | `LFormItemActionRef`                                                                                                       | `-`                           |
+| 参数           | 说明                                    | 类型                                                                                                                       | 默认值 |
+| -------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | ------ |
+| options        | 数据化配置选项内容                      | ` string[] \| number[] \| Array<{ label: ReactNode value: string icon? ReactNode disabled?: boolean className?: string }>` | `[]`   |
+| request        | 请求数据函数                            | `(...depends: any[]) => Promise<Options[]>`                                                                                | `-`    |
+| requestOptions | ahook 的 request 的配置项               | `-`                                                                                                                        | `-`    |
+| spin           | 自定义 loading 效果                     | [spinProps](https://ant.design/components/spin-cn/#api)                                                                    | `-`    |
+| actionRef      | 配置 request 时 useRequest 的全部返回值 | `LFormItemActionRef`                                                                                                       | `-`    |
+| segmentedProps | `antd`分段组件 Props                    | [SegmentedProps](https://ant.design/components/segmented-cn/#api)                                                          | `-`    |
