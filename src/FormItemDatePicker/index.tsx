@@ -67,6 +67,7 @@ const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps
 
   return (
     <DatePicker
+      allowEmpty
       picker={picker}
       locale={locale}
       format={format === DateFormat.quarter ? void 0 : format}
@@ -124,6 +125,7 @@ const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
 
   return (
     <RangePicker
+      allowEmpty
       picker={picker}
       locale={locale}
       format={format === DateFormat.quarter ? void 0 : format}

@@ -22,7 +22,7 @@ nav:
 
 ### 范围禁用
 
-<code src='./demos/Demo2.tsx'></code>
+<!-- <code src='./demos/Demo2.tsx'></code> -->
 
 ## API
 

@@ -12,102 +12,6 @@ import type { Dayjs } from 'lighting-design/_utils/day';
 import { TIME_LIST, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext, useMemo } from 'react';
-
-/**
- * @param hour 当前小时 0-23
- * @param disabledHourBefore 禁用当前时间之前的小时 (0会包括当前小时)
- * @param disabledHourAfter 禁用当前时间之后的小时 (0会包括当前小时)
- * @returns
- */
-export function customDisabledHours(
-  hour: number,
-  disabledHourBefore?: number,
-  disabledHourAfter?: number,
-) {
-  const hasBefore = typeof disabledHourBefore === 'number';
-  const hasAfter = typeof disabledHourAfter === 'number';
-  if (!hasBefore && !hasAfter) {
-    return [];
-  }
-
-  if (hasBefore && hasAfter) {
-    const ret = TIME_LIST.slice(hour - disabledHourBefore + 1, hour + disabledHourAfter);
-    return TIME_LIST.filter((item) => !ret.includes(item));
-  } else if (hasBefore) {
-    const ret = TIME_LIST.slice(0, hour - disabledHourBefore + 1);
-    return ret;
-  } else if (hasAfter) {
-    const ret = TIME_LIST.slice(hour + disabledHourAfter);
-    return ret;
-  }
-  return [];
-}
-
-const TimePickerWrapper: FC<TimePickerProps | any> = ({
-  dateValueType,
-  style,
-  value,
-  rangePicker,
-  format,
-  placeholder,
-  onChange,
-  ...restProps
-}) => {
-  const handleChange = useMemoizedFn(
-    (value: Dayjs | [Dayjs, Dayjs] | undefined, formatString: [string, string]) => {
-      if (dateValueType === 'string') {
-        onChange?.(formatString, value);
-      } else if (dateValueType === 'dayjs') {
-        onChange?.(value, formatString);
-      }
-    },
-  );
-
-  if (!placeholder) {
-    return !rangePicker ? (
-      <TimePicker
-        format={format}
-        style={{ width: '100%', ...style }}
-        locale={locale}
-        {...restProps}
-        value={transform2Dayjs(value || void 0, format)}
-        onChange={handleChange}
-      />
-    ) : (
-      <TimePicker.RangePicker
-        format={format}
-        style={{ width: '100%', ...style }}
-        locale={locale}
-        {...restProps}
-        value={transform2Dayjs(value || void 0, format)}
-        onChange={handleChange}
-      />
-    );
-  } else {
-    return !rangePicker ? (
-      <TimePicker
-        format={format}
-        placeholder={placeholder}
-        style={{ width: '100%', ...style }}
-        locale={locale}
-        {...restProps}
-        value={transform2Dayjs(value || void 0, format)}
-        onChange={handleChange}
-      />
-    ) : (
-      <TimePicker.RangePicker
-        format={format}
-        placeholder={placeholder}
-        style={{ width: '100%', ...style }}
-        locale={locale}
-        {...restProps}
-        value={transform2Dayjs(value || void 0, format)}
-        onChange={handleChange}
-      />
-    );
-  }
-};
-
 export interface LFormItemTimePickerProps extends LFormItemProps {
   /**
    *是否是范围时间选择
@@ -170,6 +74,76 @@ export interface LFormItemTimePickerProps extends LFormItemProps {
    */
   timePickerProps?: TimePickerProps | TimeRangePickerProps;
 }
+/**
+ * @param hour 当前小时 0-23
+ * @param disabledHourBefore 禁用当前时间之前的小时 (0会包括当前小时)
+ * @param disabledHourAfter 禁用当前时间之后的小时 (0会包括当前小时)
+ * @returns
+ */
+export function customDisabledHours(
+  hour: number,
+  disabledHourBefore?: number,
+  disabledHourAfter?: number,
+) {
+  const hasBefore = typeof disabledHourBefore === 'number';
+  const hasAfter = typeof disabledHourAfter === 'number';
+  if (!hasBefore && !hasAfter) {
+    return [];
+  }
+
+  if (hasBefore && hasAfter) {
+    const ret = TIME_LIST.slice(hour - disabledHourBefore + 1, hour + disabledHourAfter);
+    return TIME_LIST.filter((item) => !ret.includes(item));
+  } else if (hasBefore) {
+    const ret = TIME_LIST.slice(0, hour - disabledHourBefore + 1);
+    return ret;
+  } else if (hasAfter) {
+    const ret = TIME_LIST.slice(hour + disabledHourAfter);
+    return ret;
+  }
+  return [];
+}
+
+const TimePickerWrapper: FC<TimePickerProps | any> = ({
+  dateValueType,
+  style,
+  value,
+  rangePicker,
+  format,
+  placeholder,
+  onChange,
+  ...restProps
+}) => {
+  const handleChange = useMemoizedFn(
+    (value: Dayjs | [Dayjs, Dayjs] | undefined, formatString: [string, string]) => {
+      if (dateValueType === 'string') {
+        onChange?.(formatString, value);
+      } else if (dateValueType === 'dayjs') {
+        onChange?.(value, formatString);
+      }
+    },
+  );
+
+  const props = {
+    allowEmpty: true,
+    format,
+    locale,
+    style: { width: '100%', ...style },
+    value: transform2Dayjs(value, format),
+    onChange: handleChange,
+    ...restProps,
+  };
+
+  if (!placeholder) {
+    return !rangePicker ? <TimePicker {...props} /> : <TimePicker.RangePicker {...props} />;
+  }
+
+  return !rangePicker ? (
+    <TimePicker placeholder={placeholder} {...props} />
+  ) : (
+    <TimePicker.RangePicker placeholder={placeholder} {...props} />
+  );
+};
 
 const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
   rangePicker = false,
@@ -205,24 +179,19 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
     () => !(typeof disabledHourBefore === 'number' || typeof disabledHourAfter === 'number'),
     [disabledHourBefore, disabledHourAfter],
   );
-
-  const dom = (
-    <TimePickerWrapper
-      size={size}
-      dateValueType={dateValueType}
-      rangePicker={rangePicker}
-      placeholder={placeholder}
-      disabledTime={currentDisabledTime}
-      disabled={disabled ?? formDisabled}
-      format={format}
-      showNow={showNow}
-      {...timePickerProps}
-    />
-  );
-
   return (
     <LFormItem required={required} _isSelectType {...restProps}>
-      {dom}
+      <TimePickerWrapper
+        size={size}
+        dateValueType={dateValueType}
+        rangePicker={rangePicker}
+        placeholder={placeholder}
+        disabledTime={currentDisabledTime}
+        disabled={disabled ?? formDisabled}
+        format={format}
+        showNow={showNow}
+        {...timePickerProps}
+      />
     </LFormItem>
   );
 };

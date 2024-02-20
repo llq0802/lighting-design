@@ -39,11 +39,7 @@ type CreateDisabledDateOptions = {
  * @param showTime
  * @returns
  */
-export function getDateFormat(
-  format: string,
-  picker: Picker,
-  showTime = false,
-) {
+export function getDateFormat(format: string, picker: Picker, showTime = false) {
   if (format) return format;
   const timeFormatStr = picker === 'date' && showTime ? DateFormat.time : '';
   const ret = DateFormat[picker] + timeFormatStr || DateFormat.date;
@@ -56,10 +52,7 @@ export function getDateFormat(
  * @param opts
  * @returns
  */
-export function createDisabledDate(
-  picker: Picker = 'date',
-  opts: CreateDisabledDateOptions,
-) {
+export function createDisabledDate(picker: Picker = 'date', opts: CreateDisabledDateOptions) {
   const { disabledDateBefore, disabledDateAfter } = opts;
   const hasBefore = typeof disabledDateBefore === 'number';
   const hasAfter = typeof disabledDateAfter === 'number';
@@ -147,8 +140,7 @@ export function transform2Dayjs(
   if (typeof value === 'string') {
     // 季度
     if (picker === 'quarter') {
-      const quarterNum =
-        format === DateFormat.quarter ? +value.slice(-1) : +value.slice(5, 6);
+      const quarterNum = format === DateFormat.quarter ? +value.slice(-1) : +value.slice(5, 6);
       return dayjs().quarter(quarterNum);
     }
 
@@ -159,7 +151,6 @@ export function transform2Dayjs(
     }
 
     return dayjs(value, format);
-    // return dayjs(value);
   }
 
   if (typeof value === 'number') {
