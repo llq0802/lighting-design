@@ -10,6 +10,8 @@ import { Button } from 'antd';
 import type { ForwardRefRenderFunction, Ref, RefObject } from 'react';
 import { forwardRef, useImperativeHandle } from 'react';
 
+export type LCaptchaButtonActionRef = { start: () => void; cancel: () => void } | undefined;
+
 export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   /**
    * 倒计时的秒数
@@ -40,12 +42,12 @@ export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
    */
   cacheKey: string;
   /**
-   * 用于重置倒计时
+   * 用于开始或取消倒计时
    *@author 李岚清 <https://github.com/llq0802>
    *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCaptchaButtonProps
    */
-  cancelRef?: React.MutableRefObject<(() => void) | undefined>;
+  actionRef?: React.MutableRefObject<LCaptchaButtonActionRef>;
   /**
    *@author 李岚清 <958614130@qq.com>
    *@description 倒计时完成后触发
@@ -75,7 +77,7 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
     disabledText = '重发',
     onEnd,
     onClick,
-    cancelRef,
+    actionRef,
     children,
     ...buttonProps
   } = props;
@@ -111,7 +113,13 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
     }
   }, [start]);
 
-  useImperativeHandle(cancelRef, () => () => setTargetDate(void 0));
+  useImperativeHandle(actionRef, () => ({
+    cancel: () => setTargetDate(void 0),
+    start: () => {
+      const date = Date.now() + second * 1000;
+      setTargetDate(date);
+    },
+  }));
 
   return (
     <Button

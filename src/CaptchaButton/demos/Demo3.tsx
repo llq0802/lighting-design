@@ -1,15 +1,17 @@
 import { Button, message, Space } from 'antd';
+import type { LCaptchaButtonActionRef } from 'lighting-design';
 import { LCaptchaButton } from 'lighting-design';
 import { useRef } from 'react';
 
 const Demo3 = () => {
-  const cancelRef = useRef<() => void>();
+  const actionRef = useRef<LCaptchaButtonActionRef>();
 
   return (
     <div>
       <Space>
         <LCaptchaButton
-          cancelRef={cancelRef}
+          start={false}
+          actionRef={actionRef}
           second={10}
           disabledText="重新获取"
           type="primary"
@@ -17,12 +19,15 @@ const Demo3 = () => {
           onEnd={() => {
             message.success('倒计时结束');
           }}
+          onClick={() => {
+            actionRef.current?.start();
+          }}
         >
           获取验证码
         </LCaptchaButton>
         <Button
           onClick={() => {
-            console.log('cancelRef.current.', cancelRef.current?.());
+            actionRef.current?.cancel();
           }}
         >
           取消倒计时

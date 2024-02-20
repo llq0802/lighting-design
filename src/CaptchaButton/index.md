@@ -13,7 +13,7 @@ toc: content
 
 <code src='./demos/Demo1.tsx'></code>
 
-### 修改文字
+### actionRef 的使用
 
 <code src='./demos/Demo3.tsx'></code>
 
@@ -39,11 +39,17 @@ import { LCaptchaButton } from 'lighting-design';
 
 继承 [antd Button](https://ant.design/components/button-cn/) 属性`(disabled 除外)`
 
-|     参数     |                说明                |                         类型                         |        默认值         |
-| :----------: | :--------------------------------: | :--------------------------------------------------: | :-------------------: |
-|    start     |            是否开始发送            |                      `boolean`                       |        `true`         |
-|    second    |             倒计时秒数             |                       `number`                       |         `60 `         |
-| disabledText |   倒计时的文字, 会带上 second 秒   |                       `string`                       |       `'重发'`        |
-|   cacheKey   | 缓存的 key、页面刷新后倒计时继续。 |                       `string`                       | `'__CaptchaButton__'` |
-|    onEnd     |          倒计时完成后触发          |                     `() => void`                     |         `- `          |
-|  cancelRef   |         用于取消重置倒计时         | `React.MutableRefObject<(() => void) \| undefined>;` |         `- `          |
+|     参数     |                说明                |                    类型                     |        默认值         |
+| :----------: | :--------------------------------: | :-----------------------------------------: | :-------------------: |
+|    start     |            是否开始发送            |                  `boolean`                  |        `true`         |
+|    second    |             倒计时秒数             |                  `number`                   |         `60 `         |
+| disabledText |   倒计时的文字, 会带上 second 秒   |                  `string`                   |       `'重发'`        |
+|   cacheKey   | 缓存的 key、页面刷新后倒计时继续。 |                  `string`                   | `'__CaptchaButton__'` |
+|    onEnd     |          倒计时完成后触发          |                `() => void`                 |         `- `          |
+|  actionRef   |        用于开始或取消倒计时        | `MutableRefObject<LCaptchaButtonActionRef>` |         `- `          |
+
+### LCaptchaButtonActionRef
+
+```ts
+export type LCaptchaButtonActionRef = { start: () => void; cancel: () => void } | undefined;
+```
