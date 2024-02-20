@@ -1,7 +1,39 @@
-import { LForm, LFormItemCascader, LFormItemSelect } from 'lighting-design';
-
+import { LForm, LFormItemCascader } from 'lighting-design';
 import china_city from './china_city.json';
-const options: any[] = china_city;
+
+const options = [
+  {
+    value: 'zhejiang',
+    label: 'Zhejiang',
+    children: [
+      { value: 'hangzhou', label: 'Hangzhou', children: [{ value: 'xihu', label: 'West Lake' }] },
+    ],
+  },
+  {
+    value: 'jiangsu',
+    label: 'Jiangsu',
+    children: [
+      {
+        value: 'nanjing',
+        label: 'Nanjing',
+        children: [{ value: 'zhonghuamen', label: 'Zhong Hua Men' }],
+      },
+      {
+        value: 'nanjing2',
+        label: 'Nanjing2',
+        children: [{ value: 'zhonghuamen2', label: 'Zhong Hua Men2' }],
+      },
+    ],
+  },
+  {
+    value: 'chongqing',
+    label: 'ChongQing',
+    children: [
+      { value: 'jiangbei', label: 'JIANGBEI' },
+      { value: 'yuzhong', label: 'YUZHONG' },
+    ],
+  },
+];
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
@@ -13,33 +45,30 @@ const Demo1 = () => {
         console.log('va', va);
       }}
     >
-      <LFormItemSelect
-        label="select选择"
-        name="select"
+      <LFormItemCascader
+        label="级联选择1"
+        name="cascader1"
         required
-        options={[
-          { label: 'A', value: 'a' },
-          { label: 'B', value: 'b' },
-          { label: 'C', value: 'c' },
-        ]}
+        options={china_city}
+        showSearch
+        fieldNames={{ label: 'name', value: 'code', children: 'children' }}
       />
-
+      <LFormItemCascader
+        label="级联选择2"
+        name="cascader2"
+        required
+        options={china_city}
+        expandTrigger="hover"
+        fieldNames={{ label: 'name', value: 'code', children: 'children' }}
+      />
       <LFormItemCascader
         label="级联选择"
-        name="cascader"
+        name="cascader3"
         required
         options={options}
-        cascaderProps={{
-          fieldNames: {
-            label: 'name',
-            value: 'code',
-            children: 'children',
-          },
-          onChange(value) {
-            console.log('value111', value);
-          },
-        }}
+        displayRender={(labels) => labels?.join(' > ')}
       />
+      <LFormItemCascader label="级联选择" name="cascader4" required options={options} multiple />
     </LForm>
   );
 };

@@ -5,10 +5,6 @@ import { awaitTime } from '../../_test';
 const Demo1 = () => {
   const [form] = LForm.useForm();
 
-
-
-  
-
   return (
     <div>
       <LModalForm

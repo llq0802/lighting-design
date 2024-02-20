@@ -2,13 +2,13 @@ import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { DrawerProps } from 'antd';
 import { Drawer } from 'antd';
 import classnames from 'classnames';
-import LForm from 'lighting-design/Form';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
-import { BUTTON_ALIGN_MAP, isFunction } from 'lighting-design/_utils';
-import { emptyObject } from 'lighting-design/constants';
+import { useLFormInstance } from 'lighting-design/Form/base/hooks';
+import { isFunction } from 'lighting-design/_utils';
+import { BUTTON_ALIGN_MAP, emptyObject } from 'lighting-design/constants';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import { cloneElement, useEffect, useRef, useState } from 'react';
+import { cloneElement, useEffect, useState } from 'react';
 
 export interface LDrawerFormProps
   extends Omit<BaseFormProps, 'title' | 'onFinish'>,
@@ -126,16 +126,12 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     onOpenChange: outOnOpenChange,
     ...restProps
   } = props;
-
+  const formRef = useLFormInstance(outForm);
   const [open, setOpen] = useControllableValue(props, {
     defaultValue: false,
     valuePropName: 'open',
     trigger: 'onOpenChange',
   });
-
-  const [form] = LForm.useForm();
-  const formRef = useRef(outForm || form);
-
   const handleFinish = useMemoizedFn(async (values: Record<string, any>) => {
     const ret = await onFinish?.(values);
     // 如果表单提交函数返回true 则关闭弹窗
@@ -202,8 +198,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
               display: 'flex',
               justifyContent:
                 submitter && typeof submitter?.buttonAlign === 'string'
-                  ? // @ts-ignore
-                    BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'center'
+                  ? BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'center'
                   : 'center',
               ...drawerProps.footerStyle,
             }}

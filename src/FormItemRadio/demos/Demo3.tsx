@@ -37,7 +37,6 @@ const Index = () => {
         ]}
       />
       <LFormItemRadio
-        debounceTime={200}
         dependencies={['select1']}
         label="select2"
         name="select2"
@@ -45,8 +44,7 @@ const Index = () => {
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
-        notDependRender={<span>请先选择select1</span>}
-        request={async (select1) => {
+        request={async () => {
           console.log('select1', select1);
           let data: Record<string, any>[] = [];
           if (select1 === 'a') {

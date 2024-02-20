@@ -4,11 +4,11 @@ import { Form } from 'antd';
 import classnames from 'classnames';
 import { emptyObject } from 'lighting-design/constants';
 import type { MouseEvent, ReactElement, ReactNode } from 'react';
-import { Children, createContext, useImperativeHandle, useMemo, useRef } from 'react';
+import { Children, createContext, useImperativeHandle, useMemo } from 'react';
 import { isFunction, uniqueId } from '../../_utils';
 import type { LFormSubmitterProps } from './Submitter';
 import Submitter from './Submitter';
-import { useLFormInitialValues, useLoading } from './hooks';
+import { useLFormInitialValues, useLFormInstance, useLoading } from './hooks';
 
 const prefixCls = 'lightd-form';
 
@@ -114,7 +114,7 @@ export interface BaseFormProps extends Omit<FormProps, 'onReset' | 'title' | 'on
 
   children?: ReactNode;
 
-  /** 内部使用：表单初始值。（因为_lformRef.current是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到） */
+  /** 内部使用：表单初始值。（因为_formInitValRef.current是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到） */
   _formInitValRef?: any;
 }
 
@@ -162,8 +162,7 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     ...restProps
   } = props;
 
-  const [form] = Form.useForm();
-  const formRef = useRef(outForm || form);
+  const formRef = useLFormInstance(outForm);
   const formId = useMemo(() => name || uniqueId('lightd-form'), [name]);
   const [loading, setLoading] = useLoading(outLoading);
 
@@ -174,9 +173,9 @@ function BaseForm(props: BaseFormProps): JSX.Element {
     initialValues,
   });
 
-  const formItems = Children.toArray(children);
-
   useImperativeHandle(_formInitValRef, () => innerInitVal);
+
+  const formItems = Children.toArray(children);
 
   const submitterProps = useMemo(
     () => (typeof submitter === 'boolean' || !submitter ? emptyObject : submitter),

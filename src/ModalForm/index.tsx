@@ -1,11 +1,11 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
 import type { ModalProps } from 'antd';
-import { Form, Modal, Space } from 'antd';
+import { Modal, Space } from 'antd';
 import classnames from 'classnames';
-import { BUTTON_ALIGN_MAP } from 'lighting-design/_utils';
-import { emptyObject } from 'lighting-design/constants';
+import { BUTTON_ALIGN_MAP, emptyObject } from 'lighting-design/constants';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
+import { useLFormInstance } from 'lighting-design/Form/base/hooks';
 import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
 import { cloneElement, useEffect, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
@@ -117,8 +117,7 @@ const LModalForm: FC<LModalFormProps> = (props: LModalFormProps) => {
     valuePropName: 'open',
     trigger: 'onOpenChange',
   });
-  const [form] = Form.useForm();
-  const formRef = useRef(outForm || form);
+  const formRef = useLFormInstance(outForm);
   const [disabled, setDisabled] = useState(false);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const [position, setPosition] = useState({ x: 0, y: 0 });

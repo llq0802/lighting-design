@@ -1,15 +1,16 @@
-import { useRequest } from 'ahooks';
 import type { SpinProps } from 'antd';
-import { Form, Select, Spin } from 'antd';
+import { Select, Spin } from 'antd';
+import LForm from 'lighting-design/Form';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import { omit, pick, useDependencies } from 'lighting-design/_utils';
+import { getOptions, omit, pick } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
+import { useDependencies, useRequestOptions } from 'lighting-design/hooks';
 import type { FC, ReactNode } from 'react';
-import { useImperativeHandle } from 'react';
+import { useImperativeHandle, useMemo } from 'react';
 
 export type SelectWrapperProps = Record<string, any> & {
   request?: (
-    ...depends: any[]
+    ...args: any[]
   ) => Promise<{ label: ReactNode; value: string | number; [key: string]: any }[]>;
   /**
    *是否需要全部选项
@@ -32,18 +33,10 @@ export type SelectWrapperProps = Record<string, any> & {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   allLabel?: ReactNode;
-
   outLoading?: SpinProps;
 };
 
-export interface LSelectOptions {
-  label: ReactNode;
-  value: string | number;
-  disabled?: boolean;
-}
-
 const SelectWrapper: FC<SelectWrapperProps> = ({
-  value,
   dependencies = emptyArray,
   options: outOptions = emptyArray,
   all = false,
@@ -54,44 +47,21 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   requestOptions = emptyObject,
   outLoading,
 
-  disabled,
   name,
   actionRef,
   ...restProps
 }) => {
+  const form = LForm.useFormInstance();
   const selectProps = omit(restProps, dependencies);
   const dependenciesObj = pick(restProps, dependencies);
-  const form = Form.useFormInstance();
-  // const dependenciesObj = useDependValues(dependencies, depValues);
-
-  const requestRes = useRequest(
-    async (...args) => {
-      if (outOptions?.length) return outOptions;
-      if (request) {
-        const result = await request(...args);
-        return result;
-      }
-      return [];
-    },
-    {
-      ...requestOptions,
-      onSuccess(data, params) {
-        const mode = restProps?.mode;
-        const fieldNames = restProps?.fieldNames;
-        if (all && data?.length && mode !== 'tags' && mode !== 'multiple') {
-          requestRes.mutate([
-            { [fieldNames?.label ?? 'label']: allLabel, [fieldNames?.value ?? 'value']: allValue },
-            ...data,
-          ]);
-        }
-        requestOptions?.onSuccess?.(data, params);
-      },
-    },
-  );
-
+  const requestRes = useRequestOptions({
+    options: outOptions,
+    request,
+    requestOptions,
+  });
   const { run, loading, data } = requestRes;
 
-  const { dependValues, hasDependValuesEmpty } = useDependencies({
+  const { dependValues } = useDependencies({
     dependencies,
     dependenciesObj,
     request,
@@ -100,17 +70,35 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
     name,
   });
 
+  const opts = useMemo(() => {
+    const innerOpts = getOptions(outOptions, data);
+    const mode = restProps?.mode;
+    const fieldNames = restProps?.fieldNames;
+    if (all && innerOpts?.length && mode !== 'tags' && mode !== 'multiple') {
+      return [
+        { [fieldNames?.label ?? 'label']: allLabel, [fieldNames?.value ?? 'value']: allValue },
+        ...innerOpts,
+      ];
+    }
+    return innerOpts;
+  }, [outOptions, data, all]);
+
   useImperativeHandle(actionRef, () => requestRes);
-  return (
-    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
-      <Select
-        disabled={disabled || hasDependValuesEmpty}
-        allowClear
-        options={data}
-        {...selectProps}
-        style={{ width: '100%', ...restProps?.style }}
-        value={value}
-      />
+
+  const dom = (
+    <Select
+      allowClear
+      options={opts}
+      {...selectProps}
+      style={{ width: '100%', ...restProps.style }}
+    />
+  );
+
+  return outOptions?.length ? (
+    dom
+  ) : (
+    <Spin spinning={loading} style={publicSpinStyle} delay={16} {...outLoading}>
+      {dom}
     </Spin>
   );
 };

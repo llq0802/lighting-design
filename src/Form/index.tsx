@@ -1,6 +1,5 @@
 import { Form, Space } from 'antd';
-import { BUTTON_ALIGN_MAP } from 'lighting-design/_utils';
-import { emptyObject } from 'lighting-design/constants';
+import { BUTTON_ALIGN_MAP, emptyObject } from 'lighting-design/constants';
 import type { FC, ReactElement, ReactNode } from 'react';
 import LFormItem from '../FormItem';
 import type { BaseFormProps } from './base/BaseForm';

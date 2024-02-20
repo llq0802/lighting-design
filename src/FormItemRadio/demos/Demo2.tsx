@@ -4,13 +4,12 @@ import { awaitTime } from '../../_test';
 const Demo2 = () => {
   const [form] = LForm.useForm();
   return (
-    <LForm name="LFormItemSelect" form={form}>
+    <LForm form={form}>
       <LFormItemRadio
         label="单选1"
         name="LFormItemRadio1"
         required
-        request={async (re) => {
-          console.log('re', re);
+        request={async () => {
           const result = await awaitTime([
             { label: 'Unresolved', value: 'open' },
             { label: 'Resolved', value: 'closed' },
@@ -19,6 +18,9 @@ const Demo2 = () => {
           if (result.success) {
             return result.data;
           }
+        }}
+        requestOptions={{
+          cacheKey: 'LFormItemSelect-Demo2-1',
         }}
       />
       <LFormItemRadio

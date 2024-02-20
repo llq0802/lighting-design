@@ -1,4 +1,3 @@
-import { LoadingOutlined } from '@ant-design/icons';
 import { LForm, LFormItemSelect } from 'lighting-design';
 import { awaitTime } from '../../_test';
 
@@ -7,13 +6,9 @@ const Index = () => {
 
   return (
     <LForm
-      name="LFormItemSelect3"
       form={form}
       labelCol={{ flex: '80px' }}
-      submitter={{
-        buttonAlign: 80,
-      }}
-      isAntdReset={false}
+      submitter={{ buttonAlign: 80 }}
       onFinish={async (vals) => {
         console.log('==vals====>', vals);
       }}
@@ -33,12 +28,8 @@ const Index = () => {
         dependencies={['select1']}
         label="select2"
         name="select2"
-        required
-        spin={{
-          indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
-        }}
         request={async (select1) => {
-          // console.log('select1 ', select1);
+          console.log('select1 ', select1);
           let data: Record<string, any>[] = [];
           if (select1 === 'a') {
             data = [{ label: 'A', value: 'a' }];

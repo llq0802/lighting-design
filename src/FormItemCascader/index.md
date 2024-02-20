@@ -46,26 +46,18 @@ import { LFormItemCascader } from 'lighting-design';
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
-| 参数           | 说明                                    | 类型                                                            | 默认值 |
-| -------------- | --------------------------------------- | --------------------------------------------------------------- | ------ |
-| options        | 数据化配置选项内容                      | `LCascaderOption[]`                                             | `[]`   |
-| request        | 请求数据函数                            | `(...depends: any[]) => Promise<LCascaderOption[]>`             | `-`    |
-| requestOptions | ahook 的 request 的配置项               | `-`                                                             | `-`    |
-| debounceTime   | 当依赖项发生变化时重新请求的防抖时间    | `number`                                                        | `-`    |
-| spin           | 自定义 loading 效果                     | [SpinProps](https://ant.design/components/spin-cn/#api)         | `-`    |
-| cascaderProps  | `antd`级联组件 Props                    | [CascaderProps](https://ant.design/components/cascader-cn/#api) | `-`    |
-| actionRef      | 配置 request 时 useRequest 的全部返回值 | `LFormItemActionRef`                                            | `-`    |
-
-### LCascaderOption
-
-```ts
-interface LCascaderOption {
-  value: string | number;
-  label?: React.ReactNode;
-  disabled?: boolean;
-  children?: Option[];
-  // 标记是否为叶子节点，设置了 `loadData` 时有效
-  // 设为 `false` 时会强制标记为父节点，即使当前节点没有 children，也会显示展开图标
-  isLeaf?: boolean;
-}
-```
+| 参数           | 说明                                                           | 类型                                                            | 默认值 |
+| -------------- | -------------------------------------------------------------- | --------------------------------------------------------------- | ------ |
+| options        | 数据化配置选项内容                                             | `LCascaderOption[]`                                             | `[]`   |
+| request        | 请求数据函数                                                   | `(...depends: any[]) => Promise<LCascaderOption[]>`             | `-`    |
+| requestOptions | ahook 的 request 的配置项                                      | `-`                                                             | `-`    |
+| spin           | 自定义 loading 效果                                            | [SpinProps](https://ant.design/components/spin-cn/#api)         | `-`    |
+| actionRef      | 配置 request 时 useRequest 的全部返回值                        | `LFormItemActionRef`                                            | `-`    |
+| showSearch     | 在选择框中显示搜索框                                           | `boolean`                                                       | `-`    |
+| multiple       | 支持多选节点                                                   | `boolean`                                                       | `-`    |
+| fieldNames     | 自定义字段名                                                   | ` CascaderProps['fieldNames']`                                  | `-`    |
+| displayRender  | 选择后展示的渲染函数                                           | ` CascaderProps['displayRender']`                               | `-`    |
+| expandTrigger  | 次级菜单的展开方式，可选 'click' 和 'hover                     | ` CascaderProps['expandTrigger']`                               | `-`    |
+| changeOnSelect | （单选时生效）当此项为 true 时，点选每级菜单选项值都会发生变化 | ` CascaderProps['changeOnSelect']`                              | `-`    |
+| loadData       | 用于动态加载选项，无法与 showSearch 一起使用                   | ` CascaderProps['loadData']`                                    | `-`    |
+| cascaderProps  | `antd`级联组件 Props                                           | [CascaderProps](https://ant.design/components/cascader-cn/#api) | `-`    |

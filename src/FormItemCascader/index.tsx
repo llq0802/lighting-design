@@ -1,53 +1,50 @@
-import type { SpinProps } from 'antd';
+import type { CascaderProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import type { LFormItemActionRef } from 'lighting-design/FormItemSelect';
+import type { LFormItemSelectProps } from 'lighting-design/FormItemSelect';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
-import type { CascaderWrapperProps } from './base/CascaderWrapper';
 import CascaderWrapper from './base/CascaderWrapper';
 
 export interface LFormItemCascaderProps
   extends LFormItemProps,
-    Pick<CascaderWrapperProps, 'options' | 'request' | 'cascaderProps' | 'debounceTime'> {
-  dependencies?: string[];
-  /**
-   * Spin组件的props 用于自定义loading效果
-   * @see 参考(https://ant.design/components/spin-cn/#api)
-   */
-  spin?: SpinProps;
-  /**
-   *配置 request 时 useRequest 的返回值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   *@version 2.1.29
-   */
-  actionRef?: React.MutableRefObject<LFormItemActionRef>;
-  /**
-   *ahook 的 request 的配置项
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   */
-  requestOptions?: Record<string, any>;
+    Pick<LFormItemSelectProps, 'request' | 'requestOptions' | 'spin' | 'actionRef'> {
+  cascaderProps?: CascaderProps;
+  showSearch?: boolean;
+  multiple?: boolean;
+  loadData?: CascaderProps['loadData'];
+  fieldNames?: CascaderProps['fieldNames'];
+  changeOnSelect?: CascaderProps['changeOnSelect'];
+  displayRender?: CascaderProps['displayRender'];
+  expandTrigger?: CascaderProps['expandTrigger'];
+  options?: CascaderProps['options'] | Record<string, any>[];
 }
 
 const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   required,
   disabled,
+
+  changeOnSelect,
+  expandTrigger,
+  displayRender,
+  showSearch,
   placeholder,
+  multiple,
+  loadData,
   options = emptyArray,
-  request,
-  debounceTime,
-  spin,
   size,
+  fieldNames,
+
+  request,
+  requestOptions = emptyObject,
+  spin,
   actionRef,
 
   cascaderProps = emptyObject,
-  requestOptions = emptyObject,
+
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -61,22 +58,26 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   return (
     <LFormItem required={required} placeholder={messageLabel} _isSelectType {...restProps}>
       <CascaderWrapper
-        name={restProps.name}
         dependencies={restProps?.dependencies}
         options={options}
         request={request}
         size={size}
         outLoading={spin}
-        debounceTime={debounceTime}
-        cascaderProps={cascaderProps}
         disabled={disabled ?? formDisabled}
         placeholder={messageLabel}
+        multiple={multiple}
+        showSearch={showSearch}
+        fieldNames={fieldNames}
         requestOptions={requestOptions}
         actionRef={actionRef}
+        loadData={loadData}
+        changeOnSelect={changeOnSelect}
+        expandTrigger={expandTrigger}
+        displayRender={displayRender}
+        {...cascaderProps}
       />
     </LFormItem>
   );
 };
 
 export default LFormItemCascader;
-export type { LCascaderOption } from './base/CascaderWrapper';

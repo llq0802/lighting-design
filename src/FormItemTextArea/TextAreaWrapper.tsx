@@ -1,8 +1,7 @@
 import { useMemoizedFn, useUpdateEffect } from 'ahooks';
 import { Input } from 'antd';
 import type { TextAreaProps } from 'antd/lib/input';
-import { isChrome } from 'lighting-design/_utils';
-import { EMPTY_REG } from 'lighting-design/constants';
+import { EMPTY_REG, isChrome } from 'lighting-design/constants';
 import { useRef, useState, type ChangeEvent, type FC } from 'react';
 
 export interface TextAreaWrapperProps extends TextAreaProps {

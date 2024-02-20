@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useMemoizedFn } from 'ahooks';
 import type { StepProps } from 'antd';
-import { Form } from 'antd';
 import classnames from 'classnames';
 import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
+import { useLFormInstance } from 'lighting-design/Form/base/hooks';
 import { isFunction } from 'lighting-design/_utils';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect } from 'react';
 import StepsFormContext from './StepsFormContext';
 import type { LStepsFormSubmitterProps } from './StepsSubmitter';
 
@@ -41,8 +41,7 @@ function StepForm({
   ...restProps
 }: LStepFormProps) {
   const ctx = useContext(StepsFormContext);
-  const [form] = Form.useForm();
-  const formRef = useRef(outForm || form);
+  const formRef = useLFormInstance(outForm);
 
   useEffect(() => {
     // 存储每个表单实例

@@ -1,7 +1,6 @@
 import { useMemoizedFn } from 'ahooks';
 import type { FormInstance } from 'antd';
 import { emptyArray } from 'lighting-design/constants';
-import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
 import { Children, useMemo, useRef } from 'react';
 import rfdc from 'rfdc';
 
@@ -39,7 +38,7 @@ export function pick(
   obj: Record<string, unknown> | undefined,
   keys: string[],
 ): Record<string, unknown> | undefined {
-  if (!obj) return void 0;
+  if (!obj || !keys?.length) return void 0;
   const result: Record<string, unknown> = {};
   keys.forEach((key) => {
     if (obj.hasOwnProperty(key)) {
@@ -91,7 +90,7 @@ export function composeProps<T extends Record<string, any>>(
 }
 
 /**
- * 获取Form组价的label名称
+ * 获取LForm组件的label字符串名称
  * @export
  * @param {Record<string, any>} props
  * @return {*}  {string}
@@ -149,41 +148,6 @@ export const useIsFirstRender = (): boolean => {
     return true;
   }
   return current;
-};
-
-/**
- * 获取依赖项的值
- * @param dependencies
- * @param restProps
- * @returns
- */
-export const useDependencies = ({ dependencies, dependenciesObj, request, run, form, name }) => {
-  const dependArr = useMemo(() => {
-    if (!dependencies?.length || !dependenciesObj) return [];
-    return dependencies
-      ?.map((k: string) => dependenciesObj[k])
-      .filter((it: any) => it !== void 0 && it !== null && it !== '');
-  }, [dependencies, dependenciesObj]);
-
-  const hasEmpty = useMemo<boolean>(() => {
-    if (!request || !dependencies?.length || !dependenciesObj) return false;
-    return !dependArr?.length;
-    // return dependArr?.every(
-    //   (val: any) => val === void 0 || val === null || val === '' || val?.length === 0,
-    // );
-  }, [dependencies, dependenciesObj, dependArr]);
-
-  useDeepUpdateEffect(() => {
-    console.log('==useDeepUpdateEffect-dependArr====>', name, dependArr, hasEmpty);
-    if (!request) return;
-    form.setFieldValue(name, void 0);
-    run(...dependArr);
-  }, dependArr);
-
-  return {
-    dependValues: dependArr,
-    hasDependValuesEmpty: hasEmpty,
-  };
 };
 
 /**
@@ -254,8 +218,6 @@ export const isLegalValue = (value: any) => {
   return !!value;
 };
 
-export const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
-
 /**
  * - 获取表格列的每一项唯一 key 值
  * @param col -当前列
@@ -325,21 +287,14 @@ export const transformEchartsOption = (
 
 /**
  * 获取组件的 options 属性
- * @param opt1
- * @param opt2
- * @param data
- * @returns
  */
 export const getOptions = (opt1: any[] = [], opt2: any[] = [], opt3?: any[] | undefined) => {
-  if (opt1?.length) {
-    return opt1;
-  }
-  if (opt2?.length) {
-    return opt1;
-  }
-  if (opt3?.length) {
-    return opt3;
-  }
+  if (opt1?.length) return opt1;
+
+  if (opt2?.length) return opt2;
+
+  if (opt3?.length) return opt3;
+
   return emptyArray;
 };
 
@@ -373,12 +328,6 @@ export const transformChangeValue = ({ value, multiple, labelInValue, options })
     return options.find((item) => item.value === value);
   }
   return value;
-};
-
-export const BUTTON_ALIGN_MAP = {
-  left: 'flex-start',
-  center: 'center',
-  right: 'flex-end',
 };
 
 /**

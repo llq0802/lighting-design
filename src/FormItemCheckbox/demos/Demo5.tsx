@@ -24,13 +24,12 @@ const Demo5 = () => {
         ]}
       />
       <LFormItemCheckbox
-        debounceTime={200} // 防抖更新
         dependencies={['select1']}
         label="select2"
         name="select2"
         required
         spin={{ indicator: <LoadingOutlined style={{ fontSize: 24 }} spin /> }}
-        notDependRender={<span>请先选择select1</span>}
+        // notDependRender={<span>请先选择select1</span>}
         request={async (select1) => {
           console.log('select1 ', select1);
           let data: Record<string, any>[] = [];

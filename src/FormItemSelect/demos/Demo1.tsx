@@ -1,7 +1,20 @@
 import { LForm, LFormItemSelect } from 'lighting-design';
+import { useEffect, useState } from 'react';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
+
+  const [opts1, setOpts1] = useState([]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setOpts1([
+        { label: 'open', value: 'open' },
+        { label: 'closed', value: 'closed' },
+        { label: 'processing', value: 'processing' },
+      ]);
+    }, 2000);
+  }, []);
 
   return (
     <LForm
@@ -12,17 +25,7 @@ const Demo1 = () => {
         console.log('onFinish', vals);
       }}
     >
-      <LFormItemSelect
-        label="单选"
-        name="select1"
-        required
-        options={[
-          { label: 'open', value: 'open' },
-          { label: 'closed', value: 'closed' },
-          { label: 'processing', value: 'processing' },
-        ]}
-        all
-      />
+      <LFormItemSelect label="单选" name="select1" required options={opts1} all />
       <LFormItemSelect
         label="多选"
         name="select2"
@@ -37,6 +40,7 @@ const Demo1 = () => {
       <LFormItemSelect
         label="自定义 options 的键名"
         name="select3"
+        dependencies={['select1']}
         required
         options={[
           { name: 'open', id: 0 },

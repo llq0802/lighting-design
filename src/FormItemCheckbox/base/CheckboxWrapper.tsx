@@ -1,14 +1,14 @@
-import { useDeepCompareEffect, useMemoizedFn, useMount, useRequest } from 'ahooks';
-import type { CheckboxOptionType, SpinProps } from 'antd';
-import { Checkbox, Form, Spin } from 'antd';
-import type { CheckboxChangeEvent, CheckboxGroupProps } from 'antd/lib/checkbox';
+import { useDeepCompareEffect, useMemoizedFn, useRafState } from 'ahooks';
+import type { CheckboxOptionType } from 'antd';
+import { Checkbox, Spin } from 'antd';
+import type { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import type { CheckboxValueType } from 'antd/lib/checkbox/Group';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import { getOptions, useDependValues, useIsClearDependValues } from 'lighting-design/_utils';
+import { getOptions, omit } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
-import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
+import { useRequestOptions } from 'lighting-design/hooks';
 import type { CSSProperties, FC, ReactNode } from 'react';
-import { useImperativeHandle, useMemo, useState } from 'react';
+import { useImperativeHandle, useMemo } from 'react';
 
 export type LCheckboxOptions = CheckboxOptionType;
 export type LCheckboxBeforeAllProps =
@@ -34,37 +34,7 @@ export type LCheckboxBeforeAllProps =
 
 export type CheckboxWrapperProps = Record<string, any> &
   Partial<{
-    /**
-     *请求数据源的异步函数
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
-     */
-    request: (...args: any[]) => Promise<any>;
-    debounceTimex: number;
-    /**
-     *自定义全选
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
-     */
     beforeAll: LCheckboxBeforeAllProps | boolean;
-    /**
-     *多选框组件 Props
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
-     */
-    checkboxProps: CheckboxGroupProps;
-    dependencies: string[];
-    outLoading: SpinProps;
-    /**
-     *依赖项的值为空时展示的内容
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCheckboxProps
-     */
-    notDependRender?: ReactNode;
   }>;
 
 const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
@@ -74,45 +44,34 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   dependencies = emptyArray,
   options: outOptions = emptyArray,
   request,
-  debounceTime,
   beforeAll,
-  checkboxProps = emptyObject,
+  fieldNames,
   disabled,
   outLoading = emptyObject,
-  notDependRender = <span>请先选择依赖项</span>,
   requestOptions,
-  name,
   ...restProps
 }) => {
-  const [indeterminate, setIndeterminate] = useState<boolean>(false);
-  const [checkAll, setCheckAll] = useState<boolean>(false);
-
-  const form = Form.useFormInstance();
-  const dependValues = useDependValues(dependencies, restProps);
-  const hasEmptyDepends = useIsClearDependValues(dependValues);
-
-  const requestRes = useRequest(request || (async () => []), {
-    ...requestOptions,
-    manual: true,
-    debounceWait: debounceTime,
+  const [indeterminate, setIndeterminate] = useRafState<boolean>(false);
+  const [checkAll, setCheckAll] = useRafState<boolean>(false);
+  const checkboxProps = omit(restProps, dependencies);
+  const requestRes = useRequestOptions({
+    options: outOptions,
+    request,
+    requestOptions,
   });
-  const { run, loading, data } = requestRes;
-
-  useMount(() => {
-    if (!request || outOptions?.length || checkboxProps.options?.length) return;
-    run(...dependValues);
-  });
-
-  useDeepUpdateEffect(() => {
-    if (!request || outOptions?.length || checkboxProps.options?.length) return;
-    form.setFieldValue(name, void 0);
-    if (!hasEmptyDepends) run(...dependValues);
-  }, dependValues);
+  const { loading, data } = requestRes;
 
   const checkboxOptions = useMemo(() => {
-    const innerOptions = getOptions(outOptions, checkboxProps.options, data);
-    return innerOptions;
-  }, [outOptions, data, checkboxProps.options]);
+    let innerOpts = getOptions(outOptions, data);
+    if (fieldNames) {
+      innerOpts = innerOpts.map((item) => ({
+        ...item,
+        label: item[fieldNames?.label ?? 'label'],
+        value: item[fieldNames?.value ?? 'value'],
+      }));
+    }
+    return innerOpts;
+  }, [outOptions, data]);
 
   useImperativeHandle(actionRef, () => requestRes);
 
@@ -137,10 +96,6 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     onChange?.(checkAllValue);
     outBeforeAll?.onChange?.(checked);
   });
-  const handleChange = useMemoizedFn((checkedValue: CheckboxValueType[]) => {
-    onChange?.(checkedValue);
-    checkboxProps?.onChange?.(checkedValue);
-  });
 
   useDeepCompareEffect(() => {
     if (!beforeAll) return;
@@ -160,7 +115,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         <Checkbox
           indeterminate={indeterminate}
           style={{ marginRight: 8, ...outBeforeAll?.style }}
-          disabled={disabled ?? (outBeforeAll?.disabled || hasEmptyDepends)}
+          disabled={disabled ?? outBeforeAll?.disabled}
           onChange={checkAllChange}
           checked={checkAll}
         >
@@ -168,19 +123,20 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         </Checkbox>
       )}
       <Checkbox.Group
-        {...restProps}
         options={checkboxOptions}
-        disabled={disabled ?? hasEmptyDepends}
+        disabled={disabled}
         {...checkboxProps}
         value={value}
-        onChange={handleChange}
+        onChange={onChange}
       />
     </>
   );
 
-  return (
-    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
-      {hasEmptyDepends ? notDependRender : checkboxDom}
+  return outOptions?.length ? (
+    checkboxDom
+  ) : (
+    <Spin spinning={loading} style={publicSpinStyle} delay={20} {...outLoading}>
+      {checkboxDom}
     </Spin>
   );
 };

@@ -1,5 +1,5 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import { LForm, LFormItemCascader, LFormItemSelect } from 'lighting-design';
+import { LForm, LFormItemCascader } from 'lighting-design';
 import { awaitTime } from '../../_test';
 
 const Index = () => {
@@ -13,19 +13,7 @@ const Index = () => {
         buttonAlign: 80,
       }}
     >
-      <LFormItemSelect
-        label="select1"
-        name="select1"
-        required
-        options={[
-          { label: 'A', value: 'a' },
-          { label: 'B', value: 'b' },
-          { label: 'C', value: 'c' },
-        ]}
-      />
       <LFormItemCascader
-        debounceTime={300}
-        dependencies={['select1']}
         label="select2"
         name="select2"
         required
@@ -33,10 +21,8 @@ const Index = () => {
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
         request={async (select1) => {
-          console.log('select1 ', select1);
-          // if (!select1) {
-          //   return [];
-          // }
+          // console.log('select1 ', select1);
+
           let data: Record<string, any>[] = [];
           if (select1 === 'a') {
             data = [{ label: 'A', value: 'a' }];

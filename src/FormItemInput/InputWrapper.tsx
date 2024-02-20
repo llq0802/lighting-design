@@ -1,8 +1,7 @@
 import { useMemoizedFn, useUpdateEffect } from 'ahooks';
 import type { InputProps } from 'antd';
 import { Input } from 'antd';
-import { isChrome } from 'lighting-design/_utils';
-import { EMPTY_REG, NUM_REG } from 'lighting-design/constants';
+import { EMPTY_REG, NUM_REG, isChrome } from 'lighting-design/constants';
 import type { ChangeEvent, FC } from 'react';
 import { useMemo, useRef, useState } from 'react';
 
@@ -23,13 +22,8 @@ export interface InputWrapperProps extends InputProps {
 const formatInputValue = (val: string, type?: string) => {
   let rawValue = val;
   // 手机类型银行卡只能输入数字
-  if (
-    (type === 'phone' || type === 'bankCard') &&
-    window.isNaN(rawValue as unknown as any)
-  ) {
-    console.warn(
-      'lighting-design: phone 或 bankCard 类型的 Input 只能输入数字',
-    );
+  if ((type === 'phone' || type === 'bankCard') && window.isNaN(rawValue as unknown as any)) {
+    console.warn('lighting-design: phone 或 bankCard 类型的 Input 只能输入数字');
     return rawValue.match(NUM_REG)?.join('') || '';
   }
 

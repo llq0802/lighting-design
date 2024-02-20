@@ -15,9 +15,8 @@ export type LFormItemActionRef = Result<any, any[]> | undefined;
 export interface LFormItemSelectProps
   extends LFormItemProps,
     Pick<SelectWrapperProps, 'request' | 'all' | 'allValue' | 'allLabel'>,
-    Pick<SelectProps, 'mode' | 'fieldNames'> {
+    Pick<SelectProps, 'mode' | 'fieldNames' | 'showSearch'> {
   selectProps?: SelectProps;
-  showSearch?: boolean;
   /**
    *数据源
    *@author 李岚清 <https://github.com/llq0802>
@@ -25,14 +24,6 @@ export interface LFormItemSelectProps
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
    */
   options?: SelectProps['options'] | Record<string, any>[];
-  /**
-   *依赖的项
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   */
-  dependencies?: string[];
-
   /**
    *自定义 loading 效果
    *@author 李岚清 <https://github.com/llq0802>
@@ -143,5 +134,3 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
 };
 
 export default LFormItemSelect;
-
-export type { LSelectOptions } from './base/SelectWrapper';

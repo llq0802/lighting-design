@@ -1,7 +1,7 @@
 import { useMount, useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
-import type { FormInstance } from 'antd';
+import { Form, type FormInstance } from 'antd';
 import type { Store } from 'antd/es/form/interface';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 /**
  * 设置与监听loading
@@ -23,14 +23,14 @@ export const useLFormInitialValues = ({
   form,
   isReady,
   isAntdReset,
-  initialValues = {},
+  initialValues,
 }: {
   isReady: boolean;
   isAntdReset: boolean;
   initialValues?: Store;
   form: FormInstance;
 }) => {
-  const [innerInitVal, setInnerInitVal] = useState(() => initialValues);
+  const [innerInitVal, setInnerInitVal] = useState(initialValues);
   useUpdateEffect(() => {
     // 准备完成后，重新设置表单的初始值
     if (isReady) {
@@ -51,3 +51,13 @@ export const useLFormInitialValues = ({
   });
   return innerInitVal;
 };
+/**
+ * 使用Form.useForm获取表单实例
+ * @param outForm - 外部传入的表单实例
+ * @returns 表单实例
+ */
+export function useLFormInstance(outForm?: FormInstance) {
+  const [form] = Form.useForm();
+  const formRef = useRef(outForm || form);
+  return formRef;
+}

@@ -1,63 +1,45 @@
-import type { SelectProps, SpinProps } from 'antd';
+import type { RadioGroupProps, SelectProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import type { LFormItemActionRef } from 'lighting-design/FormItemSelect';
+import type { LFormItemSelectProps } from 'lighting-design/FormItemSelect';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
-import type { RadioWrapperProps } from './base/RadioWrapper';
 import RadioWrapper from './base/RadioWrapper';
 
 export interface LFormItemRadioProps
   extends LFormItemProps,
     Pick<
-      RadioWrapperProps,
-      'radioProps' | 'request' | 'all' | 'allValue' | 'allLabel' | 'notDependRender'
-    >,
-    Pick<SelectProps, 'options'> {
-  /**
-   * 依赖项
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemRadioProps
-   */
-  dependencies?: string[];
-  /**
-   * 当依赖项发生变化时重新请求的防抖时间
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemRadioProps
-   */
-  debounceTime?: number;
-  /**
-   *自定义 loading 效果
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemRadioProps
-   *@See (https://ant.design/components/spin-cn/#api)
-   */
-  spin?: SpinProps;
-  /**
-   *ahook 的 request 的配置项
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   */
-  requestOptions?: Record<string, any>;
-  /**
-   *配置 request 时 useRequest 的返回值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   *@version 2.1.29
-   */
-  actionRef?: React.MutableRefObject<LFormItemActionRef>;
+      LFormItemSelectProps,
+      | 'fieldNames'
+      | 'actionRef'
+      | 'requestOptions'
+      | 'request'
+      | 'all'
+      | 'allValue'
+      | 'allLabel'
+      | 'spin'
+    > {
+  options?: SelectProps['options'] | Record<string, any>[];
+  radioProps?: RadioGroupProps;
+  optionType?: RadioGroupProps['optionType'];
+  buttonStyle?: RadioGroupProps['buttonStyle'];
 }
+
+const validatorSelectVal = (value, all, allValue) => {
+  if ((typeof value === 'number' && !Number.isNaN(value)) || (all && allValue === value)) {
+    return true;
+  }
+  return !!value;
+};
 
 const LFormItemRadio: FC<LFormItemRadioProps> = ({
   request,
-  debounceTime,
+  fieldNames,
+  optionType,
+  buttonStyle,
   all = false,
   allValue = 'all',
   allLabel = '全部',
@@ -67,7 +49,6 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   radioProps = emptyObject,
   placeholder,
   spin,
-  notDependRender,
   requestOptions = emptyObject,
 
   required,
@@ -89,8 +70,7 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
         {
           validator(rule, value) {
             let errMsg = '';
-            const hasOptValue = options.find((item) => item?.value === value);
-            if (!value && value !== 0 && !hasOptValue && !(all && allValue === value)) {
+            if (!validatorSelectVal(value, all, allValue)) {
               errMsg = required ? `${messageLabel}!` : '';
             }
             if (errMsg) {
@@ -103,26 +83,24 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
       {...restProps}
     >
       <RadioWrapper
-        name={restProps.name}
         dependencies={restProps?.dependencies}
+        size={size}
+        disabled={disabled ?? formDisabled}
         actionRef={actionRef}
         options={options}
         request={request}
-        size={size}
-        disabled={disabled ?? formDisabled}
-        debounceTime={debounceTime}
+        requestOptions={requestOptions}
         outLoading={spin}
         all={all}
         allValue={allValue}
         allLabel={allLabel}
-        notDependRender={notDependRender}
-        requestOptions={requestOptions}
-        radioProps={radioProps}
+        optionType={optionType}
+        buttonStyle={buttonStyle}
+        fieldNames={fieldNames}
+        {...radioProps}
       />
     </LFormItem>
   );
 };
 
 export default LFormItemRadio;
-
-export type { LRadioOptions } from './base/RadioWrapper';

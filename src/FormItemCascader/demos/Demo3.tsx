@@ -19,12 +19,10 @@ const Index = () => {
             return result.data;
           }
         }}
-        cascaderProps={{
-          fieldNames: {
-            label: 'name',
-            value: 'code',
-            children: 'children',
-          },
+        fieldNames={{
+          label: 'name',
+          value: 'code',
+          children: 'children',
         }}
       />
       <LFormItemCascader
@@ -40,12 +38,10 @@ const Index = () => {
             return result.data;
           }
         }}
-        cascaderProps={{
-          fieldNames: {
-            label: 'name',
-            value: 'code',
-            children: 'children',
-          },
+        fieldNames={{
+          label: 'name',
+          value: 'code',
+          children: 'children',
         }}
       />
     </LForm>

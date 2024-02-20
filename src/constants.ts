@@ -3,7 +3,7 @@ export const TIME_LIST = [
 ];
 
 /**
- *  密码强度校验，最少8位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符
+ *密码强度校验，最少8位，包括至少1个大写字母，1个小写字母，1个数字，1个特殊字符
  */
 export const PASSWORD_REG =
   /^\S*(?=\S{8,})(?=\S*\d)(?=\S*[A-Z])(?=\S*[a-z])(?=\S*[+-.~!@#$%^&*? ])\S*$/;
@@ -35,3 +35,11 @@ export const emptyObject: Record<string, any> = {};
 export const NUM_REG = /\d/g;
 
 export const EMPTY_REG = /\s+/g;
+
+export const BUTTON_ALIGN_MAP = {
+  left: 'flex-start',
+  center: 'center',
+  right: 'flex-end',
+};
+
+export const isChrome = navigator.userAgent.indexOf('Chrome') > -1;
