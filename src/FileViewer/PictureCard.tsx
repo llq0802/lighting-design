@@ -93,12 +93,12 @@ const FileViewerPictureCard: FC<PictureCardProps> = ({
   return (
     <>
       <Upload
-        className={classnames('lightd-file-viewer-picture-card', className)}
         // @ts-ignore
         fileList={innerFileList}
         listType="picture-card"
         showUploadList={{ showRemoveIcon: false }}
         {...uploadProps}
+        className={classnames('lightd-file-viewer-picture-card', className)}
         onPreview={(file) => {
           // @ts-ignore
           setFileInfo({ ...file });

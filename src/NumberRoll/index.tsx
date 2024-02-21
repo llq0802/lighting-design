@@ -1,137 +1,13 @@
-import { useMemoizedFn } from 'ahooks';
+import { useDebounceFn, useEventListener, useMemoizedFn } from 'ahooks';
 import classnames from 'classnames';
-import { debounce } from 'lodash-es';
-import type { CSSProperties, DOMAttributes, ReactElement, ReactNode } from 'react';
+import type { DOMAttributes, ReactElement, ReactNode } from 'react';
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
 import ItemChildren, { NumberRoll_NumberArray } from './components/ItemChildren';
 import './index.less';
+import type { LNumberRollActionRef, LNumberRollProps } from './interface';
 
 export const isNumber = (val: any) => !window.isNaN(parseFloat(val));
-
-export interface LNumberRollProps {
-  /**
-   * 组件的高度 尽量同 fontSize一致
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {number | string}
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   *@version 2.1.29
-   */
-  height: number | string;
-  /**
-   * 字体的大小 尽量同 height一致
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {number | string}
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   *@version 2.1.29
-   */
-  fontSize: number | string;
-  /**
-   * 值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {number | string}
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   *@version 2.1.29
-   */
-  value: number | string;
-  /**
-   * 最小位数（个位数起）
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {number }
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   *@version 2.1.29
-   **/
-  minLength: number;
-  /**
-   * 分割符号（禁用 "."） 1,000,000,000
-   */
-  symbol: string;
-  /**
-   * 动画速度 ms
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {number }
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   * */
-  speed: number;
-  /**
-   * 保留几位小数
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {number }
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   */
-  dot: number;
-  /**
-   * 组件的类型
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {'number' | 'date' }
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   */
-  type: 'number' | 'date';
-  /**
-   * 缩放大小
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {number }
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   */
-  scale: number;
-  /**
-   * 样式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {React.CSSProperties }
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   */
-  style: CSSProperties;
-  /**
-   * 每一项数值类型滚动的样式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {React.CSSProperties }
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   */
-  itemNumStyle: CSSProperties;
-  /**
-   * 每一项不是数值类型滚动的样式 比如value中包函 '.' ':' '-' '/'
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {React.CSSProperties }
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   */
-  itemCharStyle: CSSProperties;
-  /**
-   * 分隔符的的样式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {React.CSSProperties }
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   */
-  symbolStyle: CSSProperties;
-  /**
-   * 类名
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type {string }
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   */
-  className: string;
-  /**
-   * 动画结束的回调
-   *@author 李岚清 <https://github.com/llq0802>
-   *@type { (value: number | string) => void }
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LNumberRollProps
-   */
-  onFinish: (value: number | string) => void;
-}
-
-export type LNumberRollRefProps = {
-  /** 更新数字错位 */
-  loadAnimate: () => void;
-};
 
 const prefixCls = 'lightd-number-roll';
 
@@ -153,7 +29,7 @@ const LNumberRoll = (
     scale = 1,
     onFinish,
   }: Partial<LNumberRollProps>,
-  ref: React.Ref<LNumberRollRefProps>,
+  ref: React.Ref<LNumberRollActionRef>,
 ) => {
   const domRef = useRef<HTMLDivElement>(null);
 
@@ -229,8 +105,9 @@ const LNumberRoll = (
         className={`${prefixCls}-animate`}
         style={{
           transform: `scale(${scale})`,
+          // @ts-ignore
           [`--${prefixCls}-height`]: typeof height === 'number' ? `${height}px` : height,
-          [`--${prefixCls}-font-size`]: typeof height === 'number' ? `${fontSize}px` : fontSize,
+          [`--${prefixCls}-font-size`]: typeof fontSize === 'number' ? `${fontSize}px` : fontSize,
         }}
       >
         {numberDom.map((item, index: number) => item(index))}
@@ -290,7 +167,6 @@ const LNumberRoll = (
   // 设置动画date类型
   const loadAnimateDate = useMemoizedFn(() => {
     const domList = domRef.current!.querySelectorAll(`.${prefixCls}-animate-dom`);
-
     if (!domList) return;
     for (const itemDom of [...(domList as any)]) {
       const dataNum = itemDom.getAttribute('data-num') || 0;
@@ -313,13 +189,13 @@ const LNumberRoll = (
     }
   });
 
-  const onLoadAnimate = debounce(() => {
+  const onLoadAnimate = useMemoizedFn(() => {
     if (type === 'number') {
       loadAnimateNumer();
     } else if (type === 'date') {
       loadAnimateDate();
     }
-  }, 200);
+  });
 
   useImperativeHandle(ref, () => ({ loadAnimate: onLoadAnimate }));
 
@@ -338,6 +214,9 @@ const LNumberRoll = (
     };
   }, [value]);
 
+  const { run: onresize } = useDebounceFn(onLoadAnimate, { wait: 500 });
+  useEventListener('resize', onresize);
+
   return (
     <div className={classnames(prefixCls, className)} style={style} ref={domRef}>
       {getNumDom(type === 'date' ? String(value).split('') : valToArr(value))}
@@ -346,3 +225,4 @@ const LNumberRoll = (
 };
 
 export default forwardRef(LNumberRoll);
+export * from './interface';

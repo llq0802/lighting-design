@@ -1,16 +1,16 @@
 import { Button, message, Space } from 'antd';
 import type { LCaptchaButtonActionRef } from 'lighting-design';
 import { LCaptchaButton } from 'lighting-design';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 const Demo3 = () => {
+  const [loading, setLoading] = useState(false);
   const actionRef = useRef<LCaptchaButtonActionRef>();
 
   return (
     <div>
       <Space>
         <LCaptchaButton
-          start={false}
           actionRef={actionRef}
           second={10}
           disabledText="重新获取"
@@ -20,8 +20,13 @@ const Demo3 = () => {
             message.success('倒计时结束');
           }}
           onClick={() => {
-            actionRef.current?.start();
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+              actionRef.current?.start();
+            }, 1000);
           }}
+          loading={loading}
         >
           获取验证码
         </LCaptchaButton>

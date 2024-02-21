@@ -27,7 +27,7 @@ const MediaViewer: FunctionComponent<MediaViewerProps> = ({ url, mediaType, cont
     ...contentProps,
     className: classnames(`lightd-file-viewer-${mediaType}`, contentProps?.className),
     style: { width: '100%', ...contentProps?.style },
-    ref: (evt) => {
+    ref: (evt: HTMLVideoElement | undefined) => {
       mediaRef.current = evt;
       if (contentProps?.ref) {
         if (isFunction(contentProps?.ref)) {

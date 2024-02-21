@@ -1,9 +1,8 @@
-import type { ValueType } from 'lighting-design';
 import { LCardGroup } from 'lighting-design';
 import { useState } from 'react';
 
 export default function Demo() {
-  const [value, setValue] = useState<ValueType>([]);
+  const [value, setValue] = useState([]);
   return (
     <div>
       <LCardGroup
@@ -23,7 +22,7 @@ export default function Demo() {
           },
         ]}
         value={value}
-        onChange={(nums: ValueType) => {
+        onChange={(nums) => {
           setValue(nums);
         }}
       />

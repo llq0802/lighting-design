@@ -60,16 +60,20 @@ import { LFromItemTransfer } from 'lighting-design';
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
-| 参数           | 说明                                                                      | 类型                                                                                                   | 默认值                              |
-| -------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------- |
-| options        | 数据源 , 每一项的字段名与 `fieldNames` 配置有关                           | `RecordType[]`                                                                                         | `[]`                                |
-| request        | 请求数据函数                                                              | `( info: {current: number; pageSize: number }) => Promise<{ total: number; data:RecordType[]}>`        | `-`                                 |
-| requestOptions | `ahooks` 的配置项 配合 `request` 使用                                     | `Record<string, any>;`                                                                                 | `-`                                 |
-| actionRef      | 包含一些请求分页的方法与属性 配合 request pagination 用于外部控制分页请求 | `MutableRefObject<LFormItemTransferActionRef     \| undefined> `                                       | `-`                                 |
-| limitMaxCount  | 可选的最大数量                                                            | `number`                                                                                               | `-`                                 |
-| fieldNames     | 自定义配置字段名                                                          | `{ label: string;   value: string;}`                                                                   | `{ label: 'title' ,  value: 'key'}` |
-| pagination     | 分页配置 与 antd 穿梭框的分页配置一样                                     | `boolean \| { pageSize: number, simple: boolean, showSizeChanger?: boolean, showLessItems?: boolean }` | `false`                             |
-| transferProps  | `antd`穿梭框组件的 Props                                                  | [TransferProps](https://ant-design.antgroup.com/components/transfer-cn#api)                            | `-`                                 |
+| 参数           | 说明                                                                      | 类型                                                                                            | 默认值                              |
+| -------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------- |
+| options        | 数据源 , 每一项的字段名与 `fieldNames` 配置有关                           | `RecordType[]`                                                                                  | `-`                                 |
+| request        | 请求数据函数                                                              | `( info: {current: number; pageSize: number }) => Promise<{ total: number; data:RecordType[]}>` | `-`                                 |
+| requestOptions | `ahooks` usePagination 的配置项 配合 `request` 使用                       | `-`                                                                                             | `-`                                 |
+| spin           | 自定义 loading 效果                                                       | [SpinProps](https://ant.design/components/spin-cn/#api)                                         | `-`                                 |
+| limitMaxCount  | 可选的最大数量                                                            | `number`                                                                                        | `-`                                 |
+| fieldNames     | 自定义配置字段名                                                          | `{ label: string;   value: string;}`                                                            | `{ label: 'title' ,  value: 'key'}` |
+| pagination     | 分页配置 与 antd 穿梭框的分页配置一样                                     | `TransferProps['pagination']`                                                                   | `false`                             |
+| titles         | 标题集合，顺序从左至右                                                    | `TransferProps['titles']`                                                                       | `-`                                 |
+| showSearch     | 是否可搜索                                                                | `TransferProps['showSearch']`                                                                   | `false`                             |
+| oneWay         | 是否单项方向                                                              | `TransferProps['oneWay']`                                                                       | `false`                             |
+| actionRef      | 包含一些请求分页的方法与属性 配合 request pagination 用于外部控制分页请求 | `MutableRefObject<LFormItemTransferActionRef     \| undefined> `                                | `-`                                 |
+| transferProps  | `antd`穿梭框组件的 Props                                                  | [TransferProps](https://ant-design.antgroup.com/components/transfer-cn#api)                     | `-`                                 |
 
 ### RecordType
 
@@ -96,6 +100,6 @@ export type LFormItemTransferActionRef = {
     changeCurrent: (current: number) => void;
     changePageSize: (pageSize: number) => void;
   };
-  // ...其他属性方法与useRequest的返回值相同
+  // ...其他属性方法与ahook useRequest的返回值相同
 };
 ```

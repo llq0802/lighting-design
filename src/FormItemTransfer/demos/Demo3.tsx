@@ -1,17 +1,11 @@
+import { Button } from 'antd';
 import Mock from 'better-mock';
 import type { LFormItemTransferActionRef } from 'lighting-design';
 import { LForm, LFormItemTransfer } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
 import { useRef } from 'react';
 
-const transferMockData: any[] = Mock.mock({
-  'list|10': [
-    {
-      key: '@id',
-      title: '@city',
-    },
-  ],
-}).list;
+const transferMockData: any[] = Mock.mock({ 'list|20': [{ key: '@id', title: '@city' }] }).list;
 
 const initialTargetKeys = transferMockData
   .filter((item) => Number(item.key) <= 1)
@@ -32,27 +26,36 @@ export default () => {
       }}
     >
       <LFormItemTransfer
+        actionRef={actionRef}
         contentAfter={false}
         contentInline={false}
-        transferProps={{
-          listStyle: {
-            flex: 'auto',
-          },
-        }}
+        transferProps={{ listStyle: { flex: 'auto' } }}
         required
-        pagination
+        // pagination
+
+        pagination={{
+          simple: false,
+          showSizeChanger: true,
+          showLessItems: true,
+        }}
         label="穿梭框"
         name="transfer"
-        actionRef={actionRef}
-        request={async ({ current, pageSize }) => {
-          console.log(' page-pageSize ', current, pageSize);
-          await awaitTime();
+        request={async (info) => {
+          console.log('page-pageSize-info ', info);
+          await awaitTime(500, 1000);
           return {
             data: transferMockData,
             total: transferMockData.length,
           };
         }}
       />
+      <Button
+        onClick={() => {
+          console.log('==actionRef====>', actionRef.current);
+        }}
+      >
+        获取
+      </Button>
     </LForm>
   );
 };

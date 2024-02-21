@@ -41,11 +41,11 @@ export default () => {
             total: transferMockData.length,
           };
         }}
+        showSearch
         transferProps={{
           titles: ['数据项', '选择项'],
           showSelectAll: false,
           filterOption,
-          showSearch: true,
           listStyle: {
             width: 300,
             height: 470,

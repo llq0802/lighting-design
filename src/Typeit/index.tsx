@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import type { CSSProperties, FC } from 'react';
 import type { TypeItOptions } from 'typeit';
 import type { TypeItProps } from 'typeit-react';
@@ -62,7 +63,7 @@ const prefixCls = 'lightd-Typeit';
 const LTypeit: FC<Partial<LTypeitProps>> = (props) => {
   const { className, style, children, getBeforeInit, ...prop } = props;
   return (
-    <div className={`${prefixCls} ${className || ''}`} style={style}>
+    <div className={classnames(prefixCls, className)} style={style}>
       <TypeIt {...prop} getBeforeInit={getBeforeInit}>
         {children}
       </TypeIt>

@@ -47,9 +47,9 @@ import { LCardGroup } from 'lighting-design';
 
 |     参数      |                                                       说明                                                       |                类型                | 默认值  |
 | :-----------: | :--------------------------------------------------------------------------------------------------------------: | :--------------------------------: | :-----: |
-|    options    |                                                       数据                                                       |       `LCardGroupOptions[]`        |   `-`   |
-|     value     |                                                        值                                                        |         `string\|string[]`         |   `-`   |
-| defaultValue  |                                                      默认值                                                      |         `string\|string[]`         |   `-`   |
+|    options    |                                                       数据                                                       |      `SelectProps['options']`      |   `-`   |
+|     value     |                                                        值                                                        |            `ValueType`             |   `-`   |
+| defaultValue  |                                                      默认值                                                      |            `ValueType`             |   `-`   |
 |      gap      |                                                     卡片间隔                                                     |              `number`              |   `8`   |
 |   className   |                                                     容器类名                                                     |              `string`              |   `-`   |
 |     style     |                                                     容器样式                                                     |          `CSSProperties`           |   `-`   |
@@ -57,19 +57,8 @@ import { LCardGroup } from 'lighting-design';
 |   cardStyle   |                             统一设置卡片样式 比每一项中的 `cardProps.style` 优先级低                             |          `CSSProperties`           |   `-`   |
 |  activeStyle  |                                                 被选中的卡片样式                                                 |          `CSSProperties`           |   `-`   |
 | labelInValue  | 是否把每个选项的 label 包装到 value 中，会把 value 类型从 string 变为 { value: string, label: ReactNode } 的格式 |             `boolean`              | `false` |
+|  fieldNames   |                                             自定义 options 的字段名                                              |    `SelectProps['fieldNames']`     |   `-`   |
 |   multiple    |                                                     是否多选                                                     |             `boolean`              | `false` |
 |   disabled    |                                                     是否禁用                                                     |             `boolean`              | `false` |
 |  cancelable   |                                      单选时，是否可以点击选中的元素取消选中                                      |             `boolean`              | `false` |
 |   onChange    |                                             受控时 value 值变化事件                                              | `(val:string \| string[]) => void` |  `- `   |
-
-### LCardGroupOptions
-
-```ts
-export type LCardGroupOptions = {
-  label: ReactNode; // 相当于 Card 的 children
-  value: string;
-  disabled?: boolean;
-  /** antd Card组件属性 */
-  cardProps?: CardProps;
-};
-```

@@ -5,67 +5,11 @@ import {
   useUnmount,
   useUpdateEffect,
 } from 'ahooks';
-import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction, Ref, RefObject } from 'react';
 import { forwardRef, useImperativeHandle } from 'react';
+import type { LCaptchaButtonProps } from './interface';
 
-export type LCaptchaButtonActionRef = { start: () => void; cancel: () => void } | undefined;
-
-export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
-  /**
-   * 倒计时的秒数
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LCaptchaButtonProps
-   */
-  second?: number;
-  /**
-   *@author 李岚清 <https://github.com/llq0802>
-   *@description 是否开始发送
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LCaptchaButtonProps
-   */
-  start?: boolean;
-  /**
-   * 倒计时的文字, 会带上 second 秒
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LCaptchaButtonProps
-   */
-  disabledText?: string;
-  /**
-   * 缓存的key、页面刷新后倒计时继续 , 多个倒计时组件请设置不同的key。
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LCaptchaButtonProps
-   */
-  cacheKey: string;
-  /**
-   * 用于开始或取消倒计时
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LCaptchaButtonProps
-   */
-  actionRef?: React.MutableRefObject<LCaptchaButtonActionRef>;
-  /**
-   *@author 李岚清 <958614130@qq.com>
-   *@description 倒计时完成后触发
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LCaptchaButtonProps
-   *@see https://ant.design/components/button-cn/
-   */
-  onEnd?: () => void;
-  /**
-   *{@link  https://ant.design/components/button-cn/}
-   */
-}
-
-/**
- * 获取验证码按钮
- * @param LCaptchaButtonProps
- * @returns
- */
 const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCaptchaButtonProps> = (
   props,
   ref,
@@ -82,7 +26,7 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
     ...buttonProps
   } = props;
 
-  const [targetDate, setTargetDate] = useSessionStorageState<number | undefined>(cacheKey, {
+  const [targetDate, setTargetDate] = useSessionStorageState(cacheKey, {
     defaultValue: 0,
   });
 
@@ -95,7 +39,7 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
   });
 
   const handleButtonClick = useMemoizedFn(async (e) => {
-    if (start) {
+    if (start && !actionRef) {
       const date = Date.now() + second * 1000;
       setTargetDate(date);
     }
@@ -107,7 +51,7 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
   });
 
   useUpdateEffect(() => {
-    if (start) {
+    if (start && !actionRef) {
       const date = Date.now() + second * 1000;
       setTargetDate(date);
     }
@@ -134,5 +78,5 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
     </Button>
   );
 };
-
 export default forwardRef(LCaptchaButton);
+export * from './interface';

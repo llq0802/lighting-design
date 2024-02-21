@@ -1,5 +1,5 @@
 import { useInterval } from 'ahooks';
-import type { LNumberRollRefProps } from 'lighting-design';
+import type { LNumberRollActionRef } from 'lighting-design';
 import { LNumberRoll } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
@@ -10,9 +10,7 @@ const center = {
 };
 const Demo: FC = () => {
   const [value, setValue] = useState(10);
-  const numRef = useRef<LNumberRollRefProps>();
-
-  // numRef.current?.loadAnimate();
+  const numRef = useRef<LNumberRollActionRef>();
 
   useInterval(() => {
     setValue((num) => (num > Number.MAX_SAFE_INTEGER ? 10 : num + 10));

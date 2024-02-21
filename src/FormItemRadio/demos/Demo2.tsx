@@ -1,14 +1,18 @@
+import type { LFormItemActionRef } from 'lighting-design';
 import { LForm, LFormItemRadio } from 'lighting-design';
+import { useRef } from 'react';
 import { awaitTime } from '../../_test';
 
 const Demo2 = () => {
   const [form] = LForm.useForm();
+  const actionRef = useRef<LFormItemActionRef>();
   return (
     <LForm form={form}>
       <LFormItemRadio
         label="单选1"
         name="LFormItemRadio1"
         required
+        actionRef={actionRef}
         request={async () => {
           const result = await awaitTime([
             { label: 'Unresolved', value: 'open' },
