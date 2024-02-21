@@ -65,6 +65,7 @@ import { LQueryForm } from 'lighting-design';
 | itemColProps       | 每个控件外层`Col组件`的栅格配置，`isSpace`为`false`时生效                                    | [ColProps](https://ant.design/components/grid-cn/#col) | `{ xs: 24, sm: 24, md: 12, lg: 8, xl: 8, xxl: 6 }` |
 | isCollapsed        | 默认状态下是否折叠超出的表单项                                                               | `boolean`                                              | `true`                                             |
 | showColsNumber     | `isCollapsed`为`true`时生效，显示的表单控件数量，不能超过控件的总数量，为`0`时不显示全部控件 | `number`                                               | `-`                                                |
+| onCollapsedChange  | 展开/收起的回调                                                                              | `(v:boolean)=>void`                                    | `-`                                                |
 
 ## 支持响应式
 

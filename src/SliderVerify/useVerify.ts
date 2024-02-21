@@ -46,13 +46,6 @@ export default function useSliderVerify(options: IOptions) {
   const [barLeft, setBarLeft] = useState(0);
   const [modalWidth, setModalWidth] = useState(0);
 
-  // 滑块的onMouseDown
-  const onMouseDown = useMemoizedFn((e: any) => {
-    refTmpData.current.offX = e.pageX;
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onMouseUp);
-  });
-
   // body文档的移动事件
   const onMove = useMemoizedFn((e: any) => {
     refTmpData.current.isMove = true;
@@ -74,6 +67,7 @@ export default function useSliderVerify(options: IOptions) {
       });
       // 移除事件
       document.removeEventListener('mousemove', onMove);
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       refBar.current.removeEventListener('mousedown', onMouseDown);
     }
 
@@ -99,6 +93,13 @@ export default function useSliderVerify(options: IOptions) {
     outOnMouseUp?.(refTmpData.current.diff);
     document.removeEventListener('mousemove', onMove);
     document.removeEventListener('mouseup', onMouseUp);
+  });
+
+  // 滑块的onMouseDown
+  const onMouseDown = useMemoizedFn((e: any) => {
+    refTmpData.current.offX = e.pageX;
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onMouseUp);
   });
 
   useEffect(() => {

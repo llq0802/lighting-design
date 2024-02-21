@@ -1,49 +1,16 @@
 import { useMemoizedFn } from 'ahooks';
-import type { ButtonProps, FormInstance } from 'antd';
 import { Button, Space } from 'antd';
-import type { FormProps } from 'antd/es/form';
 import { emptyObject } from 'lighting-design/constants';
-import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
+import type { FC, ReactElement } from 'react';
 import { useMemo } from 'react';
-
-export interface LFormSubmitterProps {
-  /** 表单的初始值 */
-  initFormValues?: Record<string, any>;
-  /** 重置按钮名称*/
-  resetText?: ReactNode;
-  /** 提交按钮名称*/
-  submitText?: ReactNode;
-  /** 重置按钮的Props 如果配置preventDefault为`true`则不会触发表单重置事件 */
-  resetButtonProps?: ButtonProps & { preventDefault?: boolean };
-  /** 提交按钮的Props 如果配置preventDefault为`true`则不会触发表单提交事件 */
-  submitButtonProps?: ButtonProps & { preventDefault?: boolean };
-  /** 重置回调 */
-  onReset?: (event: MouseEvent<HTMLElement>) => void;
-  /** 提交回调 */
-  onSubmit?: (event: MouseEvent<HTMLElement>) => void;
-  /** 是否能按enter建提交 */
-  isEnterSubmit?: boolean;
-  /** 表单是否准备完成 */
-  isReady?: boolean;
-  /** 内部的重置按钮是否使用 form.resetFields() */
-  isAntdReset?: boolean;
-  /** 是否展示重置按钮 */
-  showReset?: boolean;
-  /** form实例 */
-  form?: FormInstance;
-  /** 同Form的wrapperCol */
-  wrapperCol?: FormProps['wrapperCol'];
-  /** 重新渲染函数 */
-  render?: (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode | false;
-  /** 按钮位置 */
-  buttonAlign?: 'left' | 'right' | 'center' | number | string;
-}
+import type { LFormSubmitterProps } from '../interface';
 
 const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const {
     isEnterSubmit = true,
-    isReady,
+    isReady = true,
     isAntdReset = true,
+    showReset = true,
     initFormValues = {},
     onSubmit = () => {},
     onReset = () => {},
@@ -51,7 +18,6 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     resetText = '重置',
     submitButtonProps: outSubmitButtonProps = emptyObject,
     resetButtonProps: outResetButtonProps = emptyObject,
-    showReset = true,
     form,
     render,
   } = props;

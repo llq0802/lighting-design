@@ -1,19 +1,32 @@
 import { DownOutlined } from '@ant-design/icons';
 import { useMemoizedFn } from 'ahooks';
-import type { ColProps } from 'antd';
-import { Col, Row, Space, theme, Typography } from 'antd';
-import type { Gutter } from 'antd/es/grid/row';
+import { Col, Row, Space, Typography, theme } from 'antd';
 import classnames from 'classnames';
-import { emptyObject } from 'lighting-design/constants';
-import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import LFormItem from 'lighting-design/FormItem';
+import { emptyObject } from 'lighting-design/constants';
 import type { CSSProperties, FC } from 'react';
 import { cloneElement, memo, useState } from 'react';
+import type { LQueryFormProps } from './interface';
 
 const { useToken } = theme;
 const { Link } = Typography;
 const prefixCls = 'lightd-form-query';
+
+const defualtColSpan = {
+  xs: 24, // 屏幕 < 576px 响应式栅格
+  sm: 24, // 屏幕 ≥ 576px 响应式栅格，
+  md: 12, // 屏幕 ≥ 768px 响应式栅格
+  lg: 8, // 屏幕 ≥ 992px 响应式栅格
+  xl: 8, // 屏幕 ≥ 1200px 响应式栅格
+  xxl: 6, // 屏幕 ≥ 1600px 响应式栅格
+};
+
+const submitterColStyle: CSSProperties = {
+  display: 'flex',
+  flex: '1',
+  flexWrap: 'wrap',
+};
 
 interface CollapseProps {
   collapsed: boolean;
@@ -51,84 +64,24 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
   );
 });
 
-export interface LQueryFormProps extends BaseFormProps {
-  /**
-   *是否折叠
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LQueryFormProps
-   */
-  isCollapsed?: boolean;
-  /**
-   * 显示多少项
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LQueryFormProps
-   * */
-  showColsNumber?: number;
-  /**
-   *  配置响应式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LQueryFormProps
-   *@see https://ant.design/components/grid-cn#col
-   */
-  itemColProps?: ColProps;
-  /**
-   * 是否水平紧凑显示
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LQueryFormProps
-   */
-  isSpace?: boolean;
-  /**
-   * 重置 查询按钮组 是否紧挨着最后的表单项
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LQueryFormProps
-   */
-  isApproachLastItem?: boolean;
-  /**
-   * 配置每一项的间隔
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LQueryFormProps
-   */
-  gutter?: Gutter | [Gutter, Gutter];
-}
-
-const defualtColSpan = {
-  xs: 24, // 屏幕 < 576px 响应式栅格
-  sm: 24, // 屏幕 ≥ 576px 响应式栅格，
-  md: 12, // 屏幕 ≥ 768px 响应式栅格
-  lg: 8, // 屏幕 ≥ 992px 响应式栅格
-  xl: 8, // 屏幕 ≥ 1200px 响应式栅格
-  xxl: 6, // 屏幕 ≥ 1600px 响应式栅格
-};
-
-const submitterColStyle: CSSProperties = {
-  display: 'flex',
-  flex: '1',
-  flexWrap: 'wrap',
-};
-
 function LQueryForm(props: LQueryFormProps) {
   const {
     layout = 'horizontal',
     submitter,
     isCollapsed = true,
     isEnterSubmit = true,
+    isApproachLastItem = false,
+    isSpace: outIsSpace = false,
     showColsNumber,
     className,
     itemColProps = emptyObject,
-    isSpace: outIsSpace = false,
     gutter = 16,
-    isApproachLastItem = false,
-
+    onCollapsedChange,
     ...restProps
   } = props;
   const isSpace = outIsSpace || layout === 'inline';
   const [collapsed, setCollapsed] = useState(isCollapsed);
+
   return (
     <BaseForm
       isEnterSubmit={isEnterSubmit}
@@ -154,7 +107,7 @@ function LQueryForm(props: LQueryFormProps) {
               ...defualtColSpan,
               ...itemColProps,
             }
-          : emptyObject;
+          : {};
 
         return (
           <Row gutter={gutter}>
@@ -186,7 +139,15 @@ function LQueryForm(props: LQueryFormProps) {
               <LFormItem colon={false} className={classnames(`${prefixCls}-submitter`)}>
                 <Space>
                   {submitterDom}
-                  {enabledCollapse && <Collapse collapsed={collapsed} onToggle={setCollapsed} />}
+                  {enabledCollapse && (
+                    <Collapse
+                      collapsed={collapsed}
+                      onToggle={(v) => {
+                        setCollapsed(v);
+                        onCollapsedChange?.(v);
+                      }}
+                    />
+                  )}
                 </Space>
               </LFormItem>
             </Col>

@@ -13,6 +13,10 @@ toc: content
 
 <code src='./demos/Demo1.tsx'></code>
 
+### 自定义字段名
+
+<code src='./demos/Demo7.tsx'></code>
+
 ### 受控
 
 <code src='./demos/Demo4.tsx'></code>

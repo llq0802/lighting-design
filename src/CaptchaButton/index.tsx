@@ -22,7 +22,7 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
     onEnd,
     onClick,
     actionRef,
-    children,
+    children = '获取验证码',
     ...buttonProps
   } = props;
 

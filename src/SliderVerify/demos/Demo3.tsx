@@ -11,6 +11,7 @@ const Demo3 = () => {
     height: (window.innerWidth * 32) / 1920,
     barWidth: (window.innerWidth * 60) / 1920,
   }));
+
   useEventListener('resize', (e) => {
     const clientWidth = e.target.innerWidth;
     setWidths({

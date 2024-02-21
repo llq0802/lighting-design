@@ -13,6 +13,10 @@ toc: content
 
 <code src='./demos/Demo1.tsx'></code>
 
+### 自定义字段名
+
+<code src='./demos/Demo7.tsx'></code>
+
 ### 受控
 
 <code src='./demos/Demo3.tsx'></code>
@@ -62,3 +66,16 @@ import { LCardGroup } from 'lighting-design';
 |   disabled    |                                                     是否禁用                                                     |             `boolean`              | `false` |
 |  cancelable   |                                      单选时，是否可以点击选中的元素取消选中                                      |             `boolean`              | `false` |
 |   onChange    |                                             受控时 value 值变化事件                                              | `(val:string \| string[]) => void` |  `- `   |
+
+### ValueType
+
+```ts
+export type ValueType =
+  | string
+  | number
+  | (string | number)[]
+  | string[]
+  | number[]
+  | null
+  | undefined;
+```

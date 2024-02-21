@@ -1,3 +1,4 @@
+import { Tag } from 'antd';
 import { LCardGroup } from 'lighting-design';
 import './Demo6.less';
 
@@ -19,7 +20,7 @@ export default function Demo() {
         options={[
           {
             value: '1',
-            label: <span>支付宝</span>,
+            label: <Tag>支付宝</Tag>,
             cardProps: {
               // ...配置卡片的属性
             },

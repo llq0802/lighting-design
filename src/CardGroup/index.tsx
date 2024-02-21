@@ -31,9 +31,7 @@ export default function LCardGroup(props: LCardGroupProps) {
 
   const { token } = useToken();
 
-  const [val, onChange] = useControllableValue(props, {
-    defaultValue: props?.defaultValue || multiple ? emptyArray : void 0,
-  });
+  const [val, onChange] = useControllableValue(props);
   const value = useMemo(
     () => transformValue({ value: val, multiple, labelInValue }),
     [val, multiple, labelInValue],
@@ -112,7 +110,7 @@ export default function LCardGroup(props: LCardGroupProps) {
               borderColor: isActive ? token.colorPrimary : void 0,
               ...cardStyle,
               ...item.cardProps?.style,
-              ...(isActive ? activeStyle : emptyObject),
+              ...(isActive ? activeStyle : {}),
             }}
             bodyStyle={{
               ...cardBodyStyle,
@@ -126,3 +124,4 @@ export default function LCardGroup(props: LCardGroupProps) {
     </div>
   );
 }
+export * from './interface';

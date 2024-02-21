@@ -1,107 +1,17 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
-import type { DrawerProps } from 'antd';
 import { Drawer } from 'antd';
 import classnames from 'classnames';
-import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import { useLFormInstance } from 'lighting-design/Form/base/hooks';
 import { isFunction } from 'lighting-design/_utils';
 import { BUTTON_ALIGN_MAP, emptyObject } from 'lighting-design/constants';
-import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
+import type { FC, MouseEvent } from 'react';
 import { cloneElement, useEffect, useState } from 'react';
+import type { LDrawerFormProps } from './interface';
 
-export interface LDrawerFormProps
-  extends Omit<BaseFormProps, 'title' | 'onFinish'>,
-    Pick<DrawerProps, 'open'> {
-  /**
-   * 标题
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   */
-  title?: ReactNode;
-  /**
-   * 抽屉的宽度
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   */
-  width?: DrawerProps['width'];
-  /**
-   * 抽屉的方向
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   */
-  placement?: DrawerProps['placement'];
-  /**
-   * 自定义触发抽屉打开的按钮
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   */
-  trigger?: ReactElement;
-  /**
-   * 提交按钮加载状态
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   */
-  loading?: boolean;
-  /**
-   * 抽屉默认操作栏位置 (只生效默认操作栏)
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   */
-  actionBarDir?: 'footer' | 'extra' | undefined;
-  /**
-   * 抽屉`props`,具体详见`antd Drawer`
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   *@see https://ant.design/components/drawer-cn#api
-   */
-  drawerProps?: Omit<DrawerProps, 'open'>;
-  /**
-   *  关闭抽屉时是否重置表单到初始值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   */
-  isResetFields?: boolean;
-  /**
-   * 关闭时是否销毁Drawer的子元素
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
-   */
-  destroyOnClose?: boolean;
-  /**
-   *  是否预渲染`LDrawerForm`的内容
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   */
-  forceRender?: boolean;
-  /**
-   * 抽屉开关回调
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   */
-  onOpenChange?: (open: boolean) => void;
-  /**
-   * 确定回调
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LDrawerFormProps
-   */
-  onFinish?: (values: Record<string, any>) => void | undefined | true | Promise<any>;
-}
 const prefixCls = 'lightd-form-drawer';
 
-const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
+const LDrawerForm: FC<LDrawerFormProps> = (props) => {
   const {
     trigger,
     isResetFields = true,
@@ -114,11 +24,9 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     drawerProps = emptyObject,
     actionBarDir = 'footer',
     children,
-
     className,
     form: outForm,
     onFinish,
-    loading,
     submitter,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
@@ -150,7 +58,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
     <>
       <BaseForm
         className={classnames(prefixCls, className)}
-        loading={loading}
         form={formRef.current}
         onFinish={handleFinish}
         submitter={
@@ -198,7 +105,8 @@ const LDrawerForm: FC<LDrawerFormProps> = (props: LDrawerFormProps) => {
               display: 'flex',
               justifyContent:
                 submitter && typeof submitter?.buttonAlign === 'string'
-                  ? BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'center'
+                  ? // @ts-ignore
+                    BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'center'
                   : 'center',
               ...drawerProps.footerStyle,
             }}

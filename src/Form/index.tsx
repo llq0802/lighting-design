@@ -1,11 +1,9 @@
 import { Form, Space } from 'antd';
-import { BUTTON_ALIGN_MAP, emptyObject } from 'lighting-design/constants';
+import { BUTTON_ALIGN_MAP } from 'lighting-design/constants';
 import type { FC, ReactElement, ReactNode } from 'react';
 import LFormItem from '../FormItem';
-import type { BaseFormProps } from './base/BaseForm';
 import BaseForm from './base/BaseForm';
-
-export type LFormProps = BaseFormProps;
+import type { BaseFormProps } from './interface';
 
 const LForm: FC<LFormProps> & {
   // ts中的typeof是 根据已有的值 来获取值的类型  来简化代码的书写
@@ -18,7 +16,7 @@ const LForm: FC<LFormProps> & {
   useFormInstance: typeof Form.useFormInstance;
   useWatch: typeof Form.useWatch;
 } = ({ submitter, ...restProps }) => {
-  const submitterProps = typeof submitter === 'boolean' || !submitter ? emptyObject : submitter;
+  const submitterProps = typeof submitter === 'boolean' || !submitter ? {} : submitter;
   const { render, ...restSubmitterProps } = submitterProps;
   const submitterConfig =
     submitter === void 0 || submitter
@@ -86,4 +84,5 @@ LForm.useFormInstance = Form.useFormInstance;
 LForm.useWatch = Form.useWatch;
 
 export default LForm;
-export type { LFormSubmitterProps } from './base/Submitter';
+export type { LFormSubmitterProps } from './interface';
+export type LFormProps = BaseFormProps<Record<string, any>>;

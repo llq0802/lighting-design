@@ -20,15 +20,15 @@ export default function LTagGroup(props: LTagGroupProps) {
     multiple = false,
     labelInValue = false,
     showAllChecked = false,
+    disabled = false,
+    cancelable = false,
     allCheckedText = '全部',
     allValue = 'all',
-    disabled,
-    cancelable = false,
+    fieldNames = { label: 'label', value: 'value' },
   } = props;
+  const { label: labelKey, value: valueKey } = fieldNames as { label: string; value: string };
 
-  const [val, onChange] = useControllableValue<ValueType>(props, {
-    defaultValue: props?.defaultValue || multiple ? emptyArray : void 0,
-  });
+  const [val, onChange] = useControllableValue<ValueType>(props);
   const value = useMemo(
     () => transformValue({ value: val, multiple, labelInValue }),
     [val, multiple, labelInValue],
@@ -51,7 +51,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     let newValue: any;
     if (multiple) {
       if (bool) {
-        newValue = options?.map((item) => item.value);
+        newValue = options?.map((item) => item[valuekey]);
       } else {
         newValue = emptyArray;
       }
@@ -70,8 +70,8 @@ export default function LTagGroup(props: LTagGroupProps) {
    * @param checked 是否选中
    * @param option 当前选项
    */
-  const handleTagSelect = useMemoizedFn((checked: boolean, curItem: any) => {
-    if (disabled || curItem.disabled) {
+  const handleTagSelect = useMemoizedFn((checked: boolean, item: any) => {
+    if (disabled || item.disabled) {
       return;
     }
 
@@ -79,16 +79,16 @@ export default function LTagGroup(props: LTagGroupProps) {
     // 选中时
     if (checked) {
       if (multiple && Array.isArray(value)) {
-        newValue = [...(value || []), curItem.value];
+        newValue = [...(value || []), item[valueKey]];
       } else {
-        newValue = curItem.value;
+        newValue = item[valueKey];
       }
 
       triggerChange(newValue);
     } else {
       // 没有选中时
       if (multiple && Array.isArray(value)) {
-        newValue = value?.filter((v: any) => v !== curItem.value);
+        newValue = value?.filter((v: any) => v !== item[valueKey]);
         triggerChange(newValue);
       } else {
         if (cancelable) {
@@ -111,22 +111,23 @@ export default function LTagGroup(props: LTagGroupProps) {
           {allCheckedText}
         </CheckableTag>
       )}
-      {options.map((item: any) => (
+      {options?.map((item: any, i) => (
         <CheckableTag
           className={classnames(`${prefixCls}-item`, itemClassName)}
-          key={item.value}
+          key={item[valueKey] ?? i}
           checked={
             multiple
               ? value !== void 0 &&
                 Array.isArray(value) &&
-                value?.includes(item.value as unknown as string)
-              : value === item.value
+                value?.includes(item[valueKey] as unknown as string)
+              : value === item[valueKey]
           }
           onChange={(checked) => handleTagSelect(checked, item)}
         >
-          {item.label}
+          {item[labelKey] ?? item[valueKey]}
         </CheckableTag>
       ))}
     </span>
   );
 }
+export * from './interface';
