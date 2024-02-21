@@ -1,25 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useMemoizedFn } from 'ahooks';
-import type { StepProps } from 'antd';
 import classnames from 'classnames';
-import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import { useLFormInstance } from 'lighting-design/Form/base/hooks';
 import { isFunction } from 'lighting-design/_utils';
 import { useContext, useEffect } from 'react';
+import type { LStepFormProps } from '../interface';
 import StepsFormContext from './StepsFormContext';
-import type { LStepsFormSubmitterProps } from './StepsSubmitter';
 
-export interface LStepFormProps
-  extends Omit<BaseFormProps, 'title' | 'onReset' | 'contentRender' | 'submitter' | 'isReady'>,
-    Pick<StepProps, 'title' | 'icon' | 'subTitle' | 'description'> {
-  /** antd Steps 组件的items属性*/
-  stepItemProps?: StepProps;
-  /** 上一步下一步提交按钮的配置 优先级比StepsForm的submitter高*/
-  submitter?: Omit<LStepsFormSubmitterProps, 'total' | 'current' | 'form'> | false;
-  /** 当前步骤(索引) 内部使用*/
-  readonly _stepNum?: number;
-}
 const prefixCls = 'lightd-form-step';
 
 function StepForm({

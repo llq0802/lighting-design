@@ -1,48 +1,9 @@
-import type { ButtonProps } from 'antd';
 import { Button, Space } from 'antd';
-import type { LFormSubmitterProps } from 'lighting-design/Form/base/Submitter';
 import { emptyObject } from 'lighting-design/constants';
-import type { FC, FormEvent, ReactElement, ReactNode } from 'react';
+import type { FC, ReactElement } from 'react';
 import { useContext } from 'react';
+import type { LStepsFormSubmitterProps } from '../interface';
 import StepsFormContext from './StepsFormContext';
-
-export interface LStepsFormSubmitterProps
-  extends Pick<
-    LFormSubmitterProps,
-    'submitText' | 'submitButtonProps' | 'wrapperCol' | 'buttonAlign'
-  > {
-  /** 上一步按钮的文字 */
-  prevText?: ReactNode;
-  /** 点击上一步按钮的回调 */
-  onPrev?: (event?: FormEvent<HTMLFormElement>) => void;
-  /** 点击上一步按钮的Props*/
-  prevButtonProps?: ButtonProps;
-  /** 是否显示上一步按钮 */
-  showPrev?: boolean;
-  /** 下一步按钮的文字 */
-  nextText?: ReactNode;
-  /** 点击下一步按钮的回调 */
-  onNext?: (event?: FormEvent<HTMLFormElement>) => void;
-  /** 点击下一步按钮的Props*/
-  nextButtonProps?: ButtonProps;
-  /** 是否显示下一步按钮 */
-  showNext?: boolean;
-
-  /** 点击提交按钮的回调 */
-  onSubmit?: (event?: FormEvent<HTMLFormElement>) => void;
-
-  /** 强制显示上一步按钮，优先级比 showPrev 高 */
-  forceShowPrev?: boolean;
-  /** 强制显示下一步按钮，优先级比 showNext 高 */
-  forceShowNext?: boolean;
-  /** 强制显示提交按钮 */
-  forceShowSubmit?: boolean;
-
-  /** 自定义渲染 */
-  render?:
-    | ((dom: ReactElement[], props: LStepsFormSubmitterProps) => ReactNode[] | ReactNode | false)
-    | false;
-}
 
 const StepsFormSubmitter: FC<LStepsFormSubmitterProps> = (props) => {
   const {

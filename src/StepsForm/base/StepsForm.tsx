@@ -6,11 +6,11 @@ import { isFunction } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC, ReactElement, ReactNode } from 'react';
 import { Children, cloneElement, useImperativeHandle, useRef } from 'react';
+import type { LStepsFormProps } from '../interface';
 import StepForm from './StepForm';
 import StepsFormContext from './StepsFormContext';
 import StepsSubmitter from './StepsSubmitter';
 import './styles.less';
-import type { LStepsFormProps } from './types';
 
 const prefixCls = 'lightd-form-steps';
 
@@ -446,8 +446,4 @@ const StepsForm: FC<LStepsFormProps> & {
 
 StepsForm.StepForm = StepForm;
 
-export type { LStepsFormSubmitterProps } from './StepsSubmitter';
-
 export default StepsForm;
-
-export * from './types';

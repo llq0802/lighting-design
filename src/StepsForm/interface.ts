@@ -1,22 +1,72 @@
-import type { FormInstance, StepProps, StepsProps } from 'antd';
-import type { BaseFormProps } from 'lighting-design/Form/base/BaseForm';
-import type { ReactElement, ReactNode } from 'react';
-import type { LStepsFormSubmitterProps } from './StepsSubmitter';
+import type { ButtonProps, FormInstance, StepProps, StepsProps } from 'antd';
+import type { BaseFormProps, LFormSubmitterProps } from 'lighting-design/Form/interface';
+import type { FormEvent, MutableRefObject, ReactElement, ReactNode } from 'react';
 
-export type LStepsFormActionRef = {
-  /** 表单实例数组 */
-  formInstanceList: FormInstance<any>[];
-  /** 到指定步骤 */
-  toStep: (num: number) => void;
-  /** 上一步 */
-  prev: () => void;
-  /** 下一步 */
-  next: (submitted?: boolean) => void;
-  /** 提交 */
-  submit: (isFinallySubmit?: boolean) => void;
-  /** 重置 */
-  reset: () => void;
-};
+export type LStepsFormActionRef =
+  | {
+      /** 表单实例数组 */
+      formInstanceList: FormInstance<any>[];
+      /** 到指定步骤 */
+      toStep: (num: number) => void;
+      /** 上一步 */
+      prev: () => void;
+      /** 下一步 */
+      next: (submitted?: boolean) => void;
+      /** 提交 */
+      submit: (isFinallySubmit?: boolean) => void;
+      /** 重置 */
+      reset: () => void;
+    }
+  | undefined;
+
+export interface LStepsFormSubmitterProps
+  extends Pick<
+    LFormSubmitterProps,
+    'submitText' | 'submitButtonProps' | 'wrapperCol' | 'buttonAlign'
+  > {
+  /** 上一步按钮的文字 */
+  prevText?: ReactNode;
+  /** 点击上一步按钮的回调 */
+  onPrev?: (event?: FormEvent<HTMLFormElement>) => void;
+  /** 点击上一步按钮的Props*/
+  prevButtonProps?: ButtonProps;
+  /** 是否显示上一步按钮 */
+  showPrev?: boolean;
+  /** 下一步按钮的文字 */
+  nextText?: ReactNode;
+  /** 点击下一步按钮的回调 */
+  onNext?: (event?: FormEvent<HTMLFormElement>) => void;
+  /** 点击下一步按钮的Props*/
+  nextButtonProps?: ButtonProps;
+  /** 是否显示下一步按钮 */
+  showNext?: boolean;
+
+  /** 点击提交按钮的回调 */
+  onSubmit?: (event?: FormEvent<HTMLFormElement>) => void;
+
+  /** 强制显示上一步按钮，优先级比 showPrev 高 */
+  forceShowPrev?: boolean;
+  /** 强制显示下一步按钮，优先级比 showNext 高 */
+  forceShowNext?: boolean;
+  /** 强制显示提交按钮 */
+  forceShowSubmit?: boolean;
+
+  /** 自定义渲染 */
+  render?:
+    | ((dom: ReactElement[], props: LStepsFormSubmitterProps) => ReactNode[] | ReactNode | false)
+    | false;
+}
+
+export interface LStepFormProps
+  extends Omit<BaseFormProps, 'title' | 'onReset' | 'contentRender' | 'submitter' | 'isReady'>,
+    Pick<StepProps, 'title' | 'icon' | 'subTitle' | 'description'> {
+  /** antd Steps 组件的items属性*/
+  stepItemProps?: StepProps;
+  /** 上一步下一步提交按钮的配置 优先级比StepsForm的submitter高*/
+  submitter?: Omit<LStepsFormSubmitterProps, 'total' | 'current' | 'form'> | false;
+  /** 当前步骤(索引) 内部使用*/
+  readonly _stepNum?: number;
+}
 
 export type LStepsFormProps = {
   /**
@@ -135,7 +185,7 @@ export type LStepsFormProps = {
    * @version 2.1.29
    * @see 官网 https://llq0802.github.io/lighting-design/latest LStepsFormProps
    */
-  actionRef?: MutableRefObject<LStepsFormActionRef | undefined>;
+  actionRef?: MutableRefObject<LStepsFormActionRef>;
   /**
    * 在哪步为最终的提交操作, 用于触发 onFinish 默认为表单最后一步
    * @author 李岚清 <https://github.com/llq0802>

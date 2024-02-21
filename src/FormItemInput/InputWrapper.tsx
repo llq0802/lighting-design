@@ -5,7 +5,7 @@ import { EMPTY_REG, NUM_REG, isChrome } from 'lighting-design/constants';
 import type { ChangeEvent, FC } from 'react';
 import { useMemo, useRef, useState } from 'react';
 
-export type InputType =
+type InputType =
   | InputProps['type']
   | 'bankCard'
   | 'idCard'
