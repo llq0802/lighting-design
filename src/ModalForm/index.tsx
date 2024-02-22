@@ -20,6 +20,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
     destroyOnClose = false,
     forceRender = false,
     loading = false,
+    centered = false,
     trigger,
     title = '标题',
     width = 600,
@@ -82,53 +83,49 @@ const LModalForm: FC<LModalFormProps> = (props) => {
     <>
       <BaseForm
         className={classnames(prefixCls, className)}
-        loading={modalProps?.confirmLoading || loading}
+        loading={modalProps?.confirmLoading || modalProps?.okButtonProps?.loading || loading}
         form={formRef.current}
         onFinish={handleFinish}
         submitter={
-          submitter === void 0 || submitter
+          submitter === void 0 || !!submitter
             ? {
                 resetText: modalProps?.cancelText || '取消',
                 submitText: modalProps?.okText || '确认',
-                submitButtonProps: {
-                  type: (modalProps?.okType as 'primary') || 'primary',
-                  ...submitter?.submitButtonProps,
-                },
                 ...submitter,
                 resetButtonProps: {
+                  ...submitter?.resetButtonProps,
                   // 把重置按钮配置成取消按钮
                   preventDefault: true, // 不触发默认的重置表单事件
-                  ...submitter?.resetButtonProps,
-                  onClick: (e) => {
+                  onClick: (e: any) => {
                     setOpen(false);
                     modalProps?.onCancel?.(e);
                     submitter?.resetButtonProps?.onClick?.(e);
                   },
                 },
+                submitButtonProps: {
+                  type: modalProps?.okType || 'primary',
+                  ...submitter?.submitButtonProps,
+                },
                 render: (dom, submitterProps) => {
                   const newDom = Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom;
-
+                  const justifyContent =
+                    typeof submitter?.buttonAlign === 'string'
+                      ? // @ts-ignore
+                        BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'flex-end'
+                      : 'flex-end';
                   return (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent:
-                          typeof submitter?.buttonAlign === 'string'
-                            ? // @ts-ignore
-                              BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'flex-end'
-                            : 'flex-end',
-                      }}
-                    >
+                    <div style={{ display: 'flex', justifyContent }}>
                       {submitter?.render ? submitter?.render(dom, submitterProps) : newDom}
                     </div>
                   );
                 },
               }
-            : false // 这是 false
+            : false
         }
         formRender={(formDom, submitterDom) => {
           return !isDraggable ? (
             <Modal
+              centered={centered}
               title={title}
               width={width}
               footer={submitterDom}
@@ -159,6 +156,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
             </Modal>
           ) : (
             <Modal
+              centered={centered}
               width={width}
               footer={submitterDom}
               maskClosable={false}
@@ -232,3 +230,4 @@ const LModalForm: FC<LModalFormProps> = (props) => {
 };
 
 export default LModalForm;
+export * from './interface';

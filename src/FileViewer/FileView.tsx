@@ -18,7 +18,8 @@ export interface FileViewProps {
    * 'image' | 'audio' | 'video' | 'pdf' | 'excel' | 'word'
    */
   fileType: 'image' | 'audio' | 'video' | 'pdf' | 'excel' | 'word' | string;
-  /** 传递给原生标签的 props, 例如 audio video video a iframe标签的 style className onClick 等 */
+  /** 传递给原生标签的 props
+   * - 例如 audio video video a iframe标签的 style className onClick 等 */
   contentProps?: Record<string, any>;
 }
 

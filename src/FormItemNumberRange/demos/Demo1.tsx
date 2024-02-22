@@ -19,10 +19,12 @@ export default function Demo1() {
       />
       <LFormItemNumberRange label="数字4" name="numberRange4" contentInline />
       <LFormItemNumberRange
+        variant="filled"
         label="数字3"
         name="numberRange3"
         separator="-"
         contentInline
+        required
         contentAfter={' '}
       />
     </LForm>

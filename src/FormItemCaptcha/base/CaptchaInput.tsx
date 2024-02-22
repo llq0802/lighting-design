@@ -10,50 +10,37 @@ import { useImperativeHandle, useMemo, useRef, useState } from 'react';
 export interface CodeInputProps extends Record<string, any> {
   /**
    * 验证码组件类型
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   type?: ButtonProps['type'] | 'inline';
   /**
    *  输入框的属性
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   inputProps?: InputProps;
   /**
    *  按钮的属性
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   buttonProps?: LCaptchaButtonProps & { initText: string };
   /**
    * 组件挂载完成后，自动触发点击按钮。
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   autoClick?: boolean;
   /**
    * onGetCaptcha 请求获取验证成功后，是否自动获取输入框焦点
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   autoFocusOnGetCaptcha?: boolean;
   /**
    * 验证码最大长度
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   maxLength?: number;
   /**
-   * 点击按钮触发并请求获取验证码的异步函数。 如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。会自动管理loading
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
+   * 点击按钮触发并请求获取验证码的异步函数。
+   * -  如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。会自动管理loading
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   onGetCaptcha?: () => boolean | Promise<any>;
@@ -78,6 +65,7 @@ const CodeInput: FC<CodeInputProps> = ({
   disabled,
   size,
   maxLength,
+  variant,
 
   type = 'default',
   onGetCaptcha = () => true,
@@ -184,6 +172,7 @@ const CodeInput: FC<CodeInputProps> = ({
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Input
+        variant={variant}
         disabled={disabled}
         size={size}
         placeholder={placeholder}

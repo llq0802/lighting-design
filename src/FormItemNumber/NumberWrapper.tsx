@@ -2,20 +2,9 @@ import type { InputNumberProps } from 'antd';
 import { InputNumber } from 'antd';
 import type { FC } from 'react';
 
-export type NumberWrapperProps = InputNumberProps;
+type NumberWrapperProps = InputNumberProps;
 
-const NumberWrapper: FC<NumberWrapperProps> = (props) => {
-  const { value, onChange, ...restProps } = props;
-
-  return (
-    <InputNumber
-      autoComplete="off"
-      {...restProps}
-      style={{ width: '100%', ...restProps?.style }}
-      value={value}
-      onChange={onChange}
-    />
-  );
-};
-
+const NumberWrapper: FC<NumberWrapperProps> = (props) => (
+  <InputNumber autoComplete="off" {...props} style={{ width: '100%', ...props?.style }} />
+);
 export default NumberWrapper;

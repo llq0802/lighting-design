@@ -51,7 +51,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     let newValue: any;
     if (multiple) {
       if (bool) {
-        newValue = options?.map((item) => item[valuekey]);
+        newValue = options?.map((item) => item[valueKey]);
       } else {
         newValue = emptyArray;
       }

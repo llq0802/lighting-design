@@ -160,3 +160,4 @@ function LQueryForm(props: LQueryFormProps) {
 }
 
 export default LQueryForm;
+export * from './interface';

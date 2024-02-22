@@ -9,7 +9,7 @@ const Demo6 = () => {
   return (
     <Space>
       <LDrawerForm
-        width="100vw"
+        isFullscreen
         initialValues={{ name: '张三' }}
         form={form1}
         title="新增"
@@ -24,8 +24,8 @@ const Demo6 = () => {
         <LFormItemInput name="name" required label="姓名" />
       </LDrawerForm>
       <LDrawerForm
+        isFullscreen
         placement="bottom"
-        drawerProps={{ height: '100vh' }}
         initialValues={{ name: '张三' }}
         form={form2}
         title="新增"

@@ -1,38 +1,17 @@
-import type { LCaptchaButtonProps } from 'lighting-design/CaptchaButton';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
-import type { CodeInputProps } from './base/CaptchaInput';
 import CaptchaInput from './base/CaptchaInput';
-
-export interface LFormItemCaptchaProps
-  extends LFormItemProps,
-    Pick<
-      CodeInputProps,
-      'onGetCaptcha' | 'type' | 'inputProps' | 'buttonProps' | 'autoClick' | 'autoFocusOnGetCaptcha'
-    >,
-    Pick<LCaptchaButtonProps, 'cacheKey' | 'second' | 'disabledText' | 'onEnd' | 'actionRef'> {
-  /**
-   *  按钮初始文本
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
-   */
-  initText?: string;
-  /**
-   *  验证码最大长度
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
-   */
-  maxLength?: number;
-}
+import type { LFormItemCaptchaProps } from './interface';
 
 const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
+  placeholder,
+  size,
+  disabled = false,
+
   cacheKey = '__LFormItemCaptcha__',
   second,
   disabledText,
@@ -48,11 +27,9 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   onGetCaptcha,
   inputProps = emptyObject,
   buttonProps = emptyObject,
-  placeholder,
-  size,
-  disabled,
 
-  required,
+  variant,
+
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -63,23 +40,26 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem required={required} placeholder={messageLabel} {...restProps}>
+    <LFormItem placeholder={messageLabel} {...restProps}>
       <CaptchaInput
         size={size}
-        disabled={disabled ?? formDisabled}
+        disabled={disabled || formDisabled}
         maxLength={maxLength}
         type={type}
         onGetCaptcha={onGetCaptcha}
         autoClick={autoClick}
         autoFocusOnGetCaptcha={autoFocusOnGetCaptcha}
-        inputProps={inputProps}
+        variant={variant}
         placeholder={messageLabel}
+        inputProps={inputProps}
         buttonProps={{
           second,
           disabledText,
           onEnd,
           actionRef,
+          // @ts-ignore
           cacheKey,
+          // @ts-ignore
           initText,
           ...buttonProps,
         }}
@@ -89,3 +69,4 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
 };
 
 export default LFormItemCaptcha;
+export * from './interface';

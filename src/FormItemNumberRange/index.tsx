@@ -1,12 +1,12 @@
-import type { InputNumberProps } from 'antd';
 import { Input, InputNumber, Space } from 'antd';
+import type { ValueType } from 'lighting-design/CardGroup/interface';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem';
 import LFormItem from 'lighting-design/FormItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
+import type { LFormItemNumberRangeProps } from './interface';
 
 const prefixCls = 'lightd-number-range';
 
@@ -18,6 +18,7 @@ function NumberRange({
   separatorStyle = emptyObject,
   placeholder,
   disabled,
+  variant,
   leftNumberProps,
   rightNumberProps,
   ...restProps
@@ -33,7 +34,7 @@ function NumberRange({
       }
     }
   };
-  const handleChange = (index: number, changedValue: ValueType | null) => {
+  const handleChange = (index: number, changedValue: ValueType) => {
     const newValuePair = [...(valuePair || [])];
     newValuePair[index] = changedValue === null ? void 0 : changedValue;
     onChange?.(newValuePair);
@@ -42,6 +43,7 @@ function NumberRange({
   const dom = (
     <Space.Compact onBlur={handleOnBlur} block className={prefixCls}>
       <InputNumber
+        variant={variant}
         {...restProps}
         id={restProps?.id ? `${restProps?.id}-start` : void 0}
         disabled={disabled}
@@ -59,18 +61,20 @@ function NumberRange({
         }}
       />
       <Input
+        readOnly
+        variant={variant}
         size={restProps?.size}
-        disabled
         placeholder={separator}
         style={{
           width: separatorWidth,
           textAlign: 'center',
           pointerEvents: 'none',
-          backgroundColor: disabled ? '#f5f5f5' : '#fff',
+          backgroundColor: disabled ? '#f5f5f5' : void 0,
           ...separatorStyle,
         }}
       />
       <InputNumber
+        variant={variant}
         {...restProps}
         id={restProps?.id ? `${restProps?.id}-end` : void 0}
         disabled={disabled}
@@ -93,58 +97,20 @@ function NumberRange({
   return dom;
 }
 
-export type LFormItemNumberRangeProps = {
-  /**
-   * 中间连接符号
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
-   */
-  separator?: string;
-  /**
-   * 中间连接符号的宽度
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
-   */
-  separatorWidth?: number | string;
-  /**
-   * 中间元素的样式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
-   */
-  separatorStyle?: React.CSSProperties;
-
-  /**
-   * 左边 InputNumber 的属性
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
-   *@see https://ant.design/components/input-number-cn/#api
-   */
-  leftNumberProps?: InputNumberProps;
-
-  /**
-   * 右边 InputNumber 的属性
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberRangeProps
-   *@see https://ant.design/components/input-number-cn/#api
-   */
-  rightNumberProps?: InputNumberProps;
-} & LFormItemProps;
-
 const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
-  required,
-  disabled,
+  disabled = false,
   size,
   placeholder,
+
+  variant,
+
   separatorWidth = 30,
   separator,
   separatorStyle = emptyObject,
   leftNumberProps = emptyObject,
   rightNumberProps = emptyObject,
+
+  required = false,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
@@ -174,7 +140,9 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
     <LFormItem required={required} rules={rules} {...restProps}>
       <NumberRange
         size={size}
-        disabled={disabled ?? formDisabled}
+        disabled={disabled || formDisabled}
+        //
+        variant={variant}
         separator={separator}
         separatorStyle={separatorStyle}
         separatorWidth={separatorWidth}
@@ -186,3 +154,4 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
   );
 };
 export default LFormItemNumberRange;
+export * from './interface';

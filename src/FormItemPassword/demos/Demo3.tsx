@@ -12,13 +12,7 @@ const Demo3 = () => {
         console.log('values', values);
       }}
     >
-      <LFormItemPassword
-        className="myLFormItemInput"
-        name="password1"
-        label="密码1"
-        required
-        disabledWhiteSpace={false}
-      />
+      <LFormItemPassword className="myLFormItemInput" name="password1" label="密码1" required />
       <LFormItemPassword
         name="password2"
         label="密码2"

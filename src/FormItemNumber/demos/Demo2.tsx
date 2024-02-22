@@ -5,7 +5,13 @@ const Demo = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm form={form} submitter={{ buttonAlign: 'center' }}>
+    <LForm
+      form={form}
+      submitter={{ buttonAlign: 'center' }}
+      onFinish={(values) => {
+        console.log('values', values);
+      }}
+    >
       <LFormItemNumber name="number1" label="金额1" required contentAfter={<div>$</div>} />
 
       <LFormItemNumber
@@ -21,7 +27,6 @@ const Demo = () => {
       <LFormItemNumber
         name="number66"
         label="格式化数字1"
-        required
         initialValue={1000}
         numberProps={{
           precision: undefined,
@@ -31,7 +36,6 @@ const Demo = () => {
       />
       <LFormItemNumber
         label="格式化数字2"
-        required
         name="number77"
         initialValue={99}
         numberProps={{

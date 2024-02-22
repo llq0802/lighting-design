@@ -57,15 +57,15 @@ import { LQueryForm } from 'lighting-design';
 
 除了以下参数，其余和 [LForm](/components/form#api) 一样。
 
-| 参数               | 说明                                                                                         | 类型                                                   | 默认值                                             |
-| ------------------ | -------------------------------------------------------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------- |
-| isSpace            | 是否水平紧凑模式 (`类似行盒元素依次排列，不足宽则会换行`)                                    | `boolean`                                              | `false`                                            |
-| isApproachLastItem | `重置 查询`按钮组是否紧挨着最后的表单项                                                      | `boolean`                                              | `false`                                            |
-| gutter             | 配置每一项的间隔                                                                             | `number\|[number,number]`                              | `16`                                               |
-| itemColProps       | 每个控件外层`Col组件`的栅格配置，`isSpace`为`false`时生效                                    | [ColProps](https://ant.design/components/grid-cn/#col) | `{ xs: 24, sm: 24, md: 12, lg: 8, xl: 8, xxl: 6 }` |
-| isCollapsed        | 默认状态下是否折叠超出的表单项                                                               | `boolean`                                              | `true`                                             |
-| showColsNumber     | `isCollapsed`为`true`时生效，显示的表单控件数量，不能超过控件的总数量，为`0`时不显示全部控件 | `number`                                               | `-`                                                |
-| onCollapsedChange  | 展开/收起的回调                                                                              | `(v:boolean)=>void`                                    | `-`                                                |
+| 参数               | 说明                                                                                       | 类型                                                   | 默认值                                             |
+| ------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------ | -------------------------------------------------- |
+| isSpace            | 是否水平紧凑模式 (`类似行盒元素依次排列，不足宽则会换行`)                                  | `boolean`                                              | `false`                                            |
+| isApproachLastItem | `重置 查询`按钮组是否紧挨着最后的表单项                                                    | `boolean`                                              | `false`                                            |
+| gutter             | 配置每一项的间隔                                                                           | `number\|[number,number]`                              | `16`                                               |
+| itemColProps       | 每个控件外层`Col组件`的栅格配置，`isSpace`为`false`时生效                                  | [ColProps](https://ant.design/components/grid-cn/#col) | `{ xs: 24, sm: 24, md: 12, lg: 8, xl: 8, xxl: 6 }` |
+| isCollapsed        | 默认状态下是否折叠超出的表单项 (不支持动态设置)                                            | `boolean`                                              | `true`                                             |
+| showColsNumber     | 显示的表单控件数量，配置后且不超过控件的总数量就会显示展开/收起按钮，为`0`时不显示全部控件 | `number`                                               | `-`                                                |
+| onCollapsedChange  | 展开/收起的回调                                                                            | `(v:boolean)=>void`                                    | `-`                                                |
 
 ## 支持响应式
 

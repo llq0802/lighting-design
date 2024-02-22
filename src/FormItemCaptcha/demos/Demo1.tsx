@@ -6,13 +6,9 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm
-      form={form}
-      submitter={{
-        buttonAlign: 'center',
-      }}
-    >
+    <LForm form={form} submitter={{ buttonAlign: 'center' }}>
       <LFormItemCaptcha
+        variant="filled"
         type="inline"
         tooltip="这是提示"
         name="code1"

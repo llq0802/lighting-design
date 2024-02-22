@@ -13,12 +13,18 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   disabled = false,
   placeholder,
 
-  type,
   disabledWhiteSpace = false,
-  required,
 
+  type,
+  variant,
+  prefix,
+  suffix,
+  addonAfter,
+  addonBefore,
+  maxLength,
   inputProps = emptyObject,
 
+  required,
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -38,8 +44,16 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
         size={size}
         disabled={disabled || formDisabled}
         placeholder={messageLabel}
-        type={type}
+        //
         disabledWhiteSpace={disabledWhiteSpace}
+        //
+        type={type}
+        variant={variant}
+        prefix={prefix}
+        suffix={suffix}
+        addonAfter={addonAfter}
+        addonBefore={addonBefore}
+        maxLength={maxLength}
         {...inputProps}
       />
     </LFormItem>
@@ -47,3 +61,4 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
 };
 
 export default LFormItemInput;
+export * from './interface';

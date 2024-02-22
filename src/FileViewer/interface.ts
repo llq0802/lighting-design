@@ -5,38 +5,27 @@ import type { FileViewProps } from './FileView';
 export interface LFileViewerProps extends ModalProps, Omit<FileViewProps, 'url'> {
   /**
    * image 类型的配置
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    */
   imagePreview?: LImagePreviewProps;
   /**
    * 文件地址
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
+   *  - `本地` `远程` `base64` `data` 地址都支持
    *@example url={['地址1','地址2']}
    */
   url: string[] | string;
   /**
-   * 是否打开(受控)
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   * @type {?boolean}
+   * 是否打开`(受控)`
+   * - 需配合 onOpenChange
    * @see 官网 https://llq0802.github.io/lighting-design/latest LFileViewerProps
    */
   open?: boolean;
   /**
    *默认是否打开
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@type {?boolean}
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFileViewerProps
    */
   defaultOpen?: boolean;
   /**
-   * 默认是否打开
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@type { (open: boolean) => void }
+   * `open`改变的回调
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFileViewerProps
    */
   onOpenChange?: (open: boolean) => void;

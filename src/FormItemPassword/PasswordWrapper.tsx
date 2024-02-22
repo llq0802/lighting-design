@@ -12,7 +12,6 @@ export interface PassworldWrapperProps extends PasswordProps {
 
 const PassworldWrapper: FC<PassworldWrapperProps> = (props) => {
   const {
-    value,
     onChange,
     disabledWhiteSpace,
     disabledPaste = true,
@@ -51,7 +50,6 @@ const PassworldWrapper: FC<PassworldWrapperProps> = (props) => {
       autoComplete="new-password"
       placeholder={placeholder}
       {...restProps}
-      value={value}
       onPaste={handlePaste}
       onCopy={handleCopy}
       onChange={handleChange}

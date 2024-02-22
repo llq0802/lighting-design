@@ -15,38 +15,28 @@ export interface LTagGroupProps
     | 'fieldNames'
   > {
   /**
-   * 容器类名
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
+   * 根类名
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
    */
   className?: string;
   /**
-   * 容器样式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
+   * 根样式
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
    */
   style?: CSSProperties;
 
   /**
    *  每一项的类名
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
    */
   itemClassName?: string;
   /**
-   * 全选时的值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
+   * 全部时的值
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
    */
   allValue?: string;
   /**
    * 是否展示全部
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
    */
   showAllChecked?: boolean;

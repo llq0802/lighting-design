@@ -31,3 +31,6 @@ import { LFormItemTextArea } from 'lighting-design';
 | ------------------ | --------------------------------- | ---------------------------------------------------------------------------------------- | ------- |
 | textAreaProps      | `Input.TextArea`或者`Input`的属性 | [InputProps \| InputTextAreaProps](https://ant.design/components/input-cn#inputtextarea) | `-`     |
 | disabledWhiteSpace | 是否禁用输入空格                  | `boolean`                                                                                | `false` |
+| autoSize           | `InputTextAreaProps['autoSize']`  | `InputTextAreaProps['autoSize']`                                                         | `-`     |
+| variant            | `InputTextAreaProps['variant']`   | `InputTextAreaProps['variant']`                                                          | `-`     |
+| showCount          | `InputTextAreaProps['showCount']` | `InputTextAreaProps['showCount']`                                                        | `-`     |

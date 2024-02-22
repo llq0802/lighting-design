@@ -20,11 +20,15 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     resetButtonProps: outResetButtonProps = emptyObject,
     form,
     render,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    buttonAlign,
   } = props;
-  const { preventDefault: submitPreventDefault, ...submitButtonProps } = outSubmitButtonProps;
-  const { preventDefault: resetPreventDefault, ...resetButtonProps } = outResetButtonProps;
+  const { preventDefault: submitPreventDefault = false, ...submitButtonProps } =
+    outSubmitButtonProps;
+  const { preventDefault: resetPreventDefault = false, ...resetButtonProps } = outResetButtonProps;
 
   const resetClick = useMemoizedFn((e) => {
+    resetButtonProps?.onClick?.(e);
     if (!resetPreventDefault) {
       if (!isAntdReset) {
         form?.setFieldsValue({ ...initFormValues });
@@ -36,16 +40,15 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
       // refs: https://github.com/ant-design/ant-design/issues/26747
       Promise.resolve().then(() => onReset?.(e));
     }
-    resetButtonProps?.onClick?.(e);
   });
   const submitClick = useMemoizedFn((e) => {
+    submitButtonProps?.onClick?.(e);
     if (!submitPreventDefault) {
       if (isReady && submitButtonProps?.htmlType !== 'submit') {
         form?.submit();
       }
       Promise.resolve().then(() => onSubmit?.(e));
     }
-    submitButtonProps?.onClick?.(e);
   });
 
   const dom = useMemo(() => {

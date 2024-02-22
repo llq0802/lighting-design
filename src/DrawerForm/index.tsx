@@ -28,6 +28,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     form: outForm,
     onFinish,
     submitter,
+    isFullscreen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -65,20 +66,20 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
             ? {
                 resetText: '取消',
                 submitText: '确认',
-                submitButtonProps: {
-                  type: 'primary',
-                  ...submitter?.submitButtonProps,
-                },
                 ...submitter,
                 resetButtonProps: {
+                  ...submitter?.resetButtonProps,
                   // 把重置按钮配置成取消按钮
                   preventDefault: true, // 不触发默认的重置表单事件
-                  ...submitter?.resetButtonProps,
                   onClick: (e) => {
                     setOpen(false);
                     drawerProps?.onClose?.(e);
                     submitter?.resetButtonProps?.onClick?.(e);
                   },
+                },
+                submitButtonProps: {
+                  type: 'primary',
+                  ...submitter?.submitButtonProps,
                 },
                 render: (submitterDom, submitterProps) => {
                   if (isFunction(submitter?.render)) {
@@ -92,8 +93,9 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
         formRender={(formDom, submitterDom) => (
           <Drawer
             title={title}
-            width={width}
             placement={placement}
+            width={isFullscreen && ['left', 'right'].includes(placement) ? '100vw' : width}
+            height={isFullscreen && ['top', 'bottom'].includes(placement) ? '100vh' : void 0}
             forceRender={forceRender}
             footer={actionBarDir === 'footer' && submitterDom}
             extra={actionBarDir === 'extra' && submitterDom}
@@ -149,3 +151,4 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
 };
 
 export default LDrawerForm;
+export * from './interface';

@@ -1,38 +1,23 @@
-import type { TextAreaProps } from 'antd/lib/input';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import TextAreaWrapper from './TextAreaWrapper';
-
-export interface LFormItemTextAreaProps extends LFormItemProps {
-  /**
-   *是否禁用空格
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTextAreaProps
-   */
-  disabledWhiteSpace?: boolean;
-  /**
-   *  Input.TextArea或者Input的属性
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTextAreaProps
-   *@see https://ant.design/components/input-cn#inputtextarea
-   */
-  textAreaProps?: TextAreaProps;
-}
+import type { LFormItemTextAreaProps } from './interface';
 
 const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
-  disabledWhiteSpace = false,
-  required = false,
-  disabled,
+  disabled = false,
   size,
   placeholder,
+  disabledWhiteSpace = false,
+  required = false,
   textAreaProps = emptyObject,
+
+  autoSize,
+  variant,
+  showCount,
   ...restProps
 }) => {
   const messagePlaceholder = usePlaceholder({
@@ -45,7 +30,10 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
     <LFormItem required={required} placeholder={messagePlaceholder} {...restProps}>
       <TextAreaWrapper
         size={size}
-        disabled={disabled ?? formDisabled}
+        disabled={disabled || formDisabled}
+        autoSize={autoSize}
+        variant={variant}
+        showCount={showCount}
         disabledWhiteSpace={disabledWhiteSpace}
         placeholder={messagePlaceholder}
         {...textAreaProps}
@@ -55,3 +43,4 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
 };
 
 export default LFormItemTextArea;
+export * from './interface';

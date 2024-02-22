@@ -12,26 +12,24 @@ const prefixCls = 'lightd-trigger';
 const LTrigger: FC<LTriggerProps> = (props) => {
   const {
     labelInValue = false,
+    allowClear = true,
+    disabled = false,
+    overlayArrow = false,
+    destroyOnHide = false,
     mode: outMode = 'default',
     width = 250,
     variant,
-    allowClear = true,
     suffixIcon,
     className,
     size,
     fieldNames = { label: 'label', value: 'value' },
     placement = 'bottomLeft',
-    disabled = false,
     placeholder = '请选择',
     style,
     tagRender,
-
-    overlayArrow = false,
     overlayClassName,
     overlayStyle,
     getPopupContainer,
-    destroyOnHide,
-
     children,
     selectProps = emptyObject,
     popoverProps = emptyObject,
@@ -88,11 +86,14 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     >
       <Select
         {...selectProps}
-        className={classnames(prefixCls, className)}
-        style={{ width, ...style }}
         removeIcon={false}
         showSearch={false}
         virtual={false}
+        options={void 0}
+        popupMatchSelectWidth={false}
+        defaultActiveFirstOption={false}
+        className={classnames(prefixCls, className)}
+        style={{ width, ...style }}
         size={size}
         variant={variant}
         allowClear={allowClear}
@@ -105,7 +106,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
         onChange={setState}
         value={value}
         notFoundContent={null}
-        options={void 0}
         onInputKeyDown={(e) => {
           e.stopPropagation();
           e.preventDefault();

@@ -1,54 +1,25 @@
-import type { InputNumberProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import NumberWrapper from './NumberWrapper';
-
-export interface LFormItemNumberProps extends LFormItemProps {
-  /**
-   * InputNumber的属性
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberProps
-   *@see https://ant.design/components/input-number-cn/#api
-   */
-  numberProps?: InputNumberProps;
-  /**
-   * 保留小数点后几位
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberProps
-   */
-  precision?: number;
-  /**
-   * 最小值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberProps
-   */
-  min?: number;
-  /**
-   * 最大值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemNumberProps
-   */
-  max?: number;
-}
+import type { LFormItemNumberProps } from './interface';
 
 const LFormItemNumber: FC<LFormItemNumberProps> = ({
-  disabled,
+  disabled = false,
   size,
+  placeholder,
 
   required = false,
   precision,
   min = 0,
   max = 99999,
-  placeholder,
+  variant,
+  addonAfter,
+  prefix,
+  addonBefore,
 
   numberProps = emptyObject,
 
@@ -65,11 +36,16 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
     <LFormItem required={required} placeholder={messageLabel} {...restProps}>
       <NumberWrapper
         size={size}
-        disabled={disabled ?? formDisabled}
+        disabled={disabled || formDisabled}
         placeholder={messageLabel}
+        //
         min={min}
         max={max}
         precision={precision}
+        addonAfter={addonAfter}
+        prefix={prefix}
+        addonBefore={addonBefore}
+        variant={variant}
         {...numberProps}
       />
     </LFormItem>
@@ -77,3 +53,4 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
 };
 
 export default LFormItemNumber;
+export * from './interface';

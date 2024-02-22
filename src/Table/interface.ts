@@ -1,7 +1,7 @@
 import type { PaginationOptions } from 'ahooks/lib/usePagination/types';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
 import type { CardProps, FormInstance, TableProps } from 'antd';
-import type { LQueryFormProps } from 'lighting-design/QueryForm';
+import type { LQueryFormProps } from 'lighting-design/QueryForm/interface';
 import type {
   CSSProperties,
   Dispatch,
@@ -11,7 +11,8 @@ import type {
   RefObject,
   SetStateAction,
 } from 'react';
-import type { LToolbarActionProps } from './ToolBarAction';
+import type { LToolbarActionProps } from './base/ToolBarAction';
+
 export type LTableRenderProps = (
   optionsDom: {
     /** 表单dom */
@@ -97,54 +98,45 @@ export type LTableRequest<T = Record<string, any>> = (
 
 export type LTableProps<T = any> = {
   /**
-   * 表格是否需要排序序号及宽度, 自定义渲染
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.29
+   * 表格是否需要排序序号及宽度，自定义渲染排序
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   isSort?: boolean | { width?: number | string; render?: (pageCount: number) => ReactNode };
   /**
    * 是否展示带斑马纹的表格，可以更容易区分出不同行的数据。
    *   - string 可设置自定义颜色
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.29
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    * */
   showStripe?: boolean | string;
   /**
    * 鼠标移入每一行是否有hover效果
    *  - string 可设置自定义颜色
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.29
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    * */
   showHover?: boolean | string;
   /**
-   * 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.29
+   * 表格 表单是否准备好
+   * - false 时表格不会请求, 表单不能提交查询
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    * */
   isReady?: boolean;
   /**
    * 全屏表格的背景颜色
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.29
+   * - 仅在使用了内置表格操作栏中的全屏按钮时有效
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   fullScreenBgColor?: string;
-
   /**
-   * 异步请求函数第一次额外参数(仅在第一次请求时会携带)
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.29
+   *  `request`第一次请求的额外参数
+   * - (仅在第一次请求时会携带)
+   * - 会传入到 `request` 参数中
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   defaultRequestParams?: Record<string, any>;
   /**
-   * ahooks 的 useRequest 的 配置项， 部分参数无法配置
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.29
+   * `ahooks` 的 `useRequest` 的配置项
+   * - 使用其配置项可以很简单的使用其高级请求的功能
+   * - 部分参数无法配置
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    * @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
    */
@@ -178,7 +170,6 @@ export type LTableProps<T = any> = {
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   autoRequest?: boolean;
-
   /**
    * 查询表单的实例
    * @author 李岚清 <https://github.com/llq0802>
@@ -187,9 +178,8 @@ export type LTableProps<T = any> = {
    */
   formRef?: MutableRefObject<FormInstance | undefined> | ((ref: FormInstance) => void);
   /**
-   * 表格的实例 (包含一些方法)
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.29
+   * 表格的实例
+   * - (包含一些方法属性数据以及根div)
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   tableRef?: MutableRefObject<LTableInstance | undefined>;
@@ -336,11 +326,10 @@ export type LTableProps<T = any> = {
    */
   formInitialValues?: Record<string, any>;
   /**
-   * 高级查询表单组件的props-LQueryFormProps
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.29
+   * 高级查询表单的 props
+   * - 配合此组件可自定义渲染组合表单发起请求
+   * - 具体参数配置请看`LQueryFormProps`
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
-   * @see https://llq0802.github.io/lighting-design/latest/components/query-form
    */
   queryFormProps?: LQueryFormProps;
   requestSuccess?: PaginationOptions<

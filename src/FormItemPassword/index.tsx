@@ -1,74 +1,17 @@
-import type { PasswordProps } from 'antd/lib/input/Password';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyObject, PASSWORD_REG } from 'lighting-design/constants';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import type { FC } from 'react';
 import { useContext } from 'react';
+import type { LFormItemPasswordProps } from './interface';
 import PasswordWrapper from './PasswordWrapper';
 
-export interface LFormItemPasswordProps extends LFormItemProps {
-  /**
-   * 密码最小位数
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
-   */
-  min?: number;
-  /**
-   * 密码最大位数
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
-   */
-  max?: number;
-  /**
-   * 是否开启高强度密码验证
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
-   */
-  highPassWord?: boolean;
-  /**
-   * 开启高强度密码验证错误后的提示
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
-   */
-  highPassWordErrorMsg?: string;
-  /**
-   * 是否禁用空格输入
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
-   */
-  disabledWhiteSpace?: boolean;
-  /**
-   * Input.Password 的属性
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
-   *@see https://ant.design/components/input-cn/#Input.Password
-   */
-  passwordProps?: PasswordProps;
-  /**
-   *  是否禁用粘贴
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
-   */
-  disabledPaste?: boolean;
-  /**
-   *  是否禁用复制
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemPasswordProps
-   */
-  disabledCopy?: boolean;
-}
-
 const LFormItemPassword: FC<LFormItemPasswordProps> = ({
+  size,
+  disabled = false,
+  placeholder,
+
   min = 8,
   max = 16,
   highPassWord = false,
@@ -76,11 +19,9 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   disabledPaste = true,
   disabledCopy = true,
   passwordProps = emptyObject,
-  required,
-  size,
-  disabled,
-  placeholder,
+  required = false,
   highPassWordErrorMsg = `必须同时包含大小写字母 , 数字  , 特殊字符且位数至少8位!`,
+  variant,
   ...restProps
 }) => {
   const messagePlaceholder = usePlaceholder({
@@ -92,7 +33,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
 
   const rules = [
     {
-      validator(_, value) {
+      validator(_: any, value: any) {
         let errMsg = '';
 
         if (!highPassWord) {
@@ -120,11 +61,12 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
     <LFormItem placeholder={messagePlaceholder} required={required} rules={rules} {...restProps}>
       <PasswordWrapper
         size={size}
-        disabled={disabled ?? formDisabled}
+        disabled={disabled || formDisabled}
         disabledWhiteSpace={disabledWhiteSpace}
         disabledPaste={disabledPaste}
         disabledCopy={disabledCopy}
         placeholder={messagePlaceholder}
+        variant={variant}
         {...passwordProps}
       />
     </LFormItem>
@@ -132,3 +74,4 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
 };
 
 export default LFormItemPassword;
+export * from './interface';
