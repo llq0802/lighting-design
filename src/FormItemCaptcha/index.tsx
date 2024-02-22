@@ -42,27 +42,23 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   return (
     <LFormItem placeholder={messageLabel} {...restProps}>
       <CaptchaInput
+        placeholder={messageLabel}
         size={size}
         disabled={disabled || formDisabled}
+        variant={variant}
         maxLength={maxLength}
         type={type}
         onGetCaptcha={onGetCaptcha}
         autoClick={autoClick}
         autoFocusOnGetCaptcha={autoFocusOnGetCaptcha}
-        variant={variant}
-        placeholder={messageLabel}
-        inputProps={inputProps}
-        buttonProps={{
-          second,
-          disabledText,
-          onEnd,
-          actionRef,
-          // @ts-ignore
-          cacheKey,
-          // @ts-ignore
-          initText,
-          ...buttonProps,
-        }}
+        second={second}
+        disabledText={disabledText}
+        onEnd={onEnd}
+        actionRef={actionRef}
+        cacheKey={cacheKey}
+        initText={initText}
+        buttonProps={buttonProps}
+        {...inputProps}
       />
     </LFormItem>
   );

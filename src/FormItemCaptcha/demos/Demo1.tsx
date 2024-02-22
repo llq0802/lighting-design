@@ -14,7 +14,7 @@ const Demo1 = () => {
         name="code1"
         cacheKey="__FormItemCaptcha__code1"
         label="内联验证码"
-        second={6}
+        second={10}
         required
         onGetCaptcha={async () => {
           await awaitTime();

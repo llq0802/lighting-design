@@ -1,10 +1,9 @@
 import { useMemoizedFn, useMount } from 'ahooks';
-import type { ButtonProps, InputProps, InputRef } from 'antd';
+import type { ButtonProps, InputRef } from 'antd';
 import { Divider, Input } from 'antd';
 import { LCaptchaButton } from 'lighting-design';
-import type { LCaptchaButtonProps } from 'lighting-design/CaptchaButton';
 import { emptyObject } from 'lighting-design/constants';
-import type { CSSProperties, ChangeEvent, FC } from 'react';
+import type { CSSProperties, FC, Ref } from 'react';
 import { useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 export interface CodeInputProps extends Record<string, any> {
@@ -13,16 +12,12 @@ export interface CodeInputProps extends Record<string, any> {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
   type?: ButtonProps['type'] | 'inline';
-  /**
-   *  输入框的属性
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
-   */
-  inputProps?: InputProps;
+
   /**
    *  按钮的属性
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
    */
-  buttonProps?: LCaptchaButtonProps & { initText: string };
+  buttonProps?: ButtonProps;
   /**
    * 组件挂载完成后，自动触发点击按钮。
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemCaptchaProps
@@ -59,34 +54,35 @@ const checkResult = async (fn: () => boolean | Promise<boolean>) => {
 };
 
 const CodeInput: FC<CodeInputProps> = ({
-  value,
-  onChange,
   placeholder,
   disabled,
   size,
   maxLength,
   variant,
-
+  actionRef,
+  onEnd,
+  initText,
+  second,
+  disabledText,
+  cacheKey,
   type = 'default',
   onGetCaptcha = () => true,
   autoClick = false,
   autoFocusOnGetCaptcha = true,
-  inputProps = emptyObject,
   buttonProps = emptyObject,
 
   ...restProps
 }) => {
   const [loading, setLoading] = useState(false);
   const [start, setStart] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef: Ref<InputRef> | undefined = useRef(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const { onClick, onEnd, initText, ...restButtonProps } = buttonProps;
 
   // 点击按钮
   const onButtonClick = useMemoizedFn(async (e: React.MouseEvent<HTMLElement>) => {
     if (disabled) return;
-    onClick?.(e);
-    if (restButtonProps?.actionRef) return Promise.reject(false);
+    buttonProps?.onClick?.(e);
+    if (actionRef) return Promise.reject(false);
     try {
       setLoading(true);
       // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。
@@ -145,10 +141,14 @@ const CodeInput: FC<CodeInputProps> = ({
       disabled={disabled}
       start={start}
       type={type === 'inline' || type === 'link' ? 'link' : type}
-      {...restButtonProps}
+      {...buttonProps}
       onClick={onButtonClick}
+      actionRef={actionRef}
       onEnd={handleEnd}
-      ref={buttonRef as unknown as React.RefObject<React.RefObject<HTMLInputElement>>}
+      second={second}
+      disabledText={disabledText}
+      cacheKey={cacheKey}
+      ref={buttonRef}
       style={buttonStyle}
     >
       {initText}
@@ -161,14 +161,6 @@ const CodeInput: FC<CodeInputProps> = ({
     }
   });
 
-  const handleOnChange = useMemoizedFn((e: ChangeEvent<HTMLInputElement>) => {
-    const input = e.target;
-    if (inputProps?.onChange) {
-      inputProps?.onChange(input.value as any);
-    }
-    onChange?.(input.value);
-  });
-
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Input
@@ -179,21 +171,18 @@ const CodeInput: FC<CodeInputProps> = ({
         allowClear
         autoComplete="off"
         maxLength={maxLength}
-        ref={inputRef as unknown as React.Ref<InputRef> | undefined}
+        ref={inputRef}
         {...restProps}
-        {...inputProps}
-        onChange={handleOnChange}
-        value={value}
-        style={{ ...defaultStyle.input, ...inputProps?.style }}
+        style={{ ...defaultStyle.input, ...restProps?.style }}
         suffix={
           type === 'inline' ? (
             <>
-              {inputProps?.suffix}
+              {restProps?.suffix}
               <Divider type="vertical" />
               {captchaButtonDom}
             </>
           ) : (
-            inputProps?.suffix
+            restProps?.suffix
           )
         }
       />

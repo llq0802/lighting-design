@@ -6,11 +6,11 @@ import {
   useUpdateEffect,
 } from 'ahooks';
 import { Button } from 'antd';
-import type { ForwardRefRenderFunction, Ref, RefObject } from 'react';
+import type { ForwardRefRenderFunction } from 'react';
 import { forwardRef, useImperativeHandle } from 'react';
 import type { LCaptchaButtonProps } from './interface';
 
-const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCaptchaButtonProps> = (
+const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButtonProps> = (
   props,
   ref,
 ) => {
@@ -67,7 +67,7 @@ const LCaptchaButton: ForwardRefRenderFunction<RefObject<HTMLInputElement>, LCap
 
   return (
     <Button
-      ref={ref as Ref<HTMLElement>}
+      ref={ref}
       {...buttonProps}
       disabled={(buttonProps as any)?.disabled || countdown !== 0}
       onClick={handleButtonClick}

@@ -1,81 +1,16 @@
-import type { AutoCompleteProps } from 'antd';
 import { AutoComplete } from 'antd';
-import type { DefaultOptionType } from 'antd/lib/select';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
-import type { FC, ReactElement } from 'react';
-import { useContext } from 'react';
-
-export type LFormItemAutoCompleteProps = {
-  /**
-   * 自定义输入框
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
-   */
-  inputRender?: () => ReactElement;
-  /**
-   * 被选中时调用，参数为选中项的 value 值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
-   */
-  onSelect?: AutoCompleteProps['onSelect'];
-  /**
-   * 搜索补全项的时候调用
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
-   */
-  onSearch?: AutoCompleteProps['onSearch'];
-  /**
-   * AutoComplete 的 onFocus
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
-   */
-
-  onFocus?: AutoCompleteProps['onFocus'];
-  /**
-   * AutoComplete 的 onBlur
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
-   */
-  onBlur?: AutoCompleteProps['onBlur'];
-  /**
-   * 数据化配置选项内容
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
-   */
-  options?: DefaultOptionType[];
-  /**
-   * antd自动补全组件 Props
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
-   */
-  autoCompleteProps?: AutoCompleteProps;
-  /**
-   * 是否禁用
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
-   */
-  disabled?: boolean;
-  /**
-   * placeholder 提示语
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemAutoCompleteProps
-   */
-  placeholder?: string;
-} & LFormItemProps;
+import type { FC } from 'react';
+import { cloneElement, useContext } from 'react';
+import type { LFormItemAutoCompleteProps } from './interface';
 
 const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
+  disabled = false,
+  size,
+  placeholder,
+
   onSearch,
   onSelect,
   onFocus,
@@ -83,10 +18,7 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
   options,
   inputRender,
   autoCompleteProps,
-  required,
-  placeholder,
-  size,
-  disabled,
+  variant,
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -94,40 +26,30 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
     restProps,
     isSelectType: false,
   });
-
   const { disabled: formDisabled } = useContext(LFormContext);
-
+  const publicProps = {
+    disabled: disabled || formDisabled,
+    options,
+    variant,
+    onSelect,
+    onSearch,
+    onFocus,
+    onBlur,
+    ...autoCompleteProps,
+    style: { width: '100%', ...autoCompleteProps?.style },
+  };
   return (
-    <LFormItem required={required} placeholder={messageLabel} {...restProps}>
+    <LFormItem placeholder={messageLabel} {...restProps}>
       {!inputRender ? (
-        <AutoComplete
-          size={size}
-          disabled={disabled ?? formDisabled}
-          allowClear
-          options={options}
-          placeholder={messageLabel}
-          onSelect={onSelect}
-          onSearch={onSearch}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          {...autoCompleteProps}
-          style={{ width: '100%', ...autoCompleteProps?.style }}
-        />
+        <AutoComplete allowClear size={size} placeholder={messageLabel} {...publicProps} />
       ) : (
-        <AutoComplete
-          size={size}
-          disabled={disabled ?? formDisabled}
-          allowClear
-          options={options}
-          placeholder={messageLabel}
-          onSelect={onSelect}
-          onSearch={onSearch}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          {...autoCompleteProps}
-          style={{ width: '100%', ...autoCompleteProps?.style }}
-        >
-          {inputRender()}
+        <AutoComplete {...publicProps}>
+          {cloneElement(inputRender(), {
+            allowClear: true,
+            size,
+            placeholder: messageLabel,
+            ...inputRender()?.props,
+          })}
         </AutoComplete>
       )}
     </LFormItem>

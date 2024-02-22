@@ -12,7 +12,7 @@ export interface LQueryFormProps extends BaseFormProps {
   isCollapsed?: boolean;
   /**
    *  显示多少项, 默认不显示
-   * - 配置为 number 时,  表单项的总数 > showColsNumber 时会有收起/展开
+   * - 配置为 number 时,  表单项的总数 > showColsNumber 时会有***收起/展开按钮***
    * - 如果不想有 ***折叠/展开***按钮 就不要配置 showColsNumber
    *@see 官网 https://llq0802.github.io/lighting-design/latest LQueryFormProps
    * */
