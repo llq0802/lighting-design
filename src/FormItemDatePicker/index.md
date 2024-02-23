@@ -54,6 +54,7 @@ import { LFormItemDatePicker } from 'lighting-design';
 | 参数               | 说明                                   | 类型                                                                                         | 默认值     |
 | ------------------ | -------------------------------------- | -------------------------------------------------------------------------------------------- | ---------- |
 | dateValueType      | 表单获取到的日期格式                   | `'string' \| 'number' \| 'dayjs'`                                                            | `'string'` |
+| variant            | 形态变体                               | `PickerProps['variant']`                                                                     | `-`        |
 | picker             | 日期的类型                             | `"date" \| "week" \| "month" \| "quarter" \| "year"`                                         | `'date'`   |
 | format             | 同`antd`日期组件的格式                 | 配置参考 `antd` 日期组件（不同的`picker`有不同的格式）                                       | `-`        |
 | showTime           | 是否展示时间                           | `boolean`                                                                                    | `false`    |

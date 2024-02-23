@@ -37,7 +37,6 @@ const Index = () => {
         ]}
       />
       <LFormItemRadio
-        dependencies={['select1']}
         label="select2"
         name="select2"
         required
@@ -45,17 +44,16 @@ const Index = () => {
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
         request={async () => {
-          console.log('select1', select1);
           let data: Record<string, any>[] = [];
-          if (select1 === 'a') {
-            data = [{ label: 'A', value: 'a' }];
-          }
-          if (select1 === 'b') {
-            data = [{ label: 'B', value: 'b' }];
-          }
-          if (select1 === 'c') {
-            data = [{ label: 'C', value: 'c' }];
-          }
+          // if (select1 === 'a') {
+          //   data = [{ label: 'A', value: 'a' }];
+          // }
+          // if (select1 === 'b') {
+          //   data = [{ label: 'B', value: 'b' }];
+          // }
+          // if (select1 === 'c') {
+          //   data = [{ label: 'C', value: 'c' }];
+          // }
 
           const result = await awaitTime(data);
           if (result.success) return result.data;

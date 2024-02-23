@@ -1,40 +1,24 @@
-import type { TreeSelectProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import type { LFormItemSelectProps } from 'lighting-design/FormItemSelect';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import TreeSelectWrapper from './base/TreeSelectWrapper';
-
-export interface LFormItemTreeSelectProps
-  extends LFormItemProps,
-    Pick<LFormItemSelectProps, 'actionRef' | 'requestOptions' | 'request' | 'spin'> {
-  treeDataSimpleMode?: boolean;
-  showSearch?: boolean;
-  multiple?: boolean;
-  treeIcon?: TreeSelectProps['treeIcon'];
-  treeLine?: TreeSelectProps['treeLine'];
-  treeCheckable?: TreeSelectProps['treeCheckable'];
-  loadData?: TreeSelectProps['loadData'];
-  treeData?: TreeSelectProps['treeData'];
-  fieldNames?: TreeSelectProps['fieldNames'];
-  treeSelectProps?: TreeSelectProps;
-}
+import type { LFormItemTreeSelectProps } from './interface';
 
 const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
-  required,
   placeholder,
-  disabled,
+  disabled = false,
   size,
 
   request,
   requestOptions = emptyObject,
   actionRef,
   spin,
-
+  autoRequest = true,
+  refreshDeps,
+  variant,
   treeLine,
   treeCheckable,
   treeIcon,
@@ -56,15 +40,18 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem required={required} _isSelectType {...restProps}>
+    <LFormItem _isSelectType {...restProps}>
       <TreeSelectWrapper
-        disabled={disabled ?? formDisabled}
+        disabled={disabled || formDisabled}
         actionRef={actionRef}
         placeholder={messagePlaceholder}
         dependencies={restProps?.dependencies}
         treeData={treeData}
         request={request}
         size={size}
+        autoRequest={autoRequest}
+        refreshDeps={refreshDeps}
+        variant={variant}
         outLoading={spin}
         requestOptions={requestOptions}
         showSearch={showSearch}
@@ -82,3 +69,4 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
 };
 
 export default LFormItemTreeSelect;
+export * from './interface';

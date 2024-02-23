@@ -46,6 +46,7 @@ const Demo1 = () => {
       }}
     >
       <LFormItemCascader
+        variant="filled"
         label="级联选择1"
         name="cascader1"
         required

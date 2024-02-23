@@ -1,34 +1,13 @@
-import type { RadioGroupProps, SelectProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import type { LFormItemSelectProps } from 'lighting-design/FormItemSelect';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import RadioWrapper from './base/RadioWrapper';
+import type { LFormItemRadioProps } from './interface';
 
-export interface LFormItemRadioProps
-  extends LFormItemProps,
-    Pick<
-      LFormItemSelectProps,
-      | 'fieldNames'
-      | 'actionRef'
-      | 'requestOptions'
-      | 'request'
-      | 'all'
-      | 'allValue'
-      | 'allLabel'
-      | 'spin'
-    > {
-  options?: SelectProps['options'] | Record<string, any>[];
-  radioProps?: RadioGroupProps;
-  optionType?: RadioGroupProps['optionType'];
-  buttonStyle?: RadioGroupProps['buttonStyle'];
-}
-
-const validatorSelectVal = (value, all, allValue) => {
+const validatorSelectVal = (value: any, all: boolean, allValue: any) => {
   if ((typeof value === 'number' && !Number.isNaN(value)) || (all && allValue === value)) {
     return true;
   }
@@ -36,6 +15,12 @@ const validatorSelectVal = (value, all, allValue) => {
 };
 
 const LFormItemRadio: FC<LFormItemRadioProps> = ({
+  placeholder,
+  size,
+  disabled = false,
+  autoRequest = true,
+  refreshDeps,
+
   request,
   fieldNames,
   optionType,
@@ -44,14 +29,11 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   allValue = 'all',
   allLabel = '全部',
   options = emptyArray,
-  disabled,
-  size,
   radioProps = emptyObject,
-  placeholder,
   spin,
   requestOptions = emptyObject,
 
-  required,
+  required = false,
   actionRef,
   ...restProps
 }) => {
@@ -85,12 +67,14 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
       <RadioWrapper
         dependencies={restProps?.dependencies}
         size={size}
-        disabled={disabled ?? formDisabled}
+        disabled={disabled || formDisabled}
         actionRef={actionRef}
         options={options}
         request={request}
         requestOptions={requestOptions}
+        refreshDeps={refreshDeps}
         outLoading={spin}
+        autoRequest={autoRequest}
         all={all}
         allValue={allValue}
         allLabel={allLabel}
@@ -104,3 +88,4 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
 };
 
 export default LFormItemRadio;
+export * from './interface';

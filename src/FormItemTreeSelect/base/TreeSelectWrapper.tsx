@@ -12,6 +12,9 @@ const TreeSelectWrapper: FC<Record<string, any>> = ({
   treeData: outTreeData = emptyArray,
   request,
   outLoading,
+  autoRequest = true,
+  refreshDeps,
+
   requestOptions = emptyObject,
   ...restProps
 }) => {
@@ -20,6 +23,8 @@ const TreeSelectWrapper: FC<Record<string, any>> = ({
     options: outTreeData,
     request,
     requestOptions,
+    autoRequest,
+    refreshDeps,
   });
   const { loading, data } = requestRes;
 
@@ -33,6 +38,7 @@ const TreeSelectWrapper: FC<Record<string, any>> = ({
   const dom = (
     <TreeSelect
       allowClear
+      treeNodeFilterProp={treeSelectProps?.fieldNames?.label ?? 'label'}
       treeData={treeSelectData}
       dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
       {...treeSelectProps}

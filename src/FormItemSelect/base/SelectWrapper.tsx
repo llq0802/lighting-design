@@ -1,42 +1,12 @@
-import type { SpinProps } from 'antd';
 import { Select, Spin } from 'antd';
-import LForm from 'lighting-design/Form';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import { getOptions, omit, pick } from 'lighting-design/_utils';
+import { getOptions, omit } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
-import { useDependencies, useRequestOptions } from 'lighting-design/hooks';
-import type { FC, ReactNode } from 'react';
+import { useRequestOptions } from 'lighting-design/hooks';
+import type { FC } from 'react';
 import { useImperativeHandle, useMemo } from 'react';
 
-export type SelectWrapperProps = Record<string, any> & {
-  request?: (
-    ...args: any[]
-  ) => Promise<{ label: ReactNode; value: string | number; [key: string]: any }[]>;
-  /**
-   *是否需要全部选项
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   */
-  all?: boolean;
-  /**
-   *全部选项的值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   */
-  allValue?: number | string;
-  /**
-   *全部选项的名称
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   */
-  allLabel?: ReactNode;
-  outLoading?: SpinProps;
-};
-
-const SelectWrapper: FC<SelectWrapperProps> = ({
+const SelectWrapper: FC<Record<string, any>> = ({
   dependencies = emptyArray,
   options: outOptions = emptyArray,
   all = false,
@@ -44,31 +14,23 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   allLabel = '全部',
 
   request,
+  autoRequest,
   requestOptions = emptyObject,
   outLoading,
 
-  name,
   actionRef,
+  refreshDeps,
   ...restProps
 }) => {
-  const form = LForm.useFormInstance();
   const selectProps = omit(restProps, dependencies);
-  const dependenciesObj = pick(restProps, dependencies);
   const requestRes = useRequestOptions({
     options: outOptions,
     request,
     requestOptions,
+    refreshDeps,
+    autoRequest,
   });
-  const { run, loading, data } = requestRes;
-
-  const { dependValues } = useDependencies({
-    dependencies,
-    dependenciesObj,
-    request,
-    run,
-    form,
-    name,
-  });
+  const { loading, data } = requestRes;
 
   const opts = useMemo(() => {
     const innerOpts = getOptions(outOptions, data);
@@ -88,6 +50,7 @@ const SelectWrapper: FC<SelectWrapperProps> = ({
   const dom = (
     <Select
       allowClear
+      optionFilterProp={selectProps?.fieldNames?.label ?? 'label'}
       options={opts}
       {...selectProps}
       style={{ width: '100%', ...restProps.style }}

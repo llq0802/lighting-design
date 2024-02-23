@@ -41,30 +41,19 @@ nav:
 
 ## API
 
-:::warning{title=注意}
-
-- `request`与`options`同时配置时 `options`优先级更高
-
-- `request` 的参数集合`depends` 为 `LFormItem` 组件 `dependencies` 属性依赖项字段的值 , 如果依赖项发生变化则会自动请求数据 , 如果依赖项的值为`假值或者空数组`则本身数据也会清除或者禁用选择
-
-:::
-
 ```ts
 import { LFormItemCheckbox } from 'lighting-design';
 ```
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
-| 参数           | 说明                                    | 类型                                                                          | 默认值 |
-| -------------- | --------------------------------------- | ----------------------------------------------------------------------------- | ------ |
-| options        | 数据源                                  | ` CheckboxOptionType[] \| Record<string, any>[]`                              | `-`    |
-| request        | 请求数据源的异步函数                    | `(...args: any[]) => Promise< CheckboxOptionType[] \| Record<string, any>[]>` | `-`    |
-| requestOptions | ahook 的 request 的配置项               | `-`                                                                           | `-`    |
-| beforeAll      | 自定义全选                              | `LCheckboxBeforeAllProps \| boolean `                                         | `-`    |
-| fieldNames     | 自定义字段名                            | `SelectProps['fieldNames']`                                                   | `-`    |
-| spin           | 自定义 loading 效果                     | [SpinProps](https://ant.design/components/spin-cn/#api)                       | `-`    |
-| actionRef      | 配置 request 时 useRequest 的全部返回值 | `LFormItemActionRef`                                                          | `-`    |
-| checkboxProps  | 多选框组件 Props                        | [CheckboxProps](https://ant.design/components/checkbox-cn/#api)               | `-`    |
+除了以下参数， 还包含 [LFormItemSelect](/components/form-item-select#api) 的 `autoRequest` `request` `requestOptions` `refreshDeps` `spin` `actionRef` `options`
+用法与 [LFormItemSelect](/components/form-item-select#api) 一致
+
+| 参数          | 说明             | 类型                                                            | 默认值 |
+| ------------- | ---------------- | --------------------------------------------------------------- | ------ |
+| beforeAll     | 自定义全选       | `LCheckboxBeforeAllProps \| boolean `                           | `-`    |
+| checkboxProps | 多选框组件 Props | [CheckboxProps](https://ant.design/components/checkbox-cn/#api) | `-`    |
 
 ### LCheckboxBeforeAllProps
 

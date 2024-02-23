@@ -1,35 +1,14 @@
-import type { RateProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import RateWrapper from './base/RateWrapper';
-
-export interface LFormItemRateProps extends LFormItemProps {
-  /**
-   *总共的星数
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemRateProps
-   */
-  count?: number;
-  /**
-   *是否需要半心
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemRateProps
-   */
-  allowHalf?: boolean;
-  character?: RateProps['character'];
-  rateProps?: RateProps;
-}
+import type { LFormItemRateProps } from './interface';
 
 const LFormItemRate: FC<LFormItemRateProps> = ({
   rateProps,
-  required,
-  disabled,
+  disabled = false,
   size,
   allowHalf,
   character,
@@ -48,7 +27,9 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
       validator(rule, value: number) {
         let errMsg = '';
         if (!value) {
-          errMsg = required ? `${restProps?.messageVariables?.label || messageLabel}!` : '';
+          errMsg = restProps?.required
+            ? `${restProps?.messageVariables?.label || messageLabel}!`
+            : '';
         }
         if (errMsg) {
           return Promise.reject(errMsg);
@@ -59,9 +40,9 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
   ];
 
   return (
-    <LFormItem required={required} _isSelectType rules={rules} {...restProps}>
+    <LFormItem _isSelectType rules={rules} {...restProps}>
       <RateWrapper
-        size={size ?? formSize}
+        size={size || formSize}
         allowHalf={allowHalf}
         count={count}
         character={character}
@@ -73,3 +54,4 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
 };
 
 export default LFormItemRate;
+export * from './interface';

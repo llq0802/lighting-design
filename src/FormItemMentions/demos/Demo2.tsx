@@ -1,4 +1,6 @@
+import Mock from 'better-mock';
 import { LForm, LFormItemMentions, LFormItemSelect } from 'lighting-design';
+const opts = Mock.mock({ 'list|6': [{ label: '@cname', value: '@cname' }] }).list;
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
@@ -12,32 +14,22 @@ const Demo1 = () => {
         console.log('res', res);
       }}
     >
-      <LFormItemSelect
-        label="select-1"
-        name="select-1"
-        required
-        options={[
-          { label: 'open', value: 'open' },
-          { label: 'closed', value: 'closed' },
-          { label: 'processing', value: 'processing' },
-        ]}
-      />
+      <LFormItemSelect label="select-1" name="select-1" required options={opts} />
 
       <LFormItemMentions
         required
+        disabled={!select1Val}
+        mentionsProps={{ readOnly: !select1Val }}
         label="标签-1"
         name="mentions-1"
         refreshDeps={[select1Val]}
-        request={async (value) => {
-          console.log('value', value);
+        request={async () => {
+          if (!select1Val) return [];
           return new Promise((resolve) => {
             setTimeout(() => {
-              resolve([
-                { value: 'afc163', label: 'afc163', key: 'afc163' },
-                { value: 'zombieJ', label: 'zombieJ', key: 'zombieJ' },
-                { value: 'yesmeck', label: 'yesmeck', key: 'yesmeck' },
-              ]);
-            }, 2000);
+              const opts1 = Mock.mock({ 'list|6': [{ label: '@cname', value: '@cname' }] }).list;
+              resolve(opts1);
+            }, 1000);
           });
         }}
       />

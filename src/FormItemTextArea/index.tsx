@@ -12,7 +12,6 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
   size,
   placeholder,
   disabledWhiteSpace = false,
-  required = false,
   textAreaProps = emptyObject,
 
   autoSize,
@@ -27,7 +26,7 @@ const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem required={required} placeholder={messagePlaceholder} {...restProps}>
+    <LFormItem placeholder={messagePlaceholder} {...restProps}>
       <TextAreaWrapper
         size={size}
         disabled={disabled || formDisabled}

@@ -15,6 +15,8 @@ const RadioWrapper: FC<Record<string, any>> = ({
   fieldNames,
   request,
   requestOptions,
+  refreshDeps,
+  autoRequest = true,
   all = false,
   allValue = 'all',
   allLabel = '全部',
@@ -26,6 +28,8 @@ const RadioWrapper: FC<Record<string, any>> = ({
     options: outOptions,
     request,
     requestOptions,
+    refreshDeps,
+    autoRequest,
   });
   const { loading, data } = requestRes;
   const opts = useMemo(() => {

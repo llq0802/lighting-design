@@ -40,7 +40,7 @@ const Demo1 = () => {
   return (
     <LForm form={form}>
       <LFormItemTreeSelect
-        label="树形选择"
+        variant="filled"
         name="tree"
         required
         treeData={treeData}

@@ -1,14 +1,12 @@
 import { useMemoizedFn } from 'ahooks';
-import type { DatePickerProps, TimePickerProps } from 'antd';
+import type { DatePickerProps } from 'antd';
 import { DatePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import type { MonthPickerProps, RangePickerProps, WeekPickerProps } from 'antd/lib/date-picker';
 import type { Dayjs } from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import type { DateValueType, Picker } from 'lighting-design/_utils/date';
 import {
   DateFormat,
   createDisabledDate,
@@ -18,6 +16,7 @@ import {
 import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext, useMemo } from 'react';
+import type { LFormItemDatePickerProps } from './interface';
 
 const { RangePicker } = DatePicker;
 
@@ -137,78 +136,21 @@ const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
   );
 };
 
-export interface LFormItemDatePickerProps extends LFormItemProps {
-  /**
-   *禁用今天的前面的日期 为`0`时包括今天
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
-   */
-  disabledDateBefore?: number;
-  /**
-   *禁用今天的后面的日期 为`0`时包括今天
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
-   */
-  disabledDateAfter?: number;
-  /**
-   *是否展示时间 (时分秒)
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
-   */
-  showTime?: TimePickerProps | boolean;
-  /**
-   *日期格式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
-   */
-  format?: string;
-
-  /**
-   *表单获取到的时间格式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
-   */
-  dateValueType?: DateValueType;
-  /**
-   *日期类型
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
-   */
-  picker?: Picker;
-  /**
-   *antd日期组件的 Props
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
-   */
-  pickerProps?: DatePickerProps | MonthPickerProps | WeekPickerProps | RangePickerProps | any;
-
-  /** 是否是范围日期选择 */
-  rangePicker?: boolean;
-}
-
 const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
+  disabled = false,
+  placeholder,
+  size,
+  variant,
+  rangePicker = false,
   dateValueType = 'string',
   disabledDateBefore,
   disabledDateAfter,
-  rangePicker = false,
-
   picker = 'date',
   showTime = false,
   format,
   pickerProps = emptyObject,
-  placeholder,
 
   // normalize,
-  disabled,
-  size,
-  required = false,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
@@ -238,48 +180,27 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
   //   },
   // );
 
-  const dom = useMemo(() => {
-    return !rangePicker ? (
-      <DatePickerWrapper
-        size={size}
-        dateValueType={dateValueType}
-        placeholder={placeholder}
-        disabledDate={currentDisabledDate}
-        {...pickerProps}
-        showTime={showTime}
-        format={currentFormat}
-        disabled={disabled ?? formDisabled}
-        picker={currentPicker}
-      />
-    ) : (
-      <RangePickerWrapper
-        size={size}
-        dateValueType={dateValueType}
-        placeholder={placeholder}
-        disabledDate={currentDisabledDate}
-        {...pickerProps}
-        format={currentFormat}
-        showTime={showTime}
-        picker={currentPicker}
-        disabled={disabled ?? formDisabled}
-      />
-    );
-  }, [
-    currentDisabledDate,
-    currentFormat,
-    currentPicker,
-    disabled,
-    formDisabled,
-    pickerProps,
-    placeholder,
-    rangePicker,
+  const publicProps = {
+    size,
+    variant,
+    dateValueType,
     showTime,
-  ]);
+    placeholder,
+    disabledDate: currentDisabledDate,
+    format: currentFormat,
+    picker: currentPicker,
+    disabled: disabled || formDisabled,
+    ...pickerProps,
+  };
+  const dom = !rangePicker ? (
+    <DatePickerWrapper {...publicProps} />
+  ) : (
+    <RangePickerWrapper {...publicProps} />
+  );
 
   return (
     <LFormItem
       _isSelectType
-      required={required}
       // normalize={handleTransform}
       {...restProps}
     >
@@ -289,3 +210,4 @@ const LFormItemDatePicker: FC<LFormItemDatePickerProps> = ({
 };
 
 export default LFormItemDatePicker;
+export * from './interface';

@@ -1,41 +1,28 @@
-import type { CascaderProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import type { LFormItemSelectProps } from 'lighting-design/FormItemSelect';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import CascaderWrapper from './base/CascaderWrapper';
-
-export interface LFormItemCascaderProps
-  extends LFormItemProps,
-    Pick<LFormItemSelectProps, 'request' | 'requestOptions' | 'spin' | 'actionRef'> {
-  cascaderProps?: CascaderProps;
-  showSearch?: boolean;
-  multiple?: boolean;
-  loadData?: CascaderProps['loadData'];
-  fieldNames?: CascaderProps['fieldNames'];
-  changeOnSelect?: CascaderProps['changeOnSelect'];
-  displayRender?: CascaderProps['displayRender'];
-  expandTrigger?: CascaderProps['expandTrigger'];
-  options?: CascaderProps['options'] | Record<string, any>[];
-}
+import type { LFormItemCascaderProps } from './interface';
 
 const LFormItemCascader: FC<LFormItemCascaderProps> = ({
-  required,
-  disabled,
+  disabled = false,
+  placeholder,
+  size,
+
+  autoRequest,
+  refreshDeps,
+  variant,
 
   changeOnSelect,
   expandTrigger,
   displayRender,
   showSearch,
-  placeholder,
   multiple,
   loadData,
   options = emptyArray,
-  size,
   fieldNames,
 
   request,
@@ -56,15 +43,18 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem required={required} placeholder={messageLabel} _isSelectType {...restProps}>
+    <LFormItem placeholder={messageLabel} _isSelectType {...restProps}>
       <CascaderWrapper
+        disabled={disabled || formDisabled}
+        placeholder={messageLabel}
+        size={size}
         dependencies={restProps?.dependencies}
         options={options}
         request={request}
-        size={size}
         outLoading={spin}
-        disabled={disabled ?? formDisabled}
-        placeholder={messageLabel}
+        autoRequest={autoRequest}
+        refreshDeps={refreshDeps}
+        variant={variant}
         multiple={multiple}
         showSearch={showSearch}
         fieldNames={fieldNames}
@@ -81,3 +71,4 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
 };
 
 export default LFormItemCascader;
+export * from './interface';

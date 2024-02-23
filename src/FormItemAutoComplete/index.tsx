@@ -57,3 +57,4 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
 };
 
 export default LFormItemAutoComplete;
+export * from './interface';

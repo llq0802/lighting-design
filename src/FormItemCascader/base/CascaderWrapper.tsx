@@ -15,6 +15,9 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   request,
   requestOptions,
 
+  autoRequest,
+  refreshDeps,
+
   outLoading = emptyObject,
 
   ...restProps // LFormItem 传过来的其他值
@@ -24,6 +27,8 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
     options: outOptions,
     request,
     requestOptions,
+    autoRequest,
+    refreshDeps,
   });
   const { loading, data } = requestRes;
 

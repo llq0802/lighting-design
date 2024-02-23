@@ -22,7 +22,7 @@ nav:
 
 ### 范围禁用
 
-<!-- <code src='./demos/Demo2.tsx'></code> -->
+<code src='./demos/Demo2.tsx'></code>
 
 ## API
 
@@ -39,6 +39,7 @@ import { LFormItemTimePicker } from 'lighting-design';
 | disabledHourAfter  | 禁用当前时间之后的小时 (`0` 会包括当前小时) | `number`                                                             | `-`          |
 | rangePicker        | 是否是范围时间选择                          | `boolean`                                                            | `false`      |
 | format             | 同`antd`时间组件的格式                      | `string`                                                             | `'HH:mm:ss'` |
+| variant            | 形态变体                                    | `PickerProps['variant']`                                             | `-`          |
 | disabledMinutes    | 禁用分钟的函数                              | `DisabledMinutes`                                                    | `-`          |
 | DisabledSeconds    | 禁用秒的函数                                | `DisabledSeconds`                                                    | `-`          |
 | timePickerProps    | `antd`时间组件的 Props                      | [TimePickerProps](https://ant.design/components/time-picker-cn/#api) | `-`          |

@@ -1,44 +1,16 @@
-import type { SliderSingleProps } from 'antd';
 import { Slider } from 'antd';
-import type { SliderRangeProps } from 'antd/lib/slider';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
-import type { CSSProperties, FC } from 'react';
+import type { FC } from 'react';
 import { useContext } from 'react';
-
-export interface LFormItemSliderProps
-  extends LFormItemProps,
-    Pick<SliderSingleProps, 'min' | 'max' | 'step' | 'marks' | 'handleStyle' | 'trackStyle'> {
-  /**
-   *antd 滑块的 props
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSliderProps
-   */
-  sliderProps?: SliderSingleProps | SliderRangeProps;
-  /**
-   *整个轨道样式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSliderProps
-   */
-  railStyle?: CSSProperties;
-  /**
-   *Slider 组件根标签样式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSliderProps
-   */
-  sliderStyle?: CSSProperties;
-}
+import type { LFormItemSliderProps } from './interface';
 
 const LFormItemSlider: FC<LFormItemSliderProps> = ({
-  required,
-  disabled,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   size,
+  disabled = false,
   min,
   max,
   step,
@@ -59,7 +31,7 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem required={required} _isSelectType placeholder={messagePlaceholder} {...restProps}>
+    <LFormItem _isSelectType placeholder={messagePlaceholder} {...restProps}>
       <Slider
         min={min}
         max={max}
@@ -77,6 +49,7 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
 };
 
 export default LFormItemSlider;
+export * from './interface';
 
 // https://www.npmjs.com/package/rc-slider
 // trackStyle?: React.CSSProperties | React.CSSProperties[];

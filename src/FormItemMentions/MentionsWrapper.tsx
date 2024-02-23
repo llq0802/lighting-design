@@ -1,68 +1,52 @@
-import { useMount, useRequest } from 'ahooks';
 import { Mentions, Spin } from 'antd';
-import LForm from 'lighting-design/Form';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import { useIsClearDependValues } from 'lighting-design/_utils';
-import useDeepUpdateEffect from 'lighting-design/useDeepUpdateEffect';
-import { useImperativeHandle } from 'react';
+import { getOptions, omit } from 'lighting-design/_utils';
+import { useRequestOptions } from 'lighting-design/hooks';
+import { useImperativeHandle, useMemo } from 'react';
 
 const MentionsWrapper = ({
-  mentionsProps,
+  dependencies,
   request,
-  disabled,
   requestOptions,
   outOptions,
   spin,
   placeholder,
   refreshDeps,
-  name,
   actionRef,
-  onChange,
-  value,
+  autoRequest,
   ...restProps
 }: Record<string, any>) => {
-  const form = LForm.useFormInstance();
-
-  const isClear = useIsClearDependValues(refreshDeps);
-
-  const requestRes = useRequest<any, any[]>(request || (async () => []), {
-    ...requestOptions,
-    manual: true,
+  const mentionsProps = omit(restProps, dependencies);
+  const requestRes = useRequestOptions({
+    options: outOptions,
+    request,
+    requestOptions,
+    refreshDeps,
+    autoRequest,
   });
-
-  const { run, loading, data } = requestRes;
-
-  useMount(() => {
-    if (request && !outOptions?.length) {
-      run(...refreshDeps);
-    }
-  });
-
-  useDeepUpdateEffect(() => {
-    if (request && !outOptions?.length && refreshDeps?.length) {
-      form.setFieldValue(name, void 0);
-      if (!isClear) run(...refreshDeps);
-    }
-  }, refreshDeps);
+  const { loading, data } = requestRes;
+  const opts = useMemo(() => {
+    const innerOpts = getOptions(outOptions, data);
+    return innerOpts;
+  }, [outOptions, data]);
 
   useImperativeHandle(actionRef, () => requestRes);
 
-  return (
+  const dom = (
+    <Mentions
+      autoComplete="off"
+      placeholder={placeholder}
+      {...restProps}
+      options={opts}
+      style={{ width: '100%', ...mentionsProps?.style }}
+    />
+  );
+
+  return outOptions?.length ? (
+    dom
+  ) : (
     <Spin spinning={loading} style={publicSpinStyle} {...spin}>
-      <Mentions
-        {...restProps}
-        disabled={disabled ?? isClear}
-        autoComplete="off"
-        placeholder={placeholder}
-        {...mentionsProps}
-        options={outOptions || mentionsProps?.options || data || []}
-        onChange={(value) => {
-          onChange?.(value);
-          mentionsProps.onChange?.(value);
-        }}
-        style={{ width: '100%', ...mentionsProps?.style }}
-        value={value}
-      />
+      {dom}
     </Spin>
   );
 };

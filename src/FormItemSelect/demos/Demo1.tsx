@@ -1,20 +1,11 @@
+import Mock from 'better-mock';
 import { LForm, LFormItemSelect } from 'lighting-design';
-import { useEffect, useState } from 'react';
+
+const opts1 = Mock.mock({ 'list|10': [{ label: '@cname', value: '@id' }] }).list;
+const opts2 = Mock.mock({ 'list|20': [{ code: '@id', city: '@city' }] }).list;
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
-
-  const [opts1, setOpts1] = useState([]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setOpts1([
-        { label: 'open', value: 'open' },
-        { label: 'closed', value: 'closed' },
-        { label: 'processing', value: 'processing' },
-      ]);
-    }, 2000);
-  }, []);
 
   return (
     <LForm
@@ -25,29 +16,34 @@ const Demo1 = () => {
         console.log('onFinish', vals);
       }}
     >
-      <LFormItemSelect label="单选" name="select1" required options={opts1} all />
+      <LFormItemSelect label="单选" name="select1" required options={opts1} />
       <LFormItemSelect
-        label="多选"
-        name="select2"
+        label="单选/全部"
+        name="select11"
         required
         options={[
-          { label: 'Unresolved', value: 'Unresolved' },
-          { label: 'Resolved', value: 'Resolved' },
-          { label: 'Resolving', value: 'Resolving' },
+          { label: 'open', value: 'open' },
+          { label: 'closed', value: 'closed' },
+          { label: 'processing', value: 'processing' },
         ]}
+        all
+      />
+      <LFormItemSelect label="可搜索" name="select1111" required options={opts1} showSearch />
+      <LFormItemSelect label="多选" name="select2" mode="multiple" required options={opts1} />
+      <LFormItemSelect
+        label="变形"
+        name="select22"
+        required
         mode="multiple"
+        variant="filled"
+        options={opts1}
       />
       <LFormItemSelect
         label="自定义 options 的键名"
         name="select3"
-        dependencies={['select1']}
         required
-        options={[
-          { name: 'open', id: 0 },
-          { name: 'closed', id: 'closed' },
-          { name: 'processing', id: 'processing' },
-        ]}
-        fieldNames={{ label: 'name', value: 'id' }}
+        options={opts2}
+        fieldNames={{ label: 'city', value: 'code' }}
       />
     </LForm>
   );

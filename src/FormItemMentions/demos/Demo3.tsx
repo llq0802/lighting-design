@@ -1,9 +1,9 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import betterMock from 'better-mock';
-import { LForm, LFormItemSelect } from 'lighting-design';
+import { LForm, LFormItemMentions } from 'lighting-design';
 import { awaitTime } from '../../_test';
 
-const opts1 = betterMock.mock({ 'list|10': [{ label: '@city', value: '@id' }] }).list;
+const opts1 = betterMock.mock({ 'list|10': [{ label: '@city', value: '@city' }] }).list;
 
 const Demo2 = () => {
   const [form] = LForm.useForm();
@@ -16,7 +16,7 @@ const Demo2 = () => {
       submitter={{ buttonAlign: 80 }}
       isAntdReset={false}
     >
-      <LFormItemSelect
+      <LFormItemMentions
         label="select1"
         name="select1"
         required
@@ -25,7 +25,7 @@ const Demo2 = () => {
           return opts1;
         }}
       />
-      <LFormItemSelect
+      <LFormItemMentions
         label="select2"
         name="select2"
         required
@@ -38,7 +38,6 @@ const Demo2 = () => {
             return result.data;
           }
         }}
-        all
       />
     </LForm>
   );

@@ -54,6 +54,7 @@ export function pick(
  * @returns 移除指定属性后的新对象。
  */
 export function omit<T extends Record<string, any>>(obj: T, keys: string[]): T {
+  if (!keys?.length) return obj;
   const keySet = new Set(keys);
   const entries = Object.entries(obj);
   const filteredEntries = entries.filter(([key]) => !keySet.has(key));

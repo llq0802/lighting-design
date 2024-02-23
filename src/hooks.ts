@@ -45,17 +45,28 @@ export const useDependencies = ({
 };
 
 /**
- * 获取请求的options
+ * 通过异步请求获取组件的 options
  */
 export const useRequestOptions = ({
   options,
   request,
   requestOptions,
+  refreshDeps,
+  autoRequest = true,
 }: {
   options?: any[];
-  request?: SelectWrapperProps['request'];
+  request?: LFormItemSelectProps['request'];
   requestOptions?: LFormItemSelectProps['requestOptions'];
+  refreshDeps?: any[];
+  autoRequest?: boolean;
 }) => {
+  // 是否手动请求
+  const isManual = () => {
+    if (options?.length) {
+      return true;
+    }
+    return !autoRequest;
+  };
   const requestRes = useRequest(
     async (...args) => {
       if (request) {
@@ -64,7 +75,7 @@ export const useRequestOptions = ({
       }
       return [];
     },
-    { manual: !!options?.length, ...requestOptions },
+    { manual: isManual(), refreshDeps, ...requestOptions },
   );
 
   return requestRes;

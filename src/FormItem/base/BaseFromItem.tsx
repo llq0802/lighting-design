@@ -150,7 +150,10 @@ const LFormItem: FC<LFormItemProps> & {
           const innerChildren = typeof children === 'function' ? children(form) : children;
 
           const contentChildren = isValidElement(innerChildren)
-            ? cloneElement(innerChildren as ReactElement, { ...depFields })
+            ? cloneElement(innerChildren as ReactElement, {
+                ...depFields,
+                ...innerChildren?.props,
+              })
             : innerChildren;
 
           return (

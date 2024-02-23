@@ -1,87 +1,27 @@
-import type { MentionProps, SpinProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import type { LFormItemActionRef } from 'lighting-design/FormItemSelect';
 import { usePlaceholder } from 'lighting-design/_utils';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
+import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import MentionsWrapper from './MentionsWrapper';
-
-type LMentionsOptions = {
-  value: string;
-  label: string;
-  key?: string;
-  disabled?: boolean;
-  className?: string;
-  style?: React.CSSProperties;
-};
-
-export interface LFormItemMentionsProps extends LFormItemProps {
-  /**
-   *配置request时自定义loading效果
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   */
-  spin?: SpinProps;
-  /**
-   *异步请求数据函数
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   */
-  request?: (...depends: any[]) => Promise<LMentionsOptions[]>;
-  /**
-   *配置request的其他配置项
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   */
-  requestOptions?: Record<string, any>;
-  /**
-   *request请求的依赖项数组 如果依赖项发生变化则会自动执行 request
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   */
-  refreshDeps?: any[];
-  /**
-   *数据项
-   *@author 李岚清 <https://github.com/llq0802>
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   *@version 2.1.29
-   */
-  options?: LMentionsOptions[];
-  /**
-   * antd.Mentions 的其他属性
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   *@see https://ant.design/components/input-cn/#api
-   */
-  mentionsProps?: MentionProps;
-  /**
-   *配置 request 时 useRequest 的返回值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   *@version 2.1.29
-   */
-  actionRef?: React.MutableRefObject<LFormItemActionRef>;
-}
+import type { LFormItemMentionsProps } from './interface';
 
 const LFormItemMentions: FC<LFormItemMentionsProps> = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   size,
-  disabled,
-  required,
+  disabled = false,
   placeholder,
+
   options: outOptions,
   mentionsProps = emptyObject,
   spin = emptyObject,
   request,
-  refreshDeps = emptyArray,
+  refreshDeps,
+  variant,
   requestOptions = emptyObject,
   actionRef,
+  autoRequest = true,
   ...restProps
 }) => {
   const messageLabel = usePlaceholder({
@@ -91,22 +31,24 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem placeholder={messageLabel} required={required} {...restProps}>
+    <LFormItem placeholder={messageLabel} {...restProps}>
       <MentionsWrapper
-        name={restProps?.name}
+        disabled={disabled || formDisabled}
         dependencies={restProps?.dependencies}
         placeholder={messageLabel}
         actionRef={actionRef}
         spin={spin}
+        variant={variant}
         request={request}
+        autoRequest={autoRequest}
         requestOptions={requestOptions}
-        mentionsProps={mentionsProps}
         outOptions={outOptions}
         refreshDeps={refreshDeps}
-        disabled={disabled || formDisabled}
+        {...mentionsProps}
       />
     </LFormItem>
   );
 };
 
 export default LFormItemMentions;
+export * from './interface';

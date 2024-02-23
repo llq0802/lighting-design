@@ -1,57 +1,18 @@
-import type { Options, Result } from 'ahooks/lib/useRequest/src/types';
-import type { SelectProps, SpinProps } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { usePlaceholder } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
-import React, { useContext } from 'react';
-import type { SelectWrapperProps } from './base/SelectWrapper';
+import { useContext } from 'react';
 import SelectWrapper from './base/SelectWrapper';
+import type { LFormItemSelectProps } from './interface';
 
-export type LFormItemActionRef = Result<any, any[]> | undefined;
-
-export interface LFormItemSelectProps
-  extends LFormItemProps,
-    Pick<SelectWrapperProps, 'request' | 'all' | 'allValue' | 'allLabel'>,
-    Pick<SelectProps, 'mode' | 'fieldNames' | 'showSearch'> {
-  selectProps?: SelectProps;
-  /**
-   *数据源
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   */
-  options?: SelectProps['options'] | Record<string, any>[];
-  /**
-   *自定义 loading 效果
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   *@See (https://ant.design/components/spin-cn/#api)
-   */
-  spin?: SpinProps;
-  /**
-   *配置 request 时 useRequest 的返回值
-   *@author 李岚清 <https://github.com/llq0802>
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   *@version 2.1.29
-   */
-  actionRef?: React.MutableRefObject<LFormItemActionRef>;
-  /**
-   *ahook 的 request 的配置项
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemSelectProps
-   */
-  requestOptions?: Options<any, any>;
-}
-
-const validatorSelectVal = (value, mode, all, allValue) => {
-  /*   (!value && value !== 0 && !hasOptValue && !(all && allValue === value))
-  ||
-  ((selectProps?.mode === 'multiple' || selectProps?.mode === 'tags') &&  value && value.length <= 0 */
+const validatorSelectVal = (
+  value: any,
+  mode: LFormItemSelectProps['mode'],
+  all: boolean,
+  allValue: any,
+) => {
   if (mode === 'multiple' || mode === 'tags') {
     return value && value?.length > 0;
   }
@@ -62,24 +23,28 @@ const validatorSelectVal = (value, mode, all, allValue) => {
 };
 
 const LFormItemSelect: FC<LFormItemSelectProps> = ({
+  disabled = false,
+  size,
+  placeholder,
+
   request,
   showSearch,
   mode,
   fieldNames,
+  variant,
   all = false,
   allValue = 'all',
   allLabel = '全部',
   options = emptyArray,
   selectProps = emptyObject,
   requestOptions = emptyObject,
+  autoRequest = true,
+  refreshDeps,
   spin,
 
-  required,
-  disabled,
-  size,
-  placeholder,
+  required = false,
+
   actionRef,
-  messageVariables,
   ...restProps
 }) => {
   const messagePlaceholder = usePlaceholder({
@@ -90,10 +55,10 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
   const rules = [
     {
-      validator(rule, value: any) {
+      validator(rule: any, value: any) {
         let errMsg = '';
         if (!validatorSelectVal(value, mode || selectProps?.mode, all, allValue)) {
-          errMsg = required ? `${messageVariables?.label || messagePlaceholder}!` : '';
+          errMsg = required ? `${restProps?.messageVariables?.label || messagePlaceholder}!` : '';
         }
         if (errMsg) {
           return Promise.reject(errMsg);
@@ -103,18 +68,14 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
     },
   ];
   return (
-    <LFormItem
-      required={required}
-      _isSelectType
-      rules={rules}
-      messageVariables={messageVariables}
-      {...restProps}
-    >
+    <LFormItem required={required} _isSelectType rules={rules} {...restProps}>
       <SelectWrapper
-        name={restProps.name}
-        placeholder={messagePlaceholder}
-        dependencies={restProps?.dependencies}
         size={size}
+        placeholder={messagePlaceholder}
+        disabled={disabled || formDisabled}
+        dependencies={restProps?.dependencies}
+        refreshDeps={refreshDeps}
+        autoRequest={autoRequest}
         all={all}
         allValue={allValue}
         allLabel={allLabel}
@@ -122,9 +83,9 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
         requestOptions={requestOptions}
         actionRef={actionRef}
         outLoading={spin}
-        disabled={disabled || formDisabled}
         options={options}
         mode={mode}
+        variant={variant}
         showSearch={showSearch}
         fieldNames={fieldNames}
         {...selectProps}
@@ -134,3 +95,4 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
 };
 
 export default LFormItemSelect;
+export * from './interface';

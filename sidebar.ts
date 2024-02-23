@@ -164,16 +164,16 @@ export default {
           link: '/components/form-item-captcha',
         },
         {
-          title: 'AutoComplete-自动联想输入框',
+          title: 'AutoComplete-联想输入框',
           link: '/components/form-item-auto-complete',
-        },
-        {
-          title: 'Mentions- @ 提及输入框',
-          link: '/components/form-item-mentions',
         },
         {
           title: 'Select-下拉框',
           link: '/components/form-item-select',
+        },
+        {
+          title: 'Mentions-提及输入框',
+          link: '/components/form-item-mentions',
         },
         {
           title: 'Checkbox-多选框',

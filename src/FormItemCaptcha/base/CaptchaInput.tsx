@@ -1,4 +1,4 @@
-import { useMemoizedFn, useMount } from 'ahooks';
+import { useMemoizedFn, useMount, useUnmount } from 'ahooks';
 import type { ButtonProps, InputRef } from 'antd';
 import { Divider, Input } from 'antd';
 import { LCaptchaButton } from 'lighting-design';
@@ -57,6 +57,7 @@ const CodeInput: FC<CodeInputProps> = ({
   placeholder,
   disabled,
   size,
+  type = 'default',
   maxLength,
   variant,
   actionRef,
@@ -65,7 +66,6 @@ const CodeInput: FC<CodeInputProps> = ({
   second,
   disabledText,
   cacheKey,
-  type = 'default',
   onGetCaptcha = () => true,
   autoClick = false,
   autoFocusOnGetCaptcha = true,
@@ -160,6 +160,7 @@ const CodeInput: FC<CodeInputProps> = ({
       buttonRef.current!.click();
     }
   });
+  useUnmount(() => {});
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>

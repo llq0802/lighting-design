@@ -3,6 +3,7 @@ import { awaitTime } from '../../_test';
 
 const Index = () => {
   const [form] = LForm.useForm();
+  const select1Val = LForm.useWatch('select1', form);
 
   return (
     <LForm
@@ -24,22 +25,19 @@ const Index = () => {
         ]}
       />
       <LFormItemSelect
+        disabled={!select1Val}
+        refreshDeps={[select1Val]}
         placeholder="请先选择 select1"
-        dependencies={['select1']}
         label="select2"
         name="select2"
-        request={async (select1) => {
-          console.log('select1 ', select1);
+        request={async () => {
+          console.log('select1Val ', select1Val);
+          form.setFieldValue('select2', void 0);
+          if (!select1Val) return [];
           let data: Record<string, any>[] = [];
-          if (select1 === 'a') {
-            data = [{ label: 'A', value: 'a' }];
-          }
-          if (select1 === 'b') {
-            data = [{ label: 'B', value: 'b' }];
-          }
-          if (select1 === 'c') {
-            data = [{ label: 'C', value: 'c' }];
-          }
+          if (select1Val === 'a') data = [{ label: 'A', value: 'a' }];
+          if (select1Val === 'b') data = [{ label: 'B', value: 'b' }];
+          if (select1Val === 'c') data = [{ label: 'C', value: 'c' }];
           const result = await awaitTime(data, 500);
           return result.data;
         }}

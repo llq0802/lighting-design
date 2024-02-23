@@ -1,79 +1,17 @@
 import { useMemoizedFn } from 'ahooks';
-import type { TimePickerProps, TimeRangePickerProps } from 'antd';
+import type { TimePickerProps } from 'antd';
 import { TimePicker } from 'antd';
 import locale from 'antd/es/date-picker/locale/zh_CN';
 import 'dayjs/locale/zh-cn';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import type { DateValueType } from 'lighting-design/_utils/date';
 import { transform2Dayjs } from 'lighting-design/_utils/date';
 import type { Dayjs } from 'lighting-design/_utils/day';
 import { TIME_LIST, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext, useMemo } from 'react';
-export interface LFormItemTimePickerProps extends LFormItemProps {
-  /**
-   *是否是范围时间选择
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
-   */
-  rangePicker?: boolean;
-  /**
-   *表单获取到的值的类型
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
-   */
-  dateValueType?: Omit<DateValueType, 'number'>;
-  /**
-   *禁用当前时间之前的小时 (0 会包括当前小时)
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
-   */
-  disabledHourBefore?: number;
-  /**
-   *禁用当前时间之后的小时 (0 会包括当前小时)
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
-   */
-  disabledHourAfter?: number;
-  /**
-   *禁用分钟的函数
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
-   */
-  disabledMinutes?: (selectedHour: number, type?: 'start' | 'end') => number[];
-  /**
-   *禁用秒的函数
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
-   */
-  disabledSeconds?: (
-    selectedHour: number,
-    selectedMinute: number,
-    type?: 'start' | 'end',
-  ) => number[];
-  /**
-   *同antd时间组件的格式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
-   */
-  format?: 'HH:mm:ss' | string;
-  /**
-   *antd时间组件的 Props
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
-   */
-  timePickerProps?: TimePickerProps | TimeRangePickerProps;
-}
+import type { LFormItemTimePickerProps } from './interface';
+
 /**
  * @param hour 当前小时 0-23
  * @param disabledHourBefore 禁用当前时间之前的小时 (0会包括当前小时)
@@ -147,7 +85,6 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
 
 const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
   rangePicker = false,
-  required = false,
 
   dateValueType = 'string',
   format = 'HH:mm:ss',
@@ -180,7 +117,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
     [disabledHourBefore, disabledHourAfter],
   );
   return (
-    <LFormItem required={required} _isSelectType {...restProps}>
+    <LFormItem _isSelectType {...restProps}>
       <TimePickerWrapper
         size={size}
         dateValueType={dateValueType}
@@ -197,3 +134,4 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
 };
 
 export default LFormItemTimePicker;
+export * from './interface';

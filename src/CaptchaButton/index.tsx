@@ -72,9 +72,7 @@ const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButton
       disabled={(buttonProps as any)?.disabled || countdown !== 0}
       onClick={handleButtonClick}
     >
-      {countdown === 0
-        ? `${children ?? '获取验证码'}`
-        : `${Math.round(countdown / 1000)}秒后${disabledText}`}
+      {countdown === 0 ? children : `${Math.round(countdown / 1000)}秒后${disabledText}`}
     </Button>
   );
 };

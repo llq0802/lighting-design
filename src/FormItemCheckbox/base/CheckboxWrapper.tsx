@@ -7,30 +7,11 @@ import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper
 import { getOptions, omit } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useRequestOptions } from 'lighting-design/hooks';
-import type { CSSProperties, FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useImperativeHandle, useMemo } from 'react';
+import type { LCheckboxBeforeAllProps } from '../interface';
 
 export type LCheckboxOptions = CheckboxOptionType;
-export type LCheckboxBeforeAllProps =
-  | {
-      /**
-       * 标题 label
-       */
-      label?: ReactNode;
-      /**
-       * 样式
-       */
-      style?: CSSProperties;
-      /**
-       * 失效状态
-       */
-      disabled?: boolean;
-      /**
-       * 变化时的回调函数
-       */
-      onChange?: (checked: boolean) => void;
-    }
-  | true;
 
 export type CheckboxWrapperProps = Record<string, any> &
   Partial<{
@@ -40,6 +21,8 @@ export type CheckboxWrapperProps = Record<string, any> &
 const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   value = emptyArray,
   actionRef,
+  autoRequest,
+  refreshDeps,
   onChange,
   dependencies = emptyArray,
   options: outOptions = emptyArray,
@@ -58,6 +41,8 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     options: outOptions,
     request,
     requestOptions,
+    autoRequest,
+    refreshDeps,
   });
   const { loading, data } = requestRes;
 
@@ -135,7 +120,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   return outOptions?.length ? (
     checkboxDom
   ) : (
-    <Spin spinning={loading} style={publicSpinStyle} delay={20} {...outLoading}>
+    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       {checkboxDom}
     </Spin>
   );

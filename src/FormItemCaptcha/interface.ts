@@ -7,7 +7,7 @@ export interface LFormItemCaptchaProps
   extends LFormItemProps,
     Pick<
       CodeInputProps,
-      'onGetCaptcha' | 'type' | 'buttonProps' | 'autoClick' | 'autoFocusOnGetCaptcha' | 'maxLength'
+      'onGetCaptcha' | 'buttonProps' | 'autoClick' | 'autoFocusOnGetCaptcha' | 'maxLength' | 'type'
     >,
     Pick<LCaptchaButtonProps, 'cacheKey' | 'second' | 'disabledText' | 'onEnd' | 'actionRef'> {
   /**

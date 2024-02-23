@@ -81,6 +81,7 @@ const Demo1 = () => {
         options={AREA_DATA}
       />
       <LFormItemAddress
+        variant="filled"
         label="设置弹出层高度"
         cascaderProps={{
           popupClassName: 'my-lform-item-address-popup',

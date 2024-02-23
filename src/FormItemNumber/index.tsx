@@ -12,7 +12,6 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
   size,
   placeholder,
 
-  required = false,
   precision,
   min = 0,
   max = 99999,
@@ -33,7 +32,7 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
   const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
-    <LFormItem required={required} placeholder={messageLabel} {...restProps}>
+    <LFormItem placeholder={messageLabel} {...restProps}>
       <NumberWrapper
         size={size}
         disabled={disabled || formDisabled}
