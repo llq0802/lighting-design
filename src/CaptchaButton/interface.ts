@@ -1,4 +1,5 @@
 import type { ButtonProps } from 'antd';
+import type { ReactNode } from 'react';
 export type LCaptchaButtonActionRef = { start: () => void; cancel: () => void } | undefined;
 export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   /**
@@ -24,7 +25,7 @@ export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
    */
   cacheKey: string;
   /**
-   * ### 用于开始或取消倒计时ref
+   * ### 用于开始或取消倒计时 ref
    *  - 不能与`start`同时设置
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCaptchaButtonProps
    */
@@ -34,4 +35,6 @@ export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCaptchaButtonProps
    */
   onEnd?: () => void;
+  /** 重新渲染按钮内容 */
+  render?: (currentSecond: number) => ReactNode;
 }
