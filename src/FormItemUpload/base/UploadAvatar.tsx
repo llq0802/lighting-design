@@ -1,6 +1,4 @@
 import { PictureOutlined } from '@ant-design/icons';
-import type { UploadFile } from 'antd';
-import type { ImgCropProps } from 'antd-img-crop';
 import ImgCrop from 'antd-img-crop';
 import classNames from 'classnames';
 import { IMAGE_TYPES } from 'lighting-design/constants';
@@ -20,17 +18,11 @@ const nameStyle: React.CSSProperties = {
   textOverflow: 'ellipsis',
 };
 
-const AvatarContent: FC<{
-  fileList?: UploadFile[];
-  buttonText?: ReactNode;
-  buttonIcon?: ReactNode;
-  listType?: string;
-}> = ({ fileList, buttonText, buttonIcon, listType }) => {
+const AvatarContent: FC<Record<string, any>> = ({ fileList, buttonText, buttonIcon, listType }) => {
   const [imgUrl, setImgUrl] = useState<undefined | string>('');
 
   const currentFile = useMemo(
-    () =>
-      Array.isArray(fileList) && fileList.length > 0 ? fileList[0] : void 0,
+    () => (Array.isArray(fileList) && fileList.length > 0 ? fileList[0] : void 0),
     [fileList],
   );
   const uploading = currentFile?.status === 'uploading';
@@ -91,13 +83,7 @@ const AvatarContent: FC<{
         </div>
       );
     } else if (uploading || !imgUrl) {
-      return (
-        <UploadButton
-          uploading={uploading}
-          buttonText={buttonText}
-          buttonIcon={buttonIcon}
-        />
-      );
+      return <UploadButton uploading={uploading} buttonText={buttonText} buttonIcon={buttonIcon} />;
     } else {
       return (
         imgUrl &&
@@ -130,7 +116,7 @@ type UploadAvatarProps = UploadWrapperProps & {
   buttonIcon?: ReactNode;
   buttonText?: string;
   isCrop?: boolean;
-  cropProps?: ImgCropProps;
+  cropProps?: Record<string, any>;
 };
 const UploadAvatar: FC<UploadAvatarProps> = ({
   isCrop,
@@ -163,13 +149,7 @@ const UploadAvatar: FC<UploadAvatarProps> = ({
   );
 
   return isCrop ? (
-    <ImgCrop
-      modalWidth={600}
-      rotationSlider
-      aspectSlider
-      showReset
-      {...cropProps}
-    >
+    <ImgCrop modalWidth={600} rotationSlider aspectSlider showReset {...cropProps}>
       {dom}
     </ImgCrop>
   ) : (

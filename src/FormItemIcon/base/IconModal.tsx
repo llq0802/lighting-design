@@ -71,20 +71,17 @@ const Index: FC<IconModalProps> = ({
   const antIconList = useCallback((iconType: IconType) => {
     const list = Object.keys(antIcons).filter(
       (item) =>
-        typeof antIcons[item as keyof typeof antIcons] === 'object' &&
-        item.includes(iconType),
+        typeof antIcons[item as keyof typeof antIcons] === 'object' && item.includes(iconType),
     );
     defaultIcon[iconType] = list;
     return list;
   }, []);
 
-  const [iconMode, setIconMode] = useSetState<IconModeType<string[]> | any>(
-    () => ({
-      Outlined: antIconList('Outlined'),
-      Filled: antIconList('Filled'),
-      TwoTone: antIconList('TwoTone'),
-    }),
-  );
+  const [iconMode, setIconMode] = useSetState<IconModeType<string[]> | any>(() => ({
+    Outlined: antIconList('Outlined'),
+    Filled: antIconList('Filled'),
+    TwoTone: antIconList('TwoTone'),
+  }));
 
   const IconItemDom = useCallback(
     ({ val, keys }: { val: string; keys: string }) => (
@@ -98,10 +95,7 @@ const Index: FC<IconModalProps> = ({
           }}
         >
           {initialIconType.includes(keys) ? (
-            <Icon
-              component={antIcons[val as keyof typeof antIcons] as any}
-              style={iconStyle}
-            />
+            <Icon component={antIcons[val as keyof typeof antIcons] as any} style={iconStyle} />
           ) : (
             IconFont && <IconFont type={val} />
           )}
@@ -117,10 +111,7 @@ const Index: FC<IconModalProps> = ({
     { label: `双色风格`, key: 'TwoTone' },
   ]);
 
-  const onSearch = (
-    e: ChangeEvent<HTMLInputElement>,
-    key: IconType | string,
-  ) => {
+  const onSearch = (e: ChangeEvent<HTMLInputElement>, key: IconType | string) => {
     const { value } = e.target;
     const filterIcon = defaultIcon[key as IconType].filter((item: string) =>
       item.toLowerCase().includes(value.toLowerCase()),
@@ -149,10 +140,7 @@ const Index: FC<IconModalProps> = ({
           >
             {list.map((val) => {
               if (itemRender) {
-                return itemRender(
-                  val,
-                  <IconItemDom key={val} val={val} keys={key} />,
-                );
+                return itemRender(val, <IconItemDom key={val} val={val} keys={key} />);
               }
               return <IconItemDom key={val} val={val} keys={key} />;
             })}
@@ -164,34 +152,26 @@ const Index: FC<IconModalProps> = ({
 
   useEffect(() => {
     const itemList: any = [];
-    Object.entries(options).forEach(
-      ([key, { label, ...itemProps }]: [any, any]) => {
-        setIconMode({ [key]: antIconList(key) });
-        if (itemProps.children && typeof itemProps.children === 'function') {
-          itemList.push({
-            label,
-            ...itemProps,
-            children: itemProps.children(
-              antIconList(key),
-              IconListDom(iconMode[key], key),
-            ),
-            key,
-          });
-        } else {
-          itemList.push({ label, ...itemProps, key });
-        }
-      },
-    );
+    Object.entries(options).forEach(([key, { label, ...itemProps }]: [any, any]) => {
+      setIconMode({ [key]: antIconList(key) });
+      if (itemProps.children && typeof itemProps.children === 'function') {
+        itemList.push({
+          label,
+          ...itemProps,
+          children: itemProps.children(antIconList(key), IconListDom(iconMode[key], key)),
+          key,
+        });
+      } else {
+        itemList.push({ label, ...itemProps, key });
+      }
+    });
     IconFont = extendRender?.IconFont;
     if (extendRender && extendRender?.options.length > 0) {
       extendRender.options.forEach((item) => {
         if (item.children && typeof item.children === 'function') {
           itemList.push({
             ...item,
-            children: item.children(
-              item.data,
-              IconListDom(item.data, item.key),
-            ),
+            children: item.children(item.data, IconListDom(item.data, item.key)),
           });
         } else {
           itemList.push({ ...item });

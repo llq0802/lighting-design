@@ -7,7 +7,7 @@
 
 export function awaitTime(
   data?: any,
-  time = 2000,
+  time = 1000,
 ): Promise<{
   data?: any;
   success: boolean;

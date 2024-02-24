@@ -1,5 +1,23 @@
-import type { InputProps, ModalProps, TabsProps } from 'antd';
+import type { InputProps, ModalProps, TabPaneProps, TabsProps } from 'antd';
 import type { LFormItemProps } from 'lighting-design/FormItem/interface';
+
+interface IconTabsOptions extends Omit<TabPaneProps, 'tab' | 'children'> {
+  label: React.ReactNode;
+  children?: React.ReactNode | ((list: string[], node: React.ReactNode) => React.ReactNode);
+}
+
+export interface FormItemIconTabsExtendOptions extends Omit<TabPaneProps, 'tab' | 'children'> {
+  label: React.ReactNode;
+  key: string;
+  data: string[];
+  children?: React.ReactNode | ((list: string[], node: React.ReactNode) => React.ReactNode);
+}
+
+export interface FormItemIconOptions<T = IconTabsOptions> {
+  Outlined?: T;
+  Filled?: T;
+  TwoTone?: T;
+}
 
 export interface LFormItemIconProps extends LFormItemProps {
   /**

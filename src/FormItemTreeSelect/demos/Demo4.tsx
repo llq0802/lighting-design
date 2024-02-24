@@ -58,13 +58,8 @@ const Demo4 = () => {
         name="tree"
         required
         request={async (value) => {
-          const { data } = await awaitTime(treeData);
-          return data;
-        }}
-        treeSelectProps={{
-          dropdownStyle: {
-            maxHeight: 500,
-          },
+          await awaitTime();
+          return treeData;
         }}
       />
     </LForm>

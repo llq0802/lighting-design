@@ -9,6 +9,7 @@ import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import { useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import TableContext from '../TableContext';
+import type { LTableProps, LTableRequestType } from '../interface';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
 import ToolbarAction, { TdCell, showTotal } from './ToolBarAction';
 import {
@@ -20,13 +21,9 @@ import {
   useTableSize,
 } from './hooks';
 import './styles.less';
-import type { LTableProps, LTableRequestType } from './types';
 
 export const LIGHTD_TABLE = 'lightd-table';
 
-/**
- * 表格组件
- */
 const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const {
     isReady = true,
@@ -35,6 +32,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     showStripe = false,
     showHover = false,
     showToolbar = true,
+    autoRequest = true,
 
     formRef,
     tableRef,
@@ -42,11 +40,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     fullScreenBgColor = '#fff',
     defaultRequestParams = emptyObject,
     requestOptions = emptyObject,
-    request = async () => emptyObject,
+    request = async () => {},
 
-    autoRequest = true,
     formInitialValues,
-
     queryFormProps,
     formCardProps,
     tableCardProps,
@@ -62,14 +58,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     loading: outLoading,
     contentRender,
 
-    className,
     rowClassName,
     rootClassName,
-    tableClassName,
 
-    style,
     rootStyle,
-    tableStyle,
     toolbarStyle,
 
     size: outSize,
@@ -107,7 +99,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
 
   // 根标签全屏样式
   const rootDefaultStyle = useMemo(
-    () => (isFullScreen ? { backgroundColor: fullScreenBgColor } : emptyObject),
+    () => (isFullScreen ? { backgroundColor: fullScreenBgColor } : {}),
     [isFullScreen],
   );
 
@@ -128,16 +120,16 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     pagination: paginationAction,
   } = usePagination(
     async (args, requestType: LTableRequestType) => {
+      if (restProps?.dataSource) return { list: [], total: 0 };
       isInited.current = false;
       const res = await request({ ...args }, requestType);
       // 必须设置success为true data必须为数组长度大于0 才会有数据
-      if (res?.success && Array.isArray(res.data) && res.data.length > 0) {
+      if (res?.success && Array.isArray(res.data) && res.data.length) {
         return { list: res.data, total: +res.total };
       }
       return { list: [], total: 0 };
     },
     {
-      // refreshDeps: requestParams,
       defaultCurrent: outPaginationCurrent,
       defaultPageSize: outPaginationPageSize,
       ...(requestOptions as Record<string, any>),
@@ -335,10 +327,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         loading={currentLoading.spinning}
         ref={handleFormRef}
         cardProps={formCardProps}
-        onFinish={handleSearchFormFinish}
-        onReset={handleSearchFormReset}
         formItems={formItems}
         initialValues={formInitialValues}
+        onFinish={handleSearchFormFinish}
+        onReset={handleSearchFormReset}
         {...queryFormProps}
       />
     );
@@ -353,76 +345,69 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   ]);
 
   const tableDom = (
-    <Spin {...currentLoading}>
-      <Card
-        ref={tablecardref}
-        bordered={false}
-        {...tableCardProps}
-        style={{
-          // @ts-ignore
-          [`--${LIGHTD_CARD}-stripe-bg`]: typeof showStripe === 'string' ? showStripe : '#fafafa',
-          [`--${LIGHTD_CARD}-hover-bg`]: typeof showHover === 'string' ? showHover : '#fafafa',
-          ...tableCardProps?.style,
+    <Card
+      ref={tablecardref}
+      bordered={false}
+      {...tableCardProps}
+      style={{
+        // @ts-ignore
+        [`--${LIGHTD_CARD}-stripe-bg`]: typeof showStripe === 'string' ? showStripe : '#fafafa',
+        [`--${LIGHTD_CARD}-hover-bg`]: typeof showHover === 'string' ? showHover : '#fafafa',
+        ...tableCardProps?.style,
+      }}
+      className={classnames(
+        LIGHTD_CARD,
+        {
+          [`${LIGHTD_CARD}-stripe`]: showStripe,
+          [`${LIGHTD_CARD}-hover`]: showHover,
+        },
+        tableCardProps?.className,
+      )}
+    >
+      {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
+      <Table
+        components={{
+          table: contentRender ? () => contentRender?.(data?.list ?? []) : void 0,
+          body: { cell: TdCell },
+          ...components,
         }}
-        className={classnames(
-          LIGHTD_CARD,
-          {
-            [`${LIGHTD_CARD}-stripe`]: showStripe,
-            [`${LIGHTD_CARD}-hover`]: showHover,
-          },
-          tableCardProps?.className,
-        )}
-      >
-        {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
-        <Table
-          components={{
-            table: contentRender ? () => contentRender?.(data?.list ?? []) : void 0,
-            body: { cell: TdCell },
-            ...components,
-          }}
-          className={classnames(tableClassName, className)}
-          rowClassName={classnames(`${LIGHTD_TABLE}-row`, rowClassName as string | undefined)}
-          style={{ ...tableStyle, ...style }}
-          size={currentSize}
-          columns={finalColumns}
-          dataSource={data?.list || []}
-          onChange={handleTableChange}
-          pagination={
-            outPagination !== false
-              ? {
-                  showTotal,
-                  showSizeChanger: true,
-                  showQuickJumper: true,
-                  current: paginationAction?.current,
-                  pageSize: paginationAction?.pageSize,
-                  total: paginationAction?.total,
-                  // onChange: paginationAction.onChange,
-                  // onShowSizeChange: paginationAction.onChange,
-                  ...outPagination,
-                  className: classnames(`${LIGHTD_TABLE}-pagination`, outPagination?.className),
-                }
-              : false
-          }
-          {...restProps}
-        />
-      </Card>
-    </Spin>
+        rowClassName={classnames(`${LIGHTD_TABLE}-row`, rowClassName as string | undefined)}
+        size={currentSize as SizeType}
+        columns={finalColumns}
+        dataSource={data?.list}
+        onChange={handleTableChange}
+        pagination={
+          outPagination !== false
+            ? {
+                showTotal,
+                showSizeChanger: true,
+                showQuickJumper: true,
+                current: paginationAction?.current,
+                pageSize: paginationAction?.pageSize,
+                total: paginationAction?.total,
+                // onChange: paginationAction.onChange,
+                // onShowSizeChange: paginationAction.onChange,
+                ...outPagination,
+                className: classnames(`${LIGHTD_TABLE}-pagination`, outPagination?.className),
+              }
+            : false
+        }
+        {...restProps}
+      />
+    </Card>
   );
 
   const finallyDom = (
     <div
       ref={rootRef}
-      style={{
-        ...rootDefaultStyle,
-        ...rootStyle,
-      }}
+      style={{ ...rootDefaultStyle, ...rootStyle }}
       className={classnames(LIGHTD_TABLE, rootClassName, {
         [`${LIGHTD_TABLE}-full-screen`]: isFullScreen,
       })}
     >
       {searchFormDom}
       {tableExtra}
-      {tableDom}
+      {restProps?.dataSource ? tableDom : <Spin {...currentLoading}>{tableDom}</Spin>}
     </div>
   );
   // ==================== dom 区域结束 ====================
@@ -433,8 +418,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       value={{
         // reload: refresh,
         reload: handleReload,
-        size: currentSize,
-        setSize: setCurrentSize,
+        size: currentSize as any,
+        setSize: setCurrentSize as any,
         columns: outColumns,
         columnKeys: columnKeys,
         setColumnKeys: setColumnKeys,

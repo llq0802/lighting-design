@@ -1,8 +1,9 @@
-import { Tooltip, type TooltipProps } from 'antd';
+import { Tooltip } from 'antd';
 import classnames from 'classnames';
-import type { CSSProperties, DOMAttributes, FC } from 'react';
-import React, { forwardRef } from 'react';
+import type { FC } from 'react';
+import { forwardRef } from 'react';
 import './index.less';
+import type { LEllipsisTextProps } from './interface';
 
 function Text({ outRef, children, ...restProps }: any) {
   return (
@@ -10,53 +11,6 @@ function Text({ outRef, children, ...restProps }: any) {
       {children}
     </span>
   );
-}
-
-export interface LEllipsisTextProps extends DOMAttributes<HTMLSpanElement> {
-  /**
-   *类名
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
-   */
-  className?: string;
-  /**
-   *样式
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
-   */
-  style?: CSSProperties;
-  /**
-   * 最大字符串长度
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
-   */
-  maxLength?: number;
-  /**
-   * 最大元素宽度
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
-   */
-  maxWidth?: number | string;
-  /**
-   * 自定义空字符的节点
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
-   */
-  emptyText?: React.ReactNode;
-  /**
-   * antd 的 tooltip
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LEllipsisTextProps
-   */
-  tooltip?: boolean | TooltipProps;
-  children: string;
-  outRef: any;
 }
 
 const prefixCls = 'lightd-ellipsis-text';
@@ -149,3 +103,4 @@ const LEllipsisText: FC<LEllipsisTextProps> = (props) => {
 export default forwardRef(function (props: LEllipsisTextProps, ref) {
   return <LEllipsisText {...props} outRef={ref as any}></LEllipsisText>;
 });
+export * from './interface';

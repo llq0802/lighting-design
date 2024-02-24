@@ -7,6 +7,6 @@ export type {
   LTableRequest,
   LTableRequestParams,
   LTableRequestType,
-} from './base/types';
+} from './interface';
 export * from './utils';
 export default LTable;

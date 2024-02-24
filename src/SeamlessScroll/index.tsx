@@ -1,7 +1,3 @@
-import type {
-  LSeamlessScrollInstance,
-  LSeamlessScrollProps,
-} from './SeamlessScroll';
 import LSeamlessScroll from './SeamlessScroll';
 
 /**
@@ -40,13 +36,5 @@ globalThis.window.requestAnimationFrame = (function () {
   );
 })();
 
-/**
- * 无缝滚动组件
- * @param props SeamlessScrollType
- * @param ref ref
- * @returns ReactNode
- */
-
-export type { LSeamlessScrollInstance, LSeamlessScrollProps };
-
 export default LSeamlessScroll;
+export * from './interface';

@@ -1,4 +1,6 @@
+import Mock from 'better-mock';
 import { LForm, LFormItemCheckbox } from 'lighting-design';
+const opts = Mock.mock({ 'list|6': [{ label: '@city', value: '@id' }] }).list;
 
 const Demo2 = () => {
   const [form] = LForm.useForm();
@@ -20,27 +22,18 @@ const Demo2 = () => {
             console.log(e);
           },
         }}
-        options={[
-          { label: '上班', value: '1' },
-          { label: '睡觉', value: '2' },
-          { label: '打豆豆', value: '3' },
-        ]}
         checkboxProps={{
           onChange(checkedValue) {
             console.log(checkedValue);
           },
         }}
-      />
-      <LFormItemCheckbox
-        label="选择2"
-        name="select2"
-        beforeAll
         options={[
           { label: '上班', value: '1' },
           { label: '睡觉', value: '2' },
           { label: '打豆豆', value: '3' },
         ]}
       />
+      <LFormItemCheckbox label="选择2" name="select2" beforeAll options={opts} />
     </LForm>
   );
 };

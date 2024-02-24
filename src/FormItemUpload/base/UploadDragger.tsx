@@ -2,9 +2,8 @@ import { InboxOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
 import classNames from 'classnames';
 import { IMAGE_TYPES } from 'lighting-design/constants';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useMemo } from 'react';
-import type { UploadWrapperProps } from './UploadWrapper';
 import UploadWrapper, { lightdUploadWrapper } from './UploadWrapper';
 
 const defaultShowUploadList = {
@@ -13,13 +12,7 @@ const defaultShowUploadList = {
 
 const prefixCls = `${lightdUploadWrapper}-dragger`;
 
-type UploadDraggerrProps = Omit<UploadWrapperProps, 'dragger'> & {
-  buttonIcon?: ReactNode;
-  buttonText?: string;
-  isCrop?: boolean;
-};
-
-const UploadDragger: FC<UploadDraggerrProps> = ({
+const UploadDragger: FC<Record<string, any>> = ({
   isCrop,
   cropProps,
   className,
@@ -56,18 +49,11 @@ const UploadDragger: FC<UploadDraggerrProps> = ({
       <p className="ant-upload-text" style={{ marginBottom: 8 }}>
         {buttonText}
       </p>
-      {/* <p className="ant-upload-hint">{buttonText}</p> */}
     </UploadWrapper>
   );
 
   return isCrop ? (
-    <ImgCrop
-      modalWidth={600}
-      rotationSlider
-      aspectSlider
-      showReset
-      {...cropProps}
-    >
+    <ImgCrop modalWidth={600} rotationSlider aspectSlider showReset {...cropProps}>
       {dom}
     </ImgCrop>
   ) : (

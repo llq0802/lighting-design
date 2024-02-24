@@ -38,7 +38,7 @@ const TreeSelectWrapper: FC<Record<string, any>> = ({
   const dom = (
     <TreeSelect
       allowClear
-      treeNodeFilterProp={treeSelectProps?.fieldNames?.label ?? 'label'}
+      treeNodeFilterProp={treeSelectProps?.fieldNames?.label || 'title'}
       treeData={treeSelectData}
       dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
       {...treeSelectProps}
@@ -49,7 +49,9 @@ const TreeSelectWrapper: FC<Record<string, any>> = ({
   return outTreeData?.length ? (
     dom
   ) : (
-    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}></Spin>
+    <Spin spinning={loading} delay={20} style={publicSpinStyle} {...outLoading}>
+      {dom}
+    </Spin>
   );
 };
 

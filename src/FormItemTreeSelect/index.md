@@ -9,14 +9,6 @@ nav:
 
 下拉树形选择器
 
-**特点**
-
-- 支持请求数据获得 `treeData`
-- 支持依赖项变化自动重新请求
-- 支持请求防抖
-- `request` 的参数为依赖项的值
-- 支持异步加载数据
-
 ## 代码演示
 
 ### 基础用法
@@ -53,7 +45,7 @@ import { LFormItemTreeSelect } from 'lighting-design';
 
 | 参数               | 说明                                                                                                                                      | 类型                                                                 | 默认值  |
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------- |
-| treeData           | 数据化配置选项内容, 类型与 `treeDataSimpleMode`配置有关                                                                                   | `LTreeSelectOption[]`                                                | `[]`    |
+| treeData           | 数据化配置选项内容, 类型与 `treeDataSimpleMode`配置有关                                                                                   | `TreeSelectProps['treeData']`                                        | `[]`    |
 | treeDataSimpleMode | 使用简单格式的 treeData，<br> (此时 treeData 应变为这样的数据结构: [{id:1, pId:0, value:'1', title:"test1",...},...]， pId 是父节点的 id) | `TreeSelectProps['treeDataSimpleMode'] `                             | `false` |
 | showSearch         | 是否可搜索 单选：false 多选：true                                                                                                         | `boolean `                                                           | `-`     |
 | multiple           | 是否多选                                                                                                                                  | `boolean `                                                           | `false` |

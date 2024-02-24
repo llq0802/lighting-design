@@ -18,60 +18,43 @@ export const lightdUploadWrapper = 'lightd-upload-wrapper';
 export interface UploadWrapperProps extends UploadProps {
   /**
    *文件类型错误提示
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   fileTypeMessage?: string | false;
 
   /**
    *文件超过最大尺寸提示
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   fileSizeMessage?: string | false;
   /**
    *自定义文件上传的异步函数
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   onUpload?: (file: File) => Promise<Record<string, any>>;
   /**
    *单个文件最大尺寸，用于校验
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   maxSize?: number;
   /**
    *支持拖拽
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   dragger?: boolean;
-
   /**
    *内置预览 Modal 的 props
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   previewModalProps?: ModalProps;
 
   /**
    *点击预览获取大图URL
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   onGetPreviewUrl?: (file: File) => Promise<string>;
   /**
    *Button 的 Props 在uploadType为'default'时生效
-   *@author 李岚清 <https://github.com/llq0802>
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
    */
   buttonProps?: ButtonProps;
@@ -100,7 +83,6 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
     maxCount,
     accept = '*',
     className,
-    disabled,
     action,
     beforeUpload,
     customRequest,
@@ -250,18 +232,7 @@ const UploadWrapper: FC<UploadWrapperProps> = (props) => {
         action={action}
         beforeUpload={handleBeforeUpload}
         onPreview={handlePreview}
-        disabled={disabled}
         maxCount={maxCount}
-        // progress={{
-        //   status: 'active',
-        //   showInfo: false,
-        //   // size: 2,
-        //   // strokeWidth: 2,
-        //   // strokeColor: {
-        //   //   '0%': '#108ee9',
-        //   //   '100%': '#87d068',
-        //   // },
-        // }}
         {...restProps}
       />
       {isShowPreview && !restProps.onPreview && (

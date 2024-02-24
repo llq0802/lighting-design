@@ -46,7 +46,7 @@ const LFormItemRate: FC<LFormItemRateProps> = ({
         allowHalf={allowHalf}
         count={count}
         character={character}
-        disabled={disabled ?? formDisabled}
+        disabled={disabled || formDisabled}
         {...rateProps}
       />
     </LFormItem>

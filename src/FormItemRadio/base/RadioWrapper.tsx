@@ -54,7 +54,7 @@ const RadioWrapper: FC<Record<string, any>> = ({
   return outOptions?.length ? (
     dom
   ) : (
-    <Spin spinning={loading} style={publicSpinStyle} delay={20} {...outLoading}>
+    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       {dom}
     </Spin>
   );

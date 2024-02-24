@@ -146,11 +146,10 @@ export const showTotal = (total: number, range: [value0: Key, value1: Key]) => (
   >{`当前显示${range[0]}-${range[1]}条，共 ${total} 条数据`}</span>
 );
 
-export const TdCell = (props: any) => {
-  // onMouseEnter, onMouseLeave在数据量多的时候，会严重阻塞表格单元格渲染，严重影响性能
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { onMouseEnter, onMouseLeave, ...restProps } = props;
-  return <td {...restProps} />;
-};
+// onMouseEnter, onMouseLeave在数据量多的时候，会严重阻塞表格单元格渲染，严重影响性能
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const TdCell = ({ onMouseEnter, onMouseLeave, ...restProps }: Record<string, any>) => (
+  <td {...restProps} />
+);
 
 export default ToolbarAction;

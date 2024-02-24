@@ -92,7 +92,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
       setIndeterminate(!isAll);
       setCheckAll(isAll);
     }
-  }, [value]);
+  }, [value, checkboxOptions]);
 
   const checkboxDom = (
     <>
@@ -100,7 +100,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
         <Checkbox
           indeterminate={indeterminate}
           style={{ marginRight: 8, ...outBeforeAll?.style }}
-          disabled={disabled ?? outBeforeAll?.disabled}
+          disabled={outBeforeAll?.disabled || disabled}
           onChange={checkAllChange}
           checked={checkAll}
         >

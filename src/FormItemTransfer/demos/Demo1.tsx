@@ -1,7 +1,7 @@
 import Mock from 'better-mock';
 import { LForm, LFormItemTransfer } from 'lighting-design';
 
-const transferMockData: any[] = Mock.mock({ 'list|15': [{ vaidlue: '@id', label: '@city' }] }).list;
+const transferMockData: any[] = Mock.mock({ 'list|15': [{ value: '@id', label: '@city' }] }).list;
 
 export default () => {
   return (
@@ -13,10 +13,7 @@ export default () => {
       }}
     >
       <LFormItemTransfer
-        fieldNames={{
-          label: 'label',
-          value: 'vaidlue',
-        }}
+        fieldNames={{ label: 'label', value: 'value' }}
         required
         options={transferMockData}
         label="穿梭框"

@@ -24,11 +24,11 @@ nav:
 
 ### 异步请求
 
-<code src='./demos/Demo3.tsx'></code>
+<code src='./demos/Demo2.tsx'></code>
 
 ### 依赖更新自动请求
 
-<code src='./demos/Demo2.tsx'></code>
+<code src='./demos/Demo3.tsx'></code>
 
 ### API
 
@@ -43,7 +43,7 @@ import { LFormItemCascader } from 'lighting-design';
 
 | 参数           | 说明                                                           | 类型                                                            | 默认值 |
 | -------------- | -------------------------------------------------------------- | --------------------------------------------------------------- | ------ |
-| options        | 数据化配置选项内容                                             | `LCascaderOption[]`                                             | `[]`   |
+| options        | 数据化配置选项内容                                             | `CascaderProps[]`                                               | `-`    |
 | showSearch     | 在选择框中显示搜索框                                           | `boolean`                                                       | `-`    |
 | multiple       | 支持多选节点                                                   | `boolean`                                                       | `-`    |
 | fieldNames     | 自定义字段名                                                   | ` CascaderProps['fieldNames']`                                  | `-`    |

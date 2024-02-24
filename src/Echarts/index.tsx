@@ -14,9 +14,7 @@ import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { memo, useImperativeHandle, useRef, type FC } from 'react';
 import { bind, clear } from 'size-sensor';
 import './index.less';
-import type { LEChartsProps } from './tyeps';
-
-export type { LEChartsInstance, LEChartsOption, LEChartsProps } from './tyeps';
+import type { LEChartsProps } from './interface';
 
 const prefixCls = 'lightd-echarts';
 
@@ -227,3 +225,4 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
 
 // 第一步优化性能
 export default LECharts;
+export type { LEChartsInstance, LEChartsOption, LEChartsProps } from './interface';

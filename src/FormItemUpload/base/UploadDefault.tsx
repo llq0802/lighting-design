@@ -1,12 +1,10 @@
 import { UploadOutlined } from '@ant-design/icons';
-import type { ButtonProps } from 'antd';
 import { Button } from 'antd';
 import ImgCrop from 'antd-img-crop';
 import classNames from 'classnames';
 import { IMAGE_TYPES } from 'lighting-design/constants';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useMemo } from 'react';
-import type { UploadWrapperProps } from './UploadWrapper';
 import UploadWrapper, { lightdUploadWrapper } from './UploadWrapper';
 
 const prefixCls = `${lightdUploadWrapper}-default`;
@@ -15,14 +13,7 @@ const defaultShowUploadList = {
   showPreviewIcon: false,
 };
 
-type UploadDefaultProps = UploadWrapperProps & {
-  buttonProps?: ButtonProps;
-  buttonIcon?: ReactNode;
-  buttonText?: string;
-  isCrop?: boolean;
-};
-
-const UploadDefault: FC<UploadDefaultProps> = ({
+const UploadDefault: FC<Record<string, any>> = ({
   isCrop,
   cropProps,
   className,
@@ -62,13 +53,7 @@ const UploadDefault: FC<UploadDefaultProps> = ({
   );
 
   return isCrop ? (
-    <ImgCrop
-      modalWidth={600}
-      rotationSlider
-      aspectSlider
-      showReset
-      {...cropProps}
-    >
+    <ImgCrop modalWidth={600} rotationSlider aspectSlider showReset {...cropProps}>
       {dom}
     </ImgCrop>
   ) : (

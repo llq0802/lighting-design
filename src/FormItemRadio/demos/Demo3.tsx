@@ -1,9 +1,11 @@
 import { LoadingOutlined } from '@ant-design/icons';
+import Mock from 'better-mock';
 import { LForm, LFormItemRadio, LFormItemSelect } from 'lighting-design';
-import { awaitTime } from '../../_test';
+import { awaitTime } from 'lighting-design/_test';
 
-const Index = () => {
+const Demo5 = () => {
   const [form] = LForm.useForm();
+  const select1Val = LForm.useWatch('select1', form);
 
   return (
     <LForm
@@ -12,8 +14,8 @@ const Index = () => {
       submitter={{
         buttonAlign: 80,
       }}
-      onFinish={(values) => {
-        console.log('values', values);
+      onFinish={(val) => {
+        console.log('==val====>', val);
       }}
     >
       <LFormItemSelect
@@ -26,40 +28,33 @@ const Index = () => {
           { label: 'C', value: 'c' },
         ]}
       />
-      <LFormItemSelect
-        label="select3"
-        name="select3"
-        required
-        options={[
-          { label: 'A1', value: 'a1' },
-          { label: 'B2', value: 'b2' },
-          { label: 'C3', value: 'c3' },
-        ]}
-      />
       <LFormItemRadio
         label="select2"
         name="select2"
         required
-        spin={{
-          indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
-        }}
+        refreshDeps={[select1Val]}
+        spin={{ indicator: <LoadingOutlined style={{ fontSize: 24 }} spin /> }}
         request={async () => {
           let data: Record<string, any>[] = [];
-          // if (select1 === 'a') {
-          //   data = [{ label: 'A', value: 'a' }];
-          // }
-          // if (select1 === 'b') {
-          //   data = [{ label: 'B', value: 'b' }];
-          // }
-          // if (select1 === 'c') {
-          //   data = [{ label: 'C', value: 'c' }];
-          // }
-
+          if (!select1Val) return data;
+          if (select1Val === 'a') {
+            data = Mock.mock({ 'list|8': [{ label: '@cname', value: '@id' }] }).list;
+          }
+          if (select1Val === 'b') {
+            data = Mock.mock({ 'list|8': [{ label: '@cname', value: '@id' }] }).list;
+          }
+          if (select1Val === 'c') {
+            data = Mock.mock({ 'list|8': [{ label: '@cname', value: '@id' }] }).list;
+          }
           const result = await awaitTime(data);
           if (result.success) return result.data;
+        }}
+        renderField={(dom) => {
+          if (!select1Val) return <>请先选择 select1</>;
+          return dom;
         }}
       />
     </LForm>
   );
 };
-export default Index;
+export default Demo5;

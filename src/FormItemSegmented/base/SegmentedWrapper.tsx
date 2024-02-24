@@ -9,11 +9,14 @@ import { useImperativeHandle, useMemo } from 'react';
 type SegmentedWrapperProps = Record<string, any>;
 
 const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
-  actionRef,
   dependencies = emptyArray,
   options: outOptions = emptyArray,
+  autoRequest,
+  refreshDeps,
+  actionRef,
   request,
   outLoading,
+  fieldNames,
   requestOptions = emptyObject,
   ...restProps
 }) => {
@@ -22,6 +25,8 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
     options: outOptions,
     request,
     requestOptions,
+    autoRequest,
+    refreshDeps,
   });
   const { loading, data } = requestRes;
 

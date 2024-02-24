@@ -1,101 +1,23 @@
-import type { ButtonProps, UploadProps } from 'antd';
-import type { ImgCropProps } from 'antd-img-crop';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import type { LFormItemProps } from 'lighting-design/FormItem/base/BaseFromItem';
 import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useContext, useMemo } from 'react';
 import UploadAvatar from './base/UploadAvatar';
 import UploadDefault from './base/UploadDefault';
 import UploadDragger from './base/UploadDragger';
 import UploadImage from './base/UploadImage';
-import type { UploadWrapperProps } from './base/UploadWrapper';
+import type { LFormItemUploadProps } from './interface';
 
 const normFile = (value: any): any[] => {
   if (Array.isArray(value)) return value;
   return value?.fileList ?? [];
 };
 
-export type LFormItemUploadProps = LFormItemProps &
-  Pick<
-    UploadWrapperProps,
-    | 'accept'
-    | 'action'
-    | 'onUpload'
-    | 'disabled'
-    | 'multiple'
-    | 'fileTypeMessage'
-    | 'fileSizeMessage'
-    | 'maxSize'
-    | 'maxCount'
-    | 'onGetPreviewUrl'
-    | 'previewModalProps'
-    // | 'buttonProps'
-  > & {
-    /**
-     *上传组件内置类型
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
-     */
-    uploadType?: 'image' | 'default' | 'avatar' | 'dragger';
-    /**
-     *antd 上传组件的 Props
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
-     */
-    uploadProps?: UploadProps;
-
-    /**
-     *Button 的 Props 在uploadType为'default'时生效
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
-     */
-    buttonProps?: ButtonProps;
-
-    /**
-     *按钮图标，不同内建类型有不一样的默认值。
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
-     */
-    buttonIcon?: ReactNode;
-
-    /**
-     *按钮文本 在uploadType为'default'或'dragger'时生效
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
-     */
-    buttonText?: ReactNode;
-
-    /**
-     *是否需要裁剪  在uploadType为'default'或'dragger'时只能上传图片
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
-     */
-    isCrop?: boolean;
-    /**
-     *额外的裁剪属性
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
-     *@see 参考 https://github.com/nanxiaobei/antd-img-crop#props
-     */
-    cropProps?: Omit<ImgCropProps, 'children'>;
-    /**
-     *是否是串行上传。  true 为串行  false 为并行
-     *@author 李岚清 <https://github.com/llq0802>
-     *@version 2.1.29
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemUploadProps
-     */
-    isSerial?: boolean;
-  };
-
 const LFormItemUpload: FC<LFormItemUploadProps> = ({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  size,
+  disabled = false,
+
   uploadType = 'default',
   isCrop = false,
   isSerial = false,
@@ -104,7 +26,6 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
     modalOk: '确定',
     modalCancel: '取消',
   },
-  size,
   onUpload,
   fileTypeMessage,
   fileSizeMessage,
@@ -114,14 +35,11 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   onGetPreviewUrl,
   maxSize,
   maxCount,
-  disabled,
   multiple = false,
   action,
   accept,
   uploadProps,
   previewModalProps,
-  name, // formItem 字段
-  required,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
@@ -140,19 +58,14 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   }, [uploadType]);
 
   return (
-    <LFormItem
-      name={name}
-      required={required}
-      valuePropName="fileList"
-      getValueFromEvent={normFile}
-      {...restProps}
-    >
+    <LFormItem valuePropName="fileList" getValueFromEvent={normFile} {...restProps}>
       <UploadComp
+        disabled={disabled || formDisabled}
         isSerial={isSerial}
         isCrop={isCrop}
         cropProps={cropProps}
-        buttonIcon={buttonIcon}
         buttonText={buttonText}
+        buttonIcon={buttonIcon}
         buttonProps={buttonProps}
         action={action}
         accept={accept}
@@ -163,7 +76,6 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
         onGetPreviewUrl={onGetPreviewUrl}
         maxSize={maxSize}
         maxCount={maxCount}
-        disabled={disabled ?? formDisabled}
         multiple={multiple}
         {...uploadProps}
       />
@@ -172,3 +84,4 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
 };
 
 export default LFormItemUpload;
+export * from './interface';

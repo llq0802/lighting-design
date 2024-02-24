@@ -41,7 +41,7 @@ const Demo1: FC = () => {
         tableLayout="fixed"
         rowClassName="lightd-table-row-1"
         rootClassName="my-table-root-1"
-        tableClassName="my-table-1"
+        className="my-table-1"
         rowKey="key"
         loading={{ size: 'large', tip: '加载中...' }}
         tableRef={tableRef}

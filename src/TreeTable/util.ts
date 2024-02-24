@@ -60,12 +60,7 @@ export const getTreeMaxLevel = (arrs: LTreeTableData, childrenKey: string) => {
  * }
  * @return {*}
  */
-function transformList({
-  list,
-  lastColumnIndex,
-  valueKey,
-  rowSpanCache,
-}: Record<string, any>) {
+function transformList({ list, lastColumnIndex, valueKey, rowSpanCache }: Record<string, any>) {
   const columns = [];
   // 记录已经合并的行数
   const recordRowSpanValues = new Set();
@@ -162,8 +157,7 @@ export function transformTreeToList(
   lastColumnMerged = false,
   fieldNames: LTreeTableFieldNames,
 ) {
-  const { value: valueKey, children: childrenKey } =
-    fieldNames as Required<LTreeTableFieldNames>;
+  const { value: valueKey, children: childrenKey } = fieldNames as Required<LTreeTableFieldNames>;
 
   // 合并行数缓存
   let rowSpanCache: RowSpanCache = {};
@@ -276,7 +270,6 @@ export function findTreeNode(
 
 /**
  * 树形转扁平数组
- *
  * @param data
  * @param fieldNames
  * @param showCheckbox
@@ -287,8 +280,7 @@ export const compactTree = (
   fieldNames: LTreeTableFieldNames,
   showCheckbox = true,
 ) => {
-  const { value: valueKey, children: childrenKey } =
-    fieldNames as Required<LTreeTableFieldNames>;
+  const { value: valueKey, children: childrenKey } = fieldNames as Required<LTreeTableFieldNames>;
 
   if (!showCheckbox) {
     return [];
@@ -299,10 +291,7 @@ export const compactTree = (
     parent: ValueType;
   })[] = [];
 
-  function recursion(
-    list: LTreeTableData,
-    parent: LTreeTableDataItem | null = null,
-  ) {
+  function recursion(list: LTreeTableData, parent: LTreeTableDataItem | null = null) {
     list.forEach((item) => {
       ret.push({
         ...item,

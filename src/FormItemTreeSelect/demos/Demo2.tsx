@@ -4,6 +4,7 @@ import { awaitTime } from '../../_test';
 
 const Index = () => {
   const [form] = LForm.useForm();
+  const select1Val = LForm.useWatch('select1', form);
 
   return (
     <LForm
@@ -24,18 +25,18 @@ const Index = () => {
         ]}
       />
       <LFormItemTreeSelect
-        // debounceTime={200} 防抖更新
-        dependencies={['select1']}
         label="select2"
         name="select2"
         required
+        refreshDeps={[select1Val]}
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
-        request={async (select1) => {
-          console.log('select1 ', select1);
+        disabled={!select1Val}
+        request={async () => {
+          if (!select1Val) return [];
           let data: Record<string, any>[] = [];
-          if (select1 === 'a') {
+          if (select1Val === 'a') {
             data = [
               {
                 title: 'A',
@@ -49,7 +50,7 @@ const Index = () => {
               },
             ];
           }
-          if (select1 === 'b') {
+          if (select1Val === 'b') {
             data = [
               {
                 title: 'B',
@@ -63,7 +64,7 @@ const Index = () => {
               },
             ];
           }
-          if (select1 === 'c') {
+          if (select1Val === 'c') {
             data = [
               {
                 title: 'C',

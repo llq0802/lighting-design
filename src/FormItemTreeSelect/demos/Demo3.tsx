@@ -27,17 +27,24 @@ const Demo3 = () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         const newtreeData = treeData.concat([genTreeNode(id, false), genTreeNode(id, true)]);
-
         setTreeData(newtreeData);
         resolve(void 0);
-      }, 300);
+      }, 400);
     });
   };
 
   return (
     <LForm form={form} submitter={{ buttonAlign: 'center' }}>
       <LFormItemTreeSelect
-        label="树形选择"
+        label="异步加载树形选择"
+        name="tree"
+        required
+        treeData={treeData}
+        loadData={onLoadData}
+        treeDataSimpleMode
+      />
+      <LFormItemTreeSelect
+        label="异步加载树形选择"
         name="tree"
         required
         treeData={treeData}

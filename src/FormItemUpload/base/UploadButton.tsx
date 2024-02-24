@@ -1,5 +1,5 @@
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useMemo } from 'react';
 
 const style: React.CSSProperties = {
@@ -9,11 +9,7 @@ const style: React.CSSProperties = {
   alignItems: 'center',
 };
 
-const UploadImageButton: FC<{
-  uploading?: boolean;
-  buttonIcon?: ReactNode;
-  buttonText?: ReactNode;
-}> = ({
+const UploadImageButton: FC<Record<string, any>> = ({
   uploading = false,
   buttonIcon = <PlusOutlined />,
   buttonText = '点击上传',
@@ -25,10 +21,7 @@ const UploadImageButton: FC<{
   return (
     <div style={style}>
       {uploading ? <LoadingOutlined /> : buttonIcon}
-      <div
-        className="lightd-upload-wrapper-button-text"
-        style={{ marginTop: 4 }}
-      >
+      <div className="lightd-upload-wrapper-button-text" style={{ marginTop: 4 }}>
         {text}
       </div>
     </div>

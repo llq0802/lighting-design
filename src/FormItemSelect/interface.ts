@@ -42,7 +42,7 @@ export interface LFormItemSelectProps
    */
   request?: (
     ...args: any[]
-  ) => Promise<{ label: ReactNode; value: string | number; [key: string]: any }[]>;
+  ) => Promise<{ label?: ReactNode; value?: string | number; [key: string]: any }[]>;
   /**
    * 组件初始化时是否自动请求
    * 默认为 true

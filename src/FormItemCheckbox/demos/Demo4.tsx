@@ -1,9 +1,11 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
+import Mock from 'better-mock';
 import type { LFormItemActionRef } from 'lighting-design';
 import { LForm, LFormItemCheckbox } from 'lighting-design';
 import { useRef } from 'react';
 import { awaitTime } from '../../_test';
+const opts = Mock.mock({ 'list|6': [{ label: '@city', value: '@id' }] }).list;
 
 const Demo4 = () => {
   const [form] = LForm.useForm();
@@ -25,14 +27,8 @@ const Demo4 = () => {
         label="多选1"
         name="checkbox1"
         request={async () => {
-          const result = await awaitTime([
-            { label: '上班', value: '1' },
-            { label: '睡觉', value: '2' },
-            { label: '打豆豆', value: '3' },
-          ]);
-          if (result.success) {
-            return result.data;
-          }
+          await awaitTime();
+          return opts;
         }}
       />
       <LFormItemCheckbox
@@ -43,11 +39,14 @@ const Demo4 = () => {
         }}
         name="checkbox2"
         request={async () => {
-          const result = await awaitTime([
-            { label: '上班', value: '1' },
-            { label: '睡觉', value: '2' },
-            { label: '打豆豆', value: '3' },
-          ]);
+          const result = await awaitTime(
+            [
+              { label: '上班', value: '1' },
+              { label: '睡觉', value: '2' },
+              { label: '打豆豆', value: '3' },
+            ],
+            2000,
+          );
           if (result.success) {
             return result.data;
           }

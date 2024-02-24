@@ -1,6 +1,9 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { LForm, LFormItemCascader } from 'lighting-design';
 import { awaitTime } from '../../_test';
+import china_city from './china_city.json';
+
+const options: any[] = china_city;
 
 const Index = () => {
   const [form] = LForm.useForm();
@@ -20,21 +23,14 @@ const Index = () => {
         spin={{
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
-        request={async (select1) => {
-          // console.log('select1 ', select1);
-
-          let data: Record<string, any>[] = [];
-          if (select1 === 'a') {
-            data = [{ label: 'A', value: 'a' }];
-          }
-          if (select1 === 'b') {
-            data = [{ label: 'B', value: 'b' }];
-          }
-          if (select1 === 'c') {
-            data = [{ label: 'C', value: 'c' }];
-          }
-          const result = await awaitTime(data);
-          if (result.success) return result.data;
+        request={async () => {
+          await awaitTime();
+          return options;
+        }}
+        fieldNames={{
+          label: 'name',
+          value: 'code',
+          children: 'children',
         }}
       />
     </LForm>

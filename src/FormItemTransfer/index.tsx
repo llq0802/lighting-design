@@ -9,23 +9,26 @@ import type { LFormItemTransferProps } from './interface';
 const LFormItemTransfer: FC<LFormItemTransferProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   size,
-  titles,
   disabled = false,
+  options,
+  titles,
+  listStyle,
   showSearch,
   oneWay,
   pagination,
   limitMaxCount,
   fieldNames,
+  autoRequest = true,
   actionRef,
   request,
   requestOptions = emptyObject,
-  options,
+  refreshDeps,
   spin,
   transferProps = emptyObject,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
-  // 是否为树穿梭或者表格穿梭
+  // 是否为树穿梭或者表格等自定义穿梭
   const isCustomTransfer = isFunction(transferProps?.children);
   return (
     <LFormItem
@@ -36,16 +39,19 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
       valuePropName="targetKeys"
     >
       <TransferWrapper
+        disabled={disabled || formDisabled}
         outLoading={spin}
         actionRef={actionRef}
+        autoRequest={autoRequest}
         request={request}
         requestOptions={requestOptions}
+        refreshDeps={refreshDeps}
         limitMaxCount={limitMaxCount}
         isCustomTransfer={isCustomTransfer}
         options={options}
-        disabled={disabled || formDisabled}
         titles={titles}
         fieldNames={fieldNames}
+        listStyle={listStyle}
         oneWay={oneWay}
         showSearch={showSearch}
         pagination={pagination}

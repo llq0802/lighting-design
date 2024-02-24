@@ -1,9 +1,11 @@
 import { LoadingOutlined } from '@ant-design/icons';
+import Mock from 'better-mock';
 import { LForm, LFormItemCheckbox, LFormItemSelect } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
 
 const Demo5 = () => {
   const [form] = LForm.useForm();
+  const select1Val = LForm.useWatch('select1', form);
 
   return (
     <LForm
@@ -11,6 +13,9 @@ const Demo5 = () => {
       labelCol={{ flex: '80px' }}
       submitter={{
         buttonAlign: 80,
+      }}
+      onFinish={(val) => {
+        console.log('==val====>', val);
       }}
     >
       <LFormItemSelect
@@ -24,26 +29,29 @@ const Demo5 = () => {
         ]}
       />
       <LFormItemCheckbox
-        dependencies={['select1']}
         label="select2"
         name="select2"
         required
+        refreshDeps={[select1Val]}
         spin={{ indicator: <LoadingOutlined style={{ fontSize: 24 }} spin /> }}
-        // notDependRender={<span>请先选择select1</span>}
-        request={async (select1) => {
-          console.log('select1 ', select1);
+        request={async () => {
           let data: Record<string, any>[] = [];
-          if (select1 === 'a') {
-            data = [{ label: 'A', value: 'a' }];
+          if (!select1Val) return data;
+          if (select1Val === 'a') {
+            data = Mock.mock({ 'list|8': [{ label: '@cname', value: '@id' }] }).list;
           }
-          if (select1 === 'b') {
-            data = [{ label: 'B', value: 'b' }];
+          if (select1Val === 'b') {
+            data = Mock.mock({ 'list|8': [{ label: '@cname', value: '@id' }] }).list;
           }
-          if (select1 === 'c') {
-            data = [{ label: 'C', value: 'c' }];
+          if (select1Val === 'c') {
+            data = Mock.mock({ 'list|8': [{ label: '@cname', value: '@id' }] }).list;
           }
           const result = await awaitTime(data);
           if (result.success) return result.data;
+        }}
+        renderField={(dom) => {
+          if (!select1Val) return <>请先选择 select1</>;
+          return dom;
         }}
       />
     </LForm>

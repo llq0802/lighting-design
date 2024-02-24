@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import { emptyObject } from 'lighting-design/constants';
-import type { LH5PreviewProps } from '.';
+import type { LH5PreviewProps } from './interface';
 
 const prefixCls = 'ligthd-h5-preview';
 
@@ -11,11 +11,7 @@ const Iphone14Pro = ({
   scale = 1,
   children,
 }: Omit<LH5PreviewProps, 'deviceColor'>) => {
-  const innerClassName = classnames(
-    prefixCls,
-    `${prefixCls}-iphone-14-pro`,
-    className,
-  );
+  const innerClassName = classnames(prefixCls, `${prefixCls}-iphone-14-pro`, className);
 
   return (
     <div
@@ -40,8 +36,3 @@ const Iphone14Pro = ({
 };
 
 export default Iphone14Pro;
-// export default forwardRef(
-//   (props: Omit<LH5PreviewProps, 'deviceColor'>, ref: any) => (
-//     <Iphone14Pro {...props} outRef={ref} />
-//   ),
-// );

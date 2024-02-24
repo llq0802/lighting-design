@@ -35,7 +35,7 @@ export interface LFormItemProps extends FormItemProps {
    *重新渲染LFormItem的children组件
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemProps
    */
-  renderField?: (dom: ReactElement, props: LFormItemProps) => ReactElement;
+  renderField?: (dom: ReactElement, props: LFormItemProps) => ReactElement | ReactNode;
   /**
    * 重新渲染整个 LFormItem 组件
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemProps

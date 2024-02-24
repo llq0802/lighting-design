@@ -83,10 +83,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
           onChange?.(newValue);
           inputProps?.onChange?.(newValue as any);
         }}
-        className={classnames(
-          'lightd-form-item-icon-input',
-          inputProps?.className,
-        )}
+        className={classnames('lightd-form-item-icon-input', inputProps?.className)}
         readOnly
         suffix={
           inputProps?.allowClear === false || !value ? (
@@ -97,9 +94,7 @@ const IconWrapper: FC<IconWrapperProps> = ({
               onClick={() => {
                 onChange?.(void 0);
               }}
-              component={
-                (antIcons as Record<string, any>)?.['CloseCircleFilled']
-              }
+              component={(antIcons as Record<string, any>)?.['CloseCircleFilled']}
               style={{
                 margin: 0,
                 color: `rgba(0, 0, 0, 0.25)`,

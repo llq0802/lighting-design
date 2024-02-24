@@ -5,28 +5,31 @@ import zhCN from 'antd/locale/zh_CN';
 import classnames from 'classnames';
 import { getOptions } from 'lighting-design/_utils';
 import { useImperativeHandle, type FC } from 'react';
-
-export interface RecordType {
-  key?: string | number;
-  title?: React.ReactNode;
-  disabled?: boolean;
-  [key: string]: any;
-}
-
-type TransferWrapperProps = Record<string, any>;
+import type { RecordType } from '../interface';
 
 const prefixCls = 'lightd-transfer';
 
-const TransferWrapper: FC<TransferWrapperProps> = (props) => {
+// 是否手动请求
+const isManual = (options: RecordType[], autoRequest: boolean) => {
+  if (options?.length) {
+    return true;
+  }
+  return !autoRequest;
+};
+
+const TransferWrapper: FC<Record<string, any>> = (props) => {
   const {
     fieldNames = { label: 'title', value: 'key' },
     limitMaxCount = 0,
     options,
+    autoRequest = true,
+    refreshDeps,
     request,
     requestOptions,
     actionRef,
     outLoading,
     disabled,
+    listStyle: outListStyle,
     isCustomTransfer,
     ...restProps
   } = props;
@@ -43,7 +46,7 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
       }
       return { list: [], total: 0 };
     },
-    { manual: !!options?.length, ...requestOptions },
+    { manual: isManual(options, autoRequest), refreshDeps, ...requestOptions },
   );
   const { loading, data, ...rest } = requestRes;
 
@@ -176,11 +179,12 @@ const TransferWrapper: FC<TransferWrapperProps> = (props) => {
       titles={['数据项', '已选择']}
       dataSource={optRef.current}
       {...restProps}
-      listStyle={{
-        height: isCustomTransfer ? 'auto' : 410,
-        width: isCustomTransfer ? 'auto' : 200,
-        ...restProps?.listStyle,
-      }}
+      listStyle={
+        outListStyle || {
+          height: isCustomTransfer ? 'auto' : 410,
+          width: isCustomTransfer ? 'auto' : 200,
+        }
+      }
       className={classnames(prefixCls, restProps?.className)}
       onChange={handleChange}
       onSelectChange={onSelectChange}
