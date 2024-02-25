@@ -2,9 +2,10 @@ import { useControllableValue, useDeepCompareEffect, useMemoizedFn } from 'ahook
 import classnames from 'classnames';
 import LForm from 'lighting-design/Form';
 import BaseTable from 'lighting-design/Table/base/BaseTable';
-import type { LTableInstance } from 'lighting-design/Table/base/types';
-import { isFunction, uniqueId, useIsFirstRender } from 'lighting-design/_utils';
+import type { LTableInstance } from 'lighting-design/Table/interface';
+import { isFunction, uniqueId } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
+import { useIsFirstRender } from 'lighting-design/hooks';
 import type { Key } from 'react';
 import React, { cloneElement, isValidElement, useImperativeHandle, useMemo, useRef } from 'react';
 import type { LEditTableProps } from './interface';

@@ -47,7 +47,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     if (ret === true) setOpen(false);
   });
 
-  // const resetFormInitValues = useFormInitValues(formRef.current, restProps.initialValues);
   const [initVal, setIninVal] = useState(() => restProps.initialValues || {});
   useEffect(() => {
     if (!isAntdReset && open) {
