@@ -1,7 +1,6 @@
-import { useMemoizedFn } from 'ahooks';
-import type { FormInstance } from 'antd';
+import { version } from 'antd';
+import { compare } from 'compare-versions';
 import { emptyArray } from 'lighting-design/constants';
-import { Children, useMemo, useRef } from 'react';
 import rfdc from 'rfdc';
 
 /**
@@ -109,8 +108,6 @@ export function getFormItemLabel(props: Record<string, any>): string {
 
 /**
  * 获取表单项的 placeholder
- * @param options
- * @returns
  */
 export const usePlaceholder = (options: {
   placeholder?: string | string[];
@@ -118,9 +115,7 @@ export const usePlaceholder = (options: {
   restProps: Record<string, any>;
 }): any => {
   const { placeholder, restProps, isSelectType = false } = options;
-
   if (placeholder) return placeholder;
-
   return `${isSelectType ? '请选择' : '请输入'}${getFormItemLabel(restProps)}`;
 };
 
@@ -128,8 +123,6 @@ const randomStr = Math.random().toString(16).substring(2);
 let _id = 0;
 /**
  * 生产唯一id
- * @param prefix
- * @returns
  */
 export function uniqueId(prefix = 'lightd') {
   _id++;
@@ -137,69 +130,8 @@ export function uniqueId(prefix = 'lightd') {
 }
 
 /**
- * 是否时第一次渲染组件
- * @returns
- */
-export const useIsFirstRender = (): boolean => {
-  const isFirst = useRef<boolean>(true);
-  const { current } = isFirst;
-  // 如果是第一次，改变状态并返回true
-  if (current) {
-    isFirst.current = false;
-    return true;
-  }
-  return current;
-};
-
-/**
- * 获取依赖项的值
- * @param dependencies
- * @param restProps
- * @returns
- */
-export const useDependValues = (
-  dependencies: string[],
-  restProps: Record<string, any> | undefined,
-) => {
-  return useMemo(() => {
-    if (!dependencies?.length || !restProps) {
-      return emptyArray;
-    }
-    return dependencies
-      ?.map((nameStr) => restProps[nameStr])
-      .filter((it) => it !== void 0 && it !== null && it !== '');
-  }, [dependencies, restProps]);
-};
-
-/**
- * 判断依赖项的值是否有 undefined null 空字符串 空数组
- * @param dependValues
- * @returns
- */
-export const useIsClearDependValues = (dependValues: any[]) => {
-  return useMemo(() => {
-    const depVals = dependValues.filter((item) => item !== void 0 || item !== null || item !== '');
-
-    if (!depVals?.length) return false;
-
-    if (depVals?.length === 1) {
-      const nameValue = depVals?.[0];
-      return (
-        nameValue === void 0 || nameValue === null || nameValue === '' || nameValue?.length === 0
-      );
-    }
-    return depVals?.every(
-      (nameValue) =>
-        nameValue === void 0 || nameValue === null || nameValue === '' || !nameValue?.length,
-    );
-  }, dependValues);
-};
-
-/**
- * 验证是否合法值
+ * 验证值是否为合法值
  * @description`'' NaN false undefined null [] {} 不合法`,  `0 合法`
- * @param {String} value
- * @returns
  */
 export const isLegalValue = (value: any) => {
   if (typeof value === 'number' && !Number.isNaN(value)) {
@@ -220,7 +152,7 @@ export const isLegalValue = (value: any) => {
 };
 
 /**
- * - 获取表格列的每一项唯一 key 值
+ * 获取表格列的每一项唯一 key 值
  * @param col -当前列
  * @param i 索引
  * @return key数组
@@ -236,15 +168,11 @@ export const getTableColumnsKey = (col: Record<string, any>, i: number) =>
 const autoFontSize = (size: number, designWidth = 1920) => {
   const clientWidth =
     window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-
   if (!clientWidth) return size;
-
-  const widthRate = clientWidth / designWidth; // 设计图宽度
-
+  const widthRate = clientWidth / designWidth;
   if (!window.isNaN(size)) {
     return +size * widthRate;
   }
-
   return 14;
 };
 
@@ -291,106 +219,13 @@ export const transformEchartsOption = (
  */
 export const getOptions = (opt1: any[] = [], opt2: any[] = [], opt3?: any[] | undefined) => {
   if (opt1?.length) return opt1;
-
   if (opt2?.length) return opt2;
-
   if (opt3?.length) return opt3;
-
   return emptyArray;
 };
 
-// dispose 处理
-// format  格式化
-// transform 转化
-/**
- * 转化单选多选组件传入的value
- * @param param0
- * @returns
- */
-export const transformValue = ({ value, multiple, labelInValue }) => {
-  if (labelInValue) {
-    if (multiple) {
-      return value?.map?.((item) => (typeof item === 'object' ? item?.value : item)) ?? emptyArray;
-    }
-    return typeof value === 'object' ? value?.value : value;
-  }
-  return multiple ? value || emptyArray : value;
-};
-/**
- * 转化单选多选组件onChange的value
- * @param param0
- * @returns
- */
-export const transformChangeValue = ({ value, multiple, labelInValue, options }) => {
-  if (labelInValue) {
-    if (multiple) {
-      return options.filter((item) => value?.includes?.(item.value));
-    }
-    return options.find((item) => item.value === value);
-  }
-  return value;
-};
-
-/**
- * 通过initValues和allValues获取表单的初始值
- * @param initialValues from 的 initialValues
- * @param allValues from 的 allValues
- * @returns 新的表单初始值
- */
-export const getFormInitialValues = (initialValues: Record<string, any>, allValues = {}) => {
-  return Object.keys(allValues).reduce((prev: Record<string, any>, cur: string) => {
-    prev[cur] = initialValues?.[cur] ?? void 0;
-    return prev;
-  }, {});
-};
-
-/**
- * 通过initValues和allValues设置表单的初始值
- * @param form from 的 实例
- * @param initialValues from 的 initialValues
- * @returns 重置表单初始值的方法
- */
-export const useFormInitValues = (form?: FormInstance, initialValues = {}) => {
-  return useMemoizedFn(() => {
-    const newInitVals = getFormInitialValues(initialValues, form?.getFieldsValue());
-    form?.setFieldsValue({ ...newInitVals });
-  });
-};
-
-export const getFormItemInitValues = (formItems, initialValues) => {
-  let ret: Record<string, any> = {};
-
-  formItems.forEach((item: any) => {
-    const itemName = item?.props?.name;
-    const itemInitialValue = item?.props?.initialValue;
-
-    const child = item?.props?.children;
-
-    if (typeof itemName === 'string' || typeof itemName === 'number') {
-      ret[itemName] = itemInitialValue ?? initialValues?.[itemName] ?? void 0;
-    } else if (Array.isArray(itemName) && itemName?.length === 2) {
-      const field_0 = itemName[0];
-      const field_1 = itemName[1];
-      const val = itemInitialValue ?? initialValues?.[field_0]?.[field_1] ?? void 0;
-      if (!ret[field_0]) {
-        ret[field_0] = {
-          [field_1]: val,
-        };
-      } else {
-        ret[field_0][field_1] = val;
-      }
-    }
-
-    if (Children.toArray(child)?.length > 0) {
-      ret = {
-        ...ret,
-        ...getFormItemInitValues(Children.toArray(child), initialValues),
-      };
-    }
-  });
-
-  return ret;
-};
+/** 获取antd版本是否大于等于5.14.0*/
+export const antdVersionMoreThan514 = compare(version, '5.14.0', '>=');
 
 // type GetFormInitValuesOptions = {
 //   formItems: any[];

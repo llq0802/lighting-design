@@ -1,15 +1,59 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
 import { Card, theme } from 'antd';
 import classnames from 'classnames';
-import { transformChangeValue, transformValue } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useMemo } from 'react';
 import './index.less';
 import type { LCardGroupProps } from './interface';
-
 const { useToken } = theme;
-
 const prefixCls = 'lightd-card-group';
+
+/**
+ * 转化单选多选组件传入的value
+ */
+export const transformValue = ({
+  value,
+  multiple,
+  labelInValue,
+  valueKey,
+}: {
+  value: any;
+  multiple: boolean;
+  labelInValue: boolean;
+  valueKey: string;
+}) => {
+  if (labelInValue) {
+    if (multiple) {
+      return value?.map?.((item: any) => (typeof item === 'object' ? item[valueKey] : item)) ?? [];
+    }
+    return typeof value === 'object' ? value[valueKey] : value;
+  }
+  return multiple ? value || [] : value;
+};
+/**
+ * 转化单选多选组件onChange的value
+ */
+export const transformChangeValue = ({
+  value,
+  multiple,
+  labelInValue,
+  valueKey,
+  options,
+}: {
+  value: any;
+  multiple: boolean;
+  labelInValue: boolean;
+  valueKey: string;
+  options: any[];
+}) => {
+  if (labelInValue) {
+    if (multiple) {
+      return options?.filter((item) => value?.includes?.(item[valueKey]));
+    }
+    return options?.find((item) => item[valueKey] === value);
+  }
+  return value;
+};
 
 export default function LCardGroup(props: LCardGroupProps) {
   const {
@@ -33,8 +77,8 @@ export default function LCardGroup(props: LCardGroupProps) {
 
   const [val, onChange] = useControllableValue(props);
   const value = useMemo(
-    () => transformValue({ value: val, multiple, labelInValue }),
-    [val, multiple, labelInValue],
+    () => transformValue({ value: val, multiple, labelInValue, valueKey }),
+    [val],
   );
 
   if (disabled) {
@@ -44,7 +88,7 @@ export default function LCardGroup(props: LCardGroupProps) {
   }
 
   const triggerChange = useMemoizedFn((value: any) => {
-    const val = transformChangeValue({ value, multiple, labelInValue, options });
+    const val = transformChangeValue({ value, multiple, labelInValue, options, valueKey });
     onChange?.(val);
   });
 
@@ -54,12 +98,12 @@ export default function LCardGroup(props: LCardGroupProps) {
       return;
     }
 
-    if (multiple && Array.isArray(value)) {
+    if (multiple) {
       // 多选
       if (value?.includes?.(item[valueKey])) {
-        triggerChange(value?.filter((v) => v !== item[valueKey]));
+        triggerChange(value?.filter((v: any) => v !== item[valueKey]));
       } else {
-        triggerChange([...(value || emptyArray), item[valueKey]]);
+        triggerChange([...(value || []), item[valueKey]]);
       }
     } else {
       // 单选
@@ -83,10 +127,7 @@ export default function LCardGroup(props: LCardGroupProps) {
       style={{ gap, ...style }}
     >
       {options?.map((item, i) => {
-        const isActive =
-          multiple && Array.isArray(value)
-            ? value?.includes(item[valueKey])
-            : value === item[valueKey];
+        const isActive = multiple ? value?.includes(item[valueKey]) : value === item[valueKey];
         return (
           <Card
             {...item?.cardProps}
@@ -95,10 +136,9 @@ export default function LCardGroup(props: LCardGroupProps) {
               `${prefixCls}-item`,
               {
                 [`${prefixCls}-item-disabled`]: item.disabled,
-                [`${prefixCls}-item-active`]:
-                  multiple && Array.isArray(value)
-                    ? value?.includes(item[valueKey])
-                    : value === item[valueKey],
+                [`${prefixCls}-item-active`]: multiple
+                  ? value?.includes(item[valueKey])
+                  : value === item[valueKey],
               },
               item.cardProps?.className,
             )}
@@ -112,10 +152,16 @@ export default function LCardGroup(props: LCardGroupProps) {
               ...item.cardProps?.style,
               ...(isActive ? activeStyle : {}),
             }}
-            bodyStyle={{
-              ...cardBodyStyle,
-              ...item?.cardProps?.bodyStyle,
+            styles={{
+              body: {
+                ...cardBodyStyle,
+                ...item?.cardProps?.bodyStyle,
+              },
             }}
+            // bodyStyle={{
+            //   ...cardBodyStyle,
+            //   ...item?.cardProps?.bodyStyle,
+            // }}
           >
             {item[labelKey] ?? item[valueKey]}
           </Card>
