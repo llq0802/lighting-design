@@ -1,6 +1,7 @@
 import { version } from 'antd';
 import { compare } from 'compare-versions';
 import { emptyArray } from 'lighting-design/constants';
+import { isFunction as isFn } from 'lodash-es';
 import rfdc from 'rfdc';
 
 /**
@@ -10,21 +11,9 @@ export const fastDeepClone = rfdc();
 
 /**
  * 判断某个值是不是函数类型
- * @export 判断某个值是不是函数类型
- * @param {*} patch 传递的变量
- * @return {boolean} 是不是函数类型
  */
-export function isFunction(patch: any): boolean {
-  return typeof patch === 'function';
-}
-/**
- * 判断某个值是不是字符串
- * @export 判断某个值是不是字符串
- * @param {*} patch 传递的变量
- * @return {boolean} 是不是字符串
- */
-export function isString(patch: any): boolean {
-  return typeof patch === 'string';
+export function isFunction(patch: any) {
+  return isFn(patch);
 }
 
 /**

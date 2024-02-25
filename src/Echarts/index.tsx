@@ -3,19 +3,13 @@ import classnames from 'classnames';
 import type { ECharts, EChartsType } from 'echarts';
 import * as echarts from 'echarts';
 import isEqual from 'fast-deep-equal';
-import {
-  fastDeepClone,
-  isFunction,
-  isString,
-  pick,
-  transformEchartsOption,
-} from 'lighting-design/_utils';
+import { fastDeepClone, isFunction, pick, transformEchartsOption } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
+import { isString } from 'lodash-es';
 import { memo, useImperativeHandle, useRef, type FC } from 'react';
 import { bind, clear } from 'size-sensor';
 import './index.less';
 import type { LEChartsProps } from './interface';
-
 const prefixCls = 'lightd-echarts';
 
 const pickKeys = ['option', 'notMerge', 'lazyUpdate', 'showLoading', 'loadingOption'];
