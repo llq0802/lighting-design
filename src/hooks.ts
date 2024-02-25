@@ -1,49 +1,28 @@
 import { useRequest } from 'ahooks';
-import type { Result } from 'ahooks/lib/useRequest/src/types';
-import type { FormInstance, FormItemProps } from 'antd';
-import { useMemo } from 'react';
+import { useRef } from 'react';
 import type { LFormItemSelectProps } from './FormItemSelect';
-import type { SelectWrapperProps } from './FormItemSelect/base/SelectWrapper';
-import useDeepUpdateEffect from './useDeepUpdateEffect';
 
 /**
- * 更新依赖项的值并重新请求
+ * 是否为第一次渲染组件
  */
-export const useDependencies = ({
-  dependencies,
-  dependenciesObj,
-  request,
-  run,
-  form,
-  name,
-}: {
-  dependencies: string[];
-  dependenciesObj?: Record<string, any>;
-  request: SelectWrapperProps['request'];
-  form: FormInstance;
-  name: FormItemProps['name'];
-  run: Result<any, any>['run'];
-}): {
-  dependValues: any[];
-} => {
-  const dependValues = useMemo(() => {
-    if (!request || !dependencies?.length || !dependenciesObj) return [];
-    return dependencies
-      ?.map((k: string) => dependenciesObj[k])
-      .filter((it: any) => it !== void 0 && it !== null && it !== '');
-  }, [dependencies, dependenciesObj]);
-
-  useDeepUpdateEffect(() => {
-    if (!request || !dependencies?.length || !dependenciesObj) return;
-    form.setFieldValue(name, void 0);
-    run(...dependValues);
-  }, [dependenciesObj]);
-
-  return {
-    dependValues,
-  };
+export const useIsFirstRender = (): boolean => {
+  const isFirst = useRef<boolean>(true);
+  const { current } = isFirst;
+  // 如果是第一次，改变状态并返回true
+  if (current) {
+    isFirst.current = false;
+    return true;
+  }
+  return current;
 };
 
+// 是否手动请求
+const isManual = (options: any[] | undefined, autoRequest: boolean) => {
+  if (options?.length) {
+    return true;
+  }
+  return !autoRequest;
+};
 /**
  * 通过异步请求获取组件的 options
  */
@@ -60,13 +39,6 @@ export const useRequestOptions = ({
   refreshDeps?: any[];
   autoRequest?: boolean;
 }) => {
-  // 是否手动请求
-  const isManual = () => {
-    if (options?.length) {
-      return true;
-    }
-    return !autoRequest;
-  };
   const requestRes = useRequest(
     async (...args) => {
       if (request) {
@@ -75,8 +47,45 @@ export const useRequestOptions = ({
       }
       return [];
     },
-    { manual: isManual(), refreshDeps, ...requestOptions },
+    { manual: isManual(options, autoRequest), refreshDeps, ...requestOptions },
   );
-
   return requestRes;
 };
+
+// /**
+//  * 更新依赖项的值并重新请求
+//  */
+// export const useDependencies = ({
+//   dependencies,
+//   dependenciesObj,
+//   request,
+//   run,
+//   form,
+//   name,
+// }: {
+//   dependencies: string[];
+//   dependenciesObj?: Record<string, any>;
+//   request: SelectWrapperProps['request'];
+//   form: FormInstance;
+//   name: FormItemProps['name'];
+//   run: Result<any, any>['run'];
+// }): {
+//   dependValues: any[];
+// } => {
+//   const dependValues = useMemo(() => {
+//     if (!request || !dependencies?.length || !dependenciesObj) return [];
+//     return dependencies
+//       ?.map((k: string) => dependenciesObj[k])
+//       .filter((it: any) => it !== void 0 && it !== null && it !== '');
+//   }, [dependencies, dependenciesObj]);
+
+//   useDeepUpdateEffect(() => {
+//     if (!request || !dependencies?.length || !dependenciesObj) return;
+//     form.setFieldValue(name, void 0);
+//     run(...dependValues);
+//   }, [dependenciesObj]);
+
+//   return {
+//     dependValues,
+//   };
+// };
