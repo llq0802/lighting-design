@@ -1,8 +1,8 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
 import { Tag } from 'antd';
 import classnames from 'classnames';
-import { transformChangeValue, transformValue } from 'lighting-design/CardGroup';
 import type { ValueType } from 'lighting-design/CardGroup/interface';
+import { transformChangeValue, transformValue } from 'lighting-design/CardGroup/utils';
 import { emptyArray } from 'lighting-design/constants';
 import { useMemo } from 'react';
 import type { LTagGroupProps } from './interface';
@@ -30,7 +30,7 @@ export default function LTagGroup(props: LTagGroupProps) {
 
   const [val, onChange] = useControllableValue<ValueType>(props);
   const value = useMemo(
-    () => transformValue({ value: val, multiple, labelInValue }),
+    () => transformValue({ value: val, multiple, labelInValue, valueKey }),
     [val, multiple, labelInValue],
   );
 
@@ -41,7 +41,7 @@ export default function LTagGroup(props: LTagGroupProps) {
       : (value as unknown as string) === allValue;
 
   const triggerChange = useMemoizedFn((value: any) => {
-    const val = transformChangeValue({ value, multiple, labelInValue, options });
+    const val = transformChangeValue({ value, multiple, labelInValue, options, valueKey });
     onChange?.(val);
   });
 
