@@ -92,6 +92,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
         options={void 0}
         popupMatchSelectWidth={false}
         defaultActiveFirstOption={false}
+        notFoundContent={null}
         className={classnames(prefixCls, className)}
         style={{ width, ...style }}
         size={size}
@@ -105,7 +106,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
         mode={outMode === 'default' ? void 0 : 'multiple'}
         onChange={setState}
         value={value}
-        notFoundContent={null}
         onInputKeyDown={(e) => {
           e.stopPropagation();
           e.preventDefault();

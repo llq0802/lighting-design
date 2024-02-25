@@ -61,6 +61,7 @@
     "@koale/useworker": "^4.0.2",
     "ahooks": "^3.7.6",
     "antd-img-crop": "^4.12.2",
+    "compare-versions": "^6.1.0",
     "echarts": "^5.4.3",
     "fast-deep-equal": "^3.1.3",
     "rc-use-hooks": "^2.0.3",

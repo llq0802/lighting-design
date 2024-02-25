@@ -1,8 +1,8 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
 import { Tag } from 'antd';
 import classnames from 'classnames';
+import { transformChangeValue, transformValue } from 'lighting-design/CardGroup';
 import type { ValueType } from 'lighting-design/CardGroup/interface';
-import { transformChangeValue, transformValue } from 'lighting-design/_utils';
 import { emptyArray } from 'lighting-design/constants';
 import { useMemo } from 'react';
 import type { LTagGroupProps } from './interface';

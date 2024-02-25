@@ -24,16 +24,8 @@ export default {
           link: '/components/number-roll',
         },
         {
-          title: 'LTypeit-打字机',
-          link: '/components/typeit',
-        },
-        {
           title: 'LTrigger-弹出选择',
           link: '/components/trigger',
-        },
-        {
-          title: 'LColor-颜色选择',
-          link: '/components/color-pick',
         },
         {
           title: 'LCardGroup-卡片选择',
@@ -46,6 +38,14 @@ export default {
         {
           title: 'LSliderVerify-滑块验证',
           link: '/components/slider-verify',
+        },
+        {
+          title: 'LColor-颜色选择',
+          link: '/components/color-pick',
+        },
+        {
+          title: 'LTypeit-打字机',
+          link: '/components/typeit',
         },
       ],
     },

@@ -35,11 +35,7 @@ function StepForm({
     // 存储每个表单实例
     ctx.formInstanceListRef.current[_stepNum as number] = formRef.current;
     if (!ctx?.isAntdReset) {
-      // 存储每个表单的初始值 (保证获取到初始值，
-      // const newInitialValues = getFormInitialValues(
-      //   restProps?.initialValues || {},
-      //   formRef.current.getFieldsValue(),
-      // );
+      // 存储每个表单的初始值 (保证获取到初始值)
       const newInitialValues = formRef.current.getFieldsValue();
       ctx.formInitialValues.current[_stepNum as number] = newInitialValues;
     }
