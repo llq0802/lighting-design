@@ -1,7 +1,7 @@
 import { version } from 'antd';
 import { compare } from 'compare-versions';
 import { emptyArray } from 'lighting-design/constants';
-import { isFunction as isFn } from 'lodash-es';
+import { isFunction as isFn, isPlainObject } from 'lodash-es';
 import rfdc from 'rfdc';
 
 /**
@@ -22,44 +22,9 @@ export function isFunction(patch: any) {
 }
 
 /**
- * 从对象中选择指定的属性
- * @param obj 要选择属性的对象
- * @param keys 要选择的属性的键名数组
- * @returns 选择后的属性对象，如果对象为空则返回undefined
- */
-export function pick(
-  obj: Record<string, unknown> | undefined,
-  keys: string[],
-): Record<string, unknown> | undefined {
-  if (!obj || !keys?.length) return void 0;
-  const result: Record<string, unknown> = {};
-  keys.forEach((key) => {
-    if (obj.hasOwnProperty(key)) {
-      result[key] = obj[key];
-    }
-  });
-  return result;
-}
-/**
- * 从对象中移除指定的属性。
- * @param obj - 要操作的对象。
- * @param keys - 要移除的属性名数组。
- * @returns 移除指定属性后的新对象。
- */
-export function omit<T extends Record<string, any>>(obj: T, keys: string[]): T {
-  if (!keys?.length) return obj;
-  const keySet = new Set(keys);
-  const entries = Object.entries(obj);
-  const filteredEntries = entries.filter(([key]) => !keySet.has(key));
-  return Object.fromEntries(filteredEntries) as T;
-}
-
-/**
  * 合并两个`props`属性, 并对两个`props`的方法进行合并调用
- * @param {T} originProps 原始props
- * @param {Partial<T>} patchProps 需要合并覆盖的的props
- * @param {boolean} [isAll]
- * @return {*}
+ * @param {Record<string, any>} originProps 原始props
+ * @param {Record<string, any>} patchProps  需要合并覆盖的的props
  */
 export function composeProps<T extends Record<string, any>>(
   originProps: T,
@@ -70,7 +35,6 @@ export function composeProps<T extends Record<string, any>>(
     ...originProps,
     ...(isAll ? patchProps : {}),
   };
-
   Object.keys(patchProps).forEach((key) => {
     const func = patchProps[key];
     if (isFunction(func)) {
@@ -85,9 +49,7 @@ export function composeProps<T extends Record<string, any>>(
 
 /**
  * 获取LForm组件的label字符串名称
- * @export
  * @param {Record<string, any>} props
- * @return {*}  {string}
  */
 export function getFormItemLabel(props: Record<string, any>): string {
   const { label, messageVariables = {} } = props;
@@ -125,7 +87,7 @@ export function uniqueId(prefix = 'lightd') {
 
 /**
  * 验证值是否为合法值
- * @description`'' NaN false undefined null [] {} 不合法`,  `0 合法`
+ * @description`'' NaN false undefined null [] {}` 均不合法,  `0 合法`
  */
 export const isLegalValue = (value: any) => {
   if (typeof value === 'number' && !Number.isNaN(value)) {
@@ -137,7 +99,7 @@ export const isLegalValue = (value: any) => {
     }
     return value.filter((item: any) => !!item || item === 0)?.length > 0;
   }
-  if (Object.prototype.toString.call(value) === '[object Object]') {
+  if (isPlainObject(value)) {
     return Object.keys(value).length > 0;
   }
   return !!value;
@@ -147,15 +109,13 @@ export const isLegalValue = (value: any) => {
  * 获取表格列的每一项唯一 key 值
  * @param col -当前列
  * @param i 索引
- * @return key数组
+ * @returns key数组
  */
 export const getTableColumnsKey = (col: Record<string, any>, i: number) =>
   `${col?.dataIndex || ''}-${col.key || ''}-${i}`;
 
 /**
  * rem宽度适配计算
- * @param size
- * @returns
  */
 const autoFontSize = (size: number, designWidth = 1920) => {
   const clientWidth =
@@ -169,10 +129,10 @@ const autoFontSize = (size: number, designWidth = 1920) => {
 };
 
 /**
- * 转化echarts的 option 找到能resize的字段
- * @param option
- * @param changeFields
- * @param designWidth
+ * 转化echarts的 option 找到能 resize 的字段
+ * @param option echarts option
+ * @param changeFields 需要转换的字段
+ * @param designWidth 设计宽度
  * @returns 新的 option
  */
 export const transformEchartsOption = (

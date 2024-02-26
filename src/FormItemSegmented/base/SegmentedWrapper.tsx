@@ -1,8 +1,9 @@
 import { Segmented, Spin } from 'antd';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import { getOptions, omit } from 'lighting-design/_utils';
+import { getOptions } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useRequestOptions } from 'lighting-design/hooks';
+import { omit } from 'lodash-es';
 import type { FC } from 'react';
 import { useImperativeHandle, useMemo } from 'react';
 
@@ -31,7 +32,14 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   const { loading, data } = requestRes;
 
   const segmentedOptions = useMemo(() => {
-    const innerOptions = getOptions(outOptions, data);
+    let innerOptions = getOptions(outOptions, data);
+    if (fieldNames) {
+      innerOptions = innerOptions?.map((item) => ({
+        ...item,
+        label: item[fieldNames?.['label'] ?? 'label'],
+        value: item[fieldNames?.['value'] ?? 'value'],
+      }));
+    }
     return innerOptions;
   }, [outOptions, data]);
 

@@ -1,7 +1,8 @@
 import { Radio, Spin } from 'antd';
-import { getOptions, omit } from 'lighting-design/_utils';
+import { getOptions } from 'lighting-design/_utils';
 import { emptyArray } from 'lighting-design/constants';
 import { useRequestOptions } from 'lighting-design/hooks';
+import { omit } from 'lodash-es';
 import type { FC } from 'react';
 import { useImperativeHandle, useMemo } from 'react';
 

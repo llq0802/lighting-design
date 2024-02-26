@@ -1,7 +1,8 @@
 import { Mentions, Spin } from 'antd';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
-import { getOptions, omit } from 'lighting-design/_utils';
+import { getOptions } from 'lighting-design/_utils';
 import { useRequestOptions } from 'lighting-design/hooks';
+import { omit } from 'lodash-es';
 import { useImperativeHandle, useMemo } from 'react';
 
 const MentionsWrapper = ({

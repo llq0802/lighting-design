@@ -38,13 +38,15 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     formRef,
     tableRef,
 
-    fullScreenBgColor = '#fff',
     defaultRequestParams = emptyObject,
     requestOptions = emptyObject,
     request = async () => {},
+    requestFinally,
+    requestSuccess,
 
     formInitialValues,
     queryFormProps,
+
     formCardProps,
     tableCardProps,
 
@@ -56,8 +58,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     toolbarLeft,
     toolbarRight,
 
-    loading: outLoading,
+    fullScreenBgColor = '#fff',
     contentRender,
+    formItems = emptyArray,
 
     rowClassName,
     rootClassName,
@@ -65,17 +68,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     rootStyle,
     toolbarStyle,
 
+    loading: outLoading,
     size: outSize,
     columns = emptyArray,
-    components,
-
-    formItems = emptyArray,
-
     pagination: outPagination,
-
+    components,
     onChange,
-    requestFinally,
-    requestSuccess,
     ...restProps
   } = props;
   const rootRef = useRef<HTMLDivElement>(null);
@@ -108,7 +106,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const { outPaginationCurrent, outPaginationPageSize } = useMergePagination(outPagination);
   // useRequest请求
   const {
-    isInited,
+    isInitedRef,
     data,
     run,
     loading: requestLoading,
@@ -213,9 +211,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         current: 1,
         pageSize: paginationAction?.pageSize || outPaginationPageSize,
         formValues,
-        ...(isInited.current ? defaultRequestParams : {}),
+        ...(isInitedRef.current ? defaultRequestParams : {}),
       },
-      isInited.current ? 'onInit' : 'onSearch',
+      isInitedRef.current ? 'onInit' : 'onSearch',
     );
   });
   // 表单重置
@@ -231,7 +229,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 初始化请求
   useEffect(() => {
     if (!autoRequest || !isReady || restProps?.dataSource) return;
-    isInited.current = true;
+    isInitedRef.current = true;
     if (!hasFromItems) {
       paginationAction.changeCurrent(1);
       return;

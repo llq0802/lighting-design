@@ -7,12 +7,14 @@ import type { LTableProps, LTableRequestType } from '../interface';
 
 /**
  * 填充视口剩余空间
- * @param {*} {
- *   tablecardref,
- *   fillSpace,
- * }
  */
-export function useFillSpace({ tablecardref, fillSpace }) {
+export function useFillSpace({
+  tablecardref,
+  fillSpace,
+}: {
+  tablecardref: any;
+  fillSpace: boolean;
+}) {
   useLayoutEffect(() => {
     if (!tablecardref.current) return;
     const cardDom = tablecardref.current;
@@ -66,7 +68,7 @@ export function useTableColumn({
   paginationAction,
   columns,
   toolbarActionConfig,
-}: any) {
+}: Record<string, any>) {
   const outColumns = useMemo(() => {
     if (contentRender) return [];
     if (isSort) {
@@ -200,7 +202,16 @@ export function useMergeToolbarActionConfig(
     // JSON序列化时 当含有 undefined , 函数 日期对象会有问题 这儿根据实际情况可以使用
   }, [JSON.stringify(outActionConfig)]);
 }
-
+/**
+ * 使用表格请求的自定义 hook
+ * @param dataSource 数据源
+ * @param request 请求函数
+ * @param requestOptions 请求选项
+ * @param requestSuccess 请求成功回调函数
+ * @param requestFinally 请求最终回调函数
+ * @param outPaginationCurrent 当前页码
+ * @param outPaginationPageSize 每页大小
+ */
 export function useTableRequest({
   dataSource,
   request,
@@ -218,13 +229,12 @@ export function useTableRequest({
   outPaginationCurrent: number;
   outPaginationPageSize: number;
 }) {
-  const isInited = useRef<boolean>(false); // 是否第一次自动请求
+  const isInitedRef = useRef<boolean>(false);
   const res = usePagination(
     async (args, requestType: LTableRequestType) => {
-      isInited.current = false;
+      isInitedRef.current = false;
       if (dataSource) return { list: [], total: 0 };
       const res = await request({ ...args }, requestType);
-      // 必须设置success为true data必须为数组长度大于0 才会有数据
       if (res?.success && Array.isArray(res.data) && res.data.length) {
         return { list: res.data, total: +res.total };
       }
@@ -245,5 +255,9 @@ export function useTableRequest({
       },
     },
   );
-  return { isInited, ...res };
+  return {
+    /** 是否第一次自动请求 */
+    isInitedRef,
+    ...res,
+  };
 }
