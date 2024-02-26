@@ -1,7 +1,7 @@
 import type { CardProps, SelectProps } from 'antd';
 import type { CSSProperties } from 'react';
 
-export type ValueType =
+export type LValueType =
   | string
   | number
   | (string | number)[]
