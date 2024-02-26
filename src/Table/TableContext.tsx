@@ -12,7 +12,8 @@ export type TableContextProps = {
   columnKeys: string[];
   setColumnKeys: React.Dispatch<React.SetStateAction<string[]>>;
   reload?: () => void;
-  setFullScreen?: Dispatch<SetStateAction<boolean>>;
+  isFullScreen?: boolean;
+  toggleFullscreen: () => void;
 };
 
 const TableContext = createContext<TableContextProps>({});

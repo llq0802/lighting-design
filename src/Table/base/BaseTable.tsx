@@ -1,4 +1,4 @@
-import { useMemoizedFn, usePagination, useRafState } from 'ahooks';
+import { useFullscreen, useMemoizedFn } from 'ahooks';
 import type { FormInstance } from 'antd';
 import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
@@ -9,7 +9,7 @@ import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import { useEffect, useImperativeHandle, useMemo, useRef } from 'react';
 import TableContext from '../TableContext';
-import type { LTableProps, LTableRequestType } from '../interface';
+import type { LTableProps } from '../interface';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
 import ToolbarAction, { TdCell, showTotal } from './ToolBarAction';
 import {
@@ -18,6 +18,7 @@ import {
   useMergePagination,
   useMergeToolbarActionConfig,
   useTableColumn,
+  useTableRequest,
   useTableSize,
 } from './hooks';
 import './styles.less';
@@ -73,15 +74,16 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     pagination: outPagination,
 
     onChange,
+    requestFinally,
+    requestSuccess,
     ...restProps
   } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const tablecardref = useRef<HTMLDivElement>(null);
-  const isInited = useRef<boolean>(false); // 是否第一次自动请求
-  const [isFullScreen, setFullScreen] = useRafState(false);
-  // 绑定SearchForm组件form实例在内部
-  const queryFormRef = useRef<FormInstance | null>(null);
-  // 绑定SearchForm组件form实例在外部
+  const [isFullScreen, { toggleFullscreen }] = useFullscreen(rootRef, {
+    onExit: () => toggleFullscreen(),
+  });
+  const queryFormRef = useRef<FormInstance>(null);
   const handleFormRef = useMemoizedFn((refValue: FormInstance) => {
     queryFormRef.current = refValue;
     if (formRef) {
@@ -93,60 +95,36 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       }
     }
   });
-
-  // 合并内置表格工具栏配置
-  const toolbarActionConfig = useMergeToolbarActionConfig(outToolbarActionConfig);
-
   // 根标签全屏样式
   const rootDefaultStyle = useMemo(
     () => (isFullScreen ? { backgroundColor: fullScreenBgColor } : {}),
     [isFullScreen],
   );
-
-  // 是否有查询框组
+  // 是否有表单查询框组
   const hasFromItems = useMemo(() => formItems?.length > 0, [formItems?.length]);
-
+  // 合并内置表格工具栏配置
+  const toolbarActionConfig = useMergeToolbarActionConfig(outToolbarActionConfig);
   // 合并分页
   const { outPaginationCurrent, outPaginationPageSize } = useMergePagination(outPagination);
-
   // useRequest请求
   const {
-    // refresh,
-    // params,
+    isInited,
     data,
     run,
     loading: requestLoading,
     mutate: setTableData,
     pagination: paginationAction,
-  } = usePagination(
-    async (args, requestType: LTableRequestType) => {
-      if (restProps?.dataSource) return { list: [], total: 0 };
-      isInited.current = false;
-      const res = await request({ ...args }, requestType);
-      // 必须设置success为true data必须为数组长度大于0 才会有数据
-      if (res?.success && Array.isArray(res.data) && res.data.length) {
-        return { list: res.data, total: +res.total };
-      }
-      return { list: [], total: 0 };
-    },
-    {
-      defaultCurrent: outPaginationCurrent,
-      defaultPageSize: outPaginationPageSize,
-      ...(requestOptions as Record<string, any>),
-      manual: true,
-      onSuccess(...args) {
-        restProps.requestSuccess?.(...args);
-        requestOptions?.onSuccess?.(...args);
-      },
-      onFinally(...args) {
-        restProps.requestFinally?.(...args);
-        requestOptions?.onFinally?.(...args);
-      },
-    },
-  );
+  } = useTableRequest({
+    dataSource: restProps?.dataSource,
+    request,
+    requestOptions,
+    requestSuccess,
+    requestFinally,
+    outPaginationCurrent,
+    outPaginationPageSize,
+  });
   // 合并loading
   const currentLoading = useMergeLoading(requestLoading, outLoading);
-
   // 设置表格大小
   const [currentSize, setCurrentSize] = useTableSize(outSize);
   // 设置表格columns 是否设置序号
@@ -157,7 +135,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     columns,
     toolbarActionConfig,
   });
-
   // ==================== 表格方法开始====================
   // 重置所有表单数据，从第一页开始显示、查询数据
   const handleReset = useMemoizedFn((extraParams?: Record<string, any>) => {
@@ -228,7 +205,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       'onReload',
     );
   });
-  // 表单查询 保留表单参数 保留pageSize  重置page为 1
+  // 初始化或表单查询 保留表单参数 保留pageSize  重置page为 1
   const handleSearchFormFinish = useMemoizedFn((formValues: Record<string, any>) => {
     queryFormProps?.onFinish?.(formValues);
     run(
@@ -246,23 +223,21 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     queryFormProps?.onReset?.(e);
     handleReset({});
   });
-
   // ==================== 表格方法结束====================
 
   // ==================== table副作用开始====================
   // 处理是否沾满视口的剩余空间
   useFillSpace({ tablecardref, fillSpace });
-
   // 初始化请求
   useEffect(() => {
-    if (!autoRequest || !isReady) return;
+    if (!autoRequest || !isReady || restProps?.dataSource) return;
+    isInited.current = true;
     if (!hasFromItems) {
       paginationAction.changeCurrent(1);
       return;
     }
-    isInited.current = true;
-    queryFormRef.current?.submit();
-  }, [autoRequest, isReady]);
+    queryFormRef.current?.submit?.();
+  }, [isReady]);
   // ==================== table副作用结束====================
 
   // ==================== 暴露外部方法开始====================
@@ -288,7 +263,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // ==================== 暴露外部方法结束===================
 
   // ==================== dom 区域开始 ====================
-  const ToolbarActionDom = useMemo(() => {
+  const toolbarActionDom = useMemo(() => {
     if (toolbarActionConfig === false) {
       return null;
     }
@@ -297,20 +272,23 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         {...toolbarActionConfig}
         showColumnSetting={contentRender ? false : toolbarActionConfig?.showColumnSetting}
         showDensity={contentRender ? false : toolbarActionConfig?.showDensity}
-        className={`${LIGHTD_TABLE}-toolbar-action ${toolbarActionConfig.className}`}
+        className={classnames(`${LIGHTD_TABLE}-toolbar-action`, toolbarActionConfig?.className)}
       />
     );
-  }, [toolbarActionConfig, contentRender]);
+  }, [toolbarActionConfig]);
 
   const toolbarDom = useMemo(() => {
     return !showToolbar ||
       (toolbarActionConfig === false && !toolbarLeft && !toolbarRight) ? null : (
       <div className={`${LIGHTD_TABLE}-toolbar`} style={toolbarStyle}>
-        <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>{<Space>{toolbarLeft}</Space>}</div>
+        <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>
+          <Space>{toolbarLeft}</Space>
+        </div>
+
         <div className={`${LIGHTD_TABLE}-toolbar-content-right`}>
           <Space>
             {toolbarRight}
-            {ToolbarActionDom}
+            {toolbarActionDom}
           </Space>
         </div>
       </div>
@@ -357,19 +335,16 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       }}
       className={classnames(
         LIGHTD_CARD,
-        {
-          [`${LIGHTD_CARD}-stripe`]: showStripe,
-          [`${LIGHTD_CARD}-hover`]: showHover,
-        },
+        { [`${LIGHTD_CARD}-stripe`]: showStripe, [`${LIGHTD_CARD}-hover`]: showHover },
         tableCardProps?.className,
       )}
     >
-      {toolbarRender ? toolbarRender(ToolbarActionDom) : toolbarDom}
+      {toolbarRender ? toolbarRender(toolbarActionDom) : toolbarDom}
       <Table
         components={{
           table: contentRender ? () => contentRender?.(data?.list ?? []) : void 0,
-          body: { cell: TdCell },
           ...components,
+          body: { cell: TdCell, ...components?.body },
         }}
         rowClassName={classnames(`${LIGHTD_TABLE}-row`, rowClassName as string | undefined)}
         size={currentSize as SizeType}
@@ -385,8 +360,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
                 current: paginationAction?.current,
                 pageSize: paginationAction?.pageSize,
                 total: paginationAction?.total,
-                // onChange: paginationAction.onChange,
-                // onShowSizeChange: paginationAction.onChange,
                 ...outPagination,
                 className: classnames(`${LIGHTD_TABLE}-pagination`, outPagination?.className),
               }
@@ -417,15 +390,15 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const returnDom = (
     <TableContext.Provider
       value={{
-        // reload: refresh,
         reload: handleReload,
         size: currentSize as any,
         setSize: setCurrentSize as any,
         columns: outColumns,
         columnKeys: columnKeys,
         setColumnKeys: setColumnKeys,
-        rootRef: rootRef,
-        setFullScreen,
+        rootRef,
+        isFullScreen,
+        toggleFullscreen,
       }}
     >
       {tableRender
@@ -457,5 +430,4 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     </ConfigProvider>
   );
 };
-
 export default BaseTable;

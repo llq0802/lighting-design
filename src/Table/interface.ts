@@ -13,6 +13,8 @@ import type {
 } from 'react';
 import type { LToolbarActionProps } from './base/ToolBarAction';
 
+export type { LToolbarActionProps };
+
 export type LTableRenderProps = (
   optionsDom: {
     /** 表单dom */

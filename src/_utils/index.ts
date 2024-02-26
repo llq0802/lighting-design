@@ -137,11 +137,9 @@ export const isLegalValue = (value: any) => {
     }
     return value.filter((item: any) => !!item || item === 0)?.length > 0;
   }
-
   if (Object.prototype.toString.call(value) === '[object Object]') {
     return Object.keys(value).length > 0;
   }
-
   return !!value;
 };
 

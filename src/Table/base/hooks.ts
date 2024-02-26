@@ -1,8 +1,9 @@
-import { useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
+import { usePagination, useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { getTableColumnsKey, isFunction } from 'lighting-design/_utils';
-import { emptyArray } from 'lighting-design/constants';
-import { useLayoutEffect, useMemo } from 'react';
+import { omit } from 'lodash-es';
+import { useLayoutEffect, useMemo, useRef } from 'react';
+import type { LTableProps, LTableRequestType } from '../interface';
 
 /**
  * 填充视口剩余空间
@@ -49,10 +50,8 @@ export function useFillSpace({ tablecardref, fillSpace }) {
 }
 /**
  * 设置表格大小
- * @param outSize
- * @returns
  */
-export function useTableSize(outSize) {
+export function useTableSize(outSize: SizeType) {
   const [currentSize, setCurrentSize] = useRafState<SizeType | 'default'>(() => outSize);
   useUpdateLayoutEffect(() => setCurrentSize(outSize), [outSize]);
   return [currentSize, setCurrentSize];
@@ -60,8 +59,6 @@ export function useTableSize(outSize) {
 
 /**
  * 设置表格列
- * @param outSize
- * @returns
  */
 export function useTableColumn({
   contentRender,
@@ -69,16 +66,15 @@ export function useTableColumn({
   paginationAction,
   columns,
   toolbarActionConfig,
-}) {
+}: any) {
   const outColumns = useMemo(() => {
-    if (contentRender) return emptyArray;
+    if (contentRender) return [];
     if (isSort) {
       const { current, pageSize } = paginationAction;
       const render = (_: any, __: any, index: number) => {
         const val = (current - 1) * (pageSize || 0) + index + 1;
         return isFunction(isSort?.render) ? isSort?.render?.(val) : val;
       };
-
       const sortColumn = {
         title: '序号',
         align: 'center',
@@ -97,42 +93,26 @@ export function useTableColumn({
     paginationAction?.current,
     paginationAction?.pageSize,
   ]);
-
   // 表格展示的列key
   const [columnKeys, setColumnKeys] = useRafState(() => {
-    if (toolbarActionConfig === false) {
-      return emptyArray;
-    }
-    if (!toolbarActionConfig?.showColumnSetting) {
-      return emptyArray;
-    }
+    if (toolbarActionConfig === false) return [];
+    if (!toolbarActionConfig?.showColumnSetting) return [];
     return outColumns.map(getTableColumnsKey);
   });
 
   useUpdateEffect(() => {
-    if (toolbarActionConfig === false) {
-      return;
-    }
-    if (!toolbarActionConfig?.showColumnSetting) {
-      return;
-    }
-
+    if (toolbarActionConfig === false) return;
+    if (!toolbarActionConfig?.showColumnSetting) return;
     const newKeys = outColumns.map(getTableColumnsKey);
     setColumnKeys(newKeys);
   }, [outColumns, toolbarActionConfig]);
 
   const finalColumns = useMemo(() => {
-    if (contentRender) return emptyArray;
-
-    if (toolbarActionConfig === false) {
-      return outColumns;
-    }
-    if (!toolbarActionConfig?.showColumnSetting) {
-      return outColumns;
-    }
+    if (contentRender) return [];
+    if (toolbarActionConfig === false) return outColumns;
+    if (!toolbarActionConfig?.showColumnSetting) return outColumns;
 
     const tmpColumns: Record<string, any>[] = [];
-
     const sortColumnKeys = columnKeys.toSorted(
       (a: string, b: string) =>
         Number(a?.split('-')?.at(-1) ?? '0') - Number(b?.split('-')?.at(-1) ?? '0'),
@@ -157,42 +137,37 @@ export function useTableColumn({
 }
 
 /**
- *
  *合并外部分页配置
- * @param {*} outPagination
- * @return {*}
  */
-export function useMergePagination(outPagination) {
+export function useMergePagination(outPagination?: Record<string, any> | false) {
   // 默认从第一页
   const outPaginationCurrent = useMemo(
-    () => (outPagination && (outPagination.defaultCurrent || outPagination.current)) || 1,
+    () => (outPagination && (outPagination.current || outPagination.defaultCurrent)) || 1,
     [
       typeof outPagination !== 'boolean' ? outPagination?.defaultCurrent : void 0,
       typeof outPagination !== 'boolean' ? outPagination?.current : void 0,
     ],
   );
-
   // 默认一页10条
   const outPaginationPageSize = useMemo(
-    () => (outPagination && (outPagination.defaultPageSize || outPagination.pageSize)) || 10,
+    () => (outPagination && (outPagination.pageSize || outPagination.defaultPageSize)) || 10,
     [
       typeof outPagination !== 'boolean' ? outPagination?.defaultPageSize : void 0,
       typeof outPagination !== 'boolean' ? outPagination?.pageSize : void 0,
     ],
   );
-
   return {
     outPaginationCurrent,
     outPaginationPageSize,
   };
 }
 /**
- * 合并请求loading和外部loading
- * @param requestLoading
- * @param outLoading
- * @returns
+ * 合并请求loading和外部loading配置
  */
-export function useMergeLoading(requestLoading, outLoading) {
+export function useMergeLoading(
+  requestLoading: boolean,
+  outLoading: Record<string, any> | undefined | boolean,
+) {
   return useMemo(() => {
     if (outLoading === void 0) {
       return { spinning: requestLoading };
@@ -207,18 +182,14 @@ export function useMergeLoading(requestLoading, outLoading) {
   }, [typeof outLoading === 'boolean' ? outLoading : outLoading?.spinning, requestLoading]);
 }
 /**
- * 合并toolbar的配置
- * @param requestLoading
- * @param outLoading
- * @returns
+ * 合并 toolbar action 的配置
  */
-export function useMergeToolbarActionConfig(actionConfig) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { split, ...outToolbarActionConfig } = actionConfig;
+export function useMergeToolbarActionConfig(
+  actionConfig: Record<string, any> | false,
+): false | Record<string, any> {
+  const outActionConfig = typeof actionConfig === 'boolean' ? false : omit(actionConfig, ['split']);
   return useMemo(() => {
-    if (!actionConfig) {
-      return false;
-    }
+    if (!actionConfig) return false;
     return {
       showReload: true,
       showColumnSetting: true,
@@ -227,5 +198,52 @@ export function useMergeToolbarActionConfig(actionConfig) {
       ...actionConfig,
     };
     // JSON序列化时 当含有 undefined , 函数 日期对象会有问题 这儿根据实际情况可以使用
-  }, [JSON.stringify(outToolbarActionConfig)]);
+  }, [JSON.stringify(outActionConfig)]);
+}
+
+export function useTableRequest({
+  dataSource,
+  request,
+  requestOptions,
+  requestSuccess,
+  requestFinally,
+  outPaginationCurrent,
+  outPaginationPageSize,
+}: {
+  dataSource: any;
+  request: any;
+  requestOptions: LTableProps['requestOptions'];
+  requestSuccess: LTableProps['requestSuccess'];
+  requestFinally: LTableProps['requestFinally'];
+  outPaginationCurrent: number;
+  outPaginationPageSize: number;
+}) {
+  const isInited = useRef<boolean>(false); // 是否第一次自动请求
+  const res = usePagination(
+    async (args, requestType: LTableRequestType) => {
+      isInited.current = false;
+      if (dataSource) return { list: [], total: 0 };
+      const res = await request({ ...args }, requestType);
+      // 必须设置success为true data必须为数组长度大于0 才会有数据
+      if (res?.success && Array.isArray(res.data) && res.data.length) {
+        return { list: res.data, total: +res.total };
+      }
+      return { list: [], total: 0 };
+    },
+    {
+      defaultCurrent: outPaginationCurrent,
+      defaultPageSize: outPaginationPageSize,
+      ...requestOptions,
+      manual: true,
+      onSuccess(...args) {
+        requestSuccess?.(...args);
+        requestOptions?.onSuccess?.(...args);
+      },
+      onFinally(...args) {
+        requestFinally?.(...args);
+        requestOptions?.onFinally?.(...args);
+      },
+    },
+  );
+  return { isInited, ...res };
 }
