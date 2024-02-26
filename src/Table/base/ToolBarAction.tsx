@@ -1,7 +1,6 @@
 import { FullscreenExitOutlined, FullscreenOutlined, ReloadOutlined } from '@ant-design/icons';
-import { useFullscreen } from 'ahooks';
 import type { SpaceProps } from 'antd';
-import { ConfigProvider, Space, Tooltip } from 'antd';
+import { Space } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import type { CSSProperties, FC, Key } from 'react';
 import { useContext, useMemo } from 'react';
@@ -15,47 +14,37 @@ const ReloadIcon = ({ onReloadIconChange }) => {
   const { reload, rootRef } = useContext(TableContext);
 
   return (
-    <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
-      <Tooltip title="刷新">
-        <ReloadOutlined
-          onClick={() => {
-            reload?.();
-            onReloadIconChange?.();
-          }}
-        />
-      </Tooltip>
-    </ConfigProvider>
+    <ReloadOutlined
+      title="刷新"
+      onClick={() => {
+        reload?.();
+        onReloadIconChange?.();
+      }}
+    />
   );
 };
 // 全屏
 const FullscreenIcon = () => {
-  const { rootRef, setFullScreen } = useContext(TableContext);
-  const [isFull, { enterFullscreen, exitFullscreen }] = useFullscreen(rootRef?.current, {
-    onExit() {
-      setFullScreen?.(false);
-    },
-  });
+  const { rootRef, toggleFullscreen, isFullScreen } = useContext(TableContext);
 
-  return isFull ? (
-    <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
-      <Tooltip title="退出全屏">
+  return (
+    <>
+      {isFullScreen ? (
         <FullscreenExitOutlined
+          title="退出全屏"
           onClick={() => {
-            exitFullscreen();
-            setFullScreen?.(false);
+            toggleFullscreen();
           }}
         />
-      </Tooltip>
-    </ConfigProvider>
-  ) : (
-    <Tooltip title="进入全屏">
-      <FullscreenOutlined
-        onClick={() => {
-          enterFullscreen();
-          setFullScreen?.(true);
-        }}
-      />
-    </Tooltip>
+      ) : (
+        <FullscreenOutlined
+          title="进入全屏"
+          onClick={() => {
+            toggleFullscreen();
+          }}
+        />
+      )}
+    </>
   );
 };
 

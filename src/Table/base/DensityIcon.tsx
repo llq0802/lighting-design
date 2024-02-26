@@ -1,5 +1,5 @@
 import { ColumnHeightOutlined } from '@ant-design/icons';
-import { ConfigProvider, Dropdown, Tooltip } from 'antd';
+import { Dropdown } from 'antd';
 import type { SetStateAction } from 'react';
 import { useContext } from 'react';
 import TableContext from '../TableContext';
@@ -12,28 +12,24 @@ const items = [
 ];
 
 const DensityIcon = () => {
-  const { size, setSize, rootRef } = useContext(TableContext);
+  const { size, setSize } = useContext(TableContext);
 
   return (
-    <ConfigProvider getPopupContainer={() => rootRef?.current || document.body}>
-      <Dropdown
-        overlayClassName={`${LIGHTD_TABLE}-density-icon-overlay`}
-        placement="bottom"
-        trigger={['click']}
-        menu={{
-          style: { width: 80 },
-          selectedKeys: [!size || size === 'large' ? 'default' : size],
-          onClick({ key }) {
-            setSize?.(key as SetStateAction<'middle' | 'small' | 'large' | undefined>);
-          },
-          items,
-        }}
-      >
-        <Tooltip title="表格密度">
-          <ColumnHeightOutlined />
-        </Tooltip>
-      </Dropdown>
-    </ConfigProvider>
+    <Dropdown
+      overlayClassName={`${LIGHTD_TABLE}-density-icon-overlay`}
+      placement="bottom"
+      trigger={['click']}
+      menu={{
+        style: { width: 80 },
+        selectedKeys: [!size || size === 'large' ? 'default' : size],
+        onClick({ key }) {
+          setSize?.(key as SetStateAction<'middle' | 'small' | 'large' | undefined>);
+        },
+        items,
+      }}
+    >
+      <ColumnHeightOutlined title="表格密度" />
+    </Dropdown>
   );
 };
 
