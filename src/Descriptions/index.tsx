@@ -66,6 +66,7 @@ const LDescriptions: FC<LDescriptionsProps> = ({
       >
         {(!!title || !!extra) && (
           <div
+            className={classnames(`${prefixCls}-header`)}
             style={{
               display: 'flex',
               marginBottom: 16,
@@ -102,7 +103,6 @@ const LDescriptions: FC<LDescriptionsProps> = ({
                 if (typeof column !== 'number' || isInline) {
                   return {};
                 }
-
                 if (isLastItem) {
                   return {
                     span: isLastBlock ? void 0 : span || Math.floor(24 / (column || 3)),
