@@ -219,4 +219,4 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
 
 // 第一步优化性能
 export default LECharts;
-export type { LEChartsInstance, LEChartsOption, LEChartsProps } from './interface';
+export * from './interface';

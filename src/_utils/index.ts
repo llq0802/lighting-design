@@ -5,6 +5,11 @@ import { isFunction as isFn } from 'lodash-es';
 import rfdc from 'rfdc';
 
 /**
+ * 是否 number
+ */
+export const isNumber = (val: any) => !window.isNaN(parseFloat(val));
+
+/**
  * 快速深克隆函数
  */
 export const fastDeepClone = rfdc();
@@ -213,8 +218,8 @@ export const getOptions = (opt1: any[] = [], opt2: any[] = [], opt3?: any[] | un
   return emptyArray;
 };
 
-/** 获取antd版本是否大于等于5.14.0*/
-export const antdVersionMoreThan514 = compare(version, '5.14.0', '>=');
+/** 获取`antd`版本是否大于等于`5.14.0`*/
+export const isAntdVersionMoreThan514 = compare(version, '5.14.0', '>=');
 
 // type GetFormInitValuesOptions = {
 //   formItems: any[];

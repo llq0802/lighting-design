@@ -1,6 +1,6 @@
 import classnames from 'classnames';
+import { isNumber } from 'lighting-design/_utils';
 import type { FC } from 'react';
-import { isNumber } from '..';
 
 export const NumberRoll_NumberArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
 

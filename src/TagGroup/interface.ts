@@ -1,3 +1,4 @@
+import type { SelectProps, TagProps } from 'antd';
 import type { LCardGroupProps } from 'lighting-design/CardGroup/interface';
 import type { CSSProperties } from 'react';
 
@@ -9,11 +10,12 @@ export interface LTagGroupProps
     | 'labelInValue'
     | 'onChange'
     | 'multiple'
-    | 'options'
     | 'disabled'
     | 'cancelable'
     | 'fieldNames'
   > {
+  options?: (SelectProps['options'] & { tagProps?: TagProps }[]) | Record<string, any>[];
+
   /**
    * 根类名
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps

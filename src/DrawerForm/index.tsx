@@ -3,7 +3,7 @@ import { Drawer } from 'antd';
 import classnames from 'classnames';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import { useLFormInstance } from 'lighting-design/Form/base/hooks';
-import { isFunction } from 'lighting-design/_utils';
+import { isAntdVersionMoreThan514, isFunction } from 'lighting-design/_utils';
 import { BUTTON_ALIGN_MAP, emptyObject } from 'lighting-design/constants';
 import type { FC, MouseEvent } from 'react';
 import { cloneElement, useEffect, useState } from 'react';
@@ -54,6 +54,33 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     }
   }, [open]);
 
+  const compatibilityStyle = isAntdVersionMoreThan514
+    ? {
+        styles: {
+          ...drawerProps?.styles,
+          footer: {
+            display: 'flex',
+            justifyContent:
+              submitter && typeof submitter?.buttonAlign === 'string'
+                ? // @ts-ignore
+                  BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'center'
+                : 'center',
+            ...(drawerProps?.footerStyle ?? drawerProps?.styles?.footer),
+          },
+        },
+      }
+    : {
+        footerStyle: {
+          display: 'flex',
+          justifyContent:
+            submitter && typeof submitter?.buttonAlign === 'string'
+              ? // @ts-ignore
+                BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'center'
+              : 'center',
+          ...(drawerProps?.footerStyle ?? drawerProps?.styles?.footer),
+        },
+      };
+
   return (
     <>
       <BaseForm
@@ -102,15 +129,16 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
             destroyOnClose={destroyOnClose}
             {...drawerProps}
             className={classnames('lightd-drawer', drawerProps.className)}
-            footerStyle={{
-              display: 'flex',
-              justifyContent:
-                submitter && typeof submitter?.buttonAlign === 'string'
-                  ? // @ts-ignore
-                    BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'center'
-                  : 'center',
-              ...drawerProps.footerStyle,
-            }}
+            // footerStyle={{
+            //   display: 'flex',
+            //   justifyContent:
+            //     submitter && typeof submitter?.buttonAlign === 'string'
+            //       ? // @ts-ignore
+            //         BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'center'
+            //       : 'center',
+            //   ...drawerProps.footerStyle,
+            // }}
+            {...compatibilityStyle}
             open={open}
             onClose={(e) => {
               setOpen(false);

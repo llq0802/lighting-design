@@ -28,15 +28,9 @@ const Demo12: FC = () => {
     <>
       <div>
         <span>是否完全占满视口剩余空间：</span>
-        <Switch
-          checked={fillSpace as boolean}
-          onChange={(b) => setFillSpace(b)}
-        />
+        <Switch checked={fillSpace as boolean} onChange={(b) => setFillSpace(b)} />
 
-        <Button
-          style={{ marginLeft: 10 }}
-          onClick={() => setFillSpace(getRandomNumber(10, 100))}
-        >
+        <Button style={{ marginLeft: 10 }} onClick={() => setFillSpace(getRandomNumber(10, 100))}>
           点击随机距离视口底部
         </Button>
       </div>
@@ -64,8 +58,13 @@ const Demo12: FC = () => {
           rowKey="key"
           formCardProps={{
             ...publicCardProps,
-            bodyStyle: {
-              marginBottom: 0,
+            // bodyStyle: {
+            //   marginBottom: 0,
+            // },
+            styles: {
+              body: {
+                marginBottom: 0,
+              },
             },
           }}
           tableCardProps={publicCardProps}

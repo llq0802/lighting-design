@@ -85,4 +85,6 @@ export interface LNumberRollProps {
 export type LNumberRollActionRef = {
   /** 更新数字错位 */
   loadAnimate: () => void;
+  /** 根元素 */
+  rootRef: React.RefObject<HTMLDivElement>;
 };

@@ -25,8 +25,9 @@ export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
    */
   cacheKey: string;
   /**
-   * ### 用于开始或取消倒计时 ref
+   * #### 用于开始或取消倒计时 ref
    *  - 不能与`start`同时设置
+   *  - `start`将无效
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCaptchaButtonProps
    */
   actionRef?: React.MutableRefObject<LCaptchaButtonActionRef>;

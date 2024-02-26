@@ -32,7 +32,13 @@ const MyLTable: FC = ({ open, date }) => {
     <LTable
       tableCardProps={{
         style: { borderRadius: 0 },
-        bodyStyle: { paddingTop: 0 },
+        // bodyStyle: { paddingTop: 0 },
+
+        styles: {
+          body: {
+            paddingTop: 0,
+          },
+        },
       }}
       formCardProps={{ style: { marginBottom: 0, borderRadius: 0 } }}
       showToolbar={false}

@@ -81,9 +81,15 @@ const Demo13: FC = () => {
         }}
         tableCardProps={{
           ...publicCardProps,
-          bodyStyle: {
-            paddingTop: 8,
-          },
+          // bodyStyle: {
+          //   paddingTop: 8,
+          // },
+
+          styles:{
+            body:{
+              paddingTop: 8,
+            }
+          }
         }}
         pagination={{
           showQuickJumper: false,

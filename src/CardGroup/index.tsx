@@ -1,6 +1,7 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
 import { Card, theme } from 'antd';
 import classnames from 'classnames';
+import { isAntdVersionMoreThan514 } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useMemo } from 'react';
 import './index.less';
@@ -8,6 +9,8 @@ import type { LCardGroupProps } from './interface';
 import { transformChangeValue, transformValue } from './utils';
 const { useToken } = theme;
 const prefixCls = 'lightd-card-group';
+
+console.log('==isAntdVersionMoreThan514====>', isAntdVersionMoreThan514);
 
 export default function LCardGroup(props: LCardGroupProps) {
   const {
@@ -82,9 +85,27 @@ export default function LCardGroup(props: LCardGroupProps) {
     >
       {options?.map((item, i) => {
         const isActive = multiple ? value?.includes(item[valueKey]) : value === item[valueKey];
+        const cardProps = item.cardProps || {};
+        const compatibilityStyle = isAntdVersionMoreThan514
+          ? {
+              styles: {
+                ...cardProps?.styles,
+                body: {
+                  ...cardBodyStyle,
+                  ...(cardProps?.bodyStyle ?? cardProps?.styles?.body),
+                },
+              },
+            }
+          : {
+              bodyStyle: {
+                ...cardBodyStyle,
+                ...(cardProps?.bodyStyle ?? cardProps?.styles?.body),
+              },
+            };
+
         return (
           <Card
-            {...item?.cardProps}
+            {...cardProps}
             key={item[valueKey] ?? i}
             className={classnames(
               `${prefixCls}-item`,
@@ -94,28 +115,19 @@ export default function LCardGroup(props: LCardGroupProps) {
                   ? value?.includes(item[valueKey])
                   : value === item[valueKey],
               },
-              item.cardProps?.className,
+              cardProps?.className,
             )}
             onClick={(e) => {
               handleSelect(item);
-              item.cardProps?.onClick?.(e);
+              cardProps?.onClick?.(e);
             }}
             style={{
               borderColor: isActive ? token.colorPrimary : void 0,
               ...cardStyle,
-              ...item.cardProps?.style,
+              ...cardProps?.style,
               ...(isActive ? activeStyle : {}),
             }}
-            styles={{
-              body: {
-                ...cardBodyStyle,
-                ...item?.cardProps?.bodyStyle,
-              },
-            }}
-            // bodyStyle={{
-            //   ...cardBodyStyle,
-            //   ...item?.cardProps?.bodyStyle,
-            // }}
+            {...compatibilityStyle}
           >
             {item[labelKey] ?? item[valueKey]}
           </Card>

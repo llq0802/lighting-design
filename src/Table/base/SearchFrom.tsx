@@ -3,7 +3,7 @@ import { Card } from 'antd';
 import classNames from 'classnames';
 import type { LQueryFormProps } from 'lighting-design/QueryForm';
 import LQueryForm from 'lighting-design/QueryForm';
-import { uniqueId } from 'lighting-design/_utils';
+import { isAntdVersionMoreThan514, uniqueId } from 'lighting-design/_utils';
 import type { ReactNode } from 'react';
 import { cloneElement, forwardRef, useImperativeHandle, useMemo } from 'react';
 import LForm from '../../Form';
@@ -48,13 +48,32 @@ const SearchForm = forwardRef(
     if (items?.length <= 0) {
       return null;
     }
+
+    const compatibilityStyle = isAntdVersionMoreThan514
+      ? {
+          styles: {
+            ...cardProps?.styles,
+            body: {
+              paddingBottom: 0,
+              ...(cardProps?.bodyStyle ?? cardProps?.styles?.body),
+            },
+          },
+        }
+      : {
+          bodyStyle: {
+            paddingBottom: 0,
+            ...(cardProps?.bodyStyle ?? cardProps?.styles?.body),
+          },
+        };
+
     return (
       <Card
         bordered={false}
         {...cardProps}
         className={classNames(`${LIGHTD_CARD}`, cardProps?.className)}
         style={{ marginBottom: 16, ...cardProps?.style }}
-        bodyStyle={{ paddingBottom: 0, ...cardProps?.bodyStyle }}
+        // bodyStyle={{ paddingBottom: 0, ...cardProps?.bodyStyle }}
+        {...compatibilityStyle}
       >
         <LQueryForm
           form={form}
@@ -62,19 +81,23 @@ const SearchForm = forwardRef(
           loading={loading}
           isReady={isReady}
           {...restProps}
-          submitter={{
-            ...submitter,
-            resetButtonProps: {
-              disabled: loading || !isReady,
-              ...submitter?.resetButtonProps,
-            },
-            submitButtonProps: {
-              // loading,
-              loading: false,
-              disabled: loading || !isReady,
-              ...submitter?.submitButtonProps,
-            },
-          }}
+          submitter={
+            submitter === void 0 || submitter
+              ? {
+                  ...submitter,
+                  resetButtonProps: {
+                    disabled: loading || !isReady,
+                    ...submitter?.resetButtonProps,
+                  },
+                  submitButtonProps: {
+                    // loading,
+                    loading: false,
+                    disabled: loading || !isReady,
+                    ...submitter?.submitButtonProps,
+                  },
+                }
+              : false
+          }
         >
           {dom}
         </LQueryForm>

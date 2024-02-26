@@ -1,17 +1,6 @@
-import {
-  Button,
-  ConfigProvider,
-  Tag,
-  Watermark,
-  type FormInstance,
-} from 'antd';
+import { Button, ConfigProvider, Tag, Watermark, type FormInstance } from 'antd';
 import type { LTableInstance } from 'lighting-design';
-import {
-  LFormItemDatePicker,
-  LFormItemInput,
-  LFormItemSelect,
-  LTable,
-} from 'lighting-design';
+import { LFormItemDatePicker, LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
 import type { FC } from 'react';
 import { useRef } from 'react';
@@ -154,7 +143,14 @@ const Demo15: FC = () => {
           formRef={formRef}
           queryFormProps={{ submitter: { resetButtonProps: { ghost: true } } }}
           formCardProps={{ style: { marginBottom: 0 } }}
-          tableCardProps={{ bodyStyle: { paddingTop: 8 } }}
+          tableCardProps={{
+            // bodyStyle: { paddingTop: 8 }
+            styles: {
+              body: {
+                paddingTop: 8,
+              },
+            },
+          }}
           pagination={{ showQuickJumper: false }}
           formItems={formItems}
           columns={columns}

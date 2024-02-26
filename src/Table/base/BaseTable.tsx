@@ -392,6 +392,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
               }
             : false
         }
+        loading={restProps?.dataSource ? currentLoading : false}
         {...restProps}
       />
     </Card>

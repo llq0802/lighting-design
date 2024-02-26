@@ -1,4 +1,4 @@
-import type { SelectProps } from 'antd';
+import type { CardProps, SelectProps } from 'antd';
 import type { CSSProperties } from 'react';
 
 export type ValueType =
@@ -40,7 +40,7 @@ export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disab
    * 数据选项
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCardGroupProps
    */
-  options?: SelectProps['options'] | Record<string, any>[];
+  options?: (SelectProps['options'] & { cardProps?: CardProps }[]) | Record<string, any>[];
 
   /**
    * 单选时再次点击是否可以取消

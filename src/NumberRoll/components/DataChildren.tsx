@@ -1,6 +1,6 @@
 import classnames from 'classnames';
+import { isNumber } from 'lighting-design/_utils';
 import type { FC } from 'react';
-import { isNumber } from '..';
 
 export const NumberRoll_DaterArray = [
   '0',

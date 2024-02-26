@@ -1,13 +1,12 @@
 import { useDebounceFn, useEventListener, useMemoizedFn } from 'ahooks';
 import classnames from 'classnames';
+import { isNumber } from 'lighting-design/_utils';
 import type { DOMAttributes, ReactElement, ReactNode } from 'react';
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
 import ItemChildren, { NumberRoll_NumberArray } from './components/ItemChildren';
 import './index.less';
 import type { LNumberRollActionRef, LNumberRollProps } from './interface';
-
-export const isNumber = (val: any) => !window.isNaN(parseFloat(val));
 
 const prefixCls = 'lightd-number-roll';
 
@@ -29,7 +28,7 @@ const LNumberRoll = (
     scale = 1,
     onFinish,
   }: Partial<LNumberRollProps>,
-  ref: React.Ref<LNumberRollActionRef>,
+  ref: LNumberRollActionRef,
 ) => {
   const domRef = useRef<HTMLDivElement>(null);
 
@@ -197,7 +196,7 @@ const LNumberRoll = (
     }
   });
 
-  useImperativeHandle(ref, () => ({ loadAnimate: onLoadAnimate }));
+  useImperativeHandle(ref, () => ({ loadAnimate: onLoadAnimate, rootRef: domRef }));
 
   // 更新
   useEffect(() => {

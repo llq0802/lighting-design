@@ -74,6 +74,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     if (disabled || item.disabled) {
       return;
     }
+    item.tagProps?.onChange?.(checked);
 
     let newValue: any;
     // 选中时
@@ -113,7 +114,8 @@ export default function LTagGroup(props: LTagGroupProps) {
       )}
       {options?.map((item: any, i) => (
         <CheckableTag
-          className={classnames(`${prefixCls}-item`, itemClassName)}
+          {...item.tagProps}
+          className={classnames(`${prefixCls}-item`, itemClassName, item?.tagProps?.className)}
           key={item[valueKey] ?? i}
           checked={
             multiple

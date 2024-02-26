@@ -17,23 +17,25 @@ declare type Opts = {
 
 export type LEChartsOption = EChartsOption | Record<string, any>;
 
-export type LEChartsInstance = {
-  /** echarts的实例 */
-  echartsInstanceRef: MutableRefObject<ECharts | undefined>;
-  /** echarts容器的根元素 */
-  rootRef: MutableRefObject<HTMLDivElement | null>;
-  /** 内置执行 resize图表并附带动画 还会resize autoResizeField配置的字段名  */
-  resize: () => void;
-  /** 内置销毁当前图表实例与取消dom大小监听的方法 */
-  dispose: () => void;
-};
+export type LEChartsInstance =
+  | {
+      /** echarts的实例 */
+      echartsInstanceRef: MutableRefObject<ECharts | undefined>;
+      /** echarts容器的根元素 */
+      rootRef: MutableRefObject<HTMLDivElement | null>;
+      /** 内置执行 resize图表并附带动画 还会resize autoResizeField配置的字段名  */
+      resize: () => void;
+      /** 内置销毁当前图表实例与取消dom大小监听的方法 */
+      dispose: () => void;
+    }
+  | undefined;
 
 export type LEChartsProps = {
   /**
    *LECharts组件的实例 包含 echarts的实例 内置resize dispose 根元素
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
    */
-  readonly echartsRef?: MutableRefObject<LEChartsInstance | undefined>;
+  readonly echartsRef?: MutableRefObject<LEChartsInstance>;
   /**
    *根元素的类名
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
