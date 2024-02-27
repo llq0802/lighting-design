@@ -44,7 +44,7 @@ const Demo13: FC = () => {
     >
       <LTable
         rootClassName={styles.root_container} // LTable 组件的根div类名
-        className={styles.container} // antd 表格类名
+        className={styles.table_container} // antd 表格类名
         rowClassName={styles.row_container} // antd 表格每一行的类名
         onHeaderRow={(col, i) => {
           return {
@@ -85,11 +85,11 @@ const Demo13: FC = () => {
           //   paddingTop: 8,
           // },
 
-          styles:{
-            body:{
+          styles: {
+            body: {
               paddingTop: 8,
-            }
-          }
+            },
+          },
         }}
         pagination={{
           showQuickJumper: false,

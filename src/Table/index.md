@@ -232,7 +232,7 @@ import { LTable } from 'lighting-design';
 | tableExtra           | 表格内容上部区域                                                                                                                                               | `ReactNode`                                                                             | `-`                                                           |
 | formItems            | 表单查询框组                                                                                                                                                   | `LFormItemXXX[] \| Form.Item[]`                                                         | `-`                                                           |
 | formInitialValues    | 查询表单初始值只在第一次组件渲染生效                                                                                                                           | `Record<string, any>`                                                                   | `-`                                                           |
-| queryFormProps       | 用于配置查询表单`LQueryFormProps`                                                                                                                              | [LQueryFormProps](/components/query-form)                                               | `-`                                                           |
+| queryFormProps       | 用于配置查询表单 [LQueryForm] 的 `Props`                                                                                                                       | [LQueryFormProps](/components/query-form)                                               | `-`                                                           |
 
 ### LTableRequest
 
@@ -401,3 +401,5 @@ type RequestFinally =
     ) => void)
   | undefined;
 ```
+
+[LQueryForm]: /components/query-form

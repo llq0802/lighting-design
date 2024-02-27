@@ -61,6 +61,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     fullScreenBgColor = '#fff',
     contentRender,
     formItems = emptyArray,
+    tableHeaderRender,
 
     rowClassName,
     rootClassName,
@@ -340,7 +341,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       )}
     >
       {toolbarRender ? toolbarRender(toolbarActionDom) : toolbarDom}
+      {tableHeaderRender && !contentRender ? (
+        <div className={`${LIGHTD_TABLE}-header`}>{tableHeaderRender()}</div>
+      ) : null}
       <Table
+        showHeader={!tableHeaderRender}
         components={{
           table: contentRender ? () => contentRender?.(data?.list ?? []) : void 0,
           ...components,
