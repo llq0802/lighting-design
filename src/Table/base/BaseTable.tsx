@@ -81,7 +81,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const [isFullScreen, { toggleFullscreen }] = useFullscreen(rootRef, {
     onExit: () => toggleFullscreen(),
   });
-  const queryFormRef = useRef<FormInstance>(null);
+  const queryFormRef = useRef<FormInstance>();
   const handleFormRef = useMemoizedFn((refValue: FormInstance) => {
     queryFormRef.current = refValue;
     if (formRef) {
@@ -275,14 +275,14 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     );
   }, [toolbarActionConfig]);
 
+  // antd 表格上面内容区域
   const toolbarDom = useMemo(() => {
     return !showToolbar ||
       (toolbarActionConfig === false && !toolbarLeft && !toolbarRight) ? null : (
       <div className={`${LIGHTD_TABLE}-toolbar`} style={toolbarStyle}>
         <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>
-          <Space>{toolbarLeft}</Space>
+          {toolbarLeft && <Space>{toolbarLeft}</Space>}
         </div>
-
         <div className={`${LIGHTD_TABLE}-toolbar-content-right`}>
           <Space>
             {toolbarRight}
@@ -294,6 +294,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   }, [showToolbar, toolbarActionConfig, toolbarLeft, toolbarRight, JSON.stringify(toolbarStyle)]);
 
   const searchFormDom = useMemo(() => {
+    if (!hasFromItems) return null;
     const formSize =
       currentSize === 'default' || currentSize === 'large' ? 'middle' : (currentSize as SizeType);
     return (
@@ -301,16 +302,17 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         size={formSize}
         isReady={isReady}
         loading={currentLoading.spinning}
-        ref={handleFormRef}
-        cardProps={formCardProps}
-        formItems={formItems}
         initialValues={formInitialValues}
         onFinish={handleSearchFormFinish}
         onReset={handleSearchFormReset}
         {...queryFormProps}
+        formItems={formItems}
+        cardProps={formCardProps}
+        ref={handleFormRef}
       />
     );
   }, [
+    hasFromItems,
     currentSize,
     isReady,
     currentLoading?.spinning,
@@ -402,11 +404,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       {tableRender
         ? tableRender(
             {
-              searchFormDom: searchFormDom,
-              toolbarDom: toolbarDom,
+              searchFormDom,
+              toolbarDom,
               tableExtraDom: tableExtra,
-              tableDom: tableDom,
-              finallyDom: finallyDom,
+              tableDom,
+              finallyDom,
             },
             props,
           )

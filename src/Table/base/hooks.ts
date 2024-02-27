@@ -13,7 +13,7 @@ export function useFillSpace({
   fillSpace,
 }: {
   tablecardref: any;
-  fillSpace: boolean;
+  fillSpace: boolean | number;
 }) {
   useLayoutEffect(() => {
     if (!tablecardref.current) return;

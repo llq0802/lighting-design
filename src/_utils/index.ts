@@ -88,20 +88,15 @@ export function uniqueId(prefix = 'lightd') {
 /**
  * 验证值是否为合法值
  * @description`'' NaN false undefined null [] {}` 均不合法,  `0 合法`
+ * @example isLegalValue(NaN) => false
  */
 export const isLegalValue = (value: any) => {
-  if (typeof value === 'number' && !Number.isNaN(value)) {
-    return true;
-  }
+  if (value === 0) return true;
   if (Array.isArray(value)) {
-    if (!value?.length) {
-      return false;
-    }
+    if (!value?.length) return false;
     return value.filter((item: any) => !!item || item === 0)?.length > 0;
   }
-  if (isPlainObject(value)) {
-    return Object.keys(value).length > 0;
-  }
+  if (isPlainObject(value)) return Object.keys(value).length > 0;
   return !!value;
 };
 

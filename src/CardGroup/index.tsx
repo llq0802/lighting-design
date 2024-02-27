@@ -10,8 +10,6 @@ import { transformChangeValue, transformValue } from './utils';
 const { useToken } = theme;
 const prefixCls = 'lightd-card-group';
 
-console.log('==isAntdVersionMoreThan514====>', isAntdVersionMoreThan514);
-
 export default function LCardGroup(props: LCardGroupProps) {
   const {
     className,

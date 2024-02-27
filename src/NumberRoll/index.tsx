@@ -1,7 +1,7 @@
 import { useDebounceFn, useEventListener, useMemoizedFn } from 'ahooks';
 import classnames from 'classnames';
 import { isNumber } from 'lighting-design/_utils';
-import type { DOMAttributes, ReactElement, ReactNode } from 'react';
+import type { DOMAttributes, ForwardedRef, ReactElement, ReactNode } from 'react';
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
 import ItemChildren, { NumberRoll_NumberArray } from './components/ItemChildren';
@@ -28,7 +28,7 @@ const LNumberRoll = (
     scale = 1,
     onFinish,
   }: Partial<LNumberRollProps>,
-  ref: LNumberRollActionRef,
+  ref: ForwardedRef<LNumberRollActionRef>,
 ) => {
   const domRef = useRef<HTMLDivElement>(null);
 
@@ -223,5 +223,5 @@ const LNumberRoll = (
   );
 };
 
-export default forwardRef(LNumberRoll);
+export default forwardRef<LNumberRollActionRef, Partial<LNumberRollProps>>(LNumberRoll);
 export * from './interface';

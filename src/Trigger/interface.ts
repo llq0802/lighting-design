@@ -1,5 +1,5 @@
 import type { PopoverProps, SelectProps } from 'antd';
-import type { JSXElementConstructor, ReactElement } from 'react';
+import type { ReactNode } from 'react';
 
 export type LTriggerProps = {
   /**
@@ -77,7 +77,8 @@ export type LTriggerProps = {
    * - 必须在 children 组件中绑定 value，onChange 才会收集到数据
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
-  children: ReactElement<any, string | JSXElementConstructor<any>>;
+  // children: ReactElement<any, string | JSXElementConstructor<any>>;
+  children: ReactNode;
   selectProps?: SelectProps;
   popoverProps?: PopoverProps;
 } & Pick<

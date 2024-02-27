@@ -4,7 +4,7 @@ import { Popover, Select } from 'antd';
 import classnames from 'classnames';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
-import { cloneElement } from 'react';
+import { cloneElement, isValidElement } from 'react';
 import type { LTriggerProps } from './interface';
 
 const prefixCls = 'lightd-trigger';
@@ -51,12 +51,15 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     valuePropName: 'value',
     trigger: 'onChange',
   });
-  const content = cloneElement(children, {
-    value: labelInValue ? state : state?.[valueKey],
-    onChange: setState,
-    open: isOpen,
-    setOpen: setIsOpen,
-  });
+  const content = isValidElement(children)
+    ? cloneElement(children, {
+        // @ts-ignore
+        value: labelInValue ? state : state?.[valueKey],
+        onChange: setState,
+        open: isOpen,
+        setOpen: setIsOpen,
+      })
+    : children;
 
   const innerSuffixIcon = suffixIcon || (
     <DownOutlined

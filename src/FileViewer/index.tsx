@@ -69,8 +69,6 @@ function LFileViewer(props: LFileViewerProps) {
     </Modal>
   );
 }
-
 LFileViewer.PictureCard = FileViewerPictureCard;
-
 export default LFileViewer;
 export * from './interface';

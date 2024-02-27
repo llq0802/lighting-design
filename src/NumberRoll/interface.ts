@@ -82,9 +82,11 @@ export interface LNumberRollProps {
   onFinish: (value: number | string) => void;
 }
 
-export type LNumberRollActionRef = {
-  /** 更新数字错位 */
-  loadAnimate: () => void;
-  /** 根元素 */
-  rootRef: React.RefObject<HTMLDivElement>;
-};
+export type LNumberRollActionRef =
+  | {
+      /** 更新数字错位 */
+      loadAnimate: () => void;
+      /** 根元素 */
+      rootRef: React.RefObject<HTMLDivElement>;
+    }
+  | undefined;
