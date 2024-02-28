@@ -15,17 +15,17 @@ export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disab
    * 受控值
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
    */
-  value?: ValueType;
+  value?: LValueType;
   /**
    * 默认值
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
    */
-  defaultValue?: ValueType;
+  defaultValue?: LValueType;
   /**
    * value 改变时触发
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
    */
-  onChange?: (values: ValueType) => void;
+  onChange?: (values: LValueType) => void;
   /**
    *是否把每个选项的 label 包装到 value 中，会把  value 类型从 string 变为 { value: string, label: ReactNode } 的格式
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCardGroupProps
@@ -38,6 +38,7 @@ export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disab
   multiple?: boolean;
   /**
    * 数据选项
+   *  - cardProps 可配置单独这项卡片属性
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCardGroupProps
    */
   options?: (SelectProps['options'] & { cardProps?: CardProps }[]) | Record<string, any>[];
@@ -78,4 +79,9 @@ export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disab
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCardGroupProps
    */
   activeStyle?: CSSProperties;
+  /**
+   *鼠标移过时可浮起
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LCardGroupProps
+   */
+  hoverable?: boolean;
 }

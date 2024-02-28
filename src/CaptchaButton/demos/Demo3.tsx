@@ -1,6 +1,7 @@
 import { Button, message, Space } from 'antd';
 import type { LCaptchaButtonActionRef } from 'lighting-design';
 import { LCaptchaButton } from 'lighting-design';
+import { awaitTime } from 'lighting-design/_test';
 import { useRef, useState } from 'react';
 
 const Demo3 = () => {
@@ -19,12 +20,11 @@ const Demo3 = () => {
           onEnd={() => {
             message.success('倒计时结束');
           }}
-          onClick={() => {
+          onClick={async () => {
             setLoading(true);
-            setTimeout(() => {
-              setLoading(false);
-              actionRef.current?.start();
-            }, 1000);
+            await awaitTime();
+            setLoading(false);
+            actionRef.current?.start();
           }}
           loading={loading}
         >

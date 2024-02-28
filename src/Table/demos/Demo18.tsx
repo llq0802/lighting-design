@@ -32,8 +32,6 @@ const MyLTable: FC = ({ open, date }) => {
     <LTable
       tableCardProps={{
         style: { borderRadius: 0 },
-        // bodyStyle: { paddingTop: 0 },
-
         styles: {
           body: {
             paddingTop: 0,
@@ -53,9 +51,6 @@ const MyLTable: FC = ({ open, date }) => {
         showQuickJumper: false,
       }}
       request={async (params, requestType) => {
-        console.log('==request-open ==>', open);
-        console.log('==request-date ==>', date);
-
         return {
           success: true,
           data: originData,

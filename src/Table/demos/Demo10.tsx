@@ -20,12 +20,12 @@ const Demo: FC = () => {
       name="select1"
       key="select1"
       request={async () => {
-        const result = await awaitTime([
+        await awaitTime();
+        return [
           { label: 'Unresolved', value: 'open' },
           { label: 'Resolved', value: 'closed' },
           { label: 'Resolving', value: 'processing' },
-        ]);
-        if (result.success) return result.data;
+        ];
       }}
     />,
     <LFormItemInput key="0" name="input4" label="输入框" />,
@@ -42,7 +42,6 @@ const Demo: FC = () => {
         tableLayout="fixed"
         rowClassName="lightd-table-row"
         rootClassName="my-table-root"
-        tableClassName="my-table"
         loading={{ size: 'large', tip: '加载中...' }}
         tableRef={tableRef}
         toolbarLeft={
@@ -91,11 +90,7 @@ const Demo: FC = () => {
         }}
       />
       {/* 如果没有使用表格的全屏toolbarActionConfig.showFullscreen ，就不用包裹 ConfigProvider */}
-      <ConfigProvider
-        getPopupContainer={() =>
-          tableRef.current?.rootRef.current || document.body
-        }
-      >
+      <ConfigProvider getPopupContainer={() => tableRef.current?.rootRef.current || document.body}>
         <AddEditModal
           open={open}
           onOpenChange={setOpen}

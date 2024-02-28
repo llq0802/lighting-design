@@ -40,24 +40,24 @@ export type LEChartsProps = {
    *根元素的类名
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
    */
-  readonly className?: string;
+  className?: string;
   /**
    *根元素的样式
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
    */
-  readonly style?: CSSProperties;
+  style?: CSSProperties;
   /**
    *echarts 的 option
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
    *@see echarts 配置文档 https://www.isqqw.com/echarts-doc/zh/api.html#echarts EChartsOption
    */
-  readonly option: LEChartsOption;
+  option: LEChartsOption;
   /**
    *echarts 初始化时的主题
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
    *@see echarts配置文档 https://www.isqqw.com/echarts-doc/zh/api.html#echarts.init EChartsOption
    */
-  readonly theme?: string | Record<string, any>;
+  theme?: string | Record<string, any>;
   /**
    *是否不跟之前设置的 option 进行合并。默认为 false。即表示合并。合并的规则
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
@@ -74,7 +74,7 @@ export type LEChartsProps = {
    *在更新图表时是否显示echarts的loading
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps
    */
-  readonly showLoading?: boolean;
+  showLoading?: boolean;
   /**
    *echarts实例的showLoading的配置项
    *@see 官网 https://llq0802.github.io/lighting-design/latest LEChartsProps

@@ -2,7 +2,7 @@ import { FullscreenExitOutlined, FullscreenOutlined, ReloadOutlined } from '@ant
 import type { SpaceProps } from 'antd';
 import { Space } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
-import type { CSSProperties, FC, Key } from 'react';
+import type { CSSProperties, FC, Key, ReactNode } from 'react';
 import { useContext, useMemo } from 'react';
 import TableContext from '../TableContext';
 import { LIGHTD_TABLE } from './BaseTable';
@@ -11,7 +11,7 @@ import DensityIcon from './DensityIcon';
 
 // 刷新图标
 const ReloadIcon = ({ onReloadIconChange }) => {
-  const { reload, rootRef } = useContext(TableContext);
+  const { reload } = useContext(TableContext);
 
   return (
     <ReloadOutlined
@@ -24,8 +24,8 @@ const ReloadIcon = ({ onReloadIconChange }) => {
   );
 };
 // 全屏
-const FullscreenIcon = () => {
-  const { rootRef, toggleFullscreen, isFullScreen } = useContext(TableContext);
+const FullscreenIcon = ({ onFullscreenIconChange }) => {
+  const { toggleFullscreen, isFullScreen } = useContext(TableContext);
 
   return (
     <>
@@ -34,6 +34,7 @@ const FullscreenIcon = () => {
           title="退出全屏"
           onClick={() => {
             toggleFullscreen();
+            onFullscreenIconChange?.(false);
           }}
         />
       ) : (
@@ -41,6 +42,7 @@ const FullscreenIcon = () => {
           title="进入全屏"
           onClick={() => {
             toggleFullscreen();
+            onFullscreenIconChange?.(true);
           }}
         />
       )}
@@ -61,6 +63,10 @@ export type LToolbarActionProps = {
   onReloadIconChange?: () => void;
   /** 点击列表图标每一项的回调 */
   onColumnIconChange?: (keys: string[]) => void;
+  /** 全屏切换时的回调 */
+  onFullscreenIconChange?: (isFullScreen: boolean) => void;
+  /** 表格密度改变时的回调 */
+  onDensityIconChange?: (size: 'middle' | 'small' | 'large') => void;
   /** 内置图标的排序 */
   orders?: {
     reload: number;
@@ -70,12 +76,12 @@ export type LToolbarActionProps = {
   };
   /** 图标样式 */
   style?: CSSProperties;
+  /** 自定义渲染内置操作栏 */
+  render?: (doms: ReactNode[]) => ReactNode;
 } & SpaceProps;
 
 /**
  * 内置工具栏
- * @param param0
- * @returns
  */
 const ToolbarAction: FC<LToolbarActionProps> = ({
   showReload = true,
@@ -90,6 +96,9 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
   },
   onReloadIconChange,
   onColumnIconChange,
+  onDensityIconChange,
+  onFullscreenIconChange,
+  render,
   style = emptyObject,
   ...restProps
 }) => {
@@ -104,13 +113,15 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
     if (showDensity) {
       arrDom.push({
         key: orders.density || 1,
-        dom: <DensityIcon key="DensityIcon" />,
+        dom: <DensityIcon key="DensityIcon" onDensityIconChange={onDensityIconChange} />,
       });
     }
     if (showFullscreen) {
       arrDom.push({
         key: orders.fullscreen || 2,
-        dom: <FullscreenIcon key="FullscreenIcon" />,
+        dom: (
+          <FullscreenIcon key="FullscreenIcon" onFullscreenIconChange={onFullscreenIconChange} />
+        ),
       });
     }
     if (showColumnSetting) {
@@ -124,7 +135,7 @@ const ToolbarAction: FC<LToolbarActionProps> = ({
 
   return (
     <Space size={10} {...restProps} style={{ fontSize: 16, ...style }}>
-      {sortDom}
+      {render ? render?.(sortDom) : sortDom}
     </Space>
   );
 };

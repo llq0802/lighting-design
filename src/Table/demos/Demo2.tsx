@@ -13,7 +13,7 @@ const Demo2: FC = () => {
         rowKey="key"
         tableRef={tableRef}
         size="small"
-        // showToolbar={false}
+        showToolbar={false}
         columns={columns}
         pagination={false}
         request={async (params, requestType) => {

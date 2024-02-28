@@ -148,7 +148,7 @@ export type LTableProps<T = any> = {
   fullScreenBgColor?: string;
   /**
    *  `request`第一次请求的额外参数
-   * - 仅在第一次`自动请求`时会传入到 `request` 参数中
+   * - 仅在`第一次` `自动请求`时会传入到 `request` 参数中
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   defaultRequestParams?: Record<string, any>;
@@ -162,16 +162,18 @@ export type LTableProps<T = any> = {
   requestOptions?: Options<any, any>;
   /**
    * 异步请求函数用于获取表格数据
-   *  - 不能与 dataSource 同时配置 否则 request 及其相关属性方法将不生效
-   *  - 绝大部分情况下斗推荐使用 `request` 来获取数据
+   *  - 不能与 `dataSource` 同时配置, 否则 `request` 及其相关属性方法将不生效
+   *  - 绝大部分情况下推荐使用 `request` 来获取数据而不是`dataSource`
+   *  - 你仍可以使用 `dataSource` , 用法与 antd Table 完全一致
    *  - 返回值必须是 `{ success: boolean, data: Record<string, any>[], total: number }`
+   *  - 你可在 request 中格式化后端请求的参数格式
    *  - 第一个参数为当前的`页码`和`分页数量`, 如果配置了表单`formItems`则还有表单的值`formValues`
    *  - 第二个参数表示当前请求的类型
-   *    - autoRequest 为 true 时的组件初始化的请求为`onInit，`
-   *    - 表单查询按钮请求为`onSearch`，
-   *    - 表格分页查询与内置工具栏的刷新为`onReload，`
-   *    - 表单重置按钮为`onReset，`
-   *    - 如果没有配置 formItems 则为 undefined
+   *    - autoRequest 为 true 时的组件初始化的请求为`onInit`
+   *    - 表单查询按钮请求为`onSearch`
+   *    - 表格分页查询与内置工具栏的刷新为`onReload`
+   *    - 表单重置按钮为`onReset`
+   *    - 如果没有配置 formItems 则为`undefined`
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   request?: LTableRequest;
@@ -187,12 +189,13 @@ export type LTableProps<T = any> = {
    */
   tableRef?: MutableRefObject<LTableInstance | undefined>;
   /**
-   * 组件最外层div类名
+   * 组件根div类名
+   *  - antd Table 的 rootClassName 无法配置, 请通过 className 设置
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   rootClassName?: string;
   /**
-   *  表格最外层div样式
+   *  组件根div样式
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   rootStyle?: CSSProperties;
@@ -212,11 +215,10 @@ export type LTableProps<T = any> = {
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   tableCardProps?: CardProps;
-
   /**
    * 内置表格工具栏的配置  继承 Space 组件的属性
    * - showToolbar 时生效
-   * - 为`false`时直接不渲染内置表格工具
+   * - `toolbarActionConfig` 为`false`时直接不渲染内置表格工具
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   toolbarActionConfig?: LToolbarActionProps | false;
@@ -234,13 +236,14 @@ export type LTableProps<T = any> = {
    */
   toolbarRight?: ReactNode;
   /**
-   * 表格内容上部额外区域
+   * 表格主体上部额外区域
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   tableExtra?: ReactNode;
   /**
-   * 表单查询框组
-   * - 必须是 Form.Item 或 LFormItem 或 LFormItemXXX 组件所组成的数组
+   * 表单查询框数组
+   * - 必须包含 Form.Item 或 LFormItem 或 LFormItemXXX 组件
+   * - 特殊布局情况下也可含有其他元素
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   formItems?: Exclude<ReactNode, string | number | boolean | null | undefined>[];
@@ -253,13 +256,15 @@ export type LTableProps<T = any> = {
   formInitialValues?: Record<string, any>;
   /**
    * 高级查询表单的 props
-   * - 配合此组件可自定义渲染组合表单发起请求
-   * - 具体参数配置请看`LQueryFormProps`
+   * - 可使用 `LQueryForm` 组件的所有配置项
+   * - 配合此组件的自定义渲染组合表单可定制等多高级功能
+   * - 具体参数配置请看`LQueryForm`
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   queryFormProps?: LQueryFormProps;
   /**
    * request 请求成功后的回调
+   * - 只有在`成功`后才会触发
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   requestSuccess?: PaginationOptions<
@@ -276,7 +281,7 @@ export type LTableProps<T = any> = {
   >['onSuccess'];
   /**
    * request 请求完成后的回调
-   * - 不管是成功还是失败都会出发
+   * - 不管是`成功`还是`失败`都会触发
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   requestFinally?: PaginationOptions<
@@ -292,12 +297,15 @@ export type LTableProps<T = any> = {
     ]
   >['onFinally'];
   /**
-   * 重新渲染 toolBar, 包括内置表格工具
+   * 重新渲染整个`toolBar`
+   * @param toolbarActionDom 内置工具栏操作区域
+   * @param toolbarDom 整个 toolBar ( 包含`toolbarLeft` `toolbarRight` 内置工具栏操作区域 )
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
-  toolbarRender?: (ToolbarActionDom: ReactNode) => ReactNode;
+  toolbarRender?: (toolbarActionDom: ReactNode, toolbarDom: ReactNode) => ReactNode;
   /**
-   *  重新渲染整个高级表格
+   * 重新渲染整个高级表格 LTable
+   * @param optionsDom 整个高级表格dom对象
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   tableRender?: (
@@ -318,7 +326,19 @@ export type LTableProps<T = any> = {
   /**
    * 重新渲染 antd 表格的内容主体
    * - 一般用于卡片风格的表格
+   * -  `columns` 配置将无效
+   * - 内置表格操作栏的 `列操作` 与 `表格密度`将无效
+   *  - 配置后默认会设置 antd 的 showHeader 为 false
+   * @param  data 表格数据
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   contentRender?: (data: Record<string, any>[]) => ReactNode;
+  /**
+   *  重新渲染 antd 表格的头部列
+   *  - 会在 toolbar 下方, antd 表格的头部渲染
+   *  - 配置后默认会设置 antd 的 showHeader 为 false,  可配置覆盖
+   * @param columns antd 的列配置
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
+   */
+  tableHeaderRender?: (columns: Record<string, any>[]) => ReactNode;
 } & TableProps<T>;

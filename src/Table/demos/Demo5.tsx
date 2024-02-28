@@ -21,8 +21,8 @@ const Demo5: FC = () => {
     params: LTableRequestParams,
     requestType: LTableRequestType,
   ) => {
-    // console.log('==params==', params);
-    // console.log('==requestType==', requestType);
+    console.log('==params==', params);
+    console.log('==requestType==>', requestType);
     const res: Record<string, any> = await apiGetUserList(params);
     return {
       success: true,
@@ -34,11 +34,10 @@ const Demo5: FC = () => {
   return (
     <>
       <LTable
-        // loading={{
-        //   spinning: true,
-        //   size: 'large',
-        // }}
-        // size=""
+        sticky
+        rowKey="key"
+        className="my-lightd-row-111"
+        rowClassName="my-lightd-row-999"
         toolbarActionConfig={{
           onColumnIconChange(keys) {
             console.log('keys ', keys);
@@ -46,28 +45,25 @@ const Demo5: FC = () => {
           onReloadIconChange() {
             console.log('onReloadIconChange');
           },
-        }}
-        sticky
-        rowKey="key"
-        tableRef={tableRef}
-        queryFormProps={{
-          showColsNumber: 3,
-          isEnterSubmit: false,
-        }}
-        tableCardProps={{
-          style: {
-            borderRadius: 0,
+          onFullscreenIconChange(isFullscreen) {
+            console.log('onFullscreenIconChange', isFullscreen);
+          },
+          onDensityIconChange(size) {
+            console.log('onDensityIconChange', size);
           },
         }}
-        // showToolbar={false}
-        className="my-lightd-row-111"
-        rowClassName="my-lightd-row-999"
+        tableRef={tableRef}
+        queryFormProps={{
+          isSpace: true,
+          isEnterSubmit: false,
+        }}
+        tableCardProps={{ style: { borderRadius: 0 } }}
+        formCardProps={{ style: { borderRadius: 0 } }}
         formItems={formItems}
         formRef={formRef}
         columns={columns}
-        defaultRequestParams={{ age: 25 }}
         onChange={() => {
-          console.log(' onChange');
+          console.log('table - onChange');
         }}
         request={requestGetUserList}
       />

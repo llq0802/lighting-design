@@ -1,5 +1,5 @@
 import type { FormInstance } from 'antd';
-import { Button, Card } from 'antd';
+import { Button, Col, Row } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
@@ -20,30 +20,25 @@ const Demo3: FC = () => {
 
   return (
     <LTable
+      tableLayout="fixed"
       rowKey="key"
       tableRef={tableRef}
-      toolbarLeft={
-        <>
-          <Button type="primary">新增</Button>
-        </>
-      }
-      toolbarRight={
-        <>
-          <Button type="primary">审批</Button>
-        </>
-      }
+      toolbarLeft={<Button type="primary">新增</Button>}
+      toolbarRight={<Button type="primary">审批</Button>}
       formItems={formItems}
-      tableExtra={
-        <Card
-          bordered={false}
-          styles={{ body: { marginBottom: 16 } }}
-          style={{
-            boxShadow: `0 1px 2px 0 rgba(0, 0, 0, 3%), 0 1px 6px -1px rgba(0, 0, 0, 2%), 0 2px 4px 0 rgba(0, 0, 0, 2%)`,
-          }}
-        >
-          表格额外信息
-        </Card>
-      }
+      tableHeaderRender={(cols) => {
+        return (
+          <Row style={{ marginBottom: 16, border: '1px solid #000', background: '#eee' }}>
+            {cols.map((col) => {
+              return (
+                <Col flex={1} key={col.key} style={{ display: 'grid', placeItems: 'center' }}>
+                  <b>{col.title}</b>
+                </Col>
+              );
+            })}
+          </Row>
+        );
+      }}
       formRef={formRef}
       columns={columns}
       request={async (params, requestType) => {

@@ -21,15 +21,19 @@ nav:
 - 可自定义各种配置，样式等
 - 默认优化原 Table 性能
 
+### 基础用法
+
+<code src='./demos/Demo24.tsx' background="#f5f5f5"></code>
+
 ### 查询框
-
-<code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
-
-### 操作栏
 
 <code src='./demos/Demo1.tsx' background="#f5f5f5"></code>
 
-### 手动控制 loading
+### 查询框依次紧挨着排列
+
+<code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
+
+### 自定义重置查询
 
 <code src='./demos/Demo11.tsx' background="#f5f5f5"></code>
 
@@ -112,6 +116,10 @@ nav:
 ### 自定义渲染组合表格
 
 <code src='./demos/Demo14.tsx' background="#f5f5f5"></code>
+
+### 自定义渲染 antd 头部列
+
+<code src='./demos/Demo25.tsx' background="#f5f5f5"></code>
 
 ### Skeleton 骨架屏 1
 
@@ -208,8 +216,9 @@ import { LTable } from 'lighting-design';
 | isReady              | 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询                                                                                                      | `boolean`                                                                               | `true`                                                        |
 | showStripe           | 是否展示带斑马纹的表格，可以更容易区分出不同行的数据。 `true为#fafafa , string类型可设置自定义颜色`                                                            | `boolean\|string`                                                                       | `false`                                                       |
 | showHover            | 鼠标移入每一行是否有 hover 高亮效果 。 `true为#fafafa , string类型可设置自定义颜色`                                                                            | `boolean\|string`                                                                       | `false`                                                       |
-| fullScreenBgColor    | 全屏时显示的背景颜色                                                                                                                                           | `string`                                                                                | `#fff`                                                        |
+| showToolbar          | 是否显示整个 toolbar 为 `false` 时不会渲染 `toolbarLeft` 与 `toolbarRight`                                                                                     | `boolean`                                                                               | `true`                                                        |
 | autoRequest          | 是否在第一次渲染时自动请求                                                                                                                                     | `boolean`                                                                               | `true`                                                        |
+| fullScreenBgColor    | 全屏时显示的背景颜色                                                                                                                                           | `string`                                                                                | `#fff`                                                        |
 | defaultRequestParams | request 额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) 会被注入到 request 的第一个参数对象中                                                           | `Record<string, any>`                                                                   | `-`                                                           |
 | request              | 异步请求函数，用于获取表格数据                                                                                                                                 | [LTableRequest](/components/table#ltablerequest)                                        | `-`                                                           |
 | requestSuccess       | 异步请求函数请求成功后的回调                                                                                                                                   | `RequestSuccess`                                                                        | `-`                                                           |
@@ -222,17 +231,17 @@ import { LTable } from 'lighting-design';
 | toolbarStyle         | 整个`toolbar`的样式 `showToolbar` 为 `true` 时生效                                                                                                             | `CSSProperties`                                                                         | `{ marginBottom: 16}`                                         |
 | formCardProps        | 查询表单外层的 `Card` 组件的 `CardProps`                                                                                                                       | [CardProps](https://ant.design/components/card-cn/#api)                                 | `{ style:{marginBottom: 16},bodyStyle:{paddingBottom: 0}}}  ` |
 | tableCardProps       | 表格外层的 `Card` 组件的 `CardProps`                                                                                                                           | [CardProps](https://ant.design/components/card-cn/#api)                                 | `-`                                                           |
-| showToolbar          | 是否显示整个 toolbar 为 `false` 时不会渲染 `toolbarLeft` 与 `toolbarRight`                                                                                     | `boolean`                                                                               | `true`                                                        |
 | toolbarActionConfig  | `showToolbar 为 true` 时生效, 配置内置表格工具栏 与 Space 组件有相同属性 , 为`false`时直接不渲染内置表格工具                                                   | [LToolbarActionProps](/components/table#ltoolbaractionprops) \| `false`                 | `-`                                                           |
-| toolbarRender        | 重新渲染 `toolBar` 包括内置表格工具                                                                                                                            | `(ToolbarActionDom: ReactNode) => ReactNode`                                            | `-`                                                           |
-| tableRender          | 重新渲染整个表格                                                                                                                                               | [LTableRenderProps](/components/table#ltablerenderprops)                                | `-`                                                           |
-| contentRender        | 重新渲染表格内容                                                                                                                                               | `(data: Record<string, any>[]) => ReactNode`                                            | `-`                                                           |
 | toolbarLeft          | 整个 toolBar 的左侧                                                                                                                                            | `ReactNode`                                                                             | `-`                                                           |
 | toolbarRight         | 整个 toolBar 的右侧 在内置表格工具左侧                                                                                                                         | `ReactNode`                                                                             | `-`                                                           |
 | tableExtra           | 表格内容上部区域                                                                                                                                               | `ReactNode`                                                                             | `-`                                                           |
 | formItems            | 表单查询框组                                                                                                                                                   | `LFormItemXXX[] \| Form.Item[]`                                                         | `-`                                                           |
 | formInitialValues    | 查询表单初始值只在第一次组件渲染生效                                                                                                                           | `Record<string, any>`                                                                   | `-`                                                           |
 | queryFormProps       | 用于配置查询表单 [LQueryForm] 的 `Props`                                                                                                                       | [LQueryFormProps](/components/query-form)                                               | `-`                                                           |
+| toolbarRender        | 重新渲染 `toolBar` 包括内置表格工具                                                                                                                            | `(ToolbarActionDom: ReactNode) => ReactNode`                                            | `-`                                                           |
+| tableRender          | 重新渲染整个表格                                                                                                                                               | [LTableRenderProps](/components/table#ltablerenderprops)                                | `-`                                                           |
+| contentRender        | 重新渲染表格内容                                                                                                                                               | `(data: Record<string, any>[]) => ReactNode`                                            | `-`                                                           |
+| tableHeaderRender    | 重新渲染 antd 表格的头部列                                                                                                                                     | `(columns: Record<string, any>[]) => ReactNode`                                         | `-`                                                           |
 
 ### LTableRequest
 
@@ -347,6 +356,10 @@ export type LToolbarActionProps = {
   onReloadIconChange?: () => void;
   /** 点击列图标中每一项复选框改变后的回调 */
   onColumnIconChange?: (keys: string[]) => void;
+  /** 全屏切换时的回调 */
+  onFullscreenIconChange?: (isFullScreen: boolean) => void;
+  /** 表格密度改变时的回调 */
+  onDensityIconChange?: (size: 'middle' | 'small' | 'large') => void;
   /** 内置图标的排序 需从大于等于 1 开始设置*/
   orders?: {
     reload: number;
@@ -356,6 +369,8 @@ export type LToolbarActionProps = {
   };
   /** 所有内置图标的样式 */
   style?: CSSProperties; // 默认字体大小16px 字体颜色黑色
+  /** 自定义渲染内置操作栏 */
+  render?: (doms: ReactNode[]) => ReactNode;
 } & SpaceProps;
 ```
 

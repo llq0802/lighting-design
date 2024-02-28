@@ -1,11 +1,11 @@
 import { message } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import {
+  LDrawerForm,
   LForm,
   LFormItemInput,
   LFormItemRadio,
   LFormItemSelect,
-  LModalForm,
   useShow,
 } from 'lighting-design';
 import type { UseShowInstance } from 'rc-use-hooks';
@@ -33,17 +33,15 @@ const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
   useEffect(() => {
     if (open && form && !isAdd) {
       form.setFieldsValue(parentData);
-      //  form.resetFields(); // 和 modalProps.destroyOnClose=true 效果一样
     }
   }, [open, form, isAdd]);
 
   return (
-    <LModalForm
+    <LDrawerForm
       destroyOnClose
       open={open}
       onOpenChange={setOpen}
       labelWidth={84}
-      isDraggable
       isEnterSubmit={false}
       form={form}
       title={!isAdd ? '修改' : '新增'}
@@ -78,7 +76,7 @@ const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
           ];
         }}
       />
-    </LModalForm>
+    </LDrawerForm>
   );
 };
 export default SModal;

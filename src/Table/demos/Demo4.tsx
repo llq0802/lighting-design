@@ -19,13 +19,13 @@ const Demo4: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
   const [isReady, setIsReady] = useState(false);
-  const [initialValues, setInitialValues] = useState<any>();
+  const [formInitialValues, setFormInitialValues] = useState<any>({});
 
   useEffect(() => {
     // 异步获取表单初始值
     (async () => {
-      await awaitTime('', 3000);
-      setInitialValues({ input4: '初始值1' });
+      await awaitTime(2000);
+      setFormInitialValues({ input4: '初始值1' });
       setIsReady(true);
     })();
   }, []);
@@ -33,7 +33,7 @@ const Demo4: FC = () => {
   return (
     <LTable
       isReady={isReady}
-      formInitialValues={initialValues}
+      formInitialValues={formInitialValues}
       rowKey="key"
       tableRef={tableRef}
       toolbarLeft={

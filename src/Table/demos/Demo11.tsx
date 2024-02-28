@@ -1,11 +1,10 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import type { FormInstance } from 'antd';
-import { Button } from 'antd';
+import { Button, Space } from 'antd';
 import type { LTableInstance, UseShowInstance } from 'lighting-design';
 import { LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
 import type { FC } from 'react';
-import { useRef, useState } from 'react';
-import { awaitTime } from '../../_test';
+import { useRef } from 'react';
 import SModal from './components/S-Modal';
 import { apiGetUserList, columns } from './service';
 
@@ -14,14 +13,11 @@ const formItems = [
     label="下拉框"
     name="select1"
     key="select1"
-    request={async () => {
-      const result = await awaitTime([
-        { label: 'Unresolved', value: 'open' },
-        { label: 'Resolved', value: 'closed' },
-        { label: 'Resolving', value: 'processing' },
-      ]);
-      if (result.success) return result.data;
-    }}
+    options={[
+      { label: 'Unresolved', value: 'open' },
+      { label: 'Resolved', value: 'closed' },
+      { label: 'Resolving', value: 'processing' },
+    ]}
   />,
   <LFormItemInput key="0" name="input4" label="输入框" />,
   <LFormItemInput key="1" name="input5" label="输入框" />,
@@ -34,14 +30,12 @@ const Demo: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
   const modalRef = useRef<UseShowInstance>();
-  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <>
       <LTable
         rowKey="key"
         loading={{
-          spinning: loading,
           size: 'large',
           tip: '加载中...',
           indicator: <LoadingOutlined />,
@@ -71,25 +65,24 @@ const Demo: FC = () => {
             </Button>
           </>
         }
-        toolbarRight={
-          <Button type="primary" onClick={() => tableRef.current?.onReset()}>
-            重置表单,分页并重新请求
-          </Button>
-        }
+        queryFormProps={{
+          // isApproachLastItem: true,
+          submitter: {
+            render(dom) {
+              return (
+                <Space>
+                  <Button type="primary">审批</Button>
+                  <Button type="primary">导出</Button>
+                  {dom}
+                </Space>
+              );
+            },
+          },
+        }}
         formItems={formItems}
         formRef={formRef}
         columns={columns}
-        requestOptions={{
-          onFinally() {
-            setTimeout(() => {
-              setLoading(false);
-            }, 3000);
-          },
-        }}
         request={async (params, requestType) => {
-          // console.log('==params==', params);
-          // console.log('requestType ', requestType);
-          setLoading(true);
           const res: Record<string, any> = await apiGetUserList(params);
           return {
             success: true,

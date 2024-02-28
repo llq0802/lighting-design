@@ -53,8 +53,10 @@ export function useFillSpace({
 /**
  * 设置表格大小
  */
-export function useTableSize(outSize: SizeType) {
-  const [currentSize, setCurrentSize] = useRafState<SizeType | 'default'>(() => outSize);
+export function useTableSize(
+  outSize: SizeType,
+): [SizeType, React.Dispatch<React.SetStateAction<SizeType>>] {
+  const [currentSize, setCurrentSize] = useRafState<SizeType>(() => outSize);
   useUpdateLayoutEffect(() => setCurrentSize(outSize), [outSize]);
   return [currentSize, setCurrentSize];
 }
@@ -230,7 +232,7 @@ export function useTableRequest({
   outPaginationPageSize: number;
 }) {
   const isInitedRef = useRef<boolean>(false);
-  const res = usePagination(
+  const { data, ...res } = usePagination(
     async (args, requestType: LTableRequestType) => {
       isInitedRef.current = false;
       if (dataSource) return { list: [], total: 0 };
@@ -258,6 +260,7 @@ export function useTableRequest({
   return {
     /** 是否第一次自动请求 */
     isInitedRef,
+    data: !data ? { list: [], total: 0 } : data,
     ...res,
   };
 }

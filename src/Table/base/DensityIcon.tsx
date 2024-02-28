@@ -6,12 +6,12 @@ import TableContext from '../TableContext';
 import { LIGHTD_TABLE } from './BaseTable';
 
 const items = [
-  { label: '默认', key: 'default' },
+  { label: '默认', key: 'large' },
   { label: '中等', key: 'middle' },
   { label: '紧凑', key: 'small' },
 ];
 
-const DensityIcon = () => {
+const DensityIcon = ({ onDensityIconChange }) => {
   const { size, setSize } = useContext(TableContext);
 
   return (
@@ -21,9 +21,10 @@ const DensityIcon = () => {
       trigger={['click']}
       menu={{
         style: { width: 80 },
-        selectedKeys: [!size || size === 'large' ? 'default' : size],
+        selectedKeys: [!size ? 'large' : size],
         onClick({ key }) {
           setSize?.(key as SetStateAction<'middle' | 'small' | 'large' | undefined>);
+          onDensityIconChange?.(key);
         },
         items,
       }}

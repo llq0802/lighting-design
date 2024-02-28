@@ -1,5 +1,5 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
-import { Card, theme } from 'antd';
+import { Card } from 'antd';
 import classnames from 'classnames';
 import { isAntdVersionMoreThan514 } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 import './index.less';
 import type { LCardGroupProps } from './interface';
 import { transformChangeValue, transformValue } from './utils';
-const { useToken } = theme;
+
 const prefixCls = 'lightd-card-group';
 
 export default function LCardGroup(props: LCardGroupProps) {
@@ -21,14 +21,13 @@ export default function LCardGroup(props: LCardGroupProps) {
     labelInValue = false,
     cancelable = false,
     disabled = false,
+    hoverable = false,
     gap = 8,
     options = emptyArray,
     fieldNames = { label: 'label', value: 'value' },
   } = props;
 
   const { label: labelKey, value: valueKey } = fieldNames as { label: string; value: string };
-
-  const { token } = useToken();
 
   const [val, onChange] = useControllableValue(props);
   const value = useMemo(
@@ -103,15 +102,14 @@ export default function LCardGroup(props: LCardGroupProps) {
 
         return (
           <Card
+            hoverable={hoverable}
             {...cardProps}
             key={item[valueKey] ?? i}
             className={classnames(
               `${prefixCls}-item`,
               {
                 [`${prefixCls}-item-disabled`]: item.disabled,
-                [`${prefixCls}-item-active`]: multiple
-                  ? value?.includes(item[valueKey])
-                  : value === item[valueKey],
+                [`${prefixCls}-item-active`]: isActive,
               },
               cardProps?.className,
             )}
@@ -120,7 +118,6 @@ export default function LCardGroup(props: LCardGroupProps) {
               cardProps?.onClick?.(e);
             }}
             style={{
-              borderColor: isActive ? token.colorPrimary : void 0,
               ...cardStyle,
               ...cardProps?.style,
               ...(isActive ? activeStyle : {}),

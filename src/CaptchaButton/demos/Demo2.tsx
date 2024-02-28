@@ -1,4 +1,5 @@
 import { LCaptchaButton } from 'lighting-design';
+import { awaitTime } from 'lighting-design/_test';
 import { useState } from 'react';
 
 const Demo2 = () => {
@@ -9,13 +10,12 @@ const Demo2 = () => {
     <div>
       <LCaptchaButton
         second={10}
-        onClick={() => {
+        onClick={async () => {
           setLoading(true);
           // 也可以是异步请求
-          setTimeout(() => {
-            setLoading(false);
-            setStart(true);
-          }, 3000);
+          await awaitTime(3000);
+          setLoading(false);
+          setStart(true);
         }}
         onEnd={() => setStart(false)}
         start={start}

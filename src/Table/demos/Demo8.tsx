@@ -15,6 +15,15 @@ const formItems = [
   <LFormItemInput key="4" name="input8" label="输入框" />,
 ];
 
+const toolbarActionConfig = {
+  orders: {
+    reload: 4,
+    density: 3,
+    fullscreen: 2,
+    columnSetting: 1,
+  },
+};
+
 const Demo: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
@@ -49,16 +58,11 @@ const Demo: FC = () => {
     </>
   );
 
-  const toolbarActionConfig = {
-    orders: {
-      reload: 4,
-      density: 3,
-      fullscreen: 2,
-      columnSetting: 1,
-    },
-  };
   return (
     <LTable
+      queryFormProps={{
+        showColsNumber: 3,
+      }}
       toolbarActionConfig={toolbarActionConfig}
       rowKey="key"
       tableRef={tableRef}

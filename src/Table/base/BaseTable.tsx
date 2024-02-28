@@ -251,7 +251,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     /** 表格根标签 div */
     rootRef: rootRef,
     /** 表格数据 */
-    tableData: (data?.list ?? restProps?.dataSource ?? []) as Record<string, any>[],
+    tableData: data?.list?.length
+      ? data?.list
+      : restProps?.dataSource?.length
+      ? restProps?.dataSource
+      : [],
     /** 直接修改当前表格的数据,必须是 { total , data } 的形式 */
     setTableData: setTableData as Dispatch<
       SetStateAction<{ list: Record<string, any>[]; total: number }>
@@ -262,42 +266,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // ==================== 暴露外部方法结束===================
 
   // ==================== dom 区域开始 ====================
-  const toolbarActionDom = useMemo(() => {
-    if (toolbarActionConfig === false) {
-      return null;
-    }
-    return (
-      <ToolbarAction
-        {...toolbarActionConfig}
-        showColumnSetting={contentRender ? false : toolbarActionConfig?.showColumnSetting}
-        showDensity={contentRender ? false : toolbarActionConfig?.showDensity}
-        className={classnames(`${LIGHTD_TABLE}-toolbar-action`, toolbarActionConfig?.className)}
-      />
-    );
-  }, [toolbarActionConfig]);
-
-  // antd 表格上面内容区域
-  const toolbarDom = useMemo(() => {
-    return !showToolbar ||
-      (toolbarActionConfig === false && !toolbarLeft && !toolbarRight) ? null : (
-      <div className={`${LIGHTD_TABLE}-toolbar`} style={toolbarStyle}>
-        <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>
-          {toolbarLeft && <Space>{toolbarLeft}</Space>}
-        </div>
-        <div className={`${LIGHTD_TABLE}-toolbar-content-right`}>
-          <Space>
-            {toolbarRight}
-            {toolbarActionDom}
-          </Space>
-        </div>
-      </div>
-    );
-  }, [showToolbar, toolbarActionConfig, toolbarLeft, toolbarRight, JSON.stringify(toolbarStyle)]);
 
   const searchFormDom = useMemo(() => {
     if (!hasFromItems) return null;
-    const formSize =
-      currentSize === 'default' || currentSize === 'large' ? 'middle' : (currentSize as SizeType);
+    const formSize = currentSize === 'large' ? 'middle' : currentSize;
     return (
       <SearchForm
         size={formSize}
@@ -323,7 +295,38 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     queryFormProps,
   ]);
 
-  const tableDom = (
+  const toolbarActionDom = useMemo(() => {
+    if (toolbarActionConfig === false) {
+      return null;
+    }
+    return (
+      <ToolbarAction
+        {...toolbarActionConfig}
+        showColumnSetting={contentRender ? false : toolbarActionConfig?.showColumnSetting}
+        showDensity={contentRender ? false : toolbarActionConfig?.showDensity}
+        className={classnames(`${LIGHTD_TABLE}-toolbar-action`, toolbarActionConfig?.className)}
+      />
+    );
+  }, [toolbarActionConfig]);
+
+  const toolbarDom = useMemo(() => {
+    return !showToolbar ||
+      (toolbarActionConfig === false && !toolbarLeft && !toolbarRight) ? null : (
+      <div className={`${LIGHTD_TABLE}-toolbar`} style={toolbarStyle}>
+        <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>
+          {toolbarLeft && <Space>{toolbarLeft}</Space>}
+        </div>
+        <div className={`${LIGHTD_TABLE}-toolbar-content-right`}>
+          <Space>
+            {toolbarRight}
+            {toolbarActionDom}
+          </Space>
+        </div>
+      </div>
+    );
+  }, [showToolbar, toolbarActionConfig, toolbarLeft, toolbarRight, JSON.stringify(toolbarStyle)]);
+
+  const tableCardDom = (
     <Card
       ref={tablecardref}
       bordered={false}
@@ -340,12 +343,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         tableCardProps?.className,
       )}
     >
-      {toolbarRender ? toolbarRender(toolbarActionDom) : toolbarDom}
-      {tableHeaderRender && !contentRender ? (
-        <div className={`${LIGHTD_TABLE}-header`}>{tableHeaderRender()}</div>
-      ) : null}
+      {toolbarRender ? toolbarRender(toolbarActionDom, toolbarDom) : toolbarDom}
+      {tableHeaderRender ? tableHeaderRender(finalColumns) : null}
       <Table
-        showHeader={!tableHeaderRender}
+        showHeader={!tableHeaderRender && !contentRender}
         components={{
           table: contentRender ? () => contentRender?.(data?.list ?? []) : void 0,
           ...components,
@@ -376,6 +377,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     </Card>
   );
 
+  const tableDom = restProps?.dataSource ? (
+    tableCardDom
+  ) : (
+    <Spin {...currentLoading}>{tableCardDom}</Spin>
+  );
+
   const finallyDom = (
     <div
       ref={rootRef}
@@ -386,7 +393,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     >
       {searchFormDom}
       {tableExtra}
-      {restProps?.dataSource ? tableDom : <Spin {...currentLoading}>{tableDom}</Spin>}
+      {tableDom}
     </div>
   );
   // ==================== dom 区域结束 ====================

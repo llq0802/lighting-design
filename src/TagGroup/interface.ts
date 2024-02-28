@@ -1,6 +1,5 @@
 import type { SelectProps, TagProps } from 'antd';
 import type { LCardGroupProps } from 'lighting-design/CardGroup/interface';
-import type { CSSProperties } from 'react';
 
 export interface LTagGroupProps
   extends Pick<
@@ -13,22 +12,12 @@ export interface LTagGroupProps
     | 'disabled'
     | 'cancelable'
     | 'fieldNames'
+    | 'className'
+    | 'style'
   > {
   options?: (SelectProps['options'] & { tagProps?: TagProps }[]) | Record<string, any>[];
-
   /**
-   * 根类名
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
-   */
-  className?: string;
-  /**
-   * 根样式
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
-   */
-  style?: CSSProperties;
-
-  /**
-   *  每一项的类名
+   *  每一项标签的类名
    *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
    */
   itemClassName?: string;

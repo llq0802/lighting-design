@@ -4,7 +4,7 @@ export default function Demo() {
   return (
     <div>
       <LCardGroup
-        defaultValue={'1'}
+        defaultValue="1"
         onChange={(v) => {
           console.log('change-v', v);
         }}

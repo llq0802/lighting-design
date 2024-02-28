@@ -1,60 +1,88 @@
 import type { FormInstance } from 'antd';
-import { Button, ConfigProvider } from 'antd';
+import { Button } from 'antd';
 import type { LTableInstance } from 'lighting-design';
-import { LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
+import {
+  LFormItemDatePicker,
+  LFormItemInput,
+  LFormItemNumber,
+  LFormItemNumberRange,
+  LFormItemSegmented,
+  LFormItemSelect,
+  LTable,
+} from 'lighting-design';
+import type { UseShowInstance } from 'rc-use-hooks';
 import type { FC } from 'react';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { awaitTime } from '../../_test';
-import AddEditModal from './components/S-EditAddModal';
+import SModal from './components/S-Modal';
 import { apiGetUserList, columns } from './service';
 
 const formItems = [
   <LFormItemSelect
-    label="下拉框"
+    label="下拉"
     name="select1"
-    key="select1"
+    key="0"
     request={async () => {
-      const result = await awaitTime([
+      await awaitTime();
+      return [
         { label: 'Unresolved', value: 'open' },
         { label: 'Resolved', value: 'closed' },
         { label: 'Resolving', value: 'processing' },
-      ]);
-      if (result.success) return result.data;
+      ];
     }}
   />,
-  <LFormItemInput key="0" name="input4" label="输入框" />,
-  <LFormItemInput key="1" name="input5" label="输入框" />,
-  <LFormItemInput key="2" name="input6" label="输入框" />,
-  <LFormItemInput key="3" name="input7" label="输入框" />,
-  <LFormItemInput key="4" name="input8" label="输入框" />,
+
+  <LFormItemInput key="1" name="input1" label="输入" />,
+  <LFormItemSegmented
+    initialValue=""
+    key="2"
+    label="单选"
+    name="segmented1"
+    block
+    options={[
+      { label: '外包', value: '0' },
+      { label: '正式', value: '1' },
+    ]}
+  />,
+  <LFormItemNumber key="3" name="inputNumber1" label="数字输入" />,
+  <LFormItemNumberRange
+    key="5"
+    label="范围"
+    name="numberRange1"
+    placeholder={['请输入左边', '请输入右边']}
+  />,
+  <LFormItemDatePicker
+    key="4"
+    name="date1"
+    label="日期"
+    rangePicker
+    ownColSpans={{ xl: 12, xxl: 12 }}
+  />,
 ];
 
 const Demo1: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
-  const [open, setOpen] = useState(false);
-  const [editableRecord, setEditablRecord] = useState<Record<string, any>>();
-
+  const modalRef1 = useRef<UseShowInstance>();
   return (
     <>
       <LTable
+        rowKey="key"
         tableLayout="fixed"
         rowClassName="lightd-table-row-1"
         rootClassName="my-table-root-1"
         className="my-table-1"
-        rowKey="key"
-        loading={{ size: 'large', tip: '加载中...' }}
         tableRef={tableRef}
         queryFormProps={{
           showColsNumber: 3,
+          isCollapsed: false,
         }}
         toolbarLeft={
           <>
             <Button
               type="primary"
               onClick={() => {
-                setEditablRecord(undefined);
-                setOpen(true);
+                modalRef1.current?.onShow({});
               }}
             >
               新增
@@ -62,12 +90,11 @@ const Demo1: FC = () => {
             <Button
               type="primary"
               onClick={() => {
-                setEditablRecord({
+                modalRef1.current?.onShow({
+                  input: '吴彦祖',
                   radio: 'a',
-                  input: '编辑',
                   select: '1',
                 });
-                setOpen(true);
               }}
             >
               编辑
@@ -79,7 +106,7 @@ const Demo1: FC = () => {
             type="primary"
             onClick={() =>
               tableRef.current?.onReset({
-                a: 999,
+                abc: 999,
               })
             }
           >
@@ -93,8 +120,8 @@ const Demo1: FC = () => {
         formRef={formRef}
         columns={columns}
         request={async (params, requestType) => {
-          // console.log('==params==', params);
-          // console.log('==requestType==', requestType);
+          console.log('==查询框-params====>', params);
+          console.log('==查询框-requestType====>', requestType);
           const res: Record<string, any> = await apiGetUserList(params);
           return {
             success: true,
@@ -103,18 +130,7 @@ const Demo1: FC = () => {
           };
         }}
       />
-      {/* 如果没有使用表格的全屏toolbarActionConfig.showFullscreen ，就不用包裹 ConfigProvider */}
-      <ConfigProvider getPopupContainer={() => tableRef.current?.rootRef.current || document.body}>
-        <AddEditModal
-          open={open}
-          onOpenChange={setOpen}
-          data={editableRecord}
-          onChange={() => {
-            // 数据变动后，重新加载数据
-            tableRef.current?.onReload();
-          }}
-        />
-      </ConfigProvider>
+      <SModal tableRef={tableRef} modalRef={modalRef1} />
     </>
   );
 };

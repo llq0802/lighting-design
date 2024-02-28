@@ -51,7 +51,7 @@ import { LTagGroup } from 'lighting-design';
 | className      | 容器类名                                                                                                             | `string`                                               | `-`      |
 | style          | 容器样式                                                                                                             | `CSSProperties`                                        | `-`      |
 | itemClassName  | 每一项的类名                                                                                                         | `string`                                               | `-`      |
-| showAllChecked | 是否展示全部                                                                                                         | `boolean`                                              | `true`   |
+| showAllChecked | 是否展示全部                                                                                                         | `boolean`                                              | `false`  |
 | allValue       | 选择全部时的值 `只在单选时生效，多选时为整个数组`                                                                    | `string`                                               | `'all'`  |
 | allCheckedText | 选择全部时的文字                                                                                                     | `string`                                               | `'全部'` |
 | labelInValue   | 是否把每个选项的 label 包装到 value 中，<br>会把 value 类型从 string 变为 { value: string, label: ReactNode } 的格式 | `boolean`                                              | `false`  |
