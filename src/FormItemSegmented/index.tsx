@@ -19,6 +19,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
   segmentedProps = emptyObject,
   requestOptions = emptyObject,
   block,
+  isDefaultChecked = false,
 
   ...restProps
 }) => {
@@ -40,6 +41,7 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
         requestOptions={requestOptions}
         autoRequest={autoRequest}
         refreshDeps={refreshDeps}
+        isDefaultChecked={isDefaultChecked}
         {...segmentedProps}
       />
     </LFormItem>

@@ -1,4 +1,6 @@
+import { AppstoreOutlined, BarsOutlined } from '@ant-design/icons';
 import { LForm, LFormItemSegmented } from 'lighting-design';
+
 const Demo1 = () => {
   const [form] = LForm.useForm();
 
@@ -8,8 +10,10 @@ const Demo1 = () => {
       onFinish={(vals) => {
         console.log('==vals====>', vals);
       }}
+      initialValues={{ segmented2: 'Kanban' }}
     >
       <LFormItemSegmented
+        isDefaultChecked
         label="属性1"
         name="segmented1"
         options={[
@@ -18,24 +22,16 @@ const Demo1 = () => {
           { label: 'Item', value: '3' },
         ]}
       />
-      {/* <LFormItemSegmented
+      <LFormItemSegmented
         label="属性2"
         name="segmented2"
         options={[
-          {
-            label: 'List',
-            value: 'List',
-            icon: <BarsOutlined />,
-          },
-          {
-            label: 'Kanban',
-            value: 'Kanban',
-            icon: <AppstoreOutlined />,
-          },
+          { label: 'List', value: 'List', icon: <BarsOutlined /> },
+          { label: 'Kanban', value: 'Kanban', icon: <AppstoreOutlined /> },
         ]}
-      /> */}
+      />
 
-      {/* <LFormItemSegmented
+      <LFormItemSegmented
         label="属性3"
         name="segmented3"
         block
@@ -44,8 +40,9 @@ const Demo1 = () => {
           { label: 'Kanban', value: 'Kanban' },
           { label: 'item', value: 'item' },
           { label: 'das', value: 'das' },
+          { label: 'AAA', value: 'AAA' },
         ]}
-      /> */}
+      />
     </LForm>
   );
 };

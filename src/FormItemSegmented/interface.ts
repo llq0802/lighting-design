@@ -17,4 +17,6 @@ export interface LFormItemSegmentedoProps
   options?: SegmentedProps['options'] | Record<string, any>[];
   segmentedProps?: SegmentedProps;
   block?: SegmentedProps['block'];
+  /** 是否默认高亮第一个选项 (只高亮,不代表有值) */
+  isDefaultChecked?: boolean;
 }

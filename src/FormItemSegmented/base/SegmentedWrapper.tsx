@@ -3,7 +3,7 @@ import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper
 import { getOptions } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useRequestOptions } from 'lighting-design/hooks';
-import { omit } from 'lodash-es';
+import { isNil, omit } from 'lodash-es';
 import type { FC } from 'react';
 import { useImperativeHandle, useMemo } from 'react';
 
@@ -19,6 +19,8 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   outLoading,
   fieldNames,
   requestOptions = emptyObject,
+  value,
+  isDefaultChecked,
   ...restProps
 }) => {
   const segmentedProps = omit(restProps, dependencies);
@@ -45,9 +47,13 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
 
   useImperativeHandle(actionRef, () => requestRes);
 
-  console.log('==segmentedProps====>', segmentedProps);
-
-  const SegmentedDom = <Segmented options={segmentedOptions} {...segmentedProps} />;
+  const SegmentedDom = (
+    <Segmented
+      options={segmentedOptions}
+      {...segmentedProps}
+      value={!isDefaultChecked && isNil(value) ? '' : value}
+    />
+  );
 
   return outOptions?.length ? (
     SegmentedDom
