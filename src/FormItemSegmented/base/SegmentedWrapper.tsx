@@ -45,12 +45,14 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
 
   useImperativeHandle(actionRef, () => requestRes);
 
+  console.log('==segmentedProps====>', segmentedProps);
+
   const SegmentedDom = <Segmented options={segmentedOptions} {...segmentedProps} />;
 
   return outOptions?.length ? (
     SegmentedDom
   ) : (
-    <Spin spinning={loading} style={publicSpinStyle} delay={20} {...outLoading}>
+    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       {SegmentedDom}
     </Spin>
   );

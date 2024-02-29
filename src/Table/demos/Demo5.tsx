@@ -21,8 +21,6 @@ const Demo5: FC = () => {
     params: LTableRequestParams,
     requestType: LTableRequestType,
   ) => {
-    console.log('==params==', params);
-    console.log('==requestType==>', requestType);
     const res: Record<string, any> = await apiGetUserList(params);
     return {
       success: true,

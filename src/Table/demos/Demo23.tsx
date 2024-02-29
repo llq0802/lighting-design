@@ -137,6 +137,7 @@ const App: React.FC = () => {
   return (
     <>
       <LTable
+        // loading //自行控制加载状态
         queryFormProps={{
           onReset() {
             message.success('点击了重置按钮');

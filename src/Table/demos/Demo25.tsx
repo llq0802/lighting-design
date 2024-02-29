@@ -28,11 +28,18 @@ const Demo3: FC = () => {
       formItems={formItems}
       tableHeaderRender={(cols) => {
         return (
-          <Row style={{ marginBottom: 16, border: '1px solid #000', background: '#eee' }}>
+          <Row
+            style={{
+              padding: `10px 0`,
+              marginBottom: 16,
+              border: '1px solid #000',
+              background: '#eee',
+            }}
+          >
             {cols.map((col) => {
               return (
                 <Col flex={1} key={col.key} style={{ display: 'grid', placeItems: 'center' }}>
-                  <b>{col.title}</b>
+                  <b style={{ color: '#1677ff' }}>{col.title}</b>
                 </Col>
               );
             })}

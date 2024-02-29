@@ -31,11 +31,13 @@ export type LTableRenderProps = (
   props: LTableProps,
 ) => ReactElement | ReactNode;
 
-export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset';
+export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset' | 'onCustom';
 
 export type LTableInstance = {
   /** 根据条件，当前页，当前分页数量、刷新数据 */
   onReload: (extraParams?: Record<string, any>) => void;
+  /** 根据传入的 current pageSize 当前表单数据查询表格数据 */
+  onCustom: (current: number, pageSize: number, extraParams?: Record<string, any>) => void;
   /** 重置数据，从第一页以及默认的分页数量开始显示、查询数据 */
   onReset: (extraParams?: Record<string, any>) => void;
   /** 根据条件，从第一页以及当前的分页数量开始显示、查询数据 */
@@ -50,6 +52,7 @@ export type LTableInstance = {
    * 推荐使用函数的形式修改
    *
    * 每次更新需要 `list` 引用地址不一样才能更新界面
+   * - 仅在使用`request`获取数据有效
    */
   setTableData: Dispatch<
     SetStateAction<{
@@ -92,6 +95,7 @@ export type LTableRequest<T = Record<string, any>> = (
   params: LTableRequestParams,
   /** 请求类型 */
   requestType: LTableRequestType,
+  ...args: any[]
 ) => Promise<{
   success: boolean;
   data: T[];
@@ -166,17 +170,21 @@ export type LTableProps<T = any> = {
    *  - 绝大部分情况下推荐使用 `request` 来获取数据而不是`dataSource`
    *  - 你仍可以使用 `dataSource` , 用法与 antd Table 完全一致
    *  - 返回值必须是 `{ success: boolean, data: Record<string, any>[], total: number }`
-   *  - 你可在 request 中格式化后端请求的参数格式
+   *  - 你可在`request`或者在`requestBefore`格式化后端请求的参数格式
    *  - 第一个参数为当前的`页码`和`分页数量`, 如果配置了表单`formItems`则还有表单的值`formValues`
    *  - 第二个参数表示当前请求的类型
    *    - autoRequest 为 true 时的组件初始化的请求为`onInit`
    *    - 表单查询按钮请求为`onSearch`
    *    - 表格分页查询与内置工具栏的刷新为`onReload`
    *    - 表单重置按钮为`onReset`
-   *    - 如果没有配置 formItems 则为`undefined`
+   *    - 使用 onCustom 方法为`onCustom`
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   request?: LTableRequest;
+  /**
+   * 调用`request`之前将参数格式化返回给 `request` 的第一个参数
+   */
+  requestBefore?: (...args: any[]) => Partial<LTableRequestParams>;
   /**
    * 查询表单的实例
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
@@ -329,16 +337,20 @@ export type LTableProps<T = any> = {
    * -  `columns` 配置将无效
    * - 内置表格操作栏的 `列操作` 与 `表格密度`将无效
    *  - 配置后默认会设置 antd 的 showHeader 为 false
-   * @param  data 表格数据
+   * @param  tableData 表格数据
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
-  contentRender?: (data: Record<string, any>[]) => ReactNode;
+  contentRender?: (tableData: Record<string, any>[]) => ReactNode;
   /**
    *  重新渲染 antd 表格的头部列
    *  - 会在 toolbar 下方, antd 表格的头部渲染
    *  - 配置后默认会设置 antd 的 showHeader 为 false,  可配置覆盖
    * @param columns antd 的列配置
+   * @param  tableData 表格数据
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
-  tableHeaderRender?: (columns: Record<string, any>[]) => ReactNode;
+  tableHeaderRender?: (
+    columns: Record<string, any>[],
+    tableData: Record<string, any>[],
+  ) => ReactNode;
 } & TableProps<T>;

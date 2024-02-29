@@ -41,6 +41,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     defaultRequestParams = emptyObject,
     requestOptions = emptyObject,
     request = async () => {},
+    requestBefore,
     requestFinally,
     requestSuccess,
 
@@ -74,9 +75,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     columns = emptyArray,
     pagination: outPagination,
     components,
-    onChange,
     ...restProps
   } = props;
+
+  const dataSource = restProps?.dataSource;
   const rootRef = useRef<HTMLDivElement>(null);
   const tablecardref = useRef<HTMLDivElement>(null);
   const [isFullScreen, { toggleFullscreen }] = useFullscreen(rootRef, {
@@ -104,7 +106,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 合并内置表格工具栏配置
   const toolbarActionConfig = useMergeToolbarActionConfig(outToolbarActionConfig);
   // 合并分页
-  const { outPaginationCurrent, outPaginationPageSize } = useMergePagination(outPagination);
+  const { outDefaultCurrent, outDefaultPageSize } = useMergePagination(outPagination);
   // useRequest请求
   const {
     isInitedRef,
@@ -114,13 +116,14 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     mutate: setTableData,
     pagination: paginationAction,
   } = useTableRequest({
-    dataSource: restProps?.dataSource,
+    dataSource,
     request,
     requestOptions,
+    requestBefore,
     requestSuccess,
     requestFinally,
-    outPaginationCurrent,
-    outPaginationPageSize,
+    outDefaultCurrent,
+    outDefaultPageSize,
   });
   // 合并loading
   const currentLoading = useMergeLoading(requestLoading, outLoading);
@@ -137,82 +140,62 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // ==================== 表格方法开始====================
   // 重置所有表单数据，从第一页开始显示、查询数据
   const handleReset = useMemoizedFn((extraParams?: Record<string, any>) => {
-    if (!hasFromItems) {
-      paginationAction.onChange(outPaginationCurrent, outPaginationPageSize);
-      return;
-    }
-    const formValues = queryFormRef.current?.getFieldsValue();
+    if (dataSource) return;
+    const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
     run(
       {
-        current: 1,
-        pageSize: outPaginationPageSize,
-        formValues,
         ...extraParams,
+        current: outDefaultCurrent,
+        pageSize: outDefaultPageSize,
+        formValues,
       },
       'onReset',
     );
   });
-  // 根据条件，从第一页开始显示、查询数据
+  // 根据表单条件，从第一页以及当前的分页数量开始显示、查询数据
   const handleSearch = useMemoizedFn((extraParams?: Record<string, any>) => {
-    if (!hasFromItems) {
-      paginationAction.changeCurrent(1);
-      return;
-    }
-    const formValues = queryFormRef.current?.getFieldsValue();
+    if (dataSource) return;
+    const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
     run(
       {
-        current: 1,
-        pageSize: paginationAction?.pageSize || outPaginationPageSize,
-        formValues,
         ...extraParams,
+        current: outDefaultCurrent,
+        pageSize: paginationAction?.pageSize,
+        formValues,
       },
       'onSearch',
     );
   });
   // 根据当前条件和页码 查询数据
   const handleReload = useMemoizedFn((extraParams?: Record<string, any>) => {
-    if (!hasFromItems) {
-      paginationAction.changeCurrent(paginationAction?.current);
-      return;
-    }
-    const formValues = queryFormRef.current?.getFieldsValue();
+    if (dataSource) return;
+    const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
     run(
       {
+        ...extraParams,
         current: paginationAction?.current,
         pageSize: paginationAction?.pageSize,
-        formValues: formValues,
-        ...extraParams,
-      },
-      'onReload',
-    );
-  });
-  // 表格分页页码丶排序等改变时触发
-  const handleTableChange = useMemoizedFn((pagination, filters, sorter, extra) => {
-    onChange?.(pagination, filters, sorter, extra);
-    if (extra.action !== 'paginate') return;
-    if (!hasFromItems) {
-      paginationAction.onChange(pagination?.current || 1, pagination?.pageSize);
-      return;
-    }
-    const formValues = queryFormRef.current?.getFieldsValue();
-    run(
-      {
-        current: pagination.current || 1,
-        pageSize: pagination.pageSize || 10,
         formValues,
       },
       'onReload',
     );
+  });
+  //  表格分页页码等改变时触发
+  const handlePaginationChange = useMemoizedFn((current, pageSize) => {
+    if (dataSource) return;
+    const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
+    run({ current, pageSize, formValues }, 'onReload');
   });
   // 初始化或表单查询 保留表单参数 保留pageSize  重置page为 1
   const handleSearchFormFinish = useMemoizedFn((formValues: Record<string, any>) => {
     queryFormProps?.onFinish?.(formValues);
+    if (dataSource) return;
     run(
       {
-        current: 1,
-        pageSize: paginationAction?.pageSize || outPaginationPageSize,
-        formValues,
         ...(isInitedRef.current ? defaultRequestParams : {}),
+        current: outDefaultCurrent,
+        pageSize: paginationAction?.pageSize,
+        formValues,
       },
       isInitedRef.current ? 'onInit' : 'onSearch',
     );
@@ -220,8 +203,30 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 表单重置
   const handleSearchFormReset = useMemoizedFn((e) => {
     queryFormProps?.onReset?.(e);
+    if (dataSource) return;
     handleReset({});
   });
+
+  // 根据传入参数请求
+  const handleCustom = useMemoizedFn(
+    (
+      current: number = outDefaultCurrent,
+      pageSize: number = outDefaultPageSize,
+      extraParams?: Record<string, any>,
+    ) => {
+      if (dataSource) return;
+      const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
+      run(
+        {
+          ...extraParams,
+          current,
+          pageSize,
+          formValues,
+        },
+        'onCustom',
+      );
+    },
+  );
   // ==================== 表格方法结束====================
 
   // ==================== table副作用开始====================
@@ -229,16 +234,19 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   useFillSpace({ tablecardref, fillSpace });
   // 初始化请求
   useEffect(() => {
-    if (!autoRequest || !isReady || restProps?.dataSource) return;
+    if (!autoRequest || !isReady || dataSource) return;
     isInitedRef.current = true;
     if (!hasFromItems) {
-      paginationAction.changeCurrent(1);
+      run(
+        { ...defaultRequestParams, current: outDefaultCurrent, pageSize: outDefaultPageSize },
+        'onInit',
+      );
       return;
     }
     queryFormRef.current?.submit?.();
   }, [isReady]);
   // ==================== table副作用结束====================
-
+  const tableData = data?.list?.length ? data.list : dataSource?.length ? dataSource : [];
   // ==================== 暴露外部方法开始====================
   useImperativeHandle(tableRef, () => ({
     // onReload: refresh,
@@ -248,14 +256,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     onReset: handleReset,
     /** 根据条件，从第一页开始显示、查询数据 */
     onSearch: handleSearch,
+    /** 根据传入参数请求 */
+    onCustom: handleCustom,
     /** 表格根标签 div */
-    rootRef: rootRef,
+    rootRef,
     /** 表格数据 */
-    tableData: data?.list?.length
-      ? data?.list
-      : restProps?.dataSource?.length
-      ? restProps?.dataSource
-      : [],
+    tableData,
     /** 直接修改当前表格的数据,必须是 { total , data } 的形式 */
     setTableData: setTableData as Dispatch<
       SetStateAction<{ list: Record<string, any>[]; total: number }>
@@ -266,7 +272,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // ==================== 暴露外部方法结束===================
 
   // ==================== dom 区域开始 ====================
-
   const searchFormDom = useMemo(() => {
     if (!hasFromItems) return null;
     const formSize = currentSize === 'large' ? 'middle' : currentSize;
@@ -344,11 +349,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       )}
     >
       {toolbarRender ? toolbarRender(toolbarActionDom, toolbarDom) : toolbarDom}
-      {tableHeaderRender ? tableHeaderRender(finalColumns) : null}
+      {tableHeaderRender ? tableHeaderRender(finalColumns, tableData) : null}
       <Table
         showHeader={!tableHeaderRender && !contentRender}
         components={{
-          table: contentRender ? () => contentRender?.(data?.list ?? []) : void 0,
+          table: contentRender ? () => contentRender?.(tableData) : void 0,
           ...components,
           body: { cell: TdCell, ...components?.body },
         }}
@@ -356,32 +361,31 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         size={currentSize as SizeType}
         columns={finalColumns}
         dataSource={data?.list}
-        onChange={handleTableChange}
         pagination={
           outPagination !== false
             ? {
                 showTotal,
                 showSizeChanger: true,
-                showQuickJumper: true,
-                current: paginationAction?.current,
-                pageSize: paginationAction?.pageSize,
-                total: paginationAction?.total,
+                current: dataSource ? void 0 : paginationAction?.current,
+                pageSize: dataSource ? void 0 : paginationAction?.pageSize,
+                total: dataSource ? void 0 : paginationAction?.total,
                 ...outPagination,
+                onChange(page, pageSize) {
+                  outPagination?.onChange?.(page, pageSize);
+                  if (dataSource) return;
+                  handlePaginationChange(page, pageSize);
+                },
                 className: classnames(`${LIGHTD_TABLE}-pagination`, outPagination?.className),
               }
             : false
         }
-        loading={restProps?.dataSource ? currentLoading : false}
+        loading={dataSource ? currentLoading : false}
         {...restProps}
       />
     </Card>
   );
 
-  const tableDom = restProps?.dataSource ? (
-    tableCardDom
-  ) : (
-    <Spin {...currentLoading}>{tableCardDom}</Spin>
-  );
+  const tableDom = dataSource ? tableCardDom : <Spin {...currentLoading}>{tableCardDom}</Spin>;
 
   const finallyDom = (
     <div

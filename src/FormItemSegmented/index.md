@@ -17,7 +17,7 @@ nav:
 
 ### 自定义渲染
 
-<code src='./demos/Demo3.tsx'></code>
+<!-- <code src='./demos/Demo3.tsx'></code> -->
 
 ### API
 

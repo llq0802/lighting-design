@@ -58,7 +58,8 @@ const Demo18: React.FC = () => {
     <div>
       <LTable
         // showToolbar={false}
-        toolbarActionConfig={false}
+        // toolbarActionConfig={false}
+        isSort
         toolbarLeft={
           <Radio.Group
             defaultValue="1"
@@ -74,7 +75,6 @@ const Demo18: React.FC = () => {
             <Button>导出数据</Button>
           </>
         }
-        isSort
         columns={value4 === '1' ? columns1 : columns2}
         // columns={columns}
         tableRef={tableRef}

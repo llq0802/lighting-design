@@ -21,6 +21,8 @@ nav:
 - 可自定义各种配置，样式等
 - 默认优化原 Table 性能
 
+## 代码演示
+
 ### 基础用法
 
 <code src='./demos/Demo24.tsx' background="#f5f5f5"></code>
@@ -135,9 +137,13 @@ nav:
 
 <code src='./demos/Demo20.tsx' background="#f5f5f5"></code>
 
-### antd 表格的 dataSource
+### 使用 dataSource 方式
 
 <code src='./demos/Demo23.tsx' background="#f5f5f5"></code>
+
+### antd 的 title footer 等其他属性
+
+<code src='./demos/Demo26.tsx' background="#f5f5f5"></code>
 
 ### Excel 导入与导出
 
@@ -176,13 +182,15 @@ nav:
 
 - `request`的第一个参数为当前的页码和分页数量 如果配置了表单`formItems 的长度大于 0`则还有表单的值 `formValues`
 
-- `request`的第二个参数表示当前请求的类型， `autoRequest` 为 `true` 时的组件初始化的请求为 `'onInit'`， 表单查询按钮请求为 `'onSearch'`，表格分页查询与内置工具栏的刷新为 `'onReload'`，表单重置按钮为 `'onReset'`，如果没有配置 `formItems` 则为 `undefined`
+- `request`的第二个参数表示当前请求的类型， `autoRequest` 为 `true` 时的组件初始化的请求为 `'onInit'`， 表单查询按钮请求为 `'onSearch'`，表格分页查询与内置工具栏的刷新为 `'onReload'`，表单重置按钮为 `'onReset'` 使用 onCustom 方法为 'onCustom'
 
 - `tableRef.current.onSearch()` 意思为根据表单条件，从第一页以及当前的分页数量开始显示、查询数据
 
 - `tableRef.current.onReload()` 意思为根据表单条件，当前页，当前的分页数量、刷新数据、查询数据
 
 - `tableRef.current.onReset()` 意思为重置表单数据，从第一页以及默认的分页数量开始显示、查询数据
+
+- `tableRef.current.onCustom()` 意思为根据表单条件, 从`传入的页码和分页数量`开始显示、查询数据
 
 - `tableRef.current.setTableData()` 突变表格数据时需要返回新的对象包含`list` `total`属性，并且每次更新时需要 `list` 引用地址不一样才能更新界面
 
@@ -221,6 +229,7 @@ import { LTable } from 'lighting-design';
 | fullScreenBgColor    | 全屏时显示的背景颜色                                                                                                                                           | `string`                                                                                | `#fff`                                                        |
 | defaultRequestParams | request 额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) 会被注入到 request 的第一个参数对象中                                                           | `Record<string, any>`                                                                   | `-`                                                           |
 | request              | 异步请求函数，用于获取表格数据                                                                                                                                 | [LTableRequest](/components/table#ltablerequest)                                        | `-`                                                           |
+| requestBefore        | 调用`request`之前将参数格式化返回给 `request` 的第一个参数                                                                                                     | `(...args: any[]) => Partial<LTableRequestParams>`                                      | `-`                                                           |
 | requestSuccess       | 异步请求函数请求成功后的回调                                                                                                                                   | `RequestSuccess`                                                                        | `-`                                                           |
 | requestFinally       | 异步请求函数完成后的回调`(失败, 成功都会调用)`                                                                                                                 | `RequestFinally`                                                                        | `-`                                                           |
 | requestOptions       | `ahooks 的 useRequest 的 options 配置` 可用于配置其他请求功能                                                                                                  | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options)               | `-`                                                           |
@@ -238,10 +247,10 @@ import { LTable } from 'lighting-design';
 | formItems            | 表单查询框组                                                                                                                                                   | `LFormItemXXX[] \| Form.Item[]`                                                         | `-`                                                           |
 | formInitialValues    | 查询表单初始值只在第一次组件渲染生效                                                                                                                           | `Record<string, any>`                                                                   | `-`                                                           |
 | queryFormProps       | 用于配置查询表单 [LQueryForm] 的 `Props`                                                                                                                       | [LQueryFormProps](/components/query-form)                                               | `-`                                                           |
-| toolbarRender        | 重新渲染 `toolBar` 包括内置表格工具                                                                                                                            | `(ToolbarActionDom: ReactNode) => ReactNode`                                            | `-`                                                           |
+| toolbarRender        | 重新渲染 `toolBar` 包括内置表格工具                                                                                                                            | `(ToolbarActionDom: ReactNode,toolbarDom: ReactNode) => ReactNode`                      | `-`                                                           |
 | tableRender          | 重新渲染整个表格                                                                                                                                               | [LTableRenderProps](/components/table#ltablerenderprops)                                | `-`                                                           |
 | contentRender        | 重新渲染表格内容                                                                                                                                               | `(data: Record<string, any>[]) => ReactNode`                                            | `-`                                                           |
-| tableHeaderRender    | 重新渲染 antd 表格的头部列                                                                                                                                     | `(columns: Record<string, any>[]) => ReactNode`                                         | `-`                                                           |
+| tableHeaderRender    | 重新渲染 antd 表格的头部列                                                                                                                                     | `(columns: Record<string, any>[],data: Record<string, any>[]) => ReactNode`             | `-`                                                           |
 
 ### LTableRequest
 
@@ -251,6 +260,7 @@ export type LTableRequest = (
   params: LTableRequestParams,
   /** 请求类型 */
   requestType: LTableRequestType,
+  ...args: any[]
 ) => Promise<{ success: boolean; data: Record<string, any>[]; total: number }>; // 返回值必须包含 success data total
 ```
 
@@ -296,7 +306,14 @@ export type LTableRenderProps = (
 // 表格查询按钮请求为 'onSearch'
 // 表格分页查询为 'onReload'
 // 表格重置按钮为 'onReset'
-export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset' | undefined;
+// 使用 onCustom 方法为 'onCustom'
+export type LTableRequestType =
+  | 'onInit'
+  | 'onSearch'
+  | 'onReload'
+  | 'onReset'
+  | 'onCustom'
+  | undefined;
 ```
 
 ### LTableInstance
@@ -309,6 +326,8 @@ export type MutableRefObject<LTableInstance|undefined > = {
   onReset: (extraParams?: Record<string, any>) => void;
   // 根据条件，从第一页以及当前的分页数量开始显示、查询数据
   onSearch: (extraParams?: Record<string, any>) => void;
+  // 根据传入的 current pageSize 参数，当前表单数据 刷新数据
+  onCustom: (current: number, pageSize: number, extraParams?: Record<string, any>) => void;
   // 表格根标签div
   rootRef: RefObject<HTMLDivElement>;
   // 表格数据
@@ -328,7 +347,7 @@ export type MutableRefObject<LTableInstance|undefined > = {
     pageSize: number;
     total: number;
     totalPage: number;
-    // 以下方法会重新请求数据 , 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined
+    //(不建议外部使用) 以下方法会重新请求数据 , 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined
     onChange: (current: number, pageSize: number) => void;
     changeCurrent: (current: number) => void;
     changePageSize: (pageSize: number) => void;

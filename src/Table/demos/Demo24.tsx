@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Tag } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LTable } from 'lighting-design';
 import type { UseShowInstance } from 'rc-use-hooks';
@@ -15,6 +15,11 @@ const Demo: FC = () => {
   return (
     <>
       <LTable
+        isSort={{
+          render(pageCount) {
+            return <Tag>{pageCount}</Tag>;
+          },
+        }}
         tableRef={tableRef}
         toolbarActionConfig={false}
         columns={columns}
@@ -66,13 +71,18 @@ const Demo: FC = () => {
             </Button>
           </>
         }
-        request={async (params) => {
+        request={async (params, requestType) => {
+          console.log('==基础用法-params====>', params);
+          console.log('==基础用法-requestType====>', requestType);
           const res: Record<string, any> = await apiGetUserList(params);
           return {
             success: true,
             data: res.data,
             total: res.total,
           };
+        }}
+        defaultRequestParams={{
+          aaa: '999',
         }}
       />
 

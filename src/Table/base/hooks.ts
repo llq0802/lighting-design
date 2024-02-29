@@ -3,7 +3,7 @@ import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { getTableColumnsKey, isFunction } from 'lighting-design/_utils';
 import { omit } from 'lodash-es';
 import { useLayoutEffect, useMemo, useRef } from 'react';
-import type { LTableProps, LTableRequestType } from '../interface';
+import type { LTableProps } from '../interface';
 
 /**
  * 填充视口剩余空间
@@ -73,6 +73,7 @@ export function useTableColumn({
 }: Record<string, any>) {
   const outColumns = useMemo(() => {
     if (contentRender) return [];
+
     if (isSort) {
       const { current, pageSize } = paginationAction;
       const render = (_: any, __: any, index: number) => {
@@ -89,14 +90,7 @@ export function useTableColumn({
       return [sortColumn, ...columns];
     }
     return columns;
-  }, [
-    columns,
-    typeof isSort === 'boolean' && isSort,
-    typeof isSort !== 'boolean' && isSort?.width,
-    typeof isSort !== 'boolean' && isSort?.render,
-    paginationAction?.current,
-    paginationAction?.pageSize,
-  ]);
+  }, [columns, paginationAction?.current, paginationAction?.pageSize]);
   // 表格展示的列key
   const [columnKeys, setColumnKeys] = useRafState(() => {
     if (toolbarActionConfig === false) return [];
@@ -105,22 +99,20 @@ export function useTableColumn({
   });
 
   useUpdateEffect(() => {
-    if (toolbarActionConfig === false) return;
-    if (!toolbarActionConfig?.showColumnSetting) return;
     const newKeys = outColumns.map(getTableColumnsKey);
     setColumnKeys(newKeys);
-  }, [outColumns, toolbarActionConfig]);
+  }, [outColumns]);
 
   const finalColumns = useMemo(() => {
     if (contentRender) return [];
-    if (toolbarActionConfig === false) return outColumns;
-    if (!toolbarActionConfig?.showColumnSetting) return outColumns;
-
+    if (toolbarActionConfig === false || !toolbarActionConfig?.showColumnSetting) return outColumns;
     const tmpColumns: Record<string, any>[] = [];
+
     const sortColumnKeys = columnKeys.toSorted(
       (a: string, b: string) =>
         Number(a?.split('-')?.at(-1) ?? '0') - Number(b?.split('-')?.at(-1) ?? '0'),
     );
+
     sortColumnKeys.forEach((key: string) => {
       const columnItem = outColumns.find(
         (item: Record<string, any>, i: number) => getTableColumnsKey(item, i) === key,
@@ -130,7 +122,11 @@ export function useTableColumn({
       }
     });
     return tmpColumns;
-  }, [outColumns, columnKeys?.join(''), toolbarActionConfig]);
+  }, [
+    columnKeys.join(''),
+    typeof toolbarActionConfig === 'boolean' && toolbarActionConfig,
+    typeof toolbarActionConfig !== 'boolean' && toolbarActionConfig?.showColumnSetting,
+  ]);
 
   return {
     finalColumns,
@@ -141,28 +137,19 @@ export function useTableColumn({
 }
 
 /**
- *合并外部分页配置
+ *合并外部分默认页配置
  */
 export function useMergePagination(outPagination?: Record<string, any> | false) {
   // 默认从第一页
-  const outPaginationCurrent = useMemo(
-    () => (outPagination && (outPagination.current || outPagination.defaultCurrent)) || 1,
-    [
-      typeof outPagination !== 'boolean' ? outPagination?.defaultCurrent : void 0,
-      typeof outPagination !== 'boolean' ? outPagination?.current : void 0,
-    ],
-  );
+  const outDefaultCurrent = useMemo(() => (outPagination && outPagination.defaultCurrent) || 1, []);
   // 默认一页10条
-  const outPaginationPageSize = useMemo(
-    () => (outPagination && (outPagination.pageSize || outPagination.defaultPageSize)) || 10,
-    [
-      typeof outPagination !== 'boolean' ? outPagination?.defaultPageSize : void 0,
-      typeof outPagination !== 'boolean' ? outPagination?.pageSize : void 0,
-    ],
+  const outDefaultPageSize = useMemo(
+    () => (outPagination && outPagination.defaultPageSize) || 10,
+    [],
   );
   return {
-    outPaginationCurrent,
-    outPaginationPageSize,
+    outDefaultCurrent,
+    outDefaultPageSize,
   };
 }
 /**
@@ -206,45 +193,48 @@ export function useMergeToolbarActionConfig(
 }
 /**
  * 使用表格请求的自定义 hook
- * @param dataSource 数据源
- * @param request 请求函数
- * @param requestOptions 请求选项
- * @param requestSuccess 请求成功回调函数
- * @param requestFinally 请求最终回调函数
- * @param outPaginationCurrent 当前页码
- * @param outPaginationPageSize 每页大小
  */
 export function useTableRequest({
   dataSource,
   request,
   requestOptions,
+  requestBefore,
   requestSuccess,
   requestFinally,
-  outPaginationCurrent,
-  outPaginationPageSize,
+  outDefaultCurrent,
+  outDefaultPageSize,
 }: {
   dataSource: any;
   request: any;
   requestOptions: LTableProps['requestOptions'];
+  requestBefore: LTableProps['requestBefore'];
   requestSuccess: LTableProps['requestSuccess'];
   requestFinally: LTableProps['requestFinally'];
-  outPaginationCurrent: number;
-  outPaginationPageSize: number;
+  outDefaultCurrent: number;
+  outDefaultPageSize: number;
 }) {
   const isInitedRef = useRef<boolean>(false);
   const { data, ...res } = usePagination(
-    async (args, requestType: LTableRequestType) => {
+    async (...args) => {
       isInitedRef.current = false;
       if (dataSource) return { list: [], total: 0 };
-      const res = await request({ ...args }, requestType);
+      const [paramsObj, requestType, ...restArgs] = args;
+      const res = await request(
+        {
+          ...paramsObj,
+          ...(requestBefore ? requestBefore?.(...args) : {}),
+        },
+        requestType,
+        ...restArgs,
+      );
       if (res?.success && Array.isArray(res.data) && res.data.length) {
         return { list: res.data, total: +res.total };
       }
       return { list: [], total: 0 };
     },
     {
-      defaultCurrent: outPaginationCurrent,
-      defaultPageSize: outPaginationPageSize,
+      defaultCurrent: outDefaultCurrent,
+      defaultPageSize: outDefaultPageSize,
       ...requestOptions,
       manual: true,
       onSuccess(...args) {

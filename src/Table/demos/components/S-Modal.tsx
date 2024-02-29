@@ -33,7 +33,7 @@ const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
   useEffect(() => {
     if (open && form && !isAdd) {
       form.setFieldsValue(parentData);
-      //  form.resetFields(); // 和 modalProps.destroyOnClose=true 效果一样
+      //  form.resetFields(); // 和 destroyOnClose=true 效果一样
     }
   }, [open, form, isAdd]);
 

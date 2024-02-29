@@ -1,11 +1,12 @@
 import type { FormInstance } from 'antd';
-import { Button } from 'antd';
+import { Button, Card, Space } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import {
   LFormItemDatePicker,
   LFormItemInput,
   LFormItemNumber,
   LFormItemNumberRange,
+  LFormItemRadio,
   LFormItemSegmented,
   LFormItemSelect,
   LTable,
@@ -27,11 +28,9 @@ const formItems = [
       return [
         { label: 'Unresolved', value: 'open' },
         { label: 'Resolved', value: 'closed' },
-        { label: 'Resolving', value: 'processing' },
       ];
     }}
   />,
-
   <LFormItemInput key="1" name="input1" label="输入" />,
   <LFormItemSegmented
     initialValue=""
@@ -46,28 +45,63 @@ const formItems = [
   />,
   <LFormItemNumber key="3" name="inputNumber1" label="数字输入" />,
   <LFormItemNumberRange
-    key="5"
+    key="4"
     label="范围"
     name="numberRange1"
     placeholder={['请输入左边', '请输入右边']}
   />,
+  <LFormItemDatePicker key="5" name="date2" label="日期2" />,
   <LFormItemDatePicker
-    key="4"
+    key="7"
     name="date1"
-    label="日期"
+    label="日期1"
     rangePicker
     ownColSpans={{ xl: 12, xxl: 12 }}
   />,
+  <LFormItemRadio
+    key="8"
+    ownColSpans={{ xl: 12, xxl: 12 }}
+    optionType="button"
+    buttonStyle="solid"
+    label="组合"
+    name="radio1"
+    options={[
+      { label: '前端', value: '1' },
+      { label: '后端', value: '2' },
+    ]}
+    contentInline
+    contentAfter={
+      <Space>
+        <Button danger type="dashed">
+          按钮1
+        </Button>
+        <Button type="primary">按钮2</Button>
+      </Space>
+    }
+  />,
+  // <Space key="9">
+  //   <Button>按钮4</Button>
+  //   <Button danger type="dashed">
+  //     按钮5
+  //   </Button>
+  //   <Button type="primary">按钮6</Button>
+  // </Space>,
 ];
 
-const Demo1: FC = () => {
+const Demo: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
   const modalRef1 = useRef<UseShowInstance>();
   return (
     <>
       <LTable
-        rowKey="key"
+        sticky
+        bordered
+        showHeader
+        title={(currentPageData) => 'antd.Header'}
+        footer={(currentPageData) => 'antd.Footer'}
+        tableExtra={<Card style={{ marginBottom: 16 }}>tableExtra</Card>}
+        tableHeaderRender={() => <Card style={{ marginBottom: 16 }}>tableHeaderRender</Card>}
         tableLayout="fixed"
         rowClassName="lightd-table-row-1"
         rootClassName="my-table-root-1"
@@ -110,21 +144,14 @@ const Demo1: FC = () => {
               })
             }
           >
-            重置表单,分页并重新请求传递额外请求参数
+            重置请求传递额外请求参数
           </Button>
         }
-        defaultRequestParams={{
-          a: 111,
-        }}
-        onChange={(...args) => {
-          console.log('== onChange ====>', args);
-        }}
+        defaultRequestParams={{ a: 111 }}
         formItems={formItems}
         formRef={formRef}
         columns={columns}
         request={async (params, requestType) => {
-          console.log('==查询框Demo1-params====>', params);
-          console.log('==查询框Demo1-requestType====>', requestType);
           const res: Record<string, any> = await apiGetUserList(params);
           return {
             success: true,
@@ -138,4 +165,4 @@ const Demo1: FC = () => {
   );
 };
 
-export default Demo1;
+export default Demo;
