@@ -42,18 +42,18 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   return (
     <LFormItem _isSelectType {...restProps}>
       <TreeSelectWrapper
+        size={size}
         disabled={disabled || formDisabled}
-        actionRef={actionRef}
         placeholder={messagePlaceholder}
         dependencies={restProps?.dependencies}
-        treeData={treeData}
+        //
         request={request}
-        size={size}
+        actionRef={actionRef}
         autoRequest={autoRequest}
         refreshDeps={refreshDeps}
-        variant={variant}
         outLoading={spin}
         requestOptions={requestOptions}
+        //
         showSearch={showSearch}
         multiple={multiple}
         treeLine={treeLine}
@@ -61,6 +61,8 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
         treeCheckable={treeCheckable}
         treeDataSimpleMode={treeDataSimpleMode}
         loadData={loadData}
+        treeData={treeData}
+        variant={variant}
         fieldNames={fieldNames}
         {...treeSelectProps}
       />

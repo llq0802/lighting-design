@@ -35,9 +35,9 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   requestOptions,
   ...restProps
 }) => {
+  const checkboxProps = omit(restProps, dependencies);
   const [indeterminate, setIndeterminate] = useRafState<boolean>(false);
   const [checkAll, setCheckAll] = useRafState<boolean>(false);
-  const checkboxProps = omit(restProps, dependencies);
   const requestRes = useRequestOptions({
     options: outOptions,
     request,

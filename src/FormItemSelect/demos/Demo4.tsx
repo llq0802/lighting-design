@@ -19,7 +19,7 @@ const Demo2 = () => {
           actionRef={actionRef}
           autoRequest={false}
           request={async () => {
-            await awaitTime(500, 500);
+            await awaitTime(500);
             const opts1 = betterMock.mock({ 'list|6': [{ label: '@city', value: '@id' }] }).list;
             return opts1;
           }}

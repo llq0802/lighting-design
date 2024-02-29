@@ -33,10 +33,8 @@ const Demo2 = () => {
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
         request={async () => {
-          const result = await awaitTime(opts1, 1000);
-          if (result.success) {
-            return result.data;
-          }
+          await awaitTime();
+          return opts1;
         }}
         all
       />

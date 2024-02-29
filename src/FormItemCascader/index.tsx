@@ -50,16 +50,18 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
         size={size}
         dependencies={restProps?.dependencies}
         options={options}
+        //
         request={request}
         outLoading={spin}
         autoRequest={autoRequest}
         refreshDeps={refreshDeps}
+        requestOptions={requestOptions}
+        actionRef={actionRef}
+        //
         variant={variant}
         multiple={multiple}
         showSearch={showSearch}
         fieldNames={fieldNames}
-        requestOptions={requestOptions}
-        actionRef={actionRef}
         loadData={loadData}
         changeOnSelect={changeOnSelect}
         expandTrigger={expandTrigger}

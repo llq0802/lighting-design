@@ -51,7 +51,7 @@ const SelectWrapper: FC<Record<string, any>> = ({
   const dom = (
     <Select
       allowClear
-      optionFilterProp={selectProps?.fieldNames?.label ?? 'label'}
+      optionFilterProp={restProps?.fieldNames?.label ?? 'label'}
       options={opts}
       {...selectProps}
       style={{ width: '100%', ...restProps.style }}
@@ -61,7 +61,7 @@ const SelectWrapper: FC<Record<string, any>> = ({
   return outOptions?.length ? (
     dom
   ) : (
-    <Spin spinning={loading} style={publicSpinStyle} delay={16} {...outLoading}>
+    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       {dom}
     </Spin>
   );

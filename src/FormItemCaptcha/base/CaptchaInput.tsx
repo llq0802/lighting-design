@@ -1,4 +1,4 @@
-import { useMemoizedFn, useMount, useUnmount } from 'ahooks';
+import { useMemoizedFn, useMount } from 'ahooks';
 import type { ButtonProps, InputRef } from 'antd';
 import { Divider, Input } from 'antd';
 import { LCaptchaButton } from 'lighting-design';
@@ -87,10 +87,12 @@ const CodeInput: FC<CodeInputProps> = ({
       setLoading(true);
       // 用于验证手机号码或邮箱，并请求获取验证码。如果返回 false 或 Promise.reject(false) 表示验证失败或请求验证码失败。
       await checkResult(onGetCaptcha);
-      setStart(true); // 只有当获取验证码成功时才进行倒计时
-      if (autoFocusOnGetCaptcha) {
-        inputRef.current!.focus();
-      }
+      setTimeout(() => {
+        setStart(true); // 只有当获取验证码成功时才进行倒计时
+        if (autoFocusOnGetCaptcha) {
+          inputRef.current!.focus();
+        }
+      });
     } catch {
     } finally {
       setLoading(false);
@@ -156,20 +158,17 @@ const CodeInput: FC<CodeInputProps> = ({
   );
 
   useMount(() => {
-    if (autoClick) {
-      buttonRef.current!.click();
-    }
+    if (autoClick) buttonRef.current!.click();
   });
-  useUnmount(() => {});
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Input
+        allowClear
         variant={variant}
         disabled={disabled}
         size={size}
         placeholder={placeholder}
-        allowClear
         autoComplete="off"
         maxLength={maxLength}
         ref={inputRef}

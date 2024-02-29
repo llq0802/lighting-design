@@ -36,13 +36,14 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
         disabled={disabled || formDisabled}
         dependencies={restProps?.dependencies}
         placeholder={messageLabel}
-        actionRef={actionRef}
-        spin={spin}
+        outOptions={outOptions}
         variant={variant}
+        //
         request={request}
         autoRequest={autoRequest}
         requestOptions={requestOptions}
-        outOptions={outOptions}
+        actionRef={actionRef}
+        spin={spin}
         refreshDeps={refreshDeps}
         {...mentionsProps}
       />

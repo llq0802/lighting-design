@@ -39,17 +39,12 @@ const Demo4 = () => {
         }}
         name="checkbox2"
         request={async () => {
-          const result = await awaitTime(
-            [
-              { label: '上班', value: '1' },
-              { label: '睡觉', value: '2' },
-              { label: '打豆豆', value: '3' },
-            ],
-            2000,
-          );
-          if (result.success) {
-            return result.data;
-          }
+          await awaitTime(2000);
+          return [
+            { label: '上班', value: '1' },
+            { label: '睡觉', value: '2' },
+            { label: '打豆豆', value: '3' },
+          ];
         }}
       />
     </LForm>

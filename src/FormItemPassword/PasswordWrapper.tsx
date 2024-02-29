@@ -47,6 +47,7 @@ const PassworldWrapper: FC<PassworldWrapperProps> = (props) => {
   return (
     <Input.Password
       // autoComplete="off"
+      maxLength={16}
       autoComplete="new-password"
       placeholder={placeholder}
       {...restProps}

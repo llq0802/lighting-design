@@ -1,5 +1,6 @@
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import type { MonthPickerProps, RangePickerProps, WeekPickerProps } from 'antd/es/date-picker';
+import type { PickerProps } from 'antd/es/date-picker/generatePicker/interface';
 import type { InputProps } from 'antd/lib';
 import type { LFormItemProps } from 'lighting-design/FormItem/interface';
 import type { DateValueType, Picker } from 'lighting-design/_utils/date';
@@ -41,7 +42,12 @@ export interface LFormItemDatePickerProps extends LFormItemProps {
    *antd日期组件的 Props
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemDatePickerProps
    */
-  pickerProps?: DatePickerProps | MonthPickerProps | WeekPickerProps | RangePickerProps | any;
+  pickerProps?:
+    | DatePickerProps
+    | MonthPickerProps
+    | WeekPickerProps
+    | RangePickerProps
+    | PickerProps;
 
   /** 是否是范围日期选择 */
   rangePicker?: boolean;

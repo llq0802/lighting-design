@@ -1,3 +1,4 @@
+import type { SelectProps } from 'antd';
 import { Tag } from 'antd';
 import Mock from 'better-mock';
 import { LForm, LFormItemSelect } from 'lighting-design';

@@ -10,15 +10,13 @@ import { useImperativeHandle, useMemo } from 'react';
 type CascaderWrapperProps = Record<string, any>;
 
 const CascaderWrapper: FC<CascaderWrapperProps> = ({
-  actionRef,
   dependencies = emptyArray,
   options: outOptions = emptyArray,
   request,
+  actionRef,
   requestOptions,
-
   autoRequest,
   refreshDeps,
-
   outLoading = emptyObject,
 
   ...restProps // LFormItem 传过来的其他值
@@ -45,7 +43,7 @@ const CascaderWrapper: FC<CascaderWrapperProps> = ({
   return outOptions?.length ? (
     dom
   ) : (
-    <Spin spinning={loading} style={publicSpinStyle} delay={20} {...outLoading}>
+    <Spin spinning={loading} style={publicSpinStyle} {...outLoading}>
       {dom}
     </Spin>
   );

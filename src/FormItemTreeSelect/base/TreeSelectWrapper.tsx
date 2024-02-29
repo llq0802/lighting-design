@@ -39,11 +39,11 @@ const TreeSelectWrapper: FC<Record<string, any>> = ({
   const dom = (
     <TreeSelect
       allowClear
-      treeNodeFilterProp={treeSelectProps?.fieldNames?.label || 'title'}
+      treeNodeFilterProp={restProps?.fieldNames?.label || 'title'}
       treeData={treeSelectData}
       dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
       {...treeSelectProps}
-      style={{ width: '100%', ...treeSelectProps?.style }}
+      style={{ width: '100%', ...restProps?.style }}
     />
   );
 

@@ -30,6 +30,9 @@ const Demo1 = () => {
         label="验证码1"
         required
         autoFocusOnGetCaptcha={false}
+        onGetCaptcha={async () => {
+          await awaitTime();
+        }}
       />
       <LFormItemCaptcha
         tooltip="这是提示"
@@ -38,6 +41,9 @@ const Demo1 = () => {
         cacheKey="__FormItemCaptcha__code3"
         label="验证码2"
         required
+        onGetCaptcha={async () => {
+          await awaitTime();
+        }}
       />
       <LFormItemCaptcha
         tooltip="这是提示"
@@ -46,6 +52,9 @@ const Demo1 = () => {
         label="自定义文本"
         initText="自定义文本"
         required
+        onGetCaptcha={async () => {
+          await awaitTime();
+        }}
       />
     </LForm>
   );

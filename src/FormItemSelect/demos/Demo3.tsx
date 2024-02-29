@@ -38,8 +38,8 @@ const Index = () => {
           if (select1Val === 'a') data = [{ label: 'A', value: 'a' }];
           if (select1Val === 'b') data = [{ label: 'B', value: 'b' }];
           if (select1Val === 'c') data = [{ label: 'C', value: 'c' }];
-          const result = await awaitTime(data, 500);
-          return result.data;
+          await awaitTime(500);
+          return data;
         }}
       />
     </LForm>

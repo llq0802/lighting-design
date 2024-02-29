@@ -39,7 +39,9 @@ function NumberRange({
     newValuePair[index] = changedValue === null ? void 0 : changedValue;
     onChange?.(newValuePair);
   };
-
+  const InputNumberWidth = `calc((100% - ${
+    typeof separatorWidth === 'string' ? separatorWidth : `${separatorWidth}px`
+  }) / 2)`;
   const dom = (
     <Space.Compact onBlur={handleOnBlur} block className={prefixCls}>
       <InputNumber
@@ -54,11 +56,7 @@ function NumberRange({
           handleChange(0, changedValue);
           leftNumberProps?.onChange?.(changedValue);
         }}
-        style={{
-          width: `calc((100% - ${
-            typeof separatorWidth === 'string' ? separatorWidth : `${separatorWidth}px`
-          }) / 2)`,
-        }}
+        style={{ width: InputNumberWidth }}
       />
       <Input
         readOnly
@@ -85,11 +83,7 @@ function NumberRange({
           handleChange(1, changedValue);
           rightNumberProps?.onChange?.(changedValue);
         }}
-        style={{
-          width: `calc((100% - ${
-            typeof separatorWidth === 'string' ? separatorWidth : `${separatorWidth}px`
-          }) / 2)`,
-        }}
+        style={{ width: InputNumberWidth }}
       />
     </Space.Compact>
   );

@@ -48,7 +48,7 @@ const Demo1 = () => {
         placeholder={['开始时间1', '开始时间2']}
       />
       <LFormItemTimePicker label="时间选择4" name="time5" rangePicker />
-      <LFormItemTimePicker label="时间选择5" name="time5" rangePicker />
+      <LFormItemTimePicker label="时间选择5" name="time6" rangePicker />
     </LForm>
   );
 };

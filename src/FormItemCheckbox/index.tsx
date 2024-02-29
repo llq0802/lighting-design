@@ -31,14 +31,15 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
         dependencies={restProps?.dependencies}
         disabled={disabled || formDisabled}
         options={options}
+        fieldNames={fieldNames}
+        beforeAll={beforeAll}
+        //
         actionRef={actionRef}
         refreshDeps={refreshDeps}
         request={request}
         requestOptions={requestOptions}
         outLoading={spin}
         autoRequest={autoRequest}
-        fieldNames={fieldNames}
-        beforeAll={beforeAll}
         {...checkboxProps}
       />
     </LFormItem>

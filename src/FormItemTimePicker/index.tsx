@@ -63,7 +63,6 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
   );
 
   const props = {
-    allowEmpty: true,
     format,
     locale,
     style: { width: '100%', ...style },
@@ -73,13 +72,19 @@ const TimePickerWrapper: FC<TimePickerProps | any> = ({
   };
 
   if (!placeholder) {
-    return !rangePicker ? <TimePicker {...props} /> : <TimePicker.RangePicker {...props} />;
+    return !rangePicker ? (
+      <TimePicker {...props} />
+    ) : (
+      // `disabled` should not set with empty `value`. You should set `allowEmpty` or `value` instead.
+      <TimePicker.RangePicker allowEmpty {...props} />
+    );
   }
 
   return !rangePicker ? (
     <TimePicker placeholder={placeholder} {...props} />
   ) : (
-    <TimePicker.RangePicker placeholder={placeholder} {...props} />
+    // `disabled` should not set with empty `value`. You should set `allowEmpty` or `value` instead.
+    <TimePicker.RangePicker allowEmpty placeholder={placeholder} {...props} />
   );
 };
 
@@ -96,7 +101,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
   disabledMinutes = () => [],
   disabledSeconds = () => [],
 
-  disabled,
+  disabled = false,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
@@ -124,7 +129,7 @@ const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
         rangePicker={rangePicker}
         placeholder={placeholder}
         disabledTime={currentDisabledTime}
-        disabled={disabled ?? formDisabled}
+        disabled={disabled || formDisabled}
         format={format}
         showNow={showNow}
         {...timePickerProps}

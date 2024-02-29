@@ -22,11 +22,6 @@ const { RangePicker } = DatePicker;
 
 type RangePickerWrapperProps = any & RangePickerProps;
 
-/**
- * 日期选择
- * @param param0
- * @returns
- */
 const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps | any> = ({
   dateValueType,
   value,
@@ -66,7 +61,7 @@ const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps
 
   return (
     <DatePicker
-      allowEmpty
+      // allowEmpty
       picker={picker}
       locale={locale}
       format={format === DateFormat.quarter ? void 0 : format}
@@ -78,11 +73,6 @@ const DatePickerWrapper: FC<DatePickerProps | MonthPickerProps | WeekPickerProps
   );
 };
 
-/**
- * 日期范围选择
- * @param param0
- * @returns
- */
 const RangePickerWrapper: FC<RangePickerWrapperProps> = ({
   dateValueType,
   style,

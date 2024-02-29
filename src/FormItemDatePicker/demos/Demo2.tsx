@@ -23,37 +23,11 @@ const Demo2 = () => {
         placeholder={['请选择日期1', '请选择日期2']}
         dateValueType="number"
       />
-      <LFormItemDatePicker
-        rangePicker
-        label="日期时间选择"
-        name="date11"
-        picker="date"
-        showTime
-      />
-      <LFormItemDatePicker
-        rangePicker
-        label="周选择"
-        name="date2"
-        picker="week"
-      />
-      <LFormItemDatePicker
-        rangePicker
-        label="月份选择"
-        name="date3"
-        picker="month"
-      />
-      <LFormItemDatePicker
-        rangePicker
-        label="季度选择"
-        name="date5"
-        picker="quarter"
-      />
-      <LFormItemDatePicker
-        rangePicker
-        label="年选择"
-        name="date6"
-        picker="year"
-      />
+      <LFormItemDatePicker rangePicker label="日期时间选择" name="date11" picker="date" showTime />
+      <LFormItemDatePicker rangePicker label="周选择" name="date2" picker="week" />
+      <LFormItemDatePicker rangePicker label="月份选择" name="date3" picker="month" />
+      <LFormItemDatePicker rangePicker label="季度选择" name="date5" picker="quarter" />
+      <LFormItemDatePicker rangePicker label="年选择" name="date6" picker="year" />
     </LForm>
   );
 };

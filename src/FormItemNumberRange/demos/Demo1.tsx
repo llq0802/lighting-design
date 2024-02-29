@@ -10,7 +10,7 @@ export default function Demo1() {
         console.log('values', values);
       }}
     >
-      <LFormItemNumberRange label="数字1" name="numberRange1" required separatorWidth="10rem" />
+      <LFormItemNumberRange label="数字1" name="numberRange1" required separatorWidth="4rem" />
       <LFormItemNumberRange
         disabled
         label="数字2"
