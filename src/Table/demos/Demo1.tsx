@@ -34,7 +34,6 @@ const formItems = [
 
   <LFormItemInput key="1" name="input1" label="输入" />,
   <LFormItemSegmented
-    initialValue=""
     key="2"
     label="单选"
     name="segmented1"
