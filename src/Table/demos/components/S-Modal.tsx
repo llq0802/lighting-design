@@ -39,6 +39,7 @@ const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
 
   return (
     <LModalForm
+      modalTop="20vh"
       destroyOnClose
       open={open}
       onOpenChange={setOpen}

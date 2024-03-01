@@ -2,8 +2,8 @@ import type { ButtonProps, FormInstance, FormProps } from 'antd';
 import type { ReactElement, ReactNode } from 'react';
 
 export interface LFormSubmitterProps {
-  /** 表单的初始值 */
-  initFormValues?: Record<string, any>;
+  /** 内部的表单的初始值 */
+  innerInitVal?: Record<string, any>;
   /** 重置按钮名称*/
   resetText?: ReactNode;
   /** 提交按钮名称*/
@@ -12,7 +12,7 @@ export interface LFormSubmitterProps {
   resetButtonProps?: ButtonProps & { preventDefault?: boolean };
   /** 提交按钮的Props 如果配置preventDefault为`true`则不会触发表单提交事件 */
   submitButtonProps?: ButtonProps & { preventDefault?: boolean };
-  /** 重置回调 */
+  /** 点击重置按钮并且表单重置完成后回调 */
   onReset?: (event: React.MouseEvent<HTMLElement>) => void;
   /** 提交回调 */
   onSubmit?: (event: React.MouseEvent<HTMLElement>) => void;
@@ -82,7 +82,7 @@ export interface BaseFormProps<T = Record<string, any>>
    */
   submitter?: false | Omit<LFormSubmitterProps, 'form'>;
   /**
-   * 点击内置重置按钮事件回调
+   * 点击重置按钮并且表单重置完成后回调
    * - `submitter` 的 `resetButtonProps.preventDefault`为`false`时生效
    * - 优先级比 submitter 的 onReset 低
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps

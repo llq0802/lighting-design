@@ -65,6 +65,7 @@ import { LModalForm } from 'lighting-design';
 | destroyOnClose | 关闭时是否销毁 Modal 的子元素                                                                   | `boolean`                                                 | `false` |
 | forceRender    | 是否预渲染`LMoadlForm`的内容                                                                    | `boolean`                                                 | `false` |
 | title          | `Modal` 标题                                                                                    | `ReactNode`                                               | `-`     |
+| modalTop       | `Modal` 距离顶部的距离, 不要与 centered 同时配置                                                | `number \| string`                                        | `-`     |
 | width          | `Modal` 宽度                                                                                    | `number \| string`                                        | `600`   |
 | trigger        | 用于触发 `Modal` 打开的 dom，一般是 `Button` 组件                                               | `ReactElement`                                            | `-`     |
 | open           | 是否打开。<br/>设置后表示为 `受控组件`，可结合 `onOpenChange` 进行控制。                        | `boolean`                                                 | `-`     |

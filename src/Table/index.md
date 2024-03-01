@@ -39,6 +39,10 @@ nav:
 
 <code src='./demos/Demo11.tsx' background="#f5f5f5"></code>
 
+### 开启缓存功能
+
+<code src='./demos/Demo27.tsx' background="#f5f5f5"></code>
+
 ### 增加序号列
 
 <code src='./demos/Demo10.tsx' background="#f5f5f5"></code>
@@ -229,7 +233,8 @@ import { LTable } from 'lighting-design';
 | fullScreenBgColor    | 全屏时显示的背景颜色                                                                                                                                           | `string`                                                                                | `#fff`                                                        |
 | defaultRequestParams | request 额外参数(仅在第一次`autoRequest 为 true`请求时会携带 ) 会被注入到 request 的第一个参数对象中                                                           | `Record<string, any>`                                                                   | `-`                                                           |
 | request              | 异步请求函数，用于获取表格数据                                                                                                                                 | [LTableRequest](/components/table#ltablerequest)                                        | `-`                                                           |
-| requestBefore        | 调用`request`之前将参数格式化返回给 `request` 的第一个参数                                                                                                     | `(...args: any[]) => Partial<LTableRequestParams>`                                      | `-`                                                           |
+| requestCacheKey      | 开启表格缓存 ( 会缓存 分页信息 与 表单信息 )                                                                                                                   | `string`                                                                                | `-`                                                           |
+| requestBefore        | 调用`request`之前将参数格式化返回给 `request` 的第一个参数                                                                                                     | `(...args: any[]) => Partial<LTableRequestParams>     \| void 0`                        | `-`                                                           |
 | requestSuccess       | 异步请求函数请求成功后的回调                                                                                                                                   | `RequestSuccess`                                                                        | `-`                                                           |
 | requestFinally       | 异步请求函数完成后的回调`(失败, 成功都会调用)`                                                                                                                 | `RequestFinally`                                                                        | `-`                                                           |
 | requestOptions       | `ahooks 的 useRequest 的 options 配置` 可用于配置其他请求功能                                                                                                  | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options)               | `-`                                                           |
@@ -272,31 +277,11 @@ export type LTableRequestParams = {
   current: number;
   /** 一页多少条 */
   pageSize: number;
-  /** 表单数据 */
+  /** 表单数据, 如果没有formItems则没有*/
   formValues?: Record<string, any>;
-  /** 通过表格的 onReload  onReset  onSearch  方法或者 defaultRequestParams 传递其他额外参数 */
+  /** 通过表格的 onReload  onReset  onSearch onCustomSearch 方法或者 defaultRequestParams 传递其他额外参数 */
   [key: string]: any;
 };
-```
-
-### LTableRenderProps
-
-```ts
-export type LTableRenderProps = (
-  doms: {
-    /** 顶部表单dom */
-    searchFormDom: ReactNode;
-    /** 工具栏dom */
-    toolbarDom: ReactNode;
-    /**  table内容上面额外dom 如果没有配置则没有 */
-    tableExtraDom: ReactNode;
-    /**  table主体dom 包含工具栏dom(如果showToolbar为false则不包含)  */
-    tableDom: ReactNode;
-    /** 整个表格dom 包含全部的dom */
-    finallyDom: ReactNode;
-  },
-  props: LTableProps,
-) => ReactElement;
 ```
 
 ### LTableRequestType
@@ -306,14 +291,32 @@ export type LTableRenderProps = (
 // 表格查询按钮请求为 'onSearch'
 // 表格分页查询为 'onReload'
 // 表格重置按钮为 'onReset'
-// 使用 onCustom 方法为 'onCustom'
-export type LTableRequestType =
-  | 'onInit'
-  | 'onSearch'
-  | 'onReload'
-  | 'onReset'
-  | 'onCustom'
-  | undefined;
+// 使用 onCustomSearch 方法为 'onCustomSearch'
+export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset' | 'onCustomSearch';
+```
+
+### LTableRenderProps
+
+```ts
+export type LTableRenderProps = (
+  doms: {
+    /** 内部表单dom */
+    searchFormDom: ReactNode;
+    /** 内置工具栏dom */
+    toolbarActionDom: ReactNode;
+    /** 整个 toolbar dom, 包含 toolbarActionDom*/
+    toolbarDom: ReactNode;
+    /** 在 tableDom 上面, 在 searchFormDom下面的额外 dom ,如果没有配置则没有 */
+    tableExtraDom: ReactNode;
+    /** 被Card包函的table主体dom,且外层没有Spin组件, 包含 toolbarDom  */
+    tableCardDom: ReactNode;
+    /** 被Card包函的table主体dom,且外层有Spin组件, 包含 toolbarDom  */
+    tableDom: ReactNode;
+    /** 整个高级表格dom 包含全部的dom */
+    finallyDom: ReactNode;
+  },
+  props: LTableProps,
+) => ReactNode;
 ```
 
 ### LTableInstance
@@ -322,14 +325,16 @@ export type LTableRequestType =
 export type MutableRefObject<LTableInstance|undefined > = {
   // 根据条件，当前页，分页数量、刷新数据
   onReload: (extraParams?: Record<string, any>) => void;
-  // 重置数据，从第一页以及默认的分页数量开始显示、查询数据
+  // 重置表单，从第一页以及默认的分页数量开始显示、查询数据
   onReset: (extraParams?: Record<string, any>) => void;
   // 根据条件，从第一页以及当前的分页数量开始显示、查询数据
   onSearch: (extraParams?: Record<string, any>) => void;
-  // 根据传入的 current pageSize 参数，当前表单数据 刷新数据
-  onCustom: (current: number, pageSize: number, extraParams?: Record<string, any>) => void;
+  // 根据传入的 current pageSize 参数，当前表单数据、查询数据
+  onCustomSearch: (current: number, pageSize: number, extraParams?: Record<string, any>) => void;
   // 表格根标签div
   rootRef: RefObject<HTMLDivElement>;
+  // request 请求的参数
+  params:[LTableRequestParams,LTableRequestType]|[]
   // 表格数据
   tableData: Record<string, any>[];
   // 直接修改当前表格的数据 建议使用函数的形式

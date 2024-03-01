@@ -129,8 +129,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
         isAntdReset={isAntdReset}
         isEnterSubmit={isEnterSubmit}
         isReady={isReady}
-        initFormValues={innerInitVal}
-        // initFormValues={innerInitialValues}
+        innerInitVal={innerInitVal}
         onReset={onReset}
         {...submitterProps}
         form={formRef?.current}

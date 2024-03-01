@@ -1,15 +1,8 @@
+import { useBoolean } from 'ahooks';
 import type { FormInstance } from 'antd';
 import { Button } from 'antd';
 import type { LTableInstance } from 'lighting-design';
-import {
-  LFormItemDatePicker,
-  LFormItemInput,
-  LFormItemNumber,
-  LFormItemNumberRange,
-  LFormItemSegmented,
-  LFormItemSelect,
-  LTable,
-} from 'lighting-design';
+import { LFormItemInput, LFormItemSegmented, LFormItemSelect, LTable } from 'lighting-design';
 import type { UseShowInstance } from 'rc-use-hooks';
 import type { FC } from 'react';
 import { useRef } from 'react';
@@ -25,9 +18,9 @@ const formItems = [
     request={async () => {
       await awaitTime();
       return [
-        { label: 'Unresolved', value: 'open' },
-        { label: 'Resolved', value: 'closed' },
-        { label: 'Resolving', value: 'processing' },
+        { label: 'AAA', value: 'AAA' },
+        { label: 'BBB', value: 'BBB' },
+        { label: 'CCC', value: 'CCC' },
       ];
     }}
   />,
@@ -43,41 +36,20 @@ const formItems = [
       { label: '正式', value: '1' },
     ]}
   />,
-  <LFormItemNumber key="3" name="inputNumber1" label="数字输入" />,
-  <LFormItemNumberRange
-    key="5"
-    label="范围"
-    name="numberRange1"
-    placeholder={['请输入左边', '请输入右边']}
-  />,
-  <LFormItemDatePicker
-    key="4"
-    name="date1"
-    label="日期"
-    rangePicker
-    ownColSpans={{ xl: 12, xxl: 12 }}
-  />,
 ];
 
-const Demo1: FC = () => {
+const CacheLTable: FC = () => {
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
   const modalRef1 = useRef<UseShowInstance>();
   return (
     <>
       <LTable
-        rowKey="key"
+        requestCacheKey="my-LTable-27"
         tableLayout="fixed"
-        rowClassName="lightd-table-row-1"
-        rootClassName="my-table-root-1"
-        className="my-table-1"
         tableRef={tableRef}
         queryFormProps={{
-          showColsNumber: 3,
-          isCollapsed: false,
-          onFinish(values) {
-            console.log('==查询框Demo1-values====>', values);
-          },
+          isAntdReset: false,
         }}
         toolbarLeft={
           <>
@@ -150,15 +122,10 @@ const Demo1: FC = () => {
         defaultRequestParams={{
           aaa: '这是初始请求默认的请求参数',
         }}
-        onChange={(...args) => {
-          console.log('== onChange ====>', args);
-        }}
         formItems={formItems}
         formRef={formRef}
         columns={columns}
         request={async (params, requestType) => {
-          console.log('==查询框Demo1-params====>', params);
-          console.log('==查询框Demo1-requestType====>', requestType);
           const res: Record<string, any> = await apiGetUserList(params);
           return {
             success: true,
@@ -172,4 +139,17 @@ const Demo1: FC = () => {
   );
 };
 
-export default Demo1;
+export default () => {
+  const [state, { toggle }] = useBoolean(false);
+  return (
+    <div>
+      <p>您可以多次单击该按钮，分页条件与表单数据将被缓存.</p>
+      <p>
+        <Button type="primary" onClick={() => toggle()}>
+          {!state ? 'show 表格' : 'hide 表格'}
+        </Button>
+      </p>
+      {state && <CacheLTable />}
+    </div>
+  );
+};

@@ -22,6 +22,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
     loading = false,
     centered = false,
     trigger,
+    modalTop,
     title = '标题',
     width = 600,
     modalProps = emptyObject,
@@ -132,6 +133,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
               destroyOnClose={destroyOnClose}
               forceRender={forceRender}
               {...modalProps}
+              style={{ top: modalTop, ...modalProps?.style }}
               className={classnames('lightd-modal', modalProps.className)}
               wrapClassName={classnames('lightd-modal-wrap', modalProps.wrapClassName)}
               open={open}
@@ -162,6 +164,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
               destroyOnClose={destroyOnClose}
               forceRender={forceRender}
               {...modalProps}
+              style={{ top: modalTop, ...modalProps?.style }}
               className={classnames('lightd-modal', modalProps.className)}
               wrapClassName={classnames('lightd-modal-wrap', modalProps.wrapClassName)}
               open={open}

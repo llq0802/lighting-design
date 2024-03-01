@@ -1,7 +1,7 @@
-import { useMount, useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
+import { useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
 import { Form, type FormInstance } from 'antd';
 import type { Store } from 'antd/es/form/interface';
-import { useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 /**
  * 设置与监听loading
@@ -39,16 +39,18 @@ export const useLFormInitialValues = ({
         // 因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
         form?.resetFields?.();
       } else {
-        const newInitVal = { ...form?.getFieldsValue(), ...initialValues };
+        const newInitVal = { ...innerInitVal, ...initialValues };
         setInnerInitVal(newInitVal);
         form?.setFieldsValue(newInitVal);
       }
     }
   }, [isReady, JSON.stringify(initialValues)]);
-  useMount(() => {
+
+  useLayoutEffect(() => {
     if (isAntdReset) return;
-    setInnerInitVal({ ...form?.getFieldsValue(), ...initialValues });
-  });
+    const newInitialValues = { ...form?.getFieldsValue(), ...initialValues };
+    setInnerInitVal(newInitialValues);
+  }, []);
   return innerInitVal;
 };
 /**

@@ -129,15 +129,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
             destroyOnClose={destroyOnClose}
             {...drawerProps}
             className={classnames('lightd-drawer', drawerProps.className)}
-            // footerStyle={{
-            //   display: 'flex',
-            //   justifyContent:
-            //     submitter && typeof submitter?.buttonAlign === 'string'
-            //       ? // @ts-ignore
-            //         BUTTON_ALIGN_MAP[submitter?.buttonAlign] ?? 'center'
-            //       : 'center',
-            //   ...drawerProps.footerStyle,
-            // }}
             {...compatibilityStyle}
             open={open}
             onClose={(e) => {

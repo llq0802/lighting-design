@@ -29,15 +29,12 @@ const Demo1 = () => {
           initialValue="open"
           required
           request={async () => {
-            const result = await awaitTime(
-              [
-                { label: 'Unresolved', value: 'open' },
-                { label: 'Resolved', value: 'closed' },
-                { label: 'Resolving', value: 'processing' },
-              ],
-              1000,
-            );
-            if (result.success) return result.data;
+            await awaitTime();
+            return [
+              { label: 'Unresolved', value: 'open' },
+              { label: 'Resolved', value: 'closed' },
+              { label: 'Resolving', value: 'processing' },
+            ];
           }}
         />
       </LModalForm>

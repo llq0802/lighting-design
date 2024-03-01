@@ -102,12 +102,7 @@ const Demo1 = () => {
               { value: '0', label: '无效' },
             ]}
           />
-          <LFormItemCascader
-            label="级联选择"
-            name="LFormItemCascader"
-            required
-            options={options}
-          />
+          <LFormItemCascader label="级联选择" name="LFormItemCascader" required options={options} />
           <LFormItemTreeSelect
             label="树形选择"
             name="LFormItemTreeSelect"
@@ -129,15 +124,12 @@ const Demo1 = () => {
             name="LFormItemRadio2"
             required
             request={async () => {
-              const result = await awaitTime(
-                [
-                  { label: 'Unresolved', value: 'open' },
-                  { label: 'Resolved', value: 'closed' },
-                  { label: 'Resolving', value: 'processing' },
-                ],
-                1000,
-              );
-              if (result.success) return result.data;
+              await awaitTime();
+              return [
+                { label: 'Unresolved', value: 'open' },
+                { label: 'Resolved', value: 'closed' },
+                { label: 'Resolving', value: 'processing' },
+              ];
             }}
           />
           <LFormItemTimePicker

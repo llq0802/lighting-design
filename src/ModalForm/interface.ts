@@ -59,4 +59,9 @@ export interface LModalFormProps
    *@see 官网 https://llq0802.github.io/lighting-design/latest LModalFormProps
    */
   onFinish?: (values: Record<string, any>) => void | true | Promise<any>;
+  /**
+   * 弹窗距离顶部的距离
+   * - 不要与 centered 同时配置
+   */
+  modalTop?: string | number;
 }
