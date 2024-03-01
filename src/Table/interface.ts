@@ -102,7 +102,16 @@ export type LTableRequest<T = Record<string, any>> = (
   total: number | string;
 }>;
 
-export type LTableProps<T = any> = {
+export type LTableProps<T = any> = TableProps<T> & {
+  /**
+   * 表格数据
+   *  - 绝大多数情况下建议使用 `request` 返回的表格数据
+   *  - 配置了此属性意味着你需要自己维护数据并管理分页, loading 等 用法与antd.Table完全一致
+   *  - 一旦配置此属性（即便为空数组）, `request` 及其相关的属性方法均无效
+   *  - 内部的表单查询, 表格分页查询 以及`tableRef`的实例方法均无效
+   *  - 你依然可以使用内置部分布局属性，自定义渲染等
+   */
+  dataSource?: TableProps['dataSource'];
   /**
    * 是否需要排序序号及宽度，自定义渲染排序
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
@@ -317,16 +326,20 @@ export type LTableProps<T = any> = {
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   tableRender?: (
-    optionsDom: {
-      /** 表单dom */
+    doms: {
+      /** 内部表单dom */
       searchFormDom: ReactNode;
-      /** 工具栏dom */
+      /** 内置工具栏dom */
+      toolbarActionDom: ReactNode;
+      /** 整个 toolbar dom */
       toolbarDom: ReactNode;
-      /**   table上面额外Dom 如果没有配置则没有 */
+      /** 在 tableDom 上面, 在 searchFormDom下面的额外 dom ,如果没有配置则没有 */
       tableExtraDom: ReactNode;
-      /**   table主体Dom 包含工具栏Dom  */
+      /** 被Card包函的table主体dom,且外层没有Spin组件, 包含 toolbarDom  */
+      tableCardDom: ReactNode;
+      /** 被Card包函的table主体dom,且外层有Spin组件, 包含 toolbarDom  */
       tableDom: ReactNode;
-      /** 整个高级表格Dom 包含全部Dom */
+      /** 整个高级表格dom 包含全部的dom */
       finallyDom: ReactNode;
     },
     props: LTableProps,
@@ -353,4 +366,4 @@ export type LTableProps<T = any> = {
     columns: Record<string, any>[],
     tableData: Record<string, any>[],
   ) => ReactNode;
-} & TableProps<T>;
+};
