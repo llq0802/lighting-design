@@ -71,9 +71,8 @@ export function useTableColumn({
   columns,
   toolbarActionConfig,
 }: Record<string, any>) {
-  const outColumns = useMemo(() => {
+  const outColumns = useMemo<Record<string, any>[]>(() => {
     if (contentRender) return [];
-
     if (isSort) {
       const { current, pageSize } = paginationAction;
       const render = (_: any, __: any, index: number) => {
@@ -91,37 +90,27 @@ export function useTableColumn({
     }
     return columns;
   }, [columns, paginationAction?.current, paginationAction?.pageSize]);
+
   // 表格展示的列key
   const [columnKeys, setColumnKeys] = useRafState(() => {
-    if (toolbarActionConfig === false) return [];
-    if (!toolbarActionConfig?.showColumnSetting) return [];
+    if (contentRender || toolbarActionConfig === false || !toolbarActionConfig?.showColumnSetting) {
+      return [];
+    }
     return outColumns.map(getTableColumnsKey);
   });
 
   useUpdateEffect(() => {
-    const newKeys = outColumns.map(getTableColumnsKey);
-    setColumnKeys(newKeys);
+    if (contentRender) return;
+    setColumnKeys(outColumns.map(getTableColumnsKey));
   }, [outColumns]);
 
   const finalColumns = useMemo(() => {
     if (contentRender) return [];
     if (toolbarActionConfig === false || !toolbarActionConfig?.showColumnSetting) return outColumns;
-    const tmpColumns: Record<string, any>[] = [];
-
-    const sortColumnKeys = columnKeys.toSorted(
-      (a: string, b: string) =>
-        Number(a?.split('-')?.at(-1) ?? '0') - Number(b?.split('-')?.at(-1) ?? '0'),
+    const newColumns = outColumns.filter((item: any, i) =>
+      columnKeys?.includes(getTableColumnsKey(item, i)),
     );
-
-    sortColumnKeys.forEach((key: string) => {
-      const columnItem = outColumns.find(
-        (item: Record<string, any>, i: number) => getTableColumnsKey(item, i) === key,
-      );
-      if (columnItem) {
-        tmpColumns.push(columnItem);
-      }
-    });
-    return tmpColumns;
+    return newColumns;
   }, [
     columnKeys.join(''),
     typeof toolbarActionConfig === 'boolean' && toolbarActionConfig,
