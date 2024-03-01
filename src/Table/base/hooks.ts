@@ -2,7 +2,7 @@ import { usePagination, useRafState, useUpdateEffect, useUpdateLayoutEffect } fr
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { getTableColumnsKey, isFunction } from 'lighting-design/_utils';
 import { omit } from 'lodash-es';
-import { useLayoutEffect, useMemo, useRef } from 'react';
+import { useLayoutEffect, useMemo } from 'react';
 import type { LTableProps } from '../interface';
 
 /**
@@ -187,6 +187,7 @@ export function useTableRequest({
   dataSource,
   request,
   requestOptions,
+  requestCacheKey,
   requestBefore,
   requestSuccess,
   requestFinally,
@@ -195,6 +196,7 @@ export function useTableRequest({
 }: {
   dataSource: any;
   request: any;
+  requestCacheKey?: string;
   requestOptions: LTableProps['requestOptions'];
   requestBefore: LTableProps['requestBefore'];
   requestSuccess: LTableProps['requestSuccess'];
@@ -202,10 +204,8 @@ export function useTableRequest({
   outDefaultCurrent: number;
   outDefaultPageSize: number;
 }) {
-  const isInitedRef = useRef<boolean>(false);
   const { data, ...res } = usePagination(
     async (...args) => {
-      isInitedRef.current = false;
       if (dataSource) return { list: [], total: 0 };
       const [paramsObj, requestType, ...restArgs] = args;
       const res = await request(
@@ -224,6 +224,7 @@ export function useTableRequest({
     {
       defaultCurrent: outDefaultCurrent,
       defaultPageSize: outDefaultPageSize,
+      cacheKey: requestCacheKey,
       ...requestOptions,
       manual: true,
       onSuccess(...args) {
@@ -236,10 +237,5 @@ export function useTableRequest({
       },
     },
   );
-  return {
-    /** 是否第一次自动请求 */
-    isInitedRef,
-    data: !data ? { list: [], total: 0 } : data,
-    ...res,
-  };
+  return { data: !data ? { list: [], total: 0 } : data, ...res };
 }

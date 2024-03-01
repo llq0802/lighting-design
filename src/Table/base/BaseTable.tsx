@@ -25,6 +25,8 @@ import './styles.less';
 
 export const LIGHTD_TABLE = 'lightd-table';
 
+const spinStyle = { maxHeight: '86%' };
+
 const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const {
     isReady = true,
@@ -41,6 +43,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     defaultRequestParams = emptyObject,
     requestOptions = emptyObject,
     request = async () => {},
+    requestCacheKey: outRequestCacheKey,
     requestBefore,
     requestFinally,
     requestSuccess,
@@ -80,6 +83,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const dataSource = restProps?.dataSource;
   const rootRef = useRef<HTMLDivElement>(null);
   const tablecardref = useRef<HTMLDivElement>(null);
+  const _formInitValRef = useRef(formInitialValues);
   const [isFullScreen, { toggleFullscreen }] = useFullscreen(rootRef, {
     onExit: () => toggleFullscreen(),
   });
@@ -108,7 +112,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const { outDefaultCurrent, outDefaultPageSize } = useMergePagination(outPagination);
   // useRequest请求
   const {
-    isInitedRef,
+    params: requestCacheParams,
     data,
     run,
     loading: requestLoading,
@@ -117,6 +121,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   } = useTableRequest({
     dataSource,
     request,
+    requestCacheKey: outRequestCacheKey,
     requestOptions,
     requestBefore,
     requestSuccess,
@@ -140,7 +145,16 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 重置所有表单数据，从第一页开始显示、查询数据
   const handleReset = useMemoizedFn((extraParams?: Record<string, any>) => {
     if (dataSource) return;
-    const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
+    let formValues;
+    if (hasFromItems) {
+      if (queryFormProps?.isAntdReset === false) {
+        formValues = _formInitValRef.current;
+        queryFormRef.current?.setFieldsValue({ ...(_formInitValRef.current ?? {}) });
+      } else {
+        queryFormRef.current?.resetFields();
+        formValues = queryFormRef.current?.getFieldsValue();
+      }
+    }
     run(
       {
         ...extraParams,
@@ -185,28 +199,35 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
     run({ current, pageSize, formValues }, 'onReload');
   });
-  // 初始化或表单查询 保留表单参数 保留pageSize  重置page为 1
+  // 表单查询,保留表单参数 保留pageSize  重置page为 1
   const handleSearchFormFinish = useMemoizedFn((formValues: Record<string, any>) => {
     queryFormProps?.onFinish?.(formValues);
     if (dataSource) return;
     run(
       {
-        ...(isInitedRef.current ? defaultRequestParams : {}),
         current: outDefaultCurrent,
         pageSize: paginationAction?.pageSize,
         formValues,
       },
-      isInitedRef.current ? 'onInit' : 'onSearch',
+      'onSearch',
     );
   });
-  // 表单重置
+  // 表单重置完成后的回调
   const handleSearchFormReset = useMemoizedFn((e) => {
     queryFormProps?.onReset?.(e);
     if (dataSource) return;
-    handleReset({});
+    const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
+    run(
+      {
+        current: outDefaultCurrent,
+        pageSize: outDefaultPageSize,
+        formValues,
+      },
+      'onReset',
+    );
   });
   // 根据传入参数请求
-  const handleCustom = useMemoizedFn(
+  const handleCustomSearch = useMemoizedFn(
     (
       current: number = outDefaultCurrent,
       pageSize: number = outDefaultPageSize,
@@ -214,17 +235,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     ) => {
       if (dataSource) return;
       const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
-      run(
-        {
-          ...extraParams,
-          current,
-          pageSize,
-          formValues,
-        },
-        'onCustom',
-      );
+      run({ ...extraParams, current, pageSize, formValues }, 'onCustomSearch');
     },
   );
+
   // ==================== 表格方法结束====================
 
   // ==================== table副作用开始====================
@@ -233,15 +247,28 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 初始化请求
   useEffect(() => {
     if (!autoRequest || !isReady || dataSource) return;
-    isInitedRef.current = true;
-    if (!hasFromItems) {
-      run(
-        { ...defaultRequestParams, current: outDefaultCurrent, pageSize: outDefaultPageSize },
-        'onInit',
-      );
-      return;
+    let formValues;
+    let current = outDefaultCurrent;
+    let pageSize = outDefaultPageSize;
+    if (hasFromItems) {
+      formValues = queryFormRef.current?.getFieldsValue();
     }
-    queryFormRef.current?.submit?.();
+    const requestCacheKey = outRequestCacheKey || requestOptions?.cacheKey;
+    // 缓存功能
+    if (requestCacheKey && requestCacheParams[0]) {
+      const {
+        current: initCurrent,
+        pageSize: initPageSize,
+        formValues: initFormValues,
+      } = requestCacheParams[0];
+      current = initCurrent;
+      pageSize = initPageSize;
+      if (hasFromItems && initFormValues) {
+        formValues = initFormValues;
+        queryFormRef.current?.setFieldsValue({ ...initFormValues });
+      }
+    }
+    run({ ...defaultRequestParams, current, pageSize, formValues }, 'onInit');
   }, [isReady]);
   // ==================== table副作用结束====================
   // ==================== 暴露外部方法开始====================
@@ -255,9 +282,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     /** 根据条件，从第一页开始显示、查询数据 */
     onSearch: handleSearch,
     /** 根据传入参数请求 */
-    onCustom: handleCustom,
+    onCustomSearch: handleCustomSearch,
     /** 表格根标签 div */
     rootRef,
+    /** 请求的参数 */
+    params: requestCacheParams,
     /** 表格数据 */
     tableData,
     /** 直接修改当前表格的数据,必须是 { total , data } 的形式 */
@@ -285,6 +314,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         formItems={formItems}
         cardProps={formCardProps}
         ref={handleFormRef}
+        _formInitValRef={_formInitValRef}
       />
     );
   }, [
@@ -382,7 +412,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     </Card>
   );
 
-  const tableDom = <Spin {...currentLoading}>{tableCardDom}</Spin>;
+  const tableDom = (
+    <Spin style={spinStyle} {...currentLoading}>
+      {tableCardDom}
+    </Spin>
+  );
 
   const finallyDom = (
     <div

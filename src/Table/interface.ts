@@ -6,7 +6,6 @@ import type {
   CSSProperties,
   Dispatch,
   MutableRefObject,
-  ReactElement,
   ReactNode,
   RefObject,
   SetStateAction,
@@ -16,34 +15,40 @@ import type { LToolbarActionProps } from './base/ToolBarAction';
 export type { LToolbarActionProps };
 
 export type LTableRenderProps = (
-  optionsDom: {
-    /** 表单dom */
+  doms: {
+    /** 内部表单dom */
     searchFormDom: ReactNode;
-    /** 工具栏dom */
+    /** 内置工具栏dom , 包含 toolbarActionDom*/
+    toolbarActionDom: ReactNode;
+    /** 整个 toolbar dom */
     toolbarDom: ReactNode;
-    /** table上面额外Dom 如果没有配置则没有 */
+    /** 在 tableDom 上面, 在 searchFormDom下面的额外 dom ,如果没有配置则没有 */
     tableExtraDom: ReactNode;
-    /**   table主体Dom 包含工具栏Dom  */
+    /** 被Card包函的table主体dom,且外层没有Spin组件, 包含 toolbarDom  */
+    tableCardDom: ReactNode;
+    /** 被Card包函的table主体dom,且外层有Spin组件, 包含 toolbarDom  */
     tableDom: ReactNode;
-    /** 整个表格Dom包含全部Dom */
+    /** 整个高级表格dom 包含全部的dom */
     finallyDom: ReactNode;
   },
   props: LTableProps,
-) => ReactElement | ReactNode;
+) => ReactNode;
 
-export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset' | 'onCustom';
+export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset' | 'onCustomSearch';
 
 export type LTableInstance = {
   /** 根据条件，当前页，当前分页数量、刷新数据 */
   onReload: (extraParams?: Record<string, any>) => void;
   /** 根据传入的 current pageSize 当前表单数据查询表格数据 */
-  onCustom: (current: number, pageSize: number, extraParams?: Record<string, any>) => void;
+  onCustomSearch: (current: number, pageSize: number, extraParams?: Record<string, any>) => void;
   /** 重置数据，从第一页以及默认的分页数量开始显示、查询数据 */
   onReset: (extraParams?: Record<string, any>) => void;
   /** 根据条件，从第一页以及当前的分页数量开始显示、查询数据 */
   onSearch: (extraParams?: Record<string, any>) => void;
   /** 表格根标签 div */
   rootRef: RefObject<HTMLDivElement>;
+  /** request 的参数 */
+  params: [LTableRequestParams, LTableRequestType] | [];
   /** 表格数据 */
   tableData: Record<string, any>[];
   /**
@@ -96,11 +101,7 @@ export type LTableRequest<T = Record<string, any>> = (
   /** 请求类型 */
   requestType: LTableRequestType,
   ...args: any[]
-) => Promise<{
-  success: boolean;
-  data: T[];
-  total: number | string;
-}>;
+) => Promise<{ success: boolean; data: T[]; total: number }>;
 
 export type LTableProps<T = any> = TableProps<T> & {
   /**
@@ -132,6 +133,7 @@ export type LTableProps<T = any> = TableProps<T> & {
   /**
    * 表格 表单是否准备好
    * - false 时表格不会请求, 表单不能提交查询
+   * - true 时会重置表单到初始值, 并发起请求
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    * */
   isReady?: boolean;
@@ -190,10 +192,16 @@ export type LTableProps<T = any> = TableProps<T> & {
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   request?: LTableRequest;
+
+  /**
+   * 配置后开启表格缓存 (会缓存 分页信息 与 表单信息)
+   *  - 在`第一次` `自动请求`时会自动设置为缓存的分页信息与表单信息
+   */
+  requestCacheKey?: string;
   /**
    * 调用`request`之前将参数格式化返回给 `request` 的第一个参数
    */
-  requestBefore?: (...args: any[]) => Partial<LTableRequestParams>;
+  requestBefore?: (...args: any[]) => Partial<LTableRequestParams> | void;
   /**
    * 查询表单的实例
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
@@ -325,25 +333,7 @@ export type LTableProps<T = any> = TableProps<T> & {
    * @param optionsDom 整个高级表格dom对象
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
-  tableRender?: (
-    doms: {
-      /** 内部表单dom */
-      searchFormDom: ReactNode;
-      /** 内置工具栏dom */
-      toolbarActionDom: ReactNode;
-      /** 整个 toolbar dom */
-      toolbarDom: ReactNode;
-      /** 在 tableDom 上面, 在 searchFormDom下面的额外 dom ,如果没有配置则没有 */
-      tableExtraDom: ReactNode;
-      /** 被Card包函的table主体dom,且外层没有Spin组件, 包含 toolbarDom  */
-      tableCardDom: ReactNode;
-      /** 被Card包函的table主体dom,且外层有Spin组件, 包含 toolbarDom  */
-      tableDom: ReactNode;
-      /** 整个高级表格dom 包含全部的dom */
-      finallyDom: ReactNode;
-    },
-    props: LTableProps,
-  ) => ReactElement;
+  tableRender?: LTableRenderProps;
   /**
    * 重新渲染 antd 表格的内容主体
    * - 一般用于卡片风格的表格
