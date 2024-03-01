@@ -8,7 +8,7 @@ export type TableContextProps = {
   rootRef?: RefObject<HTMLDivElement>;
   size?: SizeType;
   setSize?: Dispatch<SetStateAction<'small' | 'middle' | 'large' | undefined>>;
-  columns?: TableProps<any>['columns'];
+  outColumns?: TableProps<any>['columns'];
   columnKeys: string[];
   setColumnKeys: React.Dispatch<React.SetStateAction<string[]>>;
   reload?: () => void;

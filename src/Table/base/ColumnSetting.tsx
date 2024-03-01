@@ -2,13 +2,12 @@ import { SettingOutlined } from '@ant-design/icons';
 import { useMemoizedFn } from 'ahooks';
 import { Checkbox, Popover, Tree } from 'antd';
 import { getTableColumnsKey } from 'lighting-design/_utils';
-import type { Key } from 'react';
 import { useContext, useMemo } from 'react';
 import TableContext from '../TableContext';
 import { LIGHTD_TABLE } from './BaseTable';
 
 const ColumnSetting = ({ onColumnIconChange }) => {
-  const { columns: outColumns = [], columnKeys = [], setColumnKeys } = useContext(TableContext);
+  const { outColumns = [], columnKeys = [], setColumnKeys } = useContext(TableContext);
 
   const treeData = useMemo(() => {
     return outColumns.map((item, i) => {
@@ -25,7 +24,7 @@ const ColumnSetting = ({ onColumnIconChange }) => {
   );
   const checkAll = useMemo(() => columnKeys.length === outColumns.length, [columnKeys, outColumns]);
 
-  const handleTreeCheck = useMemoizedFn((keys: Key[]) => {
+  const handleTreeCheck = useMemoizedFn((keys: string[]) => {
     setColumnKeys([...keys]);
     onColumnIconChange?.([...keys]);
   });
@@ -58,8 +57,8 @@ const ColumnSetting = ({ onColumnIconChange }) => {
             selectable={false}
             blockNode
             onCheck={handleTreeCheck}
-            checkedKeys={columnKeys}
             treeData={treeData}
+            checkedKeys={columnKeys}
             className={`${LIGHTD_TABLE}-column-setting-tree`}
           />
         }

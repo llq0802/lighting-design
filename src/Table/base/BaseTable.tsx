@@ -51,7 +51,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     formCardProps,
     tableCardProps,
 
-    tableExtra,
+    tableExtra: tableExtraDom,
     tableRender,
 
     toolbarActionConfig: outToolbarActionConfig = emptyObject,
@@ -77,7 +77,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     components,
     ...restProps
   } = props;
-
   const dataSource = restProps?.dataSource;
   const rootRef = useRef<HTMLDivElement>(null);
   const tablecardref = useRef<HTMLDivElement>(null);
@@ -206,7 +205,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     if (dataSource) return;
     handleReset({});
   });
-
   // 根据传入参数请求
   const handleCustom = useMemoizedFn(
     (
@@ -246,8 +244,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     queryFormRef.current?.submit?.();
   }, [isReady]);
   // ==================== table副作用结束====================
-  const tableData = data?.list?.length ? data.list : dataSource?.length ? dataSource : [];
   // ==================== 暴露外部方法开始====================
+  const tableData = data?.list?.length ? data.list : dataSource?.length ? dataSource : [];
   useImperativeHandle(tableRef, () => ({
     // onReload: refresh,
     /** 根据条件，当前页、刷新数据 */
@@ -281,9 +279,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         isReady={isReady}
         loading={currentLoading.spinning}
         initialValues={formInitialValues}
+        {...queryFormProps}
         onFinish={handleSearchFormFinish}
         onReset={handleSearchFormReset}
-        {...queryFormProps}
         formItems={formItems}
         cardProps={formCardProps}
         ref={handleFormRef}
@@ -379,13 +377,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
               }
             : false
         }
-        loading={dataSource ? currentLoading : false}
         {...restProps}
       />
     </Card>
   );
 
-  const tableDom = dataSource ? tableCardDom : <Spin {...currentLoading}>{tableCardDom}</Spin>;
+  const tableDom = <Spin {...currentLoading}>{tableCardDom}</Spin>;
 
   const finallyDom = (
     <div
@@ -396,7 +393,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       })}
     >
       {searchFormDom}
-      {tableExtra}
+      {tableExtraDom}
       {tableDom}
     </div>
   );
@@ -409,7 +406,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         reload: handleReload,
         size: currentSize as any,
         setSize: setCurrentSize as any,
-        columns: outColumns,
+        outColumns,
         columnKeys: columnKeys,
         setColumnKeys: setColumnKeys,
         rootRef,
@@ -421,8 +418,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         ? tableRender(
             {
               searchFormDom,
+              toolbarActionDom,
               toolbarDom,
-              tableExtraDom: tableExtra,
+              tableExtraDom,
+              tableCardDom,
               tableDom,
               finallyDom,
             },
