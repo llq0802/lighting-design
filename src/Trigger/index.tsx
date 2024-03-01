@@ -4,7 +4,7 @@ import { Popover, Select } from 'antd';
 import classnames from 'classnames';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
-import { cloneElement, isValidElement } from 'react';
+import { cloneElement, isValidElement, useMemo } from 'react';
 import type { LTriggerProps } from './interface';
 
 const prefixCls = 'lightd-trigger';
@@ -25,6 +25,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     fieldNames = { label: 'label', value: 'value' },
     placement = 'bottomLeft',
     placeholder = '请选择',
+    overlayInnerStyle,
     style,
     tagRender,
     overlayClassName,
@@ -51,6 +52,13 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     valuePropName: 'value',
     trigger: 'onChange',
   });
+  const childMode = useMemo(() => {
+    // 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
+    if (outMode === 'default') return 'radio';
+    if (outMode === 'tag') return 'radioTag';
+    return outMode;
+  }, []);
+
   const content = isValidElement(children)
     ? cloneElement(children, {
         // @ts-ignore
@@ -58,6 +66,8 @@ const LTrigger: FC<LTriggerProps> = (props) => {
         onChange: setState,
         open: isOpen,
         setOpen: setIsOpen,
+        labelInValue,
+        mode: childMode,
       })
     : children;
 
@@ -71,6 +81,13 @@ const LTrigger: FC<LTriggerProps> = (props) => {
   );
 
   const value = state?.[labelKey] === 0 ? 0 : state?.[labelKey] || void 0;
+
+  const selectMode = useMemo(() => {
+    if (outMode === 'default' || outMode === 'radio' || outMode === 'checkbox') {
+      return void 0;
+    }
+    return 'multiple';
+  }, []);
 
   return (
     <Popover
@@ -86,6 +103,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
       destroyTooltipOnHide={destroyOnHide}
       overlayClassName={overlayClassName}
       overlayStyle={overlayStyle}
+      overlayInnerStyle={overlayInnerStyle}
     >
       <Select
         {...selectProps}
@@ -106,7 +124,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
         disabled={disabled}
         fieldNames={fieldNames}
         tagRender={tagRender}
-        mode={outMode === 'default' ? void 0 : 'multiple'}
+        mode={selectMode}
         onChange={setState}
         value={value}
         onInputKeyDown={(e) => {

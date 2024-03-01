@@ -67,6 +67,7 @@ const Demo: FC = () => {
         }
         queryFormProps={{
           // isApproachLastItem: true,
+          showColsNumber: 2,
           submitter: {
             render(dom) {
               return (

@@ -46,11 +46,18 @@ import { LTrigger } from 'lighting-design';
 
 - 弹出层的宽度由 `children` 组件控制
 
-- `children` 组件会接受到 `open`，`setOpen`，`value`，`onChange` 必须在 `children` 组件中绑定 `value，onChange`且为`onChange({label:'xxx',value:xxx})`格式才会收集到数据
+- `children` 组件会接受到 `mode` `labelInValue` `open`，`setOpen`，`value`，`onChange` 必须在 `children` 组件中绑定 `value，onChange`
 
 - 默认`children`接受到的`value`为`value.value`, 如果`labelInValue`为`true` `children`接受到的`value`为 `{ label: xxx; value: xxx }` , `onChange`传的值必须是`{ label: xxx; value: xxx }` ,`fieldNames` 可配置为其他字段名
 
-- `mode = 'tag'` 下 `value` 配置对象下的 `value` , `label` 属性必须都是数组 且`children子组件`满足`onChange({label:xxx[],value:xxx[]})`格式
+- mode 在子组件中使用时, onChange 的调用方式：
+
+  - 为`radio`时,子组件 onChange 调用方式为`onChange({ label: string, value: string|number })`
+  - 为`checkbox`时,子组件 onChange 调用方式为`onChange({ label: string, value: (string|number)[] })`
+    - 建议 label 的值用 `'-'`或`'/'`或`','`分隔
+  - 为`radioTag`时,子组件 onChange 调用方式为`onChange({ label: [string], value: [string|number] })`
+    - 有值情况下 label 与 value 的数组长度均为 **1**
+  - 为`checkboxTag`时,子组件 onChange 调用方式为`onChange({ label: string[], value:(string|number)[] })`
 
 - 如果在 `LForm`或 `Form`中使用，默认接收到的值必须是`{ label: string; value: string; }` ,`fieldNames` 可配置为其他字段名
 
@@ -62,7 +69,7 @@ import { LTrigger } from 'lighting-design';
 
 | 参数              | 说明                                                                                | 类型                                                                                  | 默认值                              |
 | ----------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------- |
-| mode              | 显示的模式                                                                          | `'default' \| 'tag'`                                                                  | `'default'`                         |
+| mode              | 选择回显的模式                                                                      | `LTriggerSelectedMode`                                                                | `radio`                             |
 | width             | 选择框宽度                                                                          | `number\|string`                                                                      | `250`                               |
 | fieldNames        | 配置字段 label 字段名，value 字段的名                                               | `{ label: string; value: string; }`                                                   | `{ label: 'label',value: 'value' }` |
 | size              | 选择框大小                                                                          | `'small' \| 'middle'\|'large'`                                                        | `'middle'`                          |
@@ -88,6 +95,12 @@ import { LTrigger } from 'lighting-design';
 | onChange          | 受控, value 变化时，调用此函数                                                      | `function(value)`                                                                     | `-`                                 |
 | getPopupContainer | 控制渲染到的节点。默认渲染到 body 上                                                | `(triggerNode: HTMLElement) => HTMLElement`                                           | `() => document.body`               |
 | children          | children 组件会接受到 `open`，`setOpen`，`value`，`onChange`                        | `ReactElement`                                                                        | `-`                                 |
+
+### LTriggerSelectedMode
+
+```ts
+export type LTriggerSelectedMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
+```
 
 ### Placement
 

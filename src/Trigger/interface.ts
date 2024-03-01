@@ -1,6 +1,8 @@
 import type { PopoverProps, SelectProps } from 'antd';
 import type { ReactNode } from 'react';
 
+export type LTriggerSelectedMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
+
 export type LTriggerProps = {
   /**
    * 是否把传入子组件 `value` 的值 从 `value.value` 变为 `{ value: xxx, label: xxx }` 的格式
@@ -13,10 +15,18 @@ export type LTriggerProps = {
    */
   onOpenChange?: (b: boolean) => void;
   /**
-   * 显示的模式
+   * 选择回显的模式
+   * - 子组件`children`会接受到此值
+   * - 子组件用于判断回显方式 (调用 onChange 参数方式 )
+   * - 为`radio`时,子组件 onChange 调用方式为` onChange({ label: string, value: string|number }) `
+   * - 为`checkbox`时,子组件 onChange 调用方式为` onChange({ label: string, value: (string|number)[] }) `
+   *    - 建议 label 的值用 `'-'`或`'/'`或`','`分隔
+   * - 为`radioTag`时,子组件 onChange 调用方式为` onChange({ label: [string], value: [string|number] }) `
+   *    - 有值情况下label与value 的数组长度均为 **1**
+   * - 为`checkboxTag`时,子组件 onChange 调用方式为` onChange({ label: string[], value:(string|number)[] }) `
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
-  mode?: 'default' | 'tag';
+  mode?: LTriggerSelectedMode;
   /**
    * 是否打开
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
@@ -44,6 +54,11 @@ export type LTriggerProps = {
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
   overlayStyle?: PopoverProps['overlayStyle'];
+  /**
+   * 弹出层内容区样式
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
+   */
+  overlayInnerStyle?: PopoverProps['overlayInnerStyle'];
   /**
    * 弹出层方向
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
