@@ -75,6 +75,9 @@ const Demo1: FC = () => {
         queryFormProps={{
           showColsNumber: 3,
           isCollapsed: false,
+          onFinish(values) {
+            console.log('==查询框Demo1-values====>', values);
+          },
         }}
         toolbarLeft={
           <>
@@ -125,6 +128,7 @@ const Demo1: FC = () => {
           console.log('==查询框Demo1-params====>', params);
           console.log('==查询框Demo1-requestType====>', requestType);
           const res: Record<string, any> = await apiGetUserList(params);
+          console.log('==res====>', res);
           return {
             success: true,
             data: res.data,

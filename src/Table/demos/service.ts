@@ -50,7 +50,7 @@ export const originData: DataType[] = Mock.mock({
 }).list;
 
 export function apiGetUserList(
-  req = {},
+  req: Record<string, any> = {},
   time = 800,
 ): Promise<Record<string, any>> {
   const { current, pageSize = 10, formValues = {} } = req;

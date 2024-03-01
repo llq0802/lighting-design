@@ -3,9 +3,10 @@ import type { LTableInstance } from 'lighting-design';
 import { LTable } from 'lighting-design';
 import type { UseShowInstance } from 'rc-use-hooks';
 import { useRef, type FC } from 'react';
+import { columns } from '../demos/service';
 import SDrawer from './components/S-Drawer';
 import SModal from './components/S-Modal';
-import { apiGetUserList, columns } from './service';
+import { apiGetUserList } from './service';
 
 const Demo: FC = () => {
   const modalRef1 = useRef<UseShowInstance>();
@@ -55,7 +56,7 @@ const Demo: FC = () => {
                 modalRef2.current?.onShow({});
               }}
             >
-              导出
+              抽屉1
             </Button>
             <Button
               type="primary"
@@ -67,7 +68,7 @@ const Demo: FC = () => {
                 });
               }}
             >
-              审批
+              抽屉2
             </Button>
           </>
         }
