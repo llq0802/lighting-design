@@ -72,7 +72,6 @@ const SearchForm = forwardRef(
         {...cardProps}
         className={classNames(`${LIGHTD_CARD}`, cardProps?.className)}
         style={{ marginBottom: 16, ...cardProps?.style }}
-        // bodyStyle={{ paddingBottom: 0, ...cardProps?.bodyStyle }}
         {...compatibilityStyle}
       >
         <LQueryForm

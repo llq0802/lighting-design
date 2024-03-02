@@ -4,16 +4,16 @@ import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import zhCN from 'antd/es/locale/zh_CN';
 import classnames from 'classnames';
-import { isFunction } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { Dispatch, FC, SetStateAction } from 'react';
-import { useEffect, useImperativeHandle, useMemo, useRef } from 'react';
+import { useImperativeHandle, useMemo, useRef } from 'react';
 import TableContext from '../TableContext';
 import type { LTableProps } from '../interface';
 import SearchForm, { LIGHTD_CARD } from './SearchFrom';
 import ToolbarAction, { TdCell, showTotal } from './ToolBarAction';
 import {
   useFillSpace,
+  useInitTable,
   useMergeLoading,
   useMergePagination,
   useMergeToolbarActionConfig,
@@ -36,10 +36,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     showHover = false,
     showToolbar = true,
     autoRequest = true,
-
     formRef,
     tableRef,
-
     defaultRequestParams = emptyObject,
     requestOptions = emptyObject,
     request = async () => {},
@@ -47,32 +45,24 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     requestBefore,
     requestFinally,
     requestSuccess,
-
     formInitialValues,
     queryFormProps,
-
     formCardProps,
     tableCardProps,
-
     tableExtra: tableExtraDom,
     tableRender,
-
     toolbarActionConfig: outToolbarActionConfig = emptyObject,
     toolbarRender,
     toolbarLeft,
     toolbarRight,
-
     fullScreenBgColor = '#fff',
     contentRender,
     formItems = emptyArray,
     tableHeaderRender,
-
     rowClassName,
     rootClassName,
-
     rootStyle,
     toolbarStyle,
-
     loading: outLoading,
     size: outSize,
     columns = emptyArray,
@@ -90,13 +80,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const queryFormRef = useRef<FormInstance>();
   const handleFormRef = useMemoizedFn((refValue: FormInstance) => {
     queryFormRef.current = refValue;
-    if (formRef) {
-      if (isFunction(formRef)) {
-        // @ts-ignore
-        formRef?.(refValue);
-      } else {
-        (formRef as any).current = refValue;
-      }
+    if (!formRef) return;
+    if (typeof formRef === 'function') {
+      formRef?.(refValue);
+    } else {
+      (formRef as any).current = refValue;
     }
   });
   // 根标签全屏样式
@@ -108,7 +96,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const hasFromItems = useMemo(() => formItems?.length > 0, [formItems?.length]);
   // 合并内置表格工具栏配置
   const toolbarActionConfig = useMergeToolbarActionConfig(outToolbarActionConfig);
-  // 合并分页
+  // 合并默认分页条件
   const { outDefaultCurrent, outDefaultPageSize } = useMergePagination(outPagination);
   // useRequest请求
   const {
@@ -244,32 +232,21 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // ==================== table副作用开始====================
   // 处理是否沾满视口的剩余空间
   useFillSpace({ tablecardref, fillSpace });
-  // 初始化请求
-  useEffect(() => {
-    if (!autoRequest || !isReady || dataSource) return;
-    let formValues;
-    let current = outDefaultCurrent;
-    let pageSize = outDefaultPageSize;
-    if (hasFromItems) {
-      formValues = queryFormRef.current?.getFieldsValue();
-    }
-    const requestCacheKey = outRequestCacheKey || requestOptions?.cacheKey;
-    // 缓存功能
-    if (requestCacheKey && requestCacheParams[0]) {
-      const {
-        current: initCurrent,
-        pageSize: initPageSize,
-        formValues: initFormValues,
-      } = requestCacheParams[0];
-      current = initCurrent;
-      pageSize = initPageSize;
-      if (hasFromItems && initFormValues) {
-        formValues = initFormValues;
-        queryFormRef.current?.setFieldsValue({ ...initFormValues });
-      }
-    }
-    run({ ...defaultRequestParams, current, pageSize, formValues }, 'onInit');
-  }, [isReady]);
+  // 初始化
+  useInitTable({
+    autoRequest,
+    run,
+    isReady,
+    dataSource,
+    outDefaultCurrent,
+    outDefaultPageSize,
+    hasFromItems,
+    outRequestCacheKey,
+    requestCacheParams,
+    requestOptions,
+    defaultRequestParams,
+    queryFormRef,
+  });
   // ==================== table副作用结束====================
   // ==================== 暴露外部方法开始====================
   const tableData = data?.list?.length ? data.list : dataSource?.length ? dataSource : [];
@@ -464,19 +441,19 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         : finallyDom}
     </TableContext.Provider>
   );
-
-  if (
-    (typeof toolbarActionConfig !== 'boolean' && !toolbarActionConfig?.showFullscreen) ||
-    toolbarActionConfig === false
-  ) {
-    return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
-  }
-  return (
-    // 处理表格在全屏状态下 ant一些弹出层组件(Modal)无法显示问题
-    // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域
-    <ConfigProvider locale={zhCN} getPopupContainer={() => rootRef?.current || document.body}>
-      {returnDom}
-    </ConfigProvider>
-  );
+  return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
+  // if (
+  //   (typeof toolbarActionConfig !== 'boolean' && !toolbarActionConfig?.showFullscreen) ||
+  //   toolbarActionConfig === false
+  // ) {
+  //   return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
+  // }
+  // return (
+  //   // 处理表格在全屏状态下 ant一些弹出层组件(Modal)无法显示问题
+  //   // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域
+  //   <ConfigProvider locale={zhCN} getPopupContainer={() => rootRef?.current || document.body}>
+  //     {returnDom}
+  //   </ConfigProvider>
+  // );
 };
 export default BaseTable;

@@ -1,7 +1,9 @@
+import { useUpdateEffect } from 'ahooks';
 import type { FormInstance } from 'antd';
 import { Button, ConfigProvider } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
+import { useLockScroll } from 'rc-use-hooks';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
 import { awaitTime } from '../../_test';
@@ -13,6 +15,12 @@ const Demo: FC = () => {
   const tableRef = useRef<LTableInstance>();
   const [open, setOpen] = useState(false);
   const [editableRecord, setEditablRecord] = useState<Record<string, any>>();
+
+  const [lock, setLock] = useLockScroll();
+
+  useUpdateEffect(() => {
+    setLock(open);
+  }, [open]);
 
   const formItems = [
     <LFormItemSelect

@@ -42,7 +42,13 @@ export default function LCardGroup(props: LCardGroupProps) {
   }
 
   const triggerChange = useMemoizedFn((value: any) => {
-    const val = transformChangeValue({ value, multiple, labelInValue, options, valueKey });
+    const val = transformChangeValue({
+      value,
+      multiple,
+      labelInValue,
+      options,
+      valueKey,
+    });
     onChange?.(val);
   });
 

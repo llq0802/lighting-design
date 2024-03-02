@@ -168,6 +168,16 @@ const Demo1: FC = () => {
         }}
       />
       <SModal tableRef={tableRef} modalRef={modalRef1} />
+
+      {/* 
+  处理表格在全屏状态下 antd一些弹出层组件(Modal)无法显示问题
+  全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域 */}
+
+      {/* 如果没有使用表格的全屏 (toolbarActionConfig为false或toolbarActionConfig.showFullscreen=false)，就不用包裹 ConfigProvider */}
+      {/* 除了下面的方式包裹,也可以设置 Modal 的 getContainer 方法来代替 <ConfigProvider/> */}
+      {/* <ConfigProvider getPopupContainer={() => tableRef.current?.rootRef.current || document.body}>
+        <SModal tableRef={tableRef} modalRef={modalRef1} />
+      </ConfigProvider> */}
     </>
   );
 };

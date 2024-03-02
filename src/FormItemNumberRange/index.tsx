@@ -1,5 +1,5 @@
 import { Input, InputNumber, Space } from 'antd';
-import type { ValueType } from 'lighting-design/CardGroup/interface';
+import type { LValueType } from 'lighting-design/CardGroup/interface';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import LFormItem from 'lighting-design/FormItem';
 import { usePlaceholder } from 'lighting-design/_utils';
@@ -34,7 +34,7 @@ function NumberRange({
       }
     }
   };
-  const handleChange = (index: number, changedValue: ValueType) => {
+  const handleChange = (index: number, changedValue: LValueType) => {
     const newValuePair = [...(valuePair || [])];
     newValuePair[index] = changedValue === null ? void 0 : changedValue;
     onChange?.(newValuePair);

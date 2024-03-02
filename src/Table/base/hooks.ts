@@ -2,7 +2,7 @@ import { usePagination, useRafState, useUpdateEffect, useUpdateLayoutEffect } fr
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { getTableColumnsKey, isFunction } from 'lighting-design/_utils';
 import { omit } from 'lodash-es';
-import { useLayoutEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo } from 'react';
 import type { LTableProps } from '../interface';
 
 /**
@@ -238,4 +238,60 @@ export function useTableRequest({
     },
   );
   return { data: !data ? { list: [], total: 0 } : data, ...res };
+}
+/**
+ * 表格初始化
+ */
+export function useInitTable({
+  autoRequest,
+  isReady,
+  dataSource,
+  outDefaultCurrent,
+  outDefaultPageSize,
+  hasFromItems,
+  outRequestCacheKey,
+  requestCacheParams,
+  requestOptions,
+  defaultRequestParams,
+  run,
+  queryFormRef,
+}: {
+  autoRequest: boolean;
+  isReady: boolean;
+  outDefaultCurrent: number;
+  dataSource?: LTableProps['dataSource'];
+  outDefaultPageSize: number;
+  hasFromItems: boolean;
+  outRequestCacheKey: string | undefined;
+  requestCacheParams: any[];
+  requestOptions: LTableProps['requestOptions'];
+  defaultRequestParams: any;
+  run: any;
+  queryFormRef: any;
+}) {
+  useEffect(() => {
+    if (!autoRequest || !isReady || dataSource) return;
+    let formValues;
+    let current = outDefaultCurrent;
+    let pageSize = outDefaultPageSize;
+    if (hasFromItems) {
+      formValues = queryFormRef.current?.getFieldsValue();
+    }
+    const requestCacheKey = outRequestCacheKey || requestOptions?.cacheKey;
+    // 缓存功能
+    if (requestCacheKey && requestCacheParams[0]) {
+      const {
+        current: initCurrent,
+        pageSize: initPageSize,
+        formValues: initFormValues,
+      } = requestCacheParams[0];
+      current = initCurrent;
+      pageSize = initPageSize;
+      if (hasFromItems && initFormValues) {
+        formValues = initFormValues;
+        queryFormRef.current?.setFieldsValue({ ...initFormValues });
+      }
+    }
+    run({ ...defaultRequestParams, current, pageSize, formValues }, 'onInit');
+  }, [isReady]);
 }

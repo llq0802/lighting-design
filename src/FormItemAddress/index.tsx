@@ -1,107 +1,116 @@
-import { Cascader, Col, Input, Row } from 'antd';
+import { Cascader, Input, Space } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import LFormItem from 'lighting-design/FormItem';
+import { getFormItemLabel } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import type { LFormItemAddressProps } from './interface';
 
-const colSpan1 = {
-  xs: 24,
-  md: 12,
-  lg: 6,
-  xxl: 8,
-};
+const AddressWrapper: FC<any> = ({
+  size,
+  disabled,
+  variant,
+  block,
+  placeholder,
+  inputProps,
+  cascaderProps,
+  options,
+  value = [],
+  onChange,
+  id,
+  ...restProps
+}) => {
+  const pubilcProps = {
+    disabled,
+    size,
+    variant,
+  };
 
-const colSpan2 = {
-  xs: 24,
-  md: 12,
-  lg: 18,
-  xxl: 16,
+  const hanleChange = (index: number, val: any) => {
+    const innerValue = [...value];
+    innerValue[index] = val;
+    onChange(innerValue);
+  };
+
+  return (
+    <Space.Compact block={block}>
+      <Cascader
+        {...restProps}
+        id={id ? `${id}-start` : void 0}
+        {...pubilcProps}
+        options={options}
+        placeholder={`${placeholder[0]}`}
+        {...cascaderProps}
+        style={{ width: '40%', ...cascaderProps?.style }}
+        onChange={(val) => {
+          hanleChange(0, val);
+          cascaderProps?.onChange?.(val);
+        }}
+      />
+      <Input
+        {...restProps}
+        id={id ? `${id}-end` : void 0}
+        {...pubilcProps}
+        placeholder={`${placeholder[1]}`}
+        allowClear
+        autoComplete="off"
+        {...inputProps}
+        style={{ flex: 1, ...inputProps?.style }}
+        onChange={(e) => {
+          hanleChange(1, e.target.value);
+          inputProps?.onChange?.(e);
+        }}
+      />
+    </Space.Compact>
+  );
 };
 
 const LFormItemAddress: FC<LFormItemAddressProps> = ({
-  placeholder = ['请选择省/市/区', '请输入详细地址'],
+  placeholder = ['请选择', '请输入'],
   size,
   disabled = false,
   required = false,
-  names,
+  block = true,
   variant,
   options = emptyArray,
-  inputFormProps = emptyObject,
-  cascaderFormProps = emptyObject,
   cascaderProps = emptyObject,
   inputProps = emptyObject,
-  inputColProps = emptyObject,
-  cascaderColProps = emptyObject,
-  style,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
 
+  const rules = [
+    {
+      validator(rule, value: any) {
+        let errMsg = '';
+        if (!value || value?.length <= 0) {
+          errMsg = required ? `${getFormItemLabel(restProps)}不能为空!` : '';
+        } else if (!value[0]) {
+          errMsg = required ? `${placeholder[0]}` : '';
+        } else if (!value[1]) {
+          errMsg = required ? `${placeholder[1]}` : '';
+        }
+        if (errMsg) {
+          return Promise.reject(errMsg);
+        }
+        return Promise.resolve();
+      },
+    },
+  ];
+
   return (
-    <LFormItem required={required} style={{ marginBottom: 0, ...style }} {...restProps}>
-      <Row gutter={8}>
-        <Col {...colSpan1} {...inputColProps}>
-          <LFormItem
-            name={names[0]}
-            rules={[
-              {
-                validator(rule, value) {
-                  let errMsg = '';
-                  if (!value || value?.length <= 0) {
-                    errMsg = required ? `${placeholder[0]}` : '';
-                  }
-                  if (errMsg) {
-                    return Promise.reject(errMsg);
-                  }
-                  return Promise.resolve();
-                },
-              },
-            ]}
-            {...cascaderFormProps}
-          >
-            <Cascader
-              size={size}
-              variant={variant}
-              disabled={disabled || formDisabled}
-              options={options}
-              placeholder={`${placeholder[0]}`}
-              {...cascaderProps}
-            />
-          </LFormItem>
-        </Col>
-        <Col {...colSpan2} {...cascaderColProps}>
-          <LFormItem
-            name={names[1]}
-            rules={[
-              {
-                validator(rule, value) {
-                  let errMsg = '';
-                  if (!value) {
-                    errMsg = required ? `${placeholder[1]}` : '';
-                  }
-                  if (errMsg) {
-                    return Promise.reject(errMsg);
-                  }
-                  return Promise.resolve();
-                },
-              },
-            ]}
-            {...inputFormProps}
-          >
-            <Input
-              variant={variant}
-              size={size}
-              disabled={disabled || formDisabled}
-              placeholder={`${placeholder[1]}`}
-              allowClear
-              autoComplete="off"
-              {...inputProps}
-            />
-          </LFormItem>
-        </Col>
-      </Row>
+    <LFormItem required={required} rules={rules} {...restProps}>
+      <AddressWrapper
+        disabled={disabled || formDisabled}
+        size={size}
+        variant={variant}
+        block={block}
+        placeholder={placeholder}
+        inputProps={inputProps}
+        cascaderProps={cascaderProps}
+        options={options}
+      />
     </LFormItem>
   );
 };

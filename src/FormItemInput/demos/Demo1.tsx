@@ -17,13 +17,8 @@ const Demo = () => {
       }}
       isAntdReset={false}
     >
-      <LFormItemInput
-        className="myLFormItemInput-4"
-        label="名字"
-        name="name"
-        required
-        initialValue="吴彦祖"
-      />
+      <LFormItemInput className="myLFormItemInput-4" label="名字" name="name" required />
+
       <LFormItemInput label="名字2" name="name2" required />
       <LFormItemInput
         name="name1"

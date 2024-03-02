@@ -45,7 +45,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
   });
   const formRef = useLFormInstance(outForm);
   const [disabled, setDisabled] = useState(false);
-  const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
+  const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 1000, right: 1000 });
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
 
@@ -146,7 +146,6 @@ const LModalForm: FC<LModalFormProps> = (props) => {
                   if (isAntdReset) {
                     formRef.current.resetFields(); // 弹窗关闭后重置表单
                   } else {
-                    // resetFormInitValues();
                     formRef.current.setFieldsValue({ ...initVal });
                   }
                 }
@@ -177,10 +176,10 @@ const LModalForm: FC<LModalFormProps> = (props) => {
                   if (isAntdReset) {
                     formRef.current.resetFields();
                   } else {
-                    // resetFormInitValues();
                     formRef.current.setFieldsValue({ ...initVal });
                   }
                 }
+                setPosition({ x: 0, y: 0 });
                 modalProps?.afterClose?.();
               }}
               modalRender={(modalDom) => (
