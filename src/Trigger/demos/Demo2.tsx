@@ -1,34 +1,48 @@
-import { LForm, LFormItem, LFormItemInput, LTrigger } from 'lighting-design';
-import ChildTable1 from './ChildTable1';
-import ChildTable2 from './ChildTable2';
+import { LForm, LFormItem, LTrigger } from 'lighting-design';
+import MyTable1 from './components/MyTable1';
 
 const Demo2 = () => {
   return (
     <LForm
       // labelCol={{ flex: '90px' }}
-      labelWidth={90}
-      submitter={{ buttonAlign: 90 }}
+      // labelWidth={90}
+      // submitter={{ buttonAlign: 50 }}
+      labelCol={{ span: 4 }}
+      submitter={{ wrapperCol: { offset: 4 } }}
       transformValues={(values) => {
-        const { trigger1, trigger2, ...restValues } = values;
+        const { trigger1, trigger2, trigger3, trigger4, ...restValues } = values;
         return {
           ...restValues,
           trigger1Id: trigger1?.value,
           trigger2Id: trigger2?.value,
+          trigger3Id: trigger3?.value,
+          trigger4Id: trigger4?.value,
         };
       }}
       onFinish={async (values) => {
-        console.log('values', values);
+        console.log('onFinish', values);
       }}
     >
-      <LFormItemInput name="input" label="输入框" />
       <LFormItem required name="trigger1" label="单选表格">
-        <LTrigger variant="filled">
-          <ChildTable1 />
+        <LTrigger popoverProps={{ fresh: true }}>
+          <MyTable1 />
         </LTrigger>
       </LFormItem>
+
       <LFormItem name="trigger2" label="多选表格">
-        <LTrigger width="100%">
-          <ChildTable2 />
+        <LTrigger width="100%" destroyOnHide mode="checkbox">
+          <MyTable1 />
+        </LTrigger>
+      </LFormItem>
+
+      <LFormItem required name="trigger3" label="单选表格Tag">
+        <LTrigger placement="rightBottom" mode="radioTag" destroyOnHide>
+          <MyTable1 />
+        </LTrigger>
+      </LFormItem>
+      <LFormItem required name="trigger4" label="多选表格Tag">
+        <LTrigger placement="top" mode="checkboxTag" destroyOnHide>
+          <MyTable1 />
         </LTrigger>
       </LFormItem>
     </LForm>

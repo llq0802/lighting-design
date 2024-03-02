@@ -15,13 +15,13 @@ demo:
 
 <code src='./demos/Demo1.tsx'></code>
 
+### 普通多选模式
+
+<code src='./demos/Demo7.tsx'></code>
+
 ### Tag 模式
 
 <code src='./demos/Demo3.tsx' ></code>
-
-### 与 LTable 结合
-
-<code src='./demos/Demo4.tsx' ></code>
 
 ### 与 LCardGroup 结合
 
@@ -30,6 +30,10 @@ demo:
 ### 与 LTagGroup 结合
 
 <code src='./demos/Demo6.tsx' ></code>
+
+### 与 LTable 结合
+
+<code src='./demos/Demo4.tsx' ></code>
 
 ### 在 LForm 中使用
 
@@ -69,8 +73,9 @@ import { LTrigger } from 'lighting-design';
 
 | 参数              | 说明                                                                                | 类型                                                                                  | 默认值                              |
 | ----------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------- |
-| mode              | 选择回显的模式                                                                      | `LTriggerSelectedMode`                                                                | `radio`                             |
+| mode              | 选择回显的模式                                                                      | `LTriggerMode`                                                                        | `radio`                             |
 | width             | 选择框宽度                                                                          | `number\|string`                                                                      | `250`                               |
+| split             | mode 为 `checkbox` 回显分割的字符                                                   | `string`                                                                              | `' / '`                             |
 | fieldNames        | 配置字段 label 字段名，value 字段的名                                               | `{ label: string; value: string; }`                                                   | `{ label: 'label',value: 'value' }` |
 | size              | 选择框大小                                                                          | `'small' \| 'middle'\|'large'`                                                        | `'middle'`                          |
 | overlayArrow      | 修改弹出层的箭头的显示状态以及修改箭头是否指向目标元素中心                          | `boolean` \| `{ pointAtCenter: boolean }`                                             | `false`                             |
@@ -96,10 +101,10 @@ import { LTrigger } from 'lighting-design';
 | getPopupContainer | 控制渲染到的节点。默认渲染到 body 上                                                | `(triggerNode: HTMLElement) => HTMLElement`                                           | `() => document.body`               |
 | children          | children 组件会接受到 `open`，`setOpen`，`value`，`onChange`                        | `ReactElement`                                                                        | `-`                                 |
 
-### LTriggerSelectedMode
+### LTriggerMode
 
 ```ts
-export type LTriggerSelectedMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
+export type LTriggerMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
 ```
 
 ### Placement

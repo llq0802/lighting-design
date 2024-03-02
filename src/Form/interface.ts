@@ -1,5 +1,5 @@
 import type { ButtonProps, FormInstance, FormProps } from 'antd';
-import type { ReactElement, ReactNode } from 'react';
+import type { CSSProperties, ReactElement, ReactNode } from 'react';
 
 export interface LFormSubmitterProps {
   /** 内部的表单的初始值 */
@@ -26,11 +26,26 @@ export interface LFormSubmitterProps {
   showReset?: boolean;
   /** form实例 */
   form?: FormInstance;
-  /** 同Form的wrapperCol */
-  wrapperCol?: FormProps['wrapperCol'];
   /** 重新渲染函数 */
   render?: (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode | false;
-  /** 按钮位置 */
+  //
+  /**
+   *  按钮外层 LFormItem 的 wrapperCol
+   * -  只在 LForm 中生效
+   */
+  wrapperCol?: FormProps['wrapperCol'];
+  /**
+   *  按钮外层 LFormItem 的 style
+   * -  只在 LForm 与 LQueryForm 中生效
+   */
+  style?: CSSProperties;
+  /**
+   * 按钮位置
+   *  - 为 number 类型或`xxxPx`与 LForm 的 labelWidth 效果一致
+   *  - 在 `LMoadlForm` 默认为`right`
+   *  - 在 `LDrawerForm` 默认为`center`
+   *  - 在 `LDrawerForm` `LMoadlForm` 只能设置 '`left'  'right'  'center'`
+   */
   buttonAlign?: 'left' | 'right' | 'center' | number | string;
 }
 
@@ -42,6 +57,12 @@ export interface BaseFormProps<T = Record<string, any>>
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
    */
   labelWidth?: number | 'auto' | string;
+  /**
+   *统一设置 Form.Item 或 LFormItem 或 LFormItemXXX 组件的 style.bottom 属性
+   * - 不要与`labelCol`属性同时设置
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
+   */
+  formItemBottom?: number | string;
   /**
    * 重新渲染 LForm 组件的所有children
    * - Form下面所有的Form.Item

@@ -2,6 +2,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { useControllableValue } from 'ahooks';
 import { Popover, Select } from 'antd';
 import classnames from 'classnames';
+import { isValueTrue } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { cloneElement, isValidElement, useMemo } from 'react';
@@ -32,44 +33,54 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     overlayStyle,
     getPopupContainer,
     children,
+    split = ' / ',
     selectProps = emptyObject,
     popoverProps = emptyObject,
   } = props;
 
   const valueKey = fieldNames?.value as string;
   const labelKey = fieldNames?.label as string;
-
   const [isOpen, setIsOpen] = useControllableValue<boolean>(props, {
     defaultValue: false,
     defaultValuePropName: 'defaultOpen',
     valuePropName: 'open',
     trigger: 'onOpenChange',
   });
-
   const [state, setState] = useControllableValue(props, {
-    defaultValue: props.defaultValue,
+    defaultValue: void 0,
     defaultValuePropName: 'defaultValue',
     valuePropName: 'value',
     trigger: 'onChange',
   });
+  const stateLabel: any = state?.[labelKey];
+  const stateValue = state?.[valueKey];
+
   const childMode = useMemo(() => {
-    // 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
     if (outMode === 'default') return 'radio';
     if (outMode === 'tag') return 'radioTag';
     return outMode;
   }, []);
 
-  const content = isValidElement(children)
-    ? cloneElement(children, {
-        // @ts-ignore
-        value: labelInValue ? state : state?.[valueKey],
-        onChange: setState,
-        open: isOpen,
-        setOpen: setIsOpen,
-        labelInValue,
-        mode: childMode,
-      })
-    : children;
+  const selectMode = useMemo(() => {
+    if (outMode === 'default' || outMode === 'radio' || outMode === 'checkbox') {
+      return void 0;
+    }
+    return 'multiple';
+  }, []);
+
+  const innerValue = useMemo(() => {
+    if (outMode === 'checkbox' && Array.isArray(stateLabel)) {
+      return stateLabel?.join(split) || void 0;
+    }
+
+    if (outMode === 'radioTag') {
+      if (!Array.isArray(stateLabel)) {
+        return isValueTrue(stateLabel) ? [stateLabel] : void 0;
+      }
+      return stateLabel || void 0;
+    }
+    return isValueTrue(stateLabel) ? stateLabel : void 0;
+  }, [state]);
 
   const innerSuffixIcon = suffixIcon || (
     <DownOutlined
@@ -80,14 +91,18 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     />
   );
 
-  const value = state?.[labelKey] === 0 ? 0 : state?.[labelKey] || void 0;
-
-  const selectMode = useMemo(() => {
-    if (outMode === 'default' || outMode === 'radio' || outMode === 'checkbox') {
-      return void 0;
-    }
-    return 'multiple';
-  }, []);
+  const content = isValidElement(children)
+    ? cloneElement(children, {
+        // @ts-ignore
+        value: labelInValue ? state : stateValue,
+        onChange: setState,
+        open: isOpen,
+        setOpen: setIsOpen,
+        labelInValue,
+        fieldNames,
+        mode: childMode,
+      })
+    : children;
 
   return (
     <Popover
@@ -126,7 +141,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
         tagRender={tagRender}
         mode={selectMode}
         onChange={setState}
-        value={value}
+        value={innerValue}
         onInputKeyDown={(e) => {
           e.stopPropagation();
           e.preventDefault();

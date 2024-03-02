@@ -1,7 +1,7 @@
 import type { PopoverProps, SelectProps } from 'antd';
 import type { ReactNode } from 'react';
 
-export type LTriggerSelectedMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
+export type LTriggerMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio' | 'tag' | 'default';
 
 export type LTriggerProps = {
   /**
@@ -26,17 +26,21 @@ export type LTriggerProps = {
    * - 为`checkboxTag`时,子组件 onChange 调用方式为` onChange({ label: string[], value:(string|number)[] }) `
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
-  mode?: LTriggerSelectedMode;
+  mode?: LTriggerMode;
+  /**
+   * mode 为 `checkbox` 回显分割的字符
+   * - 建议使用 `' / '` 或者 `' - '` 或者 `' , '`
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
+   */
+  split?: string;
   /**
    * 是否打开
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
-   *
    */
   open?: boolean;
   /**
    * 默认是否打开
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
-   *
    */
   defaultOpen?: boolean;
   /**

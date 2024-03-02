@@ -20,8 +20,6 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     resetButtonProps: outResetButtonProps = emptyObject,
     form,
     render,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    buttonAlign,
   } = props;
   const { preventDefault: submitPreventDefault = false, ...submitButtonProps } =
     outSubmitButtonProps;

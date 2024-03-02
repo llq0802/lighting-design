@@ -86,8 +86,16 @@ export function uniqueId(prefix = 'lightd') {
 }
 
 /**
+ * 判断一个值是不是真值 `( 0 算真值 )`
+ */
+export const isValueTrue = (v: any) => {
+  if (v === 0) return true;
+  return !!v;
+};
+
+/**
  * 验证值是否为合法值
- * @description`'' NaN false undefined null [] {}` 均不合法,  `0 合法`
+ * @description`'' NaN false undefined null [] {} {a:''}` 均不合法,  `0 合法 {num:0}`
  * @example isLegalValue(NaN) => false
  */
 export const isLegalValue = (value: any) => {
@@ -96,7 +104,9 @@ export const isLegalValue = (value: any) => {
     if (!value?.length) return false;
     return value.filter((item: any) => !!item || item === 0)?.length > 0;
   }
-  if (isPlainObject(value)) return Object.keys(value).length > 0;
+  if (isPlainObject(value)) {
+    return Object.values(value).filter((item: any) => !!item || item === 0)?.length > 0;
+  }
   return !!value;
 };
 

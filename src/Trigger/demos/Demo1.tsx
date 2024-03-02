@@ -1,7 +1,6 @@
 import { Flex } from 'antd';
 import { LTrigger } from 'lighting-design';
-import ChildTable1 from './ChildTable1';
-import ChildTable6 from './ChildTable6';
+import ChildTable1 from './components/ChildTable1';
 
 const Demo1 = () => {
   return (
@@ -56,18 +55,9 @@ const Demo1 = () => {
           fieldNames={{ label: 'name', value: 'id' }}
           overlayInnerStyle={{ background: '#3e9bed' }}
         >
-          <ChildTable6 />
+          <ChildTable1 />
         </LTrigger>
       </Flex>
-
-      {/* <h4>表格多选1</h4>
-      <LTrigger width="50%">
-        <ChildTable2 />
-      </LTrigger>
-      <h4>表格多选2</h4>
-      <LTrigger width="50%" overlayArrow>
-        <ChildTable5 />
-      </LTrigger> */}
     </div>
   );
 };

@@ -1,4 +1,5 @@
-import { LTagGroup, LTrigger } from 'lighting-design';
+import { LTrigger } from 'lighting-design';
+import MyLTagGroup from './components/MyLTagGroup';
 
 const options = [
   { value: '1', label: '香蕉' },
@@ -6,48 +7,24 @@ const options = [
   { value: '3', label: '葡萄' },
 ];
 
-const MyLTagGroup = (props) => {
-  console.log('==MyLCardGroup-props====>', props);
-
-  return (
-    <LTagGroup
-      {...props}
-      onChange={(val) => {
-        if (props.multiple) {
-          const value = val?.map((item) => item.value) || [];
-          const label = val?.map((item) => item.label) || [];
-          props?.onChange?.({
-            label: props?.mode === 'tag' ? label : label.join(' , '),
-            value,
-          });
-          return;
-        }
-        // labelInValue为true
-        props?.onChange?.(val);
-        // labelInValue为false
-        // props?.onChange?.(options.find((item) => item.value === val));
-        props?.setOpen(false);
-      }}
-      labelInValue
-      options={options}
-    />
-  );
-};
-
 const Demo6 = () => {
   return (
     <div>
       <h3>单选-LTagGroup</h3>
-      <LTrigger defaultValue={options[0]} labelInValue>
+      <LTrigger mode="radio">
+        <MyLTagGroup />
+      </LTrigger>
+      <h3>单选Tag-LTagGroup</h3>
+      <LTrigger mode="radioTag">
         <MyLTagGroup />
       </LTrigger>
       <h3>多选-LTagGroup</h3>
-      <LTrigger>
-        <MyLTagGroup multiple />
+      <LTrigger mode="checkbox" split=" , ">
+        <MyLTagGroup />
       </LTrigger>
       <h3>多选Tag-LTagGroup</h3>
-      <LTrigger mode="tag">
-        <MyLTagGroup multiple mode="tag" />
+      <LTrigger mode="checkboxTag">
+        <MyLTagGroup />
       </LTrigger>
     </div>
   );

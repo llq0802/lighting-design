@@ -136,7 +136,11 @@ function LQueryForm(props: LQueryFormProps) {
                 justifyContent: `flex-${isApproachLastItem ? 'start' : 'end'}`,
               }}
             >
-              <LFormItem colon={false} className={classnames(`${prefixCls}-submitter`)}>
+              <LFormItem
+                colon={false}
+                className={classnames(`${prefixCls}-submitter`)}
+                style={submitter ? submitter?.style : void 0}
+              >
                 <Space>
                   {submitterDom}
                   {enabledCollapse && (

@@ -17,17 +17,20 @@ export const LFormContext = createContext<{
   initialValues?: Store;
   disabled?: boolean;
   size?: string;
+  formItemBottom?: string | number;
 }>({
   layout: 'horizontal',
   labelColProps: {},
   disabled: void 0,
   size: void 0,
+  formItemBottom: void 0,
   initialValues: {},
 });
 
 function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.Element {
   const {
     labelWidth = 'auto',
+    formItemBottom,
     contentRender,
     formRender,
     submitter = false,
@@ -152,7 +155,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
 
   const formDom = (
     <LFormContext.Provider
-      value={{ size, disabled, layout, labelColProps, initialValues: innerInitVal }}
+      value={{ size, disabled, layout, labelColProps, initialValues: innerInitVal, formItemBottom }}
     >
       <Form
         size={size}

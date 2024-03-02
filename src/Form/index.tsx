@@ -17,38 +17,36 @@ const LForm: FC<LFormProps> & {
   useWatch: typeof Form.useWatch;
 } = ({ submitter, ...restProps }) => {
   const submitterProps = typeof submitter === 'boolean' || !submitter ? {} : submitter;
-  const { render, ...restSubmitterProps } = submitterProps;
+  const { render, buttonAlign, wrapperCol, style, ...restSubmitterProps } = submitterProps;
   const submitterConfig =
     submitter === void 0 || submitter
       ? {
           render: (dom: ReactNode) => {
-            //  默认配置的dom
             const newDom = Array.isArray(dom) && dom.length > 1 ? <Space>{dom}</Space> : dom;
+            const paddingLeft =
+              typeof buttonAlign === 'number'
+                ? `${buttonAlign}px`
+                : typeof buttonAlign === 'string' && !isNaN(parseFloat(buttonAlign))
+                ? `${buttonAlign}`
+                : void 0;
+
             return (
               <Form.Item
                 colon={false}
                 className="lightd-form-submitter"
-                style={{
-                  marginBottom: 0,
-                  paddingLeft:
-                    typeof submitter?.buttonAlign === 'number'
-                      ? `${submitter?.buttonAlign}px`
-                      : typeof submitter?.buttonAlign === 'string' &&
-                        !isNaN(parseFloat(submitter?.buttonAlign))
-                      ? `${submitter?.buttonAlign}`
-                      : 0,
-                }}
-                wrapperCol={submitterProps?.wrapperCol}
+                style={{ marginBottom: 0, paddingLeft, ...style }}
+                wrapperCol={wrapperCol}
               >
                 <div
                   className="lightd-form-submitter-wrapper"
                   style={{
+                    width: '100%',
                     display: 'flex',
                     justifyContent:
-                      typeof submitter?.buttonAlign === 'string'
+                      typeof buttonAlign === 'string'
                         ? // @ts-ignore
-                          BUTTON_ALIGN_MAP[submitter?.buttonAlign]
-                        : 'initial',
+                          BUTTON_ALIGN_MAP[buttonAlign] ?? void 0
+                        : void 0,
                   }}
                 >
                   {render ? <>{render(newDom as ReactElement[], submitterProps)}</> : newDom}
@@ -56,7 +54,6 @@ const LForm: FC<LFormProps> & {
               </Form.Item>
             );
           },
-
           ...restSubmitterProps,
         }
       : false;
