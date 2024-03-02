@@ -93,7 +93,7 @@ import { LForm } from 'lighting-design';
 
 ### LForm
 
-除了以下参数，其余和 antd [Form](https://ant.design/components/form-cn#api) 组件一样。
+除了以下参数，其余和 antd [Form](https://ant-design.antgroup.com/components/form-cn#api) 组件一样。
 
 | 参数            | 说明                                                                                                                  | 类型                                                                                        | 默认值   |
 | --------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | -------- |
@@ -133,14 +133,17 @@ import { LForm } from 'lighting-design';
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------ |
 | submitText        | 提交按钮文本                                                                                                                                                                                            | `ReactNode`                                                                      | `提交` |
 | resetText         | 重置按钮文本                                                                                                                                                                                            | `ReactNode`                                                                      | `重置` |
-| submitButtonProps | 提交按钮属性，和 [Button](https://ant.design/components/button-cn#api) 一致                                                                                                                             | [ButtonProps](https://ant.design/components/button-cn#api)                       | `-`    |
-| resetButtonProps  | 重置按钮属性，和 [Button](https://ant.design/components/button-cn#api) 一致                                                                                                                             | [ButtonProps](https://ant.design/components/button-cn#api)                       | `-`    |
+| submitButtonProps | 提交按钮属性，和 [Button](https://ant.design/components/button-cn#api) 一致                                                                                                                             | [ButtonProps]                                                                    | `-`    |
+| resetButtonProps  | 重置按钮属性，和 [Button](https://ant.design/components/button-cn#api) 一致                                                                                                                             | [ButtonProps]                                                                    | `-`    |
 | showReset         | 是否渲染重置按钮                                                                                                                                                                                        | `boolean`                                                                        | `true` |
-| buttonAlign       | 按钮位置 , 为`number`类型时与`LForm`的`labelWidth`效果一致<br>在 `LMoadlForm` 默认为`right`<br>在 `LDrawerForm` 默认为`center` <br> `LDrawerForm` `LMoadlForm` 只能设置 `'left' \| 'right' \| 'center'` | `'left' \| 'right' \| 'center'\| number\|string`                                 | `-`    |
 | onSubmit          | 点击提交按钮的回调                                                                                                                                                                                      | `(e) => void`                                                                    | `-`    |
 | onReset           | 点击重置按钮的回调 (优先级比 LForm 的 onReset 高)                                                                                                                                                       | `(e) => void`                                                                    | `-`    |
 | render            | 自定义操作的渲染                                                                                                                                                                                        | ` (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] \| ReactNode` | `-`    |
-
-[LFormSubmitterProps]: #lformsubmitterprops
+| buttonAlign       | 按钮位置 , 为`number`类型时与`LForm`的`labelWidth`效果一致<br>在 `LMoadlForm` 默认为`right`<br>在 `LDrawerForm` 默认为`center` <br> `LDrawerForm` `LMoadlForm` 只能设置 `'left' \| 'right' \| 'center'` | `'left' \| 'right' \| 'center'\| number\|string`                                 | `-`    |
+| style             | 按钮外层 LFormItem 的 style, 只在 LForm 与 LQueryForm 中生效                                                                                                                                            | ` CSSProperties`                                                                 | `-`    |
+| wrapperCol        | 按钮外层 LFormItem 的 wrapperCol , 只在 LForm 中生效                                                                                                                                                    | `FormProps['wrapperCol']`                                                        | `-`    |
 
 ## 常见问题 [FAQ](https://ant-design.antgroup.com/components/form-cn#faq)
+
+[LFormSubmitterProps]: #lformsubmitterprops
+[ButtonProps]: https://ant-design.antgroup.com/components/button-cn#api
