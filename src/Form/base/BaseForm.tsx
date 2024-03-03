@@ -1,24 +1,16 @@
 import { useMemoizedFn } from 'ahooks';
 import type { FormInstance } from 'antd';
 import { Form } from 'antd';
-import type { Store } from 'antd/es/form/interface';
 import classnames from 'classnames';
 import { Children, createContext, useImperativeHandle, useMemo } from 'react';
 import { isFunction, uniqueId } from '../../_utils';
-import type { BaseFormProps } from '../interface';
+import type { BaseFormProps, LFormContextType } from '../interface';
 import Submitter from './Submitter';
 import { useLFormInitialValues, useLFormInstance, useLoading } from './hooks';
 
 const prefixCls = 'lightd-form';
 
-export const LFormContext = createContext<{
-  layout: string;
-  labelColProps: Record<string, any>;
-  initialValues?: Store;
-  disabled?: boolean;
-  size?: string;
-  formItemBottom?: string | number;
-}>({
+export const LFormContext = createContext<LFormContextType>({
   layout: 'horizontal',
   labelColProps: {},
   disabled: void 0,
@@ -39,7 +31,6 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
     isReady = true,
     isAntdReset = true,
     disabled = false,
-
     onReset,
     transformValues,
     name,
@@ -52,9 +43,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
     initialValues,
     className,
     onValuesChange,
-
     _formInitValRef,
-
     ...restProps
   } = props;
 
@@ -155,7 +144,14 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
 
   const formDom = (
     <LFormContext.Provider
-      value={{ size, disabled, layout, labelColProps, initialValues: innerInitVal, formItemBottom }}
+      value={{
+        size,
+        disabled,
+        layout,
+        labelColProps,
+        initialValues: innerInitVal,
+        formItemBottom,
+      }}
     >
       <Form
         size={size}

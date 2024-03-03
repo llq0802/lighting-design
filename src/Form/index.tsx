@@ -1,8 +1,8 @@
 import { Form, Space } from 'antd';
 import { BUTTON_ALIGN_MAP } from 'lighting-design/constants';
-import type { FC, ReactElement, ReactNode } from 'react';
+import { useContext, type FC, type ReactElement, type ReactNode } from 'react';
 import LFormItem from '../FormItem';
-import BaseForm from './base/BaseForm';
+import BaseForm, { LFormContext } from './base/BaseForm';
 import type { BaseFormProps } from './interface';
 
 const LForm: FC<LFormProps> & {
@@ -80,6 +80,12 @@ LForm.useForm = Form.useForm;
 LForm.useFormInstance = Form.useFormInstance;
 LForm.useWatch = Form.useWatch;
 
-export default LForm;
-export type { LFormSubmitterProps } from './interface';
+/** 获取 LForm 的上下文 */
+export function useLFormContext() {
+  const ctx = useContext(LFormContext);
+  return ctx;
+}
+
 export type LFormProps = BaseFormProps<Record<string, any>>;
+export type { LFormContextType, LFormSubmitterProps } from './interface';
+export default LForm;

@@ -5,8 +5,6 @@ import { useLayoutEffect, useRef, useState } from 'react';
 
 /**
  * 设置与监听loading
- * @param {boolean} outLoading 初始值 loading
- * @return
  */
 export const useLoading = (
   outLoading: boolean,
