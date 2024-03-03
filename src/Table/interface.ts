@@ -177,7 +177,7 @@ export type LTableProps<T = any> = TableProps<T> & {
   requestOptions?: Options<any, any>;
   /**
    * 异步请求函数用于获取表格数据
-   *  - 不能与 `dataSource` 同时配置, 否则 `request` 及其相关属性方法将不生效
+   *  - 不能与 `dataSource` 同时配置, 一旦配置（dataSource即便为空数组）`request`及其相关属性方法将不生效
    *  - 绝大部分情况下推荐使用 `request` 来获取数据而不是`dataSource`
    *  - 你仍可以使用 `dataSource` , 用法与 antd Table 完全一致
    *  - 返回值必须是 `{ success: boolean, data: Record<string, any>[], total: number }`

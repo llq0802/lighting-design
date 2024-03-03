@@ -184,7 +184,7 @@ export function useMergeToolbarActionConfig(
  * 使用表格请求的自定义 hook
  */
 export function useTableRequest({
-  dataSource,
+  hasDataSource,
   request,
   requestOptions,
   requestCacheKey,
@@ -194,7 +194,7 @@ export function useTableRequest({
   outDefaultCurrent,
   outDefaultPageSize,
 }: {
-  dataSource: any;
+  hasDataSource: boolean;
   request: any;
   requestCacheKey?: string;
   requestOptions: LTableProps['requestOptions'];
@@ -206,7 +206,7 @@ export function useTableRequest({
 }) {
   const { data, ...res } = usePagination(
     async (...args) => {
-      if (dataSource) return { list: [], total: 0 };
+      if (hasDataSource) return { list: [], total: 0 };
       const [paramsObj, requestType, ...restArgs] = args;
       const res = await request(
         {
@@ -245,7 +245,7 @@ export function useTableRequest({
 export function useInitTable({
   autoRequest,
   isReady,
-  dataSource,
+  hasDataSource,
   outDefaultCurrent,
   outDefaultPageSize,
   hasFromItems,
@@ -259,7 +259,7 @@ export function useInitTable({
   autoRequest: boolean;
   isReady: boolean;
   outDefaultCurrent: number;
-  dataSource?: LTableProps['dataSource'];
+  hasDataSource?: boolean;
   outDefaultPageSize: number;
   hasFromItems: boolean;
   outRequestCacheKey: string | undefined;
@@ -270,7 +270,7 @@ export function useInitTable({
   queryFormRef: any;
 }) {
   useEffect(() => {
-    if (!autoRequest || !isReady || dataSource) return;
+    if (!autoRequest || !isReady || hasDataSource) return;
     let formValues;
     let current = outDefaultCurrent;
     let pageSize = outDefaultPageSize;

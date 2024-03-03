@@ -70,7 +70,8 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     components,
     ...restProps
   } = props;
-  const dataSource = restProps?.dataSource;
+  const { dataSource } = restProps;
+  const hasDataSource = !!dataSource;
   const rootRef = useRef<HTMLDivElement>(null);
   const tablecardref = useRef<HTMLDivElement>(null);
   const _formInitValRef = useRef(formInitialValues);
@@ -107,7 +108,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     mutate: setTableData,
     pagination: paginationAction,
   } = useTableRequest({
-    dataSource,
+    hasDataSource,
     request,
     requestCacheKey: outRequestCacheKey,
     requestOptions,
@@ -132,7 +133,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // ==================== 表格方法开始====================
   // 重置所有表单数据，从第一页开始显示、查询数据
   const handleReset = useMemoizedFn((extraParams?: Record<string, any>) => {
-    if (dataSource) return;
+    if (hasDataSource) return;
     let formValues;
     if (hasFromItems) {
       if (queryFormProps?.isAntdReset === false) {
@@ -155,7 +156,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
   // 根据表单条件，从第一页以及当前的分页数量开始显示、查询数据
   const handleSearch = useMemoizedFn((extraParams?: Record<string, any>) => {
-    if (dataSource) return;
+    if (hasDataSource) return;
     const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
     run(
       {
@@ -169,7 +170,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
   // 根据当前条件和页码 查询数据
   const handleReload = useMemoizedFn((extraParams?: Record<string, any>) => {
-    if (dataSource) return;
+    if (hasDataSource) return;
     const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
     run(
       {
@@ -183,14 +184,14 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
   //  表格分页页码等改变时触发
   const handlePaginationChange = useMemoizedFn((current, pageSize) => {
-    if (dataSource) return;
+    if (hasDataSource) return;
     const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
     run({ current, pageSize, formValues }, 'onReload');
   });
   // 表单查询,保留表单参数 保留pageSize  重置page为 1
   const handleSearchFormFinish = useMemoizedFn((formValues: Record<string, any>) => {
     queryFormProps?.onFinish?.(formValues);
-    if (dataSource) return;
+    if (hasDataSource) return;
     run(
       {
         current: outDefaultCurrent,
@@ -203,7 +204,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // 表单重置完成后的回调
   const handleSearchFormReset = useMemoizedFn((e) => {
     queryFormProps?.onReset?.(e);
-    if (dataSource) return;
+    if (hasDataSource) return;
     const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
     run(
       {
@@ -221,7 +222,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       pageSize: number = outDefaultPageSize,
       extraParams?: Record<string, any>,
     ) => {
-      if (dataSource) return;
+      if (hasDataSource) return;
       const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
       run({ ...extraParams, current, pageSize, formValues }, 'onCustomSearch');
     },
@@ -237,7 +238,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     autoRequest,
     run,
     isReady,
-    dataSource,
+    hasDataSource,
     outDefaultCurrent,
     outDefaultPageSize,
     hasFromItems,
@@ -249,7 +250,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
   // ==================== table副作用结束====================
   // ==================== 暴露外部方法开始====================
-  const tableData = data?.list?.length ? data.list : dataSource?.length ? dataSource : [];
+  const tableData = data?.list?.length ? data.list : hasDataSource ? dataSource : [];
   useImperativeHandle(tableRef, () => ({
     // onReload: refresh,
     /** 根据条件，当前页、刷新数据 */
@@ -371,13 +372,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
             ? {
                 showTotal,
                 showSizeChanger: true,
-                current: dataSource ? void 0 : paginationAction?.current,
-                pageSize: dataSource ? void 0 : paginationAction?.pageSize,
-                total: dataSource ? void 0 : paginationAction?.total,
+                current: hasDataSource ? void 0 : paginationAction?.current,
+                pageSize: hasDataSource ? void 0 : paginationAction?.pageSize,
+                total: hasDataSource ? void 0 : paginationAction?.total,
                 ...outPagination,
                 onChange(page, pageSize) {
                   outPagination?.onChange?.(page, pageSize);
-                  if (dataSource) return;
                   handlePaginationChange(page, pageSize);
                 },
                 className: classnames(`${LIGHTD_TABLE}-pagination`, outPagination?.className),
@@ -441,19 +441,19 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         : finallyDom}
     </TableContext.Provider>
   );
-  return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
-  // if (
-  //   (typeof toolbarActionConfig !== 'boolean' && !toolbarActionConfig?.showFullscreen) ||
-  //   toolbarActionConfig === false
-  // ) {
-  //   return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
-  // }
-  // return (
-  //   // 处理表格在全屏状态下 ant一些弹出层组件(Modal)无法显示问题
-  //   // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域
-  //   <ConfigProvider locale={zhCN} getPopupContainer={() => rootRef?.current || document.body}>
-  //     {returnDom}
-  //   </ConfigProvider>
-  // );
+  if (
+    (typeof toolbarActionConfig !== 'boolean' && !toolbarActionConfig?.showFullscreen) ||
+    toolbarActionConfig === false
+  ) {
+    return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
+  }
+  return (
+    // 处理表格在全屏状态下 ant一些弹出层组件(Modal)无法显示问题
+    // 全屏本质上是把你的表格区域 fixed 了，所以你需要把 Modal等组件 的 getPopupContainer 设置为了 table 的区域
+    <ConfigProvider locale={zhCN} getPopupContainer={() => rootRef?.current || document.body}>
+      {returnDom}
+      {props?.children}
+    </ConfigProvider>
+  );
 };
 export default BaseTable;
