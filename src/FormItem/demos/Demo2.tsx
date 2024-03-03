@@ -1,4 +1,4 @@
-import { Input, Select, Space, Switch } from 'antd';
+import { Card, Input, Select, Space, Switch } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import { LForm, LFormItem } from 'lighting-design';
 import React from 'react';
@@ -10,9 +10,10 @@ const Demo2 = () => {
   return (
     <>
       <LForm
+        labelWrap
         form={form}
-        labelCol={{ flex: '110px' }}
-        submitter={{ buttonAlign: 110 }}
+        labelCol={{ flex: '120px' }}
+        submitter={{ buttonAlign: 120 }}
         onFinish={(values) => {
           console.log('onFinish', values);
         }}
@@ -22,7 +23,7 @@ const Demo2 = () => {
           name="l-name"
           className="lightd-form-item-classname"
           contentClassName="lightd-form-item-content-classname"
-          contentAfter={<div>后面</div>}
+          contentAfter={<b>后面元素</b>}
           required
           contentProps={{ placeholder: '输入姓名' }}
         >
@@ -30,18 +31,15 @@ const Demo2 = () => {
         </LFormItem>
 
         <LFormItem
-          label="备注"
+          label="label与children垂直居中对齐"
           name="l-name161"
           required
           wrapperAlignItems="center"
         >
-          <TextArea
-            placeholder="看看这一项的对齐效果"
-            style={{ height: 100 }}
-          />
+          <TextArea placeholder="看看这一项的对齐效果" style={{ height: 100 }} />
         </LFormItem>
 
-        <LFormItem name="l-sex" label="性别" required contentBefore={<>前面</>}>
+        <LFormItem name="l-sex" label="性别" required contentBefore={<b>前面元素</b>}>
           <Select
             onChange={(val) => {
               console.log('val-Select', val);
@@ -60,7 +58,7 @@ const Demo2 = () => {
           className="l-age"
           label="年龄"
           contentAlignItems="end"
-          contentAfter={<div>岁</div>}
+          contentAfter={<strong>岁</strong>}
           dependencies={['sex']}
           contentProps={{
             placeholder: '选择年龄',
@@ -73,8 +71,8 @@ const Demo2 = () => {
           valuePropName="checked"
           name="switch"
           label="开关"
-          contentAfter={<div>contentInline为true的效果</div>}
-          contentInline={true}
+          contentAfter={<b>contentInline 为 true 的效果</b>}
+          contentInline
         >
           <Switch />
         </LFormItem>
@@ -82,7 +80,7 @@ const Demo2 = () => {
           valuePropName="checked"
           name="checkbox"
           label="复选"
-          contentAfter={<div>contentInline为false的效果</div>}
+          contentAfter={<b>contentInline 为 false 的效果</b>}
         >
           <MyCheckbox />
         </LFormItem>
@@ -101,7 +99,7 @@ const Demo2 = () => {
             }) => {
               return (
                 <Space>
-                  <span> 通过 renderField 渲染 :</span>
+                  <b>renderField 渲染 :</b>
                   {React.cloneElement(dom, props)}
                 </Space>
               );
@@ -114,9 +112,13 @@ const Demo2 = () => {
         <LFormItem
           name="Input132"
           label="renderFormItem"
-          contentAfter={<div>contentInline为false的效果</div>}
+          contentAfter={<b>contentAfter</b>}
           renderFormItem={(dom) => {
-            return <Space align="baseline">重新渲染整个: {dom}</Space>;
+            return (
+              <Card title="重新渲染整个 LFormItem" style={{ marginBottom: 24 }} hoverable>
+                {dom}
+              </Card>
+            );
           }}
         >
           <Input placeholder="自定义渲染整个组件" />

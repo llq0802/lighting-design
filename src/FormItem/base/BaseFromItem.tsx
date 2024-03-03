@@ -25,12 +25,14 @@ const LFormItem: FC<LFormItemProps> & {
     contentInline = false,
     contentAlignItems: alignItems = 'center',
     wrapperAlignItems = 'start',
+    formItemBottom: itemBottom,
     name,
     required = false,
     shouldUpdate,
     dependencies,
     rules,
     className,
+    style: outStyle,
     labelCol,
     children,
 
@@ -44,7 +46,7 @@ const LFormItem: FC<LFormItemProps> & {
   let curName = name;
   if (typeof name === 'number') curName?.toString();
 
-  const { layout, labelColProps: formLabelColProps } = useContext(LFormContext);
+  const { layout, formItemBottom, labelColProps: formLabelColProps } = useContext(LFormContext);
 
   const messageLabel = usePlaceholder({
     placeholder,
@@ -52,7 +54,7 @@ const LFormItem: FC<LFormItemProps> & {
     restProps: restFromItemProps,
   });
 
-  const itemClassnames = useMemo(
+  const innerClassNames = useMemo(
     () =>
       classnames(
         prefixCls,
@@ -66,7 +68,7 @@ const LFormItem: FC<LFormItemProps> & {
     [className, wrapperAlignItems, restFromItemProps?.label],
   );
 
-  const itemRules = useMemo(
+  const innerRules = useMemo(
     () =>
       Array.isArray(rules) && rules.length > 0
         ? rules
@@ -101,7 +103,6 @@ const LFormItem: FC<LFormItemProps> & {
     } else {
       labelFlex = {};
     }
-
     return {
       ...formLabelColProps,
       ...labelFlex,
@@ -109,17 +110,18 @@ const LFormItem: FC<LFormItemProps> & {
     };
   }, [layout, labelWidth, formLabelColProps, labelCol]);
 
+  const publicProps = {
+    name: curName,
+    labelCol: labelColProps,
+    required,
+    rules: innerRules,
+    className: innerClassNames,
+    style: { marginBottom: formItemBottom ?? itemBottom, ...outStyle },
+  };
+
   if (shouldUpdate) {
     const dom1 = (
-      <Form.Item
-        labelCol={labelColProps}
-        name={curName}
-        required={required}
-        shouldUpdate={shouldUpdate}
-        rules={itemRules}
-        className={itemClassnames}
-        {...restFromItemProps}
-      >
+      <Form.Item {...publicProps} shouldUpdate={shouldUpdate} {...restFromItemProps}>
         {(form) => {
           const contentChildren = typeof children === 'function' ? children(form) : children;
           return (
@@ -137,7 +139,6 @@ const LFormItem: FC<LFormItemProps> & {
         }}
       </Form.Item>
     );
-
     return renderFormItem ? renderFormItem(dom1) : dom1;
   }
 
@@ -157,14 +158,7 @@ const LFormItem: FC<LFormItemProps> & {
             : innerChildren;
 
           return (
-            <Form.Item
-              name={curName}
-              labelCol={labelColProps}
-              required={required}
-              rules={itemRules}
-              className={itemClassnames}
-              {...restFromItemProps}
-            >
+            <Form.Item {...publicProps} {...restFromItemProps}>
               <FormItemWrapper
                 className={contentClassName}
                 before={contentBefore}
@@ -186,14 +180,7 @@ const LFormItem: FC<LFormItemProps> & {
   }
 
   const dom3 = (
-    <Form.Item
-      name={curName}
-      labelCol={labelColProps}
-      required={required}
-      rules={itemRules}
-      className={itemClassnames}
-      {...restFromItemProps}
-    >
+    <Form.Item {...publicProps} {...restFromItemProps}>
       <FormItemWrapper
         className={contentClassName}
         before={contentBefore}

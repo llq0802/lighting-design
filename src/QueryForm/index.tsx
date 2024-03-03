@@ -74,6 +74,7 @@ function LQueryForm(props: LQueryFormProps) {
     isSpace: outIsSpace = false,
     showColsNumber,
     className,
+    formItemBottom,
     itemColProps = emptyObject,
     gutter = 16,
     onCollapsedChange,
@@ -111,50 +112,58 @@ function LQueryForm(props: LQueryFormProps) {
 
         return (
           <Row gutter={gutter}>
-            {formItemsDom?.map((itemDom: any, index: number) => {
-              const { ownColSpans = {}, ...restItemProps } = itemDom.props;
-              const hidden = collapsed && enabledCollapse && index >= showColsNumber;
-              return (
+            <>
+              {formItemsDom?.map((itemDom: any, index: number) => {
+                const { ownColSpans = {}, ...restItemProps } = itemDom.props;
+                const hidden = collapsed && enabledCollapse && index >= showColsNumber;
+                return (
+                  <Col
+                    key={itemDom?.key || itemDom.name + index.toString()}
+                    {...colSpans}
+                    {...ownColSpans}
+                    style={hidden ? { display: 'none' } : {}}
+                  >
+                    {cloneElement(itemDom, {
+                      hidden,
+                      ...restItemProps,
+                    })}
+                  </Col>
+                );
+              })}
+            </>
+            <>
+              {submitter !== false && (
                 <Col
-                  key={itemDom?.key || itemDom.name + index.toString()}
-                  {...colSpans}
-                  {...ownColSpans}
-                  style={hidden ? { display: 'none' } : {}}
+                  style={{
+                    ...submitterColStyle,
+                    alignItems: layout === 'vertical' ? 'flex-end' : 'flex-start',
+                    justifyContent: `flex-${isApproachLastItem ? 'start' : 'end'}`,
+                  }}
                 >
-                  {cloneElement(itemDom, {
-                    hidden,
-                    ...restItemProps,
-                  })}
+                  <LFormItem
+                    colon={false}
+                    className={classnames(`${prefixCls}-submitter`)}
+                    style={{
+                      marginBottom: formItemBottom,
+                      ...(submitter ? submitter?.style : {}),
+                    }}
+                  >
+                    <Space>
+                      {submitterDom}
+                      {enabledCollapse && (
+                        <Collapse
+                          collapsed={collapsed}
+                          onToggle={(v) => {
+                            setCollapsed(v);
+                            onCollapsedChange?.(v);
+                          }}
+                        />
+                      )}
+                    </Space>
+                  </LFormItem>
                 </Col>
-              );
-            })}
-
-            <Col
-              style={{
-                ...submitterColStyle,
-                alignItems: layout === 'vertical' ? 'flex-end' : 'flex-start',
-                justifyContent: `flex-${isApproachLastItem ? 'start' : 'end'}`,
-              }}
-            >
-              <LFormItem
-                colon={false}
-                className={classnames(`${prefixCls}-submitter`)}
-                style={submitter ? submitter?.style : void 0}
-              >
-                <Space>
-                  {submitterDom}
-                  {enabledCollapse && (
-                    <Collapse
-                      collapsed={collapsed}
-                      onToggle={(v) => {
-                        setCollapsed(v);
-                        onCollapsedChange?.(v);
-                      }}
-                    />
-                  )}
-                </Space>
-              </LFormItem>
-            </Col>
+              )}
+            </>
           </Row>
         );
       }}

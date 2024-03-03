@@ -32,6 +32,10 @@ export interface LFormItemProps extends FormItemProps {
    */
   labelWidth?: number | 'auto' | string;
   /**
+   * 设置 LFormItem 或 LFormItemXXX 组件的 style.bottom 属性
+   */
+  formItemBottom?: number | string;
+  /**
    *重新渲染LFormItem的children组件
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemProps
    */

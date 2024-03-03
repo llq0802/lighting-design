@@ -31,7 +31,7 @@ const LForm: FC<LFormProps> & {
                 : void 0;
 
             return (
-              <Form.Item
+              <LFormItem
                 colon={false}
                 className="lightd-form-submitter"
                 style={{ marginBottom: 0, paddingLeft, ...style }}
@@ -51,7 +51,7 @@ const LForm: FC<LFormProps> & {
                 >
                   {render ? <>{render(newDom as ReactElement[], submitterProps)}</> : newDom}
                 </div>
-              </Form.Item>
+              </LFormItem>
             );
           },
           ...restSubmitterProps,
