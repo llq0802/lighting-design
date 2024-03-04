@@ -45,6 +45,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     requestBefore,
     requestFinally,
     requestSuccess,
+    requestFirstSuccess,
     formInitialValues,
     queryFormProps,
     formCardProps,
@@ -114,6 +115,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     requestOptions,
     requestBefore,
     requestSuccess,
+    requestFirstSuccess,
     requestFinally,
     outDefaultCurrent,
     outDefaultPageSize,
@@ -231,8 +233,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   // ==================== 表格方法结束====================
 
   // ==================== table副作用开始====================
+  const tableData = data?.list?.length ? data.list : hasDataSource ? dataSource : [];
   // 处理是否沾满视口的剩余空间
-  useFillSpace({ tablecardref, fillSpace });
+  useFillSpace({ tablecardref, fillSpace, tableData });
   // 初始化
   useInitTable({
     autoRequest,
@@ -250,7 +253,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   });
   // ==================== table副作用结束====================
   // ==================== 暴露外部方法开始====================
-  const tableData = data?.list?.length ? data.list : hasDataSource ? dataSource : [];
   useImperativeHandle(tableRef, () => ({
     // onReload: refresh,
     /** 根据条件，当前页、刷新数据 */
@@ -361,7 +363,17 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
         components={{
           table: contentRender ? () => contentRender?.(tableData) : void 0,
           ...components,
-          body: { cell: TdCell, ...components?.body },
+          body: {
+            cell: TdCell,
+            ...components?.body,
+            // row: () => (
+            //   <tr>
+            //     <td colSpan={outColumns?.length || 1}>
+            //       <Empty />
+            //     </td>
+            //   </tr>
+            // ),
+          },
         }}
         rowClassName={classnames(`${LIGHTD_TABLE}-row`, rowClassName as string | undefined)}
         size={currentSize as SizeType}
