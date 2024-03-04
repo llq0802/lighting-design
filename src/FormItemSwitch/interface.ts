@@ -1,3 +1,4 @@
+import type { SwitchProps } from 'antd';
 import type { LFormItemProps } from 'lighting-design/FormItem/interface';
 
 export interface LFormItemSwitchProps extends LFormItemProps {
