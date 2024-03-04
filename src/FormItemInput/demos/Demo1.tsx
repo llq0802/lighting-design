@@ -13,15 +13,15 @@ const Demo = () => {
         console.log('values', values);
       }}
       initialValues={{
-        name2: 'llq',
+        name: 'llq',
       }}
       isAntdReset={false}
     >
       <LFormItemInput className="myLFormItemInput-4" label="名字" name="name" required />
 
-      <LFormItemInput label="名字2" name="name2" required />
+      <LFormItemInput label="名字2" name="name1" required initialValue="吴彦祖" />
       <LFormItemInput
-        name="name1"
+        name="name2"
         label="禁用空格"
         disabledWhiteSpace
         required
@@ -73,7 +73,6 @@ const Demo = () => {
       <LFormItemInput label="图片验证码" name="code" required contentAfter={<IdentifyCode />} />
       <LFormItemInput
         required
-        validateTrigger={['onChange', 'onBlur']}
         label="自定义渲染"
         name="with-popover"
         tooltip="该方案可用于所有表单项"

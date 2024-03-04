@@ -194,7 +194,7 @@ nav:
 
 - `tableRef.current.onReset()` 意思为重置表单数据，从第一页以及默认的分页数量开始显示、查询数据
 
-- `tableRef.current.onCustom()` 意思为根据表单条件, 从`传入的页码和分页数量`开始显示、查询数据
+- `tableRef.current.onCustomSearch()` 意思为根据表单条件, 从`传入的页码和分页数量`开始显示、查询数据
 
 - `tableRef.current.setTableData()` 突变表格数据时需要返回新的对象包含`list` `total`属性，并且每次更新时需要 `list` 引用地址不一样才能更新界面
 
@@ -236,6 +236,7 @@ import { LTable } from 'lighting-design';
 | requestCacheKey      | 开启表格缓存 ( 会缓存 分页信息 与 表单信息 )                                                                                                                   | `string`                                                                                | `-`                                                           |
 | requestBefore        | 调用`request`之前将参数格式化返回给 `request` 的第一个参数                                                                                                     | `(...args: any[]) => Partial<LTableRequestParams>     \| void 0`                        | `-`                                                           |
 | requestSuccess       | 异步请求函数请求成功后的回调                                                                                                                                   | `RequestSuccess`                                                                        | `-`                                                           |
+| requestFirstSuccess  | 只在 request **第一次请求成功**后的回调                                                                                                                        | `RequestSuccess`                                                                        | `-`                                                           |
 | requestFinally       | 异步请求函数完成后的回调`(失败, 成功都会调用)`                                                                                                                 | `RequestFinally`                                                                        | `-`                                                           |
 | requestOptions       | `ahooks 的 useRequest 的 options 配置` 可用于配置其他请求功能                                                                                                  | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options)               | `-`                                                           |
 | formRef              | 查询表单的实例                                                                                                                                                 | `MutableRefObject<FormInstance \| undefined> \| ((ref: FormInstance) => void)`          | `-`                                                           |

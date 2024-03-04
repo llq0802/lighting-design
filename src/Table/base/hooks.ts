@@ -2,7 +2,7 @@ import { usePagination, useRafState, useUpdateEffect, useUpdateLayoutEffect } fr
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { getTableColumnsKey, isFunction } from 'lighting-design/_utils';
 import { omit } from 'lodash-es';
-import { useEffect, useLayoutEffect, useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { LTableProps } from '../interface';
 
 /**
@@ -11,44 +11,41 @@ import type { LTableProps } from '../interface';
 export function useFillSpace({
   tablecardref,
   fillSpace,
+  tableData,
 }: {
   tablecardref: any;
   fillSpace: boolean | number;
+  tableData: any[];
 }) {
   useLayoutEffect(() => {
+    if (fillSpace === void 0) return;
     if (!tablecardref.current) return;
     const cardDom = tablecardref.current;
-    const tableContentDom = cardDom?.querySelector('div.ant-table');
-    if (!tableContentDom) return;
-    if (fillSpace === true || typeof fillSpace === 'number') {
-      const cardBodyDom = cardDom.querySelector('div.ant-card-body');
-      const paginationDom = cardDom.querySelector('ul.ant-pagination');
-      const fillHeight = fillSpace === true ? 0 : fillSpace;
+    const antdTableDom = cardDom?.querySelector('div.ant-table');
+    if (!antdTableDom) return;
 
-      const { paddingBottom: pb, marginBottom: mb } = getComputedStyle(cardBodyDom);
-      const cardBodyDomHeight = parseFloat(pb) + parseFloat(mb);
-
-      let paginationDomHeight = 0;
-
-      if (paginationDom) {
-        const { height, marginTop, marginBottom } = getComputedStyle(paginationDom);
-        paginationDomHeight = parseFloat(height) + parseFloat(marginTop) + parseFloat(marginBottom);
-      }
-
-      const htmlDomHeight = document.documentElement.clientHeight;
-
-      const minHeght =
-        htmlDomHeight -
-        paginationDomHeight -
-        tableContentDom!.getBoundingClientRect().top -
-        cardBodyDomHeight -
-        fillHeight;
-
-      tableContentDom!.style.minHeight = `${Math.floor(minHeght)}px`;
-    } else {
-      tableContentDom.style.minHeight = `auto`;
+    if (fillSpace !== true && typeof fillSpace !== 'number') {
+      antdTableDom.style.height = `auto`;
+      return;
     }
-  }, [fillSpace]);
+
+    let minHeight = 300;
+    const fillHeight = fillSpace === true ? 1 : fillSpace + 1;
+    const { bottom: antdTableBottom, height: antdTableHeight } =
+      antdTableDom!.getBoundingClientRect();
+    const { bottom: cardBottom } = cardDom!.getBoundingClientRect();
+    const antdTableMarginBottom = window.innerHeight - antdTableBottom;
+
+    if (antdTableMarginBottom <= 0) return;
+    if (antdTableMarginBottom - fillHeight > 0) {
+      minHeight =
+        antdTableMarginBottom + antdTableHeight - fillHeight - (cardBottom - antdTableBottom);
+    } else {
+      minHeight = antdTableMarginBottom + antdTableHeight - (cardBottom - antdTableBottom);
+    }
+    antdTableDom!.style.height = `${Math.floor(minHeight)}px`;
+    antdTableDom!.style.overflow = 'auto';
+  }, [fillSpace, tableData?.length]);
 }
 /**
  * 设置表格大小
@@ -190,6 +187,7 @@ export function useTableRequest({
   requestCacheKey,
   requestBefore,
   requestSuccess,
+  requestFirstSuccess,
   requestFinally,
   outDefaultCurrent,
   outDefaultPageSize,
@@ -200,10 +198,13 @@ export function useTableRequest({
   requestOptions: LTableProps['requestOptions'];
   requestBefore: LTableProps['requestBefore'];
   requestSuccess: LTableProps['requestSuccess'];
+  requestFirstSuccess: LTableProps['requestFirstSuccess'];
   requestFinally: LTableProps['requestFinally'];
   outDefaultCurrent: number;
   outDefaultPageSize: number;
 }) {
+  /** 是否为第一次请求完成 */
+  const firstRequestRef = useRef(true);
   const { data, ...res } = usePagination(
     async (...args) => {
       if (hasDataSource) return { list: [], total: 0 };
@@ -228,6 +229,10 @@ export function useTableRequest({
       ...requestOptions,
       manual: true,
       onSuccess(...args) {
+        if (firstRequestRef.current) {
+          requestFirstSuccess?.(...args);
+        }
+        firstRequestRef.current = false;
         requestSuccess?.(...args);
         requestOptions?.onSuccess?.(...args);
       },
@@ -237,6 +242,7 @@ export function useTableRequest({
       },
     },
   );
+
   return { data: !data ? { list: [], total: 0 } : data, ...res };
 }
 /**

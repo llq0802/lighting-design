@@ -305,6 +305,23 @@ export type LTableProps<T = any> = TableProps<T> & {
     ]
   >['onSuccess'];
   /**
+   * 只在 request **第一次请求成功**后的回调
+   * - 包括第一次调用表格的实例方法, 例如 onSearch onReload
+   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
+   */
+  requestFirstSuccess?: PaginationOptions<
+    { list: Record<string, any>[]; total: number },
+    [
+      {
+        current: number;
+        pageSize: number;
+        formValues?: Record<string, any>;
+        [key: string]: any;
+      },
+      'onInit' | 'onSearch' | 'onReload' | 'onReset' | undefined,
+    ]
+  >['onSuccess'];
+  /**
    * request 请求完成后的回调
    * - 不管是`成功`还是`失败`都会触发
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps

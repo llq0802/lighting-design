@@ -55,12 +55,12 @@ const Demo8 = () => {
             name="radio"
             required
             request={async () => {
-              const result = await awaitTime([
+              await awaitTime(800);
+              return [
                 { label: 'AA', value: 'AA' },
                 { label: 'BB', value: 'BB' },
                 { label: 'CC', value: 'CC' },
-              ]);
-              if (result.success) return result.data;
+              ];
             }}
           />
         </LStepsForm.StepForm>
@@ -72,18 +72,8 @@ const Demo8 = () => {
             console.log('步骤2', values);
           }}
         >
-          <LFormItemInput
-            name="name1"
-            label="名字1"
-            required
-            tooltip="禁止空格"
-          />
-          <LFormItemInput
-            name="name2"
-            label="名字2"
-            required
-            tooltip="禁止空格"
-          />
+          <LFormItemInput name="name1" label="名字1" required tooltip="禁止空格" />
+          <LFormItemInput name="name2" label="名字2" required tooltip="禁止空格" />
         </LStepsForm.StepForm>
       </LStepsForm>
     </div>

@@ -24,7 +24,7 @@ const Demo1 = () => {
       <LStepsForm
         actionRef={actionRef1}
         onFinish={async (valuse) => {
-          await awaitTime(500, 500);
+          await awaitTime(500);
           console.log('Modal1-StepsForm-valuse', valuse);
           message.success('提交成功');
           setOpen1(false);
@@ -76,7 +76,7 @@ const Demo1 = () => {
           actionRef={actionRef2}
           onFinish={async (valuse) => {
             console.log('Modal2-StepsForm-valuse', valuse);
-            await awaitTime(500, 500);
+            await awaitTime(500);
             setTimeout(() => setOpen2(false));
             return true;
           }}

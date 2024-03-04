@@ -14,7 +14,7 @@ const Demo2 = () => {
         actionRef={actionRef}
         onFinish={async (valuse) => {
           console.log('StepsForm-valuse', valuse);
-          await awaitTime(800, 500);
+          await awaitTime(800);
           message.success('提交成功');
           return true;
         }}
