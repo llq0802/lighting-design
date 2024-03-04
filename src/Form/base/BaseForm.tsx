@@ -136,7 +136,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
         }}
       />
     ) : null;
-  }, [JSON.stringify(innerInitVal), isReady, loading, !!submitter, submitterProps]);
+  }, [innerInitVal, isReady, loading, !!submitter, submitterProps]);
 
   const formContent = contentRender
     ? contentRender(formItems, submitterDom, formRef?.current)

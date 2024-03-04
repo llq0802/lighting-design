@@ -28,7 +28,7 @@ export const useLFormInitialValues = ({
   initialValues?: Store;
   form: FormInstance;
 }) => {
-  const [innerInitVal, setInnerInitVal] = useState(initialValues);
+  const [innerInitVal, setInnerInitVal] = useState(() => initialValues);
   useUpdateEffect(() => {
     // 准备完成后，重新设置表单的初始值
     if (isReady) {
