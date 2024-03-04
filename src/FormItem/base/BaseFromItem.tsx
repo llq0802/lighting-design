@@ -119,20 +119,21 @@ const LFormItem: FC<LFormItemProps> & {
     style: { marginBottom: formItemBottom ?? itemBottom, ...outStyle },
   };
 
+  const wrapperProps = {
+    className: contentClassName,
+    before: contentBefore,
+    after: contentAfter,
+    alignItems,
+    contentInline,
+  };
+
   if (shouldUpdate) {
     const dom1 = (
       <Form.Item {...publicProps} shouldUpdate={shouldUpdate} {...restFromItemProps}>
         {(form) => {
           const contentChildren = typeof children === 'function' ? children(form) : children;
           return (
-            <FormItemWrapper
-              className={contentClassName}
-              before={contentBefore}
-              after={contentAfter}
-              alignItems={alignItems}
-              contentInline={contentInline}
-              {...contentProps}
-            >
+            <FormItemWrapper {...wrapperProps} {...contentProps}>
               {renderField ? renderField(contentChildren as ReactElement, props) : contentChildren}
             </FormItemWrapper>
           );
@@ -159,14 +160,7 @@ const LFormItem: FC<LFormItemProps> & {
 
           return (
             <Form.Item {...publicProps} {...restFromItemProps}>
-              <FormItemWrapper
-                className={contentClassName}
-                before={contentBefore}
-                after={contentAfter}
-                alignItems={alignItems}
-                contentInline={contentInline}
-                {...contentProps}
-              >
+              <FormItemWrapper {...wrapperProps} {...contentProps}>
                 {renderField
                   ? renderField(contentChildren as ReactElement, props)
                   : contentChildren}
@@ -181,14 +175,7 @@ const LFormItem: FC<LFormItemProps> & {
 
   const dom3 = (
     <Form.Item {...publicProps} {...restFromItemProps}>
-      <FormItemWrapper
-        className={contentClassName}
-        before={contentBefore}
-        after={contentAfter}
-        alignItems={alignItems}
-        contentInline={contentInline}
-        {...contentProps}
-      >
+      <FormItemWrapper {...wrapperProps} {...contentProps}>
         {renderField ? renderField(children as ReactElement, props) : children}
       </FormItemWrapper>
     </Form.Item>
