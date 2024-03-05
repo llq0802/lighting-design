@@ -85,6 +85,7 @@ function LQueryForm(props: LQueryFormProps) {
 
   return (
     <BaseForm
+      formItemBottom={formItemBottom}
       isEnterSubmit={isEnterSubmit}
       layout={layout}
       submitter={

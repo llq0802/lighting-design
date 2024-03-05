@@ -76,8 +76,8 @@ import { LFormItem } from 'lighting-design';
 
 | 参数              | 说明                                                                                                                                   | 类型                                                         | 默认值     |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ---------- |
-| labelWidth        | label 宽度 , 同 `labelCol={{ flex: 'xxx px' }}` 默认继承 `LForm`的 `labelWidth` 如果配置则以当前配置为准                               | `string\|number \| 'auto'`                                   | `-`        |
-| formItemBottom    | 统一设置 Form.Item 或 LFormItem 或 LFormItemXXX 组件的 style.bottom 属性 , 比 LForm.formItemBottom 优先级高                            | `string\|number`                                             | `-`        |
+| labelWidth        | \* label 宽度 , 同 `labelCol={{ flex: 'xxx px' }}` 默认继承 `LForm`的 `labelWidth` 如果配置则以当前配置为准                            | `string\|number \| 'auto'`                                   | `-`        |
+| formItemBottom    | \* 统一设置 LFormItem 或 LFormItemXXX 组件的 style.bottom 属性 , 比 LForm.formItemBottom 优先级高                                      | `string\|number`                                             | `-`        |
 | className         | 整个组件最外层容器类名                                                                                                                 | `string`                                                     | `-`        |
 | style             | 整个组件最外层容器样式                                                                                                                 | `CSSProperties`                                              | `-`        |
 | contentClassName  | 被包裹组件的最外层容器类名 , 配置 `contentAfter` 或者 `contentBefore` 生效                                                             | `string`                                                     | `-`        |

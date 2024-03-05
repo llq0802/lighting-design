@@ -1,31 +1,40 @@
-import { Cascader, Input, Space } from 'antd';
+import { Cascader, Input, InputNumber, Select, Space } from 'antd';
 import { LFormContext } from 'lighting-design/Form/base/BaseForm';
 import LFormItem from 'lighting-design/FormItem';
-import { getFormItemLabel } from 'lighting-design/_utils';
+import { getFormItemLabel, isLegalValue } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { useContext } from 'react';
 import type { LFormItemAddressProps } from './interface';
 
-const AddressWrapper: FC<any> = ({
+const AddressWrapper: FC<Record<string, any>> = ({
   size,
   disabled,
   variant,
   block,
+  leftWidth = '50%',
   placeholder,
-  inputProps,
-  cascaderProps,
+  rightProps,
+  leftProps,
   options,
   value = [],
   onChange,
   id,
   ...restProps
 }) => {
+  const { isSelect = false, ...restLeftProps } = leftProps;
+  const { isInputNumber = false, ...restRightProps } = rightProps;
+
+  const LeftComPonent = isSelect ? Select : Cascader;
+  const RightComPonent = isInputNumber ? InputNumber : Input;
+
   const pubilcProps = {
     disabled,
     size,
     variant,
   };
+
+  const allowClearProps = isInputNumber ? {} : { allowClear: true };
 
   const hanleChange = (index: number, val: any) => {
     const innerValue = [...value];
@@ -35,31 +44,36 @@ const AddressWrapper: FC<any> = ({
 
   return (
     <Space.Compact block={block}>
-      <Cascader
+      {/* @ts-ignore */}
+      <LeftComPonent
         {...restProps}
-        id={id ? `${id}-start` : void 0}
         {...pubilcProps}
-        options={options}
+        id={id ? `${id}-start` : void 0}
         placeholder={`${placeholder[0]}`}
-        {...cascaderProps}
-        style={{ width: '40%', ...cascaderProps?.style }}
+        autoComplete="off"
+        allowClear
+        options={options}
+        {...restLeftProps}
+        style={{ width: leftWidth, ...restLeftProps?.style }}
         onChange={(val) => {
           hanleChange(0, val);
-          cascaderProps?.onChange?.(val);
+          restLeftProps?.onChange?.(val);
         }}
       />
-      <Input
+
+      <RightComPonent
         {...restProps}
-        id={id ? `${id}-end` : void 0}
         {...pubilcProps}
+        id={id ? `${id}-end` : void 0}
         placeholder={`${placeholder[1]}`}
-        allowClear
         autoComplete="off"
-        {...inputProps}
-        style={{ flex: 1, ...inputProps?.style }}
+        {...allowClearProps}
+        {...restRightProps}
+        style={{ flex: 1, ...restRightProps?.style }}
         onChange={(e) => {
-          hanleChange(1, e.target.value);
-          inputProps?.onChange?.(e);
+          const val = isInputNumber ? e : e?.target?.value;
+          hanleChange(1, val);
+          restRightProps?.onChange?.(val);
         }}
       />
     </Space.Compact>
@@ -72,10 +86,11 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
   disabled = false,
   required = false,
   block = true,
+  leftWidth = '50%',
   variant,
   options = emptyArray,
-  cascaderProps = emptyObject,
-  inputProps = emptyObject,
+  leftProps = emptyObject,
+  rightProps = emptyObject,
   ...restProps
 }) => {
   const { disabled: formDisabled } = useContext(LFormContext);
@@ -86,9 +101,9 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
         let errMsg = '';
         if (!value || value?.length <= 0) {
           errMsg = required ? `${getFormItemLabel(restProps)}不能为空!` : '';
-        } else if (!value[0]) {
+        } else if (!isLegalValue(value[0])) {
           errMsg = required ? `${placeholder[0]}` : '';
-        } else if (!value[1]) {
+        } else if (!isLegalValue(value[1])) {
           errMsg = required ? `${placeholder[1]}` : '';
         }
         if (errMsg) {
@@ -106,9 +121,10 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
         size={size}
         variant={variant}
         block={block}
+        leftWidth={leftWidth}
         placeholder={placeholder}
-        inputProps={inputProps}
-        cascaderProps={cascaderProps}
+        rightProps={rightProps}
+        leftProps={leftProps}
         options={options}
       />
     </LFormItem>

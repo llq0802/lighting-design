@@ -1,4 +1,4 @@
-import { Button, Tag } from 'antd';
+import { Button, Empty, Tag } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LTable } from 'lighting-design';
 import type { UseShowInstance } from 'rc-use-hooks';
@@ -16,6 +16,7 @@ const Demo: FC = () => {
   return (
     <>
       <LTable
+        emptyRender={() => <Empty style={{ margin: '170px 0' }} />}
         isSort={{
           render(pageCount) {
             return <Tag>{pageCount}</Tag>;

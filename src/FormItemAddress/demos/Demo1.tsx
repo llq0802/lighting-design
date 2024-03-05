@@ -1,5 +1,6 @@
 import { LForm, LFormItemAddress } from 'lighting-design';
 import { useEffect, useState } from 'react';
+import china_city from '../../FormItemCascader/demos/china_city.json';
 import './styles.less';
 
 const optionsData: any[] = [
@@ -53,22 +54,23 @@ const Demo1 = () => {
   return (
     <LForm
       form={form}
-      // submitter={{
-      //   buttonAlign: 'center',
-      //   resetText: '更新',
-      //   resetButtonProps: {
-      //     preventDefault: true,
-      //     onClick() {
-      //       setOptions((item) => [...item]);
-      //     },
-      //   },
-      // }}
+      submitter={{
+        buttonAlign: 'center',
+        resetText: '更新',
+        resetButtonProps: {
+          preventDefault: true,
+          onClick() {
+            setOptions((item) => [...item]);
+          },
+        },
+      }}
       onFinish={(values) => {
         console.log('values', values);
       }}
     >
-      {/* <LFormItemAddress
-        cascaderProps={{
+      <LFormItemAddress
+        name="Address1"
+        leftProps={{
           fieldNames: {
             label: 'name',
             value: 'code',
@@ -77,13 +79,13 @@ const Demo1 = () => {
         }}
         label="地址选择"
         required
-        names={['location', 'address']}
-        options={AREA_DATA}
+        options={china_city}
       />
       <LFormItemAddress
+        name="Address2"
         variant="filled"
         label="设置弹出层高度"
-        cascaderProps={{
+        leftProps={{
           popupClassName: 'my-lform-item-address-popup',
           fieldNames: {
             label: 'name',
@@ -92,33 +94,30 @@ const Demo1 = () => {
           },
         }}
         required
-        names={['location9', 'address9']}
         options={AREA_DATA}
       />
 
       <LFormItemAddress
-        label="左右各占一半"
+        name="Address3"
+        label="左侧宽度设置"
+        leftWidth="30%"
         required
-        names={['location2', 'address1']}
         options={AREA_DATA}
-        cascaderProps={{
+        leftProps={{
           fieldNames: {
             label: 'name',
             value: 'code',
             children: 'children',
           },
         }}
-        cascaderColProps={{ xs: 24, md: 12, lg: 12, xxl: 12 }}
-        inputColProps={{ xs: 24, md: 12, lg: 12, xxl: 12 }}
-      /> */}
+      />
 
       <LFormItemAddress
         label="开户银行"
         required
-        names={['location1', 'address2']}
-        name="aaa111"
+        name="Address4"
         options={options}
-        placeholder={['请选择省市', '请输入银行支行']}
+        placeholder={['请选择省市区', '请输入银行支行']}
       />
     </LForm>
   );

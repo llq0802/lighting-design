@@ -1,5 +1,5 @@
-import type { ColumnsType } from 'antd/lib/table';
 import Mock from 'better-mock';
+import type { LTableProps } from '../interface';
 
 interface DataType {
   key: string;
@@ -8,13 +8,17 @@ interface DataType {
   address: string;
 }
 
-export const columns: ColumnsType<DataType> = [
+export const columns: LTableProps['columns'] = [
   {
     title: '姓名',
     dataIndex: 'name',
     key: 'name',
     align: 'center',
     className: 'my-name-columns',
+    toolTip: {
+      title: '999',
+      placement: 'bottom',
+    },
   },
   {
     title: '年龄',

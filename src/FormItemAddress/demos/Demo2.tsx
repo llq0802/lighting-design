@@ -1,40 +1,8 @@
+import Mock from 'better-mock';
 import { LForm, LFormItemAddress } from 'lighting-design';
 import './styles.less';
 
-const options: any[] = [
-  {
-    value: 'zhejiang',
-    label: 'Zhejiang',
-    children: [
-      {
-        value: 'hangzhou',
-        label: 'Hangzhou',
-        children: [
-          {
-            value: 'xihu',
-            label: 'West Lake',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: 'jiangsu',
-    label: 'Jiangsu',
-    children: [
-      {
-        value: 'nanjing',
-        label: 'Nanjing',
-        children: [
-          {
-            value: 'zhonghuamen',
-            label: 'Zhong Hua Men',
-          },
-        ],
-      },
-    ],
-  },
-];
+const opts1 = Mock.mock({ 'list|10': [{ label: '@cname', value: '@id' }] }).list;
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
@@ -47,22 +15,20 @@ const Demo1 = () => {
       }}
     >
       <LFormItemAddress
-        label="地址"
+        label="Select单选"
         required
-        name="aaa111"
-        options={options}
-        placeholder={['请选择省市', '请输入银行支行']}
+        name="a1"
+        options={opts1}
+        leftProps={{ isSelect: true }}
+        rightProps={{ isInputNumber: true, max: 99999 }}
       />
       <LFormItemAddress
-        label="地址2"
+        label="Select多选"
         required
-        name="aaa2"
-        options={options}
-        cascaderProps={{
-          style: {
-            width: '50%',
-          },
-        }}
+        name="a2"
+        options={opts1}
+        leftProps={{ isSelect: true, mode: 'multiple' }}
+        rightProps={{ isInputNumber: true, min: 0 }}
       />
     </LForm>
   );

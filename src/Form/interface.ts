@@ -69,7 +69,7 @@ export interface BaseFormProps<T = Record<string, any>>
    */
   labelWidth?: number | 'auto' | string;
   /**
-   *统一设置 Form.Item 或 LFormItem 或 LFormItemXXX 组件的 style.bottom 属性
+   *统一设置  LFormItem 或 LFormItemXXX 组件的 style.bottom 属性
    *
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
    */

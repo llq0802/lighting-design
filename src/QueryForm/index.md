@@ -19,6 +19,10 @@ nav:
 
 <code src='./demos/Demo5.tsx'></code>
 
+### 修改每一表单项的 bottom
+
+<code src='./demos/Demo8.tsx'></code>
+
 ### 水平紧凑模式
 
 <code src='./demos/Demo2.tsx'></code>

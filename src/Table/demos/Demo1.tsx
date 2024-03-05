@@ -1,5 +1,5 @@
 import type { FormInstance } from 'antd';
-import { Button } from 'antd';
+import { Button, Empty } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import {
   LFormItemDatePicker,
@@ -79,6 +79,7 @@ const Demo1: FC = () => {
             console.log('==查询框Demo1-values====>', values);
           },
         }}
+        emptyRender={() => <Empty style={{ margin: '160px 0' }} />}
         toolbarLeft={
           <>
             <Button
@@ -159,7 +160,7 @@ const Demo1: FC = () => {
         request={async (params, requestType) => {
           console.log('==查询框Demo1-params====>', params);
           console.log('==查询框Demo1-requestType====>', requestType);
-          const res: Record<string, any> = await apiGetUserList(params);
+          const res: Record<string, any> = await apiGetUserList(params, 1500);
           return {
             success: true,
             data: res.data,
