@@ -16,9 +16,9 @@ const Demo22: FC = () => {
   };
   return (
     <LTable
+      bordered
       showStripe
       showHover
-      rowKey="key"
       toolbarActionConfig={false}
       columns={columns}
       request={request}

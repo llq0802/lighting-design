@@ -34,6 +34,7 @@ const Index = () => {
         }}
         disabled={!select1Val}
         request={async () => {
+          form.setFieldValue('select2', null);
           if (!select1Val) return [];
           let data: Record<string, any>[] = [];
           if (select1Val === 'a') {
@@ -79,8 +80,8 @@ const Index = () => {
               },
             ];
           }
-          const result = await awaitTime(data);
-          if (result.success) return result.data;
+          await awaitTime();
+          return data;
         }}
       />
     </LForm>

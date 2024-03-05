@@ -7,9 +7,8 @@ import { isAntdVersionMoreThan514, uniqueId } from 'lighting-design/_utils';
 import type { ReactNode } from 'react';
 import { cloneElement, forwardRef, useImperativeHandle, useMemo } from 'react';
 import LForm from '../../Form';
+import { LIGHTD_TABLE } from './BaseTable';
 import './styles.less';
-
-export const LIGHTD_CARD = 'lightd-card';
 
 export declare interface SearchFormProps extends LQueryFormProps {
   formItems?: Exclude<ReactNode, string | number | boolean | null | undefined>[];
@@ -70,7 +69,7 @@ const SearchForm = forwardRef(
       <Card
         bordered={false}
         {...cardProps}
-        className={classNames(`${LIGHTD_CARD}`, cardProps?.className)}
+        className={classNames(`${LIGHTD_TABLE}-form-card`, cardProps?.className)}
         style={{ marginBottom: 16, ...cardProps?.style }}
         {...compatibilityStyle}
       >

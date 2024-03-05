@@ -4,6 +4,8 @@ import { emptyArray } from 'lighting-design/constants';
 import { isFunction as isFn, isPlainObject } from 'lodash-es';
 import rfdc from 'rfdc';
 
+/** 是否为偶数 */
+export const isEvenNumber = (n: number) => n % 2 === 0;
 /**
  * 是否 number
  */

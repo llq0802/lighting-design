@@ -132,9 +132,10 @@ const LDescriptions: FC<LDescriptionsProps> = ({
                     labelAlign={titleAlign}
                     label={title}
                     colon={!!colon}
-                    style={{ marginBottom, ...itemStyle }}
+                    formItemBottom={marginBottom}
                     labelCol={labelCol}
                     wrapperCol={wrapperCol}
+                    style={style}
                   >
                     {render ? render?.(curVal, record, i) : curVal ?? emptyNode}
                   </LFormItem>

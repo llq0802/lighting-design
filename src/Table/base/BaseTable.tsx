@@ -4,12 +4,13 @@ import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import zhCN from 'antd/es/locale/zh_CN';
 import classnames from 'classnames';
+import { isEvenNumber } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import { useImperativeHandle, useMemo, useRef } from 'react';
 import TableContext from '../TableContext';
 import type { LTableProps } from '../interface';
-import SearchForm, { LIGHTD_CARD } from './SearchFrom';
+import SearchForm from './SearchFrom';
 import ToolbarAction, { TdCell, showTotal } from './ToolBarAction';
 import {
   useFillSpace,
@@ -24,6 +25,8 @@ import {
 import './styles.less';
 
 export const LIGHTD_TABLE = 'lightd-table';
+
+const LIGHTD_CARD = `${LIGHTD_TABLE}-card`;
 
 const spinStyle = { maxHeight: '86%' };
 
@@ -327,10 +330,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     return !showToolbar ||
       (toolbarActionConfig === false && !toolbarLeft && !toolbarRight) ? null : (
       <div className={`${LIGHTD_TABLE}-toolbar`} style={toolbarStyle}>
-        <div className={`${LIGHTD_TABLE}-toolbar-content-left`}>
+        <div className={`${LIGHTD_TABLE}-toolbar-left`}>
           {toolbarLeft && <Space>{toolbarLeft}</Space>}
         </div>
-        <div className={`${LIGHTD_TABLE}-toolbar-content-right`}>
+        <div className={`${LIGHTD_TABLE}-toolbar-right`}>
           <Space>
             {toolbarRight}
             {toolbarActionDom}
@@ -353,7 +356,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       }}
       className={classnames(
         LIGHTD_CARD,
-        { [`${LIGHTD_CARD}-stripe`]: showStripe, [`${LIGHTD_CARD}-hover`]: showHover },
+        { [`${LIGHTD_CARD}-stripe`]: !!showStripe, [`${LIGHTD_CARD}-hover`]: !!showHover },
         tableCardProps?.className,
       )}
     >
@@ -369,8 +372,11 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
             row:
               !tableData?.length && emptyRender
                 ? () => (
-                    <tr className={`${LIGHTD_TABLE}-placeholder`}>
-                      <td colSpan={finalColumns?.length || 1} className={`${LIGHTD_TABLE}-cell`}>
+                    <tr className={`${LIGHTD_TABLE}-row-empty-placeholder`}>
+                      <td
+                        colSpan={finalColumns?.length || 1}
+                        className={`${LIGHTD_TABLE}-cell-empty`}
+                      >
                         {emptyRender?.()}
                       </td>
                     </tr>
@@ -379,7 +385,17 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
             ...components?.body,
           },
         }}
-        rowClassName={classnames(`${LIGHTD_TABLE}-row`, rowClassName as string | undefined)}
+        rowClassName={(...args) => {
+          const i = args[1];
+          return classnames(
+            `${LIGHTD_TABLE}-row`,
+            {
+              [`${LIGHTD_TABLE}-row-stripe`]: !!showStripe && isEvenNumber(i + 1),
+              [`${LIGHTD_TABLE}-row-hover`]: !!showHover,
+            },
+            typeof rowClassName === 'function' ? rowClassName?.(...args) : rowClassName,
+          );
+        }}
         size={currentSize as SizeType}
         columns={finalColumns}
         dataSource={data?.list}
