@@ -38,11 +38,17 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
         step={step}
         marks={marks}
         disabled={disabled || formDisabled}
-        handleStyle={handleStyle}
-        trackStyle={trackStyle}
-        railStyle={railStyle}
+        // handleStyle={handleStyle}
+        // trackStyle={trackStyle}
+        // railStyle={railStyle}
         style={sliderStyle}
         {...sliderProps}
+        styles={{
+          handle: handleStyle,
+          track: trackStyle,
+          rail: railStyle,
+          ...sliderProps?.styles,
+        }}
       />
     </LFormItem>
   );
