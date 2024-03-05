@@ -15,7 +15,7 @@ const ReloadIcon = ({ onReloadIconChange }) => {
 
   return (
     <ReloadOutlined
-      title="刷新"
+      title="刷新表格"
       onClick={() => {
         reload?.();
         onReloadIconChange?.();

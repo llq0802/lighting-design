@@ -15,10 +15,6 @@ export const columns: LTableProps['columns'] = [
     key: 'name',
     align: 'center',
     className: 'my-name-columns',
-    toolTip: {
-      title: '999',
-      placement: 'bottom',
-    },
   },
   {
     title: '年龄',
