@@ -117,7 +117,13 @@ export type LTableProps<T = any> = TableProps<T> & {
    * 是否需要排序序号及宽度，自定义渲染排序
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
-  isSort?: boolean | { width?: number | string; render?: (pageCount: number) => ReactNode };
+  isSort?:
+    | boolean
+    | {
+        width?: number | string;
+        render?: (pageCount: number) => ReactNode;
+        fixed?: boolean | string;
+      };
   /**
    * 是否展示带斑马纹的表格，可以更容易区分出不同行的数据。
    *   - string 可设置自定义颜色
@@ -361,6 +367,10 @@ export type LTableProps<T = any> = TableProps<T> & {
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   contentRender?: (tableData: Record<string, any>[]) => ReactNode;
+  /**
+   * 在数据为空的情况下, 重新渲染空数据的组件
+   */
+  emptyRender?: () => ReactNode;
   /**
    *  重新渲染 antd 表格的头部列
    *  - 会在 toolbar 下方, antd 表格的头部渲染

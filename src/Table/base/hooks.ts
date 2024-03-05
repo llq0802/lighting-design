@@ -29,7 +29,7 @@ export function useFillSpace({
       return;
     }
 
-    let minHeight = 300;
+    let h = 300;
     const fillHeight = fillSpace === true ? 1 : fillSpace + 1;
     const { bottom: antdTableBottom, height: antdTableHeight } =
       antdTableDom!.getBoundingClientRect();
@@ -37,13 +37,14 @@ export function useFillSpace({
     const antdTableMarginBottom = window.innerHeight - antdTableBottom;
 
     if (antdTableMarginBottom <= 0) return;
+
     if (antdTableMarginBottom - fillHeight > 0) {
-      minHeight =
-        antdTableMarginBottom + antdTableHeight - fillHeight - (cardBottom - antdTableBottom);
+      h = antdTableMarginBottom + antdTableHeight - fillHeight - (cardBottom - antdTableBottom);
     } else {
-      minHeight = antdTableMarginBottom + antdTableHeight - (cardBottom - antdTableBottom);
+      h = antdTableMarginBottom + antdTableHeight - (cardBottom - antdTableBottom);
     }
-    antdTableDom!.style.height = `${Math.floor(minHeight)}px`;
+
+    antdTableDom!.style.height = `${Math.floor(h)}px`;
     antdTableDom!.style.overflow = 'auto';
   }, [fillSpace, tableData?.length]);
 }
@@ -81,6 +82,7 @@ export function useTableColumn({
         align: 'center',
         dataIndex: '_SERIAL_NUMNER_COLUMN_',
         width: typeof isSort === 'boolean' ? 80 : isSort?.width || 80,
+        fixed: isSort === 'boolean' ? false : isSort?.fixed || false,
         render,
       };
       return [sortColumn, ...columns];

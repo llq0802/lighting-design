@@ -52,6 +52,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     tableCardProps,
     tableExtra: tableExtraDom,
     tableRender,
+    emptyRender,
     toolbarActionConfig: outToolbarActionConfig = emptyObject,
     toolbarRender,
     toolbarLeft,
@@ -71,7 +72,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     components,
     ...restProps
   } = props;
-  const { dataSource } = restProps;
+  const { dataSource } = props;
   const hasDataSource = !!dataSource;
   const rootRef = useRef<HTMLDivElement>(null);
   const tablecardref = useRef<HTMLDivElement>(null);
@@ -365,14 +366,17 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
           ...components,
           body: {
             cell: TdCell,
+            row:
+              !tableData?.length && emptyRender
+                ? () => (
+                    <tr className={`${LIGHTD_TABLE}-placeholder`}>
+                      <td colSpan={finalColumns?.length || 1} className={`${LIGHTD_TABLE}-cell`}>
+                        {emptyRender?.()}
+                      </td>
+                    </tr>
+                  )
+                : void 0,
             ...components?.body,
-            // row: () => (
-            //   <tr>
-            //     <td colSpan={outColumns?.length || 1}>
-            //       <Empty />
-            //     </td>
-            //   </tr>
-            // ),
           },
         }}
         rowClassName={classnames(`${LIGHTD_TABLE}-row`, rowClassName as string | undefined)}
