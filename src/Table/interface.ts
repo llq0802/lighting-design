@@ -1,6 +1,7 @@
 import type { PaginationOptions } from 'ahooks/lib/usePagination/types';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
-import type { CardProps, FormInstance, TableProps } from 'antd';
+import type { CardProps, FormInstance, TableProps, TooltipProps } from 'antd';
+import type { ColumnGroupType, ColumnType } from 'antd/es/table';
 import type { LQueryFormProps } from 'lighting-design/QueryForm/interface';
 import type {
   CSSProperties,
@@ -104,6 +105,25 @@ export type LTableRequest<T = Record<string, any>> = (
 ) => Promise<{ success: boolean; data: T[]; total: number }>;
 
 export type LTableProps<T = any> = TableProps<T> & {
+  /**
+   * 列配置, 扩展了部分字段
+   * - 配置了 `contentRender` 则 `columns` 无效
+   * - `toolTip` 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)`
+   * - `exportRender` 字段配合`json2Excel`方法自定义导出列数据的 `excel`
+   */
+  columns?:
+    | TableProps['columns']
+    | (
+        | {
+            /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
+            toolTip?: boolean | TooltipProps;
+            /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
+            exportRender?: (val: any, row: Record<string, any>, i: number) => string | number;
+          }
+        | ColumnGroupType<T>
+        | ColumnType<T>
+      )[];
+
   /**
    * 表格数据
    *  - 绝大多数情况下建议使用 `request` 返回的表格数据

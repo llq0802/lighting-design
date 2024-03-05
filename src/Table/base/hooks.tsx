@@ -1,7 +1,8 @@
 import { usePagination, useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
+import { Tooltip } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { getTableColumnsKey, isFunction } from 'lighting-design/_utils';
-import { omit } from 'lodash-es';
+import { isPlainObject, omit } from 'lodash-es';
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { LTableProps } from '../interface';
 
@@ -29,7 +30,7 @@ export function useFillSpace({
       return;
     }
 
-    let h = 300;
+    let h;
     const fillHeight = fillSpace === true ? 1 : fillSpace + 1;
     const { bottom: antdTableBottom, height: antdTableHeight } =
       antdTableDom!.getBoundingClientRect();
@@ -71,11 +72,12 @@ export function useTableColumn({
 }: Record<string, any>) {
   const outColumns = useMemo<Record<string, any>[]>(() => {
     if (contentRender) return [];
+    let innerColumns = columns;
     if (isSort) {
       const { current, pageSize } = paginationAction;
       const render = (_: any, __: any, index: number) => {
-        const val = (current - 1) * (pageSize || 0) + index + 1;
-        return isFunction(isSort?.render) ? isSort?.render?.(val) : val;
+        const page = (current - 1) * (pageSize || 0) + index + 1;
+        return isFunction(isSort?.render) ? isSort?.render?.(page) : page;
       };
       const sortColumn = {
         title: '序号',
@@ -85,9 +87,29 @@ export function useTableColumn({
         fixed: isSort === 'boolean' ? false : isSort?.fixed || false,
         render,
       };
-      return [sortColumn, ...columns];
+      innerColumns = [sortColumn, ...columns];
     }
-    return columns;
+    return innerColumns.map((item: Record<string, any>) => {
+      if (item.toolTip && !item.ellipsis) {
+        return {
+          ...item,
+          ellipsis: { showTitle: false },
+          render: (text: any, row: Record<string, any>, i: number) => {
+            const val = row?.[item?.dataIndex] ?? text ?? i;
+            return (
+              <Tooltip
+                placement="topLeft"
+                title={val}
+                {...(isPlainObject(item.toolTip) ? item.toolTip : {})}
+              >
+                {item?.render ? item?.render(text, row, i) : val}
+              </Tooltip>
+            );
+          },
+        };
+      }
+      return item;
+    });
   }, [columns, paginationAction?.current, paginationAction?.pageSize]);
 
   // 表格展示的列key
