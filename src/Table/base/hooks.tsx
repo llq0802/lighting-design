@@ -75,17 +75,17 @@ export function useTableColumn({
     let innerColumns = columns;
     if (isSort) {
       const { current, pageSize } = paginationAction;
-      const render = (_: any, __: any, index: number) => {
-        const page = (current - 1) * (pageSize || 0) + index + 1;
-        return isFunction(isSort?.render) ? isSort?.render?.(page) : page;
+      const render = (t: any, c: any, i: number) => {
+        const page = (current - 1) * (pageSize || 0) + i + 1;
+        return isFunction(isSort?.render) ? isSort?.render?.(page, t, c, i) : page;
       };
       const sortColumn = {
         title: '序号',
         align: 'center',
-        dataIndex: '_SERIAL_NUMNER_COLUMN_',
-        width: typeof isSort === 'boolean' ? 80 : isSort?.width || 80,
-        fixed: isSort === 'boolean' ? false : isSort?.fixed || false,
+        width: 80,
+        ...(isPlainObject(isSort) ? isSort : {}),
         render,
+        dataIndex: '_LTABLE_SERIAL_NUMNER_COLUMN_',
       };
       innerColumns = [sortColumn, ...columns];
     }
