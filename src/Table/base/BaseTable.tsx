@@ -37,6 +37,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     fillSpace = false,
     showStripe = false,
     showHover = false,
+    showHorizontalBorder = true,
     showToolbar = true,
     autoRequest = true,
     formRef,
@@ -64,10 +65,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     contentRender,
     formItems = emptyArray,
     tableHeaderRender,
-    rowClassName,
     rootClassName,
     rootStyle,
     toolbarStyle,
+    //
     loading: outLoading,
     size: outSize,
     columns = emptyArray,
@@ -356,13 +357,20 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       }}
       className={classnames(
         LIGHTD_CARD,
-        { [`${LIGHTD_CARD}-stripe`]: !!showStripe, [`${LIGHTD_CARD}-hover`]: !!showHover },
+        {
+          [`${LIGHTD_CARD}-stripe`]: !!showStripe,
+          [`${LIGHTD_CARD}-hover`]: !!showHover,
+          [`${LIGHTD_CARD}-border-none`]: !showHorizontalBorder,
+        },
         tableCardProps?.className,
       )}
     >
       {toolbarRender ? toolbarRender(toolbarActionDom, toolbarDom) : toolbarDom}
       {tableHeaderRender ? tableHeaderRender(finalColumns, tableData) : null}
       <Table
+        columns={finalColumns}
+        dataSource={data?.list}
+        size={currentSize as SizeType}
         showHeader={!tableHeaderRender && !contentRender}
         components={{
           table: contentRender ? () => contentRender?.(tableData) : void 0,
@@ -385,20 +393,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
             ...components?.body,
           },
         }}
-        rowClassName={(...args) => {
-          const i = args[1];
-          return classnames(
-            `${LIGHTD_TABLE}-row`,
-            {
-              [`${LIGHTD_TABLE}-row-stripe`]: !!showStripe && isEvenNumber(i + 1),
-              [`${LIGHTD_TABLE}-row-hover`]: !!showHover,
-            },
-            typeof rowClassName === 'function' ? rowClassName?.(...args) : rowClassName,
-          );
-        }}
-        size={currentSize as SizeType}
-        columns={finalColumns}
-        dataSource={data?.list}
         pagination={
           outPagination !== false
             ? {
@@ -417,6 +411,33 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
             : false
         }
         {...restProps}
+        onHeaderRow={(...args) => {
+          const onHeaderRow = restProps?.onHeaderRow;
+          const headerRowProps = typeof onHeaderRow === 'function' ? onHeaderRow(...args) : {};
+          return {
+            ...onHeaderRow,
+            className: classnames(
+              `${LIGHTD_TABLE}-header-row`,
+              {
+                [`${LIGHTD_TABLE}-header-row-border-none`]: !showHorizontalBorder,
+              },
+              headerRowProps?.className,
+            ),
+          };
+        }}
+        rowClassName={(...args) => {
+          const rowClassName = restProps?.rowClassName;
+          const i = args[1];
+          return classnames(
+            `${LIGHTD_TABLE}-row`,
+            {
+              [`${LIGHTD_TABLE}-row-stripe`]: !!showStripe && isEvenNumber(i + 1),
+              [`${LIGHTD_TABLE}-row-hover`]: !!showHover,
+              [`${LIGHTD_TABLE}-row-border-none`]: !showHorizontalBorder,
+            },
+            typeof rowClassName === 'function' ? rowClassName?.(...args) : rowClassName,
+          );
+        }}
       />
     </Card>
   );

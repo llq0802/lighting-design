@@ -66,8 +66,9 @@ const Demo1: FC = () => {
   return (
     <>
       <LTable
+        showHover="#3e9bed"
+        showStripe
         rowKey="key"
-        tableLayout="fixed"
         rowClassName="lightd-table-row-1"
         rootClassName="my-table-root-1"
         className="my-table-1"

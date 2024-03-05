@@ -1,10 +1,12 @@
 import { usePagination, useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
 import { Tooltip } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
+import classnames from 'classnames';
 import { getTableColumnsKey, isFunction } from 'lighting-design/_utils';
 import { isPlainObject, omit } from 'lodash-es';
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { LTableProps } from '../interface';
+import { LIGHTD_TABLE } from './BaseTable';
 
 /**
  * 填充视口剩余空间
@@ -72,7 +74,7 @@ export function useTableColumn({
 }: Record<string, any>) {
   const outColumns = useMemo<Record<string, any>[]>(() => {
     if (contentRender) return [];
-    let innerColumns = columns;
+    let innerColumns = columns || [];
     if (isSort) {
       const { current, pageSize } = paginationAction;
       const render = (t: any, c: any, i: number) => {
@@ -89,7 +91,18 @@ export function useTableColumn({
       };
       innerColumns = [sortColumn, ...columns];
     }
-    return innerColumns.map((item: Record<string, any>) => {
+    return innerColumns.map((col: Record<string, any>) => {
+      const item: Record<string, any> = {
+        ...col,
+        onHeaderCell(c) {
+          const headerCellProps = col?.onHeaderCell?.(c) || {};
+          return {
+            ...headerCellProps,
+            className: classnames(`${LIGHTD_TABLE}-header-cell`, headerCellProps?.className),
+          };
+        },
+      };
+
       if (item.toolTip && !item.ellipsis) {
         return {
           ...item,

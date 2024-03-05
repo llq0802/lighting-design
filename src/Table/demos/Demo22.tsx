@@ -16,12 +16,13 @@ const Demo22: FC = () => {
   };
   return (
     <LTable
-      bordered
       showStripe
       showHover
       toolbarActionConfig={false}
       columns={columns}
       request={request}
+      showHorizontalBorder={false}
+      // dataSource={[]}
     />
   );
 };

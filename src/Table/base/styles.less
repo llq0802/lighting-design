@@ -18,9 +18,32 @@
   }
 
   &-card {
+    .ant-table-wrapper .ant-table {
+      background: initial;
+    }
 
-    .@{lightd-table}-row{
+    .@{lightd-table}-row {
       transition: all 0.21s;
+    }
+
+    &-border-none {
+      .ant-table-wrapper .ant-table-tbody > tr > td {
+        border: none;
+      }
+
+      .ant-table-wrapper .ant-table tr.@{lightd-table}-row-border-none td,
+      .ant-table-wrapper .ant-table-thead > tr.@{lightd-table}-header-row-border-none > th {
+        border: none;
+      }
+
+      .ant-table-wrapper
+        .ant-table-thead
+        > tr.@{lightd-table}-header-row-border-none
+        > th:not(:last-child):not(.ant-table-selection-column):not(
+          .ant-table-row-expand-icon-cell
+        ):not([colspan])::before {
+        width: 0;
+      }
     }
 
     &-stripe {

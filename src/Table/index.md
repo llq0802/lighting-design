@@ -25,7 +25,7 @@ nav:
 
 <code src='./demos/Demo22.tsx' background="#f5f5f5"></code>
 
-### 基础用法
+<!-- ### 基础用法
 
 <code src='./demos/Demo24.tsx' background="#f5f5f5"></code>
 
@@ -149,7 +149,7 @@ nav:
 
 ### antd 的 title footer 等其他属性
 
-<code src='./demos/Demo26.tsx' background="#f5f5f5"></code>
+<code src='./demos/Demo26.tsx' background="#f5f5f5"></code> -->
 
 ### Excel 导入与导出
 
@@ -230,6 +230,7 @@ import { LTable } from 'lighting-design';
 | isReady              | 表格 表单是否准备好 false 时表格不会请求 表单不能提交查询                                                                                                      | `boolean`                                                                               | `true`                                                        |
 | showStripe           | 是否展示带斑马纹的表格，可以更容易区分出不同行的数据。 `true为#fafafa , string类型可设置自定义颜色`                                                            | `boolean\|string`                                                                       | `false`                                                       |
 | showHover            | 鼠标移入每一行是否有 hover 高亮效果 。 `true为#fafafa , string类型可设置自定义颜色`                                                                            | `boolean\|string`                                                                       | `false`                                                       |
+| showHorizontalBorder | 是否展示水平方向的边框, 配合`antd.bordered = false`(bordered 默认为 false) 可做到真正无边框表格                                                                | `boolean`                                                                               | `true`                                                        |
 | showToolbar          | 是否显示整个 toolbar 为 `false` 时不会渲染 `toolbarLeft` 与 `toolbarRight`                                                                                     | `boolean`                                                                               | `true`                                                        |
 | autoRequest          | 是否在第一次渲染时自动请求                                                                                                                                     | `boolean`                                                                               | `true`                                                        |
 | fullScreenBgColor    | 全屏时显示的背景颜色                                                                                                                                           | `string`                                                                                | `#fff`                                                        |
