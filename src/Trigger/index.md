@@ -50,18 +50,9 @@ import { LTrigger } from 'lighting-design';
 
 - 弹出层的宽度由 `children` 组件控制
 
-- `children` 组件会接受到 `mode` `labelInValue` `open`，`setOpen`，`value`，`onChange` 必须在 `children` 组件中绑定 `value，onChange`
+- `children` 组件会接受到 `mode` `labelInValue` `fieldNames` `open`，`setOpen`，`value`，`onChange` 必须在 `children` 组件中绑定 `value，onChange`
 
-- 默认`children`接受到的`value`为`value.value`, 如果`labelInValue`为`true` `children`接受到的`value`为 `{ label: xxx; value: xxx }` , `onChange`传的值必须是`{ label: xxx; value: xxx }` ,`fieldNames` 可配置为其他字段名
-
-- mode 在子组件中使用时, onChange 的调用方式：
-
-  - 为`radio`时,子组件 onChange 调用方式为`onChange({ label: string, value: string|number })`
-  - 为`checkbox`时,子组件 onChange 调用方式为`onChange({ label: string, value: (string|number)[] })`
-    - 建议 label 的值用 `'-'`或`'/'`或`','`分隔
-  - 为`radioTag`时,子组件 onChange 调用方式为`onChange({ label: [string], value: [string|number] })`
-    - 有值情况下 label 与 value 的数组长度均为 **1**
-  - 为`checkboxTag`时,子组件 onChange 调用方式为`onChange({ label: string[], value:(string|number)[] })`
+- 默认`children`接受的`value`为`value.value`, 如果`labelInValue`为`true`, `children`接受的`value`为 `{ label: xxx; value: xxx }` , `onChange`传的值必须是`{ label: xxx; value: xxx }`, `fieldNames`可配置为其他字段名
 
 - 如果在 `LForm`或 `Form`中使用，默认接收到的值必须是`{ label: string; value: string; }` ,`fieldNames` 可配置为其他字段名
 
@@ -71,35 +62,63 @@ import { LTrigger } from 'lighting-design';
 
   :::
 
-| 参数              | 说明                                                                                | 类型                                                                                  | 默认值                              |
-| ----------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------- |
-| mode              | 选择回显的模式                                                                      | `LTriggerMode`                                                                        | `radio`                             |
-| width             | 选择框宽度                                                                          | `number\|string`                                                                      | `250`                               |
-| split             | mode 为 `checkbox` 回显分割的字符                                                   | `string`                                                                              | `' / '`                             |
-| fieldNames        | 配置字段 label 字段名，value 字段的名                                               | `{ label: string; value: string; }`                                                   | `{ label: 'label',value: 'value' }` |
-| size              | 选择框大小                                                                          | `'small' \| 'middle'\|'large'`                                                        | `'middle'`                          |
-| overlayArrow      | 修改弹出层的箭头的显示状态以及修改箭头是否指向目标元素中心                          | `boolean` \| `{ pointAtCenter: boolean }`                                             | `false`                             |
-| allowClear        | 清除图标                                                                            | `boolean\| { clearIcon :ReactNode}`                                                   | `true`                              |
-| placement         | 弹出层弹出的位置                                                                    | `Placement`                                                                           | `'bottomLeft'`                      |
-| destroyOnHide     | 弹出层关闭时是否销毁 `children` 组件                                                | `boolean`                                                                             | `false`                             |
-| variant           | 形态变体                                                                            | `outlined \| borderless \| filled`                                                    | `outlined`                          |
-| labelInValue      | 是否把传入子组件 `value 的值 从 value.value 变为 { value: xxx, label: xxx }` 的格式 | `boolean`                                                                             | `false`                             |
-| disabled          | 是否禁用                                                                            | `boolean`                                                                             | `false`                             |
-| placeholder       | placeholder                                                                         | `string`                                                                              | `'请选择'`                          |
-| overlayStyle      | 弹出层样式                                                                          | `CSSProperties`                                                                       | `-`                                 |
-| className         | 组件类名                                                                            | `string`                                                                              | `-`                                 |
-| overlayClassName  | 弹出层的类名                                                                        | `string`                                                                              | `-`                                 |
-| style             | 组件样式                                                                            | `CSSProperties`                                                                       | `-`                                 |
-| open              | 受控, 是否打开弹出层                                                                | `boolean`                                                                             | `-`                                 |
-| suffixIcon        | 自定义的选择框后缀图标                                                              | `ReactNode`                                                                           | `-`                                 |
-| defaultValue      | 默认值                                                                              | 默认为`{ label: string\| string[]; value: string\| string[] }` 与`fieldNames`配置有关 | `-`                                 |
-| defaultOpen       | 默认是否打开弹出层                                                                  | `boolean`                                                                             | `false`                             |
-| value             | 受控值, 配合`onChange`使用                                                          | 默认为`{ label: string\| string[]; value: string\| string[] }` 与`fieldNames`配置有关 | `-`                                 |
-| onOpenChange      | 受控, 打开弹出层的的回调                                                            | `function(open):void`                                                                 | `-`                                 |
-| tagRender         | 自定义渲染 tag `mode=tag`模式下生效                                                 | `(props) => ReactElement \| JSXElementConstructor`                                    | `-`                                 |
-| onChange          | 受控, value 变化时，调用此函数                                                      | `function(value)`                                                                     | `-`                                 |
-| getPopupContainer | 控制渲染到的节点。默认渲染到 body 上                                                | `(triggerNode: HTMLElement) => HTMLElement`                                           | `() => document.body`               |
-| children          | children 组件会接受到 `open`，`setOpen`，`value`，`onChange`                        | `ReactElement`                                                                        | `-`                                 |
+| 参数              | 说明                                                                                            | 类型                                                                                  | 默认值                              |
+| ----------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------- |
+| mode              | 选择回显的模式, **会透传给子组件**                                                              | `LTriggerMode`                                                                        | `radio`                             |
+| width             | 选择框宽度                                                                                      | `number\|string`                                                                      | `250`                               |
+| split             | mode 为 `checkbox` 回显分割的字符, 建议使用`' - '`或`' / '`或`' , '`                            | `string`                                                                              | `' / '`                             |
+| fieldNames        | 配置字段 label 字段名，value 字段的名, **会透传给子组件**                                       | `{ label: string; value: string; }`                                                   | `{ label: 'label',value: 'value' }` |
+| size              | 选择框大小                                                                                      | `'small' \| 'middle'\|'large'`                                                        | `'middle'`                          |
+| overlayArrow      | 修改弹出层的箭头的显示状态以及修改箭头是否指向目标元素中心                                      | `boolean` \| `{ pointAtCenter: boolean }`                                             | `false`                             |
+| allowClear        | 清除图标                                                                                        | `boolean\| { clearIcon :ReactNode}`                                                   | `true`                              |
+| placement         | 弹出层弹出的位置                                                                                | `Placement`                                                                           | `'bottomLeft'`                      |
+| destroyOnHide     | 弹出层关闭时是否销毁 `children` 组件                                                            | `boolean`                                                                             | `false`                             |
+| variant           | 形态变体                                                                                        | `outlined \| borderless \| filled`                                                    | `outlined`                          |
+| labelInValue      | 把传入子组件`value 的值从 value.value 变为{ value: xxx, label: xxx }`的格式, **会透传给子组件** | `boolean`                                                                             | `false`                             |
+| disabled          | 是否禁用                                                                                        | `boolean`                                                                             | `false`                             |
+| placeholder       | placeholder                                                                                     | `string`                                                                              | `'请选择'`                          |
+| overlayStyle      | 弹出层样式                                                                                      | `CSSProperties`                                                                       | `-`                                 |
+| className         | 组件类名                                                                                        | `string`                                                                              | `-`                                 |
+| overlayClassName  | 弹出层的类名                                                                                    | `string`                                                                              | `-`                                 |
+| style             | 组件样式                                                                                        | `CSSProperties`                                                                       | `-`                                 |
+| open              | 受控, 是否打开弹出层, **会透传给子组件**                                                        | `boolean`                                                                             | `-`                                 |
+| suffixIcon        | 自定义的选择框后缀图标                                                                          | `ReactNode`                                                                           | `-`                                 |
+| defaultValue      | 默认值                                                                                          | 默认为`{ label: string\| string[]; value: string\| string[] }` 与`fieldNames`配置有关 | `-`                                 |
+| defaultOpen       | 默认是否打开弹出层                                                                              | `boolean`                                                                             | `false`                             |
+| value             | 受控值, 配合`onChange`使用, **会透传给子组件**                                                  | 默认为`{ label: string\| string[]; value: string\| string[] }` 与`fieldNames`配置有关 | `-`                                 |
+| onOpenChange      | 受控, 打开弹出层的的回调                                                                        | `function(open):void`                                                                 | `-`                                 |
+| tagRender         | 自定义渲染 tag `mode=tag`模式下生效                                                             | `(props) => ReactElement \| JSXElementConstructor`                                    | `-`                                 |
+| onChange          | 受控, value 变化时，调用此函数 , **会透传给子组件**                                             | `function(value)`                                                                     | `-`                                 |
+| getPopupContainer | 控制渲染到的节点。默认渲染到 body 上                                                            | `(triggerNode: HTMLElement) => HTMLElement`                                           | `() => document.body`               |
+| children          | children 组件会接受到 `open`，`setOpen`，`value`，`onChange` 等参数                             | `ReactElement`                                                                        | `-`                                 |
+
+### mode 在子组件中使用时, 子组件 onChange 的调用方式：
+
+- 为`radio`时子组件 `onChange` 调用方式为
+
+```ts
+onChange(values: {label: string, value: string | number });
+```
+
+- 为`checkbox`时子组件 `onChange` 调用方式为
+
+```ts
+onChange(values: {label: string[], value: (string | number)[] });
+```
+
+- 为`radioTag`时子组件 `onChange` 调用方式为
+
+```ts
+onChange(values: {label: string, value: string | number });
+```
+
+- 为`checkboxTag`时子组件 `onChange` 调用方式为
+
+```ts
+onChange(values: {label: string[], value: (string | number)[] });
+```
+
+其中的 `label` 与 `value` 键名与 `fieldNames` 的配置有关
 
 ### LTriggerMode
 

@@ -1,19 +1,9 @@
 import { Empty } from 'antd';
-import { LFormItemInput, LTable } from 'lighting-design';
+import { LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { columns, originData } from './service';
 
 type PropsType = Parameters<typeof LTable>[0];
-
-const formItems = [
-  // 添加类名 修改样式
-  <LFormItemInput key="1" name="input1" />,
-  <LFormItemInput key="2" name="input2" />,
-  <LFormItemInput key="3" name="input3" />,
-  <LFormItemInput key="4" name="input4" />,
-  <LFormItemInput key="5" name="input5" />,
-  <LFormItemInput key="6" name="input6" />,
-];
 
 const Demo22: FC = () => {
   const request: PropsType['request'] = async (params, requestType) => {
@@ -27,7 +17,6 @@ const Demo22: FC = () => {
   };
   return (
     <LTable
-      formItems={formItems}
       showStripe
       columns={columns}
       request={request}

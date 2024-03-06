@@ -420,7 +420,7 @@ export type LTableProps<T = any> = TableProps<T> & {
   /**
    *自定义头部行的单元格的样式
    */
-  headerCellStyle?: CSSProperties | ((columns: Record<string, any>[], i: number) => CSSProperties);
+  headerCellStyle?: CSSProperties | ((columns: Record<string, any>[]) => CSSProperties);
   /**
    *自定义内容行的单元格的样式
    */
