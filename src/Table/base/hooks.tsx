@@ -415,8 +415,8 @@ export function useRowClassName({
   showHorizontalBorder,
 }: {
   rowClassName?: any;
-  showStripe?: boolean;
-  showHover?: boolean;
+  showStripe?: boolean | string;
+  showHover?: boolean | string;
   showHorizontalBorder?: boolean;
 }) {
   const rowClassNameFn = (...args: any[]) => {

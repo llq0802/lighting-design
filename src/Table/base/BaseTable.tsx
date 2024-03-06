@@ -70,12 +70,10 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     rootClassName,
     rootStyle,
     toolbarStyle,
-
     headerRowStyle,
     rowStyle,
     headerCellStyle,
     cellStyle,
-
     //
     loading: outLoading,
     size: outSize,

@@ -161,7 +161,7 @@ export type LTableProps<T = any> = TableProps<T> & {
    *  - 配合 `antd.bordered = false`(bordered默认为false) 可做到真正无边框表格
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    * */
-  showHorizontalBorder?: boolean | string;
+  showHorizontalBorder?: boolean;
   /**
    * 表格 表单是否准备好
    * - false 时表格不会请求, 表单不能提交查询
