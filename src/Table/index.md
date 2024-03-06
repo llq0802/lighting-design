@@ -27,9 +27,12 @@ nav:
 
 ### 基础用法
 
+与 `LDrawerForm` `LModalForm` 结合使用
 <code src='./demos/Demo24.tsx' background="#f5f5f5"></code>
 
 ### 查询框
+
+通过 `queryFormProps` 可配置更多高级查询功能
 
 <code src='./demos/Demo1.tsx' background="#f5f5f5"></code>
 
@@ -46,6 +49,8 @@ nav:
 <code src='./demos/Demo27.tsx' background="#f5f5f5"></code>
 
 ### 增加序号列
+
+支持其他列的配置
 
 <code src='./demos/Demo10.tsx' background="#f5f5f5"></code>
 

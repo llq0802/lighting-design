@@ -29,7 +29,7 @@ export const columns: LTableProps['columns'] = [
     align: 'center',
   },
   {
-    title: '地址',
+    title: '城市',
     dataIndex: 'address',
     key: 'address',
     align: 'center',
@@ -42,7 +42,6 @@ export const originData: DataType[] = Mock.mock({
       key: '@id',
       name: '@cname',
       'age|10-60': 10,
-      // address: `@province@city@county`,
       birthday: `@date`,
       address: `@county(true)`,
     },
@@ -54,19 +53,19 @@ export function apiGetUserList(
   time = 800,
 ): Promise<Record<string, any>> {
   const { current, pageSize = 10, formValues = {} } = req;
-  const data: Item[] = Mock.mock({
+  const data: DataType[] = Mock.mock({
     [`list|${pageSize}`]: [
       {
         key: '@id',
         name: '@cname',
         'age|10-50': 10,
         birthday: `@date`,
+        address: `@city`,
         // address: `@province@city@county`,
-        address: `@county(true)`,
+        // address: `@county(true)`,
       },
     ],
   }).list;
-
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
