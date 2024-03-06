@@ -23,9 +23,7 @@ nav:
 
 ## 代码演示
 
-<code src='./demos/Demo22.tsx' background="#f5f5f5"></code>
-
-<!-- ### 基础用法
+### 基础用法
 
 <code src='./demos/Demo24.tsx' background="#f5f5f5"></code>
 
@@ -103,6 +101,16 @@ nav:
 
 <code src='./demos/Demo22.tsx' background="#f5f5f5" ></code>
 
+### 真正无边框表格
+
+<code src='./demos/Demo28.tsx' background="#f5f5f5" ></code>
+
+### 通过 headerCellStyle cellStyle rowStyle rowStyle 等修改样式
+
+headerCellStyle cellStyle rowStyle rowStyle 还可以是函数自定义控制
+
+<code src='./demos/Demo29.tsx' background="#f5f5f5" ></code>
+
 ### 通过 Less 修改样式
 
 <code src='./demos/Demo13.tsx' background="#f5f5f5" ></code>
@@ -149,7 +157,7 @@ nav:
 
 ### antd 的 title footer 等其他属性
 
-<code src='./demos/Demo26.tsx' background="#f5f5f5"></code> -->
+<code src='./demos/Demo26.tsx' background="#f5f5f5"></code>
 
 ### Excel 导入与导出
 

@@ -409,4 +409,20 @@ export type LTableProps<T = any> = TableProps<T> & {
     columns: Record<string, any>[],
     tableData: Record<string, any>[],
   ) => ReactNode;
+  /**
+   *自定义头部行的样式
+   */
+  headerRowStyle?: CSSProperties | ((columns: Record<string, any>[], i: number) => CSSProperties);
+  /**
+   *自定义内容行的样式
+   */
+  rowStyle?: CSSProperties | ((record: Record<string, any>, i: number) => CSSProperties);
+  /**
+   *自定义头部行的单元格的样式
+   */
+  headerCellStyle?: CSSProperties | ((columns: Record<string, any>[], i: number) => CSSProperties);
+  /**
+   *自定义内容行的单元格的样式
+   */
+  cellStyle?: CSSProperties | ((record: Record<string, any>, i: number) => CSSProperties);
 };

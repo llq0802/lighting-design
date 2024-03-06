@@ -4,7 +4,6 @@ import { Card, ConfigProvider, Space, Spin, Table } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import zhCN from 'antd/es/locale/zh_CN';
 import classnames from 'classnames';
-import { isEvenNumber } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import { useImperativeHandle, useMemo, useRef } from 'react';
@@ -18,6 +17,9 @@ import {
   useMergeLoading,
   useMergePagination,
   useMergeToolbarActionConfig,
+  useOnHeaderRow,
+  useOnRow,
+  useRowClassName,
   useTableColumn,
   useTableRequest,
   useTableSize,
@@ -68,6 +70,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     rootClassName,
     rootStyle,
     toolbarStyle,
+
+    headerRowStyle,
+    rowStyle,
+    headerCellStyle,
+    cellStyle,
+
     //
     loading: outLoading,
     size: outSize,
@@ -136,6 +144,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     paginationAction,
     columns,
     toolbarActionConfig,
+
+    headerCellStyle,
+    cellStyle,
   });
   // ==================== 表格方法开始====================
   // 重置所有表单数据，从第一页开始显示、查询数据
@@ -241,6 +252,23 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
   const tableData = data?.list?.length ? data.list : hasDataSource ? dataSource : [];
   // 处理是否沾满视口的剩余空间
   useFillSpace({ tablecardref, fillSpace, tableData });
+
+  const innerOnHeaderRow = useOnHeaderRow({
+    onHeaderRow: restProps?.onHeaderRow,
+    showHorizontalBorder,
+    headerRowStyle,
+  });
+  const innerOnRow = useOnRow({
+    onRow: restProps?.onRow,
+    rowStyle,
+  });
+  const innerRowClassName = useRowClassName({
+    rowClassName: restProps?.rowClassName,
+    showStripe,
+    showHover,
+    showHorizontalBorder,
+  });
+
   // 初始化
   useInitTable({
     autoRequest,
@@ -256,6 +284,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     defaultRequestParams,
     queryFormRef,
   });
+
   // ==================== table副作用结束====================
   // ==================== 暴露外部方法开始====================
   useImperativeHandle(tableRef, () => ({
@@ -380,10 +409,14 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
             row:
               !tableData?.length && emptyRender
                 ? () => (
-                    <tr className={`${LIGHTD_TABLE}-row-empty-placeholder`}>
+                    <tr
+                      className={`${LIGHTD_TABLE}-row-empty-placeholder`}
+                      style={typeof rowStyle === 'function' ? rowStyle({}, 0) : rowStyle}
+                    >
                       <td
                         colSpan={finalColumns?.length || 1}
                         className={`${LIGHTD_TABLE}-cell-empty`}
+                        style={typeof cellStyle === 'function' ? cellStyle({}, 0) : cellStyle}
                       >
                         {emptyRender?.()}
                       </td>
@@ -411,33 +444,9 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
             : false
         }
         {...restProps}
-        onHeaderRow={(...args) => {
-          const onHeaderRow = restProps?.onHeaderRow;
-          const headerRowProps = typeof onHeaderRow === 'function' ? onHeaderRow(...args) : {};
-          return {
-            ...onHeaderRow,
-            className: classnames(
-              `${LIGHTD_TABLE}-header-row`,
-              {
-                [`${LIGHTD_TABLE}-header-row-border-none`]: !showHorizontalBorder,
-              },
-              headerRowProps?.className,
-            ),
-          };
-        }}
-        rowClassName={(...args) => {
-          const rowClassName = restProps?.rowClassName;
-          const i = args[1];
-          return classnames(
-            `${LIGHTD_TABLE}-row`,
-            {
-              [`${LIGHTD_TABLE}-row-stripe`]: !!showStripe && isEvenNumber(i + 1),
-              [`${LIGHTD_TABLE}-row-hover`]: !!showHover,
-              [`${LIGHTD_TABLE}-row-border-none`]: !showHorizontalBorder,
-            },
-            typeof rowClassName === 'function' ? rowClassName?.(...args) : rowClassName,
-          );
-        }}
+        onHeaderRow={innerOnHeaderRow}
+        onRow={innerOnRow}
+        rowClassName={innerRowClassName}
       />
     </Card>
   );

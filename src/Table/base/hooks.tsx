@@ -2,7 +2,7 @@ import { usePagination, useRafState, useUpdateEffect, useUpdateLayoutEffect } fr
 import { Tooltip } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import classnames from 'classnames';
-import { getTableColumnsKey, isFunction } from 'lighting-design/_utils';
+import { getTableColumnsKey, isEvenNumber, isFunction } from 'lighting-design/_utils';
 import { isPlainObject, omit } from 'lodash-es';
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { LTableProps } from '../interface';
@@ -71,6 +71,9 @@ export function useTableColumn({
   paginationAction,
   columns,
   toolbarActionConfig,
+
+  headerCellStyle,
+  cellStyle,
 }: Record<string, any>) {
   const outColumns = useMemo<Record<string, any>[]>(() => {
     if (contentRender) return [];
@@ -94,15 +97,33 @@ export function useTableColumn({
     return innerColumns.map((col: Record<string, any>) => {
       const item: Record<string, any> = {
         ...col,
-        onHeaderCell(c) {
+        onHeaderCell(c: Record<string, any>[]) {
           const headerCellProps = col?.onHeaderCell?.(c) || {};
+          const innerHeaderCellStyle =
+            typeof headerCellStyle === 'function' ? headerCellStyle(c) : headerCellStyle;
           return {
             ...headerCellProps,
+            style: {
+              ...headerCellProps?.style,
+              ...innerHeaderCellStyle,
+            },
             className: classnames(`${LIGHTD_TABLE}-header-cell`, headerCellProps?.className),
           };
         },
+        onCell(record: Record<string, any>, rowIndex: number) {
+          const cellProps = col?.onCell?.(record, rowIndex) || {};
+          const innerCellStyle =
+            typeof cellStyle === 'function' ? cellStyle(record, rowIndex) : cellStyle;
+          return {
+            ...cellProps,
+            style: {
+              ...cellProps?.style,
+              ...innerCellStyle,
+            },
+            className: classnames(`${LIGHTD_TABLE}-cell`, cellProps?.className),
+          };
+        },
       };
-
       if (item.toolTip && !item.ellipsis) {
         return {
           ...item,
@@ -337,4 +358,78 @@ export function useInitTable({
     }
     run({ ...defaultRequestParams, current, pageSize, formValues }, 'onInit');
   }, [isReady]);
+}
+
+export function useOnHeaderRow({
+  onHeaderRow,
+  headerRowStyle,
+  showHorizontalBorder,
+}: {
+  onHeaderRow?: any;
+  headerRowStyle?: any;
+  showHorizontalBorder?: boolean;
+}) {
+  const headerRowFn = (...args: any[]) => {
+    const headerRowProps = typeof onHeaderRow === 'function' ? onHeaderRow(...args) : {};
+    const innerHeaderRowStyle =
+      typeof headerRowStyle === 'function' ? headerRowStyle?.(...args) : headerRowStyle;
+
+    return {
+      ...headerRowProps,
+      className: classnames(
+        `${LIGHTD_TABLE}-header-row`,
+        {
+          [`${LIGHTD_TABLE}-header-row-border-none`]: !showHorizontalBorder,
+        },
+        headerRowProps?.className,
+      ),
+      style: {
+        ...headerRowProps?.style,
+        ...innerHeaderRowStyle,
+      },
+    };
+  };
+
+  return headerRowFn;
+}
+
+export function useOnRow({ onRow, rowStyle }: { onRow?: any; rowStyle?: any }) {
+  const rowFn = (...args: any[]) => {
+    const rowProps = typeof onRow === 'function' ? onRow(...args) : {};
+    const innerRowStyle = typeof rowStyle === 'function' ? rowStyle?.(...args) : rowStyle;
+    return {
+      ...rowProps,
+      style: {
+        ...rowProps?.style,
+        ...innerRowStyle,
+      },
+    };
+  };
+  return rowFn;
+}
+
+export function useRowClassName({
+  rowClassName,
+  showStripe,
+  showHover,
+  showHorizontalBorder,
+}: {
+  rowClassName?: any;
+  showStripe?: boolean;
+  showHover?: boolean;
+  showHorizontalBorder?: boolean;
+}) {
+  const rowClassNameFn = (...args: any[]) => {
+    const i = args[1];
+    return classnames(
+      `${LIGHTD_TABLE}-row`,
+      {
+        [`${LIGHTD_TABLE}-row-stripe`]: !!showStripe && isEvenNumber(i + 1),
+        [`${LIGHTD_TABLE}-row-hover`]: !!showHover,
+        [`${LIGHTD_TABLE}-row-border-none`]: !showHorizontalBorder,
+      },
+      typeof rowClassName === 'function' ? rowClassName?.(...args) : rowClassName,
+    );
+  };
+  return rowClassNameFn;
 }

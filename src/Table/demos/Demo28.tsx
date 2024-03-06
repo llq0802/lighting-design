@@ -18,9 +18,9 @@ const Demo22: FC = () => {
     <LTable
       showStripe
       showHover
-      toolbarActionConfig={false}
       columns={columns}
       request={request}
+      showHorizontalBorder={false}
       // headerRowStyle={{
       //   backgroundColor: 'red',
       // }}
