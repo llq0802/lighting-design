@@ -3,11 +3,10 @@ import { Button, Space } from 'antd';
 import Mock from 'better-mock';
 import type { LEditTableInstance, LTableInstance } from 'lighting-design';
 import { LEditTable, LForm, LFormItem, LFormItemInput, LFormItemNumber } from 'lighting-design';
-import { awaitTime } from 'lighting-design/_test';
 import { useRef, useState } from 'react';
 
 const defaultData = Mock.mock({
-  'list|5': [
+  'list|3': [
     {
       'id|+1': 11,
       'age|1-99': 20,
@@ -18,21 +17,20 @@ const defaultData = Mock.mock({
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
-
   const editTableRef = useRef<LEditTableInstance>();
   const tableRef = useRef<LTableInstance>();
-  const [editableKeys, setEditableKeys] = useState<string[]>(defaultData?.map((item) => item.id));
+  const [editableKeys, setEditableKeys] = useState<string[]>([]);
 
   const columns = [
     {
       dataIndex: 'name',
       title: '名字',
-      editable: <LFormItemInput required />,
+      editable: <LFormItemInput />,
     },
     {
       dataIndex: 'age',
       title: '年龄',
-      editable: <LFormItemNumber required />,
+      editable: <LFormItemNumber />,
     },
     {
       title: '操作',
@@ -42,8 +40,8 @@ const Demo1 = () => {
             <a
               onClick={() =>
                 editTableRef.current?.insert(index + 1, {
-                  id: Date.now(),
-                  name: `李岚清${index}`,
+                  id: `${Date.now()}`,
+                  name: `李岚清-${index + 1}`,
                   age: 26,
                 })
               }
@@ -75,28 +73,6 @@ const Demo1 = () => {
         initialValues={{
           name: '李彦祖',
           num: 3,
-          list: {
-            '11': {
-              name: '李岚清',
-              age: 25,
-            },
-            '12': {
-              name: '吴彦祖',
-              age: 45,
-            },
-            '13': {
-              name: '陈冠希',
-              age: 40,
-            },
-            '14': {
-              name: '彭于晏',
-              age: 41,
-            },
-            '15': {
-              name: '李真帅',
-              age: 34,
-            },
-          },
         }}
       >
         <LFormItemInput name="name" label="名字" required />
@@ -104,13 +80,17 @@ const Demo1 = () => {
         <LFormItem
           label="列表项"
           name="list"
-          required
           trigger="onValuesChange"
-          validateTrigger="onValuesValidate"
+          initialValue={{
+            '11': { name: '彭于晏', age: 25 },
+            '12': { name: '吴彦祖', age: 45 },
+            '13': { name: '陈冠希', age: 40 },
+          }}
+          required
+          validateTrigger="onValuesChange"
           rules={[
             {
               async validator(_: any, value: any) {
-                // console.log('validator-value', value);
                 if (!value) return Promise.reject('请填写!');
                 if (!Object.values(value)?.length) {
                   return Promise.reject('请填写!');
@@ -131,10 +111,13 @@ const Demo1 = () => {
           ]}
         >
           <LEditTable
-            onValuesChange={(a, b, c, i) => {
-              console.log('a,b,cLEditTable===', a, b, c, i);
-            }}
             rowKey="id"
+            onValuesChange={(a, b, c, i) => {
+              console.log('==a====>', a);
+              console.log('==b====>', b);
+              console.log('==c====>', c);
+              console.log('==i====>', i);
+            }}
             tableRef={tableRef}
             toolbarLeft={
               <>
@@ -153,14 +136,7 @@ const Demo1 = () => {
                 </Button>
               </>
             }
-            request={async () => {
-              await awaitTime();
-              return {
-                success: true,
-                data: defaultData,
-                total: defaultData.length,
-              };
-            }}
+            dataSource={defaultData}
             columns={columns}
             editTableOptions={{
               editTableRef,

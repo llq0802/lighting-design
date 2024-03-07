@@ -17,7 +17,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     value: formValue,
     onValuesChange: formOnValuesChange,
 
-    request: outRequest,
+    request: outRequest = async () => {},
     dataSource,
     columns,
     size,
@@ -44,7 +44,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   const isFirstRender = useIsFirstRender();
   const tableRef = useRef<LTableInstance>();
   const alreadyTableDataRef = useRef<Record<string, any>[]>([]);
-  const editableKeyMap = useRef<Record<string, any>>({});
+  const editableKeyMapRef = useRef<Record<string, any>>({});
   const [editingKeys, setEditingKeys] = useControllableValue<string[]>(editTableOptions, {
     defaultValue: [],
     defaultValuePropName: 'defaultEditingKeys',
@@ -69,27 +69,28 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         const namePath = [keyId, dataIndex]; // 把同一行的字段放在一个对象中
 
         if (dataIndex && editable) {
-          if (!editableKeyMap.current[keyId]) {
-            editableKeyMap.current[keyId] = {
+          const editableKeyMap = editableKeyMapRef.current;
+
+          if (!editableKeyMap[keyId]) {
+            editableKeyMap[keyId] = {
               nameList: [], // 当前行所有的表单字段
               dataIndexs: [], // 当前所有的 dataIndex
               rowKey: keyId,
-              record,
               index: i,
+              record,
             };
           } else {
-            editableKeyMap.current[keyId] = {
-              ...(editableKeyMap?.current?.[keyId] ?? {}),
+            editableKeyMap[keyId] = {
+              ...(editableKeyMapRef?.current?.[keyId] ?? {}),
               index: i, // 新增删除插入时更新最新的索引
             };
           }
 
-          if (!editableKeyMap.current[keyId].dataIndexs.includes(dataIndex)) {
-            editableKeyMap.current[keyId].dataIndexs.push(dataIndex);
-            editableKeyMap.current[keyId].nameList.push(namePath);
+          if (!editableKeyMap[keyId].dataIndexs.includes(dataIndex)) {
+            editableKeyMap[keyId].dataIndexs.push(dataIndex);
+            editableKeyMap[keyId].nameList.push(namePath);
           }
         }
-
         if (isValidElement(editable) && editingKeys?.includes(keyId)) {
           const { disabledEdit, ...formItemProps } = col?.getEditable?.(t, record, i) || {};
 
@@ -116,11 +117,10 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
       itemFieldObj: itemDataIndexObj,
     };
   }, [editingKeys?.join(''), columns]);
-
   /** 添加表格一行 如果有值则表单赋值 */
   const addItemRow = useMemoizedFn((row) => {
     const uid = (row && row?.[rowKey]) || uniqueId('row-key');
-    const rowItem = row ? { ...row } : { [rowKey]: uid, ...itemFieldObj };
+    const rowItem = row ? { [rowKey]: uid, ...row } : { [rowKey]: uid, ...itemFieldObj };
     form.setFieldValue(uid, rowItem);
     setEditingKeys((prev) => [...new Set([...prev, uid])]);
     return rowItem;
@@ -135,9 +135,11 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
   const resetTableData = (keys?: string[]) => {
     setEditingKeys(keys ?? []);
-    tableRef.current?.setTableData({
-      list: [...alreadyTableDataRef.current],
-      total: [...alreadyTableDataRef.current].length,
+    setTimeout(() => {
+      tableRef.current?.setTableData({
+        list: [...alreadyTableDataRef.current],
+        total: [...alreadyTableDataRef.current].length,
+      });
     });
   };
   /** 编辑 */
@@ -150,9 +152,9 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   /** 保存 */
   const onSave = async (key: Key) => {
     // 只验证当前正在编辑的行
-    await form.validateFields(editableKeyMap.current[key].nameList);
+    await form.validateFields(editableKeyMapRef.current[key].nameList);
     const curRow = form.getFieldValue(key);
-    const { index } = editableKeyMap.current[key];
+    const { index } = editableKeyMapRef.current[key];
     // 如果返回 Promise.reject() 就终止
     await editTableOptions?.onSave?.(
       { [rowKey]: key, ...curRow },
@@ -178,7 +180,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
   /** 删除 */
   const onDelete = async (key: Key) => {
-    const { index } = editableKeyMap.current[key];
+    const { index } = editableKeyMapRef.current[key];
 
     // 如果返回 Promise.reject() 就终止
     await editTableOptions?.onDelete?.(key, isAddNewRowData(key), index);
@@ -219,7 +221,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
       const rowItem = addItemRow(row);
       setTimeout(() => {
         tableRef.current?.setTableData((prev) => {
-          const newList = [...prev.list];
+          const newList = fastDeepClone([...prev.list]);
           newList?.[type](rowItem);
           return {
             total: newList.length,
@@ -236,7 +238,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     const rowItem = addItemRow(row);
     setTimeout(() => {
       tableRef.current?.setTableData((prev) => {
-        const newList = [...prev.list];
+        const newList = fastDeepClone([...prev.list]);
         newList.splice(index, 0, rowItem);
         return {
           total: newList.length,
@@ -252,7 +254,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
       form.resetFields();
       return;
     }
-    form.resetFields(editableKeyMap.current[key].nameList);
+    form.resetFields(editableKeyMapRef.current[key].nameList);
   };
   /** 设置某一行的表单数据 */
   const setFieldValue = (key: Key, row: Record<string, any>) => {
@@ -265,7 +267,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   /** 验证表单数据 */
   const validateFields = async (key?: Key) => {
     if (key) {
-      return await form.validateFields(editableKeyMap.current[key].nameList);
+      return await form.validateFields(editableKeyMapRef.current[key].nameList);
     }
     return await form.validateFields();
   };
@@ -318,6 +320,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         total: dataSource.length,
       };
     }
+    // @ts-ignore
     const res = await outRequest?.(...args);
     alreadyTableDataRef.current = fastDeepClone([...(res?.data ?? [])]);
     return (
@@ -339,11 +342,21 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   }, [dataSource]);
 
   useDeepCompareEffect(() => {
-    if (formValue) {
+    if (formValue && tableRef.current) {
       form.setFieldsValue({ ...formValue });
+      const keys = Object.keys(formValue);
+      const newList = keys.map((k) => {
+        return { ...formValue[k], [rowKey]: k };
+      });
+      setEditingKeys([...keys]);
+      setTimeout(() => {
+        tableRef.current?.setTableData({
+          total: newList.length,
+          list: newList,
+        });
+      });
     }
   }, [formValue]);
-
   return (
     <LForm
       size={size}
@@ -352,12 +365,13 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
       submitter={false}
       component={false}
       onValuesChange={(curName, curVal, allVal) => {
-        const { index } = editableKeyMap.current[curName];
+        const { index } = editableKeyMapRef.current[curName];
         formProps?.onValuesChange?.(curName, curVal, allVal, index);
         formOnValuesChange?.(allVal, curName, curVal, index);
       }}
     >
       <BaseTable
+        tableLayout="fixed"
         // @ts-ignore
         tableRef={(r) => {
           tableRef.current = r;

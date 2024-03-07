@@ -2,13 +2,13 @@ import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import Mock from 'better-mock';
 import type { LEditTableInstance, LTableInstance } from 'lighting-design';
-import { LEditTable, LFormItemInput, LFormItemNumber } from 'lighting-design';
+import { LEditTable, LFormItemInput } from 'lighting-design';
 import { useRef, useState } from 'react';
 
 const defaultData = Mock.mock({
   'list|5': [
     {
-      'id|+1': 1,
+      'id|+1': 11,
       'age|1-99': 20,
       name: '@cname',
     },
@@ -29,7 +29,7 @@ const Demo1 = () => {
     {
       dataIndex: 'age',
       title: '年龄',
-      editable: <LFormItemNumber required />,
+      // editable: <LFormItemNumber required />,
     },
     {
       title: '操作',

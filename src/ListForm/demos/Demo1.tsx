@@ -27,7 +27,6 @@ const Demo1 = () => {
                 {fields.map((field) => {
                   const { key, name, ...restField } = field;
                   console.log('==field====>', field);
-
                   return (
                     <LFormItem label="名字" key={key} style={{ marginBottom: 0 }}>
                       <Space key={key} style={{ display: 'flex', width: '100%' }} align="baseline">
