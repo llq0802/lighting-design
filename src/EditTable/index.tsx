@@ -3,16 +3,14 @@ import classnames from 'classnames';
 import LForm from 'lighting-design/Form';
 import BaseTable from 'lighting-design/Table/base/BaseTable';
 import type { LTableInstance } from 'lighting-design/Table/interface';
-import { isFunction, uniqueId } from 'lighting-design/_utils';
+import { fastDeepClone, isFunction, uniqueId } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import { useIsFirstRender } from 'lighting-design/hooks';
-import type { Key } from 'react';
 import React, { cloneElement, isValidElement, useImperativeHandle, useMemo, useRef } from 'react';
 import type { LEditTableProps } from './interface';
 
-/**
- * 编辑表格
- */
+type Key = string | number;
+
 const LEditTable: React.FC<LEditTableProps> = (props) => {
   const {
     // 配合表格使用
@@ -40,7 +38,6 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     onEditingKeys: outOnEditingKeys,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     defaultEditingKeys,
-
     formProps = emptyObject,
   } = editTableOptions;
   const [form] = LForm.useForm();
@@ -112,10 +109,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
         return outRender ? outRender(t, record, i) : t;
       };
-      return {
-        ...col,
-        render,
-      };
+      return { ...col, render };
     });
     return {
       mergedColumns,
@@ -128,7 +122,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     const uid = (row && row?.[rowKey]) || uniqueId('row-key');
     const rowItem = row ? { ...row } : { [rowKey]: uid, ...itemFieldObj };
     form.setFieldValue(uid, rowItem);
-    setEditingKeys((prevKeys) => [...prevKeys, uid]);
+    setEditingKeys((prev) => [...new Set([...prev, uid])]);
     return rowItem;
   });
 
@@ -142,8 +136,8 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   const resetTableData = (keys?: string[]) => {
     setEditingKeys(keys ?? []);
     tableRef.current?.setTableData({
-      total: [...alreadyTableDataRef.current].length,
       list: [...alreadyTableDataRef.current],
+      total: [...alreadyTableDataRef.current].length,
     });
   };
   /** 编辑 */
@@ -167,14 +161,16 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     );
 
     if (isTimelyModified) {
-      tableRef.current?.setTableData((prev) => {
-        const newList = prev.list?.map((item) => {
-          if (item[rowKey] === key) {
-            return { [rowKey]: key, ...curRow };
-          }
-          return { ...item };
+      setTimeout(() => {
+        tableRef.current?.setTableData((prev) => {
+          const newList = prev.list?.map((item) => {
+            if (item[rowKey] === key) {
+              return { [rowKey]: key, ...curRow };
+            }
+            return { ...item };
+          });
+          return { total: newList.length, list: newList };
         });
-        return { total: newList.length, list: newList };
       });
       setEditingKeys((prev) => prev.filter((item) => item !== key));
     }
@@ -188,12 +184,14 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     await editTableOptions?.onDelete?.(key, isAddNewRowData(key), index);
 
     if (isTimelyModified) {
-      tableRef.current?.setTableData((prev) => {
-        const newList = prev.list.filter((item) => item[rowKey] !== key);
-        return {
-          total: newList.length,
-          list: newList,
-        };
+      setTimeout(() => {
+        tableRef.current?.setTableData((prev) => {
+          const newList = prev.list.filter((item) => item[rowKey] !== key);
+          return {
+            total: newList.length,
+            list: newList,
+          };
+        });
       });
       setEditingKeys(editingKeys.filter((itemKey) => itemKey !== key));
     }
@@ -202,12 +200,14 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   /** 取消 */
   const onCancel = (key: Key) => {
     if (isAddNewRowData(key)) {
-      tableRef.current?.setTableData((prev) => {
-        const newList = prev.list.filter((item) => item[rowKey] !== key);
-        return {
-          total: newList.length,
-          list: newList,
-        };
+      setTimeout(() => {
+        tableRef.current?.setTableData((prev) => {
+          const newList = prev.list.filter((item) => item[rowKey] !== key);
+          return {
+            total: newList.length,
+            list: newList,
+          };
+        });
       });
     }
     setEditingKeys((prev) => prev.filter((item) => item !== key));
@@ -217,14 +217,15 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   const onPushAndUnshift = (type: 'push' | 'unshift' = 'push') => {
     return (row?: Record<string, any>) => {
       const rowItem = addItemRow(row);
-
-      tableRef.current?.setTableData((prev) => {
-        const newList = [...prev.list];
-        newList?.[type](rowItem);
-        return {
-          total: newList.length,
-          list: newList,
-        };
+      setTimeout(() => {
+        tableRef.current?.setTableData((prev) => {
+          const newList = [...prev.list];
+          newList?.[type](rowItem);
+          return {
+            total: newList.length,
+            list: newList,
+          };
+        });
       });
     };
   };
@@ -233,16 +234,18 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     // eslint-disable-next-line no-param-reassign
     if (!index) index = 0;
     const rowItem = addItemRow(row);
-
-    tableRef.current?.setTableData((prev) => {
-      const newList = [...prev.list];
-      newList.splice(index, 0, rowItem);
-      return {
-        total: newList.length,
-        list: newList,
-      };
+    setTimeout(() => {
+      tableRef.current?.setTableData((prev) => {
+        const newList = [...prev.list];
+        newList.splice(index, 0, rowItem);
+        return {
+          total: newList.length,
+          list: newList,
+        };
+      });
     });
   };
+
   /** 重置表单数据 */
   const resetFields = (key?: Key) => {
     if (!key) {
@@ -265,6 +268,13 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
       return await form.validateFields(editableKeyMap.current[key].nameList);
     }
     return await form.validateFields();
+  };
+
+  const getFieldsValue = () => {
+    return form.getFieldsValue();
+  };
+  const getFieldValue = (key: Key) => {
+    return form.getFieldValue(key);
   };
 
   // 暴露外部方法
@@ -293,26 +303,25 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     validateFields,
     /** 重置表格数据到初始状态 */
     resetTableData,
+    getFieldsValue,
+    getFieldValue,
+    form,
   }));
   // ====================暴露方法区-结束====================
 
   const request = async (...args: any[]) => {
     if (dataSource?.length) {
-      alreadyTableDataRef.current = [...dataSource];
-
+      alreadyTableDataRef.current = fastDeepClone([...dataSource]);
       return {
         success: true,
         data: dataSource,
         total: dataSource.length,
       };
     }
-
     const res = await outRequest?.(...args);
-
-    alreadyTableDataRef.current = [...(res?.data ?? [])];
-
+    alreadyTableDataRef.current = fastDeepClone([...(res?.data ?? [])]);
     return (
-      res ?? {
+      res || {
         success: true,
         data: [],
         total: 0,
@@ -331,9 +340,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
   useDeepCompareEffect(() => {
     if (formValue) {
-      form.setFieldsValue({
-        ...formValue,
-      });
+      form.setFieldsValue({ ...formValue });
     }
   }, [formValue]);
 
