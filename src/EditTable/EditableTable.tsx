@@ -24,23 +24,15 @@ const getRowKey = (rowKey: any) => {
 const LEditTable: React.FC<LEditTableProps> = (props) => {
   const {
     // 配合表格使用
-    value: fromValue,
+    value: formValue,
     onValuesChange: formOnValuesChange,
-
-    rowClassName,
-    toolbarActionConfig,
-
     request: outRequest,
     columns,
     size,
     dataSource,
     rowKey: outRowKey = 'key',
     tableRef: outTableRef,
-
     editTableOptions = emptyObject,
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    contentRender,
     ...restprops
   } = props;
 
@@ -60,7 +52,6 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   const tableRef = useRef<LTableInstance>();
   const alreadyTableDataRef = useRef<Record<string, any>[]>([]);
   const editableKeyMap = useRef<Record<string, any>>({});
-
   const [editingKeys, setEditingKeys] = useControllableValue<string[]>(editTableOptions, {
     defaultValue: [],
     defaultValuePropName: 'defaultEditingKeys',
@@ -76,6 +67,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   /** 处理列 */
   const { mergedColumns, itemFieldObj } = useMemo(() => {
     const itemDataIndexObj: Record<string, any> = {};
+
     const mergedColumns = columns?.map((col: Record<string, any>) => {
       // 收集新增一行的新增字段名 , 排除操作列
       if (col.dataIndex && col.editable) {
@@ -108,7 +100,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
           }
         }
 
-        if (col.editable && isValidElement(col?.editable) && editingKeys?.includes(keyId)) {
+        if (isValidElement(col?.editable) && editingKeys?.includes(keyId)) {
           const { disabledEdit = false, ...formItemProps } =
             col?.getEditable?.(text, record, index) ?? {};
 
@@ -144,7 +136,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
       mergedColumns,
       itemFieldObj: itemDataIndexObj,
     };
-  }, [columns, editingKeys.join('')]);
+  }, [editingKeys?.join(''), columns]);
 
   /** 添加表格一行 如果有值则表单赋值 */
   const addItemRow = useMemoizedFn((row) => {
@@ -169,12 +161,11 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
       list: [...alreadyTableDataRef.current],
     });
   };
-
   /** 编辑 */
   const onEdit = (record: Record<string, any>) => {
     const keyId = getRowKeyValue(record);
-    form.setFieldValue(keyId, record);
-    setEditingKeys((prev) => [...prev, keyId]);
+    form.setFieldValue(keyId, { ...record });
+    setEditingKeys((prev) => [...new Set([...prev, keyId])]);
   };
 
   /** 保存 */
@@ -354,23 +345,12 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   }, [dataSource]);
 
   useDeepCompareEffect(() => {
-    if (fromValue) {
+    if (formValue) {
       form.setFieldsValue({
-        ...fromValue,
+        ...formValue,
       });
     }
-  }, [fromValue]);
-
-  const innerToolbarActionConfig = useMemo(() => {
-    if (!toolbarActionConfig) return false;
-    return {
-      showColumnSetting: false,
-      showDensity: false,
-      showFullscreen: false,
-      showReload: false,
-      ...toolbarActionConfig,
-    };
-  }, [toolbarActionConfig]);
+  }, [formValue]);
 
   return (
     <LForm
@@ -389,26 +369,33 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         // @ts-ignore
         tableRef={(info) => {
           tableRef.current = info;
-          if (outTableRef) {
-            if (isFunction(outTableRef)) {
-              (outTableRef as any)?.(info);
-            } else {
-              outTableRef.current = info;
-            }
+          if (!outTableRef) return;
+          if (isFunction(outTableRef)) {
+            (outTableRef as any)?.(info);
+          } else {
+            outTableRef.current = info;
           }
         }}
-        toolbarActionConfig={innerToolbarActionConfig}
-        pagination={false}
         rowKey={outRowKey}
         columns={mergedColumns}
-        rowClassName={classnames('light-editable-row', rowClassName)}
         // @ts-ignore
         request={request}
         size={size}
+        toolbarActionConfig={false}
+        pagination={false}
         {...restprops}
+        rowClassName={(...args: any[]) => {
+          const outRowClassName = restprops.rowClassName;
+          return classnames(
+            'light-editable-row',
+            typeof outRowClassName === 'function' ? outRowClassName(...args) : outRowClassName,
+          );
+        }}
       />
     </LForm>
   );
 };
 
 export default LEditTable;
+
+export * from './interface';

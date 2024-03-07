@@ -8,7 +8,7 @@ import { useRef, useState } from 'react';
 const defaultData = Mock.mock({
   'list|5': [
     {
-      id: '@guid',
+      'id|+1': 1,
       'age|1-99': 20,
       name: '@cname',
     },
@@ -69,7 +69,7 @@ const Demo1 = () => {
   return (
     <div>
       <LEditTable
-        isSort
+        rowKey="id"
         tableRef={tableRef}
         toolbarLeft={
           <>
@@ -93,19 +93,17 @@ const Demo1 = () => {
           </>
         }
         dataSource={defaultData}
-        rowKey="id"
         columns={columns}
         editTableOptions={{
           editTableRef,
-          editingKeys: editingKeys,
-          onEditingKeys: (keys) => {
-            console.log('==keys====>', keys);
-            setEditingKeys(keys);
-          },
-          onDelete(key, isNewRow, i) {},
-          onSave(row, isNewRow, i) {
-            console.log('isNewRow', isNewRow);
-          },
+          editingKeys,
+          onEditingKeys: setEditingKeys,
+          // onDelete(key, isNewRow, i) {
+          //   console.log('onDelete');
+          // },
+          // onSave(row, isNewRow, i) {
+          //   console.log('onSave');
+          // },
         }}
       />
     </div>

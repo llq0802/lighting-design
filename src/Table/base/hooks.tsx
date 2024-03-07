@@ -1,5 +1,4 @@
 import { usePagination, useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
-import { Tooltip } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import classnames from 'classnames';
 import { getTableColumnsKey, isEvenNumber, isFunction } from 'lighting-design/_utils';
@@ -71,10 +70,10 @@ export function useTableColumn({
   paginationAction,
   columns,
   toolbarActionConfig,
-
   headerCellStyle,
   cellStyle,
 }: Record<string, any>) {
+  const { current, pageSize } = paginationAction;
   const outColumns = useMemo<Record<string, any>[]>(() => {
     if (contentRender) return [];
     let innerColumns = columns || [];
@@ -144,7 +143,7 @@ export function useTableColumn({
       }
       return item;
     });
-  }, [columns, paginationAction?.current, paginationAction?.pageSize]);
+  }, [columns, isSort ? current : void 0, isSort ? pageSize : void 0]);
 
   // 表格展示的列key
   const [columnKeys, setColumnKeys] = useRafState(() => {
@@ -156,6 +155,10 @@ export function useTableColumn({
 
   useUpdateEffect(() => {
     if (contentRender) return;
+    if (toolbarActionConfig === false || !toolbarActionConfig?.showColumnSetting) {
+      setColumnKeys([]);
+      return;
+    }
     setColumnKeys(outColumns.map(getTableColumnsKey));
   }, [outColumns]);
 
@@ -167,7 +170,7 @@ export function useTableColumn({
     );
     return newColumns;
   }, [
-    columnKeys.join(''),
+    columnKeys,
     typeof toolbarActionConfig === 'boolean' && toolbarActionConfig,
     typeof toolbarActionConfig !== 'boolean' && toolbarActionConfig?.showColumnSetting,
   ]);
