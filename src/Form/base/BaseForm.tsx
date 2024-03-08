@@ -48,7 +48,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
   } = props;
 
   const formRef = useLFormInstance(outForm);
-  const formId = useMemo(() => name || uniqueId('lightd-form'), [name]);
+  const formId = useMemo(() => name || uniqueId('lightd-form'), []);
   const [loading, setLoading] = useLoading(outLoading);
 
   const innerInitVal = useLFormInitialValues({

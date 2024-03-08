@@ -1,4 +1,4 @@
-import type { TableProps } from 'antd';
+import type { FormInstance } from 'antd';
 import type { LFormProps } from 'lighting-design/Form';
 import type { LFormItemProps } from 'lighting-design/FormItem/interface';
 import type { LTableProps } from 'lighting-design/Table';
@@ -41,6 +41,10 @@ export type LEditTableInstance = {
   setFieldsValue: (record: Record<string, any>) => void;
   /** 设置某一行的表单数据 */
   setFieldValue: (key: Key, record: Record<string, any>) => void;
+  /** 获取某一行的表单数据 */
+  getFieldValue: (key: Key) => Record<string, any>;
+  /** 获取表单所有数据 */
+  getFieldsValue: () => Record<string, any>;
   /** 验证内置表单的所有表单值, 如果传 key 则验证该行的值  */
   validateFields: (key?: Key) => Promise<Record<string, any>>;
   /**
@@ -49,6 +53,8 @@ export type LEditTableInstance = {
    *
    */
   resetTableData: (keys?: Key[]) => void;
+  /** 内置表单实例 */
+  form: FormInstance;
 };
 
 export type EditTableOptions = {
@@ -93,7 +99,6 @@ export type EditTableOptions = {
 };
 
 export type LEditTableProps = {
-  rowClassName?: string;
   /**
    * 表单值
    */
@@ -101,7 +106,7 @@ export type LEditTableProps = {
   /**
    * 内部表单值变化后的回调
    * @param allVal  所有行的表单值
-   * @param key key
+   * @param key key 当前行的唯一id
    * @param value 当前行的表单值
    * @param index  索引
    * @author 李岚清 <https://github.com/llq0802>
@@ -128,10 +133,11 @@ export type LEditTableProps = {
    * 编辑表格的列配置 多了 editable属性  getEditable方法  用于配置每一项表单项
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
-  columns: TableProps<any>['columns'] & {
-    /** 为false此项不能编辑 ,  只能为 LFormItemXXX 或 Form.Item */
-    editable?: ReactElement;
-    /** 自定义配置每一项 LFormItemXXX 的配置 */
-    getEditable?: (val: any, row: Record<string, any>, i: number) => Omit<LFormItemProps, 'name'>;
-  };
+  columns: LTableProps<any>['columns'] &
+    {
+      /** 为false此项不能编辑 ,  只能为 LFormItemXXX 或 Form.Item */
+      editable?: ReactElement;
+      /** 自定义配置每一项 LFormItemXXX 的配置 */
+      getEditable?: (val: any, row: Record<string, any>, i: number) => Omit<LFormItemProps, 'name'>;
+    }[];
 } & Partial<Omit<LTableProps, 'columns' | 'contentRender'>>;

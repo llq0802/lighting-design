@@ -134,16 +134,14 @@ export type LTableProps<T = any> = TableProps<T> & {
    */
   dataSource?: TableProps['dataSource'];
   /**
-   * 是否需要排序序号及宽度，自定义渲染排序
+   * 是否需要排序序号及宽度，自定义渲染排序等
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   isSort?:
     | boolean
-    | {
-        width?: number | string;
+    | (ColumnType<T> & {
         render?: (pageCount: number) => ReactNode;
-        fixed?: boolean | string;
-      };
+      });
   /**
    * 是否展示带斑马纹的表格，可以更容易区分出不同行的数据。
    *   - string 可设置自定义颜色

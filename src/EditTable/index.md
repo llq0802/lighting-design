@@ -45,6 +45,10 @@ toc: content
 
 <code src='./demos/Demo8.tsx'  background="#f5f5f5"></code>
 
+### 与 LModalForm 结合
+
+<code src='./demos/Demo9.tsx'  background="#f5f5f5"></code>
+
 ## API
 
 :::warning{title=注意}

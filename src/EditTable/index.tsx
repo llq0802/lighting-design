@@ -6,6 +6,7 @@ import type { LTableInstance } from 'lighting-design/Table/interface';
 import { fastDeepClone, isFunction, uniqueId } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import { useIsFirstRender } from 'lighting-design/hooks';
+import { isPlainObject } from 'lodash';
 import React, { cloneElement, isValidElement, useImperativeHandle, useMemo, useRef } from 'react';
 import type { LEditTableProps } from './interface';
 
@@ -342,7 +343,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   }, [dataSource]);
 
   useDeepCompareEffect(() => {
-    if (formValue && tableRef.current) {
+    if (formValue && isPlainObject(formValue)) {
       form.setFieldsValue({ ...formValue });
       const keys = Object.keys(formValue);
       const newList = keys.map((k) => {

@@ -134,6 +134,15 @@ const Demo1 = () => {
                 <Button type="dashed" onClick={() => editTableRef.current?.validateFields()}>
                   校验全部
                 </Button>
+                <Button
+                  type="dashed"
+                  onClick={() => {
+                    const res = editTableRef.current?.getFieldValue('11');
+                    console.log('==res====>', res);
+                  }}
+                >
+                  获取某一行的表单值
+                </Button>
               </>
             }
             dataSource={defaultData}

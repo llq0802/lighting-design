@@ -39,7 +39,7 @@ const AddressWrapper: FC<Record<string, any>> = ({
   const hanleChange = (index: number, val: any) => {
     const innerValue = [...value];
     innerValue[index] = val;
-    onChange(innerValue);
+    onChange?.(innerValue);
   };
 
   return (
