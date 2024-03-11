@@ -5,9 +5,10 @@ import BaseForm from 'lighting-design/Form/base/BaseForm';
 import { useLFormInstance } from 'lighting-design/Form/base/hooks';
 import { BUTTON_ALIGN_MAP, emptyObject } from 'lighting-design/constants';
 import type { FC, MouseEvent } from 'react';
-import { cloneElement, useEffect, useRef, useState } from 'react';
+import { cloneElement, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
 import Draggable from 'react-draggable';
+import { useModalFormInitialValues } from './hooks';
 import type { LModalFormProps } from './interface';
 
 const prefixCls = 'lightd-form-modal';
@@ -35,6 +36,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onOpenChange: outOnOpenChange,
+    initialValues,
     ...restProps
   } = props;
 
@@ -72,12 +74,36 @@ const LModalForm: FC<LModalFormProps> = (props) => {
     }
   });
 
-  const [initVal, setIninVal] = useState(() => restProps.initialValues || {});
-  useEffect(() => {
-    if (!isAntdReset && open) {
-      setIninVal({ ...formRef.current.getFieldsValue(), ...initVal });
+  const handleCancel = (e) => {
+    setOpen(false);
+    modalProps?.onCancel?.(e);
+  };
+
+  const initVal = useModalFormInitialValues({
+    open,
+    isAntdReset,
+    form: formRef.current,
+    initialValues,
+  });
+
+  const modalAfterClose = () => {
+    if (isResetFields) {
+      if (isAntdReset) {
+        formRef.current.resetFields(); // 弹窗关闭后重置表单
+      } else {
+        formRef.current.setFieldsValue({ ...initVal });
+      }
     }
-  }, [open]);
+    modalProps?.afterClose?.();
+  };
+
+  const publicProps = {
+    width,
+    centered,
+    maskClosable: false,
+    forceRender,
+    destroyOnClose,
+  };
 
   return (
     <>
@@ -125,66 +151,34 @@ const LModalForm: FC<LModalFormProps> = (props) => {
         formRender={(formDom, submitterDom) => {
           return !isDraggable ? (
             <Modal
-              centered={centered}
               title={title}
-              width={width}
+              {...publicProps}
               footer={submitterDom}
-              maskClosable={false}
-              destroyOnClose={destroyOnClose}
-              forceRender={forceRender}
               {...modalProps}
               style={{ top: modalTop, ...modalProps?.style }}
-              className={classnames('lightd-modal', modalProps.className)}
-              wrapClassName={classnames('lightd-modal-wrap', modalProps.wrapClassName)}
               open={open}
-              onCancel={(e) => {
-                setOpen(false);
-                modalProps?.onCancel?.(e);
-              }}
-              afterClose={() => {
-                if (isResetFields) {
-                  if (isAntdReset) {
-                    formRef.current.resetFields(); // 弹窗关闭后重置表单
-                  } else {
-                    formRef.current.setFieldsValue({ ...initVal });
-                  }
-                }
-                modalProps?.afterClose?.();
-              }}
+              onCancel={handleCancel}
+              afterClose={modalAfterClose}
             >
               {formDom}
             </Modal>
           ) : (
             <Modal
-              centered={centered}
-              width={width}
+              {...publicProps}
               footer={submitterDom}
-              maskClosable={false}
-              destroyOnClose={destroyOnClose}
-              forceRender={forceRender}
               {...modalProps}
               style={{ top: modalTop, ...modalProps?.style }}
-              className={classnames('lightd-modal', modalProps.className)}
-              wrapClassName={classnames('lightd-modal-wrap', modalProps.wrapClassName)}
               open={open}
-              onCancel={(e) => {
-                setOpen(false);
-                modalProps?.onCancel?.(e);
-              }}
+              onCancel={handleCancel}
               afterClose={() => {
-                if (isResetFields) {
-                  if (isAntdReset) {
-                    formRef.current.resetFields();
-                  } else {
-                    formRef.current.setFieldsValue({ ...initVal });
-                  }
-                }
+                modalAfterClose();
                 setPosition({ x: 0, y: 0 });
-                modalProps?.afterClose?.();
               }}
               modalRender={(modalDom) => (
                 <Draggable
-                  defaultClassName="lightd-draggable"
+                  defaultClassName={classnames(`${prefixCls}-draggable`)}
+                  defaultClassNameDragging={classnames(`${prefixCls}-dragging`)}
+                  defaultClassNameDragged={classnames(`${prefixCls}-dragged`)}
                   disabled={disabled}
                   bounds={bounds}
                   position={position}
@@ -197,12 +191,10 @@ const LModalForm: FC<LModalFormProps> = (props) => {
               )}
               title={
                 <div
-                  className="lightd-modal-draggable-header"
+                  className={classnames(`${prefixCls}-draggable-header`)}
                   style={{ width: '100%', cursor: 'move' }}
                   onMouseOver={() => {
-                    if (disabled) {
-                      setDisabled(false);
-                    }
+                    if (disabled) setDisabled(false);
                   }}
                   onMouseOut={() => setDisabled(true)}
                 >

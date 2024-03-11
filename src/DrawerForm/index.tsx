@@ -3,10 +3,11 @@ import { Drawer } from 'antd';
 import classnames from 'classnames';
 import BaseForm from 'lighting-design/Form/base/BaseForm';
 import { useLFormInstance } from 'lighting-design/Form/base/hooks';
+import { useModalFormInitialValues } from 'lighting-design/ModalForm/hooks';
 import { isAntdVersionMoreThan514, isFunction } from 'lighting-design/_utils';
 import { BUTTON_ALIGN_MAP, emptyObject } from 'lighting-design/constants';
 import type { FC, MouseEvent } from 'react';
-import { cloneElement, useEffect, useState } from 'react';
+import { cloneElement } from 'react';
 import type { LDrawerFormProps } from './interface';
 
 const prefixCls = 'lightd-form-drawer';
@@ -29,6 +30,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     onFinish,
     submitter,
     isFullscreen,
+    initialValues,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -47,12 +49,12 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     if (ret === true) setOpen(false);
   });
 
-  const [initVal, setIninVal] = useState(() => restProps.initialValues || {});
-  useEffect(() => {
-    if (!isAntdReset && open) {
-      setIninVal({ ...formRef.current.getFieldsValue(), ...initVal });
-    }
-  }, [open]);
+  const initVal = useModalFormInitialValues({
+    open,
+    initialValues,
+    isAntdReset,
+    form: formRef.current,
+  });
 
   const compatibilityStyle = isAntdVersionMoreThan514
     ? {
@@ -141,7 +143,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
                 if (isAntdReset) {
                   formRef.current.resetFields();
                 } else {
-                  // resetFormInitValues();
                   formRef.current.setFieldsValue({ ...initVal });
                 }
               }

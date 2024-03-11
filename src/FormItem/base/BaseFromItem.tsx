@@ -26,7 +26,6 @@ const LFormItem: FC<LFormItemProps> & {
     contentAlignItems: alignItems = 'center',
     wrapperAlignItems = 'start',
     formItemBottom: itemBottom,
-    name,
     required = false,
     shouldUpdate,
     dependencies,
@@ -42,10 +41,6 @@ const LFormItem: FC<LFormItemProps> & {
     ownColSpans,
     ...restFromItemProps
   } = props;
-
-  let curName = name;
-  if (typeof name === 'number') curName?.toString();
-
   const { layout, formItemBottom, labelColProps: formLabelColProps } = useContext(LFormContext);
 
   const messageLabel = usePlaceholder({
@@ -111,7 +106,6 @@ const LFormItem: FC<LFormItemProps> & {
   }, [layout, labelWidth, formLabelColProps, labelCol]);
 
   const publicProps = {
-    name: curName,
     labelCol: labelColProps,
     required,
     rules: innerRules,

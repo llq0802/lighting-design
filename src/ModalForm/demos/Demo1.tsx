@@ -1,10 +1,21 @@
 import { Button, message } from 'antd';
 import { LForm, LFormItemInput, LFormItemRadio, LModalForm } from 'lighting-design';
+import { useEffect, useState } from 'react';
 import { awaitTime } from '../../_test';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
 
+  const [initialValues, setInitialValues] = useState({
+    name: '刘德华',
+  });
+  useEffect(() => {
+    setTimeout(() => {
+      setInitialValues({
+        name: '刘德华999',
+      });
+    }, 1000);
+  });
   return (
     <div>
       <LModalForm
@@ -17,9 +28,8 @@ const Demo1 = () => {
           message.success('提交成功');
           return true;
         }}
-        initialValues={{
-          name: '刘德华',
-        }}
+        initialValues={initialValues}
+        isAntdReset={false}
         trigger={<Button type="primary">打开弹窗</Button>}
       >
         <LFormItemInput name="name" required label="输入框" />
