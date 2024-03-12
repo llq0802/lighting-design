@@ -130,7 +130,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
             maskClosable={false}
             destroyOnClose={destroyOnClose}
             {...drawerProps}
-            className={classnames('lightd-drawer', drawerProps.className)}
             {...compatibilityStyle}
             open={open}
             onClose={(e) => {

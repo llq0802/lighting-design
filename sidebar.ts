@@ -43,10 +43,6 @@ export default {
           title: 'LColor-颜色选择',
           link: '/components/color-pick',
         },
-        {
-          title: 'LTypeit-打字机',
-          link: '/components/typeit',
-        },
       ],
     },
     {

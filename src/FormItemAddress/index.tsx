@@ -100,7 +100,7 @@ const LFormItemAddress: FC<LFormItemAddressProps> = ({
       validator(rule, value: any) {
         let errMsg = '';
         if (!value || value?.length <= 0) {
-          errMsg = required ? `${getFormItemLabel(restProps)}不能为空!` : '';
+          errMsg = required ? `${getFormItemLabel(restProps)}不能为空！` : '';
         } else if (!isLegalValue(value[0])) {
           errMsg = required ? `${placeholder[0]}` : '';
         } else if (!isLegalValue(value[1])) {

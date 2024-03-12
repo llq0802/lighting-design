@@ -99,8 +99,6 @@ export * from './TreeTable';
 export { default as LTreeTable } from './TreeTable';
 export * from './Trigger';
 export { default as LTrigger } from './Trigger';
-export * from './Typeit';
-export { default as LTypeit } from './Typeit';
 export * from './useCallbackState';
 export { default as useCallbackState } from './useCallbackState';
 export * from './useDeepUpdateEffect';

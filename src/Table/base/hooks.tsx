@@ -1,4 +1,5 @@
 import { usePagination, useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
+import { Tooltip } from 'antd';
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import classnames from 'classnames';
 import { getTableColumnsKey, isEvenNumber, isFunction } from 'lighting-design/_utils';

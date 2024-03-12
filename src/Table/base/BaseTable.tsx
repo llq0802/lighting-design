@@ -505,7 +505,12 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
     (typeof toolbarActionConfig !== 'boolean' && !toolbarActionConfig?.showFullscreen) ||
     toolbarActionConfig === false
   ) {
-    return <ConfigProvider locale={zhCN}>{returnDom}</ConfigProvider>;
+    return (
+      <ConfigProvider locale={zhCN}>
+        {returnDom}
+        {props?.children}
+      </ConfigProvider>
+    );
   }
   return (
     // 处理表格在全屏状态下 ant一些弹出层组件(Modal)无法显示问题
