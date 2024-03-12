@@ -182,7 +182,11 @@ const LModalForm: FC<LModalFormProps> = (props) => {
                   disabled={disabled}
                   bounds={bounds}
                   position={position}
-                  handle=".ant-modal-header"
+                  handle={
+                    typeof isDraggable === 'boolean'
+                      ? '.ant-modal-header'
+                      : (isDraggable as any)?.handle
+                  }
                   onStart={(event, uiData) => onStart(event, uiData)}
                   onStop={(event, uiData) => onStop(event, uiData)}
                 >
