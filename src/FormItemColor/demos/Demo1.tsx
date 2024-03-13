@@ -3,32 +3,16 @@ import { LForm, LFormItemColor } from 'lighting-design';
 const Demo1 = () => {
   const [form] = LForm.useForm();
   return (
-    <LForm form={form}>
-      <LFormItemColor
-        colorType="chrome"
-        label="颜色选择1"
-        name="color1"
-        required
-      />
-      <LFormItemColor
-        colorType="sketch"
-        label="颜色选择2"
-        name="color2"
-        required
-      />
-      <LFormItemColor
-        label="颜色选择3"
-        colorType="photoshop"
-        name="color4"
-        required
-      />
-      <LFormItemColor
-        disabled
-        colorType="chrome"
-        label="禁用选择"
-        name="color3"
-        required
-      />
+    <LForm
+      form={form}
+      onFinish={(values) => {
+        console.log('==values====>', values);
+      }}
+    >
+      <LFormItemColor label="颜色选择1" name="color1" required showText />
+      <LFormItemColor label="颜色选择2" name="color2" required />
+      <LFormItemColor label="颜色选择3" name="color3" required />
+      <LFormItemColor disabled label="禁用选择" name="color4" />
     </LForm>
   );
 };

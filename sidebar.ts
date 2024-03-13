@@ -246,10 +246,6 @@ export default {
           link: '/components/use-callback-state',
         },
         {
-          title: 'useWorker-WebWorker',
-          link: '/components/use-worker',
-        },
-        {
           title: 'useDeepUpdateEffect-深度比较更新',
           link: '/components/use-deep-update-effect',
         },

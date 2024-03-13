@@ -1,6 +1,6 @@
 {
   "name": "lighting-design",
-  "version": "2.1.31",
+  "version": "2.1.32",
   "description": "🎨 Lighting Design 是一款使用 TypeScript + React 编写的实用业务组件库。",
   "keywords": [
     "lighting-design",
@@ -58,7 +58,6 @@
     "*.{ts,tsx}": []
   },
   "dependencies": {
-    "@koale/useworker": "^4.0.2",
     "ahooks": "^3.7.6",
     "antd-img-crop": "^4.12.2",
     "compare-versions": "^6.1.0",

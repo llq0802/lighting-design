@@ -107,5 +107,3 @@ export * from './useLazyLoadImage';
 export { default as useLazyLoadImage } from './useLazyLoadImage';
 export * from './useShow';
 export { default as useShow } from './useShow';
-export * from './useWorker';
-export { default as useWorker } from './useWorker';
