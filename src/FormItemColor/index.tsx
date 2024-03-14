@@ -90,6 +90,32 @@ import type { FC } from 'react';
 import { useContext } from 'react';
 import type { LFormItemColorProps } from './interface';
 
+const formatMap = {
+  rgb: 'toRgbString',
+  hex: 'toHexString',
+  hsb: 'toHsbString',
+};
+
+const ColorPickerWrapper = ({ size, disabled, showText, ...colorProps }) => {
+  const format = colorProps?.format || colorProps?.defaultFormat || 'hex';
+  return (
+    <ColorPicker
+      size={size}
+      disabled={disabled}
+      allowClear
+      destroyTooltipOnHide
+      arrow={false}
+      showText={showText}
+      {...colorProps}
+      onChange={(value, s) => {
+        // @ts-ignore
+        const val = typeof value === 'string' ? value : value?.[formatMap[format]]?.();
+        colorProps?.onChange(val);
+      }}
+    />
+  );
+};
+
 const LFormItemColor: FC<LFormItemColorProps> = ({
   disabled,
   size,
@@ -100,13 +126,16 @@ const LFormItemColor: FC<LFormItemColorProps> = ({
   showText,
   ...restProps
 }) => {
-  const { disabled: formDisabled, size: formSize } = useContext(LFormContext);
+  const { disabled: formDisabled } = useContext(LFormContext);
 
   return (
     <LFormItem _isSelectType {...restProps}>
-      <ColorPicker
-        size={size || formSize}
+      <ColorPickerWrapper
+        size={size}
         disabled={disabled || formDisabled}
+        allowClear
+        destroyTooltipOnHide
+        arrow={false}
         showText={showText}
         {...colorProps}
       />
