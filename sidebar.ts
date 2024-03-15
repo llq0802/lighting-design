@@ -188,7 +188,7 @@ export default {
           link: '/components/form-item-tree-select',
         },
         {
-          title: 'Address-地址选择',
+          title: 'Address-组合选择',
           link: '/components/form-item-address',
         },
         {
@@ -244,14 +244,6 @@ export default {
         {
           title: 'useCallbackState-状态更新回调',
           link: '/components/use-callback-state',
-        },
-        {
-          title: 'useDeepUpdateEffect-深度比较更新',
-          link: '/components/use-deep-update-effect',
-        },
-        {
-          title: 'useLazyLoadImage-懒加载图片',
-          link: '/components/use-lazy-load-image',
         },
       ],
     },

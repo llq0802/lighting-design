@@ -16,18 +16,15 @@ export default function useCallbackState<T>(
     callBackRef?.current?.(data);
   }, [data]);
 
-  const setState = useCallback(
-    (newState: T | ((prevState: T) => void), cb?: (val: T) => void) => {
-      if (isFunction(cb)) {
-        callBackRef.current = cb;
-      }
-      setData((prevState: T) => {
-        const ret = isFunction(newState) ? newState?.(prevState) : newState;
-        return ret;
-      });
-    },
-    [],
-  );
+  const setState = useCallback((newState: T | ((prevState: T) => void), cb?: (val: T) => void) => {
+    if (isFunction(cb)) {
+      callBackRef.current = cb;
+    }
+    setData((prevState: T) => {
+      const ret = isFunction(newState) ? newState?.(prevState) : newState;
+      return ret;
+    });
+  }, []);
 
   return [data, setState];
 }

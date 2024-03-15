@@ -28,9 +28,12 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     className,
     form: outForm,
     onFinish,
+
     submitter,
     isFullscreen,
     initialValues,
+
+    onCancel,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -101,6 +104,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
                   preventDefault: true, // 不触发默认的重置表单事件
                   onClick: (e) => {
                     setOpen(false);
+                    onCancel?.(e);
                     drawerProps?.onClose?.(e);
                     submitter?.resetButtonProps?.onClick?.(e);
                   },
@@ -134,6 +138,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
             open={open}
             onClose={(e) => {
               setOpen(false);
+              onCancel?.(e);
               drawerProps?.onClose?.(e);
             }}
             afterOpenChange={(flag) => {

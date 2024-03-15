@@ -32,6 +32,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
     form: outForm,
     onFinish,
     submitter,
+    onCancel,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -76,6 +77,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
 
   const handleCancel = (e) => {
     setOpen(false);
+    onCancel?.(e);
     modalProps?.onCancel?.(e);
   };
 
@@ -124,6 +126,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
                   preventDefault: true, // 不触发默认的重置表单事件
                   onClick: (e: any) => {
                     setOpen(false);
+                    onCancel?.(e);
                     modalProps?.onCancel?.(e);
                     submitter?.resetButtonProps?.onClick?.(e);
                   },

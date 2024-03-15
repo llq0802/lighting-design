@@ -1,8 +1,8 @@
+// import { Button } from 'antd';
 // import React from 'react';
 
 // const Logger = (props) => {
-//   console.log(`${props.label} rendered`);
-//   return <div>{Math.random()}</div>;
+//   return <h3 style={{ outline: `1px solid` }}>{Math.random()}</h3>;
 // };
 
 // // const MemoLogger = React.memo(Logger);
@@ -14,11 +14,19 @@
 //   //   return <Logger label="MemoLogger" />;
 //   // }, [count]);
 
+//   // const LoggerC = props.logger;
 //   return (
 //     <div>
-//       <button onClick={increment}>The count is {count}</button>
-//       {props.logger.map((item) => item)}
+//       <Button onClick={increment}>The count is {count}</Button>
+//       {/* {props.logger.map((item) => item)} */}
+//       {props.logger.map((item) => item.content)}
 //       {/* {MemoLogger} */}
+//       {/* {props.logger} */}
+
+//       {/* {props.logger?.content} */}
+
+//       {/* {props.logger?.()} */}
+//       {/* <LoggerC></LoggerC> */}
 //     </div>
 //   );
 // };
@@ -26,60 +34,73 @@
 // export default () => {
 //   return (
 //     <>
-//       <Count logger={[<Logger label="counter" key="0" />]} />;
+//       <Count
+//         logger={[
+//           { content: <Logger label="counter" key="0" /> },
+//           { content: <Logger label="counter" key="1" /> },
+//         ]}
+//       />
+//       {/* <Count
+//         logger={{
+//           content: <Logger label="counter" key="0" />,
+//         }}
+//       /> */}
+//       {/* <Count logger={<Logger label="counter" key="0" />} /> */}
+//       {/* <Count logger={Logger} /> */}
 //     </>
 //   );
 // };
 
-// import React, { createContext, useContext } from 'react';
+import { Button } from 'antd';
+import React, { createContext, useContext, useMemo } from 'react';
 
-// const MyContext = createContext<any>(null);
+const MyContext = createContext<any>(null);
 
-// const Logger = (props) => {
-//   // const { count } = useContext(MyContext);
+const Child = () => {
+  return <h3>{Math.random()}</h3>;
+};
 
-//   console.log('Logger-Render ');
-//   return (
-//     <div>
-//       {/* {Math.random()}-----{count} */}
-//       {Math.random()}
-//     </div>
-//   );
-// };
+const Logger = () => {
+  const { count } = useContext(MyContext);
+  return (
+    <>
+      <h3>{Math.random()}</h3>
+    </>
+  );
+};
 
-// const MemoLogger = React.memo(Logger);
+const MemoLogger = React.memo(Logger, () => false);
 
-// const Count = (props) => {
-//   const { count, setCount } = useContext(MyContext);
-//   const increment = () => setCount((c) => c + 1);
-//   return (
-//     <div>
-//       <button onClick={increment}>The count is {count}</button>
-//     </div>
-//   );
-// };
+const Count = () => {
+  const { count, setCount } = useContext(MyContext);
+  const increment = () => setCount((c) => c + 1);
+  return (
+    <div>
+      <Button onClick={increment}>The count is {count}</Button>
+    </div>
+  );
+};
 
-// const Body = (props) => {
-//   return (
-//     <div>
-//       <div>Counter</div>
-//       <Count />
-//       <div>Logger</div>
-//       <MemoLogger />
-//     </div>
-//   );
-// };
+const Body = () => {
+  const logger = useMemo(() => <Logger></Logger>, []);
+  return (
+    <div>
+      <h3>Counter</h3>
+      <Count />
+      <hr />
+      <h3>Logger</h3>
+      {/* {logger} */}
+      <MemoLogger />
+      {/* <Logger></Logger> */}
+      <h3>Child</h3>
+      <Child />
+    </div>
+  );
+};
 
+const MemoBody = React.memo(Body);
 // const Provider = (props) => {
 //   const [count, setCount] = React.useState(0);
-
-//   // const value = React.useMemo(
-//   //   () => ({
-//   //     count,
-//   //     setCount,
-//   //   }),
-//   //   [count],
-//   // );
 
 //   return (
 //     <MyContext.Provider
@@ -100,3 +121,22 @@
 //     </Provider>
 //   );
 // };
+
+export default () => {
+  const [count, setCount] = React.useState(0);
+
+  const myBody = useMemo(() => <Body></Body>, []);
+
+  return (
+    <MyContext.Provider
+      value={{
+        count,
+        setCount,
+      }}
+    >
+      {/* {myBody} */}
+      {/* <MemoBody abc={{}}></MemoBody> */}
+      {/* <Body></Body> */}
+    </MyContext.Provider>
+  );
+};

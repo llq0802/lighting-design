@@ -64,4 +64,6 @@ export interface LModalFormProps
    * - 不要与 centered 同时配置
    */
   modalTop?: string | number;
+
+  onCancel?: (values: Record<string, any>) => void | true | Promise<any>;
 }

@@ -37,4 +37,5 @@ export interface LDrawerFormProps
    *@see https://ant.design/components/drawer-cn#api
    */
   drawerProps?: Omit<DrawerProps, 'open'>;
+  onCancel?: DrawerProps['onClose'];
 }

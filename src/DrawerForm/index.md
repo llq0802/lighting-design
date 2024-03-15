@@ -41,6 +41,10 @@ nav:
 
 <code src='./demos/Demo7.tsx'></code>
 
+### 与 Nice Modal 结合使用
+
+<code src='./demos/Demo8.tsx'></code>
+
 ## API
 
 :::warning{title=注意}

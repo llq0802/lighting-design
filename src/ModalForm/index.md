@@ -33,11 +33,15 @@ nav:
 
 <code src='./demos/Demo5.tsx'></code>
 
+### 与 Nice Modal 结合使用
+
+<code src='./demos/Demo6.tsx'></code>
+
 ## API
 
 :::warning{title=注意}
 
-- `LMoadlForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`，如果只是展示内容 (`例如表格 列表 详情`) 请使用`antd`的弹窗组件或`Nice Modal`
+- `LMoadlForm`的`children`属性必须包含配合`LFormItem`或`LFormItemXXX`或`Form.Item`，如果只是展示内容 (`例如表格 列表 详情`) 请使用`antd`的弹窗组件或[Nice Modal](https://github.com/eBay/nice-modal-react)
 
 - `LMoadlForm` 的`底部操作栏`通过 `LForm` 的`submitter`属性配置
 
