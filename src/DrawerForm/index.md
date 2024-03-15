@@ -86,3 +86,4 @@ import { LDrawerForm } from 'lighting-design';
 | onOpenChange   | `open` 改变时触发                                                                                 | `(open: boolean) => void`                                   | `-`        |
 | drawerProps    | `Drawer` 的 `props`，使用方式与 antd 相同。                                                       | [DrawerProps](https://ant.design/components/drawer-cn/#api) | `-`        |
 | onFinish       | 提交数据时触发。<br>如果返回 `true` 或 `Promise.resolve(true)` 会关闭弹框并且会自动管理 `loading` | `async (values: any) => any`                                | `-`        |
+| onCancel       | 点击取消按钮或关闭按钮时触发                                                                      | ` (e) => any`                                               | `-`        |
