@@ -73,7 +73,8 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
         size={size}
         placeholder={messagePlaceholder}
         disabled={disabled || formDisabled}
-        dependencies={restProps?.dependencies}
+        name={restProps?.name}
+        initialValue={restProps?.initialValue}
         //
         refreshDeps={refreshDeps}
         autoRequest={autoRequest}

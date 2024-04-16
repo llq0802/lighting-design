@@ -2,11 +2,11 @@ import { Mentions, Spin } from 'antd';
 import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper';
 import { getOptions } from 'lighting-design/_utils';
 import { useRequestOptions } from 'lighting-design/hooks';
-import { omit } from 'lodash-es';
 import { useImperativeHandle, useMemo } from 'react';
 
 const MentionsWrapper = ({
-  dependencies,
+  initialValue,
+  name,
   request,
   requestOptions,
   outOptions,
@@ -17,13 +17,15 @@ const MentionsWrapper = ({
   autoRequest,
   ...restProps
 }: Record<string, any>) => {
-  const mentionsProps = omit(restProps, dependencies);
+  const mentionsProps = restProps;
   const requestRes = useRequestOptions({
     options: outOptions,
     request,
     requestOptions,
     refreshDeps,
     autoRequest,
+    initialValue,
+    name,
   });
   const { loading, data } = requestRes;
   const opts = useMemo(() => {

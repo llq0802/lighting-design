@@ -39,6 +39,8 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
       valuePropName="targetKeys"
     >
       <TransferWrapper
+        name={restProps?.name}
+        initialValue={restProps?.initialValue}
         disabled={disabled || formDisabled}
         outLoading={spin}
         actionRef={actionRef}

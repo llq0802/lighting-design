@@ -32,7 +32,6 @@ const Index = () => {
         name="select2"
         request={async () => {
           console.log('select1Val ', select1Val);
-          form.setFieldValue('select2', void 0);
           if (!select1Val) return [];
           let data: Record<string, any>[] = [];
           if (select1Val === 'a') data = [{ label: 'A', value: 'a' }];

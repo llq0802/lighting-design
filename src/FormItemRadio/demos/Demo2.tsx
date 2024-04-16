@@ -14,14 +14,12 @@ const Demo2 = () => {
         required
         actionRef={actionRef}
         request={async () => {
-          const result = await awaitTime([
+          await awaitTime();
+          return [
             { label: 'Unresolved', value: 'open' },
             { label: 'Resolved', value: 'closed' },
             { label: 'Resolving', value: 'processing' },
-          ]);
-          if (result.success) {
-            return result.data;
-          }
+          ];
         }}
         requestOptions={{
           cacheKey: 'LFormItemSelect-Demo2-1',
@@ -33,15 +31,12 @@ const Demo2 = () => {
         all
         required
         request={async () => {
-          const result = await awaitTime(
-            [
-              { label: 'Unresolved', value: 'open' },
-              { label: 'Resolved', value: 'closed' },
-              { label: 'Resolving', value: 'processing' },
-            ],
-            3000,
-          );
-          if (result.success) return result.data;
+          await awaitTime();
+          return [
+            { label: 'Unresolved', value: 'open' },
+            { label: 'Resolved', value: 'closed' },
+            { label: 'Resolving', value: 'processing' },
+          ];
         }}
       />
     </LForm>

@@ -4368,7 +4368,7 @@ eastasianwidth@^0.2.0:
   resolved "https://registry.npmmirror.com/eastasianwidth/-/eastasianwidth-0.2.0.tgz#696ce2ec0aa0e6ea93a397ffcf24aa7840c827cb"
   integrity sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==
 
-echarts@^5.4.3:
+echarts@^5.5.0:
   version "5.5.0"
   resolved "https://registry.npmmirror.com/echarts/-/echarts-5.5.0.tgz#c13945a7f3acdd67c134d8a9ac67e917830113ac"
   integrity sha512-rNYnNCzqDAPCr4m/fqyUFv7fD9qIsd50S6GDFgO1DxZhncCsNsG7IfUlAlvZe5oSEQxtsjnHiUuppzccry93Xw==
@@ -9802,10 +9802,10 @@ rc-upload@~4.5.2:
     classnames "^2.2.5"
     rc-util "^5.2.0"
 
-rc-use-hooks@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.npmmirror.com/rc-use-hooks/-/rc-use-hooks-2.0.3.tgz#11897b128f3b7e35219d2b4c3c7b06af2ea7cb83"
-  integrity sha512-bqi0DT7ZvsCQBC2H+k3YpwiXDmB6I48RLXLXppgqnWYgtvEINCAdVcWjLeZKXFSAkpjXxXYOFuqdEAYnXg9eNw==
+rc-use-hooks@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.npmmirror.com/rc-use-hooks/-/rc-use-hooks-2.0.4.tgz#5f687f3e51020ee6b5ecee5c70f364b29a5a6069"
+  integrity sha512-s/r45jC8qDVGDhM+RC8VkLSRQ6CbQ6rYqWa6vhQtOh4Flvn13dgz+v8d3aAe8xXuPXqk+v1ObaKk1wcCYubtXw==
   dependencies:
     "@koale/useworker" "^4.0.2"
     ahooks "^3.7.8"

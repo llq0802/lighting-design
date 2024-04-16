@@ -45,7 +45,8 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
         size={size}
         disabled={disabled || formDisabled}
         placeholder={messagePlaceholder}
-        dependencies={restProps?.dependencies}
+        name={restProps?.name}
+        initialValue={restProps?.initialValue}
         //
         request={request}
         actionRef={actionRef}

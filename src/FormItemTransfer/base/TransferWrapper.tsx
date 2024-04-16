@@ -1,8 +1,16 @@
-import { useDeepCompareEffect, useLatest, useMemoizedFn, usePagination, useRafState } from 'ahooks';
+import {
+  useDeepCompareEffect,
+  useLatest,
+  useMemoizedFn,
+  usePagination,
+  useRafState,
+  useUpdateEffect,
+} from 'ahooks';
 import { ConfigProvider, Spin, Transfer } from 'antd';
 import type { TransferDirection } from 'antd/es/transfer';
 import zhCN from 'antd/locale/zh_CN';
 import classnames from 'classnames';
+import LForm, { useLFormContext } from 'lighting-design/Form';
 import { getOptions } from 'lighting-design/_utils';
 import { useImperativeHandle, type FC } from 'react';
 import type { RecordType } from '../interface';
@@ -19,6 +27,8 @@ const isManual = (options: RecordType[], autoRequest: boolean) => {
 
 const TransferWrapper: FC<Record<string, any>> = (props) => {
   const {
+    name,
+    initialValue,
     fieldNames = { label: 'title', value: 'key' },
     limitMaxCount = 0,
     options,
@@ -49,6 +59,14 @@ const TransferWrapper: FC<Record<string, any>> = (props) => {
     { manual: isManual(options, autoRequest), refreshDeps, ...requestOptions },
   );
   const { loading, data, ...rest } = requestRes;
+
+  const from = LForm.useFormInstance();
+  const { initialValues } = useLFormContext();
+  useUpdateEffect(() => {
+    if (refreshDeps && refreshDeps?.length > 0) {
+      from.setFieldValue(name, initialValue ?? initialValues?.[name] ?? void 0);
+    }
+  }, [...(refreshDeps || [])]);
 
   useImperativeHandle(actionRef, () => {
     return {

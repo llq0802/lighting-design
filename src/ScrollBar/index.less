@@ -2,7 +2,6 @@
 
 .@{prefixCls} {
   --lightd-scrollbar-bg-color: #dddee0;
-  // --lightd-scrollbar-bg-color: #c1c1c1;
   --lightd-scrollbar-bg-hover-color: #a8a8a8;
   --lightd-scrollbar-width: 13px;
   --lightd-scrollbar-border-radius: 7px;
@@ -12,8 +11,8 @@
   contain-intrinsic-size: 300px;
 
   /* 兼容火狐浏览器 */
-  scrollbar-color: var(--lightd-scrollbar-bg-color) transparent; /* 滑块颜色  滚动条背景颜色 */
-  scrollbar-width: thin; /* 滚动条宽度有三种：thin、auto、none */
+  // scrollbar-color: var(--lightd-scrollbar-bg-color) transparent; /* 滑块颜色  滚动条背景颜色 */
+  // scrollbar-width: thin; /* 滚动条宽度有三种：thin、auto、none */
 
   /* 通用滚动条样式 */
   &::-webkit-scrollbar {
@@ -27,7 +26,6 @@
 
   /* 滚动条滑块颜色和背景颜色 */
   &::-webkit-scrollbar-thumb {
-    transition: all 0.5s;
     background-color: var(--lightd-scrollbar-bg-color);
     background-clip: padding-box;
     border: 3px solid transparent;
@@ -39,7 +37,7 @@
     background-color: var(--lightd-scrollbar-bg-hover-color);
   }
 }
-
+// hide 模式
 .@{prefixCls}.@{prefixCls}-hide {
   /* 通用滚动条样式 */
   &::-webkit-scrollbar {
@@ -47,68 +45,22 @@
   }
 
   /* 兼容火狐浏览器 */
-  scrollbar-width: none; /* 滚动条宽度有三种：thin、auto、none */
+  // scrollbar-width: none; /* 滚动条宽度有三种：thin、auto、none */
 }
 
+// hover 模式
 .@{prefixCls}.@{prefixCls}-hover {
-  scrollbar-color: transparent transparent; /* 滑块颜色  滚动条背景颜色 */
-
-  &:hover {
-    scrollbar-color: var(--lightd-scrollbar-bg-color) transparent; /* 滑块颜色  滚动条背景颜色 */
-  }
-
-  &:hover::-webkit-scrollbar-thumb {
-    background-color: var(--lightd-scrollbar-bg-color);
-  }
+  // scrollbar-color: transparent transparent; /* 滑块颜色  滚动条背景颜色 */
+  // &:hover {
+  //   scrollbar-color: var(--lightd-scrollbar-bg-color) transparent; /* 滑块颜色  滚动条背景颜色 */
+  // }
+  transition: background-color 0.3s;
 
   &::-webkit-scrollbar-thumb {
     background-color: transparent;
   }
-}
 
-/* Safari and Chrome */
-@media screen and (min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
-  .@{prefixCls} {
-    overflow: auto;
-
-    /* 通用滚动条样式 */
-    &::-webkit-scrollbar {
-      width: var(--lightd-scrollbar-width);
-    }
-
-    /* 滚动条轨道颜色和背景颜色 */
-    &::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-
-    /* 滚动条滑块颜色和背景颜色 */
-    &::-webkit-scrollbar-thumb {
-      background-color: var(--lightd-scrollbar-bg-color);
-      background-clip: padding-box;
-      border: 3px solid transparent;
-      border-radius: var(--lightd-scrollbar-border-radius);
-    }
-
-    /* 鼠标悬停在滚动条滑块上时的样式 */
-    &::-webkit-scrollbar-thumb:hover {
-      background-color: var(--lightd-scrollbar-bg-hover-color);
-    }
-  }
-
-  .@{prefixCls}.@{prefixCls}-hide {
-    /* 通用滚动条样式 */
-    &::-webkit-scrollbar {
-      display: none;
-    }
-  }
-
-  .@{prefixCls}.@{prefixCls}-hover {
-    &:hover::-webkit-scrollbar-thumb {
-      background-color: var(--lightd-scrollbar-bg-color);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: transparent;
-    }
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: var(--lightd-scrollbar-bg-color);
   }
 }

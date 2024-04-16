@@ -46,8 +46,8 @@ const Demo5 = () => {
           if (select1Val === 'c') {
             data = Mock.mock({ 'list|8': [{ label: '@cname', value: '@id' }] }).list;
           }
-          const result = await awaitTime(data);
-          if (result.success) return result.data;
+          await awaitTime();
+          return data;
         }}
         renderField={(dom) => {
           if (!select1Val) return <>请先选择 select1</>;

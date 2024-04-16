@@ -8,7 +8,8 @@ import type { FC } from 'react';
 import { useImperativeHandle, useMemo } from 'react';
 
 const SelectWrapper: FC<Record<string, any>> = ({
-  dependencies = emptyArray,
+  initialValue,
+  name,
   options: outOptions = emptyArray,
   all = false,
   allValue = 'all',
@@ -23,13 +24,15 @@ const SelectWrapper: FC<Record<string, any>> = ({
   refreshDeps,
   ...restProps
 }) => {
-  const selectProps = omit(restProps, dependencies);
+  const selectProps = omit(restProps, ['dependencies']);
   const requestRes = useRequestOptions({
     options: outOptions,
     request,
     requestOptions,
     refreshDeps,
     autoRequest,
+    initialValue,
+    name,
   });
   const { loading, data } = requestRes;
 

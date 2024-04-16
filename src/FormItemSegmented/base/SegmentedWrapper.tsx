@@ -3,14 +3,15 @@ import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper
 import { getOptions } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useRequestOptions } from 'lighting-design/hooks';
-import { isNil, omit } from 'lodash-es';
+import { isNil } from 'lodash-es';
 import type { FC } from 'react';
 import { useImperativeHandle, useMemo } from 'react';
 
 type SegmentedWrapperProps = Record<string, any>;
 
 const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
-  dependencies = emptyArray,
+  name,
+  initialValue,
   options: outOptions = emptyArray,
   autoRequest,
   refreshDeps,
@@ -23,13 +24,15 @@ const SegmentedWrapper: FC<SegmentedWrapperProps> = ({
   isDefaultChecked,
   ...restProps
 }) => {
-  const segmentedProps = omit(restProps, dependencies);
+  const segmentedProps = restProps;
   const requestRes = useRequestOptions({
     options: outOptions,
     request,
     requestOptions,
     autoRequest,
     refreshDeps,
+    name,
+    initialValue,
   });
   const { loading, data } = requestRes;
 

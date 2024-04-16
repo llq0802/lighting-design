@@ -1,17 +1,16 @@
 import { Radio, Spin } from 'antd';
 import { getOptions } from 'lighting-design/_utils';
-import { emptyArray } from 'lighting-design/constants';
 import { useRequestOptions } from 'lighting-design/hooks';
-import { omit } from 'lodash-es';
 import type { FC } from 'react';
 import { useImperativeHandle, useMemo } from 'react';
 
 export const publicSpinStyle = { marginLeft: 40, width: 'fit-content' };
 
 const RadioWrapper: FC<Record<string, any>> = ({
+  name,
+  initialValue,
   actionRef,
   outLoading,
-  dependencies = emptyArray,
   options: outOptions,
   fieldNames,
   request,
@@ -24,13 +23,15 @@ const RadioWrapper: FC<Record<string, any>> = ({
 
   ...restProps
 }) => {
-  const radioProps = omit(restProps, dependencies);
+  const radioProps = restProps;
   const requestRes = useRequestOptions({
     options: outOptions,
     request,
     requestOptions,
     refreshDeps,
     autoRequest,
+    name,
+    initialValue,
   });
   const { loading, data } = requestRes;
   const opts = useMemo(() => {

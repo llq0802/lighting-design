@@ -48,7 +48,8 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
         disabled={disabled || formDisabled}
         placeholder={messageLabel}
         size={size}
-        dependencies={restProps?.dependencies}
+        name={restProps?.name}
+        initialValue={restProps?.initialValue}
         options={options}
         //
         request={request}

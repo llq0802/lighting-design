@@ -34,7 +34,8 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
     <LFormItem placeholder={messageLabel} {...restProps}>
       <MentionsWrapper
         disabled={disabled || formDisabled}
-        dependencies={restProps?.dependencies}
+        name={restProps?.name}
+        initialValue={restProps?.initialValue}
         placeholder={messageLabel}
         outOptions={outOptions}
         variant={variant}

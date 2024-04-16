@@ -30,7 +30,8 @@ const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
       <SegmentedWrapper
         size={size || formSize}
         disabled={disabled || formDisabled}
-        dependencies={restProps?.dependencies}
+        name={restProps?.name}
+        initialValue={restProps?.initialValue}
         actionRef={actionRef}
         request={request}
         block={block}

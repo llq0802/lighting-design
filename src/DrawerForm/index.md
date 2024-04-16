@@ -41,6 +41,10 @@ nav:
 
 <code src='./demos/Demo7.tsx'></code>
 
+### 与 useShow 结合使用
+
+<code src='./demos/Demo9.tsx'></code>
+
 ### 与 Nice Modal 结合使用
 
 <code src='./demos/Demo8.tsx'></code>

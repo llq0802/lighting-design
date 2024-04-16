@@ -1,5 +1,6 @@
-import { useRequest } from 'ahooks';
+import { useRequest, useUpdateEffect } from 'ahooks';
 import { useRef } from 'react';
+import LForm, { useLFormContext } from './Form';
 import type { LFormItemSelectProps } from './FormItemSelect';
 
 /**
@@ -32,13 +33,25 @@ export const useRequestOptions = ({
   requestOptions,
   refreshDeps,
   autoRequest = true,
+  initialValue,
+  name,
 }: {
   options?: any[];
   request?: LFormItemSelectProps['request'];
   requestOptions?: LFormItemSelectProps['requestOptions'];
   refreshDeps?: any[];
   autoRequest?: boolean;
+  initialValue?: any;
+  name: string;
 }) => {
+  const from = LForm.useFormInstance();
+  const { initialValues } = useLFormContext();
+  useUpdateEffect(() => {
+    if (refreshDeps && refreshDeps?.length > 0) {
+      from.setFieldValue(name, initialValue ?? initialValues?.[name] ?? void 0);
+    }
+  }, [...(refreshDeps || [])]);
+
   const requestRes = useRequest(
     async (...args) => {
       if (request) {

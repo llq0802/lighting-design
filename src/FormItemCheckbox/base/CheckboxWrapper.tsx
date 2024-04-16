@@ -7,7 +7,6 @@ import { publicSpinStyle } from 'lighting-design/FormItemRadio/base/RadioWrapper
 import { getOptions } from 'lighting-design/_utils';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useRequestOptions } from 'lighting-design/hooks';
-import { omit } from 'lodash-es';
 import type { FC } from 'react';
 import { useImperativeHandle, useMemo } from 'react';
 import type { LCheckboxBeforeAllProps } from '../interface';
@@ -20,12 +19,13 @@ export type CheckboxWrapperProps = Record<string, any> &
   }>;
 
 const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
+  name,
+  initialValue,
   value = emptyArray,
   actionRef,
   autoRequest,
   refreshDeps,
   onChange,
-  dependencies = emptyArray,
   options: outOptions = emptyArray,
   request,
   beforeAll,
@@ -35,7 +35,7 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
   requestOptions,
   ...restProps
 }) => {
-  const checkboxProps = omit(restProps, dependencies);
+  const checkboxProps = restProps;
   const [indeterminate, setIndeterminate] = useRafState<boolean>(false);
   const [checkAll, setCheckAll] = useRafState<boolean>(false);
   const requestRes = useRequestOptions({
@@ -44,6 +44,8 @@ const CheckboxWrapper: FC<CheckboxWrapperProps> = ({
     requestOptions,
     autoRequest,
     refreshDeps,
+    name,
+    initialValue,
   });
   const { loading, data } = requestRes;
 

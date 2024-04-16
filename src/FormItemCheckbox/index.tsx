@@ -28,8 +28,9 @@ const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   return (
     <LFormItem _isSelectType {...restProps}>
       <CheckboxWrapper
-        dependencies={restProps?.dependencies}
         disabled={disabled || formDisabled}
+        name={restProps?.name}
+        initialValue={restProps?.initialValue}
         options={options}
         fieldNames={fieldNames}
         beforeAll={beforeAll}

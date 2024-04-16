@@ -9,7 +9,8 @@ import { useImperativeHandle, useMemo } from 'react';
 
 const TreeSelectWrapper: FC<Record<string, any>> = ({
   actionRef,
-  dependencies = emptyArray,
+  name,
+  initialValue,
   treeData: outTreeData = emptyArray,
   request,
   outLoading,
@@ -19,13 +20,15 @@ const TreeSelectWrapper: FC<Record<string, any>> = ({
   requestOptions = emptyObject,
   ...restProps
 }) => {
-  const treeSelectProps = omit(restProps, dependencies);
+  const treeSelectProps = omit(restProps);
   const requestRes = useRequestOptions({
     options: outTreeData,
     request,
     requestOptions,
     autoRequest,
     refreshDeps,
+    name,
+    initialValue,
   });
   const { loading, data } = requestRes;
 
