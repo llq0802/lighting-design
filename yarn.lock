@@ -2382,7 +2382,22 @@ agentkeepalive@^3.3.0:
   dependencies:
     humanize-ms "^1.2.1"
 
-ahooks@^3.7.6, ahooks@^3.7.8:
+ahooks@^3.7.11:
+  version "3.7.11"
+  resolved "https://registry.npmmirror.com/ahooks/-/ahooks-3.7.11.tgz#51b6fdcad8cb603511318ac370feee0628bd6d68"
+  integrity sha512-BfSq7HJ9wk/7a2vX7WbLdwzHyQHmbNe21ipX1PfIzssXIzQfAl79WVJ9GjZaqNl4PFPsJusj/Xjg2OF+gIgGaQ==
+  dependencies:
+    "@babel/runtime" "^7.21.0"
+    dayjs "^1.9.1"
+    intersection-observer "^0.12.0"
+    js-cookie "^2.x.x"
+    lodash "^4.17.21"
+    react-fast-compare "^3.2.2"
+    resize-observer-polyfill "^1.5.1"
+    screenfull "^5.0.0"
+    tslib "^2.4.1"
+
+ahooks@^3.7.8:
   version "3.7.10"
   resolved "https://registry.npmmirror.com/ahooks/-/ahooks-3.7.10.tgz#6ac1dfbcedff8c673367c044ffef41ffae6da483"
   integrity sha512-/HLYif7sFA/5qSuWKrwvjDbf3bq+sdaMrUWS7XGCDRWdC2FrG/i+u5LZdakMYc6UIgJTMQ7tGiJCV7sdU4kSIw==
@@ -2489,7 +2504,7 @@ ansi-styles@^6.0.0, ansi-styles@^6.1.0:
   resolved "https://registry.npmmirror.com/ansi-styles/-/ansi-styles-6.2.1.tgz#0e62320cf99c21afff3b3012192546aacbfb05c5"
   integrity sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==
 
-antd-img-crop@^4.12.2:
+antd-img-crop@^4.21.0:
   version "4.21.0"
   resolved "https://registry.npmmirror.com/antd-img-crop/-/antd-img-crop-4.21.0.tgz#046e62de543ea5de0d502d134d689a884a9e77be"
   integrity sha512-YA5GUMfwoDoSJNWinGOmtYFDFLf+t7Rhfg7ZusbHgFpKCq8n9W0005LeCWgSP4C0iK3vxNHAT3DaRa3rTgKFlQ==
@@ -9802,10 +9817,10 @@ rc-upload@~4.5.2:
     classnames "^2.2.5"
     rc-util "^5.2.0"
 
-rc-use-hooks@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.npmmirror.com/rc-use-hooks/-/rc-use-hooks-2.0.4.tgz#5f687f3e51020ee6b5ecee5c70f364b29a5a6069"
-  integrity sha512-s/r45jC8qDVGDhM+RC8VkLSRQ6CbQ6rYqWa6vhQtOh4Flvn13dgz+v8d3aAe8xXuPXqk+v1ObaKk1wcCYubtXw==
+rc-use-hooks@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.npmmirror.com/rc-use-hooks/-/rc-use-hooks-2.0.5.tgz#5db7ee1724488b529c46290c0a6159a1f21158f8"
+  integrity sha512-2PJ8BNu/g54dyDuWoxVs8MGQP9qBI+ctLglsDCoVNuIuFVYtKeYmnwrqE0B2GEyg0zuSZnGaBujFAmCzC+mmJg==
   dependencies:
     "@koale/useworker" "^4.0.2"
     ahooks "^3.7.8"
@@ -9914,7 +9929,7 @@ react-error-overlay@6.0.9:
   resolved "https://registry.npmmirror.com/react-error-overlay/-/react-error-overlay-6.0.9.tgz#3c743010c9359608c375ecd6bc76f35d93995b0a"
   integrity sha512-nQTTcUu+ATDbrSD1BZHr5kgSD4oF8OFjxun8uAaL8RwPBacGBNPf/yAuVVdx17N8XNzRDMrZ9XcKZHCjPW+9ew==
 
-react-fast-compare@^3.2.0:
+react-fast-compare@^3.2.0, react-fast-compare@^3.2.2:
   version "3.2.2"
   resolved "https://registry.npmmirror.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz#929a97a532304ce9fee4bcae44234f1ce2c21d49"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==

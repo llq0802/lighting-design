@@ -6,33 +6,27 @@ import {
   LFormItemRadio,
   LFormItemSelect,
   LModalForm,
-  useShow,
 } from 'lighting-design';
-import type { UseShowInstance } from 'rc-use-hooks';
+import { useShow, type UseShowInstanceRef } from 'rc-use-hooks';
 import type { FC } from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { awaitTime } from '../../../_test';
 
 type TypeProps = {
   tableRef: React.MutableRefObject<LTableInstance | undefined>;
-  modalRef: React.MutableRefObject<UseShowInstance | undefined>;
+  modalRef: UseShowInstanceRef;
   [key: string]: any;
 };
 
 const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
+  const { showRecord, open, updateOpen } = useShow(modalRef);
   const [form] = LForm.useForm();
-  const [open, setOpen] = useState(false);
-  const { parentData } = useShow(modalRef, {
-    onShow: () => {
-      setOpen(true);
-    },
-  });
 
-  const isAdd = !parentData || Object.keys(parentData)?.length === 0;
+  const isAdd = !showRecord || Object.keys(showRecord)?.length === 0;
 
   useEffect(() => {
     if (open && form && !isAdd) {
-      form.setFieldsValue(parentData);
+      form.setFieldsValue(showRecord);
       //  form.resetFields(); // 和 destroyOnClose=true 效果一样
     }
   }, [open, form, isAdd]);
@@ -42,7 +36,7 @@ const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
       modalTop="20vh"
       destroyOnClose
       open={open}
-      onOpenChange={setOpen}
+      onOpenChange={updateOpen}
       labelWidth={84}
       isDraggable
       isEnterSubmit={false}

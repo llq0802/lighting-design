@@ -6,17 +6,12 @@ import { useState } from 'react';
 
 const MyModal = ({ modalRef }: { modalRef: UseShowInstanceRef }) => {
   const [loading, setLoading] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const { parentData } = useShow(modalRef, {
+  const { showRecord, open } = useShow(modalRef, {
     onShow(data) {
-      setIsModalOpen(true);
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
-      }, 800);
-    },
-    onHide(data) {
-      setIsModalOpen(false);
+      }, 600);
     },
   });
 
@@ -26,13 +21,7 @@ const MyModal = ({ modalRef }: { modalRef: UseShowInstanceRef }) => {
 
   return (
     <>
-      <Modal
-        title="详情信息"
-        width="50%"
-        open={isModalOpen}
-        onOk={handleCancel}
-        onCancel={handleCancel}
-      >
+      <Modal title="详情信息" width="50%" open={open} onOk={handleCancel} onCancel={handleCancel}>
         <Card>
           <LDescriptions
             titleWidth={100}
@@ -51,7 +40,7 @@ const MyModal = ({ modalRef }: { modalRef: UseShowInstanceRef }) => {
               { title: <h4>邮箱:</h4>, dataIndex: 'email' },
               { title: <h4>版本:</h4>, dataIndex: 'version', emptyNode: '0.0.0' },
             ]}
-            record={parentData}
+            record={showRecord}
           />
         </Card>
       </Modal>

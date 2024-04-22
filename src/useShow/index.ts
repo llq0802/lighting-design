@@ -1,9 +1,7 @@
 import { fastDeepClone } from 'lighting-design/_utils';
 import { useCallback, useImperativeHandle, useRef } from 'react';
 
-export declare type UseShowInstance<
-  T extends Record<string, any> = Record<string, any>,
-> = {
+export declare type UseShowInstance<T extends Record<string, any> = Record<string, any>> = {
   /** 触发子组件的onShow方法并传值 */
   onShow: (record: T) => void;
   /** 触发子组件的onHide方法并传值 */
@@ -21,9 +19,7 @@ export declare type UseShowOptions<T extends Record<string, any>> = {
   onFormart?: (data: T) => any;
 };
 
-export declare type UseShowInstanceRef = React.MutableRefObject<
-  UseShowInstance | undefined
->;
+export declare type UseShowInstanceRef = React.MutableRefObject<UseShowInstance | undefined>;
 
 export declare type UseShowResult = {
   /** 父组件调用onShow传的参数值 */
