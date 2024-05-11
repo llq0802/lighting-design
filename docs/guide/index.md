@@ -53,6 +53,12 @@ Lighting Design 是基于 Ant Design 扩展的业务场景组件。可以 **显�
 - rc-use-hooks [React-Hook](https://llq0802.github.io/rc-use-hook)
 - immutable.js & immer.js & use-immer [use-immer](https://github.com/immerjs/use-immer)
 
+## NextJs 插件
+
+- 最火的 NextJs UI 库 [shadcn/ui](https://github.com/shadcn-ui/ui)
+- 高度集成的 CSS 框架 [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss)
+-
+
 ## 更多 React 插件
 
 - antd 互补库 [精选插件](https://ant.design/docs/react/recommendation-cn)

@@ -76,9 +76,6 @@ toc: content
 
 - [useCallbackState] - 更新状态后的回调
 - [useShow] - 性能更好的父子组件传参
-- [useWorker] - 优雅的使用 WebWorker
-- [useDeepUpdateEffect] - 深度依赖项更新时的副作用
-- [useLazyLoadImage] - 性能更好的懒加载图片
 
 [LDescriptions]: /components/Descriptions
 [LFormItemMentions]: /components/form-item-mentions
@@ -86,9 +83,6 @@ toc: content
 [LEllipsisText]: /components/Ellipsis-Text
 [LEditTable]: /components/edit-table
 [LH5Preview]: /components/h5-preview
-[useWorker]: /components/use-worker
-[useDeepUpdateEffect]: /components/use-deep-update-effect
-[useLazyLoadImage]: /components/use-lazy-load-image
 [ltypeit]: /components/typeit
 [ltreetable]: /components/tree-table
 [lscrollbar]: /components/scroll-bar
