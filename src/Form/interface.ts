@@ -138,7 +138,7 @@ export interface BaseFormProps<T = Record<string, any>>
    * - 返回结果是 onFinish 的参数
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
    */
-  transformValues?: (values: T) => T;
+  transformValues?: (values: T) => T & Record<string, any>;
   /**
    * 提交数据时触发。
    * - 如果是异步函数，会自动管理***提交/重置***按钮的 loading，外部无需再设置 loading。

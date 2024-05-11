@@ -21,7 +21,7 @@ const Demo8 = () => {
       }}
     >
       <LFormItemInput name="name" required label="姓名姓名姓名姓名" />
-      <LFormItemInput name="name1" required label="字段名" />
+      <LFormItemInput name="age" required label="字段名" />
     </LForm>
   );
 };

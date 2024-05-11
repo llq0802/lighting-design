@@ -1,6 +1,6 @@
 import type { PaginationOptions } from 'ahooks/lib/usePagination/types';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
-import type { CardProps, FormInstance, TableProps, TooltipProps } from 'antd';
+import type { CardProps, FormInstance, Table, TableProps, TooltipProps } from 'antd';
 import type { ColumnGroupType, ColumnType } from 'antd/es/table';
 import type { LQueryFormProps } from 'lighting-design/QueryForm/interface';
 import type {
@@ -105,6 +105,7 @@ export type LTableRequest<T = Record<string, any>> = (
 ) => Promise<{ success: boolean; data: T[]; total: number }>;
 
 export type LTableProps<T = any> = TableProps<T> & {
+  ref?: Parameters<typeof Table>[0]['ref'];
   /**
    * 列配置, 扩展了部分字段
    * - 配置了 `contentRender` 则 `columns` 无效

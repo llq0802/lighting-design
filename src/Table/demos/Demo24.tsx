@@ -1,8 +1,9 @@
+import type { Table } from 'antd';
 import { Button, Empty, Tag } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LTable } from 'lighting-design';
 import type { UseShowInstance } from 'rc-use-hooks';
-import { useRef, type FC } from 'react';
+import { useEffect, useRef, type FC } from 'react';
 import { columns } from '../demos/service';
 import SDrawer from './components/S-Drawer';
 import SModal from './components/S-Modal';
@@ -12,11 +13,18 @@ const Demo: FC = () => {
   const modalRef1 = useRef<UseShowInstance>();
   const modalRef2 = useRef<UseShowInstance>();
   const tableRef = useRef<LTableInstance>();
+  const tblRef: Parameters<typeof Table>[0]['ref'] = useRef(null);
+
+  useEffect(() => {
+    console.log('==tblRef.currentscrollTo====>', tblRef.current!.scrollTo);
+    console.log('==tblRef.currentnativeElement====>', tblRef.current!.nativeElement);
+  }, []);
 
   return (
     <>
       <LTable
-        emptyRender={() => <Empty style={{ margin: '170px 0' }} />}
+        ref={tblRef}
+        emptyRender={() => <Empty style={{ margin: '175px 0' }} />}
         isSort={{
           render(pageCount) {
             return <Tag>{pageCount}</Tag>;

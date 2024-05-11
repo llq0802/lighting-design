@@ -153,7 +153,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
         formItemBottom,
       }}
     >
-      <Form
+      <Form<T>
         size={size}
         name={formId}
         layout={layout}

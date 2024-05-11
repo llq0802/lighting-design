@@ -6,7 +6,7 @@ import zhCN from 'antd/es/locale/zh_CN';
 import classnames from 'classnames';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import type { Dispatch, FC, SetStateAction } from 'react';
-import { useImperativeHandle, useMemo, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useMemo, useRef } from 'react';
 import TableContext from '../TableContext';
 import type { LTableProps } from '../interface';
 import SearchForm from './SearchFrom';
@@ -32,7 +32,7 @@ const LIGHTD_CARD = `${LIGHTD_TABLE}-card`;
 
 const spinStyle = { maxHeight: '86%' };
 
-const BaseTable: FC<Partial<LTableProps>> = (props) => {
+const BaseTable: FC<Partial<LTableProps>> = forwardRef((props, ref) => {
   const {
     isReady = true,
     isSort = false,
@@ -442,6 +442,7 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
             : false
         }
         {...restProps}
+        ref={ref}
         onHeaderRow={innerOnHeaderRow}
         onRow={innerOnRow}
         rowClassName={innerRowClassName}
@@ -520,5 +521,6 @@ const BaseTable: FC<Partial<LTableProps>> = (props) => {
       {props?.children}
     </ConfigProvider>
   );
-};
+});
+
 export default BaseTable;

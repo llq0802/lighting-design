@@ -24,6 +24,9 @@ const Demo16: FC = () => {
   return (
     <>
       <LTable
+        sticky={{
+          offsetHeader: 80,
+        }}
         tableRef={tableRef}
         loading={false}
         formItems={formItems}

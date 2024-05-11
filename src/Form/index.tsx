@@ -86,6 +86,6 @@ export function useLFormContext() {
   return ctx;
 }
 
-export type LFormProps = BaseFormProps<Record<string, any>>;
+export type LFormProps = BaseFormProps;
 export type { LFormContextType, LFormSubmitterProps } from './interface';
 export default LForm;

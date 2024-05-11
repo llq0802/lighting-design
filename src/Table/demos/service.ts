@@ -33,6 +33,7 @@ export const columns: LTableProps['columns'] = [
     dataIndex: 'address',
     key: 'address',
     align: 'center',
+    toolTip: true,
   },
 ];
 
