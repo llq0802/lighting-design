@@ -76,6 +76,10 @@ nav:
 
 <code src='./demos/Demo19.tsx' background="#f5f5f5"></code>
 
+### 表格选中功能
+
+<code src='./demos/Demo30.tsx' background="#f5f5f5"></code>
+
 ### 表格额外信息
 
 <code src='./demos/Demo3.tsx' background="#f5f5f5"></code>

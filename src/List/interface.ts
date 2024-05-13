@@ -15,5 +15,10 @@ export type LListProps = {
    * 虚拟滚动开启时，容器滚动触底事件的处理函数
    *@see 官网 https://llq0802.github.io/lighting-design/latest LListProps
    */
+
   onScrollBottom?: () => void;
+  /**
+   * @see https://github.com/react-component/virtual-list
+   */
+  virtualListProps?: Record<string, any>;
 } & ListProps<any>;

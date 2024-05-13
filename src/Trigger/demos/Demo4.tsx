@@ -17,7 +17,12 @@ const Demo4 = () => {
         <MyTable1 />
       </LTrigger>
       <h4> LTable 多选Tag</h4>
-      <LTrigger mode="checkboxTag" width="50%">
+      <LTrigger
+        mode="checkboxTag"
+        width="50%"
+        // 最多显示多少个 tag，响应式模式会对性能产生损耗
+        // maxTagCount="responsive"
+      >
         <MyTable1 />
       </LTrigger>
     </div>

@@ -425,8 +425,9 @@ const BaseTable: FC<Partial<LTableProps>> = forwardRef((props, ref) => {
           },
         }}
         pagination={
-          outPagination !== false
-            ? {
+          outPagination === false || outPagination === null
+            ? false
+            : {
                 showTotal,
                 showSizeChanger: true,
                 current: hasDataSource ? void 0 : paginationAction?.current,
@@ -439,7 +440,6 @@ const BaseTable: FC<Partial<LTableProps>> = forwardRef((props, ref) => {
                 },
                 className: classnames(`${LIGHTD_TABLE}-pagination`, outPagination?.className),
               }
-            : false
         }
         {...restProps}
         ref={ref}

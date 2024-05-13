@@ -4,6 +4,7 @@ import type { ReactNode } from 'react';
 export type LTriggerMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio' | 'tag' | 'default';
 
 export type LTriggerProps = {
+  maxTagCount?: number | 'responsive';
   /**
    * 是否把传入子组件 `value` 的值 从 `value.value` 变为 `{ value: xxx, label: xxx }` 的格式
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps

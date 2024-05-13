@@ -39,6 +39,10 @@ demo:
 
 <code src='./demos/Demo2.tsx' ></code>
 
+### 无线滚动
+
+<code src='./demos/Demo8.tsx' ></code>
+
 ## API
 
 ```ts
@@ -67,6 +71,7 @@ import { LTrigger } from 'lighting-design';
 | mode              | 选择回显的模式, **会透传给子组件**                                                              | `LTriggerMode`                                                                        | `radio`                             |
 | width             | 选择框宽度                                                                                      | `number\|string`                                                                      | `250`                               |
 | split             | mode 为 `checkbox` 回显分割的字符, 建议使用`' - '`或`' / '`或`' , '`                            | `string`                                                                              | `' / '`                             |
+| maxTagCount       | mode 为 `checkboxTag` 最多显示多少个 tag，响应式模式会对性能产生损耗                            | `'responsive' \| number`                                                              | `-`                                 |
 | fieldNames        | 配置字段 label 字段名，value 字段的名, **会透传给子组件**                                       | `{ label: string; value: string; }`                                                   | `{ label: 'label',value: 'value' }` |
 | size              | 选择框大小                                                                                      | `'small' \| 'middle'\|'large'`                                                        | `'middle'`                          |
 | overlayArrow      | 修改弹出层的箭头的显示状态以及修改箭头是否指向目标元素中心                                      | `boolean` \| `{ pointAtCenter: boolean }`                                             | `false`                             |

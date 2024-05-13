@@ -12,6 +12,7 @@ const prefixCls = 'lightd-trigger';
 
 const LTrigger: FC<LTriggerProps> = (props) => {
   const {
+    maxTagCount,
     labelInValue = false,
     allowClear = true,
     disabled = false,
@@ -121,6 +122,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
       overlayInnerStyle={overlayInnerStyle}
     >
       <Select
+        maxTagCount={maxTagCount}
         {...selectProps}
         removeIcon={false}
         showSearch={false}

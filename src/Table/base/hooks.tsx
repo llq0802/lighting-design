@@ -360,6 +360,7 @@ export function useInitTable({
         queryFormRef.current?.setFieldsValue({ ...initFormValues });
       }
     }
+
     run({ ...defaultRequestParams, current, pageSize, formValues }, 'onInit');
   }, [isReady]);
 }

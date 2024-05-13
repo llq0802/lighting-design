@@ -12,6 +12,7 @@ const LList: React.FC<LListProps> & {
   onScrollBottom,
 
   renderItem,
+  virtualListProps = {},
   ...restProps
 }) => {
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
@@ -29,13 +30,14 @@ const LList: React.FC<LListProps> & {
   return (
     <List itemLayout="vertical" {...restProps}>
       <VirtualList
-        data={restProps.dataSource ?? []}
+        data={restProps.dataSource || []}
         height={height}
         itemHeight={itemMinHeight}
         itemKey={rowKey as React.Key}
         onScroll={onScroll}
+        {...virtualListProps}
       >
-        {(item, index) => renderItem?.(item, index)}
+        {(item, index, props) => renderItem?.(item, index, props)}
       </VirtualList>
     </List>
   );
