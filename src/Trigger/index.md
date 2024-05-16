@@ -39,7 +39,7 @@ demo:
 
 <code src='./demos/Demo2.tsx' ></code>
 
-### 无线滚动
+### children 为函数
 
 <code src='./demos/Demo8.tsx' ></code>
 
@@ -95,7 +95,7 @@ import { LTrigger } from 'lighting-design';
 | tagRender         | 自定义渲染 tag `mode=tag`模式下生效                                                             | `(props) => ReactElement \| JSXElementConstructor`                                    | `-`                                 |
 | onChange          | 受控, value 变化时，调用此函数 , **会透传给子组件**                                             | `function(value)`                                                                     | `-`                                 |
 | getPopupContainer | 控制渲染到的节点。默认渲染到 body 上                                                            | `(triggerNode: HTMLElement) => HTMLElement`                                           | `() => document.body`               |
-| children          | children 组件会接受到 `open`，`setOpen`，`value`，`onChange` 等参数                             | `ReactElement`                                                                        | `-`                                 |
+| children          | children 组件或函数会接受到 `open`，`setOpen`，`value`，`onChange` 等参数                       | `ReactNode \| (props) => ReactNode`                                                   | `-`                                 |
 
 ### mode 在子组件中使用时, 子组件 onChange 的调用方式：
 

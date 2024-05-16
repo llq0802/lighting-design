@@ -1,13 +1,23 @@
-import ScrollTableSelect from './components/ScrollTableSelect';
+import { LTrigger } from 'lighting-design';
 
 export default function Demo8() {
   return (
     <div>
       <h5>无线滚动</h5>
-      {/* <LTrigger width="50%" overlayArrow>
-          <MyTable2></MyTable2>
-        </LTrigger> */}
-      <ScrollTableSelect></ScrollTableSelect>
+      <LTrigger>
+        {(props) => {
+          console.log('==props====>', props);
+          return (
+            <div
+              style={{
+                height: '100px',
+              }}
+            >
+              这里也可以配合虚拟列表实现大量数据{' '}
+            </div>
+          );
+        }}
+      </LTrigger>
     </div>
   );
 }

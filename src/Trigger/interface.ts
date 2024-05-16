@@ -1,7 +1,7 @@
 import type { PopoverProps, SelectProps } from 'antd';
 import type { ReactNode } from 'react';
 
-export type LTriggerMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio' | 'tag' | 'default';
+export type LTriggerMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
 
 export type LTriggerProps = {
   maxTagCount?: number | 'responsive';
@@ -92,13 +92,24 @@ export type LTriggerProps = {
     props: Record<string, any>,
   ) => React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   /**
-   * children 组件
+   * children 组件 或 函数返回一个组件
    * - 会接受到 open，setOpen，value，onChange
    * - 必须在 children 组件中绑定 value，onChange 才会收集到数据
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
   // children: ReactElement<any, string | JSXElementConstructor<any>>;
-  children: ReactNode;
+  children:
+    | ReactNode
+    | ((props: {
+        // @ts-ignore
+        value: any;
+        onChange: any;
+        open: boolean;
+        setOpen: any;
+        labelInValue: boolean;
+        fieldNames: Record<string, any>;
+        mode: LTriggerMode;
+      }) => ReactNode);
   selectProps?: SelectProps;
   popoverProps?: PopoverProps;
 } & Pick<

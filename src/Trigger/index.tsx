@@ -18,7 +18,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     disabled = false,
     overlayArrow = false,
     destroyOnHide = false,
-    mode: outMode = 'default',
+    mode: outMode = 'radio',
     width = 250,
     variant,
     suffixIcon,
@@ -56,14 +56,8 @@ const LTrigger: FC<LTriggerProps> = (props) => {
   const stateLabel: any = state?.[labelKey];
   const stateValue = state?.[valueKey];
 
-  const childMode = useMemo(() => {
-    if (outMode === 'default') return 'radio';
-    if (outMode === 'tag') return 'radioTag';
-    return outMode;
-  }, []);
-
   const selectMode = useMemo(() => {
-    if (outMode === 'default' || outMode === 'radio' || outMode === 'checkbox') {
+    if (outMode === 'radio' || outMode === 'checkbox') {
       return void 0;
     }
     return 'multiple';
@@ -92,17 +86,21 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     />
   );
 
+  const contentProps = {
+    // @ts-ignore
+    value: labelInValue ? state : stateValue,
+    onChange: setState,
+    open: isOpen,
+    setOpen: setIsOpen,
+    labelInValue,
+    fieldNames,
+    mode: outMode,
+  };
+
   const content = isValidElement(children)
-    ? cloneElement(children, {
-        // @ts-ignore
-        value: labelInValue ? state : stateValue,
-        onChange: setState,
-        open: isOpen,
-        setOpen: setIsOpen,
-        labelInValue,
-        fieldNames,
-        mode: childMode,
-      })
+    ? cloneElement(children, contentProps)
+    : typeof children === 'function'
+    ? children?.(contentProps)
     : children;
 
   return (
