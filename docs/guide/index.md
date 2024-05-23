@@ -23,6 +23,7 @@ Lighting Design 是基于 Ant Design 扩展的业务场景组件。可以 **显�
 - 📦 场景丰富 - 提供一些列面向常见业务场景基础组件
 - 🍙 JSDoc - 提供 JSDoc 注释并集成 VSCode 提示
 - 💡 TypeScript - 提供完整 TypeScript 类型定义
+- 🚀 支持 SSR - 可与 NextJs App 路由模式结合
 - 🎨 更少的代码 - 多种配置减少代码的书写
 
 ## 版本关系
@@ -37,7 +38,7 @@ Lighting Design 是基于 Ant Design 扩展的业务场景组件。可以 **显�
 - [ProComponents](https://procomponents.ant.design/) 非常优秀且集成度高，Lighting Design 部分灵感来自与它，使用得当能大大减少开发时间。
   但由于其配置太过于复杂，灵活性限制高，社区反馈解决速度慢，学习成本很高往往劝退很多人。
 
-- Lighting Design 组件库站在巨人的肩膀上则更加精简更易上手，只包含常用的业务组件与基础组件, 配置简单且几乎兼容 antd 组件所有属性,
+- [LightingDesign](./) 组件库站在巨人的肩膀上则更加精简更易上手，只包含常用的业务组件与基础组件, 配置简单且几乎兼容 antd 组件所有属性,
   可定制性更强灵活度更高，属性方法也更加适合实际开发的业务需求。
 
 ## 与其他库互补
