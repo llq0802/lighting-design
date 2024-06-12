@@ -56,34 +56,23 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   // 记录滚动次数
   const _count = useRef<number>(0);
   // 是否能滚动
-  const isScroll = useMemo(
-    () => (list ? list.length >= limitScrollNum : false),
-    [limitScrollNum, list],
-  );
+  const isScroll = useMemo(() => (list ? list.length >= limitScrollNum : false), [limitScrollNum, list]);
   // 真实盒子的样式
   const realBoxStyle = useMemo(() => {
     return {
       width: realBoxWidth.current ? `${realBoxWidth.current}px` : 'auto',
       transform: `translate(${xPosState}px,${yPosState}px)`,
       transition: `all ${
-        typeof ease === 'string'
-          ? ease
-          : `cubic-bezier(${ease.x1},${ease.y1},${ease.x2},${ease.y2})`
+        typeof ease === 'string' ? ease : `cubic-bezier(${ease.x1},${ease.y1},${ease.x2},${ease.y2})`
       } ${delay}ms`,
       overflow: 'hidden',
     };
   }, [delay, ease, xPosState, yPosState]);
 
   // 是否水平滚动
-  const isHorizontal = useMemo<boolean>(
-    () => direction === 'left' || direction === 'right',
-    [direction],
-  );
+  const isHorizontal = useMemo<boolean>(() => direction === 'left' || direction === 'right', [direction]);
   // 是否开启鼠标移入事件
-  const isHoverStop = useMemo(
-    () => hover && isAutoScroll && isScroll,
-    [hover, isScroll, isAutoScroll],
-  );
+  const isHoverStop = useMemo(() => hover && isAutoScroll && isScroll, [hover, isScroll, isAutoScroll]);
 
   // children列表div样式
   const floatStyle = useMemo<CSSProperties>(() => {
@@ -93,22 +82,14 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   // 基础字体大小 默认为1px
   const baseFontSize = useMemo<number>(() => {
     return isRemUnit
-      ? parseInt(
-          globalThis.window.getComputedStyle(globalThis.document.documentElement, null).fontSize,
-        )
+      ? parseInt(globalThis.window.getComputedStyle(globalThis.document.documentElement, null).fontSize)
       : 1;
   }, [isRemUnit]);
 
   // 横向单步大小
-  const realSingleStopWidth = useMemo<number>(
-    () => singleWidth * baseFontSize,
-    [baseFontSize, singleWidth],
-  );
+  const realSingleStopWidth = useMemo<number>(() => singleWidth * baseFontSize, [baseFontSize, singleWidth]);
   // 纵向单步大小
-  const realSingleStopHeight = useMemo<number>(
-    () => singleHeight * baseFontSize,
-    [singleHeight, baseFontSize],
-  );
+  const realSingleStopHeight = useMemo<number>(() => singleHeight * baseFontSize, [singleHeight, baseFontSize]);
   // 滚动频率
   const stepCount = useMemo(() => {
     let singleStep: number;
@@ -119,9 +100,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
       singleStep = realSingleStopHeight;
     }
     if (singleStep > 0 && singleStep % _step > 0) {
-      console.warn(
-        '如果设置了单步滚动，step 需是单步大小的约数，否则无法保证单步滚动结束的位置是否准确。~~~~~',
-      );
+      console.warn('如果设置了单步滚动，step 需是单步大小的约数，否则无法保证单步滚动结束的位置是否准确。~~~~~');
     }
     return _step;
   }, [isHorizontal, step, realSingleStopHeight, realSingleStopWidth]);
@@ -141,11 +120,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     animation(direction as 'up' | 'down' | 'left' | 'right', stepCount, false);
   };
   // 滚动动画
-  const animation = (
-    _direction: 'up' | 'down' | 'left' | 'right',
-    _step: number,
-    isWheel?: boolean,
-  ) => {
+  const animation = (_direction: 'up' | 'down' | 'left' | 'right', _step: number, isWheel?: boolean) => {
     reqFrame.current = requestAnimationFrame(function () {
       // 无缝滚动 因为复制了几份数组所以要除以 (outCopyNum + 1);
       const h = realBoxHeight.current / (outCopyNum + 1);
@@ -220,7 +195,6 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     }
     move();
   };
-
   // 滚轮事件
   const { run: onWheel } = useDebounceFn(
     (e: React.WheelEvent<HTMLDivElement>) => {
@@ -233,9 +207,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
         animation('up', singleStep, true);
       }
     },
-    {
-      wait: 100,
-    },
+    { wait: 10 },
   );
 
   // 开始滚动

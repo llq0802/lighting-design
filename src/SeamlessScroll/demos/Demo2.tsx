@@ -22,7 +22,7 @@ const Demo1 = () => {
   const scrollRef = useRef<LSeamlessScrollInstance>();
 
   return (
-    <LSeamlessScroll list={listData} scrollRef={scrollRef} hover>
+    <LSeamlessScroll list={listData} scrollRef={scrollRef} hover wheel>
       {listData.map((item, index) => (
         <div
           key={index}

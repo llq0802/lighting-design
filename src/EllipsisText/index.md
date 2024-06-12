@@ -7,6 +7,8 @@ toc: content
 
 处理单行文本的省略 , 可与 `LTable` 配合
 
+多行文本的省略可使用 [Typography.Paragraph](https://ant-design.antgroup.com/components/typography-cn#components-typography-demo-ellipsis-controlled) 组件
+
 ## 代码演示
 
 ### 基础用法
