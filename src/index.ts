@@ -83,6 +83,8 @@ export * from './NumberRoll';
 export { default as LNumberRoll } from './NumberRoll';
 export * from './QueryForm';
 export { default as LQueryForm } from './QueryForm';
+export * from './RightMenu';
+export { default as LRightMenu } from './RightMenu';
 export * from './ScrollBar';
 export { default as LScrollBar } from './ScrollBar';
 export * from './SeamlessScroll';

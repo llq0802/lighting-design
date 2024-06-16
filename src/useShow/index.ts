@@ -30,6 +30,7 @@ export declare type UseShowResult = {
 
 /**
  * 父调用子组件方法，并传值更新状态
+ * @deprecated 即将废弃，请使用 rc-use-hookss/useShow
  * @param funcRef ref对象
  * @param options { onShow, onFormart, onHide }
  * @returns T 传输的数据

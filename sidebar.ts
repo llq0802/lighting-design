@@ -40,6 +40,10 @@ export default {
           link: '/components/slider-verify',
         },
         {
+          title: 'LRightMenu-右键菜单',
+          link: '/components/Right-Menu',
+        },
+        {
           title: 'LColor-颜色选择',
           link: '/components/color-pick',
         },

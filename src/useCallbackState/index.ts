@@ -4,12 +4,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**
  * useState的回调 setState第二个参数(回调函数)获取最新的state并执行一些操作
+ * @deprecated 即将废弃，请使用 rc-use-hookss/useCallbackState
  * @param {T} state
  * @return {*}  { [T,  (val: SetStateAction<T>, cb: (newVal: T) => void) => void}
  */
-export default function useCallbackState<T>(
-  state: T,
-): [T, (val: SetStateAction<T>, cb?: (newVal: T) => void) => void] {
+export default function useCallbackState<T>(state: T): [T, (val: SetStateAction<T>, cb?: (newVal: T) => void) => void] {
   const callBackRef = useRef<(newData: T) => void>();
   const [data, setData] = useState<T>(state);
   useEffect(() => {
