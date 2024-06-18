@@ -11,3 +11,5 @@ export default function LRightMenu({ children, ...restProps }: LRightMenuProps) 
     </Dropdown>
   );
 }
+
+export * from './interface';

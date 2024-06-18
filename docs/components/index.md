@@ -13,16 +13,16 @@ toc: content
 - [LCaptchaButton] - 按钮倒计时
 - [LFileViewer] - 文件预览器
 - [LNumberRoll] - 数值加载器
-- [LTypeit] - 打字机
 - [LTrigger] - 弹出选择
-- [LColor] - 颜色显示/选择
 - [LCardGroup] - 卡片选择
 - [LTagGroup] - 标签选择
 - [LSliderVerify] - 滑块验证
+- [LRightMenu] - 右键菜单
+- [LColor] - 颜色显示/选择
 
 ## 数据展示
 
-- [LECharts] - echarts 容器组件
+- [LECharts] - Echarts 容器组件
 - [LTable] - 高级表格
 - [LEditTable] - 高级编辑表格
 - [LDescriptions] - 高级描述列表
@@ -77,6 +77,7 @@ toc: content
 - [useCallbackState] - 更新状态后的回调
 - [useShow] - 性能更好的父子组件传参
 
+[LRightMenu]: /components/Right-Menu
 [LDescriptions]: /components/Descriptions
 [LFormItemMentions]: /components/form-item-mentions
 [LECharts]: /components/Echarts

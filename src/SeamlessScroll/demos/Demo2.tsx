@@ -13,10 +13,7 @@ const listData = [
   { title: '无缝滚动组件展示数据第8条', date: Date.now() },
   { title: '无缝滚动组件展示数据第9条', date: Date.now() },
   { title: '无缝滚动组件展示数据第10条', date: Date.now() },
-  { title: '无缝滚动组件展示数据第11条', date: Date.now() },
-  { title: '无缝滚动组件展示数据第12条', date: Date.now() },
-  { title: '无缝滚动组件展示数据第13条', date: Date.now() },
-  { title: '无缝滚动组件展示数据第14条', date: Date.now() },
+
 ];
 const Demo1 = () => {
   const scrollRef = useRef<LSeamlessScrollInstance>();

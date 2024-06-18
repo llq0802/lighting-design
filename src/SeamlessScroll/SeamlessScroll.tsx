@@ -130,9 +130,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
         if (Math.abs(yPos.current) >= h) {
           setYpos(0);
           _count.current += 1;
-        }
-        // 这儿不能else判断 因为单位滚动到临界值时会导致滚动不很连续
-        setYpos((item) => (item -= _step));
+        } else setYpos((item) => (item -= _step));
       } else if (_direction === 'down') {
         if (yPos.current >= 0) {
           setYpos(h * -1);
@@ -281,14 +279,12 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
         <div ref={slotListRef} style={floatStyle}>
           {children}
         </div>
-        {isScroll
-          ? copyNum.map((_, i) => {
-              return (
-                <div key={i} style={floatStyle}>
-                  {children}
-                </div>
-              );
-            })
+        {isScroll && isAutoScroll
+          ? copyNum.map((_, i) => (
+              <div key={i} style={floatStyle}>
+                {children}
+              </div>
+            ))
           : null}
       </>
     );
@@ -303,46 +299,27 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
         overflow: 'hidden',
       }}
     >
-      {wheel && hover ? (
-        <div
-          ref={realBoxRef}
-          style={realBoxStyle}
-          onMouseEnter={() => {
-            if (isHoverStop) {
-              stopMove();
-            }
-          }}
-          onMouseLeave={() => {
-            if (isHoverStop) {
-              startMove();
-            }
-          }}
-          onWheel={(e) => {
-            if (isHoverStop) {
-              onWheel(e);
-            }
-          }}
-        >
-          {getHtmlMemo}
-        </div>
-      ) : (
-        <div
-          ref={realBoxRef}
-          style={realBoxStyle}
-          onMouseEnter={() => {
-            if (isHoverStop) {
-              stopMove();
-            }
-          }}
-          onMouseLeave={() => {
-            if (isHoverStop) {
-              startMove();
-            }
-          }}
-        >
-          {getHtmlMemo}
-        </div>
-      )}
+      <div
+        ref={realBoxRef}
+        style={realBoxStyle}
+        onMouseEnter={() => {
+          if (isHoverStop) {
+            stopMove();
+          }
+        }}
+        onMouseLeave={() => {
+          if (isHoverStop) {
+            startMove();
+          }
+        }}
+        onWheel={(e) => {
+          if (isHoverStop && wheel && hover) {
+            onWheel(e);
+          }
+        }}
+      >
+        {getHtmlMemo}
+      </div>
     </div>
   );
 };

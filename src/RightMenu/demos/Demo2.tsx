@@ -14,7 +14,6 @@ export default function Demo2() {
     <LRightMenu menu={{ items }}>
       <div
         style={{
-          height: 200,
           textAlign: 'center',
           lineHeight: '200px',
           background: '#f5f5f5',

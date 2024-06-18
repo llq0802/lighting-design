@@ -41,12 +41,7 @@ const Demo1 = () => {
   }, []);
 
   return (
-    <LSeamlessScroll
-      list={data}
-      scrollRef={scrollRef}
-      step={0.5}
-      wrapperHeight={320}
-    >
+    <LSeamlessScroll list={data} scrollRef={scrollRef} step={0.5} wrapperHeight={320}>
       {data.map((item, index) => (
         <div key={index} style={{ height: 22 }}>
           <span style={{ marginRight: 22 }}>{item.title}</span>

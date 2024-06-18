@@ -17,6 +17,12 @@ toc: content
 
 <code src='./demos/Demo2.tsx'></code>
 
+:::warning{title=注意}
+
+- `LRightMenu` 的 `children` 必须只包含`一个根 div`
+
+  :::
+
 ## API
 
 ```ts
