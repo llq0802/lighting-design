@@ -36,8 +36,12 @@ export default {
           link: '/components/tag-group',
         },
         {
-          title: 'LSliderVerify-滑块验证',
+          title: 'LSliderVerify-前端滑块验证',
           link: '/components/slider-verify',
+        },
+        {
+          title: 'LTianaiCaptcha-滑块验证',
+          link: '/components/Tianai-Captcha',
         },
         {
           title: 'LRightMenu-右键菜单',
