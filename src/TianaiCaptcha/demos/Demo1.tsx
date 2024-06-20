@@ -1,3 +1,10 @@
+import LTianaiCaptcha from '..';
+
 export default function Demo1() {
-  return <div>TO DO ...</div>;
+  return (
+    <div>
+      TO DO ...
+      <LTianaiCaptcha></LTianaiCaptcha>
+    </div>
+  );
 }
