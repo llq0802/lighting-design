@@ -40,7 +40,7 @@ export default {
           link: '/components/slider-verify',
         },
         {
-          title: 'LTianaiCaptcha-滑块验证',
+          title: 'LTianaiCaptcha-高级滑块验证',
           link: '/components/Tianai-Captcha',
         },
         {
