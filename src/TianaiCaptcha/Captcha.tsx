@@ -11,6 +11,7 @@ import {
   useGetImgUrl,
   useSliderVerify,
 } from './hook';
+import type { LTianaiCaptchaProps } from './interface';
 
 export const prefixCls = 'lightd-tiannai-captcha';
 
@@ -35,19 +36,30 @@ export default function Captcha({
   failRefreshTime = 1000,
   moveIcon,
   loadingIcon,
+  validCaptchaExtraParams = {},
   onFail,
   onSuccess,
   onFinally,
+}: Omit<LTianaiCaptchaProps, 'successRefreshTime' | 'shouldSuccessColse' | 'showAction' | 'actionRef'> & {
+  actionRef?: React.MutableRefObject<
+    | {
+        refresh: () => void;
+      }
+    | undefined
+  >;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const tipsRef = useRef<HTMLDivElement>(null);
 
   const [checkRes, setChekRes] = useState({
     time: 0,
     showTips: false,
   });
 
-  const { paramsRef, startTimeRef, resetParams } = useCheckParams();
+  const { paramsRef, startTimeRef, resetParams } = useCheckParams({
+    backgroundImageWidth,
+    backgroundImageHeight,
+    sliderImageWidth,
+  });
 
   const { data: urlData, loading: urlLoading, refresh: runGetUrl } = useGetImgUrl(baseUrl, requestCaptcha);
 
@@ -62,6 +74,7 @@ export default function Captcha({
       setChekRes({ time: +time?.toFixed(2) || 0, showTips: true });
       if (!success) {
         onFail?.();
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         setTimeout(() => refresh?.(), failRefreshTime);
       } else {
         resetParams();
@@ -71,7 +84,7 @@ export default function Captcha({
     onFinally,
   });
 
-  const success = +checkData?.code === LTianaiCaptchaStatus.SUCCESS && checkData?.success;
+  const isSuccess = +checkData?.code === LTianaiCaptchaStatus.SUCCESS && checkData?.success;
 
   const { moveX, resetX, moveing } = useSliderVerify(ref, {
     loading: urlLoading,
@@ -98,9 +111,11 @@ export default function Captcha({
         y,
         x: Math.round(upX),
       });
+      // 校验接口
       runCheck({
         id: urlData?.id,
         ict: paramsRef.current,
+        ...validCaptchaExtraParams,
       });
     },
   });
@@ -148,10 +163,9 @@ export default function Captcha({
           draggable={false}
         />
         <div
-          ref={tipsRef}
           className={classnames(`${prefixCls}-content-tips`, {
-            [`${prefixCls}-content-tips-success`]: success,
-            [`${prefixCls}-content-tips-fail`]: !success,
+            [`${prefixCls}-content-tips-success`]: isSuccess,
+            [`${prefixCls}-content-tips-fail`]: !isSuccess,
           })}
           style={{ transform: `translateY(${checkRes?.showTips ? 0 : 101}%)`, ...styleContentTips }}
         >

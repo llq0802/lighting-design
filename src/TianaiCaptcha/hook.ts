@@ -115,12 +115,16 @@ export function useCheckCaptcha(
   return ret;
 }
 
-export function useCheckParams() {
+export function useCheckParams({
+  backgroundImageWidth: bgImageWidth,
+  backgroundImageHeight: bgImageHeight,
+  sliderImageWidth: sliderImageWidth,
+}) {
   const paramsRef = useRef({
-    bgImageWidth: 309,
-    bgImageHeight: 180,
-    sliderImageWidth: 55,
-    sliderImageHeight: 180,
+    bgImageWidth,
+    bgImageHeight,
+    sliderImageWidth,
+    sliderImageHeight: bgImageHeight,
     startSlidingTime: new Date(),
     endSlidingTime: new Date(),
     trackList: [] as {
@@ -134,10 +138,10 @@ export function useCheckParams() {
   const resetParams = () => {
     startTimeRef.current = Date.now();
     paramsRef.current = {
-      bgImageWidth: 309,
-      bgImageHeight: 180,
-      sliderImageWidth: 55,
-      sliderImageHeight: 180,
+      bgImageWidth,
+      bgImageHeight,
+      sliderImageWidth,
+      sliderImageHeight: bgImageHeight,
       startSlidingTime: new Date(),
       endSlidingTime: new Date(),
       trackList: [] as {

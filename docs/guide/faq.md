@@ -40,6 +40,14 @@ form.setFieldsValue({
 </ConfigProvider>
 ```
 
+## 如何在 LMoadlForm LDrawerForm Modal Drawer 中禁用动画?
+
+```typescript
+// 设置以下属性为空
+transitionName='',
+maskTransitionName='',
+```
+
 ## 如何关闭表单自动填充?
 
 > 参考：[如何关闭表单自动填充](https://developer.mozilla.org/zh-CN/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion)

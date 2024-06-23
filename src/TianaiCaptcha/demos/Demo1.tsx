@@ -1,14 +1,14 @@
 import { Button } from 'antd';
+import { LTianaiCaptcha, type LTianaiCaptchaActionRef } from 'lighting-design';
 import { awaitTime } from 'lighting-design/_test';
 import { useRef } from 'react';
-import LTianaiCaptcha from '..';
 import bg1 from '../imgs/bg1.webp';
 import bg2 from '../imgs/bg2.webp';
 
 // http://169.254.4.160:8800/shiyi/gen/
 
 const requestCaptcha = async () => {
-  await awaitTime();
+  await awaitTime(500);
   return {
     code: '0',
     success: true,
@@ -37,18 +37,28 @@ const validCaptcha = async () => {
 };
 
 export default function Demo1() {
-  const actionRef = useRef();
+  const actionRef = useRef<LTianaiCaptchaActionRef>();
 
   return (
     <div>
       <Button
         onClick={() => {
-          actionRef.current.open();
+          actionRef.current?.open();
         }}
       >
         open
       </Button>
-      <LTianaiCaptcha actionRef={actionRef} requestCaptcha={requestCaptcha} validCaptcha={validCaptcha} />
+
+      <LTianaiCaptcha
+        actionRef={actionRef}
+        requestCaptcha={requestCaptcha}
+        validCaptcha={validCaptcha}
+        modalProps={{
+          afterOpenChange(open) {
+            console.log('afterOpenChange', open);
+          },
+        }}
+      />
     </div>
   );
 }

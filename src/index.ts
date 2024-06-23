@@ -97,6 +97,8 @@ export * from './Table';
 export { default as LTable } from './Table';
 export * from './TagGroup';
 export { default as LTagGroup } from './TagGroup';
+export * from './TianaiCaptcha';
+export { default as LTianaiCaptcha } from './TianaiCaptcha';
 export * from './TreeTable';
 export { default as LTreeTable } from './TreeTable';
 export * from './Trigger';
