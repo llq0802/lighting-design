@@ -1,10 +1,9 @@
 import { useLatest, useRafState, useRequest } from 'ahooks';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
 import { useEffect, useLayoutEffect, useRef } from 'react';
-
 export function useSliderVerify(
   el: (() => HTMLElement) | React.RefObject<HTMLElement>,
-  { initX = 0, maxMoveX = 400, onMouseUp, onMouseDown, onMouseMove }: any = {},
+  { initX = 0, maxMoveX = 400, loading, onMouseUp, onMouseDown, onMouseMove }: any = {},
 ) {
   const [dx, setDx] = useRafState(initX);
   const [moveing, setMoveing] = useRafState(false);
@@ -19,12 +18,14 @@ export function useSliderVerify(
 
   useLayoutEffect(() => {
     const dom = typeof el === 'function' ? el() : (el.current as HTMLElement);
+    if (!dom) return;
     dom.style.transform = `translate3d(${dx}px, 0, 0)`;
     dom.style.transition = moveing ? 'none' : 'transform 0.3s';
-  }, [dx, moveing]);
+  }, [dx, moveing, loading]);
 
   useEffect(() => {
     const dom = typeof el === 'function' ? el() : (el.current as HTMLElement);
+    if (!dom) return;
     dom.style.touchAction = 'none';
     dom.style.userSelect = 'none';
     dom.style.cursor = 'move';
@@ -67,33 +68,45 @@ export function useSliderVerify(
     return () => {
       dom.removeEventListener('pointerdown', handlePointerDown);
     };
-  }, []);
+  }, [loading]);
 
   return { moveX: dx, resetX, moveing };
 }
 
-export function useGetImgUrl(url: string) {
-  // http://169.254.4.160:8800/shiyi/gen/
-  const getImgUrl = () => fetch(url).then((r) => r.json());
-
-  const { data, ...rest } = useRequest(getImgUrl, {
-    manual: true,
-  });
+export function useGetImgUrl(baseUrl: string, fn: (() => Promise<Record<string, any>>) | string) {
+  const getImgUrl = async () => {
+    if (typeof fn === 'function') {
+      return fn();
+    }
+    const ret = await fetch(baseUrl + fn).then((r) => r.json());
+    return ret;
+  };
+  const { data, ...rest } = useRequest(getImgUrl);
   return {
     ...rest,
     data: {
-      id: data?.id || '',
-      ...(data?.captcha || {}),
+      id: data?.data?.id || '',
+      ...(data?.data?.captcha || {}),
     },
   };
 }
-export function useCheckCaptcha(url: string, opt?: Options<any, any>) {
-  const check = (body) =>
-    fetch(url, {
+export function useCheckCaptcha(
+  baseUrl: string,
+  fn: (() => Promise<Record<string, any>>) | string,
+  opt?: Options<any, any>,
+) {
+  const check = async (body) => {
+    if (typeof fn === 'function') {
+      return fn();
+    }
+    const ret = await fetch(baseUrl + fn, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
       body: JSON.stringify(body),
     }).then((r) => r.json());
+
+    return ret;
+  };
 
   const ret = useRequest(check, {
     ...opt,
@@ -102,10 +115,9 @@ export function useCheckCaptcha(url: string, opt?: Options<any, any>) {
   return ret;
 }
 
-const initParams = {
-  id: '',
-  ict: {
-    bgImageWidth: 308,
+export function useCheckParams() {
+  const paramsRef = useRef({
+    bgImageWidth: 309,
     bgImageHeight: 180,
     sliderImageWidth: 55,
     sliderImageHeight: 180,
@@ -117,22 +129,42 @@ const initParams = {
       y: number;
       x: number;
     }[],
-  },
-};
-export function useCheckParams() {
-  const paramsRef = useRef(initParams);
+  });
   const startTimeRef = useRef(Date.now());
-
   const resetParams = () => {
-    paramsRef.current.id = '';
-    paramsRef.current.ict.trackList.length = 0;
+    startTimeRef.current = Date.now();
+    paramsRef.current = {
+      bgImageWidth: 309,
+      bgImageHeight: 180,
+      sliderImageWidth: 55,
+      sliderImageHeight: 180,
+      startSlidingTime: new Date(),
+      endSlidingTime: new Date(),
+      trackList: [] as {
+        type: string;
+        t: number;
+        y: number;
+        x: number;
+      }[],
+    };
   };
 
   return {
-    params: paramsRef.current,
-    startTime: startTimeRef.current,
+    paramsRef,
+    startTimeRef,
     resetParams,
   };
 }
 export const getRandomNumber = (min: number = -10, max: number = 10) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
+
+export enum LTianaiCaptchaStatus {
+  INVALID = 4000,
+  FAIL = 4001,
+  SUCCESS = 200,
+}
+export const LTianaiCaptchaText = {
+  [LTianaiCaptchaStatus.INVALID]: '滑块已失效',
+  [LTianaiCaptchaStatus.FAIL]: '验证失败，请重新尝试',
+  [LTianaiCaptchaStatus.SUCCESS]: '验证成功',
+};

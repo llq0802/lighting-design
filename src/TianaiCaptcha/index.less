@@ -3,23 +3,30 @@
 .@{prefix-cls} {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   width: 309px;
+  height: 234px;
   user-select: none;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
 
   &-content {
     position: relative;
     width: 100%;
     height: 180px;
     overflow: hidden;
+    border-radius: 4px;
 
     &-big-img {
+      display: block;
       position: absolute;
       width: 100%;
       height: 100%;
     }
 
     &-small-img {
+      display: block;
       position: absolute;
       height: 100%;
     }
@@ -85,6 +92,7 @@
     }
 
     &-move {
+      font-size: 18px;
       color: #4f5665;
       position: absolute;
       width: 56px;
