@@ -21,7 +21,7 @@ const Demo = () => {
 
       <LFormItemInput label="名字2" name="name1" required initialValue="吴彦祖" />
       <LFormItemInput name="name2" label="禁用空格" disabledWhiteSpace required tooltip="禁用空格" />
-      {/* <LFormItemInput
+      <LFormItemInput
         name="chinese"
         label="中文汉字"
         required
@@ -73,7 +73,7 @@ const Demo = () => {
         renderField={renderFieldWithPopover({
           content: '该方案可用于所有表单项',
         })}
-      /> */}
+      />
     </LForm>
   );
 };
