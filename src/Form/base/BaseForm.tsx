@@ -62,10 +62,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
 
   const formItems = Children.toArray(children);
 
-  const submitterProps = useMemo(
-    () => (typeof submitter === 'boolean' || !submitter ? {} : submitter),
-    [submitter],
-  );
+  const submitterProps = useMemo(() => (typeof submitter === 'boolean' || !submitter ? {} : submitter), [submitter]);
 
   const labelColProps = useMemo(() => {
     let labelFlex = {};
@@ -107,13 +104,14 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
     onValuesChange?.(currentName, currentValue, allValues);
   });
 
-  const handleKeyDown = useMemoizedFn((e) => {
-    const htmlType = submitterProps?.submitButtonProps?.htmlType;
-    if (!isEnterSubmit && e.key === 'Enter' && htmlType !== 'submit') {
-      e.preventDefault();
-    }
-    restProps.onKeyDown?.(e);
-  });
+  // const handleKeyDown = useMemoizedFn((e) => {
+  //   const htmlType = submitterProps?.submitButtonProps?.htmlType;
+  //   if (!isEnterSubmit && e.key === 'Enter' && htmlType !== 'submit') {
+  //     console.log('==e.key====>');
+  //     e.preventDefault();
+  //   }
+  //   restProps.onKeyDown?.(e);
+  // });
 
   const submitterDom = useMemo(() => {
     return submitter ? (
@@ -136,11 +134,9 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
         }}
       />
     ) : null;
-  }, [innerInitVal, isReady, loading, !!submitter, submitterProps]);
+  }, [innerInitVal, isReady, loading, !!submitter, submitterProps, isEnterSubmit]);
 
-  const formContent = contentRender
-    ? contentRender(formItems, submitterDom, formRef?.current)
-    : formItems;
+  const formContent = contentRender ? contentRender(formItems, submitterDom, formRef?.current) : formItems;
 
   const formDom = (
     <LFormContext.Provider
@@ -164,7 +160,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
         onFinish={handleOnFinish}
         onValuesChange={innerOnValuesChange}
         {...restProps}
-        onKeyDown={handleKeyDown}
+        // onKeyDown={handleKeyDown}
       >
         <Form.Item noStyle shouldUpdate>
           {(formInstance) => {

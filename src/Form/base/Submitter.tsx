@@ -21,8 +21,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     form,
     render,
   } = props;
-  const { preventDefault: submitPreventDefault = false, ...submitButtonProps } =
-    outSubmitButtonProps;
+  const { preventDefault: submitPreventDefault = false, ...submitButtonProps } = outSubmitButtonProps;
   const { preventDefault: resetPreventDefault = false, ...resetButtonProps } = outResetButtonProps;
 
   const resetClick = useMemoizedFn((e) => {
@@ -42,7 +41,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const submitClick = useMemoizedFn((e) => {
     submitButtonProps?.onClick?.(e);
     if (!submitPreventDefault) {
-      if (isReady && submitButtonProps?.htmlType !== 'submit') {
+      if (isReady && submitButtonProps?.htmlType !== 'submit' && !isEnterSubmit) {
         form?.submit();
       }
       Promise.resolve().then(() => onSubmit?.(e));
@@ -56,7 +55,13 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
         {resetText}
       </Button>,
       // 默认设置为提交, antd的表单默认按下enter键都会触发onSubmit/onFinish事件,通过键盘事件以及配置是否阻止默认行为
-      <Button key="submit-lightd-form" type="primary" {...submitButtonProps} onClick={submitClick}>
+      <Button
+        key="submit-lightd-form"
+        type="primary"
+        htmlType={isEnterSubmit ? 'submit' : 'button'}
+        {...submitButtonProps}
+        onClick={submitClick}
+      >
         {submitText}
       </Button>,
     ];
