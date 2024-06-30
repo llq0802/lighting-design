@@ -107,6 +107,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
   const handleKeyDown = useMemoizedFn((e) => {
     const htmlType = submitterProps?.submitButtonProps?.htmlType;
     if (isEnterSubmit && e.key === 'Enter' && htmlType !== 'submit' && isReady) {
+      e.preventDefault();
       formRef.current?.submit();
     }
     restProps.onKeyDown?.(e);
@@ -158,8 +159,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
         onFinish={handleOnFinish}
         onValuesChange={innerOnValuesChange}
         {...restProps}
-        // onKeyDown={handleKeyDown}
-        onKeyUp={handleKeyDown}
+        onKeyDown={handleKeyDown}
       >
         <Form.Item noStyle shouldUpdate>
           {(formInstance) => {

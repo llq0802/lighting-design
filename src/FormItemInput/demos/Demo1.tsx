@@ -1,10 +1,12 @@
-import { LForm, LFormItemInput, LFormItemNumber } from 'lighting-design';
+import { LForm, LFormItemInput } from 'lighting-design';
+import IdentifyCode from './IdentifyCode';
+import renderFieldWithPopover from './renderFieldWithPopover';
 
 const Demo = () => {
   const [form] = LForm.useForm();
+
   return (
     <LForm
-      name="dasffasagsgasdawerqwt"
       form={form}
       submitter={{
         buttonAlign: 'center',
@@ -12,15 +14,10 @@ const Demo = () => {
       onFinish={async (values) => {
         console.log('values', values);
       }}
-      initialValues={{
-        name: 'llq',
-      }}
-      isAntdReset={false}
     >
       <LFormItemInput label="名字" name="name" required />
-      <LFormItemNumber label="名字" name="name1" required></LFormItemNumber>
 
-      {/* <LFormItemInput label="名字2" name="name1" required initialValue="吴彦祖" />
+      <LFormItemInput label="名字2" name="name1" required initialValue="吴彦祖" />
       <LFormItemInput name="name2" label="禁用空格" disabledWhiteSpace required tooltip="禁用空格" />
       <LFormItemInput
         name="chinese"
@@ -74,7 +71,7 @@ const Demo = () => {
         renderField={renderFieldWithPopover({
           content: '该方案可用于所有表单项',
         })}
-      /> */}
+      />
     </LForm>
   );
 };

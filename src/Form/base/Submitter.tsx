@@ -41,7 +41,7 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
   const submitClick = useMemoizedFn((e) => {
     submitButtonProps?.onClick?.(e);
     if (!submitPreventDefault) {
-      if (isReady) {
+      if (isReady && submitButtonProps?.htmlType !== 'submit') {
         form?.submit();
       }
       Promise.resolve().then(() => onSubmit?.(e));

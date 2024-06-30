@@ -5,14 +5,7 @@ import { EMPTY_REG, NUM_REG, isChrome } from 'lighting-design/constants';
 import type { ChangeEvent, FC } from 'react';
 import { useMemo, useRef, useState } from 'react';
 
-type InputType =
-  | InputProps['type']
-  | 'bankCard'
-  | 'idCard'
-  | 'phone'
-  | 'email'
-  | 'url'
-  | 'chinese ';
+type InputType = InputProps['type'] | 'bankCard' | 'idCard' | 'phone' | 'email' | 'url' | 'chinese ';
 
 export interface InputWrapperProps extends InputProps {
   type?: InputType;
@@ -29,9 +22,7 @@ const formatInputValue = (val: string, type?: string) => {
 
   if (type === 'idCard') {
     if (window.isNaN(rawValue?.slice(0, 17) as any)) {
-      console.warn(
-        'lighting-design: idCard 类型的 Input 只能输入18位数字 (最后一位可为数字或字符大小写 X )',
-      );
+      console.warn('lighting-design: idCard 类型的 Input 只能输入18位数字 (最后一位可为数字或字符大小写 X )');
       return rawValue.match(NUM_REG)?.join('') || '';
     }
 
@@ -40,9 +31,7 @@ const formatInputValue = (val: string, type?: string) => {
       window.isNaN(rawValue?.at(-1) as unknown as any) &&
       rawValue?.at(-1)?.toLocaleLowerCase() !== 'x'
     ) {
-      console.warn(
-        'lighting-design: idCard 类型的 Input 只能输入18位数字 (最后一位可为数字或字符大小写 X )',
-      );
+      console.warn('lighting-design: idCard 类型的 Input 只能输入18位数字 (最后一位可为数字或字符大小写 X )');
       return rawValue?.slice(0, -1) || '';
     }
   }
@@ -54,10 +43,7 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
   const { value, onChange, type, disabledWhiteSpace, ...restProps } = props;
   const lock = useRef(false);
   const [innerValue, setInnerValue] = useState(() => value);
-  useUpdateEffect(() => {
-    setInnerValue(value);
-  }, [value]);
-
+  useUpdateEffect(() => setInnerValue(value), [value]);
   // 处理input类型
   const realType = useMemo(() => {
     if (type === 'phone' || type === 'idCard' || type === 'bankCard') {
@@ -79,18 +65,14 @@ const InputWrapper: FC<InputWrapperProps> = (props) => {
 
   const handleChange = useMemoizedFn((e: ChangeEvent<HTMLInputElement>) => {
     let rawValue = e.target.value;
-
     if (disabledWhiteSpace) {
       rawValue = rawValue.replace(EMPTY_REG, '');
     }
     const val = formatInputValue(rawValue, type);
-
     setInnerValue(val);
-
     if (lock.current) {
       return;
     }
-
     onChange?.(val as any);
   });
 

@@ -9854,10 +9854,10 @@ rc-upload@~4.5.2:
     classnames "^2.2.5"
     rc-util "^5.2.0"
 
-rc-use-hooks@^2.0.6:
-  version "2.0.6"
-  resolved "https://registry.npmjs.org/rc-use-hooks/-/rc-use-hooks-2.0.6.tgz#a9773edb56118235f6b8b1413205b606a00e5480"
-  integrity sha512-gUN1LGgOy9OwWOguZChoPsrZUA/uDs/Ao+0GobZrxwfFPQBF3ndRSfX+g+OgiC6PUUcC9u05ddBZeZLjZ8IR2g==
+rc-use-hooks@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.npmjs.org/rc-use-hooks/-/rc-use-hooks-2.0.7.tgz#2e562a8631144b71bcbea34a0e2823dda163b8b3"
+  integrity sha512-c5DQGUnVBgZwQOLYHL/PRBjeVSJgS+9w0he9qUgvQVwK2D3CO4/gVBJ/EXtm0Cb/5xNF7Gpr/bVcreNGk3Jg8A==
   dependencies:
     "@koale/useworker" "^4.0.2"
     ahooks "^3.7.8"
