@@ -1,14 +1,12 @@
 import { useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
 import { Form, type FormInstance } from 'antd';
 import type { Store } from 'antd/es/form/interface';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 /**
  * 设置与监听loading
  */
-export const useLoading = (
-  outLoading: boolean,
-): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
+export const useLoading = (outLoading: boolean): [boolean, React.Dispatch<React.SetStateAction<boolean>>] => {
   const [loading, setLoading] = useRafState(() => outLoading);
   useUpdateLayoutEffect(() => setLoading(outLoading), [outLoading]);
   return [loading, setLoading];
@@ -21,7 +19,7 @@ export const useLFormInitialValues = ({
   form,
   isReady,
   isAntdReset,
-  initialValues,
+  initialValues = {},
 }: {
   isReady: boolean;
   isAntdReset: boolean;
@@ -33,21 +31,16 @@ export const useLFormInitialValues = ({
     // 准备完成后，重新设置表单的初始值
     if (!isReady) return;
     if (isAntdReset) {
-      // formRef.current?.resetFields?.(); // 会重置整个 Field，
       // 因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
       form?.resetFields?.();
     } else {
-      const newInitVal = { ...innerInitVal, ...initialValues };
+      // const newInitVal = { ...innerInitVal, ...initialValues };
+      const newInitVal = { ...form?.getFieldsValue(), ...initialValues };
       form?.setFieldsValue(newInitVal);
       setInnerInitVal(newInitVal);
     }
-  }, [isReady, JSON.stringify(initialValues)]);
+  }, [isReady, isAntdReset, JSON.stringify(initialValues)]);
 
-  useLayoutEffect(() => {
-    if (isAntdReset) return;
-    const newInitialValues = { ...form?.getFieldsValue(), ...initialValues };
-    setInnerInitVal(newInitialValues);
-  }, []);
   return innerInitVal;
 };
 /**

@@ -69,7 +69,6 @@ function LQueryForm(props: LQueryFormProps) {
     layout = 'horizontal',
     submitter,
     isCollapsed = true,
-    isEnterSubmit = true,
     isApproachLastItem = false,
     isSpace: outIsSpace = false,
     showColsNumber,
@@ -86,7 +85,6 @@ function LQueryForm(props: LQueryFormProps) {
   return (
     <BaseForm
       formItemBottom={formItemBottom}
-      isEnterSubmit={isEnterSubmit}
       layout={layout}
       submitter={
         submitter === void 0 || submitter
@@ -95,15 +93,13 @@ function LQueryForm(props: LQueryFormProps) {
               ...submitter,
               submitButtonProps: {
                 ...submitter?.submitButtonProps,
-                htmlType: isEnterSubmit ? 'submit' : 'button',
               },
             }
           : false
       }
       className={classnames(prefixCls, className)}
       contentRender={(formItemsDom, submitterDom) => {
-        const enabledCollapse =
-          typeof showColsNumber === 'number' && showColsNumber < formItemsDom?.length;
+        const enabledCollapse = typeof showColsNumber === 'number' && showColsNumber < formItemsDom?.length;
         const colSpans = !isSpace
           ? {
               ...defualtColSpan,

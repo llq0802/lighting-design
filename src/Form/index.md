@@ -59,7 +59,7 @@ nav:
 
 - 如果要为组件设置初始值 你应该始终通过 `LForm` 的 `initialValues`属性 , 如果某一字段为动态渲染使用则 `LFormItem` 的`initialValue`, 不要为子项设置 `defaultValue`
 
-- 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`, <mark>支持动态设置 LForm 的 initialValues 初始值 </mark>
+- 不要设置 `initialValues`属性为 `{}` , 而是带上字段名 `{ xxx: xxx }`, <mark>配合 isReady , 支持动态设置 LForm 的 initialValues 初始值 </mark>
 
 - 如果要在某一项字段的值变化后做一些操作，你应该始终用`onValuesChange` 而不是给每某一表单项设置 `onChange` 事件
 
@@ -101,7 +101,7 @@ import { LForm } from 'lighting-design';
 | formItemBottom  | 统一设置 LFormItem 或 LFormItemXXX 组件的 style.bottom 属性                                                           | `string\|number`                                                                            | `-`      |
 | transformValues | 在 `onFinish` 调用之前转化表单值 , 返回值会传给 `onFinish` 的参数                                                     | `(values: Record<string, any>) => Record<string, any>`                                      | `-`      |
 | submitter       | 提交、重置按钮相关配置。为`false`将不会渲染                                                                           | `false` \| [LFormSubmitterProps]                                                            | `-`      |
-| isEnterSubmit   | 是否开启回车键提交 `如果自定义渲染且不使用内部 dom 则无效`                                                            | `boolean`                                                                                   | `true`   |
+| isEnterSubmit   | 是否开启回车键提交 ,仅在 LForm 与 LQueryForm 生效 `如果自定义渲染且不使用内部 dom 则无效`                             | `boolean`                                                                                   | `true`   |
 | isAntdReset     | 内部的重置否使用 `form.resetFields()` <br> `true`时会每次重置就会重新挂挂载子组件                                     | `boolean`                                                                                   | `true`   |
 | loading         | 设置提交、重置的加载/禁止状态。<br/>如果 `onFinish` 返回异步则无需设置，内部会自动更新。                              | `boolean`                                                                                   | `false`  |
 | isReady         | 为 `false` 时，禁止提交/重置表单。<br/>为 `true` 时，会重新设置表单初始值。<br/>一般用于异步获取初始值`initialValues` | `boolean`                                                                                   | `true`   |

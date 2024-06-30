@@ -97,9 +97,7 @@ const StepsForm: FC<LStepsFormProps> & {
     if (childSubmitter === false || childSubmitter === null || submitter === false) {
       formSubmitterRef.current[index] = false;
     } else if (typeof childSubmitter === 'object') {
-      formSubmitterRef.current[index] = submitter
-        ? { ...submitter, ...childSubmitter }
-        : childSubmitter;
+      formSubmitterRef.current[index] = submitter ? { ...submitter, ...childSubmitter } : childSubmitter;
     } else {
       formSubmitterRef.current[index] = submitter;
     }
@@ -400,10 +398,7 @@ const StepsForm: FC<LStepsFormProps> & {
   );
 
   const stepsContentDom = (
-    <div
-      className={classnames(`${prefixCls}-top`, stepsWrapperClassName)}
-      style={stepsWrapperStyle}
-    >
+    <div className={classnames(`${prefixCls}-top`, stepsWrapperClassName)} style={stepsWrapperStyle}>
       {stepsDom}
     </div>
   );
@@ -421,6 +416,7 @@ const StepsForm: FC<LStepsFormProps> & {
         loading,
         setLoading,
         isAntdReset,
+        isReady,
       }}
     >
       {stepsFormRender ? (

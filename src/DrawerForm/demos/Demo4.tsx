@@ -1,4 +1,3 @@
-import { TeamOutlined } from '@ant-design/icons';
 import { Button, message } from 'antd';
 import { LDrawerForm, LForm, LFormItemInput } from 'lighting-design';
 import { awaitTime } from '../../_test';
@@ -9,15 +8,15 @@ const Demo4 = () => {
   return (
     <div>
       <LDrawerForm
-        submitter={{
-          submitButtonProps: {
-            icon: <TeamOutlined />,
-          },
-        }}
-        initialValues={{ name: '张三' }}
+        // submitter={{
+        //   submitButtonProps: {
+        //     // icon: <TeamOutlined />,
+        //   },
+        // }}
+        initialValues={{ name1: '张三' }}
         form={form}
         title="新增"
-        isAntdReset={false}
+        // isAntdReset={false}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
           await awaitTime();
@@ -26,8 +25,8 @@ const Demo4 = () => {
         }}
         trigger={<Button type="primary">打开抽屉</Button>}
       >
-        <LFormItemInput name="name" required label="姓名" />
-        <LFormItemInput name="name1" required label="姓名1" initialValue="大师" />
+        <LFormItemInput name="name1" required label="姓名1" />
+        <LFormItemInput name="name2" required label="姓名2" />
       </LDrawerForm>
     </div>
   );

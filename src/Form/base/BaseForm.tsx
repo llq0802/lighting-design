@@ -104,20 +104,18 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
     onValuesChange?.(currentName, currentValue, allValues);
   });
 
-  // const handleKeyDown = useMemoizedFn((e) => {
-  //   const htmlType = submitterProps?.submitButtonProps?.htmlType;
-  //   if (!isEnterSubmit && e.key === 'Enter' && htmlType !== 'submit') {
-  //     console.log('==e.key====>');
-  //     e.preventDefault();
-  //   }
-  //   restProps.onKeyDown?.(e);
-  // });
+  const handleKeyDown = useMemoizedFn((e) => {
+    const htmlType = submitterProps?.submitButtonProps?.htmlType;
+    if (isEnterSubmit && e.key === 'Enter' && htmlType !== 'submit' && isReady) {
+      formRef.current?.submit();
+    }
+    restProps.onKeyDown?.(e);
+  });
 
   const submitterDom = useMemo(() => {
     return submitter ? (
       <Submitter
         isAntdReset={isAntdReset}
-        isEnterSubmit={isEnterSubmit}
         isReady={isReady}
         innerInitVal={innerInitVal}
         onReset={onReset}
@@ -161,6 +159,7 @@ function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.E
         onValuesChange={innerOnValuesChange}
         {...restProps}
         // onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyDown}
       >
         <Form.Item noStyle shouldUpdate>
           {(formInstance) => {

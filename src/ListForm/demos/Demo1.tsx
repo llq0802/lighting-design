@@ -30,18 +30,8 @@ const Demo1 = () => {
                   return (
                     <LFormItem label="名字" key={key} style={{ marginBottom: 0 }}>
                       <Space key={key} style={{ display: 'flex', width: '100%' }} align="baseline">
-                        <LFormItemInput
-                          {...restField}
-                          placeholder="请输入 First 名"
-                          required
-                          name={[name, 'first']}
-                        />
-                        <LFormItemInput
-                          {...restField}
-                          placeholder="请输入 Last 名"
-                          required
-                          name={[name, 'last']}
-                        />
+                        <LFormItemInput {...restField} placeholder="请输入 First 名" required name={[name, 'first']} />
+                        <LFormItemInput {...restField} placeholder="请输入 Last 名" required name={[name, 'last']} />
 
                         <MinusCircleOutlined onClick={() => remove(name)} />
                         <PlusOutlined onClick={() => add()} />

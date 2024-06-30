@@ -4,23 +4,25 @@ import { useLayoutEffect, useState } from 'react';
 
 export const useModalFormInitialValues = ({
   open,
-  initialValues,
+  initialValues = {},
   isAntdReset,
   form,
+  isReady = true,
 }: {
+  isReady?: boolean;
   open: boolean;
   initialValues?: Store;
   isAntdReset: boolean;
   form: FormInstance;
 }) => {
-  const [initVal, setIninVal] = useState(() => initialValues || {});
+  const [initVal, setIninVal] = useState(() => initialValues);
   useLayoutEffect(() => {
-    if (!isAntdReset && open) {
+    if (!isAntdReset && open && isReady) {
       const newInitialValues = { ...form.getFieldsValue(), ...initialValues };
       form?.setFieldsValue(newInitialValues);
       setIninVal(newInitialValues);
     }
-  }, [open, JSON.stringify(initialValues)]);
+  }, [open, isReady, JSON.stringify(initialValues)]);
 
   return initVal;
 };

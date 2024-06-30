@@ -17,7 +17,6 @@ const Demo5 = () => {
     <LForm
       form={form}
       isReady={isReady}
-      disabled={!isReady}
       labelWrap
       labelCol={{ flex: '90px' }}
       submitter={{ buttonAlign: 90 }}

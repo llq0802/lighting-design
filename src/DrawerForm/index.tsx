@@ -31,8 +31,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
 
     submitter,
     isFullscreen,
-    initialValues,
-
     onCancel,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
@@ -54,9 +52,10 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
 
   const initVal = useModalFormInitialValues({
     open,
-    initialValues,
     isAntdReset,
     form: formRef.current,
+    initialValues: restProps?.initialValues,
+    isReady: restProps?.isReady,
   });
 
   const compatibilityStyle = isAntdVersionMoreThan514
@@ -132,6 +131,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
             footer={actionBarDir === 'footer' && submitterDom}
             extra={actionBarDir === 'extra' && submitterDom}
             maskClosable={false}
+            keyboard={false}
             destroyOnClose={destroyOnClose}
             {...drawerProps}
             {...compatibilityStyle}
@@ -156,7 +156,9 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
             {formDom}
           </Drawer>
         )}
+        clearOnDestroy
         {...restProps}
+        isEnterSubmit={false}
       >
         {children}
       </BaseForm>

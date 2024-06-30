@@ -27,8 +27,6 @@ export interface LFormSubmitterProps {
   onReset?: (event: React.MouseEvent<HTMLElement>) => void;
   /** 提交回调 */
   onSubmit?: (event: React.MouseEvent<HTMLElement>) => void;
-  /** 是否能按enter建提交 */
-  isEnterSubmit?: boolean;
   /** 表单是否准备完成 */
   isReady?: boolean;
   /** 内部的重置按钮是否使用 form.resetFields() */
@@ -60,8 +58,7 @@ export interface LFormSubmitterProps {
   buttonAlign?: 'left' | 'right' | 'center' | number | string;
 }
 
-export interface BaseFormProps<T = Record<string, any>>
-  extends Omit<FormProps<T>, 'onReset' | 'onValuesChange'> {
+export interface BaseFormProps<T = Record<string, any>> extends Omit<FormProps<T>, 'onReset' | 'onValuesChange'> {
   /**
    *lable宽度。 同 labelCol={{ flex: '90px' }}
    * - 不要与`labelCol`属性同时设置
@@ -79,11 +76,7 @@ export interface BaseFormProps<T = Record<string, any>>
    * - Form下面所有的Form.Item
    *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
    */
-  contentRender?: (
-    formItemsDom: ReactNode[],
-    submitterDom: ReactNode,
-    form: FormInstance<T>,
-  ) => ReactNode;
+  contentRender?: (formItemsDom: ReactNode[], submitterDom: ReactNode, form: FormInstance<T>) => ReactNode;
   /**
    * 重新渲染整个 LForm
    *@author 李岚清 <https://github.com/llq0802>

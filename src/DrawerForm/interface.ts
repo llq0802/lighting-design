@@ -3,18 +3,11 @@ import type { BaseFormProps } from 'lighting-design/Form/interface';
 import type { LModalFormProps } from 'lighting-design/ModalForm/interface';
 
 export interface LDrawerFormProps
-  extends Omit<BaseFormProps, 'title' | 'onFinish'>,
+  extends Omit<BaseFormProps, 'title' | 'onFinish' | 'isEnterSubmit'>,
     Pick<DrawerProps, 'open'>,
     Pick<
       LModalFormProps,
-      | 'trigger'
-      | 'onFinish'
-      | 'onOpenChange'
-      | 'forceRender'
-      | 'destroyOnClose'
-      | 'isResetFields'
-      | 'width'
-      | 'title'
+      'trigger' | 'onFinish' | 'onOpenChange' | 'forceRender' | 'destroyOnClose' | 'isResetFields' | 'width' | 'title'
     > {
   /**
    * 抽屉的方向

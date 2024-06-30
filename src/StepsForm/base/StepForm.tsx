@@ -20,8 +20,6 @@ function StepForm({
   submitter, // 不传入 到基础的 BaseForm
 
   _stepNum,
-
-  isEnterSubmit = true,
   name,
   className,
   onFinish,
@@ -34,12 +32,12 @@ function StepForm({
   useEffect(() => {
     // 存储每个表单实例
     ctx.formInstanceListRef.current[_stepNum as number] = formRef.current;
-    if (!ctx?.isAntdReset) {
+    if (!ctx?.isAntdReset && ctx.isReady) {
       // 存储每个表单的初始值 (保证获取到初始值)
       const newInitialValues = formRef.current.getFieldsValue();
       ctx.formInitialValues.current[_stepNum as number] = newInitialValues;
     }
-  }, [JSON.stringify(restProps?.initialValues)]);
+  }, [ctx.isReady, JSON.stringify(restProps?.initialValues)]);
 
   // 当前表单的提交
   const handleFinsh = useMemoizedFn(async (values) => {
@@ -71,7 +69,6 @@ function StepForm({
 
   return (
     <BaseForm
-      isEnterSubmit={isEnterSubmit}
       name={name}
       className={classnames(prefixCls, className)}
       form={formRef.current}
@@ -79,7 +76,7 @@ function StepForm({
       {...restProps}
       isAntdReset
       submitter={false}
-      isReady
+      isEnterSubmit={false}
     />
   );
 }

@@ -3,7 +3,7 @@ import type { BaseFormProps } from 'lighting-design/Form/interface';
 import type { ReactElement, ReactNode } from 'react';
 
 export interface LModalFormProps
-  extends Omit<BaseFormProps, 'title' | 'onFinish'>,
+  extends Omit<BaseFormProps, 'title' | 'onFinish' | 'isEnterSubmit'>,
     Pick<ModalProps, 'open' | 'centered'> {
   /**
    *  标题

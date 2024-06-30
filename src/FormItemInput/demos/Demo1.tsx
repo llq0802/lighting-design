@@ -1,11 +1,11 @@
-import { LForm, LFormItemInput } from 'lighting-design';
+import { LForm, LFormItemInput, LFormItemNumber } from 'lighting-design';
 
 const Demo = () => {
   const [form] = LForm.useForm();
   return (
     <LForm
+      name="dasffasagsgasdawerqwt"
       form={form}
-      isEnterSubmit={false}
       submitter={{
         buttonAlign: 'center',
       }}
@@ -17,9 +17,10 @@ const Demo = () => {
       }}
       isAntdReset={false}
     >
-      <LFormItemInput className="myLFormItemInput-4" label="名字" name="name" required />
+      <LFormItemInput label="名字" name="name" required />
+      <LFormItemNumber label="名字" name="name1" required></LFormItemNumber>
 
-      <LFormItemInput label="名字2" name="name1" required initialValue="吴彦祖" />
+      {/* <LFormItemInput label="名字2" name="name1" required initialValue="吴彦祖" />
       <LFormItemInput name="name2" label="禁用空格" disabledWhiteSpace required tooltip="禁用空格" />
       <LFormItemInput
         name="chinese"
@@ -73,7 +74,7 @@ const Demo = () => {
         renderField={renderFieldWithPopover({
           content: '该方案可用于所有表单项',
         })}
-      />
+      /> */}
     </LForm>
   );
 };

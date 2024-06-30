@@ -37,7 +37,6 @@ const LModalForm: FC<LModalFormProps> = (props) => {
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onOpenChange: outOnOpenChange,
-    initialValues,
     ...restProps
   } = props;
 
@@ -85,7 +84,8 @@ const LModalForm: FC<LModalFormProps> = (props) => {
     open,
     isAntdReset,
     form: formRef.current,
-    initialValues,
+    initialValues: restProps?.initialValues,
+    isReady: restProps?.isReady,
   });
 
   const modalAfterClose = () => {
@@ -103,6 +103,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
     width,
     centered,
     maskClosable: false,
+    keyboard: false,
     forceRender,
     destroyOnClose,
   };
@@ -185,11 +186,7 @@ const LModalForm: FC<LModalFormProps> = (props) => {
                   disabled={disabled}
                   bounds={bounds}
                   position={position}
-                  handle={
-                    typeof isDraggable === 'boolean'
-                      ? '.ant-modal-header'
-                      : (isDraggable as any)?.handle
-                  }
+                  handle={typeof isDraggable === 'boolean' ? '.ant-modal-header' : (isDraggable as any)?.handle}
                   onStart={(event, uiData) => onStart(event, uiData)}
                   onStop={(event, uiData) => onStop(event, uiData)}
                 >
@@ -213,7 +210,9 @@ const LModalForm: FC<LModalFormProps> = (props) => {
             </Modal>
           );
         }}
+        clearOnDestroy
         {...restProps}
+        isEnterSubmit={false}
       >
         {children}
       </BaseForm>
