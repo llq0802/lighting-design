@@ -89,6 +89,8 @@ export * from './ScrollBar';
 export { default as LScrollBar } from './ScrollBar';
 export * from './SeamlessScroll';
 export { default as LSeamlessScroll } from './SeamlessScroll';
+export * from './Skeleton';
+export { default as LSkeleton } from './Skeleton';
 export * from './SliderVerify';
 export { default as LSliderVerify } from './SliderVerify';
 export * from './StepsForm';
