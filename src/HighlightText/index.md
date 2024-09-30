@@ -5,17 +5,23 @@ toc: content
 
 # LHighlightText
 
-文字高亮组件
+高性能的文字高亮组件
+
+- 支持自定义
 
 ## 代码演示
 
 ### 基础用法
 
-<code src="./demos/demo1.tsx" ></code>
+<!-- <code src="./demos/demo1.tsx" ></code> -->
 
 ### 区分大小写以及自定义样式
 
-<code src="./demos/demo2.tsx" ></code>
+<!-- <code src="./demos/demo2.tsx" ></code> -->
+
+### 与输入框结合
+
+<code src="./demos/demo3.tsx" ></code>
 
 ## API
 
