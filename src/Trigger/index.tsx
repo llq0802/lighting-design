@@ -100,7 +100,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
   const content = isValidElement(children)
     ? cloneElement(children, contentProps)
     : typeof children === 'function'
-    ? children?.(contentProps)
+    ? cloneElement(children?.(contentProps), contentProps)
     : children;
 
   return (

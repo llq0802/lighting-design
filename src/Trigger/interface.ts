@@ -88,9 +88,7 @@ export type LTriggerProps = {
    * 在`mode='tag'`时自定义标签
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
-  tagRender?: (
-    props: Record<string, any>,
-  ) => React.ReactElement<any, string | React.JSXElementConstructor<any>>;
+  tagRender?: (props: Record<string, any>) => React.ReactElement<any, string | React.JSXElementConstructor<any>>;
   /**
    * children 组件 或 函数返回一个组件
    * - 会接受到 open，setOpen，value，onChange
@@ -109,7 +107,7 @@ export type LTriggerProps = {
         labelInValue: boolean;
         fieldNames: Record<string, any>;
         mode: LTriggerMode;
-      }) => ReactNode);
+      }) => React.ReactElement<unknown, string | React.JSXElementConstructor<any>>);
   selectProps?: SelectProps;
   popoverProps?: PopoverProps;
 } & Pick<
