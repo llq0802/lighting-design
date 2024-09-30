@@ -71,6 +71,8 @@ export * from './FormItemUpload';
 export { default as LFormItemUpload } from './FormItemUpload';
 export * from './H5Preview';
 export { default as LH5Preview } from './H5Preview';
+export * from './HighlightText';
+export { default as LHighlightText } from './HighlightText';
 export * from './List';
 export { default as LList } from './List';
 export * from './ListForm';

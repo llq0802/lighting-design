@@ -1,12 +1,17 @@
 import { Flex, Skeleton } from 'antd';
+import clsx from 'classnames';
 import type { FC } from 'react';
+import './index.less';
 import type { LSkeletonProps } from './interface';
 
+const prefixCls = 'lightd-skeleton';
+
 const LSkeleton: FC<LSkeletonProps> = ({
-  title,
+  topSkeleton,
+  bottomSkeleton,
   vertical = true,
-  gap = 16,
-  count = 6,
+  gap = 20,
+  count = 4,
   className,
   style,
   loading = true,
@@ -17,15 +22,46 @@ const LSkeleton: FC<LSkeletonProps> = ({
   children,
   skeletonButtonProps = {},
 }) => {
-  const titleProps = title && typeof title !== 'boolean' ? title : {};
+  const topSkeletonProp = topSkeleton && typeof topSkeleton !== 'boolean' ? topSkeleton : {};
+  const bottomSkeletonProp = bottomSkeleton && typeof bottomSkeleton !== 'boolean' ? bottomSkeleton : {};
 
   const dom = (
     <>
-      {title && !vertical && (
-        <Skeleton.Input active size={size} {...titleProps} style={{ marginBottom: gap, ...titleProps?.style }} />
+      {topSkeleton && !vertical && (
+        <Flex justify={topSkeletonProp?.justify}>
+          <Skeleton.Input
+            active
+            size={size}
+            shape={shape}
+            {...bottomSkeletonProp}
+            style={{
+              margin: bottomSkeletonProp?.margin,
+              marginBottom: gap,
+              width: bottomSkeletonProp?.width || 180,
+              height: bottomSkeletonProp?.height || itemHeight,
+              ...bottomSkeletonProp?.style,
+            }}
+          />
+        </Flex>
       )}
-      <Flex rootClassName="a-skeleton-wrapper" vertical={vertical} gap={gap} className={className} style={style}>
-        {title && vertical && <Skeleton.Input active size={size} {...titleProps} />}
+
+      <Flex vertical={vertical} gap={gap} className={clsx(prefixCls, className)} style={style}>
+        {topSkeleton && vertical && (
+          <Flex justify={topSkeletonProp?.justify}>
+            <Skeleton.Button
+              active
+              size={size}
+              shape={shape}
+              {...topSkeletonProp}
+              style={{
+                margin: topSkeletonProp?.margin,
+                width: topSkeletonProp?.width || 180,
+                height: topSkeletonProp?.height || itemHeight,
+                ...topSkeletonProp?.style,
+              }}
+            />
+          </Flex>
+        )}
         {new Array(count).fill(count).map((_, i) => (
           <Skeleton.Button
             key={i}
@@ -40,10 +76,40 @@ const LSkeleton: FC<LSkeletonProps> = ({
             {...skeletonButtonProps}
           />
         ))}
-        {title && vertical && <Skeleton.Input active size={size} {...titleProps} />}
+
+        {bottomSkeleton && vertical && (
+          <Flex justify={bottomSkeletonProp?.justify}>
+            <Skeleton.Button
+              active
+              size={size}
+              shape={shape}
+              {...bottomSkeletonProp}
+              style={{
+                margin: bottomSkeletonProp?.margin,
+                width: bottomSkeletonProp?.width || 180,
+                height: bottomSkeletonProp?.height || itemHeight,
+                ...bottomSkeletonProp?.style,
+              }}
+            />
+          </Flex>
+        )}
       </Flex>
-      {title && !vertical && (
-        <Skeleton.Input active size={size} {...titleProps} style={{ marginBottom: gap, ...titleProps?.style }} />
+      {bottomSkeleton && !vertical && (
+        <Flex justify={bottomSkeletonProp?.justify}>
+          <Skeleton.Button
+            active
+            size={size}
+            shape={shape}
+            {...bottomSkeletonProp}
+            style={{
+              margin: bottomSkeletonProp?.margin,
+              marginTop: gap,
+              width: bottomSkeletonProp?.width || 180,
+              height: bottomSkeletonProp?.height || itemHeight,
+              ...bottomSkeletonProp?.style,
+            }}
+          />
+        </Flex>
       )}
     </>
   );

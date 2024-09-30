@@ -100,6 +100,14 @@ export default {
           title: 'LEllipsisText-文本省略',
           link: '/components/Ellipsis-Text',
         },
+        {
+          title: 'LHighlightText-文本高亮',
+          link: '/components/Highlight-Text',
+        },
+        {
+          title: 'LSkeleton-高级骨架屏',
+          link: '/components/Skeleton',
+        },
       ],
     },
     {
