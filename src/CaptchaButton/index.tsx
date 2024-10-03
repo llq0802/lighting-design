@@ -1,19 +1,17 @@
-import {
-  useCountDown,
-  useMemoizedFn,
-  useSessionStorageState,
-  useUnmount,
-  useUpdateEffect,
-} from 'ahooks';
+import { useCountDown, useMemoizedFn, useSessionStorageState, useUnmount, useUpdateEffect } from 'ahooks';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction } from 'react';
 import { forwardRef, useImperativeHandle } from 'react';
 import type { LCaptchaButtonProps } from './interface';
 
-const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButtonProps> = (
-  props,
-  ref,
-) => {
+/**
+ * 验证码按钮组件
+ *
+ * @param props 组件属性
+ * @param ref 组件引用
+ * @returns 验证码按钮组件
+ */
+const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButtonProps> = (props, ref) => {
   const {
     start = true,
     second = 60,

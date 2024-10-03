@@ -1,3 +1,5 @@
+import type { DebounceOptions } from 'ahooks/lib/useDebounce/debounceOptions';
+
 export interface LHighlightTextProps extends React.HTMLAttributes<HTMLSpanElement> {
   className?: string;
   style?: React.CSSProperties;
@@ -22,7 +24,7 @@ export interface LHighlightTextProps extends React.HTMLAttributes<HTMLSpanElemen
    */
   highlightStyle?: React.CSSProperties;
   /**
-   *自定义高亮标签, 例如: span
+   *自定义高亮标签, 例如: `span` `li` 等
    @default mark
    *@see 官网 https://llq0802.github.io/lighting-design/latest LHighlightTextProps
    */
@@ -42,4 +44,14 @@ export interface LHighlightTextProps extends React.HTMLAttributes<HTMLSpanElemen
    *@see 官网 https://llq0802.github.io/lighting-design/latest LHighlightTextProps
    */
   renderHighlight?: (text: string) => React.ReactNode;
+  /**
+   *防抖等待时间
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LHighlightTextProps
+   */
+  wait?: number;
+  /**
+   *lodash 的防抖配置
+   *@see 官网 https://llq0802.github.io/lighting-design/latest LHighlightTextProps
+   */
+  debounceOptions?: DebounceOptions;
 }
