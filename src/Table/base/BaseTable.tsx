@@ -101,10 +101,7 @@ const BaseTable: FC<Partial<LTableProps>> = forwardRef((props, ref) => {
     }
   });
   // 根标签全屏样式
-  const rootDefaultStyle = useMemo(
-    () => (isFullScreen ? { backgroundColor: fullScreenBgColor } : {}),
-    [isFullScreen],
-  );
+  const rootDefaultStyle = useMemo(() => (isFullScreen ? { backgroundColor: fullScreenBgColor } : {}), [isFullScreen]);
   // 是否有表单查询框组
   const hasFromItems = useMemo(() => formItems?.length > 0, [formItems?.length]);
   // 合并内置表格工具栏配置
@@ -233,14 +230,10 @@ const BaseTable: FC<Partial<LTableProps>> = forwardRef((props, ref) => {
   });
   // 根据传入参数请求
   const handleCustomSearch = useMemoizedFn(
-    (
-      current: number = outDefaultCurrent,
-      pageSize: number = outDefaultPageSize,
-      extraParams?: Record<string, any>,
-    ) => {
+    (current: number = outDefaultCurrent, pageSize: number = outDefaultPageSize, extraParams?: Record<string, any>) => {
       if (hasDataSource) return;
       const formValues = hasFromItems ? queryFormRef.current?.getFieldsValue() : void 0;
-      run({ ...extraParams, current, pageSize, formValues }, 'onCustomSearch');
+      run({ formValues, ...extraParams, current, pageSize }, 'onCustomSearch');
     },
   );
 
@@ -302,9 +295,7 @@ const BaseTable: FC<Partial<LTableProps>> = forwardRef((props, ref) => {
     /** 表格数据 */
     tableData,
     /** 直接修改当前表格的数据,必须是 { total , data } 的形式 */
-    setTableData: setTableData as Dispatch<
-      SetStateAction<{ list: Record<string, any>[]; total: number }>
-    >,
+    setTableData: setTableData as Dispatch<SetStateAction<{ list: Record<string, any>[]; total: number }>>,
     /** 页码信息及操作 */
     pagination: paginationAction,
   }));
@@ -355,12 +346,9 @@ const BaseTable: FC<Partial<LTableProps>> = forwardRef((props, ref) => {
   }, [toolbarActionConfig]);
 
   const toolbarDom = useMemo(() => {
-    return !showToolbar ||
-      (toolbarActionConfig === false && !toolbarLeft && !toolbarRight) ? null : (
+    return !showToolbar || (toolbarActionConfig === false && !toolbarLeft && !toolbarRight) ? null : (
       <div className={`${LIGHTD_TABLE}-toolbar`} style={toolbarStyle}>
-        <div className={`${LIGHTD_TABLE}-toolbar-left`}>
-          {toolbarLeft && <Space>{toolbarLeft}</Space>}
-        </div>
+        <div className={`${LIGHTD_TABLE}-toolbar-left`}>{toolbarLeft && <Space>{toolbarLeft}</Space>}</div>
         <div className={`${LIGHTD_TABLE}-toolbar-right`}>
           <Space>
             {toolbarRight}
