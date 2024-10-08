@@ -3,7 +3,7 @@ import { LSkeleton } from 'lighting-design';
 const demo1 = () => {
   return (
     <div>
-      <LSkeleton />
+      <LSkeleton vertical={false} gap={16} />
     </div>
   );
 };

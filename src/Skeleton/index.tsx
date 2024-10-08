@@ -1,5 +1,5 @@
 import { Flex, Skeleton } from 'antd';
-import clsx from 'classnames';
+import clxs from 'classnames';
 import type { FC } from 'react';
 import './index.less';
 import type { LSkeletonProps } from './interface';
@@ -9,6 +9,7 @@ const prefixCls = 'lightd-skeleton';
 const LSkeleton: FC<LSkeletonProps> = ({
   topSkeleton,
   bottomSkeleton,
+  active = true,
   vertical = true,
   gap = 20,
   count = 4,
@@ -30,7 +31,7 @@ const LSkeleton: FC<LSkeletonProps> = ({
       {topSkeleton && !vertical && (
         <Flex justify={topSkeletonProp?.justify}>
           <Skeleton.Input
-            active
+            active={active}
             size={size}
             shape={shape}
             {...bottomSkeletonProp}
@@ -45,11 +46,11 @@ const LSkeleton: FC<LSkeletonProps> = ({
         </Flex>
       )}
 
-      <Flex vertical={vertical} gap={gap} className={clsx(prefixCls, className)} style={style}>
+      <Flex vertical={vertical} gap={gap} className={clxs(prefixCls, className)} style={style}>
         {topSkeleton && vertical && (
           <Flex justify={topSkeletonProp?.justify}>
             <Skeleton.Button
-              active
+              active={active}
               size={size}
               shape={shape}
               {...topSkeletonProp}
@@ -65,22 +66,23 @@ const LSkeleton: FC<LSkeletonProps> = ({
         {new Array(count).fill(count).map((_, i) => (
           <Skeleton.Button
             key={i}
-            active
+            active={active}
             block
             size={size}
             shape={shape}
+            {...skeletonButtonProps}
             style={{
               height: itemHeight,
               ...itemStyle,
+              ...skeletonButtonProps?.style,
             }}
-            {...skeletonButtonProps}
           />
         ))}
 
         {bottomSkeleton && vertical && (
           <Flex justify={bottomSkeletonProp?.justify}>
             <Skeleton.Button
-              active
+              active={active}
               size={size}
               shape={shape}
               {...bottomSkeletonProp}
@@ -97,7 +99,7 @@ const LSkeleton: FC<LSkeletonProps> = ({
       {bottomSkeleton && !vertical && (
         <Flex justify={bottomSkeletonProp?.justify}>
           <Skeleton.Button
-            active
+            active={active}
             size={size}
             shape={shape}
             {...bottomSkeletonProp}

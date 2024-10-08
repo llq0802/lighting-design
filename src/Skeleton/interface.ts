@@ -1,7 +1,7 @@
 import type { SkeletonButtonProps } from 'antd/es/skeleton/Button';
 import type { CSSProperties, ReactNode } from 'react';
 
-type TopSkeleton =
+type TopSkeletonProps =
   | boolean
   | (SkeletonButtonProps & {
       justify?: 'center' | 'start' | 'end';
@@ -11,10 +11,11 @@ type TopSkeleton =
     });
 
 export type LSkeletonProps = {
-  gap?: string;
+  gap?: string | number;
   className?: string;
   style?: CSSProperties;
   count?: number;
+  active?: boolean;
   loading?: boolean;
   vertical?: boolean;
   size?: 'small' | 'default' | 'large';
@@ -23,8 +24,6 @@ export type LSkeletonProps = {
   shape?: 'default' | 'circle' | 'round' | 'square';
   children?: ReactNode;
   skeletonButtonProps?: SkeletonButtonProps;
-
-  topSkeleton?: TopSkeleton;
-
-  bottomSkeleton?: TopSkeleton;
+  topSkeleton?: TopSkeletonProps;
+  bottomSkeleton?: TopSkeletonProps;
 };
