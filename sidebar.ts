@@ -250,19 +250,19 @@ export default {
       ],
     },
 
-    {
-      title: 'Hooks',
-      children: [
-        {
-          title: 'useShow-父子组件传参',
-          link: '/components/use-Show',
-        },
-        {
-          title: 'useCallbackState-状态更新回调',
-          link: '/components/use-callback-state',
-        },
-      ],
-    },
+    // {
+    //   title: 'Hooks',
+    //   children: [
+    //     {
+    //       title: 'useShow-父子组件传参',
+    //       link: '/components/use-Show',
+    //     },
+    //     {
+    //       title: 'useCallbackState-状态更新回调',
+    //       link: '/components/use-callback-state',
+    //     },
+    //   ],
+    // },
   ],
   '/scene': [
     {
