@@ -1,3 +1,4 @@
+import { Divider, Input } from 'antd';
 import { LHighlightText } from 'lighting-design';
 import { useState } from 'react';
 
@@ -7,13 +8,13 @@ const Demo3 = () => {
   const [value, setValue] = useState<string>('');
   return (
     <div>
-      <input
+      <Input
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="试一试搜索关键字"
         style={{ width: 280 }}
       />
-      <hr />
+      <Divider />
       <LHighlightText text={text} highlightWords={[value]} />
     </div>
   );

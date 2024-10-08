@@ -43,3 +43,5 @@ import { LEllipsisText } from 'lighting-design';
 | highlightTag       | 自定义高亮标签, 例如: span                     | `string`                      | `'mark'` |
 | highlightWords     | 要高亮的文本数组, 例如: ['lighting', 'design'] | `string[]`                    | `-`      |
 | renderHighlight    | 重新渲染高亮的文本内容                         | `(text: string) => ReactNode` | `-`      |
+| wait               | 搜索关键词时防抖时间 `单位 ms`                 | `number`                      | `500`    |
+| debounceOptions    | 更多防抖配置请查看`lodash.debounce`            | `DebounceOptions`             | `-`      |
