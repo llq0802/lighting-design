@@ -18,7 +18,14 @@ const LList: React.FC<LListProps> & {
   const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
     const scrollHeight = Math.ceil(e.currentTarget.scrollHeight);
     const scrollTop = Math.ceil(e.currentTarget.scrollTop);
-    if (height + scrollTop >= scrollHeight) {
+
+    console.log('==scrollTop====>', scrollTop);
+
+    // if (height + scrollTop >= scrollHeight) {
+    //   onScrollBottom?.();
+    // }
+
+    if (Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - height) <= 1) {
       onScrollBottom?.();
     }
   };
@@ -28,7 +35,7 @@ const LList: React.FC<LListProps> & {
   }
 
   return (
-    <List itemLayout="vertical" {...restProps}>
+    <List>
       <VirtualList
         data={restProps.dataSource || []}
         height={height}
