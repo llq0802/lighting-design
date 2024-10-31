@@ -1,0 +1,117 @@
+.a_tag_input_wrapper {
+  width: 100%;
+  position: relative;
+  background: rgba(0, 0, 0, 0.04);
+  border-width: 0.01rem;
+  border-style: solid;
+  border-color: transparent;
+  display: inline-flex;
+  min-width: 0;
+  padding: 0.04rem 0.11rem;
+  color: rgba(0, 0, 0, 0.88);
+  font-size: 0.14rem;
+  line-height: 1.5714285714285714;
+  border-radius: 0.06rem;
+  transition: all 0.2s;
+  align-items: center;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  &:focus,
+  &:focus-within {
+    outline: 0;
+    border-color: #4755e3;
+    background: #ffffff;
+  }
+
+  .placeholder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    // left: 0.1rem;
+    font-size: 0.14rem;
+    pointer-events: none;
+    user-select: none;
+    color: rgba(0, 0, 0, 0.25);
+    user-select: none;
+    text-overflow: inherit;
+    overflow-wrap: normal;
+    line-height: initial;
+    -webkit-user-modify: read-only !important;
+    white-space: pre;
+    overflow: hidden;
+  }
+
+  .a_tag_input_body {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    position: relative;
+  }
+
+  .a_tag_input {
+    flex: 1;
+    min-width: 0;
+    -webkit-user-modify: read-write-plaintext-only;
+    // -webkit-user-modify: read-write !important;
+    font-size: inherit;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    background: transparent;
+    color: inherit;
+    box-sizing: border-box;
+    white-space: nowrap;
+    color: rgba(0, 0, 0, 0.89);
+    word-break: break-word;
+
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none; /* 隐藏滚动条 */
+    }
+    // resize: both;
+  }
+  i {
+    position: relative;
+    display: inline-block;
+    font-style: normal;
+    -webkit-user-modify: read-only !important;
+    background: #1677ff;
+    color: #fff;
+    padding: 0px 0.08rem;
+    margin: 0 0.03rem;
+    border-radius: 0.04rem;
+    white-space: nowrap;
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+  }
+}
+
+div.a_tag_input_readonly_wrapper {
+  cursor: not-allowed;
+  &:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  &:focus,
+  &:focus-within {
+    outline: 0;
+    border-color: transparent;
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  div.a_tag_input_readonly {
+    -webkit-user-modify: read-only !important;
+  }
+}
+
+// -webkit-user-modify
+// 这是个css属性，通过对应属性的设置也可以达到同样的效果。
+// read-only： 默认值，元素只读，不可编辑；
+// read-write： 可以编辑，支持富文本；
+// read-write-plaintext-only： 可以编辑，不支持富文本；
+// write-only： 使元素仅用于编辑（几乎没有浏览器支持）
