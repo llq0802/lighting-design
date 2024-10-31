@@ -16,10 +16,7 @@ const data = Mock.mock({
       id: '@guid',
       name: '@cname',
       email: '@email',
-      img: `https://randomuser.me/api/portraits/men/${Mock.Random.integer(
-        0,
-        999999,
-      )}.jpg`,
+      img: `https://randomuser.me/api/portraits/men/${Mock.Random.integer(0, 999999)}.jpg`,
     },
   ],
 }).list;
@@ -36,10 +33,12 @@ const Demo1: React.FC = () => {
       height={ContainerHeight}
       itemMinHeight={10}
       rowKey="id"
-      renderItem={(item: UserItem) => (
-        <div style={{ border: '1px solid', margin: 10 }}>
+      renderItem={(item: UserItem, i) => (
+        <div style={{ border: '1px solid', marginBottom: 10 }}>
           <Avatar src={item.img} />
-          <div>{item.name}</div>
+          <div>
+            {item.name} - {i + 1}
+          </div>
           <div>{item.email}</div>
         </div>
       )}

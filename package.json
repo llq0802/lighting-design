@@ -35,7 +35,7 @@
   "scripts": {
     "build": "father build",
     "build:watch": "father dev",
-    "dev": "dumi dev",
+    "dev": "dumi dev --port=5173",
     "docs:build": "dumi build",
     "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",
