@@ -8,6 +8,7 @@ import type { BaseFormProps } from './interface';
 const LForm: FC<LFormProps> & {
   // ts中的typeof是 根据已有的值 来获取值的类型  来简化代码的书写
   // keyof 作用：获取接口、对象（配合 typeof）、类等的所有属性名组成的联合类型。
+  // [number] 获取的是数组的联合索引
   Item: typeof LFormItem;
   List: typeof Form.List;
   useForm: typeof Form.useForm;

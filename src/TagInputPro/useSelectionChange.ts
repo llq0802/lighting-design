@@ -1,5 +1,4 @@
 import { useMemoizedFn, useMount } from 'ahooks';
-import { useUnMountMicroApp } from 'aiagent-hooks';
 import { generateRandomString } from 'aiagent-utils';
 import { useRef, useState } from 'react';
 
@@ -9,9 +8,9 @@ export default function useSelectionChange(readOnly = false) {
 
   const selecthandler = useMemoizedFn(() => {
     if (readOnly) return;
-    let sel = window.parent.getSelection();
-    let range = sel ? (sel.rangeCount > 0 ? sel?.getRangeAt(0) : null) : null;
-    if (range && range.commonAncestorContainer.ownerDocument?.activeElement?.id === contentId) {
+    const sel = window.parent.getSelection();
+    const range = sel ? (sel.rangeCount > 0 ? sel?.getRangeAt(0) : null) : null;
+    if (range && document?.activeElement?.id === contentId) {
       rangeObjRef.current = range;
     }
   });
@@ -21,10 +20,6 @@ export default function useSelectionChange(readOnly = false) {
     return () => {
       document.removeEventListener('selectionchange', selecthandler);
     };
-  });
-
-  useUnMountMicroApp(() => {
-    document.removeEventListener('selectionchange', selecthandler);
   });
 
   return {
