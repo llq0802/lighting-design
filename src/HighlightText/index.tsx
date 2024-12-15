@@ -26,7 +26,10 @@ const LHighlightText: React.FC<LHighlightTextProps> = ({
 }) => {
   const highlightWords = useDebounce(keywords, { wait, ...debounceOptions });
   const parts = useMemo(() => {
-    const pattern = highlightWords.map((word) => escapeRegExp(autoEscape ? word : String(word))).join('|');
+    const pattern = highlightWords
+      .toSorted((a, b) => b.length - a.length) // 先匹配最长的关键字, 防止匹配到部分关键字
+      .map((word) => (autoEscape ? escapeRegExp(String(word)) : String(word)))
+      .join('|');
     const regex = new RegExp(`(${pattern})`, caseSensitive ? 'g' : 'gi'); // 添加 'i' 标志以忽略大小写
     const parts = text.split(regex)?.filter(Boolean);
     return parts;

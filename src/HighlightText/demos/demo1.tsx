@@ -1,7 +1,7 @@
 import { LHighlightText } from 'lighting-design';
 
 const text = 'Helloworld, welcome to the wonderful world of React!';
-const keywords = ['world', 'react'];
+const keywords = ['wor', 'world', 'react'];
 
 const demo1 = () => {
   return (
