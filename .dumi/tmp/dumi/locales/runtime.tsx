@@ -32,7 +32,7 @@ const LocalesContainer: FC<{ children: ReactNode }> = (props) => {
     const localeMessages = messages[locale] || {};
 
     // append internal message, for use intl as string template util
-    localeMessages['$internal.edit.link'] = "https://github.com/llq0802/lighting-design/edit/v2/{filename}";
+    localeMessages['$internal.edit.link'] = "https://github.com/llq0802/lighting-design/edit/master/{filename}";
 
     return createIntl({ locale, messages: localeMessages }, cache);
   }, []);
