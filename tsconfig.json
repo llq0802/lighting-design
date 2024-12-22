@@ -1,34 +1,19 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "resolveJsonModule": true,
     "target": "esnext",
     "moduleResolution": "node",
-    "jsx": "react-jsx",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
     "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "suppressImplicitAnyIndexErrors": true,
     "declaration": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
     "paths": {
-      "lighting-design": ["./packages/l-design/src/index.tsx"],
-      "rc-use-hooks": ["./packages/rc-use-hooks/src/index.ts"]
+      "@@/*": [".dumi/tmp/*"],
+      "lighting-design": ["src", "docs"],
+      "lighting-design/*": ["src/*", "*"]
     }
   },
-  "exclude": ["**/__tests__/**/*"],
-  "include": [
-    "**/config/**/*",
-    "typings.d.ts",
-    "**/packages/**/*",
-    "**/docs/**/*",
-    "scripts/**/*",
-    "**/demos",
-    ".eslintrc.js",
-    "tests",
-    "jest.config.js",
-    "**/fixtures"
-  ]
+  "include": [".dumirc.ts", "src/**/*", "docs/**/*"]
 }

@@ -1,0 +1,74 @@
+@prefixCls: ~'lightd-form-item-icon';
+
+@colorPrimary: #1677ff;
+@colorBorder: #d9d9d9;
+
+.@{prefixCls} {
+  &-input-wrapper {
+    input {
+      cursor: pointer;
+    }
+  }
+
+  padding-bottom: 20px;
+
+  // &-icon-list {
+  //   max-height: 50vh;
+  //   margin: 0;
+  //   padding: 0;
+  //   display: flex;
+  //   flex-wrap: wrap;
+  //   justify-content: center;
+  //   padding-left: 7px;
+  //   overflow: auto;
+
+  //   &::-webkit-scrollbar {
+  //     width: 13px;
+  //     height: 13px;
+  //   }
+
+  //   &::-webkit-scrollbar-thumb {
+  //     background-color: @colorBorder;
+  //     background-clip: padding-box;
+  //     border: 3px solid transparent;
+  //     border-radius: 7px;
+  //   }
+
+  //   &::-webkit-scrollbar-track {
+  //     background-color: transparent;
+  //   }
+  // }
+
+  &-icon-list-scroll {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  &-item-icon {
+    display: flex;
+    margin: 8px;
+    color: #00000050;
+    font-size: 24px;
+    border: 1px solid @colorBorder;
+    cursor: pointer;
+    transition: transform 0.3s;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+
+    &:hover {
+      border: 1px solid @colorPrimary;
+      transform: scale(1.2);
+    }
+  }
+}
+
+.lightd-form-item-icon-input {
+  input[readonly] {
+    cursor: pointer;
+  }
+}

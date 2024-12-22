@@ -1,0 +1,1576 @@
+[
+  {
+    "code": "110000",
+    "name": "北京市",
+    "province": "11",
+    "children": [
+      {
+        "code": "110101",
+        "name": "东城区",
+        "province": "11",
+        "city": "01",
+        "area": "01"
+      },
+      {
+        "code": "110102",
+        "name": "西城区",
+        "province": "11",
+        "city": "01",
+        "area": "02"
+      },
+      {
+        "code": "110105",
+        "name": "朝阳区",
+        "province": "11",
+        "city": "01",
+        "area": "05"
+      },
+      {
+        "code": "110106",
+        "name": "丰台区",
+        "province": "11",
+        "city": "01",
+        "area": "06"
+      },
+      {
+        "code": "110107",
+        "name": "石景山区",
+        "province": "11",
+        "city": "01",
+        "area": "07"
+      },
+      {
+        "code": "110108",
+        "name": "海淀区",
+        "province": "11",
+        "city": "01",
+        "area": "08"
+      },
+      {
+        "code": "110109",
+        "name": "门头沟区",
+        "province": "11",
+        "city": "01",
+        "area": "09"
+      },
+      {
+        "code": "110111",
+        "name": "房山区",
+        "province": "11",
+        "city": "01",
+        "area": "11"
+      },
+      {
+        "code": "110112",
+        "name": "通州区",
+        "province": "11",
+        "city": "01",
+        "area": "12"
+      },
+      {
+        "code": "110113",
+        "name": "顺义区",
+        "province": "11",
+        "city": "01",
+        "area": "13"
+      },
+      {
+        "code": "110114",
+        "name": "昌平区",
+        "province": "11",
+        "city": "01",
+        "area": "14"
+      },
+      {
+        "code": "110115",
+        "name": "大兴区",
+        "province": "11",
+        "city": "01",
+        "area": "15"
+      },
+      {
+        "code": "110116",
+        "name": "怀柔区",
+        "province": "11",
+        "city": "01",
+        "area": "16"
+      },
+      {
+        "code": "110117",
+        "name": "平谷区",
+        "province": "11",
+        "city": "01",
+        "area": "17"
+      },
+      {
+        "code": "110118",
+        "name": "密云区",
+        "province": "11",
+        "city": "01",
+        "area": "18"
+      },
+      {
+        "code": "110119",
+        "name": "延庆区",
+        "province": "11",
+        "city": "01",
+        "area": "19"
+      }
+    ]
+  },
+  {
+    "code": "310000",
+    "name": "上海市",
+    "province": "31",
+    "children": [
+      {
+        "code": "310101",
+        "name": "黄浦区",
+        "province": "31",
+        "city": "01",
+        "area": "01"
+      },
+      {
+        "code": "310104",
+        "name": "徐汇区",
+        "province": "31",
+        "city": "01",
+        "area": "04"
+      },
+      {
+        "code": "310105",
+        "name": "长宁区",
+        "province": "31",
+        "city": "01",
+        "area": "05"
+      },
+      {
+        "code": "310106",
+        "name": "静安区",
+        "province": "31",
+        "city": "01",
+        "area": "06"
+      },
+      {
+        "code": "310107",
+        "name": "普陀区",
+        "province": "31",
+        "city": "01",
+        "area": "07"
+      },
+      {
+        "code": "310109",
+        "name": "虹口区",
+        "province": "31",
+        "city": "01",
+        "area": "09"
+      },
+      {
+        "code": "310110",
+        "name": "杨浦区",
+        "province": "31",
+        "city": "01",
+        "area": "10"
+      },
+      {
+        "code": "310112",
+        "name": "闵行区",
+        "province": "31",
+        "city": "01",
+        "area": "12"
+      },
+      {
+        "code": "310113",
+        "name": "宝山区",
+        "province": "31",
+        "city": "01",
+        "area": "13"
+      },
+      {
+        "code": "310114",
+        "name": "嘉定区",
+        "province": "31",
+        "city": "01",
+        "area": "14"
+      },
+      {
+        "code": "310115",
+        "name": "浦东新区",
+        "province": "31",
+        "city": "01",
+        "area": "15"
+      },
+      {
+        "code": "310116",
+        "name": "金山区",
+        "province": "31",
+        "city": "01",
+        "area": "16"
+      },
+      {
+        "code": "310117",
+        "name": "松江区",
+        "province": "31",
+        "city": "01",
+        "area": "17"
+      },
+      {
+        "code": "310118",
+        "name": "青浦区",
+        "province": "31",
+        "city": "01",
+        "area": "18"
+      },
+      {
+        "code": "310120",
+        "name": "奉贤区",
+        "province": "31",
+        "city": "01",
+        "area": "20"
+      },
+      {
+        "code": "310151",
+        "name": "崇明区",
+        "province": "31",
+        "city": "01",
+        "area": "51"
+      }
+    ]
+  },
+  {
+    "code": "120000",
+    "name": "天津市",
+    "province": "12",
+    "children": [
+      {
+        "code": "120101",
+        "name": "和平区",
+        "province": "12",
+        "city": "01",
+        "area": "01"
+      },
+      {
+        "code": "120102",
+        "name": "河东区",
+        "province": "12",
+        "city": "01",
+        "area": "02"
+      },
+      {
+        "code": "120103",
+        "name": "河西区",
+        "province": "12",
+        "city": "01",
+        "area": "03"
+      },
+      {
+        "code": "120104",
+        "name": "南开区",
+        "province": "12",
+        "city": "01",
+        "area": "04"
+      },
+      {
+        "code": "120105",
+        "name": "河北区",
+        "province": "12",
+        "city": "01",
+        "area": "05"
+      },
+      {
+        "code": "120106",
+        "name": "红桥区",
+        "province": "12",
+        "city": "01",
+        "area": "06"
+      },
+      {
+        "code": "120110",
+        "name": "东丽区",
+        "province": "12",
+        "city": "01",
+        "area": "10"
+      },
+      {
+        "code": "120111",
+        "name": "西青区",
+        "province": "12",
+        "city": "01",
+        "area": "11"
+      },
+      {
+        "code": "120112",
+        "name": "津南区",
+        "province": "12",
+        "city": "01",
+        "area": "12"
+      },
+      {
+        "code": "120113",
+        "name": "北辰区",
+        "province": "12",
+        "city": "01",
+        "area": "13"
+      },
+      {
+        "code": "120114",
+        "name": "武清区",
+        "province": "12",
+        "city": "01",
+        "area": "14"
+      },
+      {
+        "code": "120115",
+        "name": "宝坻区",
+        "province": "12",
+        "city": "01",
+        "area": "15"
+      },
+      {
+        "code": "120116",
+        "name": "滨海新区",
+        "province": "12",
+        "city": "01",
+        "area": "16"
+      },
+      {
+        "code": "120117",
+        "name": "宁河区",
+        "province": "12",
+        "city": "01",
+        "area": "17"
+      },
+      {
+        "code": "120118",
+        "name": "静海区",
+        "province": "12",
+        "city": "01",
+        "area": "18"
+      },
+      {
+        "code": "120119",
+        "name": "蓟州区",
+        "province": "12",
+        "city": "01",
+        "area": "19"
+      }
+    ]
+  },
+  {
+    "code": "500000",
+    "name": "重庆市",
+    "province": "50",
+    "children": [
+      {
+        "code": "500101",
+        "name": "万州区",
+        "province": "50",
+        "city": "01",
+        "area": "01"
+      },
+      {
+        "code": "500102",
+        "name": "涪陵区",
+        "province": "50",
+        "city": "01",
+        "area": "02"
+      },
+      {
+        "code": "500103",
+        "name": "渝中区",
+        "province": "50",
+        "city": "01",
+        "area": "03"
+      },
+      {
+        "code": "500104",
+        "name": "大渡口区",
+        "province": "50",
+        "city": "01",
+        "area": "04"
+      },
+      {
+        "code": "500105",
+        "name": "江北区",
+        "province": "50",
+        "city": "01",
+        "area": "05"
+      },
+      {
+        "code": "500106",
+        "name": "沙坪坝区",
+        "province": "50",
+        "city": "01",
+        "area": "06"
+      },
+      {
+        "code": "500107",
+        "name": "九龙坡区",
+        "province": "50",
+        "city": "01",
+        "area": "07"
+      },
+      {
+        "code": "500108",
+        "name": "南岸区",
+        "province": "50",
+        "city": "01",
+        "area": "08"
+      },
+      {
+        "code": "500109",
+        "name": "北碚区",
+        "province": "50",
+        "city": "01",
+        "area": "09"
+      },
+      {
+        "code": "500110",
+        "name": "綦江区",
+        "province": "50",
+        "city": "01",
+        "area": "10"
+      },
+      {
+        "code": "500111",
+        "name": "大足区",
+        "province": "50",
+        "city": "01",
+        "area": "11"
+      },
+      {
+        "code": "500112",
+        "name": "渝北区",
+        "province": "50",
+        "city": "01",
+        "area": "12"
+      },
+      {
+        "code": "500113",
+        "name": "巴南区",
+        "province": "50",
+        "city": "01",
+        "area": "13"
+      },
+      {
+        "code": "500114",
+        "name": "黔江区",
+        "province": "50",
+        "city": "01",
+        "area": "14"
+      },
+      {
+        "code": "500115",
+        "name": "长寿区",
+        "province": "50",
+        "city": "01",
+        "area": "15"
+      },
+      {
+        "code": "500116",
+        "name": "江津区",
+        "province": "50",
+        "city": "01",
+        "area": "16"
+      },
+      {
+        "code": "500117",
+        "name": "合川区",
+        "province": "50",
+        "city": "01",
+        "area": "17"
+      },
+      {
+        "code": "500118",
+        "name": "永川区",
+        "province": "50",
+        "city": "01",
+        "area": "18"
+      },
+      {
+        "code": "500119",
+        "name": "南川区",
+        "province": "50",
+        "city": "01",
+        "area": "19"
+      },
+      {
+        "code": "500120",
+        "name": "璧山区",
+        "province": "50",
+        "city": "01",
+        "area": "20"
+      },
+      {
+        "code": "500151",
+        "name": "铜梁区",
+        "province": "50",
+        "city": "01",
+        "area": "51"
+      },
+      {
+        "code": "500152",
+        "name": "潼南区",
+        "province": "50",
+        "city": "01",
+        "area": "52"
+      },
+      {
+        "code": "500153",
+        "name": "荣昌区",
+        "province": "50",
+        "city": "01",
+        "area": "53"
+      },
+      {
+        "code": "500154",
+        "name": "开州区",
+        "province": "50",
+        "city": "01",
+        "area": "54"
+      },
+      {
+        "code": "500155",
+        "name": "梁平区",
+        "province": "50",
+        "city": "01",
+        "area": "55"
+      },
+      {
+        "code": "500156",
+        "name": "武隆区",
+        "province": "50",
+        "city": "01",
+        "area": "56"
+      },
+      {
+        "code": "500229",
+        "name": "城口县",
+        "province": "50",
+        "city": "02",
+        "area": "29"
+      },
+      {
+        "code": "500230",
+        "name": "丰都县",
+        "province": "50",
+        "city": "02",
+        "area": "30"
+      },
+      {
+        "code": "500231",
+        "name": "垫江县",
+        "province": "50",
+        "city": "02",
+        "area": "31"
+      },
+      {
+        "code": "500233",
+        "name": "忠县",
+        "province": "50",
+        "city": "02",
+        "area": "33"
+      },
+      {
+        "code": "500235",
+        "name": "云阳县",
+        "province": "50",
+        "city": "02",
+        "area": "35"
+      },
+      {
+        "code": "500236",
+        "name": "奉节县",
+        "province": "50",
+        "city": "02",
+        "area": "36"
+      },
+      {
+        "code": "500237",
+        "name": "巫山县",
+        "province": "50",
+        "city": "02",
+        "area": "37"
+      },
+      {
+        "code": "500238",
+        "name": "巫溪县",
+        "province": "50",
+        "city": "02",
+        "area": "38"
+      },
+      {
+        "code": "500240",
+        "name": "石柱土家族自治县",
+        "province": "50",
+        "city": "02",
+        "area": "40"
+      },
+      {
+        "code": "500241",
+        "name": "秀山土家族苗族自治县",
+        "province": "50",
+        "city": "02",
+        "area": "41"
+      },
+      {
+        "code": "500242",
+        "name": "酉阳土家族苗族自治县",
+        "province": "50",
+        "city": "02",
+        "area": "42"
+      },
+      {
+        "code": "500243",
+        "name": "彭水苗族土家族自治县",
+        "province": "50",
+        "city": "02",
+        "area": "43"
+      }
+    ]
+  },
+  {
+    "code": "320000",
+    "name": "江苏省",
+    "province": "32",
+    "children": [
+      {
+        "code": "320100",
+        "name": "南京市",
+        "province": "32",
+        "city": "01",
+        "children": [
+          {
+            "code": "320102",
+            "name": "玄武区",
+            "province": "32",
+            "city": "01",
+            "area": "02"
+          },
+          {
+            "code": "320104",
+            "name": "秦淮区",
+            "province": "32",
+            "city": "01",
+            "area": "04"
+          },
+          {
+            "code": "320105",
+            "name": "建邺区",
+            "province": "32",
+            "city": "01",
+            "area": "05"
+          },
+          {
+            "code": "320106",
+            "name": "鼓楼区",
+            "province": "32",
+            "city": "01",
+            "area": "06"
+          },
+          {
+            "code": "320111",
+            "name": "浦口区",
+            "province": "32",
+            "city": "01",
+            "area": "11"
+          },
+          {
+            "code": "320113",
+            "name": "栖霞区",
+            "province": "32",
+            "city": "01",
+            "area": "13"
+          },
+          {
+            "code": "320114",
+            "name": "雨花台区",
+            "province": "32",
+            "city": "01",
+            "area": "14"
+          },
+          {
+            "code": "320115",
+            "name": "江宁区",
+            "province": "32",
+            "city": "01",
+            "area": "15"
+          },
+          {
+            "code": "320116",
+            "name": "六合区",
+            "province": "32",
+            "city": "01",
+            "area": "16"
+          },
+          {
+            "code": "320117",
+            "name": "溧水区",
+            "province": "32",
+            "city": "01",
+            "area": "17"
+          },
+          {
+            "code": "320118",
+            "name": "高淳区",
+            "province": "32",
+            "city": "01",
+            "area": "18"
+          },
+          {
+            "code": "320101",
+            "name": "市辖区",
+            "province": "32",
+            "city": "01",
+            "area": "01"
+          }
+        ]
+      },
+      {
+        "code": "320200",
+        "name": "无锡市",
+        "province": "32",
+        "city": "02",
+        "children": [
+          {
+            "code": "320205",
+            "name": "锡山区",
+            "province": "32",
+            "city": "02",
+            "area": "05"
+          },
+          {
+            "code": "320206",
+            "name": "惠山区",
+            "province": "32",
+            "city": "02",
+            "area": "06"
+          },
+          {
+            "code": "320211",
+            "name": "滨湖区",
+            "province": "32",
+            "city": "02",
+            "area": "11"
+          },
+          {
+            "code": "320213",
+            "name": "梁溪区",
+            "province": "32",
+            "city": "02",
+            "area": "13"
+          },
+          {
+            "code": "320214",
+            "name": "新吴区",
+            "province": "32",
+            "city": "02",
+            "area": "14"
+          },
+          {
+            "code": "320281",
+            "name": "江阴市",
+            "province": "32",
+            "city": "02",
+            "area": "81"
+          },
+          {
+            "code": "320282",
+            "name": "宜兴市",
+            "province": "32",
+            "city": "02",
+            "area": "82"
+          },
+          {
+            "code": "320201",
+            "name": "市辖区",
+            "province": "32",
+            "city": "02",
+            "area": "01"
+          }
+        ]
+      },
+      {
+        "code": "320300",
+        "name": "徐州市",
+        "province": "32",
+        "city": "03",
+        "children": [
+          {
+            "code": "320302",
+            "name": "鼓楼区",
+            "province": "32",
+            "city": "03",
+            "area": "02"
+          },
+          {
+            "code": "320303",
+            "name": "云龙区",
+            "province": "32",
+            "city": "03",
+            "area": "03"
+          },
+          {
+            "code": "320305",
+            "name": "贾汪区",
+            "province": "32",
+            "city": "03",
+            "area": "05"
+          },
+          {
+            "code": "320311",
+            "name": "泉山区",
+            "province": "32",
+            "city": "03",
+            "area": "11"
+          },
+          {
+            "code": "320312",
+            "name": "铜山区",
+            "province": "32",
+            "city": "03",
+            "area": "12"
+          },
+          {
+            "code": "320321",
+            "name": "丰县",
+            "province": "32",
+            "city": "03",
+            "area": "21"
+          },
+          {
+            "code": "320322",
+            "name": "沛县",
+            "province": "32",
+            "city": "03",
+            "area": "22"
+          },
+          {
+            "code": "320324",
+            "name": "睢宁县",
+            "province": "32",
+            "city": "03",
+            "area": "24"
+          },
+          {
+            "code": "320381",
+            "name": "新沂市",
+            "province": "32",
+            "city": "03",
+            "area": "81"
+          },
+          {
+            "code": "320382",
+            "name": "邳州市",
+            "province": "32",
+            "city": "03",
+            "area": "82"
+          },
+          {
+            "code": "320301",
+            "name": "市辖区",
+            "province": "32",
+            "city": "03",
+            "area": "01"
+          },
+          {
+            "code": "320371",
+            "name": "徐州经济技术开发区",
+            "province": "32",
+            "city": "03",
+            "area": "71"
+          }
+        ]
+      },
+      {
+        "code": "320400",
+        "name": "常州市",
+        "province": "32",
+        "city": "04",
+        "children": [
+          {
+            "code": "320402",
+            "name": "天宁区",
+            "province": "32",
+            "city": "04",
+            "area": "02"
+          },
+          {
+            "code": "320404",
+            "name": "钟楼区",
+            "province": "32",
+            "city": "04",
+            "area": "04"
+          },
+          {
+            "code": "320411",
+            "name": "新北区",
+            "province": "32",
+            "city": "04",
+            "area": "11"
+          },
+          {
+            "code": "320412",
+            "name": "武进区",
+            "province": "32",
+            "city": "04",
+            "area": "12"
+          },
+          {
+            "code": "320413",
+            "name": "金坛区",
+            "province": "32",
+            "city": "04",
+            "area": "13"
+          },
+          {
+            "code": "320481",
+            "name": "溧阳市",
+            "province": "32",
+            "city": "04",
+            "area": "81"
+          },
+          {
+            "code": "320401",
+            "name": "市辖区",
+            "province": "32",
+            "city": "04",
+            "area": "01"
+          }
+        ]
+      },
+      {
+        "code": "320500",
+        "name": "苏州市",
+        "province": "32",
+        "city": "05",
+        "children": [
+          {
+            "code": "320505",
+            "name": "虎丘区",
+            "province": "32",
+            "city": "05",
+            "area": "05"
+          },
+          {
+            "code": "320506",
+            "name": "吴中区",
+            "province": "32",
+            "city": "05",
+            "area": "06"
+          },
+          {
+            "code": "320507",
+            "name": "相城区",
+            "province": "32",
+            "city": "05",
+            "area": "07"
+          },
+          {
+            "code": "320508",
+            "name": "姑苏区",
+            "province": "32",
+            "city": "05",
+            "area": "08"
+          },
+          {
+            "code": "320509",
+            "name": "吴江区",
+            "province": "32",
+            "city": "05",
+            "area": "09"
+          },
+          {
+            "code": "320581",
+            "name": "常熟市",
+            "province": "32",
+            "city": "05",
+            "area": "81"
+          },
+          {
+            "code": "320582",
+            "name": "张家港市",
+            "province": "32",
+            "city": "05",
+            "area": "82"
+          },
+          {
+            "code": "320583",
+            "name": "昆山市",
+            "province": "32",
+            "city": "05",
+            "area": "83"
+          },
+          {
+            "code": "320585",
+            "name": "太仓市",
+            "province": "32",
+            "city": "05",
+            "area": "85"
+          },
+          {
+            "code": "320501",
+            "name": "市辖区",
+            "province": "32",
+            "city": "05",
+            "area": "01"
+          },
+          {
+            "code": "320571",
+            "name": "苏州工业园区",
+            "province": "32",
+            "city": "05",
+            "area": "71"
+          }
+        ]
+      },
+      {
+        "code": "320600",
+        "name": "南通市",
+        "province": "32",
+        "city": "06",
+        "children": [
+          {
+            "code": "320612",
+            "name": "通州区",
+            "province": "32",
+            "city": "06",
+            "area": "12"
+          },
+          {
+            "code": "320613",
+            "name": "崇川区",
+            "province": "32",
+            "city": "06",
+            "area": "13"
+          },
+          {
+            "code": "320614",
+            "name": "海门区",
+            "province": "32",
+            "city": "06",
+            "area": "14"
+          },
+          {
+            "code": "320623",
+            "name": "如东县",
+            "province": "32",
+            "city": "06",
+            "area": "23"
+          },
+          {
+            "code": "320681",
+            "name": "启东市",
+            "province": "32",
+            "city": "06",
+            "area": "81"
+          },
+          {
+            "code": "320682",
+            "name": "如皋市",
+            "province": "32",
+            "city": "06",
+            "area": "82"
+          },
+          {
+            "code": "320685",
+            "name": "海安市",
+            "province": "32",
+            "city": "06",
+            "area": "85"
+          },
+          {
+            "code": "320601",
+            "name": "市辖区",
+            "province": "32",
+            "city": "06",
+            "area": "01"
+          },
+          {
+            "code": "320671",
+            "name": "南通经济技术开发区",
+            "province": "32",
+            "city": "06",
+            "area": "71"
+          }
+        ]
+      },
+      {
+        "code": "320700",
+        "name": "连云港市",
+        "province": "32",
+        "city": "07",
+        "children": [
+          {
+            "code": "320703",
+            "name": "连云区",
+            "province": "32",
+            "city": "07",
+            "area": "03"
+          },
+          {
+            "code": "320706",
+            "name": "海州区",
+            "province": "32",
+            "city": "07",
+            "area": "06"
+          },
+          {
+            "code": "320707",
+            "name": "赣榆区",
+            "province": "32",
+            "city": "07",
+            "area": "07"
+          },
+          {
+            "code": "320722",
+            "name": "东海县",
+            "province": "32",
+            "city": "07",
+            "area": "22"
+          },
+          {
+            "code": "320723",
+            "name": "灌云县",
+            "province": "32",
+            "city": "07",
+            "area": "23"
+          },
+          {
+            "code": "320724",
+            "name": "灌南县",
+            "province": "32",
+            "city": "07",
+            "area": "24"
+          },
+          {
+            "code": "320701",
+            "name": "市辖区",
+            "province": "32",
+            "city": "07",
+            "area": "01"
+          },
+          {
+            "code": "320771",
+            "name": "连云港经济技术开发区",
+            "province": "32",
+            "city": "07",
+            "area": "71"
+          },
+          {
+            "code": "320772",
+            "name": "连云港高新技术产业开发区",
+            "province": "32",
+            "city": "07",
+            "area": "72"
+          }
+        ]
+      },
+      {
+        "code": "320800",
+        "name": "淮安市",
+        "province": "32",
+        "city": "08",
+        "children": [
+          {
+            "code": "320803",
+            "name": "淮安区",
+            "province": "32",
+            "city": "08",
+            "area": "03"
+          },
+          {
+            "code": "320804",
+            "name": "淮阴区",
+            "province": "32",
+            "city": "08",
+            "area": "04"
+          },
+          {
+            "code": "320812",
+            "name": "清江浦区",
+            "province": "32",
+            "city": "08",
+            "area": "12"
+          },
+          {
+            "code": "320813",
+            "name": "洪泽区",
+            "province": "32",
+            "city": "08",
+            "area": "13"
+          },
+          {
+            "code": "320826",
+            "name": "涟水县",
+            "province": "32",
+            "city": "08",
+            "area": "26"
+          },
+          {
+            "code": "320830",
+            "name": "盱眙县",
+            "province": "32",
+            "city": "08",
+            "area": "30"
+          },
+          {
+            "code": "320831",
+            "name": "金湖县",
+            "province": "32",
+            "city": "08",
+            "area": "31"
+          },
+          {
+            "code": "320801",
+            "name": "市辖区",
+            "province": "32",
+            "city": "08",
+            "area": "01"
+          },
+          {
+            "code": "320871",
+            "name": "淮安经济技术开发区",
+            "province": "32",
+            "city": "08",
+            "area": "71"
+          }
+        ]
+      },
+      {
+        "code": "320900",
+        "name": "盐城市",
+        "province": "32",
+        "city": "09",
+        "children": [
+          {
+            "code": "320902",
+            "name": "亭湖区",
+            "province": "32",
+            "city": "09",
+            "area": "02"
+          },
+          {
+            "code": "320903",
+            "name": "盐都区",
+            "province": "32",
+            "city": "09",
+            "area": "03"
+          },
+          {
+            "code": "320904",
+            "name": "大丰区",
+            "province": "32",
+            "city": "09",
+            "area": "04"
+          },
+          {
+            "code": "320921",
+            "name": "响水县",
+            "province": "32",
+            "city": "09",
+            "area": "21"
+          },
+          {
+            "code": "320922",
+            "name": "滨海县",
+            "province": "32",
+            "city": "09",
+            "area": "22"
+          },
+          {
+            "code": "320923",
+            "name": "阜宁县",
+            "province": "32",
+            "city": "09",
+            "area": "23"
+          },
+          {
+            "code": "320924",
+            "name": "射阳县",
+            "province": "32",
+            "city": "09",
+            "area": "24"
+          },
+          {
+            "code": "320925",
+            "name": "建湖县",
+            "province": "32",
+            "city": "09",
+            "area": "25"
+          },
+          {
+            "code": "320981",
+            "name": "东台市",
+            "province": "32",
+            "city": "09",
+            "area": "81"
+          },
+          {
+            "code": "320901",
+            "name": "市辖区",
+            "province": "32",
+            "city": "09",
+            "area": "01"
+          },
+          {
+            "code": "320971",
+            "name": "盐城经济技术开发区",
+            "province": "32",
+            "city": "09",
+            "area": "71"
+          }
+        ]
+      },
+      {
+        "code": "321000",
+        "name": "扬州市",
+        "province": "32",
+        "city": "10",
+        "children": [
+          {
+            "code": "321002",
+            "name": "广陵区",
+            "province": "32",
+            "city": "10",
+            "area": "02"
+          },
+          {
+            "code": "321003",
+            "name": "邗江区",
+            "province": "32",
+            "city": "10",
+            "area": "03"
+          },
+          {
+            "code": "321012",
+            "name": "江都区",
+            "province": "32",
+            "city": "10",
+            "area": "12"
+          },
+          {
+            "code": "321023",
+            "name": "宝应县",
+            "province": "32",
+            "city": "10",
+            "area": "23"
+          },
+          {
+            "code": "321081",
+            "name": "仪征市",
+            "province": "32",
+            "city": "10",
+            "area": "81"
+          },
+          {
+            "code": "321084",
+            "name": "高邮市",
+            "province": "32",
+            "city": "10",
+            "area": "84"
+          },
+          {
+            "code": "321001",
+            "name": "市辖区",
+            "province": "32",
+            "city": "10",
+            "area": "01"
+          },
+          {
+            "code": "321071",
+            "name": "扬州经济技术开发区",
+            "province": "32",
+            "city": "10",
+            "area": "71"
+          }
+        ]
+      },
+      {
+        "code": "321100",
+        "name": "镇江市",
+        "province": "32",
+        "city": "11",
+        "children": [
+          {
+            "code": "321102",
+            "name": "京口区",
+            "province": "32",
+            "city": "11",
+            "area": "02"
+          },
+          {
+            "code": "321111",
+            "name": "润州区",
+            "province": "32",
+            "city": "11",
+            "area": "11"
+          },
+          {
+            "code": "321112",
+            "name": "丹徒区",
+            "province": "32",
+            "city": "11",
+            "area": "12"
+          },
+          {
+            "code": "321181",
+            "name": "丹阳市",
+            "province": "32",
+            "city": "11",
+            "area": "81"
+          },
+          {
+            "code": "321182",
+            "name": "扬中市",
+            "province": "32",
+            "city": "11",
+            "area": "82"
+          },
+          {
+            "code": "321183",
+            "name": "句容市",
+            "province": "32",
+            "city": "11",
+            "area": "83"
+          },
+          {
+            "code": "321101",
+            "name": "市辖区",
+            "province": "32",
+            "city": "11",
+            "area": "01"
+          },
+          {
+            "code": "321171",
+            "name": "镇江新区",
+            "province": "32",
+            "city": "11",
+            "area": "71"
+          }
+        ]
+      },
+      {
+        "code": "321200",
+        "name": "泰州市",
+        "province": "32",
+        "city": "12",
+        "children": [
+          {
+            "code": "321202",
+            "name": "海陵区",
+            "province": "32",
+            "city": "12",
+            "area": "02"
+          },
+          {
+            "code": "321203",
+            "name": "高港区",
+            "province": "32",
+            "city": "12",
+            "area": "03"
+          },
+          {
+            "code": "321204",
+            "name": "姜堰区",
+            "province": "32",
+            "city": "12",
+            "area": "04"
+          },
+          {
+            "code": "321281",
+            "name": "兴化市",
+            "province": "32",
+            "city": "12",
+            "area": "81"
+          },
+          {
+            "code": "321282",
+            "name": "靖江市",
+            "province": "32",
+            "city": "12",
+            "area": "82"
+          },
+          {
+            "code": "321283",
+            "name": "泰兴市",
+            "province": "32",
+            "city": "12",
+            "area": "83"
+          },
+          {
+            "code": "321201",
+            "name": "市辖区",
+            "province": "32",
+            "city": "12",
+            "area": "01"
+          },
+          {
+            "code": "321271",
+            "name": "泰州医药高新技术产业开发区",
+            "province": "32",
+            "city": "12",
+            "area": "71"
+          }
+        ]
+      },
+      {
+        "code": "321300",
+        "name": "宿迁市",
+        "province": "32",
+        "city": "13",
+        "children": [
+          {
+            "code": "321302",
+            "name": "宿城区",
+            "province": "32",
+            "city": "13",
+            "area": "02"
+          },
+          {
+            "code": "321311",
+            "name": "宿豫区",
+            "province": "32",
+            "city": "13",
+            "area": "11"
+          },
+          {
+            "code": "321322",
+            "name": "沭阳县",
+            "province": "32",
+            "city": "13",
+            "area": "22"
+          },
+          {
+            "code": "321323",
+            "name": "泗阳县",
+            "province": "32",
+            "city": "13",
+            "area": "23"
+          },
+          {
+            "code": "321324",
+            "name": "泗洪县",
+            "province": "32",
+            "city": "13",
+            "area": "24"
+          },
+          {
+            "code": "321301",
+            "name": "市辖区",
+            "province": "32",
+            "city": "13",
+            "area": "01"
+          },
+          {
+            "code": "321371",
+            "name": "宿迁经济技术开发区",
+            "province": "32",
+            "city": "13",
+            "area": "71"
+          }
+        ]
+      }
+    ]
+  }
+]

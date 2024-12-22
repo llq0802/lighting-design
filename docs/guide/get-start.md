@@ -1,18 +1,11 @@
 ---
 title: 快速开始
 order: 2
-group:
-  path: /
-  order: 1
-nav:
-  title: 指南
-  order: 1
-  path: /guide
 ---
 
 ## 安装
 
-> 项目中安装 `antd` 的版本 `>=4.23.0`，`v1` 版本暂不支持`antd5.0`，计划 `v2` 版本支持。
+> 项目中提前安装好 `antd` 的版本 `>=5.0.0`。
 
 ```shell
 npm i lighting-design
@@ -40,11 +33,12 @@ pnpm config set registry https://registry.npmmirror.com/
 ## 使用
 
 ```ts
+import ReactDOM from 'react-dom/client';
 import { LColor } from 'lighting-design';
 
-ReactDOM.render(<LColor />, mountNode);
+ReactDOM.createRoot(document.getElementById('root')).render(<LColor />);
 ```
 
 ### 按需加载
 
-`lighting-design 默认支持基于 ES modules 的 tree shaking，对于 js 部分，直接引入 import { LColor } from 'lighting-design' 就会有按需加载的效果`
+lighting-design 默认支持基于 ES modules 的 tree shaking，对于 js 部分，直接引入 import { LColor } from 'lighting-design' 就会有按需加载的效果

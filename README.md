@@ -1,15 +1,18 @@
-# Lighting-Design
+# Lighting Design
 
-🚀 Lighting-Design 是基于 Ant Design 扩展的业务场景组件。可以显著的提升制作 CRUD 页面的效率。
+🚀 lighting-design 是基于 Ant Design 扩展的业务场景组件。可以显著的提升制作 CRUD 页面的效率。
 
 ## 特性
 
-- 💎 简单易用 - 基于 Ant Design 进行封装
-- 📦 场景丰富 - 面向常见业务场景封装
-- 💡 TypeScript - 提供 TypeScript 类型定义
+- 💎 简单易用 - 基于 Ant Design 进行面向常见业务的封装
+- 📦 场景丰富 - 提供一些列面向常见业务场景基础组件
+- 🍙 JSDoc - 提供 JSDoc 注释并集成 VSCode 提示
+- 💡 TypeScript - 提供完整 TypeScript 类型定义
 - 🎨 更少的代码 - 多种配置减少代码的书写
 
 ## 安装
+
+> antd 的版本必须大于等于 5.0.0
 
 ```bash
 npm i lighting-design
@@ -44,21 +47,14 @@ import { LColor } from 'lighting-design';
 
 `lighting-design 默认支持基于 ES modules 的 tree shaking，对于 js 部分，直接引入 import { LColor } from 'lighting-design' 就会有按需加载的效果`
 
-## 依赖版本
-
-- 首先`npm i antd@4.23.0`
-- 必须要项目中安装 `antd` 的版本>=4.23.0
-- 目前暂不支持 `antd5.x` 后续版本将会支持
-- 如果项目不支持 `less` 请先安装`less 和 less-loader`
-
 ## 浏览器兼容性
 
 - 现代浏览器和 Internet Explorer 11 (with [polyfills](https://stackoverflow.com/questions/57020976/polyfills-in-2019-for-ie11))
 - [Electron](https://www.electronjs.org/)
 
 | [![edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png)](http://godban.github.io/browsers-support-badges/) | [![Edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png)](http://godban.github.io/browsers-support-badges/) | [![chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png)](http://godban.github.io/browsers-support-badges/) | [![safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)](http://godban.github.io/browsers-support-badges/) | [![electron_48x48](https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png)](http://godban.github.io/browsers-support-badges/) |
-| --- | --- | --- | --- | --- |
-| Edge | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Edge                                                                                                                                              | last 2 versions                                                                                                                                         | last 2 versions                                                                                                                                         | last 2 versions                                                                                                                                         | last 2 versions                                                                                                                                                     |
 
 ## 参与贡献
 
@@ -111,10 +107,18 @@ $ npm run build
 - perf: 性能优化
 - locale: 国际化
 
+## 特别感谢
+
+特别感谢以下开源产品，部分灵感和思路来自他们。
+
+- [Ant Design](https://github.com/ant-design/ant-design)
+- [ProComponents](https://github.com/ant-design/pro-components)
+
 <!-- 添加子包间依赖，@cube/components依赖@cube/util
 > 必须添加版本号不然会报错（lerna 添加不会自动添加包的版本号）
 ```shell
 yarn workspace @cubee/components add @cubee/utils@1.0.0
+pnpm --filter install @cubee/components add @cubee/utils@1.0.0
 ```
 
 使用下面的命令，antd 会被添加到名为 "awesome-package"的包/工作空间中，作为开发依赖（你也可以使用-D 来代替-dev）：
@@ -125,4 +129,5 @@ yarn workspace awesome-package add antd --dev
 为所有的包添加一个共同的依赖关系，进入项目的根目录并使用-W (或-ignore-workspace-root-check) 标志：
 ```shell
 yarn add packageName -W -D
+pnpm install packageName -W -D
 ``` -->

@@ -1,0 +1,33 @@
+.ant-skeleton.my-skeleton-2 {
+  .ant-skeleton-content {
+    :is(ul.ant-skeleton-paragraph > li) {
+      height: 50px;
+      // 取值为百分比时，margin相对于自身的宽度进行计算的。
+      // margin-block-start == margin-top
+      // margin-block-end == margin-bottom
+      // margin-inline-start == margin-left
+      // margin-inline-end == margin-right
+    }
+
+    h3.ant-skeleton-title {
+      height: 100px;
+    }
+  }
+}
+
+.ant-skeleton.my-skeleton-1 {
+  .ant-skeleton-content {
+    :is(ul.ant-skeleton-paragraph > li) {
+      height: 50px;
+      // 取值为百分比时，margin相对于自身的宽度进行计算的。
+      // margin-block-start == margin-top
+      // margin-block-end == margin-bottom
+      // margin-inline-start == margin-left
+      // margin-inline-end == margin-right
+    }
+
+    h3.ant-skeleton-title {
+      height: 50px;
+    }
+  }
+}

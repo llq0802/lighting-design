@@ -1,0 +1,46 @@
+@prefix-cls: ~'lightd-card-group';
+
+@colorBorder: #d9d9d9;
+@colorPrimary: #1677ff;
+@colorBgLayout: #f5f5f5;
+@colorTextQuaternary: rgba(0, 0, 0, 0.25);
+
+.@{prefix-cls} {
+  display: flex;
+  flex-wrap: wrap;
+
+  &-item {
+    border: solid 1px @colorBorder;
+    cursor: pointer;
+    transition: 300ms;
+    min-width: 200px;
+
+    &-active {
+      border-color: @colorPrimary;
+
+      &::after {
+        display: block;
+        content: '';
+        top: 2px;
+        right: 2px;
+        width: 12px;
+        height: 12px;
+        border: 6px solid @colorPrimary;
+        border-left: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        position: absolute;
+        border-radius: 0 6px 0 0;
+      }
+    }
+
+    &-disabled {
+      background-color: @colorBgLayout;
+      cursor: not-allowed;
+      color: @colorTextQuaternary;
+    }
+
+    &:hover:not(.@{prefix-cls}-item-disabled) {
+      border-color: @colorPrimary;
+    }
+  }
+}
