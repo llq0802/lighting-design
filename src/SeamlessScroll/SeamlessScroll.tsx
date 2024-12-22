@@ -272,23 +272,20 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     },
   }));
 
-  // children列表div
-  const getHtmlMemo = useMemo(() => {
-    return (
-      <>
-        <div ref={slotListRef} style={floatStyle}>
-          {children}
-        </div>
-        {isScroll && isAutoScroll
-          ? copyNum.map((_, i) => (
-              <div key={i} style={floatStyle}>
-                {children}
-              </div>
-            ))
-          : null}
-      </>
-    );
-  }, [list]);
+  const getHtmlMemo = (
+    <>
+      <div ref={slotListRef} style={floatStyle}>
+        {children}
+      </div>
+      {isScroll && isAutoScroll
+        ? copyNum.map((_, i) => (
+            <div key={i} style={floatStyle}>
+              {children}
+            </div>
+          ))
+        : null}
+    </>
+  );
 
   return (
     <div
