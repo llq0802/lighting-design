@@ -37,6 +37,7 @@
     "build:watch": "father dev",
     "dev": "dumi dev --port=5173",
     "docs:build": "dumi build",
+    "docs:deploy": "gh-pages -d latest",
     "doctor": "father doctor",
     "lint": "npm run lint:es && npm run lint:css",
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",

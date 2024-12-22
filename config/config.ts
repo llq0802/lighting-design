@@ -56,14 +56,14 @@ const configs = defineConfig({
   // favicon: 'https://llq0802.github.io/180x180.png',
   favicon: isDev ? '/lighting-design.png' : '/lighting-design/lighting-design.png',
   logo: isDev ? '/lighting-design.png' : '/lighting-design/lighting-design-192x192.png',
-  outputPath: 'docs-dist',
+  outputPath: 'latest',
   mode: 'site',
   // 单语言配置方式如下
   navs: [
     null, // null 值代表保留约定式生成的导航，只做增量配置
     {
       title: 'GitHub',
-      path: 'https://github.com/llq0802/lighting-design',
+      path: 'https://github.com/llq0802/lighting-design/latest',
     },
   ],
   menus,
