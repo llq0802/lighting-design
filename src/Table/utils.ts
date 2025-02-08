@@ -46,8 +46,6 @@ export type Json2ExcelOptions = {
 };
 /**
  * 与 LTable 配合把 JSON 数据转成 Excel 并生成 Excel 到本地
- * @author 李岚清 <https://github.com/llq0802>
- * @version 2.1.29
  * @param {Json2ExcelOptions} options 配置对象
  * @return 无返回值
  */
@@ -148,16 +146,10 @@ export const json2Excel = (options: Json2ExcelOptions) => {
         let curColWidth = minColWidth;
         if (value.charCodeAt(0) > 255) {
           // 中文 (value.length * 2 + 1)留出2个汉字半的宽度
-          curColWidth = Math.max(
-            value.length * 4 + 2,
-            colsWidth[index]?.wch ? colsWidth[index].wch : minColWidth,
-          );
+          curColWidth = Math.max(value.length * 4 + 2, colsWidth[index]?.wch ? colsWidth[index].wch : minColWidth);
         } else {
           // 英文和数字，留出2个汉字的宽度
-          curColWidth = Math.max(
-            value.length + 4,
-            colsWidth[index]?.wch ? colsWidth[index].wch : minColWidth,
-          );
+          curColWidth = Math.max(value.length + 4, colsWidth[index]?.wch ? colsWidth[index].wch : minColWidth);
         }
 
         if (!colsWidth[index]?.wch) {
@@ -220,7 +212,6 @@ export type Excel2JsonOptions = {
 
 /**
  * 与 LTable 配合把 Excel 转 Json 数据
- * @author 李岚清 <https://github.com/llq0802>
  * @version 2.1.29
  * @param {Excel2JsonOptions} options 配置对象
  * @return 返回JSON形式的表格数据
@@ -255,12 +246,9 @@ export const excel2Json = (options: Excel2JsonOptions): Promise<Record<string, a
         type: 'binary', // 手动转化
       });
       // 获取json格式的Excel数据
-      const result: Record<string, any>[] = XLSX.utils.sheet_to_json(
-        workbook.Sheets[workbook.SheetNames[0]],
-        {
-          defval: 'null', // 单元格为空时的默认值
-        },
-      );
+      const result: Record<string, any>[] = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {
+        defval: 'null', // 单元格为空时的默认值
+      });
 
       if (Array.isArray(result) && result.length) {
         result.forEach((item: any, i) => {
@@ -292,14 +280,10 @@ const getExcelHeaderRow = (sheet: XLSX.WorkSheet | any) => {
 
 /**
  * 解析 Excel 的数据 转成JSON
- * @author 李岚清 <https://github.com/llq0802>
- * @version 2.1.29
  * @param {Blob} rawFile 原始文件对象或 Blob
  * @return 包含excel头的数组 以及内容数据的body
  */
-export const getExcelData = (
-  rawFile: Blob,
-): Promise<{ header: string[]; body: Record<string, any>[] }> => {
+export const getExcelData = (rawFile: Blob): Promise<{ header: string[]; body: Record<string, any>[] }> => {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsArrayBuffer(rawFile);
