@@ -7,7 +7,6 @@ export default function Demo() {
   return (
     <div>
       <LCardGroup
-        activeStyle={{ background: '#b0d0ff' }}
         gap={10}
         options={[
           { value: '1', label: '支付宝' },

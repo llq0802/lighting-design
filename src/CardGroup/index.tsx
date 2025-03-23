@@ -1,14 +1,10 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
-import { Card } from 'antd';
-import classnames from 'classnames';
-import { isAntdVersionMoreThan514 } from 'lighting-design/_utils';
+import { Card, Flex } from 'antd';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useMemo } from 'react';
-import './index.less';
 import type { LCardGroupProps } from './interface';
+import { useStyles } from './styles';
 import { transformChangeValue, transformValue } from './utils';
-
-const prefixCls = 'lightd-card-group';
 
 export default function LCardGroup(props: LCardGroupProps) {
   const {
@@ -30,16 +26,15 @@ export default function LCardGroup(props: LCardGroupProps) {
   const { label: labelKey, value: valueKey } = fieldNames as { label: string; value: string };
 
   const [val, onChange] = useControllableValue(props);
-  const value = useMemo(
-    () => transformValue({ value: val, multiple, labelInValue, valueKey }),
-    [val],
-  );
+  const value = useMemo(() => transformValue({ value: val, multiple, labelInValue, valueKey }), [val]);
 
-  if (disabled) {
-    options?.forEach((item) => {
-      item.disabled = true;
-    });
-  }
+  useMemo(() => {
+    if (disabled) {
+      options?.forEach((item) => {
+        item.disabled = true;
+      });
+    }
+  }, [disabled, options]);
 
   const triggerChange = useMemoizedFn((value: any) => {
     const val = transformChangeValue({
@@ -76,48 +71,31 @@ export default function LCardGroup(props: LCardGroupProps) {
       }
     }
   });
-
+  const { styles, cx } = useStyles();
   return (
-    <div
-      className={classnames(
-        prefixCls,
-        { [`${prefixCls}-disabled`]: disabled, [`${prefixCls}-multiple`]: multiple },
-        className,
-      )}
-      style={{ gap, ...style }}
-    >
+    <Flex rootClassName={cx(styles.container, className)} gap={gap} style={style}>
       {options?.map((item, i) => {
         const isActive = multiple ? value?.includes(item[valueKey]) : value === item[valueKey];
         const cardProps = item.cardProps || {};
-        const compatibilityStyle = isAntdVersionMoreThan514
-          ? {
-              styles: {
-                ...cardProps?.styles,
-                body: {
-                  ...cardBodyStyle,
-                  ...(cardProps?.bodyStyle ?? cardProps?.styles?.body),
-                },
-              },
-            }
-          : {
-              bodyStyle: {
-                ...cardBodyStyle,
-                ...(cardProps?.bodyStyle ?? cardProps?.styles?.body),
-              },
-            };
+        const compatibilityStyle = {
+          styles: {
+            ...cardProps?.styles,
+            body: {
+              ...cardBodyStyle,
+              ...cardProps?.styles?.body,
+            },
+          },
+        };
 
         return (
           <Card
             hoverable={hoverable}
             {...cardProps}
             key={item[valueKey] ?? i}
-            className={classnames(
-              `${prefixCls}-item`,
-              {
-                [`${prefixCls}-item-disabled`]: item.disabled,
-                [`${prefixCls}-item-active`]: isActive,
-              },
-              cardProps?.className,
+            rootClassName={cx(
+              styles.item,
+              { [styles.disabled]: item.disabled, [styles.active]: isActive },
+              cardProps?.rootClassName,
             )}
             onClick={(e) => {
               handleSelect(item);
@@ -134,7 +112,7 @@ export default function LCardGroup(props: LCardGroupProps) {
           </Card>
         );
       })}
-    </div>
+    </Flex>
   );
 }
 export * from './interface';
