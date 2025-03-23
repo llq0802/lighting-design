@@ -3,6 +3,7 @@
 // Created by Umi Plugin
 
 export interface IConfigFromPluginsJoi {
+live?: boolean
 logo?: string
 themeConfig?: {
 

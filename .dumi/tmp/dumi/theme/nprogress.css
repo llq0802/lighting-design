@@ -19,7 +19,7 @@
         right: 0px;
         width: 100px;
         height: 100%;
-        box-shadow: 0 0 10px #1677ff, 0 0 5px #1677ff;
+        box-shadow: 0 0 10px undefined, 0 0 5px undefined;
         opacity: 1.0;
         transform: rotate(3deg) translate(0px, -4px);
       }
@@ -37,8 +37,8 @@
         height: 18px;
         box-sizing: border-box;
         border: solid 2px transparent;
-        border-top-color: #1677ff;
-        border-left-color: #1677ff;
+        border-top-color: undefined;
+        border-left-color: undefined;
         border-radius: 50%;
         animation: nprogress-spinner 400ms linear infinite;
       }

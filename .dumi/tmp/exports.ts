@@ -8,10 +8,10 @@ export type { RuntimeConfig } from './core/defineApp'
 export { getSketchJSON } from 'D:/MyWeb/KaiYuan/lighting-design-v2/.dumi/tmp/plugin-html2sketch';
 // plugins types.d.ts
 // @umijs/renderer-*
-export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/@umijs/renderer-react';
-export type { History } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/@umijs/renderer-react'
+export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/.pnpm/@umijs+renderer-react@4.4.6_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/@umijs/renderer-react';
+export type { History, ClientLoader } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/.pnpm/@umijs+renderer-react@4.4.6_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/@umijs/renderer-react'
 // umi/client/client/plugin
-export { ApplyPluginsType, PluginManager } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/umi/client/client/plugin.js';
+export { ApplyPluginsType, PluginManager } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/.pnpm/umi@4.4.6_@babel+core@7.26.10_@types+node@20.5.1_@types+react@18.3.19_eslint@8.57.1_lightning_6fqjzjnl5jz5lwtsuzqrcxg2q4/node_modules/umi/client/client/plugin.js';
 export { history, createHistory } from './core/history';
 export { terminal } from './core/terminal';
 // react ssr
