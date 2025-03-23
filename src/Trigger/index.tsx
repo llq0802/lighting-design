@@ -1,14 +1,11 @@
 import { DownOutlined } from '@ant-design/icons';
 import { useControllableValue } from 'ahooks';
 import { Popover, Select } from 'antd';
-import classnames from 'classnames';
 import { isValueTrue } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC } from 'react';
 import { cloneElement, isValidElement, useMemo } from 'react';
 import type { LTriggerProps } from './interface';
-
-const prefixCls = 'lightd-trigger';
 
 const LTrigger: FC<LTriggerProps> = (props) => {
   const {
@@ -27,11 +24,8 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     fieldNames = { label: 'label', value: 'value' },
     placement = 'bottomLeft',
     placeholder = '请选择',
-    overlayInnerStyle,
     style,
     tagRender,
-    overlayClassName,
-    overlayStyle,
     getPopupContainer,
     children,
     split = ' / ',
@@ -87,7 +81,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
   );
 
   const contentProps = {
-    // @ts-ignore
     value: labelInValue ? state : stateValue,
     onChange: setState,
     open: isOpen,
@@ -105,23 +98,20 @@ const LTrigger: FC<LTriggerProps> = (props) => {
 
   return (
     <Popover
-      {...popoverProps}
+      getPopupContainer={getPopupContainer}
+      destroyTooltipOnHide={destroyOnHide}
       arrow={overlayArrow}
+      placement={placement}
+      {...popoverProps}
       content={content}
       open={isOpen}
       trigger="click"
-      rootClassName={`${prefixCls}-overlay`}
-      placement={placement}
       onOpenChange={(b) => setIsOpen(b)}
-      getPopupContainer={getPopupContainer}
-      destroyTooltipOnHide={destroyOnHide}
-      overlayClassName={overlayClassName}
-      overlayStyle={overlayStyle}
-      overlayInnerStyle={overlayInnerStyle}
     >
       <Select
         maxTagCount={maxTagCount}
         {...selectProps}
+        style={{ width, ...style }}
         removeIcon={false}
         showSearch={false}
         virtual={false}
@@ -129,8 +119,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
         popupMatchSelectWidth={false}
         defaultActiveFirstOption={false}
         notFoundContent={null}
-        className={classnames(prefixCls, className)}
-        style={{ width, ...style }}
+        className={className}
         size={size}
         variant={variant}
         allowClear={allowClear}

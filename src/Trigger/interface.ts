@@ -49,21 +49,11 @@ export type LTriggerProps = {
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    *  */
   width?: number | string;
-  /**
-   * 弹出层的类名
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
-   */
-  overlayClassName?: string;
-  /**
-   * 弹出层样式
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
-   */
-  overlayStyle?: PopoverProps['overlayStyle'];
+
   /**
    * 弹出层内容区样式
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
-  overlayInnerStyle?: PopoverProps['overlayInnerStyle'];
   /**
    * 弹出层方向
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
