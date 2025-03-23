@@ -64,6 +64,12 @@ const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButton
     },
   }));
 
+  const dom = render
+    ? render(Math.round(countdown / 1000))
+    : countdown === 0
+    ? children
+    : `${Math.round(countdown / 1000)}秒后${disabledText}`;
+
   return (
     <Button
       ref={ref}
@@ -71,11 +77,7 @@ const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButton
       disabled={(buttonProps as any)?.disabled || countdown !== 0}
       onClick={handleButtonClick}
     >
-      {render
-        ? render(Math.round(countdown / 1000))
-        : countdown === 0
-        ? children
-        : `${Math.round(countdown / 1000)}秒后${disabledText}`}
+      {dom}
     </Button>
   );
 };
