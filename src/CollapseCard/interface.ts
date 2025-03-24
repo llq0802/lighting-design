@@ -51,7 +51,7 @@ export type LCollapseCardProps = {
    * 设置图标位置
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCollapseCardProps
    */
-  collapsePosition?: 'left' | 'right';
+  collapsePosition?: CollapseProps['expandIconPosition'];
   /**
    *  标题
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCollapseCardProps
@@ -96,6 +96,6 @@ export type LCollapseCardProps = {
    * antd折叠卡片的items每一项的属性
    * @see https://github.com/react-component/collapse/blob/27250ca5415faab16db412b9bff2c131bb4f32fc/src/interface.ts#L6
    */
-  itemProps: CollapseProps['items'];
+  itemProps?: CollapseProps['items'];
   children: ReactNode;
 };

@@ -1,14 +1,7 @@
 import type { CardProps, SelectProps } from 'antd';
 import type { CSSProperties } from 'react';
 
-export type LValueType =
-  | string
-  | number
-  | (string | number)[]
-  | string[]
-  | number[]
-  | null
-  | undefined;
+export type LValueType = string | number | (string | number)[] | string[] | number[] | null | undefined;
 
 export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disabled'> {
   /**
@@ -65,7 +58,6 @@ export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disab
   style?: CSSProperties;
   /**
    * 统一设置每个卡片`body`的样式,  比每一项中的 cardProps.bodyStyle 优先级高
-   *@version 2.1.29
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCardGroupProps
    * */
   cardBodyStyle?: CSSProperties;

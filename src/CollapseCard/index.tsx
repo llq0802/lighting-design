@@ -4,7 +4,6 @@ import { Collapse } from 'antd';
 import classnames from 'classnames';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useMemo, type FC } from 'react';
-import './index.less';
 import type { LCollapseCardProps } from './interface';
 
 const prefixCls = 'lightd-collapse-card';
@@ -45,12 +44,12 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
 
   const items: CollapseProps['items'] = [
     {
-      key: prefixCls,
       label: title,
       children,
       extra,
       forceRender,
       ...itemProps,
+      key: prefixCls,
     },
   ];
 
@@ -73,7 +72,7 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
       destroyInactivePanel={destroyContent}
       bordered={bordered}
       expandIcon={expandIcon}
-      expandIconPosition={collapsePosition === 'left' ? 'start' : 'end'}
+      expandIconPosition={collapsePosition}
       size={size}
       onChange={(keys) => {
         if (!collapsible) return;
