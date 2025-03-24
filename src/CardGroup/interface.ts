@@ -72,8 +72,8 @@ export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disab
    */
   activeStyle?: CSSProperties;
   /**
-   *鼠标移过时可浮起
+   *选中卡片的样式
    *@see 官网 https://llq0802.github.io/lighting-design/latest LCardGroupProps
    */
-  hoverable?: boolean;
+  activeBodyStyle?: CSSProperties;
 }

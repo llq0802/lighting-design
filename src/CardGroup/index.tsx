@@ -13,18 +13,17 @@ export default function LCardGroup(props: LCardGroupProps) {
     cardBodyStyle = emptyObject,
     cardStyle = emptyObject,
     activeStyle = emptyObject,
+    activeBodyStyle = emptyObject,
     multiple = false,
     labelInValue = false,
     cancelable = false,
     disabled = false,
-    hoverable = false,
     gap = 8,
     options = emptyArray,
     fieldNames = { label: 'label', value: 'value' },
   } = props;
-
+  const { styles, cx } = useStyles();
   const { label: labelKey, value: valueKey } = fieldNames as { label: string; value: string };
-
   const [val, onChange] = useControllableValue(props);
   const value = useMemo(() => transformValue({ value: val, multiple, labelInValue, valueKey }), [val]);
 
@@ -71,7 +70,6 @@ export default function LCardGroup(props: LCardGroupProps) {
       }
     }
   });
-  const { styles, cx } = useStyles();
   return (
     <Flex rootClassName={cx(styles.container, className)} gap={gap} style={style}>
       {options?.map((item, i) => {
@@ -83,13 +81,13 @@ export default function LCardGroup(props: LCardGroupProps) {
             body: {
               ...cardBodyStyle,
               ...cardProps?.styles?.body,
+              ...(isActive ? activeBodyStyle : {}),
             },
           },
         };
 
         return (
           <Card
-            hoverable={hoverable}
             {...cardProps}
             key={item[valueKey] ?? i}
             rootClassName={cx(
