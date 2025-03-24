@@ -3,8 +3,8 @@
 // DO NOT CHANGE IT MANUALLY!
 import './core/polyfill';
 import { getPluginManager as getDumiPluginManager } from './core/plugin';
-import { setPluginManager as setDumiPluginManager } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.18_@babel+core@7.2_98da5bb99967dfde94fb287f5278a914/node_modules/dumi/dist/client/theme-api/utils.js';
-import { renderClient } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/@umijs+renderer-react@4.4.6_3abd5af8b0f99c47e4cecd4d9a5ce87f/node_modules/@umijs/renderer-react';
+import { setPluginManager as setDumiPluginManager } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/.pnpm/dumi@2.4.18_@babel+core@7.26.10_@swc+helpers@0.5.1_@types+node@20.5.1_@types+react@18.3.19_es_oqokus36eealj6kz36sgvripbq/node_modules/dumi/dist/client/theme-api/utils.js';
+import { renderClient } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/.pnpm/@umijs+renderer-react@4.4.6_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/@umijs/renderer-react';
 import { getRoutes } from './core/route';
 import { createPluginManager } from './core/plugin';
 import { createHistory } from './core/history';
