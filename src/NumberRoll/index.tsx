@@ -1,12 +1,12 @@
 import { useDebounceFn, useEventListener, useMemoizedFn } from 'ahooks';
-import classnames from 'classnames';
 import { isNumber } from 'lighting-design/_utils';
 import type { DOMAttributes, ForwardedRef, ReactElement, ReactNode } from 'react';
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useImperativeHandle, useLayoutEffect, useRef } from 'react';
 import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
 import ItemChildren, { NumberRoll_NumberArray } from './components/ItemChildren';
 import './index.less';
 import type { LNumberRollActionRef, LNumberRollProps } from './interface';
+import { useStyles } from './styles';
 
 const prefixCls = 'lightd-number-roll';
 
@@ -30,9 +30,10 @@ const LNumberRoll = (
   }: Partial<LNumberRollProps>,
   ref: ForwardedRef<LNumberRollActionRef>,
 ) => {
-  const domRef = useRef<HTMLDivElement>(null);
+  const { styles, cx } = useStyles();
+  const domRef = useRef<HTMLDivElement>(null!);
 
-  const getNumDom = useMemoizedFn((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
+  const renderDom = useMemoizedFn((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
     const decimalFlag = newStr.join('').indexOf('.') === -1; // 判断是否没有小数
     const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
     const numberDom: any[] = []; // 整数位数
@@ -40,13 +41,7 @@ const LNumberRoll = (
     newStr.forEach((o, i) => {
       if (decimalFlag) {
         // 设置分隔符 不是第0个，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
-        if (
-          i !== 0 &&
-          (newStr.length - i) % 3 === 0 &&
-          symbol !== '' &&
-          symbol !== '.' &&
-          o !== '.'
-        ) {
+        if (i !== 0 && (newStr.length - i) % 3 === 0 && symbol !== '' && symbol !== '.' && o !== '.') {
           // 分隔符
           numberDom.push((key: React.Key | null | undefined) => (
             <div className={`${prefixCls}-animate-dot`} key={key}>
@@ -79,23 +74,11 @@ const LNumberRoll = (
 
       if (type === 'date') {
         numberDom.push((key: React.Key) => (
-          <DataChildren
-            num={o}
-            key={key}
-            index={key}
-            itemNumStyle={itemNumStyle}
-            itemCharStyle={itemCharStyle}
-          />
+          <DataChildren num={o} key={key} index={key} itemNumStyle={itemNumStyle} itemCharStyle={itemCharStyle} />
         ));
       } else {
         numberDom.push((key: React.Key) => (
-          <ItemChildren
-            num={o}
-            key={key}
-            index={key}
-            itemNumStyle={itemNumStyle}
-            itemCharStyle={itemCharStyle}
-          />
+          <ItemChildren num={o} key={key} index={key} itemNumStyle={itemNumStyle} itemCharStyle={itemCharStyle} />
         ));
       }
     });
@@ -135,7 +118,7 @@ const LNumberRoll = (
       try {
         newStr = val.toFixed(dot).split('');
       } catch (error) {
-        console.error(error);
+        console.error('转换格式出错', error);
       }
     }
     // 拼接最小位数(个位数起)
@@ -196,10 +179,8 @@ const LNumberRoll = (
     }
   });
 
-  useImperativeHandle(ref, () => ({ loadAnimate: onLoadAnimate, rootRef: domRef }));
-
   // 更新
-  useEffect(() => {
+  useLayoutEffect(() => {
     onLoadAnimate();
     let timer: NodeJS.Timeout;
     if (onFinish) {
@@ -215,10 +196,11 @@ const LNumberRoll = (
 
   const { run: onresize } = useDebounceFn(onLoadAnimate, { wait: 500 });
   useEventListener('resize', onresize);
+  useImperativeHandle(ref, () => ({ loadAnimate: onLoadAnimate, rootRef: domRef }));
 
   return (
-    <div className={classnames(prefixCls, className)} style={style} ref={domRef}>
-      {getNumDom(type === 'date' ? String(value).split('') : valToArr(value))}
+    <div className={cx(styles.container, className)} style={style} ref={domRef}>
+      {renderDom(type === 'date' ? String(value).split('') : valToArr(value))}
     </div>
   );
 };

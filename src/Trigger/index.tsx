@@ -55,7 +55,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
       return void 0;
     }
     return 'multiple';
-  }, []);
+  }, [outMode]);
 
   const innerValue = useMemo(() => {
     if (outMode === 'checkbox' && Array.isArray(stateLabel)) {
@@ -69,12 +69,12 @@ const LTrigger: FC<LTriggerProps> = (props) => {
       return stateLabel || void 0;
     }
     return isValueTrue(stateLabel) ? stateLabel : void 0;
-  }, [state]);
+  }, [state, outMode]);
 
   const innerSuffixIcon = suffixIcon || (
     <DownOutlined
       style={{
-        transition: '0.3s',
+        transition: '0.2s',
         transform: `rotate(${isOpen ? -180 : 0}deg)`,
       }}
     />
