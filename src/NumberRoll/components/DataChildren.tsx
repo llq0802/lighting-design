@@ -2,22 +2,7 @@ import classnames from 'classnames';
 import { isNumber } from 'lighting-design/_utils';
 import type { FC } from 'react';
 
-export const NumberRoll_DaterArray = [
-  '0',
-  '1',
-  '2',
-  '3',
-  '4',
-  '5',
-  '6',
-  '7',
-  '8',
-  '9',
-  ':',
-  ' ',
-  '-',
-  '/',
-];
+export const NumberRoll_DaterArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ' ', '-', '/'];
 
 interface PropsType {
   num: string;
@@ -31,11 +16,8 @@ const DataChildren: FC<PropsType> = ({ num, itemNumStyle, itemCharStyle }) => {
 
   return (
     <div
-      className={classnames(
-        `${prefixCls}-animate-dom`,
-        !isNumber(num) ? `${prefixCls}-animate-dom-char` : '',
-      )}
       data-num={num}
+      className={classnames(`${prefixCls}-animate-dom`, !isNumber(num) ? `${prefixCls}-animate-dom-char` : '')}
     >
       {NumberRoll_DaterArray.map((item, i) => (
         <span

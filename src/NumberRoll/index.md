@@ -15,7 +15,7 @@ nav:
 
 <code src="./demos/base.tsx"></code>
 
-### 时间类型
+<!-- ### 时间类型
 
 <code src="./demos/date.tsx"></code>
 
@@ -33,7 +33,7 @@ nav:
 
 ### 改变大小
 
-<code src="./demos/size.tsx"></code>
+<code src="./demos/size.tsx"></code> -->
 
 ## API
 

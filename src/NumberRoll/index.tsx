@@ -44,8 +44,8 @@ const LNumberRoll = (
         if (i !== 0 && (newStr.length - i) % 3 === 0 && symbol !== '' && symbol !== '.' && o !== '.') {
           // 分隔符
           numberDom.push((key: React.Key | null | undefined) => (
-            <div className={`${prefixCls}-animate-dot`} key={key}>
-              <span className={`${prefixCls}-animate-dot-span`} style={symbolStyle}>
+            <div className={styles.body} key={key}>
+              <span className={styles.item} style={symbolStyle}>
                 {symbol}
               </span>
             </div>
@@ -63,8 +63,8 @@ const LNumberRoll = (
         ) {
           // 分隔符
           numberDom.push((key: React.Key | null | undefined) => (
-            <div className={`${prefixCls}-animate-dot`} key={key}>
-              <span className={`${prefixCls}-animate-dot-span`} style={symbolStyle}>
+            <div className={styles.body} key={key}>
+              <span className={styles.item} style={symbolStyle}>
                 {symbol}
               </span>
             </div>
@@ -82,9 +82,10 @@ const LNumberRoll = (
         ));
       }
     });
+
     return (
       <div
-        className={`${prefixCls}-animate`}
+        className={styles.content}
         style={{
           transform: `scale(${scale})`,
           // @ts-ignore
@@ -134,7 +135,7 @@ const LNumberRoll = (
 
   // 设置动画number类型
   const loadAnimateNumer = useMemoizedFn(() => {
-    const domList = domRef.current!.querySelectorAll(`.${prefixCls}-animate-dom`);
+    const domList = domRef.current!.querySelectorAll(`[data-num]`);
     if (!domList) return;
     for (const itemDom of [...(domList as any)]) {
       const dataNum = itemDom.getAttribute('data-num') || 0;

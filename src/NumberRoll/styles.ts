@@ -9,24 +9,36 @@ export const useStyles = createStyles((p) => {
       align-items: center;
       user-select: none;
       line-height: 1;
+      & * {
+        line-height: 1;
+      }
     `,
-    disabled: cx(
+    content: cx(
       css`
-        cursor: not-allowed;
-        background: ${token.colorBgContainerDisabled};
-        color: ${token.colorTextDisabled};
+        position: relative;
+        overflow: hidden;
+        height: var(--lightd-number-roll-height);
+        line-height: var(--lightd-number-roll-height);
+        font-size: var(--lightd-number-roll-font-size);
       `,
     ),
-    test: cx(
-      prefix,
+    body: cx(
       css`
-        &.${prefix} {
-          padding: 6px 16px;
-          border-radius: 6px;
-          border: unset;
-          background: unset;
-          cursor: pointer;
-        }
+        line-height: 1;
+        text-align: center;
+        float: left;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      `,
+    ),
+    item: cx(
+      css`
+        text-align: center;
+        line-height: 1;
+        width: auto;
+        height: var(--lightd-number-roll-height);
+        font-size: var(--lightd-number-roll-font-size);
       `,
     ),
   };
