@@ -54,9 +54,7 @@ const LFormItem: FC<LFormItemProps> & {
       classnames(
         prefixCls,
         {
-          [`${prefixCls}-wrapper-label-${wrapperAlignItems}`]: restFromItemProps?.label
-            ? true
-            : false,
+          [`${prefixCls}-wrapper-label-${wrapperAlignItems}`]: restFromItemProps?.label ? true : false,
         },
         className,
       ),
@@ -72,9 +70,7 @@ const LFormItem: FC<LFormItemProps> & {
               async validator(_: any, value: any) {
                 let errMsg = '';
                 if (!isLegalValue(value)) {
-                  errMsg = required
-                    ? `${restFromItemProps?.messageVariables?.label || messageLabel}!`
-                    : '';
+                  errMsg = required ? `${restFromItemProps?.messageVariables?.label || messageLabel}!` : '';
                 }
 
                 if (errMsg) {
@@ -155,9 +151,7 @@ const LFormItem: FC<LFormItemProps> & {
           return (
             <Form.Item {...publicProps} {...restFromItemProps}>
               <FormItemWrapper {...wrapperProps} {...contentProps}>
-                {renderField
-                  ? renderField(contentChildren as ReactElement, props)
-                  : contentChildren}
+                {renderField ? renderField(contentChildren as ReactElement, props) : contentChildren}
               </FormItemWrapper>
             </Form.Item>
           );

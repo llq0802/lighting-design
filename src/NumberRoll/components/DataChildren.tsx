@@ -1,6 +1,6 @@
-import classnames from 'classnames';
 import { isNumber } from 'lighting-design/_utils';
 import type { FC } from 'react';
+import { useStyles } from '../styles';
 
 export const NumberRoll_DaterArray = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ' ', '-', '/'];
 
@@ -10,22 +10,17 @@ interface PropsType {
   itemNumStyle?: React.CSSProperties;
   itemCharStyle?: React.CSSProperties;
 }
-const prefixCls = 'lightd-number-roll';
 const DataChildren: FC<PropsType> = ({ num, itemNumStyle, itemCharStyle }) => {
+  const { styles, cx } = useStyles();
+
   const numStyle = itemNumStyle || {};
 
   return (
-    <div
-      data-num={num}
-      className={classnames(`${prefixCls}-animate-dom`, !isNumber(num) ? `${prefixCls}-animate-dom-char` : '')}
-    >
+    <div className={cx(styles.body)} data-num={num}>
       {NumberRoll_DaterArray.map((item, i) => (
         <span
           key={i}
-          className={classnames(
-            `${prefixCls}-animate-dom-span`,
-            !isNumber(item) ? `${prefixCls}-animate-dom-span-char` : '',
-          )}
+          className={cx(styles.item)}
           style={{
             ...numStyle,
             ...(!isNumber(item) ? itemCharStyle : {}),

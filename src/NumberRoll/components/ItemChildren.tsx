@@ -10,7 +10,6 @@ interface PropsType {
   itemNumStyle?: React.CSSProperties;
   itemCharStyle?: React.CSSProperties;
 }
-const prefixCls = 'lightd-number-roll';
 const ItemChildren: FC<PropsType> = ({ num, itemNumStyle, itemCharStyle }) => {
   const { styles, cx } = useStyles();
 
@@ -20,7 +19,7 @@ const ItemChildren: FC<PropsType> = ({ num, itemNumStyle, itemCharStyle }) => {
       {NumberRoll_NumberArray.map((item, i) => (
         <span
           key={i}
-          className={cx(styles.item, !isNumber(item) ? `${prefixCls}-animate-dom-span-char` : '')}
+          className={cx(styles.item)}
           style={{
             ...numStyle,
             ...(!isNumber(item) ? itemCharStyle : {}),

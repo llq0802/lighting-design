@@ -4,7 +4,6 @@ import type { DOMAttributes, ForwardedRef, ReactElement, ReactNode } from 'react
 import { forwardRef, useImperativeHandle, useLayoutEffect, useRef } from 'react';
 import DataChildren, { NumberRoll_DaterArray } from './components/DataChildren';
 import ItemChildren, { NumberRoll_NumberArray } from './components/ItemChildren';
-import './index.less';
 import type { LNumberRollActionRef, LNumberRollProps } from './interface';
 import { useStyles } from './styles';
 
@@ -21,7 +20,7 @@ const LNumberRoll = (
     fontSize = 36,
     type = 'number',
     minLength = 1,
-    speed = 600,
+    speed = 500,
     value = 0,
     symbol = '',
     dot = 0,
@@ -37,7 +36,6 @@ const LNumberRoll = (
     const decimalFlag = newStr.join('').indexOf('.') === -1; // 判断是否没有小数
     const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
     const numberDom: any[] = []; // 整数位数
-
     newStr.forEach((o, i) => {
       if (decimalFlag) {
         // 设置分隔符 不是第0个，整数三的余数，必须有分隔符，分隔符不能为"."，不是小数点"."
@@ -143,13 +141,13 @@ const LNumberRoll = (
       const itemStyle = itemDom.style;
       const y = dataNum === '.' ? -10 * _itemheight : -dataNum * _itemheight;
       itemStyle.transform = `translateY(${y}px)`;
-      itemStyle.transition = `${!isNumber(dataNum) ? 0 : speed / 1000}s`;
+      itemStyle.transition = `all ${!isNumber(dataNum) ? 0 : speed / 1000}s`;
     }
   });
 
   // 设置动画date类型
   const loadAnimateDate = useMemoizedFn(() => {
-    const domList = domRef.current!.querySelectorAll(`.${prefixCls}-animate-dom`);
+    const domList = domRef.current!.querySelectorAll(`[data-num]`);
     if (!domList) return;
     for (const itemDom of [...(domList as any)]) {
       const dataNum = itemDom.getAttribute('data-num') || 0;
@@ -168,7 +166,7 @@ const LNumberRoll = (
           : -dataNum * _height;
 
       itemStyle.transform = `translateY(${y}px)`;
-      itemStyle.transition = `${!isNumber(dataNum) ? 0 : speed / 1000}s`;
+      itemStyle.transition = `all ${!isNumber(dataNum) ? 0 : speed / 1000}s`;
     }
   });
 
