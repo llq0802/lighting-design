@@ -1,4 +1,4 @@
-import { useCountDown, useMemoizedFn, useSessionStorageState, useUnmount, useUpdateEffect } from 'ahooks';
+import { useCountDown, useLocalStorageState, useMemoizedFn, useUnmount, useUpdateEffect } from 'ahooks';
 import { Button } from 'antd';
 import type { ForwardRefRenderFunction } from 'react';
 import { forwardRef, useImperativeHandle } from 'react';
@@ -6,16 +6,14 @@ import type { LCaptchaButtonProps } from './interface';
 
 /**
  * 验证码按钮组件
- *
- * @param props 组件属性
+ * @param props  组件属性及方法
  * @param ref 组件引用
- * @returns 验证码按钮组件
  */
 const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButtonProps> = (props, ref) => {
   const {
     start = true,
     second = 60,
-    cacheKey = '__CaptchaButton__',
+    cacheKey = '__LCaptchaButton__',
     disabledText = '重发',
     onEnd,
     onClick,
@@ -25,9 +23,7 @@ const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButton
     ...buttonProps
   } = props;
 
-  const [targetDate, setTargetDate] = useSessionStorageState(cacheKey, {
-    defaultValue: 0,
-  });
+  const [targetDate, setTargetDate] = useLocalStorageState(cacheKey, { defaultValue: 0 });
 
   const [countdown] = useCountDown({
     targetDate,
@@ -37,38 +33,36 @@ const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButton
     },
   });
 
-  const handleButtonClick = useMemoizedFn(async (e) => {
+  const startFn = useMemoizedFn(() => {
     if (start && !actionRef) {
       const date = Date.now() + second * 1000;
       setTargetDate(date);
     }
-    onClick?.(e);
   });
 
-  useUnmount(() => {
+  const cancelFn = useMemoizedFn(() => {
     setTargetDate(void 0);
   });
 
-  useUpdateEffect(() => {
-    if (start && !actionRef) {
-      const date = Date.now() + second * 1000;
-      setTargetDate(date);
-    }
-  }, [start]);
+  const handleButtonClick = useMemoizedFn((e) => {
+    startFn();
+    onClick?.(e);
+  });
 
   useImperativeHandle(actionRef, () => ({
-    cancel: () => setTargetDate(void 0),
-    start: () => {
-      const date = Date.now() + second * 1000;
-      setTargetDate(date);
-    },
+    cancel: cancelFn,
+    start: startFn,
   }));
 
-  const dom = render
-    ? render(Math.round(countdown / 1000))
-    : countdown === 0
-    ? children
-    : `${Math.round(countdown / 1000)}秒后${disabledText}`;
+  useUpdateEffect(() => {
+    startFn();
+  }, [start]);
+
+  useUnmount(() => {
+    cancelFn();
+  });
+
+  const dom = countdown === 0 ? children : `${Math.round(countdown / 1000)}秒后${disabledText}`;
 
   return (
     <Button
@@ -77,7 +71,7 @@ const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButton
       disabled={(buttonProps as any)?.disabled || countdown !== 0}
       onClick={handleButtonClick}
     >
-      {dom}
+      {render ? render(Math.round(countdown / 1000)) : dom}
     </Button>
   );
 };
