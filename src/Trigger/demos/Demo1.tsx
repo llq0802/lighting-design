@@ -18,14 +18,14 @@ const Demo1 = () => {
         </LTrigger>
       </Flex>
       <Flex gap="small" align="center">
-        <h5>overlayArrow</h5>
-        <LTrigger overlayArrow>
+        <h5>popupArrow</h5>
+        <LTrigger popupArrow>
           <ChildTable1 />
         </LTrigger>
       </Flex>
       <Flex gap="small" align="center">
         <h5>弹出方向</h5>
-        <LTrigger placement="right" overlayArrow>
+        <LTrigger placement="right" popupArrow>
           <ChildTable1 />
         </LTrigger>
       </Flex>
@@ -49,12 +49,7 @@ const Demo1 = () => {
       </Flex>
       <Flex gap="small" align="center">
         <h5>自定义字段名</h5>
-        <LTrigger
-          labelInValue
-          overlayClassName="my-LTrigger-11"
-          fieldNames={{ label: 'name', value: 'id' }}
-          overlayInnerStyle={{ background: '#3e9bed' }}
-        >
+        <LTrigger labelInValue fieldNames={{ label: 'name', value: 'id' }}>
           <ChildTable1 />
         </LTrigger>
       </Flex>

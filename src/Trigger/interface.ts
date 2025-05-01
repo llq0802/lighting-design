@@ -1,10 +1,9 @@
 import type { PopoverProps, SelectProps } from 'antd';
 import type { ReactNode } from 'react';
 
-export type LTriggerMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
+type LTriggerMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
 
 export type LTriggerProps = {
-  maxTagCount?: number | 'responsive';
   /**
    * 是否把传入子组件 `value` 的值 从 `value.value` 变为 `{ value: xxx, label: xxx }` 的格式
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
@@ -66,6 +65,8 @@ export type LTriggerProps = {
   getPopupContainer?: PopoverProps['getPopupContainer'];
   /**
    * 弹出层关闭时是否销毁 children 组件
+   *  -  会对children 组中的请求副作用有影响
+   *
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
   destroyOnHide?: PopoverProps['destroyTooltipOnHide'];
@@ -74,45 +75,19 @@ export type LTriggerProps = {
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
   popupArrow?: PopoverProps['arrow'];
-  /**
-   * 在`mode='tag'`时自定义标签
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
-   */
-  tagRender?: (props: Record<string, any>) => React.ReactElement<any, string | React.JSXElementConstructor<any>>;
-  /**
-   * children 组件 或 函数返回一个组件
-   * - 会接受到 open，setOpen，value，onChange
-   * - 必须在 children 组件中绑定 value，onChange 才会收集到数据
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
-   */
   // children: ReactElement<any, string | JSXElementConstructor<any>>;
   children:
     | ReactNode
-    | ((props: {
-        // @ts-ignore
-        value: any;
-        onChange: any;
-        open: boolean;
-        setOpen: any;
-        labelInValue: boolean;
-        fieldNames: Record<string, any>;
-        mode: LTriggerMode;
-      }) => React.ReactElement<unknown, string | React.JSXElementConstructor<any>>);
-  selectProps?: SelectProps;
+    | ((
+        props: {
+          value: any;
+          onChange: (v: { label: any; value: any }) => void;
+          open: boolean;
+          setOpen: (b: boolean) => void;
+          labelInValue: boolean;
+          fieldNames: SelectProps['fieldNames'];
+          mode: LTriggerMode;
+        } & Record<string, any>,
+      ) => React.ReactElement<unknown, string | React.JSXElementConstructor<any>>);
   popoverProps?: PopoverProps;
-} & Pick<
-  SelectProps,
-  | 'allowClear'
-  | 'disabled'
-  | 'placeholder'
-  | 'style'
-  | 'size'
-  | 'suffixIcon'
-  | 'variant'
-  | 'className'
-  | 'style'
-  | 'fieldNames'
-  | 'value'
-  | 'onChange'
-  | 'defaultValue'
->;
+} & Omit<SelectProps, 'mode'>;

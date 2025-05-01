@@ -13,7 +13,7 @@ const Demo1 = () => {
       </Flex>
       <Flex gap="small" align="center">
         <h5>表格多选1</h5>
-        <LTrigger width="50%" overlayArrow mode="checkbox" split="，">
+        <LTrigger width="50%" mode="checkbox" split="，">
           <ChildTable1 />
         </LTrigger>
       </Flex>

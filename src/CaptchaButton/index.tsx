@@ -3,12 +3,6 @@ import { Button } from 'antd';
 import type { ForwardRefRenderFunction } from 'react';
 import { forwardRef, useImperativeHandle } from 'react';
 import type { LCaptchaButtonProps } from './interface';
-
-/**
- * 验证码按钮组件
- * @param props  组件属性及方法
- * @param ref 组件引用
- */
 const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButtonProps> = (props, ref) => {
   const {
     second = 60,
