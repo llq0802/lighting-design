@@ -73,7 +73,7 @@ export type LTriggerProps = {
    * 修改弹出层的箭头的显示状态以及修改箭头是否指向目标元素中心
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
    */
-  overlayArrow?: PopoverProps['arrow'];
+  popupArrow?: PopoverProps['arrow'];
   /**
    * 在`mode='tag'`时自定义标签
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTriggerProps
