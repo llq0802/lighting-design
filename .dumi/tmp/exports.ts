@@ -11,7 +11,7 @@ export { getSketchJSON } from 'D:/MyWeb/kaiyuan/lighting-design/.dumi/tmp/plugin
 export { createBrowserHistory, createHashHistory, createMemoryHistory, Helmet, HelmetProvider, createSearchParams, generatePath, matchPath, matchRoutes, Navigate, NavLink, Outlet, resolvePath, useLocation, useMatch, useNavigate, useOutlet, useOutletContext, useParams, useResolvedPath, useRoutes, useSearchParams, useAppData, useClientLoaderData, useLoaderData, useRouteProps, useSelectedRoutes, useServerLoaderData, renderClient, __getRoot, Link, useRouteData, __useFetcher, withRouter } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/@umijs+renderer-react@4.4.6_3abd5af8b0f99c47e4cecd4d9a5ce87f/node_modules/@umijs/renderer-react';
 export type { History, ClientLoader } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/@umijs+renderer-react@4.4.6_3abd5af8b0f99c47e4cecd4d9a5ce87f/node_modules/@umijs/renderer-react'
 // umi/client/client/plugin
-export { ApplyPluginsType, PluginManager } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/umi@4.4.6_@babel+core@7.26._f06daf2cfd832f15cf1a53b09ab03a9f/node_modules/umi/client/client/plugin.js';
+export { ApplyPluginsType, PluginManager } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/umi@4.4.6_@babel+core@7.26._7a638508aebdb518b8454c5efb3512e0/node_modules/umi/client/client/plugin.js';
 export { history, createHistory } from './core/history';
 export { terminal } from './core/terminal';
 // react ssr

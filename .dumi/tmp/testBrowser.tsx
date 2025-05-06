@@ -11,7 +11,7 @@ import type { Location } from 'history';
 
 
 import { getPluginManager as getDumiPluginManager } from './core/plugin';
-import { setPluginManager as setDumiPluginManager } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.18_@babel+core@7.2_98da5bb99967dfde94fb287f5278a914/node_modules/dumi/dist/client/theme-api/utils.js';
+import { setPluginManager as setDumiPluginManager } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.20_@babel+core@7.2_8fcca37068ba439da87ed8cf725b1e33/node_modules/dumi/dist/client/theme-api/utils.js';
 const publicPath = '/';
 const runtimePublicPath = false;
 

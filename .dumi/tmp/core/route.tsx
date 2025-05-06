@@ -8,9 +8,9 @@ export async function getRoutes() {
   return {
     routes,
     routeComponents: {
-'404': React.lazy(() => import(/* webpackChunkName: "nm__dumi__dist__client__pages__404" */'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.18_@babel+core@7.2_98da5bb99967dfde94fb287f5278a914/node_modules/dumi/dist/client/pages/404.js')),
+'404': React.lazy(() => import(/* webpackChunkName: "nm__dumi__dist__client__pages__404" */'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.20_@babel+core@7.2_8fcca37068ba439da87ed8cf725b1e33/node_modules/dumi/dist/client/pages/404.js')),
 'dumi-context-layout': React.lazy(() => import(/* webpackChunkName: "dumi__tmp__dumi__theme__ContextWrapper" */'D:/MyWeb/kaiyuan/lighting-design/.dumi/tmp/dumi/theme/ContextWrapper')),
-'DocLayout': React.lazy(() => import(/* webpackChunkName: "nm__dumi__theme-default__layouts__DocLayout__index" */'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.18_@babel+core@7.2_98da5bb99967dfde94fb287f5278a914/node_modules/dumi/theme-default/layouts/DocLayout/index.js')),
+'DocLayout': React.lazy(() => import(/* webpackChunkName: "nm__dumi__theme-default__layouts__DocLayout__index" */'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.20_@babel+core@7.2_8fcca37068ba439da87ed8cf725b1e33/node_modules/dumi/theme-default/layouts/DocLayout/index.js')),
 'docs/scene/excelImport/index': React.lazy(() => import(/* webpackChunkName: "docs__scene__excelImport__index.md" */'D:/MyWeb/kaiyuan/lighting-design/docs/scene/excelImport/index.md')),
 'docs/scene/tableExport/index': React.lazy(() => import(/* webpackChunkName: "docs__scene__tableExport__index.md" */'D:/MyWeb/kaiyuan/lighting-design/docs/scene/tableExport/index.md')),
 'docs/scene/bigScreen/index': React.lazy(() => import(/* webpackChunkName: "docs__scene__bigScreen__index.md" */'D:/MyWeb/kaiyuan/lighting-design/docs/scene/bigScreen/index.md')),
@@ -85,7 +85,7 @@ export async function getRoutes() {
 'components/TianaiCaptcha/index': React.lazy(() => import(/* webpackChunkName: "TianaiCaptcha__index.md" */'D:/MyWeb/kaiyuan/lighting-design/src/TianaiCaptcha/index.md')),
 'components/TreeTable/index': React.lazy(() => import(/* webpackChunkName: "TreeTable__index.md" */'D:/MyWeb/kaiyuan/lighting-design/src/TreeTable/index.md')),
 'components/Trigger/index': React.lazy(() => import(/* webpackChunkName: "Trigger__index.md" */'D:/MyWeb/kaiyuan/lighting-design/src/Trigger/index.md')),
-'demo-render': React.lazy(() => import(/* webpackChunkName: "nm__dumi__dist__client__pages__Demo__index" */'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.18_@babel+core@7.2_98da5bb99967dfde94fb287f5278a914/node_modules/dumi/dist/client/pages/Demo/index.js')),
+'demo-render': React.lazy(() => import(/* webpackChunkName: "nm__dumi__dist__client__pages__Demo__index" */'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.20_@babel+core@7.2_8fcca37068ba439da87ed8cf725b1e33/node_modules/dumi/dist/client/pages/Demo/index.js')),
 },
   };
 }

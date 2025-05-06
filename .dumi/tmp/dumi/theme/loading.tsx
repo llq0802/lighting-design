@@ -3,7 +3,7 @@
 // DO NOT CHANGE IT MANUALLY!
 import nprogress from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/nprogress@0.2.0/node_modules/nprogress';
 import './nprogress.css';
-import UserLoading from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.18_@babel+core@7.2_98da5bb99967dfde94fb287f5278a914/node_modules/dumi/dist/client/pages/Loading';
+import UserLoading from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.20_@babel+core@7.2_8fcca37068ba439da87ed8cf725b1e33/node_modules/dumi/dist/client/pages/Loading';
 import React, { useLayoutEffect, type FC } from 'react';
 import { useSiteData } from 'dumi';
 

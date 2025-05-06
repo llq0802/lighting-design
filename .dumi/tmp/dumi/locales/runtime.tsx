@@ -3,8 +3,8 @@
 // DO NOT CHANGE IT MANUALLY!
 import { history } from 'dumi';
 import React, { useState, useLayoutEffect, useCallback, type ReactNode } from 'react';
-import { RawIntlProvider, createIntl, createIntlCache } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/react-intl@7.1.9_react@18.3.1_typescript@5.3.3/node_modules/react-intl';
-import { useIsomorphicLayoutEffect } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.18_@babel+core@7.2_98da5bb99967dfde94fb287f5278a914/node_modules/dumi/dist/client/theme-api/utils.js'
+import { RawIntlProvider, createIntl, createIntlCache } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/react-intl@7.1.10_react@18.3.1_typescript@5.3.3/node_modules/react-intl';
+import { useIsomorphicLayoutEffect } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.20_@babel+core@7.2_8fcca37068ba439da87ed8cf725b1e33/node_modules/dumi/dist/client/theme-api/utils.js'
 import { locales, messages } from './config';
 
 const cache = createIntlCache();

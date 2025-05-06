@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useOutlet, history } from 'dumi';
 import { warning } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/rc-util@5.44.4_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/rc-util';
-import { SiteContext, type ISiteContext } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.18_@babel+core@7.2_98da5bb99967dfde94fb287f5278a914/node_modules/dumi/dist/client/theme-api/context.js';
+import { SiteContext, type ISiteContext } from 'D:/MyWeb/kaiyuan/lighting-design/node_modules/.pnpm/dumi@2.4.20_@babel+core@7.2_8fcca37068ba439da87ed8cf725b1e33/node_modules/dumi/dist/client/theme-api/context.js';
 import { components } from '../meta/atoms';
 import { locales } from '../locales/config';
 
