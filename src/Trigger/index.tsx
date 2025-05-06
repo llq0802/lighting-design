@@ -9,30 +9,21 @@ import type { LTriggerProps } from './interface';
 
 const LTrigger: FC<LTriggerProps> = (props) => {
   const {
-    maxTagCount,
     labelInValue = false,
-    allowClear = true,
-    disabled = false,
-    overlayArrow = false,
+    popupArrow = false,
     destroyOnHide = false,
     mode: outMode = 'radio',
     width = 250,
-    variant,
     suffixIcon,
-    className,
-    size,
     fieldNames = { label: 'label', value: 'value' },
     placement = 'bottomLeft',
     placeholder = '请选择',
-    style,
-    tagRender,
     getPopupContainer,
     children,
     split = ' / ',
-    selectProps = emptyObject,
     popoverProps = emptyObject,
+    ...restProps
   } = props;
-
   const valueKey = fieldNames?.value as string;
   const labelKey = fieldNames?.label as string;
   const [isOpen, setIsOpen] = useControllableValue<boolean>(props, {
@@ -41,12 +32,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     valuePropName: 'open',
     trigger: 'onOpenChange',
   });
-  const [state, setState] = useControllableValue(props, {
-    defaultValue: void 0,
-    defaultValuePropName: 'defaultValue',
-    valuePropName: 'value',
-    trigger: 'onChange',
-  });
+  const [state, setState] = useControllableValue(props, { defaultValue: void 0 as LTriggerProps['value'] });
   const stateLabel: any = state?.[labelKey];
   const stateValue = state?.[valueKey];
 
@@ -61,7 +47,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     if (outMode === 'checkbox' && Array.isArray(stateLabel)) {
       return stateLabel?.join(split) || void 0;
     }
-
     if (outMode === 'radioTag') {
       if (!Array.isArray(stateLabel)) {
         return isValueTrue(stateLabel) ? [stateLabel] : void 0;
@@ -90,6 +75,16 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     mode: outMode,
   };
 
+  const noSelectProps = {
+    removeIcon: false,
+    showSearch: false,
+    virtual: false,
+    options: void 0,
+    popupMatchSelectWidth: false,
+    defaultActiveFirstOption: false,
+    notFoundContent: null,
+  };
+
   const content = isValidElement(children)
     ? cloneElement(children, contentProps)
     : typeof children === 'function'
@@ -100,7 +95,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     <Popover
       getPopupContainer={getPopupContainer}
       destroyTooltipOnHide={destroyOnHide}
-      arrow={overlayArrow}
+      arrow={popupArrow}
       placement={placement}
       {...popoverProps}
       content={content}
@@ -109,25 +104,12 @@ const LTrigger: FC<LTriggerProps> = (props) => {
       onOpenChange={(b) => setIsOpen(b)}
     >
       <Select
-        maxTagCount={maxTagCount}
-        {...selectProps}
-        style={{ width, ...style }}
-        removeIcon={false}
-        showSearch={false}
-        virtual={false}
-        options={void 0}
-        popupMatchSelectWidth={false}
-        defaultActiveFirstOption={false}
-        notFoundContent={null}
-        className={className}
-        size={size}
-        variant={variant}
-        allowClear={allowClear}
+        {...restProps}
+        {...noSelectProps}
+        style={{ width, ...restProps?.style }}
         suffixIcon={innerSuffixIcon}
         placeholder={placeholder}
-        disabled={disabled}
         fieldNames={fieldNames}
-        tagRender={tagRender}
         mode={selectMode}
         onChange={setState}
         value={innerValue}
