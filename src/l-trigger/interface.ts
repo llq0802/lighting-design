@@ -39,7 +39,8 @@ export type LTriggerProps = {
   defaultOpen?: boolean;
   /**
    * 组件宽度
-   *  */
+   * 
+   * /
   width?: number | string;
 
   /**
@@ -72,9 +73,8 @@ export type LTriggerProps = {
           open: boolean;
           setOpen: (b: boolean) => void;
           labelInValue: boolean;
-          fieldNames: SelectProps['fieldNames'];
           mode: LTriggerMode;
         } & Record<string, any>,
       ) => React.ReactElement<unknown, string | React.JSXElementConstructor<any>>);
   popoverProps?: PopoverProps;
-} & Omit<SelectProps, 'mode'>;
+} & Pick<SelectProps>;

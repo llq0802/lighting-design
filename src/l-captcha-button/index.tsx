@@ -3,7 +3,8 @@ import { Button } from 'antd';
 import type { ForwardRefRenderFunction } from 'react';
 import { forwardRef, useImperativeHandle } from 'react';
 import type { LCaptchaButtonProps } from './interface';
-const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButtonProps> = (props, ref) => {
+
+const CaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButtonProps> = (props, ref) => {
   const {
     second = 60,
     cacheKey = '__LCaptchaButton__',
@@ -58,5 +59,8 @@ const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButton
     </Button>
   );
 };
-export default forwardRef(LCaptchaButton);
+
+const LCaptchaButton = forwardRef(CaptchaButton);
+
+export default LCaptchaButton;
 export * from './interface';

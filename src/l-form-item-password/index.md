@@ -19,7 +19,7 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/Demo3.tsx'></code>
+<!-- <code src='./demos/Demo3.tsx'></code> -->
 
 ### 密码强度检测
 
