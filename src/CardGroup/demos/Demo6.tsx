@@ -1,4 +1,3 @@
-import { Tag } from 'antd';
 import { LCardGroup } from 'lighting-design';
 import './Demo6.less';
 
@@ -7,11 +6,8 @@ export default function Demo() {
     <div>
       <LCardGroup
         gap={16}
-        className="my-LCardGroup"
         cardStyle={{
           boxSizing: 'content-box',
-          background: '#209cee',
-          color: '#fff',
           borderWidth: 2,
         }}
         activeStyle={{
@@ -20,7 +16,7 @@ export default function Demo() {
         options={[
           {
             value: '1',
-            label: <Tag>支付宝</Tag>,
+            label: <>支付宝</>,
             cardProps: {
               // ...配置卡片的属性
             },

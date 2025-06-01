@@ -5,8 +5,8 @@ export default function Demo() {
     <div>
       <LCardGroup
         defaultValue="1"
-        onChange={(v) => {
-          console.log('change-v', v);
+        onChange={(v, c, opts) => {
+          console.log(v, c, opts);
         }}
         options={[
           { value: '1', label: '支付宝' },

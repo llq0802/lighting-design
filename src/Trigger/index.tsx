@@ -14,7 +14,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     destroyOnHide = false,
     mode: outMode = 'radio',
     width = 250,
-    suffixIcon,
     fieldNames = { label: 'label', value: 'value' },
     placement = 'bottomLeft',
     placeholder = '请选择',
@@ -56,7 +55,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     return isValueTrue(stateLabel) ? stateLabel : void 0;
   }, [state, outMode]);
 
-  const innerSuffixIcon = suffixIcon || (
+  const innerSuffixIcon = (
     <DownOutlined
       style={{
         transition: '0.2s',
@@ -104,10 +103,10 @@ const LTrigger: FC<LTriggerProps> = (props) => {
       onOpenChange={(b) => setIsOpen(b)}
     >
       <Select
+        suffixIcon={innerSuffixIcon}
         {...restProps}
         {...noSelectProps}
         style={{ width, ...restProps?.style }}
-        suffixIcon={innerSuffixIcon}
         placeholder={placeholder}
         fieldNames={fieldNames}
         mode={selectMode}

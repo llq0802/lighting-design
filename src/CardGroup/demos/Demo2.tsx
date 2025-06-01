@@ -1,9 +1,8 @@
-import type { LValueType } from 'lighting-design';
 import { LCardGroup } from 'lighting-design';
 import { useState } from 'react';
 
 export default function Demo() {
-  const [value, setValue] = useState<LValueType>([]);
+  const [value, setValue] = useState<string[]>([]);
 
   return (
     <div>

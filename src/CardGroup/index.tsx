@@ -4,7 +4,6 @@ import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useMemo } from 'react';
 import type { LCardGroupProps } from './interface';
 import { useStyles } from './styles';
-import { transformChangeValue, transformValue } from './utils';
 
 export default function LCardGroup(props: LCardGroupProps) {
   const {
@@ -15,64 +14,50 @@ export default function LCardGroup(props: LCardGroupProps) {
     activeStyle = emptyObject,
     activeBodyStyle = emptyObject,
     multiple = false,
-    labelInValue = false,
     cancelable = false,
     disabled = false,
-    gap = 8,
+    gap = 10,
     options = emptyArray,
     fieldNames = { label: 'label', value: 'value' },
   } = props;
   const { styles, cx } = useStyles();
   const { label: labelKey, value: valueKey } = fieldNames as { label: string; value: string };
-  const [val, onChange] = useControllableValue(props);
-  const value = useMemo(() => transformValue({ value: val, multiple, labelInValue, valueKey }), [val]);
+  const [state, setState] = useControllableValue(props);
+  const value = multiple ? state || [] : state;
 
   useMemo(() => {
-    if (disabled) {
-      options?.forEach((item) => {
-        item.disabled = true;
-      });
-    }
+    if (!disabled) return;
+    options?.forEach((item) => {
+      item.disabled = true;
+    });
   }, [disabled, options]);
 
-  const triggerChange = useMemoizedFn((value: any) => {
-    const val = transformChangeValue({
-      value,
-      multiple,
-      labelInValue,
-      options,
-      valueKey,
-    });
-    onChange?.(val);
+  const triggerChange = useMemoizedFn((v: any) => {
+    const cur = options?.find((k) => k[valueKey] === v);
+    setState?.(v, cur, options);
   });
 
   const handleSelect = useMemoizedFn((item: any) => {
-    // 禁用和只读不处理
-    if (item.disabled || disabled) {
-      return;
-    }
-
+    // 多选
     if (multiple) {
-      // 多选
       if (value?.includes?.(item[valueKey])) {
         triggerChange(value?.filter((v: any) => v !== item[valueKey]));
       } else {
         triggerChange([...(value || []), item[valueKey]]);
       }
+      return;
+    }
+    // 单选
+    if (item[valueKey] === value) {
+      if (cancelable) triggerChange(void 0);
     } else {
-      // 单选
-      if (item[valueKey] === value) {
-        if (cancelable) {
-          triggerChange(void 0);
-        }
-      } else {
-        triggerChange(item[valueKey]);
-      }
+      triggerChange(item[valueKey]);
     }
   });
   return (
     <Flex rootClassName={cx(styles.container, className)} gap={gap} style={style}>
       {options?.map((item, i) => {
+        const isDisabled = disabled || item.disabled;
         const isActive = multiple ? value?.includes(item[valueKey]) : value === item[valueKey];
         const cardProps = item.cardProps || {};
         const compatibilityStyle = {
@@ -88,14 +73,15 @@ export default function LCardGroup(props: LCardGroupProps) {
 
         return (
           <Card
-            {...cardProps}
             key={item[valueKey] ?? i}
+            {...cardProps}
             rootClassName={cx(
               styles.item,
-              { [styles.disabled]: item.disabled, [styles.active]: isActive },
+              { [styles.disabled]: isDisabled, [styles.active]: isActive },
               cardProps?.rootClassName,
             )}
             onClick={(e) => {
+              if (isDisabled) return;
               handleSelect(item);
               cardProps?.onClick?.(e);
             }}

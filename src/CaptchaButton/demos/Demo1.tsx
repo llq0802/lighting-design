@@ -6,7 +6,7 @@ const Demo1 = () => {
     <div>
       <Space>
         <LCaptchaButton
-          clickAutoStart
+          autoStart
           cacheKey="__CaptchaButton__Phone__1"
           onClick={() => {
             message.info('倒计时开始');
@@ -16,7 +16,7 @@ const Demo1 = () => {
           }}
         />
 
-        <LCaptchaButton clickAutoStart type="primary" disabledText="重新获取" cacheKey="__CaptchaButton__Phone__2">
+        <LCaptchaButton autoStart type="primary" disabledText="重新获取" cacheKey="__CaptchaButton__Phone__2">
           获取手机验证码
         </LCaptchaButton>
       </Space>
