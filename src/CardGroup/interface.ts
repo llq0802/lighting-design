@@ -1,7 +1,7 @@
 import type { CardProps, SelectProps } from 'antd';
 import type { CSSProperties } from 'react';
 
-type LValueType = string | number | (string | number)[];
+export type LValueType = string | number | (string | number)[];
 
 export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disabled'> {
   /**

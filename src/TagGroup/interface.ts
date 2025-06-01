@@ -6,7 +6,6 @@ export interface LTagGroupProps
     LCardGroupProps,
     | 'value'
     | 'defaultValue'
-    | 'labelInValue'
     | 'onChange'
     | 'multiple'
     | 'disabled'

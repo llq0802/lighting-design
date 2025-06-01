@@ -15,10 +15,6 @@ interface LTriggerChildProps {
   setOpen?: (open: boolean) => void;
   labelInValue?: boolean;
   mode?: LTriggerMode;
-  fieldNames?: {
-    label: string;
-    value: string;
-  };
   [key: string]: any;
 }
 interface DataType {
@@ -42,30 +38,19 @@ const columns: ColumnsType<any> = [
   },
 ];
 
-const formItems = [
-  <LFormItemInput key="0" name="input4" label="输入框" style={{ marginBottom: 0 }} />,
-];
+const formItems = [<LFormItemInput key="0" name="input4" label="输入框" style={{ marginBottom: 0 }} />];
 
 const MyTable: FC<LTriggerChildProps> = (props) => {
-  const {
-    value: outValue,
-    onChange: outOnChange,
-    open,
-    setOpen,
-    labelInValue,
-    mode,
-    fieldNames,
-  } = props;
+  const { value, onChange: outOnChange, open, setOpen, labelInValue, mode } = props;
 
   const formRef = useRef<FormInstance>();
   const tableRef = useRef<LTableInstance>();
 
+  function getType() {
+    return mode?.includes('radio') ? 'radio' : 'checkbox';
+  }
   function getValue() {
-    if (!outValue) return [];
-    let innerVal = outValue;
-    if (labelInValue) {
-      innerVal = outValue?.[fieldNames?.value as string];
-    }
+    const innerVal = labelInValue ? value?.value : value;
     if (mode === 'radio' || mode === 'radioTag') {
       return [innerVal];
     }
@@ -73,8 +58,8 @@ const MyTable: FC<LTriggerChildProps> = (props) => {
   }
 
   const rowSelection = {
-    type: mode?.includes('radio') ? 'radio' : 'checkbox',
     preserveSelectedRowKeys: true,
+    type: getType(),
     selectedRowKeys: getValue(),
     onChange: (selectedRowKeys: (string | number)[], selectedRows: DataType[]) => {
       let selectedNames: LValueType = selectedRows?.map((item) => item?.name);
@@ -86,8 +71,8 @@ const MyTable: FC<LTriggerChildProps> = (props) => {
       }
 
       outOnChange!({
-        [fieldNames!.label]: selectedNames,
-        [fieldNames!.value]: selectedKeys,
+        label: selectedNames,
+        value: selectedKeys,
       });
 
       if (mode?.includes('radio')) setOpen!(false);

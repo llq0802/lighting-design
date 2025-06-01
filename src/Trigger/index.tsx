@@ -14,7 +14,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     destroyOnHide = false,
     mode: outMode = 'radio',
     width = 250,
-    fieldNames = { label: 'label', value: 'value' },
     placement = 'bottomLeft',
     placeholder = '请选择',
     getPopupContainer,
@@ -23,8 +22,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     popoverProps = emptyObject,
     ...restProps
   } = props;
-  const valueKey = fieldNames?.value as string;
-  const labelKey = fieldNames?.label as string;
   const [isOpen, setIsOpen] = useControllableValue<boolean>(props, {
     defaultValue: false,
     defaultValuePropName: 'defaultOpen',
@@ -32,8 +29,8 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     trigger: 'onOpenChange',
   });
   const [state, setState] = useControllableValue(props, { defaultValue: void 0 as LTriggerProps['value'] });
-  const stateLabel: any = state?.[labelKey];
-  const stateValue = state?.[valueKey];
+  const stateLabel: any = state?.label;
+  const stateValue = state?.value;
 
   const selectMode = useMemo(() => {
     if (outMode === 'radio' || outMode === 'checkbox') {
@@ -70,7 +67,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     open: isOpen,
     setOpen: setIsOpen,
     labelInValue,
-    fieldNames,
     mode: outMode,
   };
 
@@ -108,7 +104,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
         {...noSelectProps}
         style={{ width, ...restProps?.style }}
         placeholder={placeholder}
-        fieldNames={fieldNames}
         mode={selectMode}
         onChange={setState}
         value={innerValue}

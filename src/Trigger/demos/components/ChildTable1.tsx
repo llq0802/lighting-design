@@ -2,7 +2,7 @@ import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/es/table/interface';
 import Mock from 'better-mock';
-import type { LTriggerMode, LValueType } from 'lighting-design';
+import type { LTriggerMode } from 'lighting-design';
 import React from 'react';
 
 interface DataType {
@@ -19,10 +19,6 @@ interface LTriggerChildProps {
   setOpen?: (open: boolean) => void;
   labelInValue?: boolean;
   mode?: LTriggerMode;
-  fieldNames?: {
-    label: string;
-    value: string;
-  };
   [key: string]: any;
 }
 
@@ -37,22 +33,13 @@ const dataSource: DataType[] = Mock.mock({
 }).list;
 
 const ChildTable1: React.FC<LTriggerChildProps> = (props) => {
-  const {
-    value: outValue,
-    onChange: outOnChange,
-    open,
-    setOpen,
-    labelInValue,
-    mode,
-    fieldNames,
-  } = props;
+  const { open, value, onChange: outOnChange, setOpen, labelInValue, mode } = props;
 
+  function getType() {
+    return mode?.includes('radio') ? 'radio' : 'checkbox';
+  }
   function getValue() {
-    if (!outValue) return [];
-    let innerVal = outValue;
-    if (labelInValue) {
-      innerVal = outValue?.[fieldNames?.value as string];
-    }
+    const innerVal = labelInValue ? value?.value : value;
     if (mode === 'radio' || mode === 'radioTag') {
       return [innerVal];
     }
@@ -60,12 +47,12 @@ const ChildTable1: React.FC<LTriggerChildProps> = (props) => {
   }
 
   const rowSelection = {
-    type: mode?.includes('radio') ? 'radio' : 'checkbox',
     preserveSelectedRowKeys: true,
+    type: getType(),
     selectedRowKeys: getValue(),
     onChange: (selectedRowKeys: (string | number)[], selectedRows: DataType[]) => {
-      let selectedNames: LValueType = selectedRows?.map((item) => item?.name);
-      let selectedKeys: LValueType = selectedRowKeys;
+      let selectedNames = selectedRows?.map((item) => item?.name);
+      let selectedKeys = selectedRowKeys;
 
       if (mode === 'radio' || mode === 'radioTag') {
         selectedNames = selectedNames[0];
@@ -73,8 +60,8 @@ const ChildTable1: React.FC<LTriggerChildProps> = (props) => {
       }
 
       outOnChange!({
-        [fieldNames!.label]: selectedNames,
-        [fieldNames!.value]: selectedKeys,
+        label: selectedNames,
+        value: selectedKeys,
       });
 
       if (mode?.includes('radio')) setOpen!(false);

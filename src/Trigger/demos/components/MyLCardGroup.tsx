@@ -1,14 +1,11 @@
-import type { LTriggerMode } from 'lighting-design';
 import { LCardGroup } from 'lighting-design';
 
-interface LTriggerChildProps {
-  value?: any;
-  onChange?: (value: any) => void;
-  open?: boolean;
-  setOpen?: (open: boolean) => void;
-  labelInValue?: boolean;
-  mode?: LTriggerMode;
-  fieldNames?: { label: string; value: string };
+interface LTriggerChildProps extends Record<string, any> {
+  value: any | undefined;
+  onChange: (value: any) => void;
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  labelInValue: boolean;
   [key: string]: any;
 }
 
@@ -18,37 +15,32 @@ const options = [
   { value: '3', label: '云闪付' },
 ];
 
-const MyLCardGroup = ({
-  open,
-  mode,
-  fieldNames,
-  labelInValue: outLabelInValue,
-  value: outValue,
-  onChange: outOnChange,
-  setOpen,
-}: LTriggerChildProps) => {
+const MyLCardGroup = (props: LTriggerChildProps) => {
+  const { open, mode, labelInValue, value: outValue, onChange: outOnChange, setOpen } = props;
+
   const isMultiple = mode === 'checkbox' || mode === 'checkboxTag';
-  const innerValue = outLabelInValue ? outValue?.[fieldNames?.value] : outValue;
+
+  const innerValue = labelInValue ? outValue?.value : outValue;
+
   return (
     <LCardGroup
       options={options}
-      fieldNames={fieldNames}
-      labelInValue
       multiple={isMultiple}
       value={innerValue}
-      onChange={(val) => {
+      onChange={(val, cur, opts) => {
+        console.log('===val===>', val, cur);
         let selectedNames;
         let selectedKeys;
         if (!isMultiple) {
-          selectedNames = val?.[fieldNames!.label];
-          selectedKeys = val?.[fieldNames!.value];
+          selectedNames = cur?.label;
+          selectedKeys = cur?.value;
         } else {
-          selectedNames = val?.map((item) => item[fieldNames!.label]);
-          selectedKeys = val?.map((item) => item[fieldNames!.value]);
+          selectedNames = cur?.map((item) => item.label);
+          selectedKeys = cur?.map((item) => item.value);
         }
         outOnChange!({
-          [fieldNames!.label]: selectedNames,
-          [fieldNames!.value]: selectedKeys,
+          label: selectedNames,
+          value: selectedKeys,
         });
         if (!isMultiple) setOpen?.(false);
       }}

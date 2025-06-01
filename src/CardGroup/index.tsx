@@ -33,7 +33,10 @@ export default function LCardGroup(props: LCardGroupProps) {
   }, [disabled, options]);
 
   const triggerChange = useMemoizedFn((v: any) => {
-    const cur = options?.find((k) => k[valueKey] === v);
+    let cur = options?.find((k) => k[valueKey] === v);
+    if (multiple) {
+      cur = options?.filter((k) => v.includes(k[valueKey]));
+    }
     setState?.(v, cur, options);
   });
 
