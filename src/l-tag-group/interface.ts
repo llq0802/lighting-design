@@ -1,5 +1,5 @@
 import type { SelectProps, TagProps } from 'antd';
-import type { LCardGroupProps } from 'lighting-design/CardGroup/interface';
+import type { LCardGroupProps } from 'lighting-design/l-card-group/interface';
 
 export interface LTagGroupProps
   extends Pick<

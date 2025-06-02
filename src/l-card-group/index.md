@@ -31,7 +31,7 @@ toc: content
 
 ### 在 LForm 中使用
 
-<code src='./demos/Demo4.tsx'></code>
+<!-- <code src='./demos/Demo4.tsx'></code> -->
 
 ### 修改选中样式
 

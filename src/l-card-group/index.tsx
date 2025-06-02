@@ -1,5 +1,5 @@
 import { useControllableValue, useMemoizedFn } from 'ahooks';
-import { Card, Flex } from 'antd';
+import { Card } from 'antd';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import { useMemo } from 'react';
 import type { LCardGroupProps } from './interface';
@@ -58,7 +58,7 @@ export default function LCardGroup(props: LCardGroupProps) {
     }
   });
   return (
-    <Flex rootClassName={cx(styles.container, className)} gap={gap} style={style}>
+    <div className={cx(styles.container, className)} style={{ gap, ...style }}>
       {options?.map((item, i) => {
         const isDisabled = disabled || item.disabled;
         const isActive = multiple ? value?.includes(item[valueKey]) : value === item[valueKey];
@@ -99,7 +99,7 @@ export default function LCardGroup(props: LCardGroupProps) {
           </Card>
         );
       })}
-    </Flex>
+    </div>
   );
 }
 export * from './interface';
