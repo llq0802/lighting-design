@@ -22,6 +22,9 @@ nav:
 
 ### 基础用法
 
+<code src='./demos/demo.tsx'></code>
+
+<!--
 <code src='./demos/Demo2.tsx'></code>
 
 ### 隐藏必填项的\*
@@ -42,7 +45,7 @@ nav:
 
 ### 兼容 Form.Item 的其他配置
 
-<code src='./demos/Demo6.tsx'></code>
+<code src='./demos/Demo6.tsx'></code> -->
 
 ## API
 

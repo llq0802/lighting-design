@@ -2,6 +2,7 @@ import { Select } from 'antd';
 import type { FC } from 'react';
 
 const AgeSelect: FC<Record<string, any>> = (props) => {
+  console.log('===AgeSelect-props===>', props);
   return (
     <>
       <Select
