@@ -1,5 +1,5 @@
 import { LTrigger } from 'lighting-design';
-import MyLTagGroup from './components/MyLTagGroup';
+import MyLTagGroup from './components/my-ltag-group';
 
 const options = [
   { value: '1', label: '香蕉' },

@@ -1,5 +1,5 @@
 import { LTrigger } from 'lighting-design';
-import MyLCardGroup from './components/MyLCardGroup';
+import MyLCardGroup from './components/my-lcard-group';
 
 const Demo5 = () => {
   return (

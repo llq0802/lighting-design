@@ -1,5 +1,5 @@
 import { LTrigger } from 'lighting-design';
-import MyTable1 from './components/MyTable1';
+import MyTable1 from './components/my-table1';
 
 const Demo4 = () => {
   return (

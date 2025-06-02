@@ -1,8 +1,6 @@
 import { Tag } from 'antd';
 import { LTrigger } from 'lighting-design';
-// import ChildTable3 from './components/ChildTable3';
-// import ChildTable4 from './components/ChildTable4';
-import ChildTable1 from './components/ChildTable1';
+import ChildTable1 from './components/child-table1';
 
 const tagRender = (props) => {
   const { label, value } = props;

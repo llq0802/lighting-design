@@ -6,7 +6,7 @@ export default function Demo8() {
       <h5>无线滚动</h5>
       <LTrigger>
         {(props) => {
-          console.log('==props====>', props);
+          // console.log('==props====>', props);
           return (
             <div
               style={{

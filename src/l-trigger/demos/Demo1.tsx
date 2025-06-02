@@ -1,6 +1,6 @@
 import { Flex } from 'antd';
 import { LTrigger } from 'lighting-design';
-import ChildTable1 from './components/ChildTable1';
+import ChildTable1 from './components/child-table1';
 
 const Demo1 = () => {
   return (
@@ -25,7 +25,7 @@ const Demo1 = () => {
       </Flex>
       <Flex gap="small" align="center">
         <h5>弹出方向</h5>
-        <LTrigger placement="right" popupArrow>
+        <LTrigger placement="topRight" popupArrow>
           <ChildTable1 />
         </LTrigger>
       </Flex>
@@ -37,7 +37,7 @@ const Demo1 = () => {
       </Flex>
       <Flex gap="small" align="center">
         <h5>隐藏弹出层时隐藏 DOM</h5>
-        <LTrigger destroyOnHide placeholder="请选择摸鱼员工">
+        <LTrigger destroyTooltipOnHide placeholder="请选择摸鱼员工">
           <ChildTable1 />
         </LTrigger>
       </Flex>

@@ -7,41 +7,42 @@ demo:
 
 # LTrigger
 
-选择弹出框、弹出任意内容、用于复杂的选择组件。
+一个灵活的触发器组件，支持多种选择模式和自定义内容。
 
 ## 代码演示
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'></code>
+<code src='./demos/demo1.tsx'></code>
 
 ### 普通多选模式
 
-<code src='./demos/Demo7.tsx'></code>
+<code src='./demos/demo7.tsx'></code>
 
 ### Tag 模式
 
-<code src='./demos/Demo3.tsx' ></code>
+<code src='./demos/demo3.tsx' ></code>
 
-### 与 LCardGroup 结合
+<!-- ### 与 LCardGroup 结合
 
-<code src='./demos/Demo5.tsx' ></code>
+<code src='./demos/demo5.tsx' ></code>
 
 ### 与 LTagGroup 结合
 
-<code src='./demos/Demo6.tsx' ></code>
+<code src='./demos/demo6.tsx' ></code>
 
 ### 与 LTable 结合
 
-<code src='./demos/Demo4.tsx' ></code>
+<code src='./demos/demo4.tsx' ></code>
 
 ### 在 LForm 中使用
 
-<code src='./demos/Demo2.tsx' ></code>
+
+<code src='./demos/demo2.tsx' ></code>  -->
 
 ### children 为函数
 
-<code src='./demos/Demo8.tsx' ></code>
+<code src='./demos/demo8.tsx' ></code>
 
 ## API
 
@@ -50,15 +51,12 @@ import { LTrigger } from 'lighting-design';
 ```
 
 :::warning{title=注意}
-2.1.15 版本已重构该组件：
 
 - 弹出层的宽度由 `children` 组件控制
 
-- `children` 组件会接受到 `mode` `labelInValue` `fieldNames` `open`，`setOpen`，`value`，`onChange` 必须在 `children` 组件中绑定 `value，onChange`
+- `children` 组件会接受到 `mode` ,`labelInValue`,`open`，`setOpen`，`value`，`onChange` 必须在 `children` 组件中绑定 `value，onChange`
 
-- 默认`children`接受的`value`为`value.value`, 如果`labelInValue`为`true`, `children`接受的`value`为 `{ label: xxx; value: xxx }` , `onChange`传的值必须是`{ label: xxx; value: xxx }`, `fieldNames`可配置为其他字段名
-
-- 如果在 `LForm`或 `Form`中使用，默认接收到的值必须是`{ label: string; value: string; }` ,`fieldNames` 可配置为其他字段名
+- 默认`children`接受的`value`为`value.value`, 如果`labelInValue`为`true`, `children`接受的`value`为 `{ label: xxx; value: xxx }` , `onChange`传的值必须是`{ label: xxx; value: xxx }`
 
 - 与表格结合时 `rowSelection` 中的 `preserveSelectedRowKeys` 属性建议设置为 `true` 即当数据被删除时仍然保留选项的 key
 
@@ -66,85 +64,69 @@ import { LTrigger } from 'lighting-design';
 
   :::
 
-| 参数              | 说明                                                                                            | 类型                                                                                  | 默认值                              |
-| ----------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------- |
-| mode              | 选择回显的模式, **会透传给子组件**                                                              | `LTriggerMode`                                                                        | `radio`                             |
-| width             | 选择框宽度                                                                                      | `number\|string`                                                                      | `250`                               |
-| split             | mode 为 `checkbox` 回显分割的字符, 建议使用`' - '`或`' / '`或`' , '`                            | `string`                                                                              | `' / '`                             |
-| maxTagCount       | mode 为 `checkboxTag` 最多显示多少个 tag，响应式模式会对性能产生损耗                            | `'responsive' \| number`                                                              | `-`                                 |
-| fieldNames        | 配置字段 label 字段名，value 字段的名, **会透传给子组件**                                       | `{ label: string; value: string; }`                                                   | `{ label: 'label',value: 'value' }` |
-| size              | 选择框大小                                                                                      | `'small' \| 'middle'\|'large'`                                                        | `'middle'`                          |
-| overlayArrow      | 修改弹出层的箭头的显示状态以及修改箭头是否指向目标元素中心                                      | `boolean` \| `{ pointAtCenter: boolean }`                                             | `false`                             |
-| allowClear        | 清除图标                                                                                        | `boolean\| { clearIcon :ReactNode}`                                                   | `true`                              |
-| placement         | 弹出层弹出的位置                                                                                | `Placement`                                                                           | `'bottomLeft'`                      |
-| destroyOnHide     | 弹出层关闭时是否销毁 `children` 组件                                                            | `boolean`                                                                             | `false`                             |
-| variant           | 形态变体                                                                                        | `outlined \| borderless \| filled`                                                    | `outlined`                          |
-| labelInValue      | 把传入子组件`value 的值从 value.value 变为{ value: xxx, label: xxx }`的格式, **会透传给子组件** | `boolean`                                                                             | `false`                             |
-| disabled          | 是否禁用                                                                                        | `boolean`                                                                             | `false`                             |
-| placeholder       | placeholder                                                                                     | `string`                                                                              | `'请选择'`                          |
-| overlayStyle      | 弹出层样式                                                                                      | `CSSProperties`                                                                       | `-`                                 |
-| className         | 组件类名                                                                                        | `string`                                                                              | `-`                                 |
-| overlayClassName  | 弹出层的类名                                                                                    | `string`                                                                              | `-`                                 |
-| style             | 组件样式                                                                                        | `CSSProperties`                                                                       | `-`                                 |
-| open              | 受控, 是否打开弹出层, **会透传给子组件**                                                        | `boolean`                                                                             | `-`                                 |
-| suffixIcon        | 自定义的选择框后缀图标                                                                          | `ReactNode`                                                                           | `-`                                 |
-| defaultValue      | 默认值                                                                                          | 默认为`{ label: string\| string[]; value: string\| string[] }` 与`fieldNames`配置有关 | `-`                                 |
-| defaultOpen       | 默认是否打开弹出层                                                                              | `boolean`                                                                             | `false`                             |
-| value             | 受控值, 配合`onChange`使用, **会透传给子组件**                                                  | 默认为`{ label: string\| string[]; value: string\| string[] }` 与`fieldNames`配置有关 | `-`                                 |
-| onOpenChange      | 受控, 打开弹出层的的回调                                                                        | `function(open):void`                                                                 | `-`                                 |
-| tagRender         | 自定义渲染 tag `mode=tag`模式下生效                                                             | `(props) => ReactElement \| JSXElementConstructor`                                    | `-`                                 |
-| onChange          | 受控, value 变化时，调用此函数 , **会透传给子组件**                                             | `function(value)`                                                                     | `-`                                 |
-| getPopupContainer | 控制渲染到的节点。默认渲染到 body 上                                                            | `(triggerNode: HTMLElement) => HTMLElement`                                           | `() => document.body`               |
-| children          | children 组件或函数会接受到 `open`，`setOpen`，`value`，`onChange` 等参数                       | `ReactNode \| (props) => ReactNode`                                                   | `-`                                 |
+组件还支持 antd Select 组件的其他属性 **部分属性内部已经重写**。
 
-### mode 在子组件中使用时, 子组件 onChange 的调用方式：
+| 参数              | 说明                                                                         | 类型                                                            | 默认值         |
+| ----------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------- | -------------- |
+| defaultValue      | 默认值                                                                       | `LTriggerValue`                                                 | `-`            |
+| value             | 受控值                                                                       | `LTriggerValue`                                                 | `-`            |
+| labelInValue      | 是否将传入子组件的 value 值转换为{ value: xxx, label: xxx }格式              | `boolean`                                                       | `false`        |
+| mode              | 选择回显的模式，可选值：`radio` \| `checkbox` \| `radioTag` \| `checkboxTag` | `string`                                                        | `'radio'`      |
+| split             | checkbox 模式下的分隔符                                                      | `string`                                                        | `' / '`        |
+| open              | 是否打开弹出层                                                               | `boolean`                                                       | -              |
+| defaultOpen       | 默认是否打开弹出层                                                           | `boolean`                                                       | `false`        |
+| width             | 触发器宽度                                                                   | `number` \| `string`                                            | `250`          |
+| placement         | 弹出层方向                                                                   | `PopoverProps['placement']`                                     | `'bottomLeft'` |
+| destroyOnHide     | 关闭时是否销毁弹出层内容                                                     | `boolean`                                                       | `false`        |
+| popupArrow        | 是否显示弹出层箭头                                                           | `boolean` \| `{ pointAtCenter: boolean }`                       | `false`        |
+| getPopupContainer | 自定义弹出层的挂载节点                                                       | `(triggerNode: HTMLElement) => HTMLElement`                     | -              |
+| popoverProps      | 弹出层的额外属性                                                             | [PopoverProps](https://ant.design/components/popover-cn#api)    | -              |
+| onOpenChange      | 弹出层开关状态变化回调                                                       | `(open: boolean) => void`                                       | -              |
+| onChange          | value 变化的回调                                                             | `(v: LTriggerValue) => void`                                    | -              |
+| children          | 子组件                                                                       | `ReactNode` \| `(props: LTriggerChildrenProps) => ReactElement` | -              |
 
-- 为`radio`时子组件 `onChange` 调用方式为
+### LTriggerChildrenProps
+
+当 children 为函数时的参数类型：
+
+| 参数         | 说明                       | 类型                             | 默认值 |
+| ------------ | -------------------------- | -------------------------------- | ------ |
+| value        | 当前值                     | `LTriggerValue \| LValueType`    | -      |
+| onChange     | 值改变回调                 | `(value: LTriggerValue) => void` | -      |
+| open         | 当前弹出层是否打开         | `boolean`                        | -      |
+| setOpen      | 设置弹出层开关状态         | `(open: boolean) => void`        | -      |
+| labelInValue | 是否启用 labelInValue 模式 | `boolean`                        | -      |
+| mode         | 当前选择模式               | `LTriggerMode`                   | -      |
+
+### mode 模式说明
+
+- `radio`: 单选模式
+
+  - 子组件 onChange 调用方式：`onChange({ label: string, value: string|number })`
+
+- `checkbox`: 多选模式
+
+  - 子组件 onChange 调用方式：`onChange({ label: string, value: (string|number)[] })`
+  - 建议 label 的值用 `-` 或 `/` 或 `,` 分隔
+
+- `radioTag`: 单选标签模式
+
+  - 子组件 onChange 调用方式：`onChange({ label: string, value: string|number })`
+
+- `checkboxTag`: 多选标签模式
+  - 子组件 onChange 调用方式：`onChange({ label: string[], value: (string|number)[] })`
+
+### LValueType
 
 ```ts
-onChange(values: {label: string, value: string | number });
+export type LValueType = string | number | (string | number)[];
 ```
 
-- 为`checkbox`时子组件 `onChange` 调用方式为
+### LTriggerValue
 
 ```ts
-onChange(values: {label: string[], value: (string | number)[] });
-```
-
-- 为`radioTag`时子组件 `onChange` 调用方式为
-
-```ts
-onChange(values: {label: string, value: string | number });
-```
-
-- 为`checkboxTag`时子组件 `onChange` 调用方式为
-
-```ts
-onChange(values: {label: string[], value: (string | number)[] });
-```
-
-其中的 `label` 与 `value` 键名与 `fieldNames` 的配置有关
-
-### LTriggerMode
-
-```ts
-export type LTriggerMode = 'checkboxTag' | 'radioTag' | 'checkbox' | 'radio';
-```
-
-### Placement
-
-```ts
-type Placement =
-  | 'top'
-  | 'left'
-  | 'right'
-  | 'bottom'
-  | 'topLeft'
-  | 'topRight'
-  | 'bottomLeft'
-  | 'bottomRight'
-  | 'leftTop'
-  | 'leftBottom'
-  | 'rightTop'
-  | 'rightBottom';
+export type LTriggerValue<T = LValueType> = {
+  label: T; // 显示文本
+  value: T; // 实际值
+};
 ```

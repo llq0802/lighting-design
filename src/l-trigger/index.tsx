@@ -11,7 +11,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
   const {
     labelInValue = false,
     popupArrow = false,
-    destroyOnHide = false,
+    destroyTooltipOnHide = false,
     mode: outMode = 'radio',
     width = 250,
     placement = 'bottomLeft',
@@ -89,7 +89,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
   return (
     <Popover
       getPopupContainer={getPopupContainer}
-      destroyTooltipOnHide={destroyOnHide}
+      destroyTooltipOnHide={destroyTooltipOnHide}
       arrow={popupArrow}
       placement={placement}
       {...popoverProps}

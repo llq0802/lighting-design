@@ -1,6 +1,6 @@
 import { Flex } from 'antd';
 import { LTrigger } from 'lighting-design';
-import ChildTable1 from './components/ChildTable1';
+import ChildTable1 from './components/child-table1';
 
 const Demo1 = () => {
   return (
