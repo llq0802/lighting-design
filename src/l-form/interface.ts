@@ -58,7 +58,7 @@ export interface LFormSubmitterProps {
   buttonAlign?: 'left' | 'right' | 'center' | number | string;
 }
 
-export interface BaseFormProps<T = Record<string, any>> extends Omit<FormProps<T>, 'onReset' | 'onValuesChange'> {
+export interface LFormProps<T = Record<string, any>> extends Omit<FormProps<T>, 'onReset' | 'onValuesChange'> {
   /**
    *lable宽度。 同 labelCol={{ flex: '90px' }}
    * - 不要与`labelCol`属性同时设置

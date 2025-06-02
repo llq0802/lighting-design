@@ -1,7 +1,7 @@
 import { useRafState, useUpdateEffect, useUpdateLayoutEffect } from 'ahooks';
-import { Form, type FormInstance } from 'antd';
+import { type FormInstance } from 'antd';
 import type { Store } from 'antd/es/form/interface';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 /**
  * 设置与监听loading
@@ -43,13 +43,3 @@ export const useLFormInitialValues = ({
 
   return innerInitVal;
 };
-/**
- * 使用Form.useForm获取表单实例
- * @param outForm - 外部传入的表单实例
- * @returns 表单实例
- */
-export function useLFormInstance(outForm?: FormInstance) {
-  const [form] = Form.useForm();
-  const formRef = useRef(outForm || form);
-  return formRef;
-}
