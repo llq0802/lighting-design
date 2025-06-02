@@ -58,7 +58,7 @@ export interface LFormSubmitterProps {
   buttonAlign?: 'left' | 'right' | 'center' | number | string;
 }
 
-export interface LFormProps<T = Record<string, any>> extends Omit<FormProps<T>, 'onReset' | 'onValuesChange'> {
+export type LFormProps<T = any> = FormProps<T> & {
   /**
    *lable宽度。 同 labelCol={{ flex: '90px' }}
    * - 不要与`labelCol`属性同时设置
@@ -144,11 +144,7 @@ export interface LFormProps<T = Record<string, any>> extends Omit<FormProps<T>, 
    * @param currentName 当前改变的字段名
    * @param currentValue 当前改变的字段值
    * @param allValues 表单所有的数据
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
    */
   onValuesChange?(currentName: string, currentValue: any, allValues: T): void;
-
   children?: ReactNode;
-  /** 内部使用：表单初始值。（因为_formInitValRef.current是上一次的初始值，在BaseForm的父组件中需要手动更新一次组件才能获取到） */
-  _formInitValRef?: any;
-}
+};
