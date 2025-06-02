@@ -23,11 +23,10 @@ const Wrapper: FC<FormItemWrapperProps> = ({
   ...formItemProps // {id,value,onChange,...}
 }) => {
   const { styles, cx } = useStyles();
-  const innerChildrenProps = { ...(children?.props ?? {}) }; // <Child value={value} onChange={onChange} .../>
+  const innerChildrenProps = { ...(children?.props ?? {}) }; // <Input value={value} onChange={onChange} .../>
   const allProps = composeProps(innerChildrenProps, formItemProps, true);
-  // 合并子组件组件的props并触发相应事件函数
   const childrenContent = isValidElement(children) ? cloneElement(children, allProps) : (children as any);
-  // 没有前后内容
+
   if (!contentBefore && !contentAfter) {
     return childrenContent;
   }
