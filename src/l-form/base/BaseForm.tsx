@@ -5,8 +5,8 @@ import classnames from 'classnames';
 import { Children, createContext, useImperativeHandle, useMemo } from 'react';
 import { isFunction, uniqueId } from '../../utils';
 import type { BaseFormProps, LFormContextType } from '../interface';
-import Submitter from './Submitter';
 import { useLFormInitialValues, useLFormInstance, useLoading } from './hooks';
+import Submitter from './submitter';
 
 const prefixCls = 'lightd-form';
 
@@ -19,7 +19,7 @@ export const LFormContext = createContext<LFormContextType>({
   initialValues: {},
 });
 
-function BaseForm<T extends Record<string, any>>(props: BaseFormProps<T>): JSX.Element {
+function BaseForm<T extends any>(props: BaseFormProps<T>): JSX.Element {
   const {
     labelWidth = 'auto',
     formItemBottom,

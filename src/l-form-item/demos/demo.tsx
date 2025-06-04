@@ -1,22 +1,13 @@
 import { useMount } from 'ahooks';
-import type { FormProps } from 'antd';
 import { Button, Form, Input, Switch } from 'antd';
+import { LFormItem } from 'lighting-design';
 import React from 'react';
-import LFormItem from '..';
 import AgeSelect from './components/AgeSelect';
 
 type FieldType = {
   username?: string;
   password?: string;
   remember?: string;
-};
-
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-  console.log('Success:', values);
-};
-
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-  console.log('Failed:', errorInfo);
 };
 
 const App: React.FC = () => {
@@ -28,20 +19,18 @@ const App: React.FC = () => {
   });
   return (
     <Form<FieldType>
+      // labelWidth={200}
+      autoComplete="off"
       rootClassName="asdasd"
       form={form}
       name="basic"
-      autoComplete="off"
-      style={{
-        width: '50%',
-        border: '1px solid red',
-      }}
       initialValues={{
         remember: true,
         username: '56165',
       }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
+      onFinish={(values) => {
+        console.log('====onFinish====', values);
+      }}
       // onValuesChange={(changedValues, allValues) => {
       //   console.log('===onValuesChange===>', changedValues, allValues);
       // }}
@@ -104,7 +93,7 @@ const App: React.FC = () => {
       </LFormItem>
 
       <LFormItem
-        contentProps={{
+        contentWrapperProps={{
           className: '123',
         }}
         name="switch"
@@ -118,12 +107,6 @@ const App: React.FC = () => {
 
       <LFormItem name="age" label={'测试'} dependencies={['switch']}>
         <AgeSelect></AgeSelect>
-      </LFormItem>
-
-      <LFormItem label={null}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
       </LFormItem>
     </Form>
   );

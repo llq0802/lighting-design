@@ -8,7 +8,7 @@ export interface LFormItemProps<T = any> extends FormItemProps<T> {
    */
   labelWidth?: number | string;
   /**
-   * 字段组件外层宽度。
+   * children 组件外层宽度。
    * - 如果 wrapperCol 存在，则 wrapperWidth 不生效
    */
   wrapperWidth?: number | string;
@@ -29,15 +29,15 @@ export interface LFormItemProps<T = any> extends FormItemProps<T> {
    */
   renderFormItem?: (dom: ReactElement) => ReactNode;
   /**
-   * 组件前面的内容
+   * children 组件前面的内容
    */
   contentBefore?: ReactNode;
-  /*
-   * 组件后面的内容
+  /**
+   * children 组件后面的内容
    */
   contentAfter?: ReactNode;
   /**
-   * 当有 contentBefore 或 contentAfter时, 传给 children 组件的外层 div 的额外属性
+   * 当配置了 contentBefore 或 contentAfter时, 传给 children 组件的外层 div 的额外属性
    */
-  contentProps?: Record<string, any> & { className?: string; style?: React.CSSProperties };
+  contentWrapperProps?: React.HTMLAttributes<HTMLDivElement>;
 }

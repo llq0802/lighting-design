@@ -1,4 +1,5 @@
 import { Form, type FormItemProps } from 'antd';
+import { useMergeFormProps } from 'lighting-design/l-form/context';
 import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement } from 'react';
 import Wrapper from './components/wrapper';
@@ -9,39 +10,44 @@ const LFormItem: FC<LFormItemProps> & {
   useStatus: typeof Form.Item.useStatus;
 } = (props) => {
   const {
+    //跟form合并的属性
     labelWidth: itemLabelWidth,
     wrapperWidth: itemWrapperWidth,
     alignItems: itemAlignItems,
+    formItemBottom: itemBottom,
+    // 自定义属性
     renderField,
     renderFormItem,
     contentBefore,
     contentAfter,
-    contentProps,
-    formItemBottom: itemBottom,
+    contentWrapperProps,
+    // antd属性
     children,
     ...restFromItemProps
   } = props;
 
-  const { styles, cx } = useStyles({ alignItems: itemAlignItems });
+  const { labelWidth, wrapperWidth, alignItems, formItemBottom } = useMergeFormProps(props);
+
+  const { styles, cx } = useStyles({ alignItems });
+
   const { dependencies, shouldUpdate } = restFromItemProps;
 
   const wrapperProps = {
     contentBefore,
     contentAfter,
-    ...contentProps,
+    ...contentWrapperProps,
   };
-
   const formItemProps: FormItemProps = {
     labelCol: {
-      flex: itemLabelWidth,
+      flex: labelWidth ? `0 0 ${typeof labelWidth === 'number' ? `${labelWidth}px` : labelWidth}` : void 0,
     },
     wrapperCol: {
-      flex: itemWrapperWidth ? `0 0 ${itemWrapperWidth}` : void 0,
+      flex: wrapperWidth ? `0 0 ${typeof wrapperWidth === 'number' ? `${wrapperWidth}px` : wrapperWidth}` : void 0,
     },
     ...restFromItemProps,
     className: cx(styles.item, restFromItemProps?.className),
     style: {
-      marginBottom: itemBottom,
+      marginBottom: formItemBottom,
       ...restFromItemProps?.style,
     },
   };
