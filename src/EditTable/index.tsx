@@ -6,7 +6,7 @@ import type { LTableInstance } from 'lighting-design/Table/interface';
 import { fastDeepClone, isFunction, uniqueId } from 'lighting-design/_utils';
 import { emptyObject } from 'lighting-design/constants';
 import { useIsFirstRender } from 'lighting-design/hooks';
-import { isPlainObject } from 'lodash';
+import { isPlainObject } from 'lodash-es';
 import React, { cloneElement, isValidElement, useImperativeHandle, useMemo, useRef } from 'react';
 import type { LEditTableProps } from './interface';
 
@@ -128,9 +128,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   });
 
   /** 判断表格某一行是否是新增的数据*/
-  const isAddNewRowData = useMemoizedFn(
-    (key) => !alreadyTableDataRef.current?.find((item) => item[rowKey] === key),
-  );
+  const isAddNewRowData = useMemoizedFn((key) => !alreadyTableDataRef.current?.find((item) => item[rowKey] === key));
 
   // ====================暴露方法区-开始====================
 
@@ -157,11 +155,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     const curRow = form.getFieldValue(key);
     const { index } = editableKeyMapRef.current[key];
     // 如果返回 Promise.reject() 就终止
-    await editTableOptions?.onSave?.(
-      { [rowKey]: key, ...curRow },
-      isAddNewRowData(key),
-      index as number,
-    );
+    await editTableOptions?.onSave?.({ [rowKey]: key, ...curRow }, isAddNewRowData(key), index as number);
 
     if (isTimelyModified) {
       setTimeout(() => {
