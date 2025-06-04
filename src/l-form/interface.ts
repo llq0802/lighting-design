@@ -19,34 +19,25 @@ export type LFormProps<T = any> = Omit<FormProps, 'onValuesChange' | 'onReset' |
      * - false时，禁止触发提交
      * - true 时，会对初始值重新赋值。
      * - 通常用于异步设置表单的初始值
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
      */
     isReady?: boolean;
-    /**
-     * 表单***提交/重置***按钮的 loading
-     * - 通常无需外部设置
-     * - onFinish是异步函数提交时会自动管理
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
-     */
-    loading?: boolean;
     /**
      * 内置默认的***提交/重置***按钮配置
      * - 满足大多数场景的按钮配置, 也可通过`submitter.render`自定义渲染后绑定`form`的各种方法
      * - 为`false`不会渲染内置的按钮, 需要自行通过`form`实例设置重置或提交
-     *@see 官网 https://llq0802.github.io/lighting-design/latest LFormProps
      */
-    submitter?: false | Omit<LFormSubmitterProps, 'form'>;
+    submitter?: false | Omit<LFormSubmitterProps, 'formItemBottom'>;
+    /**
+     * 点击提交按钮并且表单提交完成后回调
+     * - `submitter` 的 `submitButtonProps.preventDefault`为`false`时生效
+     * - 优先级比 submitter 的 onFinish 低;
     /**
      * 点击重置按钮并且表单重置完成后回调
      * - `submitter` 的 `resetButtonProps.preventDefault`为`false`时生效
      * - 优先级比 submitter 的 onReset 低
      */
     onReset?: (event: React.MouseEvent<HTMLElement>) => void;
-    /**
-     * 是否按`Enter`键能提交表单
-     * - 如果设置 `submitter.render` 且不使用内部 `dom (提交按钮)` 则无效
-     */
-    isEnterSubmit?: boolean;
+
     /**
      * 在 onFinish 调用之前转化表单值
      * - 返回结果是 onFinish 的参数

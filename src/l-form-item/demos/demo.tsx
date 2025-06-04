@@ -1,6 +1,6 @@
 import { useMount } from 'ahooks';
 import { Button, Form, Input, Switch } from 'antd';
-import { LFormItem } from 'lighting-design';
+import { LForm, LFormItem } from 'lighting-design';
 import React from 'react';
 import AgeSelect from './components/AgeSelect';
 
@@ -18,8 +18,8 @@ const App: React.FC = () => {
     });
   });
   return (
-    <Form<FieldType>
-      // labelWidth={200}
+    <LForm<FieldType>
+      labelWidth={100}
       autoComplete="off"
       rootClassName="asdasd"
       form={form}
@@ -39,6 +39,8 @@ const App: React.FC = () => {
       // }}
     >
       <LFormItem
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
         // noStyle
         // hidden
         // extra={111}
@@ -108,7 +110,7 @@ const App: React.FC = () => {
       <LFormItem name="age" label={'测试'} dependencies={['switch']}>
         <AgeSelect></AgeSelect>
       </LFormItem>
-    </Form>
+    </LForm>
   );
 };
 

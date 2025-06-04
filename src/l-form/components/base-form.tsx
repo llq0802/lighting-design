@@ -1,4 +1,4 @@
-import { useMemoizedFn } from 'ahooks';
+import { useMemoizedFn, useUpdateEffect } from 'ahooks';
 import type { FormProps } from 'antd';
 import { Form } from 'antd';
 import { useState, type JSXElementConstructor, type ReactElement } from 'react';
@@ -8,8 +8,9 @@ import Submitter from './base-submitter';
 
 function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
   const {
+    isReady = true,
+    formItemBottom,
     submitter,
-    isEnterSubmit,
     transformValues,
     onReset,
     children,
@@ -47,9 +48,23 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
     }
   });
 
+  useUpdateEffect(() => {
+    if (!isReady) return;
+    // 准备完成后，重新设置表单的初始值
+    // 因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
+    formRef.current?.resetFields?.();
+  }, [isReady]);
+
   const childrenDom = renderChildren ? renderChildren(children, 9, formRef.current) : children;
 
-  const showSubmitter = typeof submitter === 'boolean' ? submitter : true;
+  const submitterProps =
+    typeof submitter === 'boolean'
+      ? false
+      : {
+          loading,
+          ...submitter,
+          formItemBottom,
+        };
 
   const formDom = (
     <Form<T> {...restProps} form={formRef.current} onValuesChange={innerOnValuesChange} onFinish={innerOnFinish}>
@@ -60,7 +75,7 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
         }}
       </Form.Item>
       {childrenDom}
-      <Submitter />
+      {submitterProps ? <Submitter {...submitterProps} /> : null}
     </Form>
   );
 
