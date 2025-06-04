@@ -8,7 +8,7 @@ const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButton
     second = 60,
     cacheKey = '__LCaptchaButton__',
     disabledText = '重发',
-    clickAutoStart,
+    autoStart,
     onEnd,
     onClick,
     actionRef,
@@ -37,7 +37,7 @@ const LCaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButton
   });
 
   const handleButtonClick = useMemoizedFn((e) => {
-    if (clickAutoStart) startFn();
+    if (autoStart) startFn();
     onClick?.(e);
   });
 

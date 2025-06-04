@@ -43,35 +43,32 @@ toc: content
 
 - 卡片的宽度默认最小为 `200px (min-width:200px)`，可通过 `cardStyle`修改
 
-- `antd 版本 >= 5.14.0` 之后 `Card` 组件的 `bodyStyle` 属性已废弃，使用 `styles.body` 替代
-
 :::
 
 ```ts
 import { LCardGroup } from 'lighting-design';
 ```
 
-| 参数          | 说明                                                                                                                 | 类型                                                 | 默认值  |
-| ------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ------- |
-| options       | 数据                                                                                                                 | `SelectProps['options']&{ cardProps?: CardProps }[]` | `-`     |
-| value         | 值                                                                                                                   | `LValueType`                                         | `-`     |
-| defaultValue  | 默认值                                                                                                               | `LValueType`                                         | `-`     |
-| gap           | 卡片间隔                                                                                                             | `number`                                             | `8`     |
-| className     | 容器类名                                                                                                             | `string`                                             | `-`     |
-| style         | 容器样式                                                                                                             | `CSSProperties`                                      | `-`     |
-| cardBodyStyle | 统一设置卡片 body 样式 比每一项中的 `cardProps.bodyStyle` `styles.body` 优先级低                                     | `CSSProperties`                                      | `-`     |
-| cardStyle     | 统一设置卡片样式 比每一项中的 `cardProps.style` 优先级低                                                             | `CSSProperties`                                      | `-`     |
-| activeStyle   | 被选中的卡片样式                                                                                                     | `CSSProperties`                                      | `-`     |
-| labelInValue  | 是否把每个选项的 label 包装到 value 中，<br>会把 value 类型从 string 变为 { value: string, label: ReactNode } 的格式 | `boolean`                                            | `false` |
-| fieldNames    | 自定义 options 的字段名                                                                                              | `SelectProps['fieldNames']`                          | `-`     |
-| hoverable     | 鼠标移过时可浮起                                                                                                     | `boolean`                                            | `false` |
-| multiple      | 是否多选                                                                                                             | `boolean`                                            | `false` |
-| disabled      | 是否禁用                                                                                                             | `boolean`                                            | `false` |
-| cancelable    | 单选时，是否可以点击选中的元素取消选中                                                                               | `boolean`                                            | `false` |
-| onChange      | 受控时 value 值变化事件                                                                                              | `(val:string \| string[]) => void`                   | `- `    |
+| 参数            | 说明                                   | 类型                                                 | 默认值  |
+| --------------- | -------------------------------------- | ---------------------------------------------------- | ------- |
+| options         | 数据                                   | `SelectProps['options']&{ cardProps?: CardProps }[]` | `-`     |
+| value           | 值                                     | `LValueType`                                         | `-`     |
+| defaultValue    | 默认值                                 | `LValueType`                                         | `-`     |
+| gap             | 卡片间隔                               | `number`                                             | `10`    |
+| className       | 容器类名                               | `string`                                             | `-`     |
+| style           | 容器样式                               | `CSSProperties`                                      | `-`     |
+| cardBodyStyle   | 卡片 body 样式                         | `CSSProperties`                                      | `-`     |
+| cardStyle       | 卡片样式                               | `CSSProperties`                                      | `-`     |
+| activeStyle     | 被选中的卡片样式                       | `CSSProperties`                                      | `-`     |
+| activeBodyStyle | 选中卡片 body 的样式                   | `CSSProperties`                                      | `-`     |
+| fieldNames      | 自定义 options 的字段名                | `SelectProps['fieldNames']`                          | `-`     |
+| multiple        | 是否多选                               | `boolean`                                            | `false` |
+| disabled        | 是否禁用                               | `boolean`                                            | `false` |
+| cancelable      | 单选时，是否可以点击选中的元素取消选中 | `boolean`                                            | `false` |
+| onChange        | 受控时 value 值变化事件                | `(args:...any[]]) => void`                           | `- `    |
 
 ### LValueType
 
 ```ts
-export type LValueType = string | number | (string | number)[] | string[] | number[] | null | undefined;
+type LValueType = string | number;
 ```

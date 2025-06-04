@@ -8,3 +8,4 @@ node_modules
 /latest
 /es
 .history/
+pnpm-lock

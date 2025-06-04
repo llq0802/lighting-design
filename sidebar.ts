@@ -47,10 +47,6 @@ export default {
           title: 'LRightMenu-右键菜单',
           link: '/components/Right-Menu',
         },
-        {
-          title: 'LColor-颜色选择',
-          link: '/components/color-pick',
-        },
       ],
     },
     {
@@ -249,20 +245,6 @@ export default {
         },
       ],
     },
-
-    // {
-    //   title: 'Hooks',
-    //   children: [
-    //     {
-    //       title: 'useShow-父子组件传参',
-    //       link: '/components/use-Show',
-    //     },
-    //     {
-    //       title: 'useCallbackState-状态更新回调',
-    //       link: '/components/use-callback-state',
-    //     },
-    //   ],
-    // },
   ],
   '/scene': [
     {

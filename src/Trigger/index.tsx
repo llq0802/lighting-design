@@ -14,8 +14,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     destroyOnHide = false,
     mode: outMode = 'radio',
     width = 250,
-    suffixIcon,
-    fieldNames = { label: 'label', value: 'value' },
     placement = 'bottomLeft',
     placeholder = '请选择',
     getPopupContainer,
@@ -24,8 +22,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     popoverProps = emptyObject,
     ...restProps
   } = props;
-  const valueKey = fieldNames?.value as string;
-  const labelKey = fieldNames?.label as string;
   const [isOpen, setIsOpen] = useControllableValue<boolean>(props, {
     defaultValue: false,
     defaultValuePropName: 'defaultOpen',
@@ -33,8 +29,8 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     trigger: 'onOpenChange',
   });
   const [state, setState] = useControllableValue(props, { defaultValue: void 0 as LTriggerProps['value'] });
-  const stateLabel: any = state?.[labelKey];
-  const stateValue = state?.[valueKey];
+  const stateLabel: any = state?.label;
+  const stateValue = state?.value;
 
   const selectMode = useMemo(() => {
     if (outMode === 'radio' || outMode === 'checkbox') {
@@ -56,7 +52,7 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     return isValueTrue(stateLabel) ? stateLabel : void 0;
   }, [state, outMode]);
 
-  const innerSuffixIcon = suffixIcon || (
+  const innerSuffixIcon = (
     <DownOutlined
       style={{
         transition: '0.2s',
@@ -71,7 +67,6 @@ const LTrigger: FC<LTriggerProps> = (props) => {
     open: isOpen,
     setOpen: setIsOpen,
     labelInValue,
-    fieldNames,
     mode: outMode,
   };
 
@@ -104,12 +99,11 @@ const LTrigger: FC<LTriggerProps> = (props) => {
       onOpenChange={(b) => setIsOpen(b)}
     >
       <Select
+        suffixIcon={innerSuffixIcon}
         {...restProps}
         {...noSelectProps}
         style={{ width, ...restProps?.style }}
-        suffixIcon={innerSuffixIcon}
         placeholder={placeholder}
-        fieldNames={fieldNames}
         mode={selectMode}
         onChange={setState}
         value={innerValue}

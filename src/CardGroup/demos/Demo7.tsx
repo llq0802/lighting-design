@@ -4,11 +4,10 @@ export default function Demo() {
   return (
     <div>
       <LCardGroup
-        hoverable
         options={[
-          { id: '1', title: '支付宝' },
-          { id: '2', title: '微信' },
-          { id: '3', title: <a>云闪付</a> },
+          { id: '1', title: <i>支付宝</i> },
+          { id: '2', title: <i>微信</i> },
+          { id: '3', title: <i>云闪付</i> },
         ]}
         fieldNames={{ label: 'title', value: 'id' }}
       />

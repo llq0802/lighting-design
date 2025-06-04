@@ -8,7 +8,6 @@ interface LTriggerChildProps {
   setOpen?: (open: boolean) => void;
   labelInValue?: boolean;
   mode?: LTriggerMode;
-  fieldNames?: { label: string; value: string };
   [key: string]: any;
 }
 
@@ -21,34 +20,34 @@ const options = [
 const MyLCardGroup = ({
   open,
   mode,
-  fieldNames,
-  labelInValue: outLabelInValue,
+  labelInValue,
   value: outValue,
   onChange: outOnChange,
   setOpen,
 }: LTriggerChildProps) => {
   const isMultiple = mode === 'checkbox' || mode === 'checkboxTag';
-  const innerValue = outLabelInValue ? outValue?.[fieldNames?.value] : outValue;
+
+  const innerValue = labelInValue ? outValue?.value : outValue;
+
   return (
     <LTagGroup
       options={options}
-      fieldNames={fieldNames}
-      labelInValue
       multiple={isMultiple}
       value={innerValue}
-      onChange={(val) => {
+      onChange={(val, cur, opts) => {
+        console.log('===val===>', val, cur);
         let selectedNames;
         let selectedKeys;
         if (!isMultiple) {
-          selectedNames = val?.[fieldNames!.label];
-          selectedKeys = val?.[fieldNames!.value];
+          selectedNames = cur?.label;
+          selectedKeys = cur?.value;
         } else {
-          selectedNames = val?.map((item) => item[fieldNames!.label]);
-          selectedKeys = val?.map((item) => item[fieldNames!.value]);
+          selectedNames = cur?.map((item) => item.label);
+          selectedKeys = cur?.map((item) => item.value);
         }
         outOnChange!({
-          [fieldNames!.label]: selectedNames,
-          [fieldNames!.value]: selectedKeys,
+          label: selectedNames,
+          value: selectedKeys,
         });
         if (!isMultiple) setOpen?.(false);
       }}

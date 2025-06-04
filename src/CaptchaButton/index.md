@@ -43,8 +43,8 @@ import { LCaptchaButton } from 'lighting-design';
 
 除了以下参数外, 继承 [antd Button](https://ant.design/components/button-cn/) **(disabled 除外)**
 | 参数 | 说明 | 类型 | 默认值 |
-| ------------ | ------------------------------------ | ------------------------------------------- | --------------------- |
-| clickAutoStart | 点击按钮是否自动启动倒计时 | `boolean` | `false` |
+| ------------ | ------------------------------------ | ------------------- | --------------------- |
+| autoStart | 点击按钮是否自动启动倒计时 | `boolean` | `false` |
 | second | 倒计时秒数 | `number` | `60 ` |
 | disabledText | 倒计时的文字, 会带上 second 秒 | `string` | `'重发'` |
 | cacheKey | 缓存的 key、页面刷新后倒计时继续。 | `string` | `'__CaptchaButton__'` |
