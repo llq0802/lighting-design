@@ -10,6 +10,7 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
   const {
     isReady = true,
     formItemBottom,
+    labelWidth,
     submitter,
     transformValues,
     onReset,
@@ -62,6 +63,7 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
       ? false
       : {
           loading,
+          position: labelWidth,
           ...submitter,
           formItemBottom,
         };

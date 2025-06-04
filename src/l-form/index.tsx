@@ -12,7 +12,7 @@ function LForm<T extends any = any>(props: LFormProps<T>): React.ReactElement {
       alignItems={alignItems}
       formItemBottom={formItemBottom}
     >
-      <BaseForm<T> formItemBottom={formItemBottom} {...restProps} />
+      <BaseForm<T> labelWidth={labelWidth} formItemBottom={formItemBottom} {...restProps} />
     </LFormContextProvider>
   );
 }
