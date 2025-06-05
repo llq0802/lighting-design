@@ -23,6 +23,9 @@ const App: React.FC = () => {
       submitter={{
         isEnterSubmit: true,
         position: 'center',
+        onReset(event) {
+          console.log('onReset');
+        },
         onSubmit: (vals) => {
           console.log('onSubmit', vals);
         },
@@ -38,6 +41,11 @@ const App: React.FC = () => {
       }}
       onFinish={(values) => {
         console.log('====onFinish====', values);
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(true);
+          }, 2000);
+        });
       }}
       // onValuesChange={(changedValues, allValues) => {
       //   console.log('===onValuesChange===>', changedValues, allValues);

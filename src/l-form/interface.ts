@@ -3,17 +3,22 @@ import type { ReactElement, ReactNode } from 'react';
 import type { LFormSubmitterProps } from './components/base-submitter';
 import type { LFormContextType } from './context';
 
-export type LFormProps<T = any> = Omit<FormProps, 'onValuesChange' | 'onReset' | 'onFinish'> &
+export type LFormProps<T = any> = Omit<FormProps, 'onValuesChange' | 'onFinish'> &
   LFormContextType & {
     /**
      * 重新渲染 LForm 组件的所有children
      * - LForm 下面所有的 Form.Item
      */
-    renderChildren?: (formItemsDom: ReactNode, submitterDom: ReactNode, form: FormInstance<T>) => ReactNode;
+    renderChildren?: (params: { formItemsDom: ReactNode; submitterDom: ReactNode; form: FormInstance<T> }) => ReactNode;
     /**
      * 重新渲染整个 LForm
      */
-    renderLFrom?: (formDom: ReactElement, submitterDom: ReactNode) => ReactNode;
+    renderLFrom?: (params: {
+      formDom: ReactElement;
+      formItemsDom: ReactNode;
+      submitterDom: ReactNode;
+      form: FormInstance<T>;
+    }) => ReactNode;
     /**
      * 表单是否准备完成
      * - false时，禁止触发提交

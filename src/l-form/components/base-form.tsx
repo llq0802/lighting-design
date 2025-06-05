@@ -13,7 +13,6 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
     labelWidth,
     submitter,
     transformValues,
-    onReset,
     children,
     renderChildren,
     renderLFrom,
@@ -56,8 +55,6 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
     formRef.current?.resetFields?.();
   }, [isReady]);
 
-  const childrenDom = renderChildren ? renderChildren(children, 9, formRef.current) : children;
-
   const submitterProps =
     typeof submitter === 'boolean'
       ? false
@@ -69,6 +66,16 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
           formItemBottom,
         };
 
+  const submitterDom = submitterProps ? <Submitter<T> {...submitterProps} /> : null;
+
+  const childrenDom = renderChildren
+    ? renderChildren({
+        formItemsDom: children,
+        submitterDom,
+        form: formRef.current,
+      })
+    : children;
+
   const formDom = (
     <Form<T> {...restProps} form={formRef.current} onValuesChange={innerOnValuesChange} onFinish={innerOnFinish}>
       <Form.Item noStyle shouldUpdate>
@@ -78,11 +85,18 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
         }}
       </Form.Item>
       {childrenDom}
-      {submitterProps ? <Submitter<T> {...submitterProps} /> : null}
+      {submitterDom}
     </Form>
   );
 
-  const returnDom = renderLFrom ? renderLFrom(formDom, 9) : formDom;
+  const returnDom = renderLFrom
+    ? renderLFrom({
+        formDom,
+        formItemsDom: childrenDom,
+        submitterDom,
+        form: formRef.current,
+      })
+    : formDom;
 
   return returnDom as ReactElement<any, string | JSXElementConstructor<any>>;
 }

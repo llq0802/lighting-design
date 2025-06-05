@@ -7,7 +7,7 @@ import { useRef } from 'react';
  * @returns 表单实例
  */
 export function useLFormInstance<T>(outForm?: FormInstance<T>) {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<T>();
   const formRef = useRef(outForm || form);
   return formRef;
 }
