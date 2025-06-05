@@ -2,9 +2,9 @@ import { useMemoizedFn } from 'ahooks';
 import { Button, Form, Space, type ButtonProps } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem, { type LFormItemProps } from 'lighting-design/l-form-item';
-import type { FC, ReactElement, ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
-export type LFormSubmitterProps = {
+export type LFormSubmitterProps<T extends any = any> = {
   /** 重置按钮名称*/
   resetText?: ReactNode;
   /** 提交按钮名称*/
@@ -16,7 +16,7 @@ export type LFormSubmitterProps = {
   /** 点击重置按钮并且表单重置完成后回调 */
   onReset?: (event: React.MouseEvent<HTMLElement>) => void;
   /** 提交回调 */
-  onSubmit?: (event: React.MouseEvent<HTMLElement>) => void;
+  onSubmit?: (values: T, event: React.MouseEvent<HTMLElement>) => void;
   /** 表单是否准备完成 */
   isReady?: boolean;
 
@@ -39,14 +39,14 @@ export type LFormSubmitterProps = {
   /**
    * 按钮的排列方式
    */
-  position?: 'flex-start' | 'flex-end' | 'center' | number;
+  position?: 'flex-start' | 'flex-end' | 'center' | number | string;
   /**
    * 表单提交按钮和重置按钮外层包裹的 LFormItem 的 Props
    */
   formItemProps?: LFormItemProps;
 } & Pick<LFormItemProps, 'formItemBottom'>;
 
-const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
+const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
   const {
     isReady = true,
     loading,
@@ -81,8 +81,9 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     if (!submitPreventDefault && isReady) {
       if (submitButtonProps?.htmlType !== 'submit' && !isEnterSubmit) {
         form?.submit?.();
-        Promise.resolve().then(() => onSubmit?.(e));
       }
+      const valuse = form?.getFieldsValue();
+      Promise.resolve().then(() => onSubmit?.(valuse, e));
     }
     submitButtonProps?.onClick?.(e);
   });
@@ -105,7 +106,12 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
     </Button>,
   ].filter(Boolean) as JSX.Element[];
 
-  const returnDom = renderSubmitter ? renderSubmitter(buttonDomArr, props) : <Space>{buttonDomArr}</Space>;
+  const dom = renderSubmitter ? renderSubmitter(buttonDomArr, props) : <Space>{buttonDomArr}</Space>;
+
+  const justifyContent =
+    position === 'flex-start' || position === 'center' || position === 'flex-end' ? position : void 0;
+
+  const paddingLeft = position === 'flex-start' || position === 'center' || position === 'flex-end' ? void 0 : position;
 
   return (
     <LFormItem
@@ -114,13 +120,13 @@ const LFormSubmitter: FC<LFormSubmitterProps> = (props) => {
       style={{
         display: 'flex',
         alignItems: 'center',
-        justifyContent: typeof position !== 'number' ? position : void 0,
-        paddingLeft: typeof position === 'number' ? position : void 0,
+        justifyContent,
+        paddingLeft,
         ...formItemProps?.style,
       }}
       colon={false}
     >
-      {returnDom}
+      {dom}
     </LFormItem>
   );
 };

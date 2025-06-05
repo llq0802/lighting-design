@@ -26,7 +26,7 @@ export type LFormProps<T = any> = Omit<FormProps, 'onValuesChange' | 'onReset' |
      * - 满足大多数场景的按钮配置, 也可通过`submitter.render`自定义渲染后绑定`form`的各种方法
      * - 为`false`不会渲染内置的按钮, 需要自行通过`form`实例设置重置或提交
      */
-    submitter?: false | Omit<LFormSubmitterProps, 'formItemBottom'>;
+    submitter?: false | Omit<LFormSubmitterProps<T>, 'formItemBottom' | 'isReady'>;
     /**
      * 点击提交按钮并且表单提交完成后回调
      * - `submitter` 的 `submitButtonProps.preventDefault`为`false`时生效

@@ -62,6 +62,7 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
     typeof submitter === 'boolean'
       ? false
       : {
+          isReady,
           loading,
           position: labelWidth,
           ...submitter,
@@ -77,7 +78,7 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
         }}
       </Form.Item>
       {childrenDom}
-      {submitterProps ? <Submitter {...submitterProps} /> : null}
+      {submitterProps ? <Submitter<T> {...submitterProps} /> : null}
     </Form>
   );
 

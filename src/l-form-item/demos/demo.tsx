@@ -14,16 +14,24 @@ const App: React.FC = () => {
   const [form] = Form.useForm();
   useMount(() => {
     form.setFieldsValue({
-      // username: '999',
+      username: '李岚清',
     });
   });
   return (
     <LForm<FieldType>
+      formItemBottom={16}
+      submitter={{
+        isEnterSubmit: true,
+        position: 'center',
+        onSubmit: (vals) => {
+          console.log('onSubmit', vals);
+        },
+      }}
       labelWidth={100}
       autoComplete="off"
       rootClassName="asdasd"
       form={form}
-      name="basic"
+      name="basic-2025"
       initialValues={{
         remember: true,
         username: '56165',
@@ -56,17 +64,17 @@ const App: React.FC = () => {
         // }}
         getValueFromEvent={(e) => {
           // 只在用户操作有效
-          console.log('===getValueFromEvent-1===>', e);
+          // console.log('===getValueFromEvent-1===>', e);
           return e.target.value;
         }}
         normalize={(v, pv, s) => {
           // 只在用户操作有效
-          console.log('===normalize-2===>', v);
+          // console.log('===normalize-2===>', v);
           return v;
         }}
         getValueProps={(value) => {
           //每次初始化或者重新渲染都有效
-          console.log('===getValueProps-3===>', value);
+          // console.log('===getValueProps-3===>', value);
           return { value };
         }}
         label="Username"
@@ -87,11 +95,7 @@ const App: React.FC = () => {
         // contentAfter={<Button>123</Button>}
         // alignItems="center"
       >
-        <Input.Password
-          style={{
-            height: 80,
-          }}
-        />
+        <Input.Password />
       </LFormItem>
 
       <LFormItem
