@@ -1,5 +1,19 @@
-import type { Dayjs } from './day';
-import dayjs from './day';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import localeData from 'dayjs/plugin/localeData';
+import quarterOfYear from 'dayjs/plugin/quarterOfYear';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import weekday from 'dayjs/plugin/weekday';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
+dayjs.extend(relativeTime);
+dayjs.extend(quarterOfYear);
+dayjs.extend(advancedFormat);
+dayjs.extend(weekOfYear);
+dayjs.extend(customParseFormat);
+dayjs.extend(weekday);
+dayjs.extend(localeData);
 
 // DatePicker picker值
 export type Picker = 'date' | 'week' | 'month' | 'quarter' | 'year';
@@ -114,16 +128,8 @@ export function transformQuarter(value: string | Dayjs) {
  * @param value 值
  * @param format 格式化
  */
-export function transform2Dayjs(
-  value?: string | number | Dayjs,
-  format?: string,
-  picker?: Picker,
-): Dayjs;
-export function transform2Dayjs(
-  value?: (string | number | Dayjs)[],
-  format?: string,
-  picker?: Picker,
-): [Dayjs, Dayjs];
+export function transform2Dayjs(value?: string | number | Dayjs, format?: string, picker?: Picker): Dayjs;
+export function transform2Dayjs(value?: (string | number | Dayjs)[], format?: string, picker?: Picker): [Dayjs, Dayjs];
 export function transform2Dayjs(
   value?: string | number | Dayjs | (string | number | Dayjs)[],
   format?: string,
