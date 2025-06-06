@@ -1,4 +1,3 @@
-import { isFunction } from 'lighting-design/utils';
 import XLSX from 'xlsx-js-style';
 
 type Columns = {
@@ -90,7 +89,7 @@ export const json2Excel = (options: Json2ExcelOptions) => {
   // 文件名在excel中
   if (hasFileName) {
     const firstRow = [];
-    if (isFunction(renderFileNameStyle)) {
+    if (typeof renderFileNameStyle === 'function') {
       const renderStyleObj = renderFileNameStyle?.(fileName);
       firstRow.push(renderStyleObj || fileName);
     } else {
@@ -112,7 +111,7 @@ export const json2Excel = (options: Json2ExcelOptions) => {
   // 表头在excel中
   if (hasColumnTitle) {
     const columnsTitle = newColumns.map((column: any, index: number) => {
-      if (isFunction(renderColumnTitleStyle)) {
+      if (typeof renderColumnTitleStyle === 'function') {
         const renderStyleObj = renderColumnTitleStyle?.(column[titleKey], index);
         return renderStyleObj || column[titleKey];
       }
@@ -137,9 +136,10 @@ export const json2Excel = (options: Json2ExcelOptions) => {
   data.forEach((item: any, rowIndex: number) => {
     const row = newColumns.map((column, index: number) => {
       const curVal = item[column[dataIndexKey]];
-      const value = isFunction(column?.exportRender)
-        ? column.exportRender?.(curVal, item, rowIndex)?.toString()
-        : curVal?.toString();
+      const value =
+        typeof column?.exportRender === 'function'
+          ? column.exportRender?.(curVal, item, rowIndex)?.toString()
+          : curVal?.toString();
 
       if (value) {
         // 设置单元格自动宽度
@@ -159,7 +159,7 @@ export const json2Excel = (options: Json2ExcelOptions) => {
         }
       }
 
-      if (isFunction(renderCellStyle)) {
+      if (typeof renderCellStyle === 'function') {
         return renderCellStyle?.(value, rowIndex, index);
       }
       return {
