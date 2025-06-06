@@ -1,3 +1,5 @@
+import type { LFormItemProps } from 'lighting-design/l-form-item';
+
 /**
  * 合并两个`props`属性, 并对两个`props`的方法进行合并调用
  * @param {Record<string, any>} originProps 原始props
@@ -25,10 +27,10 @@ export function composeProps<T extends Record<string, any>>(
 }
 
 /**
- * 获取LForm组件的label字符串名称
+ * 获取LFormItem组件的label字符串名称
  * @param {Record<string, any>} props
  */
-export function getFormItemLabel(props: Record<string, any>): string {
+export function getFormItemLabel(props: LFormItemProps): string {
   const { label, messageVariables = {} } = props;
   if (typeof label === 'string') {
     return label;
@@ -42,10 +44,10 @@ export function getFormItemLabel(props: Record<string, any>): string {
 /**
  * 获取表单项的 placeholder
  */
-export const usePlaceholder = (options: {
+export const getFormItemPlaceholder = (options: {
   placeholder?: string | string[];
+  restProps: LFormItemProps;
   isSelectType?: boolean;
-  restProps: Record<string, any>;
 }): any => {
   const { placeholder, restProps, isSelectType = false } = options;
   if (placeholder) return placeholder;

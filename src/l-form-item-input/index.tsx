@@ -1,20 +1,17 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { emptyObject } from 'lighting-design/constants';
-import { usePlaceholder } from 'lighting-design/utils';
+import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { useContext } from 'react';
 import InputWrapper from './InputWrapper';
 import type { LFormItemInputProps } from './interface';
-import useRules from './useRules';
 
 const LFormItemInput: FC<LFormItemInputProps> = ({
+  disabledWhiteSpace = false,
+  //
   size,
   disabled = false,
   placeholder,
-
-  disabledWhiteSpace = false,
-
+  //
   type,
   variant,
   prefix,
@@ -23,35 +20,33 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   addonBefore,
   maxLength,
   inputProps = emptyObject,
-
+  //
   required,
   ...restProps
 }) => {
-  const messageLabel = usePlaceholder({
+  const itemPlaceholder = getFormItemPlaceholder({
     placeholder,
     restProps,
   });
-  const { disabled: formDisabled } = useContext(LFormContext);
-  const rules = useRules(type as string, !!required, restProps?.messageVariables?.label || messageLabel);
+  // const rules = useRules(type as string, !!required, restProps?.messageVariables?.label || itemPlaceholder);
+
+  const baseProps = {
+    size,
+    disabled,
+    placeholder: itemPlaceholder,
+    type,
+    variant,
+    prefix,
+    suffix,
+    addonAfter,
+    addonBefore,
+    maxLength,
+    ...inputProps,
+  };
 
   return (
-    <LFormItem placeholder={messageLabel} required={required} rules={rules} {...restProps}>
-      <InputWrapper
-        size={size}
-        disabled={disabled || formDisabled}
-        placeholder={messageLabel}
-        //
-        disabledWhiteSpace={disabledWhiteSpace}
-        //
-        type={type}
-        variant={variant}
-        prefix={prefix}
-        suffix={suffix}
-        addonAfter={addonAfter}
-        addonBefore={addonBefore}
-        maxLength={maxLength}
-        {...inputProps}
-      />
+    <LFormItem required={required} {...restProps}>
+      <InputWrapper {...baseProps} />
     </LFormItem>
   );
 };
