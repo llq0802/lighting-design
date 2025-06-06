@@ -7,15 +7,18 @@ function LForm<T extends any = any>(props: LFormProps<T>): React.ReactElement {
 
   return (
     <LFormContextProvider
+      disabled={props.disabled}
+      size={props.size}
       labelWidth={labelWidth}
       wrapperWidth={wrapperWidth}
       alignItems={alignItems}
       formItemBottom={formItemBottom}
     >
-      <BaseForm<T> labelWidth={labelWidth} formItemBottom={formItemBottom} {...restProps} />
+      <BaseForm<T> {...restProps} />
     </LFormContextProvider>
   );
 }
 
 export default LForm;
+export { useLFormContext } from './context';
 export * from './interface';

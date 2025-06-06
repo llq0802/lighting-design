@@ -23,7 +23,7 @@ export interface LFormItemProps<T = any> extends FormItemProps<T> {
   /**
    *重新渲染 LFormItem 的 children 组件
    */
-  renderField?: (dom: ReactElement, props: LFormItemProps) => ReactNode;
+  renderField?: (dom: ReactElement, props: LFormItemProps<T>) => ReactNode;
   /**
    * 重新渲染整个 LFormItem 组件
    */

@@ -3,6 +3,7 @@ import { Button, Form, Space, type ButtonProps } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem, { type LFormItemProps } from 'lighting-design/l-form-item';
 import type { ReactElement, ReactNode } from 'react';
+import { useLFormContext } from '../context';
 
 export type LFormSubmitterProps<T extends any = any> = {
   /** 重置按钮名称*/
@@ -59,11 +60,14 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
     submitButtonProps: outSubmitButtonProps = emptyObject,
     resetButtonProps: outResetButtonProps = emptyObject,
     renderSubmitter,
-    formItemBottom,
+    formItemBottom: outFormItemBottom,
     formItemProps,
-    position,
+    position: outPosition,
   } = props;
   const form = Form.useFormInstance();
+  const { labelWidth, formItemBottom: innerFormItemBottom } = useLFormContext();
+  const position = outPosition || labelWidth;
+  const formItemBottom = outFormItemBottom || innerFormItemBottom;
   const { preventDefault: submitPreventDefault = false, ...submitButtonProps } = outSubmitButtonProps;
   const { preventDefault: resetPreventDefault = false, ...resetButtonProps } = outResetButtonProps;
 
@@ -108,10 +112,9 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
 
   const dom = renderSubmitter ? renderSubmitter(buttonDomArr, props) : <Space>{buttonDomArr}</Space>;
 
-  const justifyContent =
-    position === 'flex-start' || position === 'center' || position === 'flex-end' ? position : void 0;
-
-  const paddingLeft = position === 'flex-start' || position === 'center' || position === 'flex-end' ? void 0 : position;
+  const isPresetposition = position === 'flex-start' || position === 'center' || position === 'flex-end';
+  const justifyContent = isPresetposition ? position : void 0;
+  const paddingLeft = isPresetposition ? void 0 : position;
 
   return (
     <LFormItem

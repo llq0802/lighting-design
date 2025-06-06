@@ -3,7 +3,7 @@ import type { ReactElement, ReactNode } from 'react';
 import type { LFormSubmitterProps } from './components/base-submitter';
 import type { LFormContextType } from './context';
 
-export type LFormProps<T = any> = Omit<FormProps, 'onValuesChange' | 'onFinish'> &
+export type LFormProps<T = any> = Omit<FormProps<T>, 'onValuesChange' | 'onFinish'> &
   LFormContextType & {
     /**
      * 重新渲染 LForm 组件的所有children
@@ -31,7 +31,7 @@ export type LFormProps<T = any> = Omit<FormProps, 'onValuesChange' | 'onFinish'>
      * - 满足大多数场景的按钮配置, 也可通过`submitter.render`自定义渲染后绑定`form`的各种方法
      * - 为`false`不会渲染内置的按钮, 需要自行通过`form`实例设置重置或提交
      */
-    submitter?: false | Omit<LFormSubmitterProps<T>, 'formItemBottom' | 'isReady'>;
+    submitter?: false | Omit<LFormSubmitterProps<T>, 'isReady'>;
     /**
      * 点击提交按钮并且表单提交完成后回调
      * - `submitter` 的 `submitButtonProps.preventDefault`为`false`时生效
@@ -60,6 +60,6 @@ export type LFormProps<T = any> = Omit<FormProps, 'onValuesChange' | 'onFinish'>
      * @param currentValue 当前改变的字段值
      * @param allValues 表单所有的数据
      */
-    onValuesChange?(currentName: string, currentValue: any, allValues: T): void;
+    onValuesChange?(currentName: keyof T, currentValue: T[keyof T], allValues: T): void;
     children?: ReactNode;
   };

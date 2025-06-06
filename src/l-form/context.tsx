@@ -1,7 +1,11 @@
+import type { FormProps } from 'antd';
 import type { LFormItemProps } from 'lighting-design/l-form-item';
 import { createContext, useContext } from 'react';
 
-export type LFormContextType = Pick<LFormItemProps, 'labelWidth' | 'wrapperWidth' | 'formItemBottom' | 'alignItems'>;
+export type LFormContextType = Pick<LFormItemProps, 'labelWidth' | 'wrapperWidth' | 'formItemBottom' | 'alignItems'> & {
+  disabled?: boolean;
+  size?: FormProps['size'];
+};
 
 export const LFormContext = createContext<LFormContextType>({} as LFormContextType);
 

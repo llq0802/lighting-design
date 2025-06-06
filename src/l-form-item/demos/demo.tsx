@@ -6,8 +6,8 @@ import AgeSelect from './components/AgeSelect';
 
 type FieldType = {
   username?: string;
-  password?: string;
-  remember?: string;
+  password?: number;
+  remember?: boolean;
 };
 
 const App: React.FC = () => {
@@ -19,6 +19,8 @@ const App: React.FC = () => {
   });
   return (
     <LForm<FieldType>
+      variant="filled"
+      onValuesChange={(currentName, currentVal) => {}}
       formItemBottom={16}
       submitter={{
         isEnterSubmit: true,

@@ -9,8 +9,6 @@ import Submitter from './base-submitter';
 function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
   const {
     isReady = true,
-    formItemBottom,
-    labelWidth,
     submitter,
     transformValues,
     children,
@@ -25,9 +23,9 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
   const formRef = useLFormInstance<T>(outForm);
   const [loading, setLoading] = useState(false);
 
-  const innerOnValuesChange: FormProps['onValuesChange'] = useMemoizedFn((changedValues, allValues) => {
+  const innerOnValuesChange: FormProps<T>['onValuesChange'] = useMemoizedFn((changedValues, allValues) => {
     const [currentName, currentValue] = Object.entries(changedValues)?.[0] || [];
-    onValuesChange?.(currentName, currentValue, allValues);
+    onValuesChange?.(currentName as keyof T, currentValue as T[keyof T], allValues);
   });
 
   const innerOnFinish = useMemoizedFn(async (values: T) => {
@@ -61,9 +59,7 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
       : {
           isReady,
           loading,
-          position: labelWidth,
           ...submitter,
-          formItemBottom,
         };
 
   const submitterDom = submitterProps ? <Submitter<T> {...submitterProps} /> : null;
