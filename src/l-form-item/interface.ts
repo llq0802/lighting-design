@@ -1,7 +1,7 @@
 import type { FormItemProps } from 'antd';
 import type { ReactElement, ReactNode } from 'react';
 
-export interface LFormItemProps<T = any> extends FormItemProps<T> {
+export type LFormItemProps<T = any> = FormItemProps<T> & {
   /**
    * lable 宽度。
    * - 如果 labelCol 存在，则 labelWidth 不生效
@@ -40,4 +40,14 @@ export interface LFormItemProps<T = any> extends FormItemProps<T> {
    * 当配置了 contentBefore 或 contentAfter时, 传给 children 组件的外层 div 的额外属性
    */
   contentWrapperProps?: React.HTMLAttributes<HTMLDivElement>;
-}
+
+  /**
+   * 是否必填
+   *
+   *  - 会生成默认的必填星号
+   *
+   *  - 会触发内置的表单校验规则
+   *
+   */
+  required?: boolean;
+};

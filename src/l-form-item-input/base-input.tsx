@@ -1,6 +1,6 @@
 import type { InputProps } from 'antd';
 import { Input } from 'antd';
-import type { FC } from 'react';
+import { useMemo, type FC } from 'react';
 
 // 谷歌浏览器：compositionstart onChange compositionend
 // 火狐浏览器：compositionstart compositionend onChange
@@ -8,17 +8,28 @@ import type { FC } from 'react';
 
 type InputType = InputProps['type'] | 'bankCard' | 'idCard' | 'phone' | 'email' | 'url' | 'chinese ';
 
-export interface InputWrapperProps extends InputProps {
+export interface BaseInputProps extends InputProps {
   type?: InputType;
   disabledWhiteSpace?: boolean;
 }
 
-const BaseInput: FC<InputWrapperProps> = (props) => {
+const BaseInput: FC<BaseInputProps> = (props) => {
   const { type, maxLength, ...restProps } = props;
 
-  const innerMaxLength = maxLength;
+  const innerType = useMemo(() => {
+    if (type === 'phone' || type === 'idCard' || type === 'bankCard' || type === 'chinese') {
+      return 'text';
+    }
+    return type;
+  }, [type]);
 
-  return <Input autoComplete="off" type={realType} maxLength={innerMaxLength} {...restProps} />;
+  const innerMaxLength = useMemo(() => {
+    if (type === 'phone') return 11;
+    if (type === 'idCard') return 18;
+    return maxLength;
+  }, [type, maxLength]);
+
+  return <Input autoComplete="off" type={innerType} maxLength={innerMaxLength} {...restProps} />;
 };
 
 export default BaseInput;

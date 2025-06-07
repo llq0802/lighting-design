@@ -24,11 +24,9 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'></code>
+<code src='./demos/demo.tsx'></code>
 
 ## API
-
-<!-- 'bankCard' | 'idCard' | 'phone' | 'url' | 'email' | 'chinese' -->
 
 :::warning{title=注意}
 

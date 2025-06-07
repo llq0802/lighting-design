@@ -1,5 +1,6 @@
 import { Form, type FormItemProps } from 'antd';
 import { useMergeFormProps } from 'lighting-design/l-form/context';
+import { getFormItemLabel, isLegalValue } from 'lighting-design/utils';
 import type { FC, ReactElement, ReactNode } from 'react';
 import { cloneElement, isValidElement } from 'react';
 import Wrapper from './components/wrapper';
@@ -28,15 +29,34 @@ const LFormItem: FC<LFormItemProps> & {
 
   const { labelWidth, wrapperWidth, alignItems, formItemBottom } = useMergeFormProps(props);
 
-  const { styles, cx } = useStyles({ alignItems });
+  const { dependencies, shouldUpdate, required, messageVariables, rules, style, className } = restFromItemProps;
 
-  const { dependencies, shouldUpdate } = restFromItemProps;
+  const { styles, cx } = useStyles({ alignItems });
 
   const wrapperProps = {
     contentBefore,
     contentAfter,
     ...contentWrapperProps,
   };
+
+  const innerRules =
+    rules && rules?.length > 0
+      ? rules
+      : [
+          {
+            async validator(_: any, value: any) {
+              let errMsg = '';
+              if (required && !isLegalValue(value)) {
+                errMsg = messageVariables?.label || `${getFormItemLabel(restFromItemProps)}不能为空!`;
+              }
+              if (errMsg) {
+                return Promise.reject(errMsg);
+              }
+              return Promise.resolve();
+            },
+          },
+        ];
+
   const formItemProps: FormItemProps = {
     labelCol: {
       flex: labelWidth ? `0 0 ${typeof labelWidth === 'number' ? `${labelWidth}px` : labelWidth}` : void 0,
@@ -45,11 +65,9 @@ const LFormItem: FC<LFormItemProps> & {
       flex: wrapperWidth ? `0 0 ${typeof wrapperWidth === 'number' ? `${wrapperWidth}px` : wrapperWidth}` : void 0,
     },
     ...restFromItemProps,
-    className: cx(styles.item, restFromItemProps?.className),
-    style: {
-      marginBottom: formItemBottom,
-      ...restFromItemProps?.style,
-    },
+    className: cx(styles.item, className),
+    rules: innerRules,
+    style: { marginBottom: formItemBottom, ...style },
   };
 
   const renderChildren = (node: ReactNode) => {

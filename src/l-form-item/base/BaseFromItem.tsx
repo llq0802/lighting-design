@@ -72,7 +72,6 @@ const LFormItem: FC<LFormItemProps> & {
                 if (!isLegalValue(value)) {
                   errMsg = required ? `${restFromItemProps?.messageVariables?.label || messageLabel}!` : '';
                 }
-
                 if (errMsg) {
                   return Promise.reject(errMsg);
                 }

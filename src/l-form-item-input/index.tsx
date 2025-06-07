@@ -2,12 +2,11 @@ import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import InputWrapper from './InputWrapper';
+import BaseInput from './base-input';
 import type { LFormItemInputProps } from './interface';
+import useInputRules from './use-input-rules';
 
 const LFormItemInput: FC<LFormItemInputProps> = ({
-  disabledWhiteSpace = false,
-  //
   size,
   disabled = false,
   placeholder,
@@ -19,16 +18,17 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   addonAfter,
   addonBefore,
   maxLength,
+  showCount,
   inputProps = emptyObject,
   //
-  required,
-  ...restProps
+  ...formItemProps
 }) => {
+  const { required, messageVariables } = formItemProps;
+
   const itemPlaceholder = getFormItemPlaceholder({
     placeholder,
-    restProps,
+    formItemProps,
   });
-  // const rules = useRules(type as string, !!required, restProps?.messageVariables?.label || itemPlaceholder);
 
   const baseProps = {
     size,
@@ -41,12 +41,15 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
     addonAfter,
     addonBefore,
     maxLength,
+    showCount,
     ...inputProps,
   };
 
+  const rules = useInputRules(type, required, messageVariables?.label);
+
   return (
-    <LFormItem required={required} {...restProps}>
-      <InputWrapper {...baseProps} />
+    <LFormItem rules={rules} {...formItemProps}>
+      <BaseInput {...baseProps} />
     </LFormItem>
   );
 };

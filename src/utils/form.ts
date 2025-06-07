@@ -46,10 +46,10 @@ export function getFormItemLabel(props: LFormItemProps): string {
  */
 export const getFormItemPlaceholder = (options: {
   placeholder?: string | string[];
-  restProps: LFormItemProps;
+  formItemProps: LFormItemProps;
   isSelectType?: boolean;
 }): any => {
-  const { placeholder, restProps, isSelectType = false } = options;
+  const { placeholder, formItemProps, isSelectType = false } = options;
   if (placeholder) return placeholder;
-  return `${isSelectType ? '请选择' : '请输入'}${getFormItemLabel(restProps)}`;
+  return `${isSelectType ? '请选择' : '请输入'}${getFormItemLabel(formItemProps)}`;
 };
