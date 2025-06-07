@@ -1,20 +1,12 @@
-import { useMount } from 'ahooks';
-import { Form } from 'antd';
-import { LForm } from 'lighting-design';
+import { LForm, LFormItemInput } from 'lighting-design';
 import React from 'react';
-import LFormItemInput from '..';
 
 type FieldType = {
   input?: string;
 };
 
 const App: React.FC = () => {
-  const [form] = Form.useForm();
-  useMount(() => {
-    form.setFieldsValue({
-      username: '李岚清',
-    });
-  });
+  const [form] = LForm.useForm<FieldType>();
   return (
     <LForm<FieldType>
       submitter={{
@@ -30,7 +22,7 @@ const App: React.FC = () => {
       labelWidth={100}
       form={form}
       onFinish={(values) => {
-        console.log('====onFinish====', values);
+        console.log('===onFinish===', values);
         return new Promise((resolve) => {
           setTimeout(() => {
             resolve(true);
@@ -38,7 +30,23 @@ const App: React.FC = () => {
         });
       }}
     >
-      <LFormItemInput required showCount name="input" maxLength={10} label="姓名" type="phone" />
+      <LFormItemInput
+        showCount
+        name="input"
+        maxLength={10}
+        label="姓名"
+        rules={[
+          {
+            required: true,
+            min: 2,
+            max: 10,
+            message: '格式错误',
+          },
+        ]}
+        inputProps={{
+          allowClear: true,
+        }}
+      />
     </LForm>
   );
 };

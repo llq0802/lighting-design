@@ -14,7 +14,7 @@ export interface BaseInputProps extends InputProps {
 }
 
 const BaseInput: FC<BaseInputProps> = (props) => {
-  const { type, maxLength, ...restProps } = props;
+  const { type = 'text', maxLength, max, ...restProps } = props;
 
   const innerType = useMemo(() => {
     if (type === 'phone' || type === 'idCard' || type === 'bankCard' || type === 'chinese') {
@@ -24,6 +24,8 @@ const BaseInput: FC<BaseInputProps> = (props) => {
   }, [type]);
 
   const innerMaxLength = useMemo(() => {
+    if (type === 'text') return (maxLength || max) as number;
+    if (type === 'bankCard') return 22;
     if (type === 'phone') return 11;
     if (type === 'idCard') return 18;
     return maxLength;

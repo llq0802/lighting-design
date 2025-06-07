@@ -1,9 +1,30 @@
 import { BANCK_CARD_REG, CHINESE_REG, EMAIL_REG, ID_CARD_REG, PHONE_REG, URL_REG } from 'lighting-design/constants';
 
-export default function useInputRules(type: string = 'text', required?: boolean, message?: string) {
-  let rules: any[] | undefined = undefined;
+export default function useInputRules({
+  type,
+  required,
+  message,
+  min,
+  max,
+}: {
+  type?: string;
+  required?: boolean;
+  message?: string;
+  min?: number;
+  max?: number;
+}) {
+  if (type === 'text' && min && max) {
+    return [
+      {
+        required,
+        min,
+        max,
+        message: message || `请输入${min}到${max}位字符!`,
+      },
+    ];
+  }
   if (type === 'phone') {
-    rules = [
+    return [
       {
         required,
         message: message || `请输入正确的手机号格式!`,
@@ -12,7 +33,7 @@ export default function useInputRules(type: string = 'text', required?: boolean,
     ];
   }
   if (type === 'idCard') {
-    rules = [
+    return [
       {
         required,
         message: message || '请输入正确的身份证格式!',
@@ -21,7 +42,7 @@ export default function useInputRules(type: string = 'text', required?: boolean,
     ];
   }
   if (type === 'url') {
-    rules = [
+    return [
       {
         required,
         message: message || '请输入正确的URL网址格式!',
@@ -31,7 +52,7 @@ export default function useInputRules(type: string = 'text', required?: boolean,
   }
 
   if (type === 'bankCard') {
-    rules = [
+    return [
       {
         required,
         message: message || '请输入正确的银行卡格式!',
@@ -40,7 +61,7 @@ export default function useInputRules(type: string = 'text', required?: boolean,
     ];
   }
   if (type === 'email') {
-    rules = [
+    return [
       {
         required,
         message: message || '请输入正确的邮箱格式!',
@@ -50,7 +71,7 @@ export default function useInputRules(type: string = 'text', required?: boolean,
   }
 
   if (type === 'chinese') {
-    rules = [
+    return [
       {
         required,
         message: message || '请输入中文汉字!',
@@ -59,5 +80,5 @@ export default function useInputRules(type: string = 'text', required?: boolean,
     ];
   }
 
-  return rules;
+  return void 0;
 }

@@ -6,6 +6,8 @@ export * from './l-form';
 export { default as LForm } from './l-form';
 export * from './l-form-item';
 export { default as LFormItem } from './l-form-item';
+export * from './l-form-item-input';
+export { default as LFormItemInput } from './l-form-item-input';
 export * from './l-tag-group';
 export { default as LTagGroup } from './l-tag-group';
 export * from './l-trigger';

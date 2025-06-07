@@ -45,10 +45,10 @@ export function getFormItemLabel(props: LFormItemProps): string {
  * 获取表单项的 placeholder
  */
 export const getFormItemPlaceholder = (options: {
-  placeholder?: string | string[];
+  placeholder?: string;
   formItemProps: LFormItemProps;
   isSelectType?: boolean;
-}): any => {
+}) => {
   const { placeholder, formItemProps, isSelectType = false } = options;
   if (placeholder) return placeholder;
   return `${isSelectType ? '请选择' : '请输入'}${getFormItemLabel(formItemProps)}`;

@@ -8,8 +8,11 @@ import useInputRules from './use-input-rules';
 
 const LFormItemInput: FC<LFormItemInputProps> = ({
   size,
-  disabled = false,
+  disabled,
   placeholder,
+  //
+  min,
+  max,
   //
   type,
   variant,
@@ -42,10 +45,17 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
     addonBefore,
     maxLength,
     showCount,
+    max,
     ...inputProps,
   };
 
-  const rules = useInputRules(type, required, messageVariables?.label);
+  const rules = useInputRules({
+    type,
+    required,
+    min,
+    max,
+    message: messageVariables?.label,
+  });
 
   return (
     <LFormItem rules={rules} {...formItemProps}>
