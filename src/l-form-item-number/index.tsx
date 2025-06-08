@@ -1,52 +1,57 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import { InputNumber } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
-import { usePlaceholder } from 'lighting-design/utils';
+import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { useContext } from 'react';
-import NumberWrapper from './NumberWrapper';
 import type { LFormItemNumberProps } from './interface';
 
 const LFormItemNumber: FC<LFormItemNumberProps> = ({
-  disabled = false,
+  disabled,
   size,
   placeholder,
-
-  precision,
-  min = 0,
-  max = 99999,
   variant,
+  //
+  precision,
+  min,
+  max,
   addonAfter,
-  prefix,
   addonBefore,
+  prefix,
+  suffix,
 
   numberProps = emptyObject,
 
-  ...restProps
+  ...formItemProps
 }) => {
-  const messageLabel = usePlaceholder({
+  const itemPlaceholder = getFormItemPlaceholder({
     placeholder,
-    restProps,
+    formItemProps,
   });
 
-  const { disabled: formDisabled } = useContext(LFormContext);
+  const baseProps = {
+    size,
+    disabled,
+    placeholder: itemPlaceholder,
+    variant,
+    //
+    precision,
+    min,
+    max,
+    addonAfter,
+    addonBefore,
+    prefix,
+    suffix,
+    autoComplete: 'off',
+    ...numberProps,
+    style: {
+      width: '100%',
+      ...numberProps.style,
+    },
+  };
 
   return (
-    <LFormItem placeholder={messageLabel} {...restProps}>
-      <NumberWrapper
-        size={size}
-        disabled={disabled || formDisabled}
-        placeholder={messageLabel}
-        //
-        min={min}
-        max={max}
-        precision={precision}
-        addonAfter={addonAfter}
-        prefix={prefix}
-        addonBefore={addonBefore}
-        variant={variant}
-        {...numberProps}
-      />
+    <LFormItem {...formItemProps}>
+      <InputNumber {...baseProps} />
     </LFormItem>
   );
 };

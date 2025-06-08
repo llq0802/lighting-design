@@ -33,6 +33,7 @@ const LFormItemTextarea: FC<LFormItemTextareaProps> = ({
     maxLength,
     autoSize,
     rows,
+    autoComplete: 'off',
     ...textAreaProps,
   };
 

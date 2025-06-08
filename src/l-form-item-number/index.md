@@ -17,7 +17,7 @@ nav:
 
 ### 基础用法
 
-<!-- <code src='./demos/Demo2.tsx'></code> -->
+<code src='./demos/demo.tsx'></code>
 
 ## API
 

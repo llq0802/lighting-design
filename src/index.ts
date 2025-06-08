@@ -8,6 +8,8 @@ export * from './l-form-item';
 export { default as LFormItem } from './l-form-item';
 export * from './l-form-item-input';
 export { default as LFormItemInput } from './l-form-item-input';
+export * from './l-form-item-number';
+export { default as LFormItemNumber } from './l-form-item-number';
 export * from './l-form-item-password';
 export { default as LFormItemPassword } from './l-form-item-password';
 export * from './l-form-item-textarea';

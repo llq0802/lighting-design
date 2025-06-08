@@ -1,4 +1,4 @@
-import { LForm, LFormItemTextarea } from 'lighting-design';
+import { LForm, LFormItemNumber } from 'lighting-design';
 import React from 'react';
 
 type FieldType = {
@@ -9,16 +9,6 @@ const App: React.FC = () => {
   const [form] = LForm.useForm<FieldType>();
   return (
     <LForm<FieldType>
-      submitter={{
-        isEnterSubmit: true,
-        position: 'center',
-        onReset(event) {
-          console.log('onReset');
-        },
-        onSubmit: (vals) => {
-          console.log('onSubmit', vals);
-        },
-      }}
       labelWidth={100}
       form={form}
       onFinish={(values) => {
@@ -30,7 +20,7 @@ const App: React.FC = () => {
         });
       }}
     >
-      <LFormItemTextarea name="input" label="备注" />
+      <LFormItemNumber name="input" label="金额" />
     </LForm>
   );
 };
