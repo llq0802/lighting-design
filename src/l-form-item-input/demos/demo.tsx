@@ -31,12 +31,22 @@ const App: React.FC = () => {
       }}
     >
       <LFormItemInput
-        showCount
-        maxLength={10}
         name="input"
         label="姓名"
-        inputProps={{
-          allowClear: true,
+        getValueFromEvent={(e) => {
+          // 设置如何将 event 的值转换成字段值, 只在用户操作有效
+          console.log('===getValueFromEvent-1===>', e);
+          return e.target.value;
+        }}
+        normalize={(v, pv, s) => {
+          // 组件获取值后进行转换，再放入 Form 中。不支持异步, 只在用户操作有效
+          console.log('===normalize-2===>', v);
+          return v;
+        }}
+        getValueProps={(value) => {
+          //为子元素添加额外的属性, 每次初始化或者重新渲染都有效
+          console.log('===getValueProps-3===>', value);
+          return { value };
         }}
       />
     </LForm>

@@ -1,56 +1,66 @@
-import { Switch } from 'antd';
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import { Switch, type SwitchProps } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
+import LFormItem from 'lighting-design/l-form-item';
 import type { FC } from 'react';
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import type { LFormItemSwitchProps } from './interface';
 
-const SwitchWrapper = (
-  props: Pick<LFormItemSwitchProps, 'checkedBg' | 'unCheckedBg' | 'switchProps'> &
-    Record<string, any>,
-) => {
-  const { checked, unCheckedBg, checkedBg, style, size, ...switchProps } = props;
+const BaseSwitch = (props: SwitchProps & Pick<LFormItemSwitchProps, 'checkedBg' | 'unCheckedBg'>) => {
+  const { checked, unCheckedBg, checkedBg, style, ...switchProps } = props;
 
-  const styles = useMemo(() => {
-    return checked
-      ? { backgroundColor: checkedBg, ...style }
-      : { backgroundColor: unCheckedBg, ...style };
+  const innerStyle = useMemo(() => {
+    return checked ? { backgroundColor: checkedBg, ...style } : { backgroundColor: unCheckedBg, ...style };
   }, [checked, checkedBg, style, unCheckedBg]);
 
-  return (
-    <Switch
-      size={size === 'small' ? 'small' : 'default'}
-      {...switchProps}
-      style={styles}
-      checked={checked}
-    />
-  );
+  return <Switch {...switchProps} style={innerStyle} checked={checked} />;
 };
 
 const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
+  size,
+  disabled,
+
+  checkedValue,
+  uncheckedValue,
   checkedBg,
+  unCheckedBg,
+
   checkedChildren,
   unCheckedChildren,
-  unCheckedBg,
   switchProps = emptyObject,
 
-  size,
-  disabled = false,
   ...restProps
 }) => {
-  const { size: formSize, disabled: formDisabled } = useContext(LFormContext);
+  const baseProps = {
+    size,
+    disabled,
+    checkedBg,
+    checkedChildren,
+    unCheckedChildren,
+    unCheckedBg,
+    ...switchProps,
+  };
+
   return (
-    <LFormItem _isSelectType valuePropName="checked" {...restProps}>
-      <SwitchWrapper
-        size={size ?? formSize}
-        disabled={disabled || formDisabled}
-        checkedBg={checkedBg}
-        unCheckedBg={unCheckedBg}
-        checkedChildren={checkedChildren}
-        unCheckedChildren={unCheckedChildren}
-        {...switchProps}
-      />
+    <LFormItem
+      valuePropName="checked"
+      {...restProps}
+      getValueFromEvent={(e) => {
+        // 设置如何将 event 的值转换成字段值, 只在用户操作有效
+        console.log('===getValueFromEvent-1===>', e);
+        return e;
+      }}
+      normalize={(v, pv, s) => {
+        // 组件获取值后进行转换，再放入 Form 中。不支持异步, 只在用户操作有效
+        console.log('===normalize-2===>', v);
+        return v;
+      }}
+      getValueProps={(value) => {
+        //为子元素添加额外的属性, 每次初始化或者重新渲染都有效
+        console.log('===getValueProps-3===>', value);
+        return { value };
+      }}
+    >
+      <BaseSwitch {...baseProps} />
     </LFormItem>
   );
 };
