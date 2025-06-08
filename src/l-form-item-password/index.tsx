@@ -1,6 +1,7 @@
-import { emptyObject, PASSWORD_REG } from 'lighting-design/constants';
+import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
-import { getFormItemLabel, getFormItemPlaceholder, isLegalValue } from 'lighting-design/utils';
+import { generatePasswordRegex, getFormItemPlaceholder } from 'lighting-design/utils';
+import { isNil } from 'lodash';
 import type { FC } from 'react';
 import BasePassword from './base-password';
 import type { LFormItemPasswordProps } from './interface';
@@ -11,16 +12,21 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   placeholder,
   variant,
   //
+  prefix,
+  suffix,
+  addonAfter,
+  addonBefore,
+  //
   min = 8,
   max = 16,
-  highPassword = false,
+  strictValidator = false,
   disabledPaste = true,
   disabledCopy = true,
-  highPasswordErrorMsg = `必须同时包含大小写字母、数字、特殊字符且位数至少8位!`,
+  strictValidatorMessage,
   passwordProps = emptyObject,
   ...formItemProps
 }) => {
-  const { required, messageVariables } = formItemProps;
+  const { messageVariables } = formItemProps;
 
   const itemPlaceholder = getFormItemPlaceholder({
     placeholder,
@@ -32,6 +38,10 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
     disabled,
     placeholder: itemPlaceholder,
     variant,
+    prefix,
+    suffix,
+    addonAfter,
+    addonBefore,
     //
     max,
     ...passwordProps,
@@ -41,22 +51,21 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
     {
       async validator(_: any, value: any) {
         let errMsg = '';
-
-        if (!highPassword) {
-          if (value.length < min || value.length > max) {
-            errMsg = messageVariables?.label || `密码必须为${min}到${max}位!`;
+        if (!strictValidator) {
+          if (isNil(value) || value?.length < min || value?.length > max) {
+            errMsg = messageVariables?.label || `密码必须为 ${min} 到 ${max} 位!`;
             return Promise.reject(errMsg);
           }
 
-          if (required && !isLegalValue(value)) {
-            errMsg = messageVariables?.label || `${getFormItemLabel(formItemProps)}不能为空!`;
-            return Promise.reject(errMsg);
-          }
           return Promise.resolve();
         }
 
-        if (!PASSWORD_REG.test(value)) {
-          errMsg = messageVariables?.label || highPasswordErrorMsg || itemPlaceholder;
+        //开启后，密码必须包含大小写字母、数字、特殊字符, 且长度在 min 和 max 之间
+        if (!generatePasswordRegex(min, max).test(value)) {
+          errMsg =
+            strictValidatorMessage ||
+            messageVariables?.label ||
+            `密码必须包含大小写字母、数字、特殊字符, 且长度在 ${min} 和 ${max} 之间!`;
           return Promise.reject(errMsg);
         }
 

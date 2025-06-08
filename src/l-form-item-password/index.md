@@ -19,13 +19,15 @@ nav:
 
 ### 基础用法
 
+<code src='./demos/demo.tsx'></code>
+
 <!-- <code src='./demos/Demo3.tsx'></code> -->
 
-### 密码强度检测
+<!-- ### 密码强度检测
 
 也可以配合 `renderField`方法 与 `Popover`组件聚焦显示密码强度。
 
-<code src='./demos/Demo1.tsx'></code>
+<code src='./demos/Demo1.tsx'></code> -->
 
 ## API
 

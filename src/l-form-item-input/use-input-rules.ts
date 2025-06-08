@@ -1,7 +1,7 @@
 import { BANCK_CARD_REG, CHINESE_REG, EMAIL_REG, ID_CARD_REG, PHONE_REG, URL_REG } from 'lighting-design/constants';
 
 export default function useInputRules({
-  type,
+  type = 'text',
   required,
   message,
   min,
@@ -16,10 +16,10 @@ export default function useInputRules({
   if (type === 'text' && min && max) {
     return [
       {
-        required,
+        required: required ?? true,
         min,
         max,
-        message: message || `请输入${min}到${max}位字符!`,
+        message: message || `请输入 ${min} 到 ${max} 位字符!`,
       },
     ];
   }

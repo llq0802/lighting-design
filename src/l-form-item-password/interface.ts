@@ -4,6 +4,10 @@ import type { LFormProps } from 'lighting-design/l-form/interface';
 
 export interface LFormItemPasswordProps extends LFormItemProps, Pick<LFormProps, 'disabled' | 'size' | 'variant'> {
   placeholder?: string;
+  prefix?: PasswordProps['prefix'];
+  suffix?: PasswordProps['suffix'];
+  addonAfter?: PasswordProps['addonAfter'];
+  addonBefore?: PasswordProps['addonBefore'];
 
   /**
    * 密码最小位数
@@ -14,13 +18,14 @@ export interface LFormItemPasswordProps extends LFormItemProps, Pick<LFormProps,
    */
   max?: number;
   /**
-   * 是否开启高强度密码验证
+   * 是否开启严格检验
+   * - 开启后，密码必须包含大小写字母、数字、特殊字符, 且长度在 min 和 max 之间
    */
-  highPassword?: boolean;
+  strictValidator?: boolean;
   /**
-   * 开启高强度密码验证错误后的提示
+   * 严格检查的错误提示
    */
-  highPasswordErrorMsg?: string;
+  strictValidatorMessage?: string;
   /**
    * Input.Password 的属性
    */

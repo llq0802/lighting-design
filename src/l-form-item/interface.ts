@@ -42,7 +42,7 @@ export type LFormItemProps<T = any> = FormItemProps<T> & {
   contentWrapperProps?: React.HTMLAttributes<HTMLDivElement>;
 
   /**
-   * 是否必填
+   * 是否为必填字段,
    *
    *  - 会生成默认的必填星号
    *

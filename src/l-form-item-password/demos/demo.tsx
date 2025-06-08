@@ -1,8 +1,8 @@
-import { LForm, LFormItemInput } from 'lighting-design';
+import { LForm, LFormItemPassword } from 'lighting-design';
 import React from 'react';
 
 type FieldType = {
-  input?: string;
+  password?: string;
 };
 
 const App: React.FC = () => {
@@ -30,14 +30,7 @@ const App: React.FC = () => {
         });
       }}
     >
-      <LFormItemInput
-        showCount
-        name="input"
-        label="姓名"
-        inputProps={{
-          allowClear: true,
-        }}
-      />
+      <LFormItemPassword strictValidator name="password" label="密码" />
     </LForm>
   );
 };
