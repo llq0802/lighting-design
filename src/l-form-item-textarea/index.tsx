@@ -1,45 +1,47 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
+import { Input } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
-import { usePlaceholder } from 'lighting-design/utils';
+import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { useContext } from 'react';
-import TextAreaWrapper from './TextAreaWrapper';
-import type { LFormItemTextAreaProps } from './interface';
+import type { LFormItemTextareaProps } from './interface';
 
-const LFormItemTextArea: FC<LFormItemTextAreaProps> = ({
-  disabled = false,
+const LFormItemTextarea: FC<LFormItemTextareaProps> = ({
+  disabled,
   size,
   placeholder,
-  disabledWhiteSpace = false,
-  textAreaProps = emptyObject,
-
-  autoSize,
   variant,
+  //
+  autoSize,
   showCount,
-  ...restProps
+  maxLength,
+  rows,
+  textAreaProps = emptyObject,
+  ...formItemProps
 }) => {
-  const messagePlaceholder = usePlaceholder({
+  const itemPlaceholder = getFormItemPlaceholder({
     placeholder,
-    restProps,
+    formItemProps,
   });
-  const { disabled: formDisabled } = useContext(LFormContext);
+
+  const baseProps = {
+    size,
+    disabled,
+    placeholder: itemPlaceholder,
+    variant,
+    //
+    showCount,
+    maxLength,
+    autoSize,
+    rows,
+    ...textAreaProps,
+  };
 
   return (
-    <LFormItem placeholder={messagePlaceholder} {...restProps}>
-      <TextAreaWrapper
-        size={size}
-        disabled={disabled || formDisabled}
-        autoSize={autoSize}
-        variant={variant}
-        showCount={showCount}
-        disabledWhiteSpace={disabledWhiteSpace}
-        placeholder={messagePlaceholder}
-        {...textAreaProps}
-      />
+    <LFormItem {...formItemProps}>
+      <Input.TextArea {...baseProps} />
     </LFormItem>
   );
 };
 
-export default LFormItemTextArea;
+export default LFormItemTextarea;
 export * from './interface';

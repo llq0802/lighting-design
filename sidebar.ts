@@ -161,7 +161,7 @@ export default {
         },
         {
           title: 'TextArea-多行输入框',
-          link: '/components/l-form-item-text-area',
+          link: '/components/l-form-item-textarea',
         },
         {
           title: 'Captcha-验证码输入框',

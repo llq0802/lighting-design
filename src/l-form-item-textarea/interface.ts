@@ -1,19 +1,15 @@
 import type { TextAreaProps } from 'antd/es/input';
-import type { LFormItemProps } from 'lighting-design/FormItem/interface';
+import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
+import type { LFormProps } from 'lighting-design/l-form/interface';
 
-export interface LFormItemTextAreaProps extends LFormItemProps {
-  /**
-   *是否禁用空格
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTextAreaProps
-   */
-  disabledWhiteSpace?: boolean;
-  variant?: TextAreaProps['variant'];
+export interface LFormItemTextareaProps extends LFormItemProps, Pick<LFormProps, 'disabled' | 'size' | 'variant'> {
+  placeholder?: string;
   showCount?: TextAreaProps['showCount'];
+  maxLength?: TextAreaProps['maxLength'];
   autoSize?: TextAreaProps['autoSize'];
+  rows?: TextAreaProps['rows'];
   /**
    *  Input.TextArea或者Input的属性
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTextAreaProps
-   *@see https://ant.design/components/input-cn#inputtextarea
    */
   textAreaProps?: TextAreaProps;
 }

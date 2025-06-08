@@ -10,6 +10,8 @@ export * from './l-form-item-input';
 export { default as LFormItemInput } from './l-form-item-input';
 export * from './l-form-item-password';
 export { default as LFormItemPassword } from './l-form-item-password';
+export * from './l-form-item-textarea';
+export { default as LFormItemTextarea } from './l-form-item-textarea';
 export * from './l-tag-group';
 export { default as LTagGroup } from './l-tag-group';
 export * from './l-trigger';

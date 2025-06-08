@@ -1,4 +1,4 @@
-import { LForm, LFormItemInput } from 'lighting-design';
+import { LForm, LFormItemTextarea } from 'lighting-design';
 import React from 'react';
 
 type FieldType = {
@@ -30,15 +30,7 @@ const App: React.FC = () => {
         });
       }}
     >
-      <LFormItemInput
-        showCount
-        maxLength={10}
-        name="input"
-        label="姓名"
-        inputProps={{
-          allowClear: true,
-        }}
-      />
+      <LFormItemTextarea showCount name="input" label="备注" />
     </LForm>
   );
 };
