@@ -1,7 +1,7 @@
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import { generatePasswordRegex, getFormItemPlaceholder } from 'lighting-design/utils';
-import { isNil } from 'lodash';
+import { isNil } from 'lodash-es';
 import type { FC } from 'react';
 import BasePassword from './base-password';
 import type { LFormItemPasswordProps } from './interface';

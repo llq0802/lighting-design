@@ -7,13 +7,15 @@ export interface LFormItemSwitchProps extends LFormItemProps {
    */
   switchProps?: SwitchProps;
   /**
-   *选中的值
+   * 选中的值 默认 true
+   * - 不能与  `unCheckedValue` 一样
    */
-  checkedValue?: string;
+  checkedValue?: string | number | boolean;
   /**
-   *未选中的值
+   * 未选中的值 默认 false
+   * - 不能与  `checkedValue` 一样
    */
-  uncheckedValue?: string;
+  unCheckedValue?: string | number | boolean;
   /**
    *打开时的背景颜色
    */

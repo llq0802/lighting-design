@@ -9,18 +9,18 @@ const App: React.FC = () => {
   const [form] = LForm.useForm<FieldType>();
   return (
     <LForm<FieldType>
+      initialValues={
+        {
+          // input: '2',
+        }
+      }
       labelWidth={100}
       form={form}
       onFinish={(values) => {
         console.log('===onFinish===', values);
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(true);
-          }, 2000);
-        });
       }}
     >
-      <LFormItemSwitch name="input" label="选择" />
+      <LFormItemSwitch name="input" label="选择" checkedValue="2" unCheckedValue="1" />
     </LForm>
   );
 };
