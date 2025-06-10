@@ -1,7 +1,7 @@
 import { Button, ConfigProvider, Tag, Watermark, type FormInstance } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemDatePicker, LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import type { FC } from 'react';
 import { useRef } from 'react';
 import { columns, originData } from './service';
@@ -157,7 +157,7 @@ const Demo15: FC = () => {
           request={async (params, type) => {
             // console.log('params', params);
             // console.log('type', type);
-            await awaitTime();
+            await sleep();
             return {
               success: true,
               data,

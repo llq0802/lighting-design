@@ -4,7 +4,7 @@ import Mock from 'better-mock';
 import type { LFormItemActionRef } from 'lighting-design';
 import { LForm, LFormItemCheckbox } from 'lighting-design';
 import { useRef } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 const opts = Mock.mock({ 'list|6': [{ label: '@city', value: '@id' }] }).list;
 
 const Demo4 = () => {
@@ -27,7 +27,7 @@ const Demo4 = () => {
         label="多选1"
         name="checkbox1"
         request={async () => {
-          await awaitTime();
+          await sleep();
           return opts;
         }}
       />
@@ -39,7 +39,7 @@ const Demo4 = () => {
         }}
         name="checkbox2"
         request={async () => {
-          await awaitTime(2000);
+          await sleep(2000);
           return [
             { label: '上班', value: '1' },
             { label: '睡觉', value: '2' },

@@ -2,7 +2,7 @@ import { Tree } from 'antd';
 import type { TransferItem } from 'antd/es/transfer';
 import type { DataNode } from 'antd/es/tree';
 import { LForm, LFormItemTransfer } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 
 const treeData: DataNode[] = [
   { key: '0-0', title: '0-0' },
@@ -56,7 +56,7 @@ export default () => {
       <LFormItemTransfer
         // options={transferDataSource}
         request={async ({ current, pageSize }) => {
-          await awaitTime();
+          await sleep();
           return {
             data: transferDataSource,
             total: transferDataSource.length,

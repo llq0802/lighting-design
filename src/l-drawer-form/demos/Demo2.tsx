@@ -1,6 +1,6 @@
 import { Button, message, Space } from 'antd';
 import { LDrawerForm, LForm, LFormItemInput } from 'lighting-design';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo1 = () => {
   const [form1] = LForm.useForm();
@@ -17,7 +17,7 @@ const Demo1 = () => {
         title="新增"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}
@@ -41,7 +41,7 @@ const Demo1 = () => {
         title="新增"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}
@@ -59,7 +59,7 @@ const Demo1 = () => {
         title="新增"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}
@@ -77,7 +77,7 @@ const Demo1 = () => {
         title="新增"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}
@@ -103,7 +103,7 @@ const Demo1 = () => {
         title="新增"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}

@@ -4,7 +4,7 @@ import { LForm, LFormItemInput, LFormItemRadio, LFormItemSelect, LModalForm } fr
 import { useShow, type UseShowInstanceRef } from 'rc-use-hooks';
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { awaitTime } from '../../../test';
+import { sleep } from '../../../test';
 
 type TypeProps = {
   tableRef: React.MutableRefObject<LTableInstance | undefined>;
@@ -37,7 +37,7 @@ const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
       form={form}
       title={!isAdd ? '修改' : '新增'}
       onFinish={async (values) => {
-        await awaitTime(); // 发起请求
+        await sleep(); // 发起请求
         message.success('操作成功!');
         tableRef.current?.onSearch();
         return true;
@@ -59,7 +59,7 @@ const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
         name="radio"
         required
         request={async () => {
-          await awaitTime(isAdd ? 400 : 0); // 发起请求
+          await sleep(isAdd ? 400 : 0); // 发起请求
           return [
             { label: 'AA', value: 'a' },
             { label: 'BB', value: 'b' },

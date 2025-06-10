@@ -1,6 +1,6 @@
 import { Button, message } from 'antd';
 import { LForm, LFormItemInput, LFormItemRadio, LModalForm } from 'lighting-design';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
@@ -12,7 +12,7 @@ const Demo1 = () => {
         title="弹窗"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}
@@ -28,7 +28,7 @@ const Demo1 = () => {
           name="radio"
           required
           request={async () => {
-            await awaitTime();
+            await sleep();
             return [
               { label: 'Unresolved', value: 'open' },
               { label: 'Resolved', value: 'closed' },

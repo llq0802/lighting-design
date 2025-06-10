@@ -2,7 +2,7 @@ import { Button, message } from 'antd';
 import type { LEditTableInstance, LTableInstance } from 'lighting-design';
 import { LEditTable, LForm, LFormItem, LFormItemInput, LFormItemNumber, LModalForm } from 'lighting-design';
 import { useRef, useState } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
@@ -30,7 +30,7 @@ const Demo1 = () => {
         title="弹窗"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}

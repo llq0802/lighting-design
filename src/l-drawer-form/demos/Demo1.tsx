@@ -1,7 +1,7 @@
 import { Button, Form } from 'antd';
 import { LDrawerForm, LFormItemColor, LFormItemInput } from 'lighting-design';
 import { useState } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo1 = () => {
   const [form] = Form.useForm();
@@ -20,7 +20,7 @@ const Demo1 = () => {
         title="抽屉"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await awaitTime('', 1000);
+          await sleep('', 1000);
           return true;
         }}
         initialValues={{

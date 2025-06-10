@@ -9,7 +9,7 @@ import {
   LFormItemSelect,
   LTable,
 } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import type { UseShowInstance } from 'rc-use-hooks';
 import React, { useRef } from 'react';
 import SDrawer from './components/S-Drawer';
@@ -108,7 +108,7 @@ const formItems = [
     name="select1"
     key="0"
     request={async () => {
-      await awaitTime();
+      await sleep();
       return [
         { label: 'Unresolved', value: 'open' },
         { label: 'Resolved', value: 'closed' },

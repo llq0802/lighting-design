@@ -2,7 +2,7 @@ import { Button, message, Modal, Space } from 'antd';
 import type { LStepsFormActionRef } from 'lighting-design';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
 import { useRef, useState } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo1 = () => {
   const actionRef1 = useRef<LStepsFormActionRef>();
@@ -24,7 +24,7 @@ const Demo1 = () => {
       <LStepsForm
         actionRef={actionRef1}
         onFinish={async (valuse) => {
-          await awaitTime(500);
+          await sleep(500);
           console.log('Modal1-StepsForm-valuse', valuse);
           message.success('提交成功');
           setOpen1(false);
@@ -72,7 +72,7 @@ const Demo1 = () => {
           actionRef={actionRef2}
           onFinish={async (valuse) => {
             console.log('Modal2-StepsForm-valuse', valuse);
-            await awaitTime(500);
+            await sleep(500);
             setTimeout(() => setOpen2(false));
             return true;
           }}

@@ -3,7 +3,7 @@ import { LForm, LFormItemInput, LModalForm } from 'lighting-design';
 import type { UseShowInstance, UseShowInstanceRef } from 'rc-use-hooks';
 import { useShow } from 'rc-use-hooks';
 import { useRef } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const MyModal = ({ modalRef }: { modalRef: UseShowInstanceRef }) => {
   const [form] = LForm.useForm();
@@ -25,7 +25,7 @@ const MyModal = ({ modalRef }: { modalRef: UseShowInstanceRef }) => {
         form={form}
         title={showRecord?.title}
         onFinish={async (values) => {
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}

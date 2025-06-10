@@ -6,7 +6,7 @@ import { LFormItemInput, LFormItemSegmented, LFormItemSelect, LTable } from 'lig
 import type { UseShowInstance } from 'rc-use-hooks';
 import type { FC } from 'react';
 import { useRef } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 import SModal from './components/S-Modal';
 import { apiGetUserList, columns } from './service';
 
@@ -16,7 +16,7 @@ const formItems = [
     name="select1"
     key="0"
     request={async () => {
-      await awaitTime();
+      await sleep();
       return [
         { label: 'AAA', value: 'AAA' },
         { label: 'BBB', value: 'BBB' },

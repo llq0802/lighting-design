@@ -3,7 +3,7 @@ import { Button, message, Space, Tag } from 'antd';
 import Mock from 'better-mock';
 import type { LEditTableInstance, LTableInstance } from 'lighting-design';
 import { LEditTable, LFormItemDatePicker, LFormItemInput, LFormItemNumber, LFormItemSelect } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import { useRef, useState } from 'react';
 
 const defaultData = Mock.mock({
@@ -176,7 +176,7 @@ const Demo3 = () => {
           </>
         }
         request={async () => {
-          await awaitTime();
+          await sleep();
           return {
             success: true,
             data: defaultData,
@@ -190,14 +190,14 @@ const Demo3 = () => {
           onEditingKeys: setEditingKeys,
           async onDelete(key, isNewRow, i) {
             setLoadings((prev) => [...prev, key]);
-            await awaitTime();
+            await sleep();
             setLoadings((prev) => prev.filter((item) => item !== key));
             message.success('删除成功');
             //  如果返回 Promise.reject() 就终止实时修改, 就算 isTimelyModified = true 也不会触发实时修改
           },
           async onSave(row, isNewRow, i) {
             setLoadings((prev) => [...prev, row.id]);
-            await awaitTime();
+            await sleep();
             setLoadings((prev) => prev.filter((item) => item !== row.id));
             message.success('保存成功');
             //  如果返回 Promise.reject() 就终止实时修改, 就算 isTimelyModified = true 也不会触发实时修改

@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { LForm, LFormItemSelect, LFormItemTreeSelect } from 'lighting-design';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Index = () => {
   const [form] = LForm.useForm();
@@ -80,7 +80,7 @@ const Index = () => {
               },
             ];
           }
-          await awaitTime();
+          await sleep();
           return data;
         }}
       />

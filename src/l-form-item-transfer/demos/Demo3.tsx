@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import Mock from 'better-mock';
 import type { LFormItemTransferActionRef } from 'lighting-design';
 import { LForm, LFormItemTransfer } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import { useRef } from 'react';
 
 const transferMockData: any[] = Mock.mock({ 'list|20': [{ key: '@id', title: '@city' }] }).list;
@@ -40,7 +40,7 @@ export default () => {
         name="transfer"
         request={async (info) => {
           console.log('page-pageSize-info ', info);
-          await awaitTime(500, 1000);
+          await sleep(500, 1000);
           return {
             data: transferMockData,
             total: transferMockData.length,

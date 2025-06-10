@@ -1,7 +1,7 @@
 import { Button, Drawer, message, Space } from 'antd';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
 import { useState } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo7 = () => {
   const [open1, setOpen1] = useState(false);
@@ -21,7 +21,7 @@ const Demo7 = () => {
       {/* 方式一 */}
       <LStepsForm
         onFinish={async (valuse) => {
-          await awaitTime();
+          await sleep();
           console.log('StepsForm-valuse', valuse);
           message.success('提交成功');
         }}
@@ -59,7 +59,7 @@ const Demo7 = () => {
       <Drawer height={330} placement="bottom" title="抽屉中的步骤表单1" onClose={() => setOpen2(false)} open={open2}>
         <LStepsForm
           onFinish={async (valuse) => {
-            await awaitTime();
+            await sleep();
             console.log('StepsForm-valuse', valuse);
             message.success('提交成功');
             setOpen2(false);

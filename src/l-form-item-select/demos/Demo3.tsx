@@ -1,5 +1,5 @@
 import { LForm, LFormItemSelect } from 'lighting-design';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Index = () => {
   const [form] = LForm.useForm();
@@ -37,7 +37,7 @@ const Index = () => {
           if (select1Val === 'a') data = [{ label: 'A', value: 'a' }];
           if (select1Val === 'b') data = [{ label: 'B', value: 'b' }];
           if (select1Val === 'c') data = [{ label: 'C', value: 'c' }];
-          await awaitTime(500);
+          await sleep(500);
           return data;
         }}
       />

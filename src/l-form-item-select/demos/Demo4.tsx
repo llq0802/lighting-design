@@ -3,7 +3,7 @@ import betterMock from 'better-mock';
 import type { LFormItemActionRef } from 'lighting-design';
 import { LForm, LFormItemSelect } from 'lighting-design';
 import { useRef } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo2 = () => {
   const [form] = LForm.useForm();
@@ -19,7 +19,7 @@ const Demo2 = () => {
           actionRef={actionRef}
           autoRequest={false}
           request={async () => {
-            await awaitTime(500);
+            await sleep(500);
             const opts1 = betterMock.mock({ 'list|6': [{ label: '@city', value: '@id' }] }).list;
             return opts1;
           }}

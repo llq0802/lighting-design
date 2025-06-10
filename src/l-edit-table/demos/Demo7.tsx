@@ -3,7 +3,7 @@ import { Button, Space } from 'antd';
 import Mock from 'better-mock';
 import type { LEditTableInstance, LTableInstance } from 'lighting-design';
 import { LEditTable, LForm, LFormItem, LFormItemInput, LFormItemNumber } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import { useRef, useState } from 'react';
 
 const defaultData = Mock.mock({
@@ -150,7 +150,7 @@ const Demo1 = () => {
               </>
             }
             request={async () => {
-              await awaitTime();
+              await sleep();
               return {
                 success: true,
                 data: defaultData,

@@ -4,7 +4,7 @@ import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 import { apiGetUserList, columns } from './service';
 
 const formItems = [
@@ -24,7 +24,7 @@ const Demo4: FC = () => {
   useEffect(() => {
     // 异步获取表单初始值
     (async () => {
-      await awaitTime(2000);
+      await sleep(2000);
       setFormInitialValues({ input4: '初始值1' });
       setIsReady(true);
     })();

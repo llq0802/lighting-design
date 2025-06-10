@@ -1,7 +1,7 @@
 import { Button, message } from 'antd';
 import { LDrawerForm, LForm, LFormItemInput } from 'lighting-design';
 import { useEffect, useState } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo3 = () => {
   const [form] = LForm.useForm();
@@ -36,7 +36,7 @@ const Demo3 = () => {
         title="抽屉"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}

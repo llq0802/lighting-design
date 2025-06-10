@@ -1,7 +1,7 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { Button, message } from 'antd';
 import { LForm, LFormItemInput, LFormItemRadio, LModalForm } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 
 const MyAntdModal = NiceModal.create(({ name }: { name: string }) => {
   const modal = useModal();
@@ -32,7 +32,7 @@ const MyAntdModal = NiceModal.create(({ name }: { name: string }) => {
       title="弹窗"
       onFinish={async (values) => {
         console.log('onFinish-values ', values);
-        await awaitTime();
+        await sleep();
         message.success('提交成功');
         modal.resolve('resolve');
         modal.hide();
@@ -49,7 +49,7 @@ const MyAntdModal = NiceModal.create(({ name }: { name: string }) => {
         initialValue="open"
         required
         request={async () => {
-          await awaitTime();
+          await sleep();
           return [
             { label: 'Unresolved', value: 'open' },
             { label: 'Resolved', value: 'closed' },

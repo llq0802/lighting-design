@@ -4,7 +4,7 @@ import type { TableRowSelection } from 'antd/es/table/interface';
 import type { TransferItem } from 'antd/es/transfer';
 import Mock from 'better-mock';
 import { LForm, LFormItemTransfer } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import { difference } from 'lodash-es';
 
 const mockTags = ['休闲', '网红', '时尚'];
@@ -77,7 +77,7 @@ export default () => {
     >
       <LFormItemTransfer
         request={async ({ current, pageSize }) => {
-          await awaitTime();
+          await sleep();
           return {
             data: mockData,
             total: mockData.length,

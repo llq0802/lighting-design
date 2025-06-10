@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { LForm, LFormItemCaptcha } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
@@ -17,7 +17,7 @@ const Demo1 = () => {
         second={10}
         required
         onGetCaptcha={async () => {
-          await awaitTime();
+          await sleep();
         }}
         onEnd={() => {
           message.info('倒计时完成');
@@ -31,7 +31,7 @@ const Demo1 = () => {
         required
         autoFocusOnGetCaptcha={false}
         onGetCaptcha={async () => {
-          await awaitTime();
+          await sleep();
         }}
       />
       <LFormItemCaptcha
@@ -42,7 +42,7 @@ const Demo1 = () => {
         label="验证码2"
         required
         onGetCaptcha={async () => {
-          await awaitTime();
+          await sleep();
         }}
       />
       <LFormItemCaptcha
@@ -53,7 +53,7 @@ const Demo1 = () => {
         initText="自定义文本"
         required
         onGetCaptcha={async () => {
-          await awaitTime();
+          await sleep();
         }}
       />
     </LForm>

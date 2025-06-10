@@ -1,7 +1,7 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import betterMock from 'better-mock';
 import { LForm, LFormItemMentions } from 'lighting-design';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const opts1 = betterMock.mock({ 'list|10': [{ label: '@city', value: '@city' }] }).list;
 
@@ -15,7 +15,7 @@ const Demo2 = () => {
         name="select1"
         required
         request={async () => {
-          await awaitTime();
+          await sleep();
           return opts1;
         }}
       />
@@ -27,7 +27,7 @@ const Demo2 = () => {
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
         request={async () => {
-          await awaitTime();
+          await sleep();
           return opts1;
         }}
       />

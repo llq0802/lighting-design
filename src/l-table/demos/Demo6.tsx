@@ -3,7 +3,7 @@ import { Button, Card, Col, Row } from 'antd';
 import Mock from 'better-mock';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import type { FC } from 'react';
 import { useRef } from 'react';
 
@@ -43,7 +43,7 @@ const Demo6: FC = () => {
         pageSizeOptions: [9, 18, 27, 36],
       }}
       request={async (params, requestType) => {
-        await awaitTime();
+        await sleep();
         return {
           success: true,
           data: originData,

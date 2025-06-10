@@ -1,6 +1,6 @@
 import type { LFormItemTransferActionRef } from 'lighting-design';
 import { LForm, LFormItemTransfer } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import { useRef } from 'react';
 
 const transferMockData: any[] = Array.from({ length: 20 }).map((_, i) => ({
@@ -32,7 +32,7 @@ export default () => {
         required
         actionRef={actionRef}
         request={async ({ current, pageSize }) => {
-          await awaitTime();
+          await sleep();
           return {
             data: transferMockData,
             total: transferMockData.length,

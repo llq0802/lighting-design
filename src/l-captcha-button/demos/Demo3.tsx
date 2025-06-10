@@ -1,7 +1,7 @@
 import { Button, message, Space } from 'antd';
 import type { LCaptchaButtonActionRef } from 'lighting-design';
 import { LCaptchaButton } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import { useRef, useState } from 'react';
 
 const Demo3 = () => {
@@ -22,7 +22,7 @@ const Demo3 = () => {
           }}
           onClick={async () => {
             setLoading(true);
-            await awaitTime();
+            await sleep();
             setLoading(false);
             actionRef.current?.start();
           }}

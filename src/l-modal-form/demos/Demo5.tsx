@@ -14,7 +14,7 @@ import {
   LFormItemTreeSelect,
   LModalForm,
 } from 'lighting-design';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 const options = [
   {
     value: 'zhejiang',
@@ -85,7 +85,7 @@ const Demo1 = () => {
           form={form}
           onFinish={async (values) => {
             console.log('onFinish-values ', values);
-            await awaitTime();
+            await sleep();
             message.success('提交成功');
             return true;
           }}
@@ -119,7 +119,7 @@ const Demo1 = () => {
             name="LFormItemRadio2"
             required
             request={async () => {
-              await awaitTime();
+              await sleep();
               return [
                 { label: 'Unresolved', value: 'open' },
                 { label: 'Resolved', value: 'closed' },

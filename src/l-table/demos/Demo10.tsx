@@ -6,7 +6,7 @@ import { LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
 import { useLockScroll } from 'rc-use-hooks';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 import AddEditModal from './components/S-EditAddModal';
 import { apiGetUserList, columns } from './service';
 
@@ -28,7 +28,7 @@ const Demo: FC = () => {
       name="select1"
       key="select1"
       request={async () => {
-        await awaitTime();
+        await sleep();
         return [
           { label: 'Unresolved', value: 'open' },
           { label: 'Resolved', value: 'closed' },

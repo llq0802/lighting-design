@@ -1,7 +1,7 @@
 import type { LFormItemActionRef } from 'lighting-design';
 import { LForm, LFormItemRadio } from 'lighting-design';
 import { useRef } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo2 = () => {
   const [form] = LForm.useForm();
@@ -14,7 +14,7 @@ const Demo2 = () => {
         required
         actionRef={actionRef}
         request={async () => {
-          await awaitTime();
+          await sleep();
           return [
             { label: 'Unresolved', value: 'open' },
             { label: 'Resolved', value: 'closed' },
@@ -31,7 +31,7 @@ const Demo2 = () => {
         all
         required
         request={async () => {
-          await awaitTime();
+          await sleep();
           return [
             { label: 'Unresolved', value: 'open' },
             { label: 'Resolved', value: 'closed' },

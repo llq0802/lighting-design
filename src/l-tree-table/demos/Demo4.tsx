@@ -1,6 +1,6 @@
 import type { LTreeTableData } from 'lighting-design';
 import { LTreeTable } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import { useEffect, useState } from 'react';
 import { data4 } from './data';
 
@@ -10,7 +10,7 @@ const Demo4 = () => {
 
   useEffect(() => {
     const getData = async () => {
-      await awaitTime(3000);
+      await sleep(3000);
       setTreeData(data4);
       setLoading(false);
     };

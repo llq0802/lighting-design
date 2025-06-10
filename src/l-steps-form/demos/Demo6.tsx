@@ -2,7 +2,7 @@ import { Button, message, Modal } from 'antd';
 import type { LStepsFormActionRef } from 'lighting-design';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
 import { useRef, useState } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo2 = () => {
   const actionRef = useRef<LStepsFormActionRef>();
@@ -26,7 +26,7 @@ const Demo2 = () => {
         isMergeValues={false}
         actionRef={actionRef}
         onFinish={async (valuse) => {
-          await awaitTime();
+          await sleep();
           console.log('StepsForm-valuse', valuse);
           message.success('提交成功');
         }}
@@ -57,7 +57,7 @@ const Demo2 = () => {
         isMergeValues={false}
         actionRef={actionRef}
         onFinish={async (valuse) => {
-          await awaitTime();
+          await sleep();
           console.log('StepsForm-valuse', valuse);
           message.success('提交成功');
         }}

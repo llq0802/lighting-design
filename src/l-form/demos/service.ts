@@ -1,4 +1,4 @@
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 export const addressOptions: any[] = [
   {
@@ -42,7 +42,7 @@ export const mockVal = (str: string, repeat = 1) => ({
 
 const url = 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png';
 export const upload = async () => {
-  const { data } = await awaitTime(url);
+  const { data } = await sleep(url);
   return {
     url: data,
   };

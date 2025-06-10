@@ -4,7 +4,7 @@ import type { TableRowSelection } from 'antd/es/table/interface';
 import Mock from 'better-mock';
 import type { LTableInstance, LTriggerMode, LValueType } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import type { FC } from 'react';
 import { useRef } from 'react';
 
@@ -95,7 +95,7 @@ const MyTable: FC<LTriggerChildProps> = (props) => {
       queryFormProps={{ isSpace: true, submitter: { style: { marginBottom: 0 } } }}
       formItems={formItems}
       request={async (params, requestType) => {
-        await awaitTime(500);
+        await sleep(500);
         const originData: DataType[] = Mock.mock({
           'list|25': [{ 'key|+1': 1, name: '@cname', 'age|10-30': 10 }],
         }).list;

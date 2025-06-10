@@ -1,6 +1,6 @@
 import { LForm, LFormItemInput, LFormItemRadio, LFormItemSelect, LModalForm } from 'lighting-design';
 import { useEffect } from 'react';
-import { awaitTime } from '../../../test';
+import { sleep } from '../../../test';
 
 export default function AddEditModal({ data, onChange, open, ...restProps }) {
   const [form] = LForm.useForm();
@@ -22,7 +22,7 @@ export default function AddEditModal({ data, onChange, open, ...restProps }) {
       form={form}
       title={data ? '修改' : '新增'}
       onFinish={async (values) => {
-        await awaitTime(); // 发起请求
+        await sleep(); // 发起请求
         onChange(); // 响应成功后，刷新表格
         return true;
       }}

@@ -1,7 +1,7 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import Mock from 'better-mock';
 import { LForm, LFormItemCheckbox, LFormItemSelect } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 
 const Demo5 = () => {
   const [form] = LForm.useForm();
@@ -46,7 +46,7 @@ const Demo5 = () => {
           if (select1Val === 'c') {
             data = Mock.mock({ 'list|8': [{ label: '@cname', value: '@id' }] }).list;
           }
-          await awaitTime();
+          await sleep();
           return data;
         }}
         renderField={(dom) => {

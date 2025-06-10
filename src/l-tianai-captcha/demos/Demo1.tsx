@@ -1,6 +1,6 @@
 import { Button } from 'antd';
 import { LTianaiCaptcha, type LTianaiCaptchaActionRef } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import { useRef } from 'react';
 import bg1 from '../imgs/bg1.webp';
 import bg2 from '../imgs/bg2.webp';
@@ -8,7 +8,7 @@ import bg2 from '../imgs/bg2.webp';
 // http://169.254.4.160:8800/shiyi/gen/
 
 const requestCaptcha = async () => {
-  await awaitTime(500);
+  await sleep(500);
   return {
     code: '0',
     success: true,
@@ -27,7 +27,7 @@ const requestCaptcha = async () => {
   };
 };
 const validCaptcha = async () => {
-  await awaitTime();
+  await sleep();
   return {
     code: 200,
     success: true,

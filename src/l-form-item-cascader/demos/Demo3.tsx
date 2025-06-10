@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { LForm, LFormItemCascader, LFormItemSelect } from 'lighting-design';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 import china_city from './china_city.json';
 
 const Index = () => {
@@ -29,7 +29,7 @@ const Index = () => {
         disabled={!select1Val}
         request={async () => {
           if (!select1Val) return [];
-          await awaitTime();
+          await sleep();
           return china_city;
         }}
         fieldNames={{

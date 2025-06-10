@@ -1,6 +1,6 @@
 import { Button, message } from 'antd';
 import { LDrawerForm, LForm, LFormItemInput } from 'lighting-design';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo4 = () => {
   const [form] = LForm.useForm();
@@ -19,7 +19,7 @@ const Demo4 = () => {
         // isAntdReset={false}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}

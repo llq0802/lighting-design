@@ -1,7 +1,7 @@
 import { Button, ConfigProvider, type FormInstance } from 'antd';
 import type { LTableInstance } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import type { CSSProperties, FC } from 'react';
 import { useRef } from 'react';
 import styles from './Demo13.module.less';
@@ -108,7 +108,7 @@ const Demo13: FC = () => {
         request={async (params, type) => {
           // console.log('params', params);
           // console.log('type', type);
-          await awaitTime();
+          await sleep();
           return {
             success: true,
             data,

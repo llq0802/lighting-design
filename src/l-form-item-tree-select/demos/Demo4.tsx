@@ -1,5 +1,5 @@
 import { LForm, LFormItemTreeSelect } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 
 const treeData = [
   {
@@ -58,7 +58,7 @@ const Demo4 = () => {
         name="tree"
         required
         request={async (value) => {
-          await awaitTime();
+          await sleep();
           return treeData;
         }}
       />

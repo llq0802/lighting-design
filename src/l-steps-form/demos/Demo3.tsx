@@ -2,7 +2,7 @@ import { Button, message, Result, Space } from 'antd';
 import type { LStepsFormActionRef } from 'lighting-design';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
 import { useRef } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo = () => {
   const actionRef = useRef<LStepsFormActionRef>();
@@ -14,7 +14,7 @@ const Demo = () => {
         formProps={{ labelWidth: 90 }}
         submitStepNum={2}
         onFinish={async (values) => {
-          await awaitTime(800);
+          await sleep(800);
           console.log('onFinish-values', values);
           // 因为第二步已经提交，这里手动触发下一步
           actionRef.current!.next();
@@ -25,7 +25,7 @@ const Demo = () => {
           name="StepForm789"
           title="步骤1"
           onFinish={async (values) => {
-            await awaitTime(500);
+            await sleep(500);
             console.log('步骤1', values);
           }}
         >

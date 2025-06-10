@@ -1,6 +1,6 @@
 import type { LTreeTableData } from 'lighting-design';
 import { LForm, LFormItem, LFormItemInput, LTreeTable } from 'lighting-design';
-import { awaitTime } from 'lighting-design/test';
+import { sleep } from 'lighting-design/test';
 import { useEffect, useState } from 'react';
 import { data1 } from './data';
 
@@ -11,7 +11,7 @@ export default () => {
 
   useEffect(() => {
     const getData = async () => {
-      await awaitTime(3000);
+      await sleep(3000);
       setTreeData(data1);
       setLoading(false);
     };

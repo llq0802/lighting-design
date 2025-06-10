@@ -1,7 +1,5 @@
-/**
- *  模拟请求
- */
-export function awaitTime(time = 1000) {
+/** 睡眠 */
+export function sleep(time = 1000) {
   return new Promise<void>((resolve) => {
     setTimeout(resolve, time);
   });

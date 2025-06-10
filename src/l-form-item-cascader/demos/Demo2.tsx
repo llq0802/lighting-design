@@ -1,6 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { LForm, LFormItemCascader } from 'lighting-design';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 import china_city from './china_city.json';
 
 const options: any[] = china_city;
@@ -24,7 +24,7 @@ const Index = () => {
           indicator: <LoadingOutlined style={{ fontSize: 24 }} spin />,
         }}
         request={async () => {
-          await awaitTime();
+          await sleep();
           return options;
         }}
         fieldNames={{

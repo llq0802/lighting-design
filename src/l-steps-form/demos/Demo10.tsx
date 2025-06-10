@@ -2,7 +2,7 @@ import { message } from 'antd';
 import type { LStepsFormActionRef } from 'lighting-design';
 import { LFormItemInput, LStepsForm } from 'lighting-design';
 import { useRef, useState } from 'react';
-import { awaitTime } from '../../test';
+import { sleep } from '../../test';
 
 const Demo2 = () => {
   const actionRef = useRef<LStepsFormActionRef>();
@@ -21,7 +21,7 @@ const Demo2 = () => {
         }}
         onFinish={async (valuse) => {
           console.log('StepsForm-valuse', valuse);
-          await awaitTime();
+          await sleep();
           message.success('提交成功');
           return true;
         }}
@@ -30,7 +30,7 @@ const Demo2 = () => {
           name="StepsForm15574"
           title="步骤1"
           onFinish={async (values) => {
-            await awaitTime(500);
+            await sleep(500);
             console.log('步骤1', values);
           }}
         >
