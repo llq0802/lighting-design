@@ -22,6 +22,7 @@ const LFormItem: FC<LFormItemProps> & {
     contentBefore,
     contentAfter,
     contentWrapperProps,
+    customValidator,
     // antd属性
     children,
     ...restFromItemProps
@@ -45,6 +46,11 @@ const LFormItem: FC<LFormItemProps> & {
       : [
           {
             async validator(_: any, value: any) {
+              if (customValidator) {
+                return customValidator(value, _)
+                  .then((p) => Promise.resolve(p))
+                  .catch((err) => Promise.reject(err));
+              }
               let errMsg = '';
               if (required && !isLegalValue(value)) {
                 errMsg = messageVariables?.label || `${getFormItemLabel(restFromItemProps)}不能为空!`;

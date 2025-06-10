@@ -50,4 +50,12 @@ export type LFormItemProps<T = any> = FormItemProps<T> & {
    *
    */
   required?: boolean;
+  /**
+   * 自定义校验函数
+   * - 验证通过时, 返回Promise.resolve()
+   * - 验证失败时, 返回Promise.reject(error)
+   * @param value
+   * @returns
+   */
+  customValidator?: (value: any, e: any) => Promise<any>;
 };
