@@ -1,16 +1,16 @@
 import { AutoComplete } from 'antd';
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { usePlaceholder } from 'lighting-design/utils';
+import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { cloneElement, useContext } from 'react';
+import { cloneElement } from 'react';
 import type { LFormItemAutoCompleteProps } from './interface';
 
 const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
-  disabled = false,
+  disabled,
   size,
   placeholder,
-
+  variant,
+  //
   onSearch,
   onSelect,
   onFocus,
@@ -18,19 +18,18 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
   options,
   inputRender,
   autoCompleteProps,
-  variant,
-  ...restProps
+  ...formItemProps
 }) => {
-  const messageLabel = usePlaceholder({
+  const itemPlaceholder = getFormItemPlaceholder({
     placeholder,
-    restProps,
-    isSelectType: false,
+    formItemProps,
   });
-  const { disabled: formDisabled } = useContext(LFormContext);
-  const publicProps = {
-    disabled: disabled || formDisabled,
+
+  const baseProps = {
+    disabled,
     options,
     variant,
+    placeholder: itemPlaceholder,
     onSelect,
     onSearch,
     onFocus,
@@ -39,15 +38,14 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
     style: { width: '100%', ...autoCompleteProps?.style },
   };
   return (
-    <LFormItem placeholder={messageLabel} {...restProps}>
+    <LFormItem {...formItemProps}>
       {!inputRender ? (
-        <AutoComplete allowClear size={size} placeholder={messageLabel} {...publicProps} />
+        <AutoComplete {...baseProps} />
       ) : (
-        <AutoComplete {...publicProps}>
+        <AutoComplete {...baseProps}>
           {cloneElement(inputRender(), {
-            allowClear: true,
             size,
-            placeholder: messageLabel,
+            placeholder: itemPlaceholder,
             ...inputRender()?.props,
           })}
         </AutoComplete>
