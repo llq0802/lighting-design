@@ -1,0 +1,56 @@
+import { LForm, LFormItemCaptcha, type LCaptchaButtonActionRef } from 'lighting-design';
+import { sleep } from 'lighting-design/test';
+import React, { useEffect, useRef } from 'react';
+
+type FieldType = {
+  input?: string;
+};
+
+const App: React.FC = () => {
+  const [form] = LForm.useForm<FieldType>();
+
+  const actionRef = useRef<LCaptchaButtonActionRef>();
+  const inputRef = useRef<HTMLInputElement>(null!);
+
+  useEffect(() => {
+    console.log('===inputRef.current==>', inputRef.current);
+  }, []);
+
+  return (
+    <LForm<FieldType>
+      submitter={{
+        isEnterSubmit: true,
+        position: 'center',
+        onReset(event) {
+          console.log('onReset');
+        },
+        onSubmit: (vals) => {
+          console.log('onSubmit', vals);
+        },
+      }}
+      labelWidth={100}
+      form={form}
+      onFinish={async (values) => {
+        console.log('===onFinish===', values);
+        await sleep(2000);
+      }}
+    >
+      <LFormItemCaptcha
+        cacheKey="asdasdasdsa"
+        name="input"
+        label="姓名"
+        inputProps={{
+          placeholder: '请输入姓名11',
+          ref: inputRef,
+        }}
+        captchaButtonProps={{
+          autoStart: true,
+          second: 6,
+          actionRef,
+        }}
+      />
+    </LForm>
+  );
+};
+
+export default App;

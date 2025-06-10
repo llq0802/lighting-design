@@ -1,21 +1,20 @@
+import { Input } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import { getFormItemPlaceholder } from 'lighting-design/utils';
-import type { FC } from 'react';
-import BaseInput from './base-input';
+import { useMemo, type FC } from 'react';
 import type { LFormItemInputProps } from './interface';
 import useInputRules from './use-input-rules';
 
 const LFormItemInput: FC<LFormItemInputProps> = ({
-  size,
-  disabled,
-  placeholder,
-  //
   min,
   max,
   //
-  type,
+  size,
+  disabled,
+  placeholder,
   variant,
+  type = 'text',
   prefix,
   suffix,
   addonAfter,
@@ -28,24 +27,39 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
 }) => {
   const { required, messageVariables, customValidator } = formItemProps;
 
-  const itemPlaceholder = getFormItemPlaceholder({
+  const innerPlaceholder = getFormItemPlaceholder({
     placeholder,
     formItemProps,
   });
 
+  const innerType = useMemo(() => {
+    if (type === 'phone' || type === 'idCard' || type === 'bankCard' || type === 'chinese') {
+      return 'text';
+    }
+    return type;
+  }, [type]);
+
+  const innerMaxLength = useMemo(() => {
+    if (type === 'text') return (maxLength || max) as number;
+    if (type === 'bankCard') return 22;
+    if (type === 'phone') return 11;
+    if (type === 'idCard') return 18;
+    return maxLength;
+  }, [type, maxLength]);
+
   const baseProps = {
+    autoComplete: 'off',
     size,
     disabled,
-    placeholder: itemPlaceholder,
-    type,
+    placeholder: innerPlaceholder,
+    type: innerType,
     variant,
     prefix,
     suffix,
     addonAfter,
     addonBefore,
-    maxLength,
+    maxLength: innerMaxLength,
     showCount,
-    max,
     ...inputProps,
   };
 
@@ -59,7 +73,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
 
   return (
     <LFormItem rules={customValidator ? void 0 : rules} {...formItemProps}>
-      <BaseInput {...baseProps} />
+      <Input {...baseProps} />;
     </LFormItem>
   );
 };

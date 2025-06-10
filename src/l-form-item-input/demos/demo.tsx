@@ -1,5 +1,6 @@
+import type { InputRef } from 'antd';
 import { LForm, LFormItemInput } from 'lighting-design';
-import React from 'react';
+import React, { useRef } from 'react';
 
 type FieldType = {
   input?: string;
@@ -7,6 +8,8 @@ type FieldType = {
 
 const App: React.FC = () => {
   const [form] = LForm.useForm<FieldType>();
+  const inputRef = useRef<InputRef>(null!);
+
   return (
     <LForm<FieldType>
       submitter={{
@@ -47,6 +50,9 @@ const App: React.FC = () => {
           //为子元素添加额外的属性, 每次初始化或者重新渲染都有效
           console.log('===getValueProps-3===>', value);
           return { value };
+        }}
+        inputProps={{
+          ref: inputRef,
         }}
       />
     </LForm>

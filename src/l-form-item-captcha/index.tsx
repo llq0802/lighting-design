@@ -1,65 +1,45 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { emptyObject } from 'lighting-design/constants';
-import { usePlaceholder } from 'lighting-design/utils';
+import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { useContext } from 'react';
-import CaptchaInput from './base/CaptchaInput';
+import BaseCaptchaInput from './base-captcha-input';
 import type { LFormItemCaptchaProps } from './interface';
 
 const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   placeholder,
   size,
-  disabled = false,
-
+  disabled,
+  variant,
   cacheKey = '__LFormItemCaptcha__',
-  second,
-  disabledText,
-  onEnd,
-  actionRef,
-
   type = 'default',
   maxLength = 6,
-  autoClick,
   initText = '获取验证码',
-  autoFocusOnGetCaptcha,
-
-  onGetCaptcha,
   inputProps = emptyObject,
-  buttonProps = emptyObject,
+  captchaButtonProps = emptyObject,
 
-  variant,
-
-  ...restProps
+  ...formItemProps
 }) => {
-  const messageLabel = usePlaceholder({
+  const itemPlaceholder = getFormItemPlaceholder({
     placeholder,
-    restProps,
+    formItemProps,
   });
 
-  const { disabled: formDisabled } = useContext(LFormContext);
+  const baseProps = {
+    size,
+    disabled,
+    variant,
+    placeholder: itemPlaceholder,
+    maxLength,
+    type,
+    cacheKey,
+    initText,
+    captchaButtonProps,
+    inputProps,
+  };
 
   return (
-    <LFormItem placeholder={messageLabel} {...restProps}>
-      <CaptchaInput
-        placeholder={messageLabel}
-        size={size}
-        disabled={disabled || formDisabled}
-        variant={variant}
-        maxLength={maxLength}
-        type={type as any}
-        onGetCaptcha={onGetCaptcha}
-        autoClick={autoClick}
-        autoFocusOnGetCaptcha={autoFocusOnGetCaptcha}
-        second={second}
-        disabledText={disabledText}
-        onEnd={onEnd}
-        actionRef={actionRef}
-        cacheKey={cacheKey}
-        initText={initText}
-        buttonProps={buttonProps}
-        {...inputProps}
-      />
+    <LFormItem {...formItemProps}>
+      <BaseCaptchaInput {...baseProps} />
     </LFormItem>
   );
 };

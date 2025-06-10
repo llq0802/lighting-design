@@ -8,6 +8,8 @@ export * from './l-form-item';
 export { default as LFormItem } from './l-form-item';
 export * from './l-form-item-auto-complete';
 export { default as LFormItemAutoComplete } from './l-form-item-auto-complete';
+export * from './l-form-item-captcha';
+export { default as LFormItemCaptcha } from './l-form-item-captcha';
 export * from './l-form-item-color';
 export { default as LFormItemColor } from './l-form-item-color';
 export * from './l-form-item-input';
