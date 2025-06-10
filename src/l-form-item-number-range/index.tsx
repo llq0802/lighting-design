@@ -2,10 +2,9 @@ import { Input, InputNumber, Space } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import type { LValueType } from 'lighting-design/interface';
 import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemLabel } from 'lighting-design/utils';
 import type { FC } from 'react';
 import type { LFormItemNumberRangeProps } from './interface';
-
-const prefixCls = 'lightd-number-range';
 
 function NumberRange({
   value: valuePair,
@@ -14,7 +13,6 @@ function NumberRange({
   separatorWidth = 30,
   separatorStyle = emptyObject,
   placeholder,
-  disabled,
   leftNumberProps,
   rightNumberProps,
   ...restProps
@@ -41,7 +39,7 @@ function NumberRange({
   }) / 2)`;
 
   const dom = (
-    <Space.Compact onBlur={handleOnBlur} block className={prefixCls}>
+    <Space.Compact onBlur={handleOnBlur} block>
       <InputNumber
         {...restProps}
         id={restProps?.id ? `${restProps?.id}-start` : void 0}
@@ -59,6 +57,7 @@ function NumberRange({
         variant={restProps?.variant}
         size={restProps?.size}
         placeholder={separator}
+        disabled={restProps?.disabled}
         style={{
           width: separatorWidth,
           textAlign: 'center',
@@ -99,15 +98,15 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
   //
   ...formItemProps
 }) => {
-  const { required, messageVariables } = formItemProps;
+  const { required, messageVariables, customValidator } = formItemProps;
 
   const rules = [
     {
       async validator(_: any, value: number[] | undefined) {
         let errMsg = '';
         const newValue = Array.isArray(value) ? value.filter((item) => item || item === 0) : [];
-        if (newValue?.length !== 2) {
-          errMsg = required ? `${messageVariables?.label || '请输入'}!` : '';
+        if (required && newValue?.length !== 2) {
+          errMsg = messageVariables?.label || `${getFormItemLabel(formItemProps)}不能为空!`;
         }
         if (errMsg) {
           return Promise.reject(errMsg);
@@ -131,7 +130,7 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
   };
 
   return (
-    <LFormItem rules={rules} {...formItemProps}>
+    <LFormItem rules={customValidator ? void 0 : rules} {...formItemProps}>
       <NumberRange {...baseProps} />
     </LFormItem>
   );

@@ -26,6 +26,5 @@ export type LFormItemNumberRangeProps = {
    * 右边 InputNumber 的属性
    */
   rightNumberProps?: InputNumberProps;
-  variant?: InputNumberProps['variant'];
 } & LFormItemProps &
   Pick<LFormProps, 'size' | 'disabled' | 'variant'>;

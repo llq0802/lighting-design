@@ -12,6 +12,8 @@ export * from './l-form-item-input';
 export { default as LFormItemInput } from './l-form-item-input';
 export * from './l-form-item-number';
 export { default as LFormItemNumber } from './l-form-item-number';
+export * from './l-form-item-number-range';
+export { default as LFormItemNumberRange } from './l-form-item-number-range';
 export * from './l-form-item-password';
 export { default as LFormItemPassword } from './l-form-item-password';
 export * from './l-form-item-slider';

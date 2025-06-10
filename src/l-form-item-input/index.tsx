@@ -26,7 +26,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   //
   ...formItemProps
 }) => {
-  const { required, messageVariables } = formItemProps;
+  const { required, messageVariables, customValidator } = formItemProps;
 
   const itemPlaceholder = getFormItemPlaceholder({
     placeholder,
@@ -58,7 +58,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   });
 
   return (
-    <LFormItem rules={rules} {...formItemProps}>
+    <LFormItem rules={customValidator ? void 0 : rules} {...formItemProps}>
       <BaseInput {...baseProps} />
     </LFormItem>
   );

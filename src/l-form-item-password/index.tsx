@@ -26,7 +26,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   passwordProps = emptyObject,
   ...formItemProps
 }) => {
-  const { messageVariables } = formItemProps;
+  const { messageVariables, customValidator } = formItemProps;
 
   const itemPlaceholder = getFormItemPlaceholder({
     placeholder,
@@ -75,7 +75,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   ];
 
   return (
-    <LFormItem rules={rules} {...formItemProps}>
+    <LFormItem rules={customValidator ? void 0 : rules} {...formItemProps}>
       <BasePassword {...baseProps} />
     </LFormItem>
   );
