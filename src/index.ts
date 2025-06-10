@@ -14,6 +14,8 @@ export * from './l-form-item-number';
 export { default as LFormItemNumber } from './l-form-item-number';
 export * from './l-form-item-password';
 export { default as LFormItemPassword } from './l-form-item-password';
+export * from './l-form-item-slider';
+export { default as LFormItemSlider } from './l-form-item-slider';
 export * from './l-form-item-switch';
 export { default as LFormItemSwitch } from './l-form-item-switch';
 export * from './l-form-item-textarea';
