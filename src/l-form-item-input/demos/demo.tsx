@@ -1,5 +1,6 @@
 import type { InputRef } from 'antd';
 import { LForm, LFormItemInput } from 'lighting-design';
+import { sleep } from 'lighting-design/test';
 import React, { useRef } from 'react';
 
 type FieldType = {
@@ -24,13 +25,9 @@ const App: React.FC = () => {
       }}
       labelWidth={100}
       form={form}
-      onFinish={(values) => {
+      onFinish={async (values) => {
         console.log('===onFinish===', values);
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(true);
-          }, 2000);
-        });
+        await sleep();
       }}
     >
       <LFormItemInput

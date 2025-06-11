@@ -45,7 +45,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
     if (type === 'phone') return 11;
     if (type === 'idCard') return 18;
     return maxLength;
-  }, [type, maxLength]);
+  }, [type, maxLength, max]);
 
   const baseProps = {
     autoComplete: 'off',
