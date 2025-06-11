@@ -120,8 +120,8 @@ const LFormItemNumberRange: FC<LFormItemNumberRangeProps> = ({
     size,
     disabled,
     variant,
-    //
     placeholder,
+    //
     separator,
     separatorWidth,
     separatorStyle,

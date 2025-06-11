@@ -63,5 +63,4 @@ const LHighlightText: React.FC<LHighlightTextProps> = ({
   return dom;
 };
 export * from './interface';
-
 export default React.memo(LHighlightText);

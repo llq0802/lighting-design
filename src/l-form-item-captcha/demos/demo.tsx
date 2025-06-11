@@ -1,3 +1,4 @@
+import { useBoolean } from 'ahooks';
 import { LForm, LFormItemCaptcha, type LCaptchaButtonActionRef } from 'lighting-design';
 import { sleep } from 'lighting-design/test';
 import React, { useEffect, useRef } from 'react';
@@ -8,8 +9,8 @@ type FieldType = {
 
 const App: React.FC = () => {
   const [form] = LForm.useForm<FieldType>();
-
-  const actionRef = useRef<LCaptchaButtonActionRef>();
+  const [loading, { setFalse, setTrue }] = useBoolean(false);
+  const actionRef = useRef<LCaptchaButtonActionRef>(null!);
   const inputRef = useRef<HTMLInputElement>(null!);
 
   useEffect(() => {
@@ -36,18 +37,14 @@ const App: React.FC = () => {
       }}
     >
       <LFormItemCaptcha
-        cacheKey="asdasdasdsa"
-        name="input"
-        label="姓名"
-        inputProps={{
-          placeholder: '请输入姓名11',
-          ref: inputRef,
+        request={async () => {
+          await sleep();
+          // return Promise.reject();
         }}
-        captchaButtonProps={{
-          autoStart: true,
-          second: 6,
-          actionRef,
-        }}
+        type="inline"
+        cacheKey="__LFormItemCaptcha__"
+        name="captcha"
+        label="验证码"
       />
     </LForm>
   );

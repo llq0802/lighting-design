@@ -20,7 +20,6 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
   suffix,
   //
   numberProps = emptyObject,
-
   ...formItemProps
 }) => {
   const innerPlaceholder = getFormItemPlaceholder({

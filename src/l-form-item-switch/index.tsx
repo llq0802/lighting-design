@@ -2,18 +2,33 @@ import { Form, Switch, type SwitchProps } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import type { FC } from 'react';
-import { useLayoutEffect, useMemo } from 'react';
+import { useLayoutEffect } from 'react';
 import type { LFormItemSwitchProps } from './interface';
 
-const BaseSwitch = (props: SwitchProps & Pick<LFormItemSwitchProps, 'checkedBg' | 'unCheckedBg'>) => {
-  const { checked, unCheckedBg, checkedBg, style, ...restProps } = props;
+const BaseSwitch = (
+  props: {
+    switchProps: SwitchProps;
+    [key: string]: any;
+  } & Pick<LFormItemSwitchProps, 'checkedBg' | 'unCheckedBg'>,
+) => {
+  const { checked, unCheckedBg, checkedBg, switchProps, ...restProps } = props;
 
-  const innerStyle = useMemo(
-    () => ({ backgroundColor: checked ? checkedBg : unCheckedBg, ...style }),
-    [checked, checkedBg, style, unCheckedBg],
-  );
+  const innerSwitchProps = {
+    ...restProps,
+    ...switchProps,
+    style: {
+      backgroundColor: checked ? checkedBg : unCheckedBg,
+      ...switchProps?.style,
+    },
+    checked,
+    onChange: (...args: any[]) => {
+      restProps?.onChange?.(...args);
+      //@ts-ignore
+      switchProps?.onChange?.(...args);
+    },
+  };
 
-  return <Switch {...restProps} style={innerStyle} checked={checked} />;
+  return <Switch {...innerSwitchProps} checked={checked} />;
 };
 
 const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
@@ -29,8 +44,9 @@ const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
   unCheckedChildren,
   switchProps = emptyObject,
 
-  ...restProps
+  ...formItemProps
 }) => {
+  const { name } = formItemProps;
   const baseProps = {
     size,
     disabled,
@@ -38,19 +54,20 @@ const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
     checkedChildren,
     unCheckedChildren,
     unCheckedBg,
-    ...switchProps,
+    switchProps,
   };
+
   const form = Form.useFormInstance();
   useLayoutEffect(() => {
-    if (!restProps?.name) return;
-    const v = form?.getFieldValue(restProps.name);
+    if (!name) return;
+    const v = form?.getFieldValue(name);
     if (v === void 0 || v === null) {
-      form?.setFieldValue(restProps.name, unCheckedValue);
+      form?.setFieldValue(name, unCheckedValue);
     }
   }, []);
+
   return (
     <LFormItem
-      // initialValue={unCheckedValue}
       getValueFromEvent={(val) => {
         // 设置如何将 event 的值转换成字段值, 只在用户操作有效
         // console.log('===getValueFromEvent-1===>', val);
@@ -69,7 +86,7 @@ const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
         const value = val === checkedValue;
         return { value };
       }}
-      {...restProps}
+      {...formItemProps}
       valuePropName="checked"
     >
       <BaseSwitch {...baseProps} />

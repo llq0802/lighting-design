@@ -15,6 +15,8 @@ export interface LFormItemCaptchaProps
   initText?: string;
   type?: ButtonProps['type'] | 'inline';
   maxLength?: number;
+  request?: (captcha: string) => Promise<boolean>;
+  requestAutoFocus?: boolean;
   captchaButtonProps?: Partial<LCaptchaButtonProps>;
   inputProps?: InputProps;
 }
