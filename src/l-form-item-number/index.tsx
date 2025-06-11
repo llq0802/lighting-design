@@ -18,12 +18,12 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
   addonBefore,
   prefix,
   suffix,
-
+  //
   numberProps = emptyObject,
 
   ...formItemProps
 }) => {
-  const itemPlaceholder = getFormItemPlaceholder({
+  const innerPlaceholder = getFormItemPlaceholder({
     placeholder,
     formItemProps,
   });
@@ -31,7 +31,7 @@ const LFormItemNumber: FC<LFormItemNumberProps> = ({
   const baseProps = {
     size,
     disabled,
-    placeholder: itemPlaceholder,
+    placeholder: innerPlaceholder,
     variant,
     //
     precision,

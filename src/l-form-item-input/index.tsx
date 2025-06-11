@@ -73,7 +73,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
 
   return (
     <LFormItem rules={customValidator ? void 0 : rules} {...formItemProps}>
-      <Input {...baseProps} />;
+      <Input {...baseProps} />
     </LFormItem>
   );
 };

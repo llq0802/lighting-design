@@ -1,9 +1,10 @@
+import { useMemoizedFn } from 'ahooks';
+import { Input } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import { generatePasswordRegex, getFormItemPlaceholder } from 'lighting-design/utils';
 import { isNil } from 'lodash-es';
-import type { FC } from 'react';
-import BasePassword from './base-password';
+import type { ClipboardEvent, FC } from 'react';
 import type { LFormItemPasswordProps } from './interface';
 
 const LFormItemPassword: FC<LFormItemPasswordProps> = ({
@@ -28,24 +29,10 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
 }) => {
   const { messageVariables, customValidator } = formItemProps;
 
-  const itemPlaceholder = getFormItemPlaceholder({
+  const innerPlaceholder = getFormItemPlaceholder({
     placeholder,
     formItemProps,
   });
-
-  const baseProps = {
-    size,
-    disabled,
-    placeholder: itemPlaceholder,
-    variant,
-    prefix,
-    suffix,
-    addonAfter,
-    addonBefore,
-    //
-    max,
-    ...passwordProps,
-  };
 
   const rules = [
     {
@@ -65,7 +52,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
           errMsg =
             strictValidatorMessage ||
             messageVariables?.label ||
-            `密码必须包含大小写字母、数字、特殊字符, 且长度在 ${min} 和 ${max} 之间!`;
+            `密码必须包含大小写字母、数字、特殊字符, 且长度在 ${min} 到 ${max} 之间!`;
           return Promise.reject(errMsg);
         }
 
@@ -74,9 +61,41 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
     },
   ];
 
+  const handlePaste = useMemoizedFn((e: ClipboardEvent<HTMLInputElement>) => {
+    if (disabledPaste) {
+      e.preventDefault();
+    }
+    passwordProps?.onPaste?.(e);
+  });
+
+  const handleCopy = useMemoizedFn((e: ClipboardEvent<HTMLInputElement>) => {
+    if (disabledCopy) {
+      e.preventDefault();
+    }
+    passwordProps?.onCopy?.(e);
+  });
+
+  const baseProps = {
+    size,
+    disabled,
+    placeholder: innerPlaceholder,
+    variant,
+    //
+    prefix,
+    suffix,
+    addonAfter,
+    addonBefore,
+    //
+    maxLength: max,
+    autoComplete: 'new-password',
+    ...passwordProps,
+    onCopy: handleCopy,
+    onPaste: handlePaste,
+  };
+
   return (
     <LFormItem rules={customValidator ? void 0 : rules} {...formItemProps}>
-      <BasePassword {...baseProps} />
+      <Input.Password {...baseProps} />
     </LFormItem>
   );
 };
