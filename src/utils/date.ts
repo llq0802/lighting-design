@@ -7,6 +7,7 @@ import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+import { TIME_LIST } from 'lighting-design/constants';
 dayjs.extend(relativeTime);
 dayjs.extend(quarterOfYear);
 dayjs.extend(advancedFormat);
@@ -14,7 +15,6 @@ dayjs.extend(weekOfYear);
 dayjs.extend(customParseFormat);
 dayjs.extend(weekday);
 dayjs.extend(localeData);
-
 // DatePicker picker值
 export type Picker = 'date' | 'week' | 'month' | 'quarter' | 'year';
 export type DateValueType = 'string' | 'number' | 'dayjs';
@@ -123,13 +123,15 @@ export function transformQuarter(value: string | Dayjs) {
   const ret = dayjs((value || '').replace('Q', ''), 'YYYY-Q');
   return ret;
 }
+
 /**
- * 转化string number dayjs 转换为 dayjs类型值
+ * 转化 string number dayjs 转换为 dayjs 类型值
  * @param value 值
  * @param format 格式化
+ * @param picker 类型
  */
 export function transform2Dayjs(value?: string | number | Dayjs, format?: string, picker?: Picker): Dayjs;
-export function transform2Dayjs(value?: (string | number | Dayjs)[], format?: string, picker?: Picker): [Dayjs, Dayjs];
+export function transform2Dayjs(value?: (string | number | Dayjs)[], format?: string, picker?: Picker): Dayjs[];
 export function transform2Dayjs(
   value?: string | number | Dayjs | (string | number | Dayjs)[],
   format?: string,
@@ -139,17 +141,12 @@ export function transform2Dayjs(
     return value;
   }
 
-  if (Array.isArray(value)) {
-    return value?.map((item) => transform2Dayjs(item, format, picker));
-  }
-
   if (typeof value === 'string') {
     // 季度
     if (picker === 'quarter') {
       const quarterNum = format === DateFormat.quarter ? +value.slice(-1) : +value.slice(5, 6);
       return dayjs().quarter(quarterNum);
     }
-
     // 周
     if (picker === 'week') {
       const weekNum = parseInt(value.slice(5)); // +1; // antd的原因 要加一周
@@ -163,7 +160,38 @@ export function transform2Dayjs(
     return dayjs(value);
   }
 
+  if (Array.isArray(value)) {
+    return value?.map((item) => transform2Dayjs(item, format, picker));
+  }
+
   return value || void 0;
+}
+
+/**
+ * @param hour 当前小时 0-23
+ * @param disabledHourBefore 禁用当前时间之前的小时 (0会包括当前小时)
+ * @param disabledHourAfter 禁用当前时间之后的小时 (0会包括当前小时)
+ * @returns
+ */
+export function customDisabledHours(hour: number, disabledHourBefore?: number, disabledHourAfter?: number) {
+  console.log('===hour==>', hour);
+  const hasBefore = typeof disabledHourBefore === 'number';
+  const hasAfter = typeof disabledHourAfter === 'number';
+  if (!hasBefore && !hasAfter) {
+    return [];
+  }
+
+  if (hasBefore && hasAfter) {
+    const ret = TIME_LIST.slice(hour - disabledHourBefore + 1, hour + disabledHourAfter);
+    return TIME_LIST.filter((item) => !ret.includes(item));
+  } else if (hasBefore) {
+    const ret = TIME_LIST.slice(0, hour - disabledHourBefore + 1);
+    return ret;
+  } else if (hasAfter) {
+    const ret = TIME_LIST.slice(hour + disabledHourAfter);
+    return ret;
+  }
+  return [];
 }
 
 /**

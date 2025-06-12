@@ -1,46 +1,41 @@
 import type { TimePickerProps, TimeRangePickerProps } from 'antd';
-import type { LFormItemProps } from 'lighting-design/FormItem/interface';
+import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
+import type { LFormProps } from 'lighting-design/l-form/interface';
 import type { DateValueType } from 'lighting-design/utils/date';
 
-export interface LFormItemTimePickerProps extends LFormItemProps {
+export interface LFormItemTimeProps extends LFormItemProps, Pick<LFormProps, 'size' | 'disabled' | 'variant'> {
+  placeholder?: string | [string, string];
   /**
-   *是否是范围时间选择
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   rangePicker?: boolean;
   /**
    *表单获取到的值的类型
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
-  dateValueType?: Omit<DateValueType, 'number'>;
+  timeValueType?: Omit<DateValueType, 'number'>;
   /**
    *禁用当前时间之前的小时 (0 会包括当前小时)
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   disabledHourBefore?: number;
   /**
    *禁用当前时间之后的小时 (0 会包括当前小时)
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   disabledHourAfter?: number;
   /**
    *禁用分钟的函数
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   disabledMinutes?: (selectedHour: number, type?: 'start' | 'end') => number[];
   /**
    *禁用秒的函数
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   disabledSeconds?: (selectedHour: number, selectedMinute: number, type?: 'start' | 'end') => number[];
   /**
-   *同antd时间组件的格式
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
+   * 同antd时间组件的格式
    */
-  format?: 'HH:mm:ss' | string;
+  format?: string;
+  hideDisabledOptions?: TimePickerProps['hideDisabledOptions'];
+  use12Hours?: TimePickerProps['use12Hours'];
   /**
    *antd时间组件的 Props
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemTimePickerProps
    */
   timePickerProps?: TimePickerProps | TimeRangePickerProps;
 }

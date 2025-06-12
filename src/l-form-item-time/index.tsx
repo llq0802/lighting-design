@@ -1,136 +1,86 @@
 import { useMemoizedFn } from 'ahooks';
-import type { TimePickerProps } from 'antd';
-import { TimePicker } from 'antd';
-import locale from 'antd/es/date-picker/locale/zh_CN';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { TIME_LIST, emptyObject } from 'lighting-design/constants';
-import { transform2Dayjs } from 'lighting-design/utils/date';
-import type { Dayjs } from 'lighting-design/utils/day';
+import { emptyObject } from 'lighting-design/constants';
+import LFormItem from 'lighting-design/l-form-item';
+import { customDisabledHours, transform2Dayjs } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { useContext, useMemo } from 'react';
-import type { LFormItemTimePickerProps } from './interface';
+import BaseTime from './base-time';
+import type { LFormItemTimeProps } from './interface';
 
-/**
- * @param hour 当前小时 0-23
- * @param disabledHourBefore 禁用当前时间之前的小时 (0会包括当前小时)
- * @param disabledHourAfter 禁用当前时间之后的小时 (0会包括当前小时)
- * @returns
- */
-export function customDisabledHours(hour: number, disabledHourBefore?: number, disabledHourAfter?: number) {
-  const hasBefore = typeof disabledHourBefore === 'number';
-  const hasAfter = typeof disabledHourAfter === 'number';
-  if (!hasBefore && !hasAfter) {
-    return [];
-  }
-
-  if (hasBefore && hasAfter) {
-    const ret = TIME_LIST.slice(hour - disabledHourBefore + 1, hour + disabledHourAfter);
-    return TIME_LIST.filter((item) => !ret.includes(item));
-  } else if (hasBefore) {
-    const ret = TIME_LIST.slice(0, hour - disabledHourBefore + 1);
-    return ret;
-  } else if (hasAfter) {
-    const ret = TIME_LIST.slice(hour + disabledHourAfter);
-    return ret;
-  }
-  return [];
-}
-
-const TimePickerWrapper: FC<TimePickerProps | any> = ({
-  dateValueType,
-  style,
-  value,
-  rangePicker,
-  format,
-  placeholder,
-  onChange,
-  ...restProps
-}) => {
-  const handleChange = useMemoizedFn((value: Dayjs | [Dayjs, Dayjs] | undefined, formatString: [string, string]) => {
-    if (dateValueType === 'string') {
-      onChange?.(formatString, value);
-    } else if (dateValueType === 'dayjs') {
-      onChange?.(value, formatString);
-    }
-  });
-
-  const props = {
-    format,
-    locale,
-    style: { width: '100%', ...style },
-    value: transform2Dayjs(value, format),
-    onChange: handleChange,
-    ...restProps,
-  };
-
-  if (!placeholder) {
-    return !rangePicker ? (
-      <TimePicker {...props} />
-    ) : (
-      // `disabled` should not set with empty `value`. You should set `allowEmpty` or `value` instead.
-      <TimePicker.RangePicker allowEmpty {...props} />
-    );
-  }
-
-  return !rangePicker ? (
-    <TimePicker placeholder={placeholder} {...props} />
-  ) : (
-    // `disabled` should not set with empty `value`. You should set `allowEmpty` or `value` instead.
-    <TimePicker.RangePicker allowEmpty placeholder={placeholder} {...props} />
-  );
-};
-
-const LFormItemTimePicker: FC<LFormItemTimePickerProps> = ({
-  rangePicker = false,
-
-  dateValueType = 'string',
-  format = 'HH:mm:ss',
-  timePickerProps = emptyObject,
+const LFormItemTime: FC<LFormItemTimeProps> = ({
   size,
+  disabled,
   placeholder,
+  variant,
+  format = 'HH:mm:ss',
+  hideDisabledOptions,
+  use12Hours,
+  //
+  rangePicker = false,
+  timeValueType = 'string',
+  //
   disabledHourBefore,
   disabledHourAfter,
   disabledMinutes = () => [],
   disabledSeconds = () => [],
+  timePickerProps = emptyObject,
 
-  disabled = false,
-  ...restProps
+  ...formItemProps
 }) => {
-  const { disabled: formDisabled } = useContext(LFormContext);
-
-  const currentDisabledTime = useMemoizedFn((now: Dayjs, type: 'start' | 'end') => {
+  const innerDisabledTime = useMemoizedFn((now: Dayjs, type: 'start' | 'end') => {
     return {
-      disabledHours: () => customDisabledHours(now.hour(), disabledHourBefore, disabledHourAfter),
+      disabledHours: () => customDisabledHours(dayjs().hour(), disabledHourBefore, disabledHourAfter),
       disabledMinutes: (selectedHour: number) => disabledMinutes(selectedHour, type),
       disabledSeconds: (selectedHour: number, selectedMinute: number) =>
         disabledSeconds(selectedHour, selectedMinute, type),
-
       ...timePickerProps?.disabledTime?.(now, type),
     };
   });
 
-  const showNow = useMemo(
-    () => !(typeof disabledHourBefore === 'number' || typeof disabledHourAfter === 'number'),
-    [disabledHourBefore, disabledHourAfter],
-  );
+  const showNow = typeof disabledHourBefore !== 'number' && typeof disabledHourAfter !== 'number';
+
+  const baseProps = {
+    size,
+    disabled,
+    placeholder,
+    showNow,
+    format,
+    hideDisabledOptions,
+    use12Hours,
+
+    rangePicker,
+
+    ...timePickerProps,
+    disabledTime: innerDisabledTime,
+  };
+
   return (
-    <LFormItem _isSelectType {...restProps}>
-      <TimePickerWrapper
-        size={size}
-        dateValueType={dateValueType}
-        rangePicker={rangePicker}
-        placeholder={placeholder}
-        disabledTime={currentDisabledTime}
-        disabled={disabled || formDisabled}
-        format={format}
-        showNow={showNow}
-        {...timePickerProps}
-      />
+    <LFormItem
+      getValueFromEvent={(dayVal, strVal) => {
+        // 设置如何将 event 的值转换成字段值, 只在用户操作有效
+        if (timeValueType === 'dayjs') {
+          return dayVal;
+        }
+        return strVal;
+      }}
+      // normalize={(v, pv, s) => {
+      //   // 组件获取值后进行转换，再放入 Form 中。不支持异步, 只在用户操作有效
+      //   console.log('===normalize-2===>', v);
+      //   return v;
+      // }}
+      getValueProps={(value) => {
+        //为子元素添加额外的属性, 每次初始化或者重新渲染都有效
+        return { value: transform2Dayjs(value, format) };
+      }}
+      {...formItemProps}
+    >
+      {/* @ts-ignore */}
+      <BaseTime {...baseProps} />
     </LFormItem>
   );
 };
 
-export default LFormItemTimePicker;
+export default LFormItemTime;
 export * from './interface';
