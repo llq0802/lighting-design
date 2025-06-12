@@ -16,16 +16,14 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
   ...restProps
 }) => {
   const actionRef = useRef<LCaptchaButtonActionRef>(null!);
-
   const inputRef: Ref<InputRef> | undefined = useRef(null!);
+
   const { loading, run } = useRequest(request, {
     manual: true,
     onSuccess(data, params) {
       console.log('=== onSuccess==>');
-      actionRef.current.start();
-      if (requestAutoFocus) {
-        inputRef?.current?.focus?.();
-      }
+      actionRef.current?.start?.();
+      if (requestAutoFocus) inputRef?.current?.focus?.();
     },
     onError(e) {
       console.log('=== onError==>');
@@ -46,16 +44,14 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
       ...captchaButtonProps?.style,
     },
     onClick(e) {
-      if (request) {
-        run();
-      }
+      if (request) run();
       captchaButtonProps?.onClick?.(e);
     },
   };
 
   const captchaButtonDom = <LCaptchaButton {...innerCaptchaButtonProps}>{initText}</LCaptchaButton>;
 
-  const mergingInputProps = {
+  const mergeInputProps = {
     ...inputProps,
     ...restProps,
     onChange(...args: any[]) {
@@ -66,25 +62,25 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
 
   const innerInputProps = {
     ref: inputRef,
-    ...mergingInputProps,
+    ...mergeInputProps,
     style: {
       flex: 1,
-      ...mergingInputProps?.style,
+      ...mergeInputProps?.style,
     },
     suffix: isInline ? (
       <>
-        {mergingInputProps?.suffix}
+        {mergeInputProps?.suffix}
         <Divider type="vertical" style={{ top: 0 }} />
         {captchaButtonDom}
       </>
     ) : (
-      mergingInputProps?.suffix
+      mergeInputProps?.suffix
     ),
   };
 
   return (
     <Flex gap={8} align="center">
-      <Input {...innerInputProps} />
+      <Input {...innerInputProps} allowClear />
       {!isInline ? captchaButtonDom : null}
     </Flex>
   );
