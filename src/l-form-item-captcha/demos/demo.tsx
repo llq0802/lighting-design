@@ -1,7 +1,7 @@
 import { useBoolean } from 'ahooks';
 import { LForm, LFormItemCaptcha, type LCaptchaButtonActionRef } from 'lighting-design';
 import { sleep } from 'lighting-design/test';
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 
 type FieldType = {
   input?: string;
@@ -13,12 +13,9 @@ const App: React.FC = () => {
   const actionRef = useRef<LCaptchaButtonActionRef>(null!);
   const inputRef = useRef<HTMLInputElement>(null!);
 
-  useEffect(() => {
-    console.log('===inputRef.current==>', inputRef.current);
-  }, []);
-
   return (
     <LForm<FieldType>
+      labelWidth={100}
       submitter={{
         isEnterSubmit: true,
         position: 'center',
@@ -29,7 +26,6 @@ const App: React.FC = () => {
           console.log('onSubmit', vals);
         },
       }}
-      labelWidth={100}
       form={form}
       onFinish={async (values) => {
         console.log('===onFinish===', values);
@@ -37,14 +33,32 @@ const App: React.FC = () => {
       }}
     >
       <LFormItemCaptcha
-        request={async () => {
+        request={async (vals) => {
           await sleep();
-          // return Promise.reject();
         }}
-        type="inline"
-        cacheKey="__LFormItemCaptcha__"
-        name="captcha"
-        label="验证码"
+        cacheKey="__LFormItemCaptcha__1"
+        name="captcha1"
+        label="验证码1"
+      />
+      <LFormItemCaptcha
+        cacheKey="__LFormItemCaptcha__2"
+        name="captcha2"
+        label="验证码2"
+        inputProps={{
+          ref: inputRef,
+        }}
+        captchaButtonProps={{
+          actionRef,
+          loading,
+          second: 6,
+          onClick: async () => {
+            setTrue();
+            await sleep();
+            setFalse();
+            actionRef.current?.start();
+            inputRef.current?.focus();
+          },
+        }}
       />
     </LForm>
   );

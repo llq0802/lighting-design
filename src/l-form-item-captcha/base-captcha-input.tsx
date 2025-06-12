@@ -10,7 +10,11 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
   initText,
   cacheKey,
   request,
+  requestData,
   requestAutoFocus,
+  onBefore,
+  onSuccess,
+  onError,
   captchaButtonProps = {},
   inputProps = {},
   ...restProps
@@ -20,14 +24,13 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
 
   const { loading, run } = useRequest(request, {
     manual: true,
+    onBefore,
     onSuccess(data, params) {
-      console.log('=== onSuccess==>');
       actionRef.current?.start?.();
       if (requestAutoFocus) inputRef?.current?.focus?.();
+      onSuccess?.(data, params);
     },
-    onError(e) {
-      console.log('=== onError==>');
-    },
+    onError,
   });
 
   const isInline = type === 'inline' || type === 'link';
@@ -44,7 +47,7 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
       ...captchaButtonProps?.style,
     },
     onClick(e) {
-      if (request) run();
+      if (request) run(requestData);
       captchaButtonProps?.onClick?.(e);
     },
   };

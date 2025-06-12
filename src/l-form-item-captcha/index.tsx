@@ -17,6 +17,11 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   //
   initText = '获取验证码',
   request,
+  requestData,
+  onBefore,
+  onSuccess,
+  onError,
+  requestAutoFocus = true,
   inputProps = emptyObject,
   captchaButtonProps = emptyObject,
 
@@ -41,6 +46,11 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
     inputProps,
     //
     request,
+    onBefore,
+    onSuccess,
+    onError,
+    requestData,
+    requestAutoFocus,
   };
 
   return (

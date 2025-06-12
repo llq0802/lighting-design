@@ -15,8 +15,17 @@ export interface LFormItemCaptchaProps
   initText?: string;
   type?: ButtonProps['type'] | 'inline';
   maxLength?: number;
-  request?: (captcha: string) => Promise<any>;
+  /**
+   * @description 请求方法
+   * @param requestData 请求的额外参数
+   * @returns Promise.resolve() 成功  /  Promise.reject() 失败
+   */
+  request?: (requestData: any) => Promise<any>;
   requestAutoFocus?: boolean;
+  requestData?: any;
+  onBefore?: (requestData: any) => void;
+  onSuccess?: (data: any, requestData: any) => void;
+  onError?: (err: Error, res: any) => void;
   captchaButtonProps?: Partial<LCaptchaButtonProps>;
   inputProps?: InputProps;
 }
