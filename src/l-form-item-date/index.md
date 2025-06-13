@@ -20,7 +20,9 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'></code>
+<code src='./demos/demo.tsx'></code>
+
+<!-- <code src='./demos/Demo1.tsx'></code>
 
 ### 日期范围
 
@@ -36,7 +38,7 @@ nav:
 
 ### 限制范围
 
-<code src='./demos/Demo5.tsx'></code>
+<code src='./demos/Demo5.tsx'></code> -->
 
 ## API
 

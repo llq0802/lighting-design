@@ -1,7 +1,6 @@
 import { useMemoizedFn } from 'ahooks';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn';
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import { customDisabledHours, transform2Dayjs } from 'lighting-design/utils';

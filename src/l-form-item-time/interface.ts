@@ -11,7 +11,7 @@ export interface LFormItemTimeProps extends LFormItemProps, Pick<LFormProps, 'si
   /**
    *表单获取到的值的类型
    */
-  timeValueType?: Omit<DateValueType, 'number'>;
+  timeValueType?: Omit<DateValueType, 'timestamp'>;
   /**
    *禁用当前时间之前的小时 (0 会包括当前小时)
    */

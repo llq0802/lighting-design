@@ -12,6 +12,8 @@ export * from './l-form-item-captcha';
 export { default as LFormItemCaptcha } from './l-form-item-captcha';
 export * from './l-form-item-color';
 export { default as LFormItemColor } from './l-form-item-color';
+export * from './l-form-item-date';
+export { default as LFormItemDate } from './l-form-item-date';
 export * from './l-form-item-input';
 export { default as LFormItemInput } from './l-form-item-input';
 export * from './l-form-item-number';

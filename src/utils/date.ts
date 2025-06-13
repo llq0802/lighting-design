@@ -15,11 +15,16 @@ dayjs.extend(weekOfYear);
 dayjs.extend(customParseFormat);
 dayjs.extend(weekday);
 dayjs.extend(localeData);
-// DatePicker picker值
-export type Picker = 'date' | 'week' | 'month' | 'quarter' | 'year';
-export type DateValueType = 'string' | 'number' | 'dayjs';
 
-// dayjs 与antd-Date枚举
+export type DateValueType = 'string' | 'timestamp' | 'dayjs';
+export enum PickerEnum {
+  date = 'date',
+  week = 'week',
+  month = 'month',
+  quarter = 'quarter',
+  year = 'year',
+}
+
 export enum DayjsEnum {
   time = 'hours',
   date = 'days',
@@ -29,16 +34,15 @@ export enum DayjsEnum {
   year = 'years',
 }
 
-// 日期格式
 const InternalQuarterFormat = 'YYYY-qQ';
 export enum DateFormat {
   time = ' HH:mm:ss',
-  year = 'YYYY',
-  month = 'YYYY-MM',
   date = 'YYYY-MM-DD',
   week = 'YYYY-wo',
-  quarter = 'YYYY-\\QQ',
-  // quarter = 'YYYY-qQ',
+  month = 'YYYY-MM',
+  // quarter = 'YYYY-Q',
+  quarter = 'YYYY-qQ',
+  year = 'YYYY',
 }
 
 type CreateDisabledDateOptions = {
@@ -48,15 +52,18 @@ type CreateDisabledDateOptions = {
 
 /**
  * 获取日期格式
- * @param format
  * @param picker
  * @param showTime
- * @returns
  */
-export function getDateFormat(format: string, picker: Picker, showTime = false) {
+export function getDateFormat(format: string | undefined, picker: PickerEnum = PickerEnum.date, showTime: any) {
   if (format) return format;
-  const timeFormatStr = picker === 'date' && showTime ? DateFormat.time : '';
-  const ret = DateFormat[picker] + timeFormatStr || DateFormat.date;
+
+  if (picker === PickerEnum.quarter) {
+    return void 0;
+  }
+
+  const timeFormatStr = picker === PickerEnum.date && showTime ? DateFormat.time : '';
+  const ret = (DateFormat[picker] || DateFormat.date) + timeFormatStr;
   return ret;
 }
 
@@ -66,7 +73,12 @@ export function getDateFormat(format: string, picker: Picker, showTime = false) 
  * @param opts
  * @returns
  */
-export function createDisabledDate(picker: Picker = 'date', opts: CreateDisabledDateOptions) {
+export function createDisabledDate(
+  disabledDate: any,
+  picker: PickerEnum = PickerEnum.date,
+  opts: CreateDisabledDateOptions,
+) {
+  if (disabledDate) return disabledDate;
   const { disabledDateBefore, disabledDateAfter } = opts;
   const hasBefore = typeof disabledDateBefore === 'number';
   const hasAfter = typeof disabledDateAfter === 'number';
@@ -80,31 +92,32 @@ export function createDisabledDate(picker: Picker = 'date', opts: CreateDisabled
   }
 
   return (current: Dayjs) => {
-    if (!current) {
-      return false;
-    }
+    if (!current) return false;
 
     let before = disabledDateBefore as number,
       after = disabledDateAfter as number;
 
     // 处理季度转化
-    if (picker === 'quarter') {
-      if (hasBefore) {
-        before = before * 3 - 1;
-      }
-      if (hasAfter) {
-        after = after * 3 - 1;
-      }
-    }
+    // if (picker === PickerEnum.quarter) {
+    //   if (hasBefore) {
+    //     before = before * 3 - 1;
+    //   }
+    //   if (hasAfter) {
+    //     after = after * 3 - 1;
+    //   }
+    // }
 
     if (hasBefore && hasAfter) {
       return (
+        // 禁用早于 before 或晚于 after 的日期。
         current <= dayjs().subtract(before, dayjsType).endOf(dayjsType) ||
         current >= dayjs().add(after, dayjsType).startOf(dayjsType)
       );
     } else if (hasBefore) {
+      // 只有 before：禁用早于 before 的日期。
       return current <= dayjs().subtract(before, dayjsType).endOf(dayjsType);
     } else if (hasAfter) {
+      // 只有 after：禁用晚于 after 的日期。
       return current >= dayjs().add(after, dayjsType).startOf(dayjsType);
     }
 
@@ -130,12 +143,12 @@ export function transformQuarter(value: string | Dayjs) {
  * @param format 格式化
  * @param picker 类型
  */
-export function transform2Dayjs(value?: string | number | Dayjs, format?: string, picker?: Picker): Dayjs;
-export function transform2Dayjs(value?: (string | number | Dayjs)[], format?: string, picker?: Picker): Dayjs[];
+export function transform2Dayjs(value?: string | number | Dayjs, format?: string, picker?: PickerEnum): Dayjs;
+export function transform2Dayjs(value?: (string | number | Dayjs)[], format?: string, picker?: PickerEnum): Dayjs[];
 export function transform2Dayjs(
   value?: string | number | Dayjs | (string | number | Dayjs)[],
   format?: string,
-  picker?: Picker,
+  picker?: PickerEnum,
 ) {
   if (dayjs.isDayjs(value)) {
     return value;
@@ -143,12 +156,13 @@ export function transform2Dayjs(
 
   if (typeof value === 'string') {
     // 季度
-    if (picker === 'quarter') {
-      const quarterNum = format === DateFormat.quarter ? +value.slice(-1) : +value.slice(5, 6);
-      return dayjs().quarter(quarterNum);
+    if (picker === PickerEnum.quarter) {
+      const quarterNum = Number(value?.at?.(-1)) || 1;
+      const year = value.slice(0, 4);
+      return dayjs(`${year}-1-1`).startOf('year').quarter(quarterNum);
     }
     // 周
-    if (picker === 'week') {
+    if (picker === PickerEnum.week) {
       const weekNum = parseInt(value.slice(5)); // +1; // antd的原因 要加一周
       return dayjs().week(weekNum);
     }
@@ -174,7 +188,6 @@ export function transform2Dayjs(
  * @returns
  */
 export function customDisabledHours(hour: number, disabledHourBefore?: number, disabledHourAfter?: number) {
-  console.log('===hour==>', hour);
   const hasBefore = typeof disabledHourBefore === 'number';
   const hasAfter = typeof disabledHourAfter === 'number';
   if (!hasBefore && !hasAfter) {
@@ -193,46 +206,3 @@ export function customDisabledHours(hour: number, disabledHourBefore?: number, d
   }
   return [];
 }
-
-/**
- * 格式化用户选择的日期
- * @param date
- * @param format
- * @param dateValueType
- */
-// export function formatDayjs(
-//   date: Dayjs,
-//   format: string,
-//   dateValueType: DateValueType,
-// ): string | number | Dayjs;
-// export function formatDayjs(
-//   date: [Dayjs, Dayjs],
-//   format: string,
-//   dateValueType: DateValueType,
-// ): [string | number | Dayjs, string | number | Dayjs];
-// export function formatDayjs(
-//   date: Dayjs | Dayjs[],
-//   format: string,
-//   dateValueType: DateValueType,
-// ): string | number | Dayjs | (string | number | Dayjs)[] {
-//   if (Array.isArray(date) && date.length > 0) {
-//     return date.map((item) => formatDayjs(item, format, dateValueType));
-//   }
-
-//   if (date && dateValueType === 'string') {
-//     return format === DateFormat.quarter
-//       ? formatQuarter(date as Dayjs)
-//       : (date as Dayjs).format(format);
-//     // return (date as Dayjs).format(format);
-//   }
-
-//   if (date && dateValueType === 'dayjs') {
-//     return date;
-//   }
-
-//   if (date && dateValueType === 'number') {
-//     return (date as Dayjs).valueOf();
-//   }
-
-//   return date;
-// }

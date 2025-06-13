@@ -3,9 +3,9 @@ import type { MonthPickerProps, RangePickerProps, WeekPickerProps } from 'antd/e
 import type { PickerProps } from 'antd/es/date-picker/generatePicker/interface';
 import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
 import type { LFormProps } from 'lighting-design/l-form/interface';
-import type { DateValueType, Picker } from 'lighting-design/utils/date';
+import type { DateValueType } from 'lighting-design/utils/date';
 
-export interface LFormItemDatePickerProps extends LFormItemProps, Pick<LFormProps, 'size' | 'disabled' | 'variant'> {
+export interface LFormItemDateProps extends LFormItemProps, Pick<LFormProps, 'size' | 'disabled' | 'variant'> {
   placeholder?: string | [string, string];
   /**
    *禁用今天的前面的日期 为`0`时包括今天
@@ -31,12 +31,11 @@ export interface LFormItemDatePickerProps extends LFormItemProps, Pick<LFormProp
   /**
    *日期类型
    */
-  picker?: Picker;
+  picker?: 'date' | 'week' | 'month' | 'quarter' | 'year';
+  /** 是否是范围日期选择 */
+  rangePicker?: boolean;
   /**
    *antd日期组件的 Props
    */
-  pickerProps?: DatePickerProps | MonthPickerProps | WeekPickerProps | RangePickerProps | PickerProps;
-
-  /** 是否是范围日期选择 */
-  rangePicker?: boolean;
+  datePickerProps?: DatePickerProps & MonthPickerProps & WeekPickerProps & RangePickerProps & PickerProps;
 }
