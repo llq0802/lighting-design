@@ -1,7 +1,9 @@
 import { TimePicker, type TimePickerProps, type TimeRangePickerProps } from 'antd';
 import locale from 'antd/es/date-picker/locale/zh_CN';
+import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import type { FC } from 'react';
+dayjs.locale('zh-cn');
 
 type BaseTimeProps = TimePickerProps &
   TimeRangePickerProps &

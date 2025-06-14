@@ -15,7 +15,12 @@ const App: React.FC = () => {
         console.log('===onFinish===', values);
       }}
     >
-      <LFormItemDate name="date1" label="日期1" picker="quarter" dateValueType="string" />
+      <LFormItemDate
+        name="date1"
+        label="日期1"
+        picker="week"
+        // format="YYYY-w周"
+      />
     </LForm>
   );
 };

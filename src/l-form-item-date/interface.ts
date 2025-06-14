@@ -37,5 +37,11 @@ export interface LFormItemDateProps extends LFormItemProps, Pick<LFormProps, 'si
   /**
    *antd日期组件的 Props
    */
-  datePickerProps?: DatePickerProps & MonthPickerProps & WeekPickerProps & RangePickerProps & PickerProps;
+  datePickerProps?:
+    | DatePickerProps
+    | MonthPickerProps
+    | WeekPickerProps
+    | RangePickerProps
+    | PickerProps
+    | Record<string, any>;
 }

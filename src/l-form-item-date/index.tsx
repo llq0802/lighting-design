@@ -1,12 +1,9 @@
-import type { RangePickerProps } from 'antd/lib/date-picker';
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import { createDisabledDate, getDateFormat, PickerEnum, transform2Dayjs } from 'lighting-design/utils/date';
-import type { FC } from 'react';
+import { useRef, type FC } from 'react';
 import { BaseDate, BaseDateRange } from './base-date';
 import type { LFormItemDateProps } from './interface';
-
-type RangePickerWrapperProps = any & RangePickerProps;
 
 const LFormItemDate: FC<LFormItemDateProps> = ({
   disabled,
@@ -39,10 +36,11 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
 
   const innerFormat = getDateFormat(dateProps.format as string, dateProps.picker as PickerEnum, dateProps.showTime);
 
-  const innerDisabledDate = createDisabledDate(dateProps?.disabledDate as any, dateProps.picker as PickerEnum, {
+  const innerDisabledDate = createDisabledDate((dateProps as any)?.disabledDate, dateProps.picker as PickerEnum, {
     disabledDateBefore,
     disabledDateAfter,
   });
+
   const baseProps = {
     ...dateProps,
     format: innerFormat,
@@ -51,9 +49,12 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
 
   const dom = !rangePicker ? <BaseDate {...baseProps} /> : <BaseDateRange {...baseProps} />;
 
+  const selectedValue = useRef();
+
   return (
     <LFormItem
       getValueFromEvent={(v1, v2) => {
+        selectedValue.current = v1;
         if (dateValueType === 'string') {
           return v2;
         }
@@ -64,7 +65,9 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
       }}
       getValueProps={(value) => {
         //为子元素添加额外的属性, 每次初始化或者重新渲染都有效
-        return { value: transform2Dayjs(value, innerFormat, baseProps.picker as PickerEnum) };
+        return {
+          value: transform2Dayjs(value, innerFormat, baseProps.picker as PickerEnum),
+        };
       }}
       {...restProps}
     >

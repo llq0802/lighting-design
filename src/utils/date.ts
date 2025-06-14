@@ -1,20 +1,26 @@
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import isoWeek from 'dayjs/plugin/isoWeek';
 import localeData from 'dayjs/plugin/localeData';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import weekday from 'dayjs/plugin/weekday';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
+import weekYear from 'dayjs/plugin/weekYear';
+import weekday from 'dayjs/plugin/weekday';
 import { TIME_LIST } from 'lighting-design/constants';
+dayjs.extend(isoWeek);
+dayjs.extend(customParseFormat);
+dayjs.extend(advancedFormat);
+dayjs.extend(localeData);
 dayjs.extend(relativeTime);
 dayjs.extend(quarterOfYear);
-dayjs.extend(advancedFormat);
-dayjs.extend(weekOfYear);
-dayjs.extend(customParseFormat);
 dayjs.extend(weekday);
-dayjs.extend(localeData);
+dayjs.extend(weekYear);
+dayjs.extend(weekOfYear);
+dayjs.locale('zh-cn');
 
 export type DateValueType = 'string' | 'timestamp' | 'dayjs';
 export enum PickerEnum {
@@ -34,21 +40,15 @@ export enum DayjsEnum {
   year = 'years',
 }
 
-const InternalQuarterFormat = 'YYYY-qQ';
 export enum DateFormat {
   time = ' HH:mm:ss',
   date = 'YYYY-MM-DD',
   week = 'YYYY-wo',
   month = 'YYYY-MM',
-  // quarter = 'YYYY-Q',
+  // quarter = `YYYY-\QQ`,
   quarter = 'YYYY-qQ',
   year = 'YYYY',
 }
-
-type CreateDisabledDateOptions = {
-  disabledDateBefore?: number;
-  disabledDateAfter?: number;
-};
 
 /**
  * 获取日期格式
@@ -57,11 +57,9 @@ type CreateDisabledDateOptions = {
  */
 export function getDateFormat(format: string | undefined, picker: PickerEnum = PickerEnum.date, showTime: any) {
   if (format) return format;
-
-  if (picker === PickerEnum.quarter) {
+  if (picker === PickerEnum.quarter || picker === PickerEnum.week) {
     return void 0;
   }
-
   const timeFormatStr = picker === PickerEnum.date && showTime ? DateFormat.time : '';
   const ret = (DateFormat[picker] || DateFormat.date) + timeFormatStr;
   return ret;
@@ -76,7 +74,10 @@ export function getDateFormat(format: string | undefined, picker: PickerEnum = P
 export function createDisabledDate(
   disabledDate: any,
   picker: PickerEnum = PickerEnum.date,
-  opts: CreateDisabledDateOptions,
+  opts: {
+    disabledDateBefore?: number;
+    disabledDateAfter?: number;
+  },
 ) {
   if (disabledDate) return disabledDate;
   const { disabledDateBefore, disabledDateAfter } = opts;
@@ -125,18 +126,6 @@ export function createDisabledDate(
   };
 }
 
-// 格式化，年-季
-export function formatQuarter(value: string | Dayjs) {
-  return dayjs(value).format(InternalQuarterFormat).toUpperCase();
-}
-
-// 年-季字符串转换为Dayjs
-export function transformQuarter(value: string | Dayjs) {
-  if (dayjs.isDayjs(value)) return value;
-  const ret = dayjs((value || '').replace('Q', ''), 'YYYY-Q');
-  return ret;
-}
-
 /**
  * 转化 string number dayjs 转换为 dayjs 类型值
  * @param value 值
@@ -155,16 +144,29 @@ export function transform2Dayjs(
   }
 
   if (typeof value === 'string') {
-    // 季度
-    if (picker === PickerEnum.quarter) {
-      const quarterNum = Number(value?.at?.(-1)) || 1;
-      const year = value.slice(0, 4);
-      return dayjs(`${year}-1-1`).startOf('year').quarter(quarterNum);
-    }
+    console.log('===string-value==>', value);
     // 周
     if (picker === PickerEnum.week) {
-      const weekNum = parseInt(value.slice(5)); // +1; // antd的原因 要加一周
-      return dayjs().week(weekNum);
+      const match = value.split('-')[1]?.match(/^\d+/);
+      const weekNum = match ? match[0] : void 0;
+      const selectedYear = value.slice(0, 4);
+      return (
+        dayjs(selectedYear ? `${selectedYear}-01-01` : void 0)
+          .startOf('year')
+          // @ts-ignore
+          .week(weekNum ? +weekNum : void 0)
+      );
+    }
+    // 季度
+    if (picker === PickerEnum.quarter) {
+      const quarterNum = [...value].findLast((v) => !isNaN(Number(v)));
+      const selectedYear = value.slice(0, 4);
+      return (
+        dayjs(selectedYear ? `${selectedYear}-01-01` : void 0)
+          .startOf('year')
+          //@ts-ignore
+          .quarter(quarterNum ? +quarterNum : void 0)
+      );
     }
 
     return dayjs(value, format);

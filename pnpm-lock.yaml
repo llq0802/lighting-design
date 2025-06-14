@@ -30,7 +30,7 @@ importers:
         specifier: ^3.3.3
         version: 3.3.3
       dayjs:
-        specifier: ^1.11.13
+        specifier: ^1.11.11
         version: 1.11.13
       echarts:
         specifier: ^5.5.0
@@ -42,8 +42,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       rc-use-hooks:
-        specifier: ^2.0.9
-        version: 2.0.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^2.0.10
+        version: 2.0.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       rc-virtual-list:
         specifier: ^3.18.5
         version: 3.18.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -5948,8 +5948,8 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
 
-  rc-use-hooks@2.0.9:
-    resolution: {integrity: sha512-l45HaQVx7zDdg5sh2EOSwSJLDWnMBY1ogFp+bSUG1zc1txSEBLiovIse76Ad9MBcle6a9OmPU4afjlMKKZ6ovg==}
+  rc-use-hooks@2.0.10:
+    resolution: {integrity: sha512-kTcARhmGbJLRppc/RpagLjc3ZF5+VzWZZozsTswcP8+3K1VpgmQWCTTkM5mrGl1adsOwJ2u+pnVWkTWDqQP+5w==}
     peerDependencies:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
@@ -14267,7 +14267,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  rc-use-hooks@2.0.9(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  rc-use-hooks@2.0.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@koale/useworker': 4.1.2(react@18.3.1)
       ahooks: 3.8.4(react@18.3.1)
