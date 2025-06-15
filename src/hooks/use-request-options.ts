@@ -27,7 +27,14 @@ export const useRequestOptions = ({
   requestOptions?: Parameters<typeof useRequest>[1];
   autoRequest?: boolean;
 }) => {
-  const res = useRequest(
+  const res = useRequest<
+    {
+      label: string;
+      value: string;
+    }[],
+    any
+  >(
+    // @ts-ignore
     async (...args) => {
       if (request) {
         const result = await request(...args);

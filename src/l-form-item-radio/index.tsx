@@ -1,89 +1,48 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
-import { usePlaceholder } from 'lighting-design/utils';
+import LFormItem from 'lighting-design/l-form-item';
 import type { FC } from 'react';
-import { useContext } from 'react';
-import RadioWrapper from './base/RadioWrapper';
+import BaseRadio from './base-radio';
 import type { LFormItemRadioProps } from './interface';
 
-const validatorSelectVal = (value: any, all: boolean, allValue: any) => {
-  if ((typeof value === 'number' && !Number.isNaN(value)) || (all && allValue === value)) {
-    return true;
-  }
-  return !!value;
-};
-
 const LFormItemRadio: FC<LFormItemRadioProps> = ({
-  placeholder,
   size,
-  disabled = false,
-  autoRequest = true,
-  refreshDeps,
-
-  request,
-  fieldNames,
+  disabled,
+  block,
   optionType,
   buttonStyle,
-  all = false,
-  allValue = 'all',
-  allLabel = '全部',
-  options = emptyArray,
-  radioProps = emptyObject,
-  spin,
-  requestOptions = emptyObject,
-
-  required = false,
+  options,
+  //
+  autoRequest = true,
+  requestOptions,
   actionRef,
+  request,
+
+  fieldNames,
+  radioProps,
+  spin,
+
   ...restProps
 }) => {
-  const messageLabel = usePlaceholder({
-    placeholder,
-    restProps,
-    isSelectType: true,
-  });
-  const { disabled: formDisabled } = useContext(LFormContext);
+  const baseProps = {
+    size,
+    disabled,
+    block,
+    optionType,
+    buttonStyle,
+    options,
+    //
+    autoRequest,
+    requestOptions,
+    actionRef,
+    request,
+
+    fieldNames,
+    spin,
+    ...radioProps,
+  };
 
   return (
-    <LFormItem
-      required={required}
-      _isSelectType
-      rules={[
-        {
-          validator(rule, value) {
-            let errMsg = '';
-            if (!validatorSelectVal(value, all, allValue)) {
-              errMsg = required ? `${messageLabel}!` : '';
-            }
-            if (errMsg) {
-              return Promise.reject(errMsg);
-            }
-            return Promise.resolve();
-          },
-        },
-      ]}
-      {...restProps}
-    >
-      <RadioWrapper
-        name={restProps?.name}
-        initialValue={restProps?.initialValue}
-        size={size}
-        disabled={disabled || formDisabled}
-        actionRef={actionRef}
-        options={options}
-        request={request}
-        requestOptions={requestOptions}
-        refreshDeps={refreshDeps}
-        outLoading={spin}
-        autoRequest={autoRequest}
-        all={all}
-        allValue={allValue}
-        allLabel={allLabel}
-        optionType={optionType}
-        buttonStyle={buttonStyle}
-        fieldNames={fieldNames}
-        {...radioProps}
-      />
+    <LFormItem {...restProps}>
+      <BaseRadio {...baseProps} />
     </LFormItem>
   );
 };

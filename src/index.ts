@@ -22,6 +22,8 @@ export * from './l-form-item-number-range';
 export { default as LFormItemNumberRange } from './l-form-item-number-range';
 export * from './l-form-item-password';
 export { default as LFormItemPassword } from './l-form-item-password';
+export * from './l-form-item-radio';
+export { default as LFormItemRadio } from './l-form-item-radio';
 export * from './l-form-item-rate';
 export { default as LFormItemRate } from './l-form-item-rate';
 export * from './l-form-item-select';
