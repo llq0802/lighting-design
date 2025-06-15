@@ -1,6 +1,5 @@
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isoWeek from 'dayjs/plugin/isoWeek';
@@ -33,14 +32,14 @@ export enum PickerEnum {
 
 export enum DayjsEnum {
   time = 'hours',
-  date = 'days',
-  week = 'weeks',
-  month = 'months',
-  quarter = 'months',
-  year = 'years',
+  date = 'day',
+  week = 'week',
+  month = 'month',
+  quarter = 'quarter',
+  year = 'year',
 }
 
-export enum DateFormat {
+export enum DateFormatEnum {
   time = ' HH:mm:ss',
   date = 'YYYY-MM-DD',
   week = 'YYYY-wo',
@@ -60,8 +59,8 @@ export function getDateFormat(format: string | undefined, picker: PickerEnum = P
   if (picker === PickerEnum.quarter || picker === PickerEnum.week) {
     return void 0;
   }
-  const timeFormatStr = picker === PickerEnum.date && showTime ? DateFormat.time : '';
-  const ret = (DateFormat[picker] || DateFormat.date) + timeFormatStr;
+  const timeFormatStr = picker === PickerEnum.date && showTime ? DateFormatEnum.time : '';
+  const ret = (DateFormatEnum[picker] || DateFormatEnum.date) + timeFormatStr;
   return ret;
 }
 
@@ -69,7 +68,6 @@ export function getDateFormat(format: string | undefined, picker: PickerEnum = P
  * 创建不可选日期方法
  * @param picker
  * @param opts
- * @returns
  */
 export function createDisabledDate(
   disabledDate: any,
@@ -87,7 +85,7 @@ export function createDisabledDate(
   if (!hasBefore && !hasAfter) {
     return () => false;
   }
-  const dayjsType = DayjsEnum[picker];
+  const dayjsType = DayjsEnum[picker] as any;
   if (!dayjsType) {
     return () => false;
   }
@@ -97,16 +95,6 @@ export function createDisabledDate(
 
     let before = disabledDateBefore as number,
       after = disabledDateAfter as number;
-
-    // 处理季度转化
-    // if (picker === PickerEnum.quarter) {
-    //   if (hasBefore) {
-    //     before = before * 3 - 1;
-    //   }
-    //   if (hasAfter) {
-    //     after = after * 3 - 1;
-    //   }
-    // }
 
     if (hasBefore && hasAfter) {
       return (
@@ -143,13 +131,13 @@ export function transform2Dayjs(
     return value;
   }
 
-  if (typeof value === 'string') {
-    console.log('===string-value==>', value);
+  if (typeof value === 'string' && value) {
+    console.log('===value==>', value);
     // 周
     if (picker === PickerEnum.week) {
-      const match = value.split('-')[1]?.match(/^\d+/);
+      const match = value.split(value.slice(4, 5) || '-')[1]?.match(/\d+/g);
       const weekNum = match ? match[0] : void 0;
-      const selectedYear = value.slice(0, 4);
+      const selectedYear = value.slice(0, 4) ?? DateFormatEnum.year;
       return (
         dayjs(selectedYear ? `${selectedYear}-01-01` : void 0)
           .startOf('year')
@@ -160,7 +148,7 @@ export function transform2Dayjs(
     // 季度
     if (picker === PickerEnum.quarter) {
       const quarterNum = [...value].findLast((v) => !isNaN(Number(v)));
-      const selectedYear = value.slice(0, 4);
+      const selectedYear = value.slice(0, 4) ?? DateFormatEnum.year;
       return (
         dayjs(selectedYear ? `${selectedYear}-01-01` : void 0)
           .startOf('year')

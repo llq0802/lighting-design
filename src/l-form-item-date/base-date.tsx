@@ -7,23 +7,9 @@ import type { FC } from 'react';
 dayjs.locale('zh-cn');
 
 export const BaseDate: FC<DatePickerProps | MonthPickerProps | WeekPickerProps | any> = ({ style, ...restProps }) => {
-  return (
-    <DatePicker
-      // allowEmpty
-      locale={locale}
-      {...restProps}
-      style={{ width: '100%', ...style }}
-    />
-  );
+  return <DatePicker locale={locale} {...restProps} style={{ width: '100%', ...style }} />;
 };
 
 export const BaseDateRange: FC<RangePickerProps> = ({ style, ...restProps }) => {
-  return (
-    <DatePicker.RangePicker
-      allowEmpty
-      // locale={locale}
-      {...restProps}
-      style={{ width: '100%', ...style }}
-    />
-  );
+  return <DatePicker.RangePicker allowEmpty locale={locale} {...restProps} style={{ width: '100%', ...style }} />;
 };

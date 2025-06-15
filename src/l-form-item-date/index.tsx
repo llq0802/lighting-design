@@ -46,7 +46,7 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
     format: innerFormat,
     disabledDate: innerDisabledDate,
   };
-
+  //@ts-ignore
   const dom = !rangePicker ? <BaseDate {...baseProps} /> : <BaseDateRange {...baseProps} />;
 
   const selectedValue = useRef();

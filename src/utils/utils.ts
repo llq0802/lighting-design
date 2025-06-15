@@ -1,7 +1,6 @@
 import { version } from 'antd';
 import { compare } from 'compare-versions';
-import { isPlainObject } from 'lodash-es';
-import rfdc from 'rfdc';
+import { cloneDeep, isPlainObject } from 'lodash-es';
 
 /**
  * 是否为偶数
@@ -15,7 +14,7 @@ export const isNumber = (val: any) => !window.isNaN(parseFloat(val));
 /**
  * 快速深克隆函数
  */
-export const fastDeepClone = rfdc();
+export const fastDeepClone = cloneDeep;
 /**
  * 判断一个值是不是真值 `( 0 算真值 )`
  */
@@ -33,10 +32,10 @@ export const isLegalValue = (value: any) => {
   if (value === 0) return true;
   if (Array.isArray(value)) {
     if (!value?.length) return false;
-    return value.filter((item: any) => !!item || item === 0)?.length > 0;
+    return value.every((item: any) => isValueTrue(item));
   }
   if (isPlainObject(value)) {
-    return Object.values(value).filter((item: any) => !!item || item === 0)?.length > 0;
+    return Object.values(value).every((item: any) => isValueTrue(item));
   }
   return !!value;
 };

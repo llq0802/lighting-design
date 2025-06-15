@@ -15,7 +15,7 @@ const App: React.FC = () => {
         console.log('===onFinish===', values);
       }}
     >
-      <LFormItemTime name="time1" label="时间1" disabledHourBefore={1} format="HH:mm" />
+      <LFormItemTime name="time1" label="时间1" disabledHourBefore={1} rangePicker required />
     </LForm>
   );
 };

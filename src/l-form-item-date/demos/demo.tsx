@@ -16,10 +16,13 @@ const App: React.FC = () => {
       }}
     >
       <LFormItemDate
+        required
+        placeholder="请选择日期1"
         name="date1"
+        showTime
         label="日期1"
-        picker="week"
-        // format="YYYY-w周"
+        disabledDateBefore={0}
+        rangePicker
       />
     </LForm>
   );

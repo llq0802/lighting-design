@@ -1,6 +1,7 @@
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import type { MonthPickerProps, RangePickerProps, WeekPickerProps } from 'antd/es/date-picker';
 import type { PickerProps } from 'antd/es/date-picker/generatePicker/interface';
+import type { Dayjs } from 'dayjs';
 import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
 import type { LFormProps } from 'lighting-design/l-form/interface';
 import type { DateValueType } from 'lighting-design/utils/date';
@@ -20,7 +21,7 @@ export interface LFormItemDateProps extends LFormItemProps, Pick<LFormProps, 'si
    */
   showTime?: TimePickerProps | boolean;
   /**
-   *日期格式
+   * dayjs 的日期格式
    */
   format?: string;
 
@@ -34,6 +35,8 @@ export interface LFormItemDateProps extends LFormItemProps, Pick<LFormProps, 'si
   picker?: 'date' | 'week' | 'month' | 'quarter' | 'year';
   /** 是否是范围日期选择 */
   rangePicker?: boolean;
+  minDate?: Dayjs;
+  maxDate?: Dayjs;
   /**
    *antd日期组件的 Props
    */

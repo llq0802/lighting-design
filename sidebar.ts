@@ -219,10 +219,10 @@ export default {
           title: 'Slider-滑动条选择',
           link: '/components/l-form-item-slider',
         },
-        {
-          title: 'Icon-图标选择',
-          link: '/components/l-form-item-icon',
-        },
+        // {
+        //   title: 'Icon-图标选择',
+        //   link: '/components/l-form-item-icon',
+        // },
         {
           title: 'Segmented-分段器选择',
           link: '/components/l-form-item-segmented',
