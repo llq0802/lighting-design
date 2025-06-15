@@ -1,93 +1,66 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
-import { usePlaceholder } from 'lighting-design/utils';
+import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { useContext } from 'react';
-import SelectWrapper from './base/SelectWrapper';
+import BaseSelect from './base-select';
 import type { LFormItemSelectProps } from './interface';
 
-const validatorSelectVal = (value: any, mode: LFormItemSelectProps['mode'], all: boolean, allValue: any) => {
-  if (mode === 'multiple' || mode === 'tags') {
-    return value && value?.length > 0;
-  }
-  if ((typeof value === 'number' && !Number.isNaN(value)) || (all && allValue === value)) {
-    return true;
-  }
-  return !!value;
-};
-
 const LFormItemSelect: FC<LFormItemSelectProps> = ({
-  disabled = false,
+  disabled,
   size,
   placeholder,
-
+  variant,
+  //
   request,
   showSearch,
-  mode,
   fieldNames,
-  variant,
-  all = false,
-  allValue = 'all',
-  allLabel = '全部',
-  options = emptyArray,
-  selectProps = emptyObject,
-  requestOptions = emptyObject,
+  filterOption,
+  mode,
+  options,
+  selectProps,
+  requestOptions,
   autoRequest = true,
-  refreshDeps,
   spin,
 
-  required = false,
-
   actionRef,
-  ...restProps
+  ...formItemProps
 }) => {
-  const messagePlaceholder = usePlaceholder({
+  // const innerAllItem = allItem
+  //   ? {
+  //       label: '全部',
+  //       value: 'all',
+  //       ...(typeof allItem === 'object' ? allItem : {}),
+  //     }
+  //   : void 0;
+
+  const innerPlaceholder = getFormItemPlaceholder({
     placeholder,
-    restProps,
+    formItemProps,
     isSelectType: true,
   });
-  const { disabled: formDisabled } = useContext(LFormContext);
-  const rules = [
-    {
-      validator(rule: any, value: any) {
-        let errMsg = '';
-        if (!validatorSelectVal(value, mode || selectProps?.mode, all, allValue)) {
-          errMsg = required ? `${restProps?.messageVariables?.label || messagePlaceholder}!` : '';
-        }
-        if (errMsg) {
-          return Promise.reject(errMsg);
-        }
-        return Promise.resolve();
-      },
-    },
-  ];
+
+  const baseProps = {
+    size,
+    disabled,
+    placeholder: innerPlaceholder,
+    variant,
+    //
+    mode,
+    options,
+    showSearch,
+    fieldNames,
+    filterOption,
+    //
+    request,
+    autoRequest,
+    actionRef,
+    requestOptions,
+    spin,
+    ...selectProps,
+  };
+
   return (
-    <LFormItem required={required} _isSelectType rules={rules} {...restProps}>
-      <SelectWrapper
-        size={size}
-        placeholder={messagePlaceholder}
-        disabled={disabled || formDisabled}
-        name={restProps?.name}
-        initialValue={restProps?.initialValue}
-        //
-        refreshDeps={refreshDeps}
-        autoRequest={autoRequest}
-        all={all}
-        allValue={allValue}
-        allLabel={allLabel}
-        request={request}
-        requestOptions={requestOptions}
-        actionRef={actionRef}
-        outLoading={spin}
-        //
-        options={options}
-        mode={mode}
-        variant={variant}
-        showSearch={showSearch}
-        fieldNames={fieldNames}
-        {...selectProps}
-      />
+    <LFormItem {...formItemProps}>
+      <BaseSelect {...baseProps} />
     </LFormItem>
   );
 };

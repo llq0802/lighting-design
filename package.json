@@ -103,7 +103,7 @@
     "zxcvbn": "^4.4.2"
   },
   "peerDependencies": {
-    "antd": ">=5.0.0",
+    "antd": ">=5.1.13",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0"
   }

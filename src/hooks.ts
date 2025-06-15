@@ -35,8 +35,8 @@ export const useRequestOptions = ({
   name,
 }: {
   options?: any[];
-  request?: LFormItemSelectProps['request'];
-  requestOptions?: LFormItemSelectProps['requestOptions'];
+  request?: Parameters<typeof useRequest>[0];
+  requestOptions?: Parameters<typeof useRequest>[1];
   refreshDeps?: any[];
   autoRequest?: boolean;
   initialValue?: any;

@@ -13,7 +13,9 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'></code>
+<code src='./demos/demo.tsx'></code>
+
+<!-- <code src='./demos/Demo1.tsx'></code>
 
 ### 异步自动请求
 
@@ -29,7 +31,7 @@ nav:
 
 ### antd.Select 组件的配置项
 
-<code src='./demos/Demo5.tsx'></code>
+<code src='./demos/Demo5.tsx'></code> -->
 
 ## API
 
