@@ -18,7 +18,6 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   options,
   selectProps,
   requestOptions,
-  autoRequest = true,
   spin,
 
   actionRef,
@@ -51,7 +50,6 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
     filterOption,
     //
     request,
-    autoRequest,
     actionRef,
     requestOptions,
     spin,

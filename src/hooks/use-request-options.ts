@@ -21,11 +21,9 @@ export const useIsFirstRender = (): boolean => {
 export const useRequestOptions = ({
   request,
   requestOptions,
-  autoRequest,
 }: {
   request?: Parameters<typeof useRequest>[0];
   requestOptions?: Parameters<typeof useRequest>[1];
-  autoRequest?: boolean;
 }) => {
   const res = useRequest<
     {
@@ -42,7 +40,7 @@ export const useRequestOptions = ({
       }
       return [];
     },
-    { manual: !autoRequest, ...requestOptions },
+    { manual: !request, ...requestOptions },
   );
   return res;
 };

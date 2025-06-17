@@ -1,50 +1,50 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { emptyObject } from 'lighting-design/constants';
+import LFormItem from 'lighting-design/l-form-item';
+import { isNil } from 'lodash-es';
 import type { FC } from 'react';
-import { useContext } from 'react';
-import SegmentedWrapper from './base/SegmentedWrapper';
-import type { LFormItemSegmentedoProps } from './interface';
+import BaseSegmented from './base-segmented';
+import type { LFormItemSegmentedProps } from './interface';
 
-const LFormItemSegmented: FC<LFormItemSegmentedoProps> = ({
-  disabled = false,
+const LFormItemSegmented: FC<LFormItemSegmentedProps> = ({
+  disabled,
   size,
   spin,
-  autoRequest,
-  refreshDeps,
   actionRef,
   request,
   fieldNames,
   options,
-  segmentedProps = emptyObject,
-  requestOptions = emptyObject,
+  segmentedProps,
+  requestOptions,
   block,
-  isDefaultChecked = false,
+  vertical,
+  shape,
+  isHighlightFirst = false,
 
   ...restProps
 }) => {
-  const { disabled: formDisabled, size: formSize } = useContext(LFormContext);
+  const baseProps = {
+    size,
+    disabled,
+    options,
+    fieldNames,
+    vertical,
+    shape,
+    //
+    request,
+    actionRef,
+    requestOptions,
+    spin,
+    ...segmentedProps,
+  };
 
   return (
-    <LFormItem _isSelectType {...restProps}>
-      <SegmentedWrapper
-        size={size || formSize}
-        disabled={disabled || formDisabled}
-        name={restProps?.name}
-        initialValue={restProps?.initialValue}
-        actionRef={actionRef}
-        request={request}
-        block={block}
-        // @ts-ignore
-        options={options}
-        fieldNames={fieldNames}
-        outLoading={spin}
-        requestOptions={requestOptions}
-        autoRequest={autoRequest}
-        refreshDeps={refreshDeps}
-        isDefaultChecked={isDefaultChecked}
-        {...segmentedProps}
-      />
+    <LFormItem
+      getValueProps={(v) => {
+        const value = !isHighlightFirst && isNil(v) ? null : v;
+        return { value };
+      }}
+      {...restProps}
+    >
+      <BaseSegmented {...baseProps} />
     </LFormItem>
   );
 };

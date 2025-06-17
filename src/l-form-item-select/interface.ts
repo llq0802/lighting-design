@@ -29,10 +29,7 @@ export interface LFormItemSelectProps extends LFormItemProps, Pick<LFormProps, '
    * - 不能与 `options` 同时配置
    */
   request?: (...args: any[]) => Promise<{ label: ReactNode; value: string | number; [key: string]: any }[]>;
-  /**
-   * 组件初始化时是否自动请求
-   */
-  autoRequest?: boolean;
+
   /**
    *ahooks 的 useRequest  的配置项
    *@see https://ahooks.js.org/zh-CN/hooks/use-request/basic

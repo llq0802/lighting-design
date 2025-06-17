@@ -13,11 +13,13 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'></code>
+<code src='./demos/demo.tsx'></code>
+
+<!-- <code src='./demos/Demo1.tsx'></code>
 
 ### 自定义渲染
 
-<code src='./demos/Demo3.tsx'></code>
+<code src='./demos/Demo3.tsx'></code> -->
 
 ### API
 
