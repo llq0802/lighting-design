@@ -1,5 +1,6 @@
 import type { Options } from 'ahooks/lib/useRequest/src/types';
 import type { SelectProps, SpinProps } from 'antd';
+import type { LFormItemActionRef } from 'lighting-design/interface';
 import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
 import type { LFormProps } from 'lighting-design/l-form/interface';
 import type { ReactNode } from 'react';

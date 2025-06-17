@@ -1,24 +1,16 @@
 import type { MentionProps } from 'antd';
-import type { LFormItemProps } from 'lighting-design/FormItem/interface';
-import type { LFormItemSelectProps } from 'lighting-design/FormItemSelect';
+import type { LFormItemSelectProps } from 'lighting-design/l-form-item-select';
+import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
+import type { LFormProps } from 'lighting-design/l-form/interface';
 
 export interface LFormItemMentionsProps
   extends LFormItemProps,
-    Pick<
-      LFormItemSelectProps,
-      | 'spin'
-      | 'request'
-      | 'requestOptions'
-      | 'actionRef'
-      | 'refreshDeps'
-      | 'autoRequest'
-      | 'options'
-      | 'variant'
-    > {
+    Pick<LFormProps, 'variant' | 'disabled' | 'size'>,
+    Pick<LFormItemSelectProps, 'spin' | 'request' | 'requestOptions' | 'actionRef' | 'options' | 'fieldNames'> {
+  placeholder?: string;
+  autoSize?: MentionProps['autoSize'];
   /**
    * antd.Mentions 的其他属性
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LFormItemInputProps
-   *@see https://ant.design/components/input-cn/#api
    */
   mentionsProps?: MentionProps;
 }
