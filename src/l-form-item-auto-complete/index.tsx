@@ -1,8 +1,7 @@
-import { AutoComplete } from 'antd';
 import LFormItem from 'lighting-design/l-form-item';
 import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { cloneElement } from 'react';
+import BaseAutoComplete from './base-auto-complete';
 import type { LFormItemAutoCompleteProps } from './interface';
 
 const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
@@ -11,16 +10,16 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
   placeholder,
   variant,
   //
-  onSearch,
-  onSelect,
-  onFocus,
-  onBlur,
   options,
-  inputRender,
+  fieldNames,
+  spin,
+  request,
+  requestOptions,
+  actionRef,
   autoCompleteProps,
   ...formItemProps
 }) => {
-  const itemPlaceholder = getFormItemPlaceholder({
+  const innerPlaceholder = getFormItemPlaceholder({
     placeholder,
     formItemProps,
   });
@@ -29,27 +28,18 @@ const LFormItemAutoComplete: FC<LFormItemAutoCompleteProps> = ({
     disabled,
     options,
     variant,
-    placeholder: itemPlaceholder,
-    onSelect,
-    onSearch,
-    onFocus,
-    onBlur,
+    size,
+    placeholder: innerPlaceholder,
+    fieldNames,
+    spin,
+    request,
+    requestOptions,
+    actionRef,
     ...autoCompleteProps,
-    style: { width: '100%', ...autoCompleteProps?.style },
   };
   return (
     <LFormItem {...formItemProps}>
-      {!inputRender ? (
-        <AutoComplete {...baseProps} />
-      ) : (
-        <AutoComplete {...baseProps}>
-          {cloneElement(inputRender(), {
-            size,
-            placeholder: itemPlaceholder,
-            ...inputRender()?.props,
-          })}
-        </AutoComplete>
-      )}
+      <BaseAutoComplete {...baseProps} />
     </LFormItem>
   );
 };

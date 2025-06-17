@@ -1,4 +1,5 @@
 import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
 import BaseMentions from './base-mentions';
 import type { LFormItemMentionsProps } from './interface';
@@ -16,12 +17,17 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
   request,
   requestOptions,
   actionRef,
-  ...restProps
+  ...formItemProps
 }) => {
+  const innerPlaceholder = getFormItemPlaceholder({
+    placeholder,
+    formItemProps,
+  });
+
   const baseProps = {
     size,
     disabled,
-    placeholder,
+    placeholder: innerPlaceholder,
     options,
     autoSize,
     //
@@ -34,7 +40,7 @@ const LFormItemMentions: FC<LFormItemMentionsProps> = ({
   };
 
   return (
-    <LFormItem {...restProps}>
+    <LFormItem {...formItemProps}>
       <BaseMentions {...baseProps} />
     </LFormItem>
   );
