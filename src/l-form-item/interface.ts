@@ -1,4 +1,4 @@
-import type { FormItemProps } from 'antd';
+import type { FormInstance, FormItemProps } from 'antd';
 import type { ReactElement, ReactNode } from 'react';
 
 export type LFormItemProps<T = any> = FormItemProps<T> & {
@@ -54,4 +54,5 @@ export type LFormItemProps<T = any> = FormItemProps<T> & {
    * - 设置了 rules，则不会触发内置的表单校验规则
    */
   customValidator?: (value: any, e: any) => Promise<any>;
+  children?: ReactNode | ((form: FormInstance<T>) => ReactNode);
 };

@@ -12,7 +12,6 @@ const BaseSwitch = (
   } & Pick<LFormItemSwitchProps, 'checkedBg' | 'unCheckedBg'>,
 ) => {
   const { checked, unCheckedBg, checkedBg, switchProps, ...restProps } = props;
-
   const innerSwitchProps = {
     ...restProps,
     ...switchProps,
@@ -20,7 +19,6 @@ const BaseSwitch = (
       backgroundColor: checked ? checkedBg : unCheckedBg,
       ...switchProps?.style,
     },
-    checked,
     onChange: (...args: any[]) => {
       restProps?.onChange?.(...args);
       //@ts-ignore
@@ -28,7 +26,7 @@ const BaseSwitch = (
     },
   };
 
-  return <Switch {...innerSwitchProps} checked={checked} />;
+  return <Switch {...innerSwitchProps} />;
 };
 
 const LFormItemSwitch: FC<LFormItemSwitchProps> = ({
