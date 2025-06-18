@@ -1,21 +1,16 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
-import { usePlaceholder } from 'lighting-design/utils';
+import { emptyArray } from 'lighting-design/constants';
+import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { useContext } from 'react';
-import CascaderWrapper from './base/CascaderWrapper';
+import BaseCascader from './base-cascader';
 import type { LFormItemCascaderProps } from './interface';
 
 const LFormItemCascader: FC<LFormItemCascaderProps> = ({
-  disabled = false,
+  disabled,
   placeholder,
   size,
-
-  autoRequest,
-  refreshDeps,
   variant,
-
+  //
   changeOnSelect,
   expandTrigger,
   displayRender,
@@ -26,49 +21,37 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   fieldNames,
 
   request,
-  requestOptions = emptyObject,
+  requestOptions,
   spin,
   actionRef,
 
-  cascaderProps = emptyObject,
+  cascaderProps,
 
-  ...restProps
+  ...formItemProps
 }) => {
-  const messageLabel = usePlaceholder({
+  const innerPlaceholder = getFormItemPlaceholder({
     placeholder,
-    restProps,
-    isSelectType: true,
+    formItemProps,
   });
 
-  const { disabled: formDisabled } = useContext(LFormContext);
+  const baseProps = {
+    disabled,
+    options,
+    variant,
+    size,
+    //
+    placeholder: innerPlaceholder,
+    fieldNames,
+    spin,
+    request,
+    requestOptions,
+    actionRef,
+    ...cascaderProps,
+  };
 
   return (
-    <LFormItem placeholder={messageLabel} _isSelectType {...restProps}>
-      <CascaderWrapper
-        disabled={disabled || formDisabled}
-        placeholder={messageLabel}
-        size={size}
-        name={restProps?.name}
-        initialValue={restProps?.initialValue}
-        options={options}
-        //
-        request={request}
-        outLoading={spin}
-        autoRequest={autoRequest}
-        refreshDeps={refreshDeps}
-        requestOptions={requestOptions}
-        actionRef={actionRef}
-        //
-        variant={variant}
-        multiple={multiple}
-        showSearch={showSearch}
-        fieldNames={fieldNames}
-        loadData={loadData}
-        changeOnSelect={changeOnSelect}
-        expandTrigger={expandTrigger}
-        displayRender={displayRender}
-        {...cascaderProps}
-      />
+    <LFormItem {...formItemProps}>
+      <BaseCascader {...baseProps} />
     </LFormItem>
   );
 };
