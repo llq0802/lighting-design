@@ -6,7 +6,7 @@ import type { LFormContextType } from './context';
 export type LFormProps<T = any> = Omit<FormProps<T>, 'onValuesChange' | 'onFinish' | 'onReset'> &
   LFormContextType & {
     /**
-     * 重新渲染 LForm 组件的所有children
+     * 重新渲染 LForm 组件的所有 children
      * - LForm 下面所有的 Form.Item
      */
     renderChildren?: (params: { formItemsDom: ReactNode; submitterDom: ReactNode; form: FormInstance<T> }) => ReactNode;
@@ -23,7 +23,6 @@ export type LFormProps<T = any> = Omit<FormProps<T>, 'onValuesChange' | 'onFinis
      * 表单是否准备完成
      * - false时，禁止触发提交
      * - true 时，会对初始值重新赋值。
-     * - 通常用于异步设置表单的初始值
      */
     isReady?: boolean;
     /**
