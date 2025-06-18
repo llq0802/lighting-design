@@ -11,7 +11,6 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   buttonStyle,
   options,
   //
-  autoRequest = true,
   requestOptions,
   actionRef,
   request,
@@ -30,7 +29,6 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
     buttonStyle,
     options,
     //
-    autoRequest,
     requestOptions,
     actionRef,
     request,

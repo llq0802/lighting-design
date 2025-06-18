@@ -1,53 +1,47 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { emptyObject } from 'lighting-design/constants';
-import { usePlaceholder } from 'lighting-design/utils';
+import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { useContext } from 'react';
-import MentionsWrapper from './MentionsWrapper';
+import BaseMentions from './base-mentions';
 import type { LFormItemMentionsProps } from './interface';
 
 const LFormItemMentions: FC<LFormItemMentionsProps> = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   size,
-  disabled = false,
+  disabled,
   placeholder,
-
-  options: outOptions,
-  mentionsProps = emptyObject,
-  spin = emptyObject,
-  request,
-  refreshDeps,
   variant,
-  requestOptions = emptyObject,
+  options,
+  autoSize,
+  mentionsProps,
+  fieldNames,
+  spin,
+  request,
+  requestOptions,
   actionRef,
-  autoRequest = true,
-  ...restProps
+  ...formItemProps
 }) => {
-  const messageLabel = usePlaceholder({
+  const innerPlaceholder = getFormItemPlaceholder({
     placeholder,
-    restProps,
+    formItemProps,
   });
-  const { disabled: formDisabled } = useContext(LFormContext);
+
+  const baseProps = {
+    size,
+    disabled,
+    placeholder: innerPlaceholder,
+    options,
+    autoSize,
+    //
+    fieldNames,
+    requestOptions,
+    actionRef,
+    request,
+    spin,
+    ...mentionsProps,
+  };
 
   return (
-    <LFormItem placeholder={messageLabel} {...restProps}>
-      <MentionsWrapper
-        disabled={disabled || formDisabled}
-        name={restProps?.name}
-        initialValue={restProps?.initialValue}
-        placeholder={messageLabel}
-        outOptions={outOptions}
-        variant={variant}
-        //
-        request={request}
-        autoRequest={autoRequest}
-        requestOptions={requestOptions}
-        actionRef={actionRef}
-        spin={spin}
-        refreshDeps={refreshDeps}
-        {...mentionsProps}
-      />
+    <LFormItem {...formItemProps}>
+      <BaseMentions {...baseProps} />
     </LFormItem>
   );
 };

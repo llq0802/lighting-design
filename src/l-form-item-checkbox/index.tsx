@@ -1,48 +1,36 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
+import LFormItem from 'lighting-design/l-form-item';
 import type { FC } from 'react';
-import { useContext } from 'react';
-import CheckboxWrapper from './base/CheckboxWrapper';
+import BaseCheckbox from './base-checkbox';
 import type { LFormItemCheckboxProps } from './interface';
 
 const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  size,
-  disabled = false,
+  disabled,
 
   fieldNames,
   actionRef,
-  autoRequest,
   request,
-  beforeAll,
-  options = emptyArray,
-  checkboxProps = emptyObject,
+  options,
+  checkboxProps,
   spin,
-  refreshDeps,
-  requestOptions = emptyObject,
+  requestOptions,
   ...restProps
 }) => {
-  const { disabled: formDisabled } = useContext(LFormContext);
+  const baseProps = {
+    disabled,
+    options,
+    //
+    requestOptions,
+    actionRef,
+    request,
+
+    fieldNames,
+    spin,
+    ...checkboxProps,
+  };
 
   return (
-    <LFormItem _isSelectType {...restProps}>
-      <CheckboxWrapper
-        disabled={disabled || formDisabled}
-        name={restProps?.name}
-        initialValue={restProps?.initialValue}
-        options={options}
-        fieldNames={fieldNames}
-        beforeAll={beforeAll}
-        //
-        actionRef={actionRef}
-        refreshDeps={refreshDeps}
-        request={request}
-        requestOptions={requestOptions}
-        outLoading={spin}
-        autoRequest={autoRequest}
-        {...checkboxProps}
-      />
+    <LFormItem {...restProps}>
+      <BaseCheckbox {...baseProps} />
     </LFormItem>
   );
 };

@@ -8,7 +8,6 @@ const BaseRadio: FC<Record<string, any>> = ({
   options,
 
   request,
-  autoRequest,
   requestOptions = emptyObject,
   actionRef,
 
@@ -19,12 +18,11 @@ const BaseRadio: FC<Record<string, any>> = ({
   const requestRes = useRequestOptions({
     request,
     requestOptions,
-    autoRequest,
   });
   const { loading, data } = requestRes;
   useImperativeHandle(actionRef, () => requestRes);
 
-  const innerOptions = (options || data || []).map((item) => {
+  const innerOptions = (options || data)?.map((item: any) => {
     return {
       ...item,
       label: item[fieldNames?.label || 'label'],
@@ -32,7 +30,7 @@ const BaseRadio: FC<Record<string, any>> = ({
     };
   });
 
-  const dom = <Radio.Group options={innerOptions} {...restProps} style={{ width: '100%', ...restProps.style }} />;
+  const dom = <Radio.Group options={innerOptions} {...restProps} />;
 
   return loading && !options ? (
     <Spin spinning {...spin}>
