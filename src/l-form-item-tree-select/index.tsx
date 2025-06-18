@@ -1,24 +1,16 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
-import { usePlaceholder } from 'lighting-design/utils';
+import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
-import { useContext } from 'react';
-import TreeSelectWrapper from './base/TreeSelectWrapper';
+import BaseTreeSelect from './base-tree-select';
 import type { LFormItemTreeSelectProps } from './interface';
 
 const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   placeholder,
-  disabled = false,
+  disabled,
   size,
-
-  request,
-  requestOptions = emptyObject,
-  actionRef,
-  spin,
-  autoRequest = true,
-  refreshDeps,
   variant,
+
   treeLine,
   treeCheckable,
   treeIcon,
@@ -28,45 +20,57 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   loadData,
   treeData = emptyArray,
   fieldNames,
+  maxHeight = 400,
+  request,
+  requestOptions = emptyObject,
+  actionRef,
+  spin,
+
   treeSelectProps = emptyObject,
 
-  ...restProps
+  ...formItemProps
 }) => {
-  const messagePlaceholder = usePlaceholder({
+  const innerPlaceholder = getFormItemPlaceholder({
     placeholder,
-    restProps,
+    formItemProps,
     isSelectType: true,
   });
-  const { disabled: formDisabled } = useContext(LFormContext);
+
+  const baseProps = {
+    disabled,
+    variant,
+    size,
+    placeholder: innerPlaceholder,
+    fieldNames,
+    spin,
+    request,
+    requestOptions,
+    actionRef,
+    treeLine,
+    treeCheckable,
+    treeIcon,
+    treeDataSimpleMode,
+    multiple,
+    showSearch,
+    loadData,
+    treeData,
+    ...treeSelectProps,
+    styles: {
+      ...treeSelectProps?.styles,
+      popup: {
+        ...treeSelectProps?.styles?.popup,
+        root: {
+          maxHeight,
+          overflow: 'auto',
+          ...treeSelectProps?.styles?.popup?.root,
+        },
+      },
+    },
+  };
 
   return (
-    <LFormItem _isSelectType {...restProps}>
-      <TreeSelectWrapper
-        size={size}
-        disabled={disabled || formDisabled}
-        placeholder={messagePlaceholder}
-        name={restProps?.name}
-        initialValue={restProps?.initialValue}
-        //
-        request={request}
-        actionRef={actionRef}
-        autoRequest={autoRequest}
-        refreshDeps={refreshDeps}
-        outLoading={spin}
-        requestOptions={requestOptions}
-        //
-        showSearch={showSearch}
-        multiple={multiple}
-        treeLine={treeLine}
-        treeIcon={treeIcon}
-        treeCheckable={treeCheckable}
-        treeDataSimpleMode={treeDataSimpleMode}
-        loadData={loadData}
-        treeData={treeData}
-        variant={variant}
-        fieldNames={fieldNames}
-        {...treeSelectProps}
-      />
+    <LFormItem {...formItemProps}>
+      <BaseTreeSelect {...baseProps} />
     </LFormItem>
   );
 };

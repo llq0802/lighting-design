@@ -23,7 +23,7 @@ export interface LFormItemSelectProps extends LFormItemProps, Pick<LFormProps, '
    * 数据源
    * -  数据优先级 : `selectProps.options` > `组件本身的 options` > `request 返回值`
    */
-  options?: SelectProps['options'];
+  options?: SelectProps['options'] | Record<string, any>[];
   /**
    * 异步请求数据源的函数
    * - 数据优先级 : `selectProps.options` > `组件本身的 options` > `request 返回值`
