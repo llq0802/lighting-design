@@ -14,6 +14,8 @@ export * from './l-form-item-checkbox';
 export { default as LFormItemCheckbox } from './l-form-item-checkbox';
 export * from './l-form-item-color';
 export { default as LFormItemColor } from './l-form-item-color';
+export * from './l-form-item-composition';
+export { default as LFormItemComposition } from './l-form-item-composition';
 export * from './l-form-item-date';
 export { default as LFormItemDate } from './l-form-item-date';
 export * from './l-form-item-input';
