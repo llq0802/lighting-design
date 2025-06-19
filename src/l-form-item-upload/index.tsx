@@ -8,11 +8,6 @@ import UploadDragger from './base/UploadDragger';
 import UploadImage from './base/UploadImage';
 import type { LFormItemUploadProps } from './interface';
 
-const normFile = (value: any): any[] => {
-  if (Array.isArray(value)) return value;
-  return value?.fileList ?? [];
-};
-
 const LFormItemUpload: FC<LFormItemUploadProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   size,
@@ -58,7 +53,14 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   }, [uploadType]);
 
   return (
-    <LFormItem valuePropName="fileList" getValueFromEvent={normFile} {...restProps}>
+    <LFormItem
+      valuePropName="fileList"
+      getValueFromEvent={(value: any) => {
+        if (Array.isArray(value)) return value;
+        return value?.fileList ?? [];
+      }}
+      {...restProps}
+    >
       <UploadComp
         disabled={disabled || formDisabled}
         isSerial={isSerial}

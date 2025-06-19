@@ -1,5 +1,3 @@
-import { emptyArray } from 'lighting-design/constants';
-
 /**
  * rem 宽度适配计算
  */
@@ -49,14 +47,4 @@ export const transformEchartsOption = (
     }
   });
   return option;
-};
-
-/**
- * 获取组件的 options 属性
- */
-export const getOptions = (opt1: any[] = [], opt2: any[] = [], opt3?: any[] | undefined) => {
-  if (opt1?.length) return opt1;
-  if (opt2?.length) return opt2;
-  if (opt3?.length) return opt3;
-  return emptyArray;
 };

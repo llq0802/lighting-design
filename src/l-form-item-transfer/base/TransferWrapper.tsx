@@ -45,7 +45,7 @@ const TransferWrapper: FC<Record<string, any>> = (props) => {
     async (...args) => {
       if (request) {
         const res = await request?.(...args);
-        return { list: res?.data, total: res?.total || res?.data?.length };
+        return res;
       }
       return { list: [], total: 0 };
     },

@@ -1,64 +1,45 @@
-import { LFormContext } from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem/base/BaseFromItem';
-import { emptyObject } from 'lighting-design/constants';
-import { isFunction } from 'lighting-design/utils';
-import { useContext, type FC } from 'react';
-import TransferWrapper from './base/TransferWrapper';
+import LFormItem from 'lighting-design/l-form-item';
+import { type FC } from 'react';
+import BaseTransfer from './base-transfer';
 import type { LFormItemTransferProps } from './interface';
 
 const LFormItemTransfer: FC<LFormItemTransferProps> = ({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  size,
-  disabled = false,
-  options,
+  disabled,
+  //
+  dataSource,
   titles,
   listStyle,
   showSearch,
   oneWay,
   pagination,
-  limitMaxCount,
   fieldNames,
-  autoRequest = true,
   actionRef,
+
   request,
-  requestOptions = emptyObject,
-  refreshDeps,
+  requestOptions,
   spin,
-  transferProps = emptyObject,
+
+  transferProps,
   ...restProps
 }) => {
-  const { disabled: formDisabled } = useContext(LFormContext);
-  // 是否为树穿梭或者表格等自定义穿梭
-  const isCustomTransfer = isFunction(transferProps?.children);
+  const baseProps = {
+    disabled,
+    dataSource,
+    titles,
+    listStyle,
+    showSearch,
+    oneWay,
+    pagination,
+
+    fieldNames,
+    actionRef,
+    request,
+    requestOptions,
+    spin,
+  };
   return (
-    <LFormItem
-      contentAfter={isCustomTransfer ? void 0 : ' '}
-      contentInline={!isCustomTransfer}
-      _isSelectType
-      {...restProps}
-      valuePropName="targetKeys"
-    >
-      <TransferWrapper
-        name={restProps?.name}
-        initialValue={restProps?.initialValue}
-        disabled={disabled || formDisabled}
-        outLoading={spin}
-        actionRef={actionRef}
-        autoRequest={autoRequest}
-        request={request}
-        requestOptions={requestOptions}
-        refreshDeps={refreshDeps}
-        limitMaxCount={limitMaxCount}
-        isCustomTransfer={isCustomTransfer}
-        options={options}
-        titles={titles}
-        fieldNames={fieldNames}
-        listStyle={listStyle}
-        oneWay={oneWay}
-        showSearch={showSearch}
-        pagination={pagination}
-        {...transferProps}
-      />
+    <LFormItem {...restProps} valuePropName="targetKeys">
+      <BaseTransfer {...baseProps} />
     </LFormItem>
   );
 };
