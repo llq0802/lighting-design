@@ -42,6 +42,8 @@ export * from './l-form-item-textarea';
 export { default as LFormItemTextarea } from './l-form-item-textarea';
 export * from './l-form-item-time';
 export { default as LFormItemTime } from './l-form-item-time';
+export * from './l-form-item-tree-select';
+export { default as LFormItemTreeSelect } from './l-form-item-tree-select';
 export * from './l-tag-group';
 export { default as LTagGroup } from './l-tag-group';
 export * from './l-trigger';

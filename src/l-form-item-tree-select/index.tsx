@@ -1,4 +1,3 @@
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
@@ -18,15 +17,16 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   multiple,
   showSearch,
   loadData,
-  treeData = emptyArray,
+  treeData,
   fieldNames,
+  //
   maxHeight = 400,
   request,
-  requestOptions = emptyObject,
+  requestOptions,
   actionRef,
   spin,
 
-  treeSelectProps = emptyObject,
+  treeSelectProps,
 
   ...formItemProps
 }) => {
@@ -41,11 +41,13 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
     variant,
     size,
     placeholder: innerPlaceholder,
-    fieldNames,
+    //
     spin,
     request,
     requestOptions,
     actionRef,
+    //
+    fieldNames,
     treeLine,
     treeCheckable,
     treeIcon,

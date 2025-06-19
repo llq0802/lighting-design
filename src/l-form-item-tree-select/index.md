@@ -13,7 +13,9 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'></code>
+<code src='./demos/demo.tsx'></code>
+
+<!-- <code src='./demos/Demo1.tsx'></code>
 
 ### 通过 `loadData` 每次异步请求
 
@@ -25,7 +27,7 @@ nav:
 
 ### 依赖更新自动请求
 
-<code src='./demos/Demo2.tsx'></code>
+<code src='./demos/Demo2.tsx'></code> -->
 
 ## API
 
