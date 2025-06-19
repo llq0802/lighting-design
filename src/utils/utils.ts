@@ -35,7 +35,9 @@ export const isLegalValue = (value: any) => {
     return value.every((item: any) => isValueTrue(item));
   }
   if (isPlainObject(value)) {
-    return Object.values(value).every((item: any) => isValueTrue(item));
+    const valuesArray = Object.values(value);
+    if (!valuesArray?.length) return false;
+    return valuesArray.every((item: any) => isValueTrue(item));
   }
   return !!value;
 };
