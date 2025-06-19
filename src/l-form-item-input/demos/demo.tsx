@@ -1,4 +1,4 @@
-import { LForm, LFormItemInput, LFormItemSwitch } from 'lighting-design';
+import { LForm, LFormItem, LFormItemInput, LFormItemSwitch } from 'lighting-design';
 import { sleep } from 'lighting-design/test';
 import React from 'react';
 
@@ -47,7 +47,18 @@ const App: React.FC = () => {
         //   return { value };
         // }}
       />
-      <LFormItemSwitch name="input2" label="姓名2" dependencies={['input1']} />
+      {/* <LFormItemSwitch
+        name="input2"
+        label="姓名2"
+        dependencies={['input1']}
+        // shouldUpdate
+      /> */}
+
+      <LFormItem dependencies={['input1']} noStyle>
+        {() => {
+          return <LFormItemSwitch name="input2" label="姓名2" />;
+        }}
+      </LFormItem>
     </LForm>
   );
 };

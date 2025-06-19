@@ -1,7 +1,7 @@
 import { Form, type FormItemProps } from 'antd';
 import { useMergeFormProps } from 'lighting-design/l-form/context';
 import { getFormItemLabel, isLegalValue } from 'lighting-design/utils';
-import { cloneElement, isValidElement, type FC, type ReactElement, type ReactNode } from 'react';
+import { type FC, type ReactElement, type ReactNode } from 'react';
 import Wrapper from './components/wrapper';
 import type { LFormItemProps } from './interface';
 import { useStyles } from './styles';
@@ -16,7 +16,7 @@ const LFormItem: FC<LFormItemProps> & {
     alignItems: itemAlignItems,
     formItemBottom: itemBottom,
     // 自定义属性
-    depend,
+    dependName,
     renderField,
     renderFormItem,
     contentBefore,
@@ -27,8 +27,6 @@ const LFormItem: FC<LFormItemProps> & {
     children,
     ...restFromItemProps
   } = props;
-
-  const innerForm = Form.useFormInstance();
 
   const { labelWidth, wrapperWidth, alignItems, formItemBottom } = useMergeFormProps(props);
 
@@ -84,10 +82,15 @@ const LFormItem: FC<LFormItemProps> & {
 
   if (shouldUpdate) {
     const dom1 = (
-      <Form.Item {...formItemProps}>
-        {(...args) => {
-          const contentChildren = typeof children === 'function' ? children(...args) : children;
-          return renderChildren(contentChildren);
+      <Form.Item noStyle shouldUpdate={shouldUpdate}>
+        {(form) => {
+          const allValues = form?.getFieldsValue?.();
+          const innerChildren = typeof children === 'function' ? children(form, allValues) : children;
+          return (
+            <Form.Item {...formItemProps} shouldUpdate={void 0}>
+              {renderChildren(innerChildren)}
+            </Form.Item>
+          );
         }}
       </Form.Item>
     );
@@ -98,46 +101,34 @@ const LFormItem: FC<LFormItemProps> & {
     const dom2 = (
       <Form.Item noStyle dependencies={dependencies}>
         {(form) => {
-          const innerChildren = typeof children === 'function' ? children(form) : children;
-          // const depFieldValues = form.getFieldsValue(dependencies);
-          // const contentChildren = isValidElement(innerChildren)
-          //   ? cloneElement(innerChildren as ReactElement, {
-          //       ...depFieldValues,
-          //       ...innerChildren?.props,
-          //     })
-          //   : innerChildren;
-
-          return <Form.Item {...formItemProps}>{renderChildren(innerChildren)}</Form.Item>;
+          const dependeValues = form?.getFieldsValue?.(dependencies);
+          const innerChildren = typeof children === 'function' ? children(form, dependeValues) : children;
+          return (
+            <Form.Item {...formItemProps} dependencies={void 0}>
+              {renderChildren(innerChildren)}
+            </Form.Item>
+          );
         }}
       </Form.Item>
     );
     return renderFormItem ? renderFormItem(dom2) : dom2;
   }
 
-  let childrenDom = typeof children === 'function' ? children(innerForm) : children;
-
-  if (depend) {
-    const depFieldValues = innerForm.getFieldsValue(depend);
-    childrenDom = isValidElement(childrenDom)
-      ? cloneElement(childrenDom as ReactElement, {
-          ...depFieldValues,
-          ...childrenDom?.props,
-        })
-      : childrenDom;
+  if (typeof children === 'function') {
+    const dom3 = (
+      <Form.Item shouldUpdate noStyle>
+        {(form) => {
+          const allValues = form?.getFieldsValue?.();
+          const innerChildren = children(form, allValues);
+          return <Form.Item {...formItemProps}>{renderChildren(innerChildren)}</Form.Item>;
+        }}
+      </Form.Item>
+    );
+    return renderFormItem ? renderFormItem(dom3) : dom3;
   }
 
-  const dom3 = <Form.Item {...formItemProps}>{renderChildren(childrenDom)}</Form.Item>;
-  return renderFormItem ? renderFormItem(dom3) : dom3;
-
-  // <Form.Item shouldUpdate noStyle>
-  //   {() => {
-  //     return (
-  //       <Form.Item name="other">
-  //         <Input />
-  //       </Form.Item>
-  //     );
-  //   }}
-  // </Form.Item>
+  const dom4 = <Form.Item {...formItemProps}>{renderChildren(children)}</Form.Item>;
+  return renderFormItem ? renderFormItem(dom4) : dom4;
 };
 
 LFormItem.useStatus = Form.Item.useStatus;

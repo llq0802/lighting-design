@@ -54,5 +54,6 @@ export type LFormItemProps<T = any> = FormItemProps<T> & {
    * - 设置了 rules，则不会触发内置的表单校验规则
    */
   customValidator?: (value: any, e: any) => Promise<any>;
-  children?: ReactNode | ((form: FormInstance<T>) => ReactNode);
+  children?: ReactNode | ((form: FormInstance<T>, values: T | {}) => ReactNode);
+  dependName?: string;
 };
