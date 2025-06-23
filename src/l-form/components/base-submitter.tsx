@@ -66,7 +66,7 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
   } = props;
   const form = Form.useFormInstance();
   const { labelWidth, formItemBottom: innerFormItemBottom } = useLFormContext();
-  const position = outPosition || labelWidth;
+  const position = outPosition || labelWidth || 'center';
   const formItemBottom = outFormItemBottom || innerFormItemBottom;
   const { preventDefault: submitPreventDefault = false, ...submitButtonProps } = outSubmitButtonProps;
   const { preventDefault: resetPreventDefault = false, ...resetButtonProps } = outResetButtonProps;

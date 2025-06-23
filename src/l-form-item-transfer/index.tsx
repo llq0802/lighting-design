@@ -6,7 +6,7 @@ import type { LFormItemTransferProps } from './interface';
 const LFormItemTransfer: FC<LFormItemTransferProps> = ({
   disabled,
   //
-  dataSource,
+  options,
   titles,
   listStyle,
   showSearch,
@@ -24,7 +24,7 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
 }) => {
   const baseProps = {
     disabled,
-    dataSource,
+    options,
     titles,
     listStyle,
     showSearch,
@@ -36,6 +36,7 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
     request,
     requestOptions,
     spin,
+    ...transferProps,
   };
   return (
     <LFormItem {...restProps} valuePropName="targetKeys">

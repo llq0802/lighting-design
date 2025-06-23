@@ -6,13 +6,13 @@ import { useImperativeHandle, type FC } from 'react';
 const BaseTransfer: FC<Record<string, any>> = (props) => {
   const {
     fieldNames = { label: 'label', value: 'value' },
-    dataSource,
+    options,
     //
     actionRef,
     request,
     requestOptions,
     spin,
-    isCustomTransfer = true,
+    dataSource,
     ...restProps
   } = props;
   const { label: labelKey, value: valueKey } = fieldNames;
@@ -33,15 +33,15 @@ const BaseTransfer: FC<Record<string, any>> = (props) => {
 
   const dom = (
     <Transfer
+      titles={['数据项', '已选择']}
       rowKey={(record: Record<string, any>) => record[valueKey] || 'value'}
       render={(item: Record<string, any>) => item[labelKey] ?? item[valueKey]}
-      titles={['数据项', '已选择']}
-      dataSource={dataSource || data?.list}
+      dataSource={dataSource || options || data?.list}
       {...restProps}
       listStyle={
         restProps?.listStyle || {
-          height: isCustomTransfer ? 'auto' : 410,
-          width: isCustomTransfer ? 'auto' : 200,
+          flex: 1,
+          height: 400,
         }
       }
     />
@@ -49,7 +49,7 @@ const BaseTransfer: FC<Record<string, any>> = (props) => {
 
   return (
     <ConfigProvider locale={zhCN}>
-      {dataSource?.length ? (
+      {dataSource || options ? (
         dom
       ) : (
         <Spin spinning={loading} {...spin}>

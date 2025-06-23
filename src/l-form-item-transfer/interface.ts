@@ -43,5 +43,5 @@ export type LFormItemTransferProps = LFormItemProps &
     /**
      *数据源
      */
-    dataSource?: RecordType;
+    options?: RecordType;
   };

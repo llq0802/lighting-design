@@ -11,6 +11,9 @@ toc: content
 
 ### 基础用法
 
+<code src='./demos/demo.tsx'></code>
+
+<!--
 <code src='./demos/Demo1.tsx'></code>
 
 ### 异步请求
@@ -33,7 +36,7 @@ toc: content
 
 ### 树穿梭
 
-<code src='./demos/Demo6.tsx'></code>
+<code src='./demos/Demo6.tsx'></code> -->
 
 ## API
 
