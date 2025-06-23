@@ -21,7 +21,9 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/Demo1.tsx'></code>
+<code src='./demos/demo.tsx'></code>
+
+<!-- <code src='./demos/Demo1.tsx'></code>
 
 ### 通过 onUpload 上传
 
@@ -34,6 +36,7 @@ nav:
 ### 图片裁剪
 
 <code src='./demos/Demo4.tsx'></code>
+ -->
 
 ## API
 

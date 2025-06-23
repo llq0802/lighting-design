@@ -20,8 +20,7 @@ export function checkFileType(file: File, accept?: string) {
   types.some((type) => {
     if (
       file.type === type ||
-      (type.indexOf('.') === 0 &&
-        file.name.toLowerCase().slice(file.name.length - type.length) === type)
+      (type.indexOf('.') === 0 && file.name.toLowerCase().slice(file.name.length - type.length) === type)
     ) {
       ret = true;
     } else if (type.includes('/*') && file.type.includes('/')) {
@@ -40,7 +39,7 @@ export function checkFileType(file: File, accept?: string) {
 
 // 检查文件大小
 export function checkFileSize(file: File, size: number) {
-  return file.size < size;
+  return file.size > size;
 }
 
 // 图片转base64
