@@ -1,20 +1,18 @@
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import type { GetProp, UploadProps } from 'antd';
-import { createFileUrl } from 'lighting-design/utils';
-import React, { useState } from 'react';
+import { useUnmount } from 'ahooks';
+import { IMAGES_SUFFIX } from 'lighting-design/constants';
+import { createFileUrl, removeFileUrl, uniqueId } from 'lighting-design/utils';
+import React, { useMemo, useState } from 'react';
 import BaseUpload from './base-upload';
 
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
-
-const getBase64 = (img: FileType, callback: (url: string) => void) => {
-  const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result as string));
-  reader.readAsDataURL(img);
-};
-
 const AvatarUpload: React.FC = ({ ...props }) => {
+  const uniqueKey = useMemo(() => uniqueId(), []);
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>('');
+
+  useUnmount(() => {
+    removeFileUrl(uniqueKey);
+  });
 
   const uploadButton = (
     <button style={{ border: 0, background: 'none' }} type="button">
@@ -25,15 +23,17 @@ const AvatarUpload: React.FC = ({ ...props }) => {
 
   return (
     <BaseUpload
+      accept={IMAGES_SUFFIX}
+      listType="picture-circle"
       {...props}
-      listType="picture-card"
       showUploadList={false}
       maxCount={1}
       onUploading={() => {
+        setImageUrl('');
         setLoading(true);
       }}
       onSuccess={(info) => {
-        const url = createFileUrl(info.file.uid, info.file.uid, info.file?.originFileObj!);
+        const url = createFileUrl(uniqueKey, info.file.uid, info.file?.originFileObj!);
         setImageUrl(url);
         setLoading(false);
       }}

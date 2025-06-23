@@ -1,7 +1,5 @@
-import { useMemoizedFn } from 'ahooks';
 import { ConfigProvider, Upload, type UploadProps } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
-import type { RcFile } from 'antd/lib/upload';
 import type { FC } from 'react';
 import { useMemo, useRef } from 'react';
 import { checkFileSize, checkFileType } from '../../utils/upload';
@@ -15,7 +13,7 @@ type BaseUploadProps = {
   // 文件最大大小，默认为50MB
   maxSize?: number;
   // 自定义上传函数
-  onUpload?: (file: RcFile) => any;
+  onUpload?: (file: UploadRequestFile) => any;
   // 是否串行上传
   isSerial?: boolean;
   // 超出最大数量回调
@@ -61,7 +59,7 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
   const uploadingRef = useRef(false);
 
   // 上传前验证
-  const innerBeforeUpload = (file: RcFile, fileList: RcFile[]) => {
+  const innerBeforeUpload: UploadProps['beforeUpload'] = (file, fileList) => {
     if (beforeUpload) {
       return beforeUpload(file, fileList);
     }
@@ -90,9 +88,9 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
   };
 
   // 自定义上传
-  const innerCustomRequest = useMemoizedFn((obj: any) => {
+  const innerCustomRequest: UploadProps['customRequest'] = (opts) => {
     if (customRequest) {
-      return customRequest(obj);
+      return customRequest(opts);
     }
     if (isSerial) {
       let timer: any = null;
@@ -102,17 +100,17 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
           uploadingRef.current = true;
           clearTimeout(timer);
           setTimeout(() => {
-            obj.onProgress?.({ percent: 99 });
-            const uploadRet = onUpload?.(obj.file);
+            opts.onProgress?.({ percent: 99 });
+            const uploadRet = onUpload?.(opts.file);
             if (uploadRet instanceof Promise) {
               uploadRet
-                .then(obj.onSuccess)
-                .catch(obj.onError)
+                .then(opts.onSuccess)
+                .catch(opts.onError)
                 .finally(() => {
                   uploadingRef.current = false;
                 });
             } else {
-              obj.onSuccess(uploadRet);
+              opts.onSuccess?.(uploadRet);
               uploadingRef.current = false;
             }
           });
@@ -121,23 +119,23 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
         }
       }
       queueUpload();
-    } else {
-      // 并行上传
-      obj.onProgress?.({ percent: 99 });
-      const uploadRet = onUpload?.(obj.file);
-      if (uploadRet instanceof Promise) {
-        uploadRet
-          .then(obj.onSuccess)
-          .catch(obj.onError)
-          .finally(() => {
-            uploadingRef.current = false;
-          });
-      } else {
-        obj.onSuccess(uploadRet);
-        uploadingRef.current = false;
-      }
+      return;
     }
-  });
+    // 并行上传
+    opts.onProgress?.({ percent: 99 });
+    const uploadRet = onUpload?.(opts.file);
+    if (uploadRet instanceof Promise) {
+      uploadRet
+        .then(opts.onSuccess)
+        .catch(opts.onError)
+        .finally(() => {
+          uploadingRef.current = false;
+        });
+    } else {
+      opts.onSuccess?.(uploadRet);
+      uploadingRef.current = false;
+    }
+  };
 
   const innerChange: UploadProps['onChange'] = (info) => {
     if (info.file.status === 'error') {
