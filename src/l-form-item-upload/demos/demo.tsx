@@ -38,6 +38,7 @@
 // );
 
 // export default App;
+import { Button } from 'antd';
 import { LForm, LFormItemUpload } from 'lighting-design';
 import React from 'react';
 
@@ -55,7 +56,15 @@ const App: React.FC = () => {
         console.log('===onFinish===', values);
       }}
     >
-      <LFormItemUpload name="time1" label="上传" required alignItems="center" />
+      <LFormItemUpload
+        name="time1"
+        label="上传"
+        required
+        alignItems="center"
+        uploadProps={{
+          children: <Button>上传</Button>,
+        }}
+      />
     </LForm>
   );
 };
