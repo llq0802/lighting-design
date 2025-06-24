@@ -1,6 +1,6 @@
 import type { ButtonProps, UploadProps } from 'antd';
 import type { ImgCropProps } from 'antd-img-crop';
-import type { LFormItemProps } from 'lighting-design/FormItem/interface';
+import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
 import type { ReactNode } from 'react';
 import type { UploadWrapperProps } from './base/UploadWrapper';
 

@@ -3,7 +3,6 @@ import zhCN from 'antd/es/locale/zh_CN';
 import type { FC } from 'react';
 import { useMemo, useRef } from 'react';
 import { checkFileSize, checkFileType } from '../../utils/upload';
-import './styles.less';
 
 // 定义 BaseUpload 的 Props 类型
 type BaseUploadProps = {
@@ -64,7 +63,7 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
       return beforeUpload(file, fileList);
     }
 
-    if (maxCount > fileList?.length) {
+    if (maxCount && maxCount > fileList?.length) {
       onExceedMaxCount?.();
       return Upload.LIST_IGNORE;
     }

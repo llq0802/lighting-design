@@ -21,8 +21,15 @@ const AvatarUpload: React.FC = ({ ...props }) => {
     </button>
   );
 
+  const innerDom = imageUrl ? (
+    <img src={imageUrl} alt="avatar" data-avatar-upload style={{ width: '100%' }} />
+  ) : (
+    uploadButton
+  );
+
   return (
     <BaseUpload
+      action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
       accept={IMAGES_SUFFIX}
       listType="picture-circle"
       {...props}
@@ -37,11 +44,14 @@ const AvatarUpload: React.FC = ({ ...props }) => {
         setImageUrl(url);
         setLoading(false);
       }}
-      onError={() => {
+      onError={(info) => {
+        console.log('===info==>', info);
         setLoading(false);
+        const url = createFileUrl(uniqueKey, info.file.uid, info.file?.originFileObj!);
+        setImageUrl(url);
       }}
     >
-      {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+      {innerDom}
     </BaseUpload>
   );
 };
