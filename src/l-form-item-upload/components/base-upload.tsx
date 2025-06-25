@@ -1,37 +1,39 @@
 import { ConfigProvider, Upload, type UploadProps } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
+import type { RcFile } from 'antd/es/upload';
 import type { FC } from 'react';
 import { useMemo, useRef } from 'react';
 import { checkFileSize, checkFileType } from '../../utils/upload';
 
-// 定义 BaseUpload 的 Props 类型
-type BaseUploadProps = {
-  uploadFieldName?: string;
-  // 是否启用拖拽上传
+export type LUploadProps = {
   dragger?: boolean;
-  // 文件最大大小，默认为50MB
+  /**发到后台的文件参数名 */
+  uploadFieldName?: string;
+  /** 选择文件后是否自动上传 */
+  autoUpload?: boolean;
+  /**最大文件大小，默认为 50MB，值为 0 时不限制大小 */
   maxSize?: number;
-  // 自定义上传函数
-  onUpload?: (file: UploadRequestFile) => any;
+  /**自定义上传函数 */
+  onUpload?: (opts: Parameters<UploadProps['customRequest'] & {}>[0]) => any;
   // 是否串行上传
   isSerial?: boolean;
-  // 超出最大数量回调
-  onExceedMaxCount?: () => void;
-  // 超出文件大小限制回调
-  onExceedFileSize?: () => void;
-  // 不支持的文件类型回调
-  onNoSupportFileType?: () => void;
-  // 上传失败回调
+  /**超出最大数量回调 */
+  onExceedMaxCount?: (file: RcFile, fileList: RcFile[]) => void;
+  /**超出文件大小限制回调 */
+  onExceedFileSize?: (file: RcFile, fileList: RcFile[]) => void;
+  /** 不支持的文件类型回调 */
+  onNoSupportFileType?: (file: RcFile, fileList: RcFile[]) => void;
+  /**上传失败回调 */
   onError?: UploadProps['onChange'];
-  // 上传成功回调
+  /**上传成功回调 */
   onSuccess?: UploadProps['onChange'];
-  // 正在上传回调
+  /**正在上传回调 */
   onUploading?: UploadProps['onChange'];
-  // 最大上传数量
+  /**最大上传数量 */
   maxCount?: number;
 } & UploadProps;
 
-const BaseUpload: FC<BaseUploadProps> = (props) => {
+const BaseUpload: FC<LUploadProps> = (props) => {
   const {
     dragger = false,
     maxSize = 1024 * 1024 * 50,
@@ -49,6 +51,7 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
     accept,
     action,
     beforeUpload,
+    autoUpload = true,
     customRequest,
     onChange,
     ...restProps
@@ -64,29 +67,29 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
     }
 
     if (maxCount && maxCount > fileList?.length) {
-      onExceedMaxCount?.();
+      onExceedMaxCount?.(file, fileList);
       return Upload.LIST_IGNORE;
     }
     // 检查是否支持文件类型
     const isSupportFileType = checkFileType(file, accept);
     if (!isSupportFileType) {
-      onNoSupportFileType?.();
+      onNoSupportFileType?.(file, fileList);
       return Upload.LIST_IGNORE;
     }
 
     // 检查是否超过文件大小
     const isMoreThanFileSize = checkFileSize(file, maxSize);
-    if (isMoreThanFileSize) {
-      onExceedFileSize?.();
+    if (maxSize >= 0 && isMoreThanFileSize) {
+      onExceedFileSize?.(file, fileList);
       return Upload.LIST_IGNORE;
     }
+
     // 若返回 false 则停止上传。支持返回一个 Promise 对象，Promise 对象 reject 时则停止上传，
     // 可以返回 Upload.LIST_IGNORE， 此时列表中将不展示此文件。
     // action没有传地址则停止上传(不会生产status,percent ,response等)
-    return !!action || !!onUpload || !!customRequest;
+    return autoUpload;
   };
 
-  // 自定义上传
   const innerCustomRequest: UploadProps['customRequest'] = (opts) => {
     if (customRequest) {
       return customRequest(opts);
@@ -100,7 +103,7 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
           clearTimeout(timer);
           setTimeout(() => {
             opts.onProgress?.({ percent: 99 });
-            const uploadRet = onUpload?.(opts.file);
+            const uploadRet = onUpload?.(opts);
             if (uploadRet instanceof Promise) {
               uploadRet
                 .then(opts.onSuccess)
@@ -121,8 +124,9 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
       return;
     }
     // 并行上传
-    opts.onProgress?.({ percent: 99 });
-    const uploadRet = onUpload?.(opts.file);
+    const uploadRet = onUpload?.(opts as any);
+    opts.onProgress?.({ percent: 99 } as any);
+
     if (uploadRet instanceof Promise) {
       uploadRet
         .then(opts.onSuccess)
@@ -137,6 +141,7 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
   };
 
   const innerChange: UploadProps['onChange'] = (info) => {
+    onChange?.(info);
     if (info.file.status === 'error') {
       onError?.(info);
       return;
@@ -148,17 +153,17 @@ const BaseUpload: FC<BaseUploadProps> = (props) => {
     }
 
     if (info.file.status === 'done') {
-      onChange?.(info);
       onSuccess?.(info);
       return;
     }
-    // removed
+    // removed todo...
   };
   const UploadContent = useMemo(() => (dragger ? Upload.Dragger : Upload), [dragger]);
 
   return (
     <ConfigProvider locale={zhCN}>
       <UploadContent
+        withCredentials
         customRequest={!action ? innerCustomRequest : void 0}
         accept={accept}
         action={action}

@@ -2,7 +2,6 @@ import ImgCrop from 'antd-img-crop';
 import classNames from 'classnames';
 import { IMAGE_TYPES } from 'lighting-design/constants';
 import type { FC } from 'react';
-import UploadButton from './UploadButton';
 import UploadWrapper, { lightdUploadWrapper } from './UploadWrapper';
 
 const prefixCls = `${lightdUploadWrapper}-image`;
@@ -29,7 +28,7 @@ const UploadImage: FC<Record<string, any>> = ({
       accept={restProps?.accept || IMAGE_TYPES}
     >
       {maxCount && fileList && fileList.length >= maxCount ? null : (
-        <UploadButton buttonIcon={buttonIcon} buttonText={buttonText} />
+        <Button buttonIcon={buttonIcon} buttonText={buttonText} />
       )}
     </UploadWrapper>
   );

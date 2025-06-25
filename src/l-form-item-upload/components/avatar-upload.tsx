@@ -5,55 +5,48 @@ import { createFileUrl, removeFileUrl, uniqueId } from 'lighting-design/utils';
 import React, { useMemo, useState } from 'react';
 import BaseUpload from './base-upload';
 
-const AvatarUpload: React.FC = ({ renderAvatar, ...props }) => {
+const font = { fontSize: 30 };
+
+const AvatarUpload: React.FC<any> = ({ renderAvatar, ...props }) => {
+  const { fileList, onUploading, onSuccess, onError } = props;
   const uniqueKey = useMemo(() => uniqueId(), []);
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>('');
-  console.log('===props==>', props);
+  const [imageUrl, setImageUrl] = useState<string>(fileList?.[0]?.url || fileList?.[0]?.thumbUrl || '');
+
   useUnmount(() => {
     removeFileUrl(uniqueKey);
   });
 
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>上传</div>
-    </button>
-  );
+  const uploadButton = <>{loading ? <LoadingOutlined style={font} /> : <PlusOutlined style={font} />}</>;
 
-  const innerDom = imageUrl ? (
-    renderAvatar ? (
-      renderAvatar()
-    ) : (
-      <img src={imageUrl} alt="avatar" data-avatar-upload style={{ width: '100%' }} />
-    )
+  const innerDom = renderAvatar ? (
+    renderAvatar({ loading, imageUrl, file: fileList?.[0] })
   ) : (
-    uploadButton
+    <img src={imageUrl} alt="avatar" data-avatar-upload style={{ width: '100%' }} />
   );
 
   return (
     <BaseUpload
-      action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
       accept={IMAGES_SUFFIX}
-      listType="picture-circle"
-      children={innerDom}
+      listType="picture-card"
+      children={imageUrl ? innerDom : uploadButton}
       {...props}
       showUploadList={false}
       maxCount={1}
-      onUploading={() => {
+      onUploading={(info) => {
         setImageUrl('');
         setLoading(true);
+        onUploading?.(info);
       }}
       onSuccess={(info) => {
         const url = createFileUrl(uniqueKey, info.file.uid, info.file?.originFileObj!);
         setImageUrl(url);
         setLoading(false);
+        onSuccess?.(info);
       }}
       onError={(info) => {
-        console.log('===info==>', info);
         setLoading(false);
-        const url = createFileUrl(uniqueKey, info.file.uid, info.file?.originFileObj!);
-        setImageUrl(url);
+        onError?.(info);
       }}
     />
   );

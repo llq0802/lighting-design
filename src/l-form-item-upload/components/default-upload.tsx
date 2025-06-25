@@ -1,29 +1,24 @@
-import { InboxOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import { useState, type FC } from 'react';
 import BaseUpload from './base-upload';
 
-const DraggerUpload: FC<Record<string, any>> = ({ renderChildren, ...props }) => {
+const DefaultUpload: FC<Record<string, any>> = ({ renderChildren, ...props }) => {
   const { fileList, onUploading, onSuccess, onError } = props;
   const [loading, setLoading] = useState(false);
 
   const innerDom = renderChildren ? (
     renderChildren({ loading, fileList })
   ) : (
-    <>
-      <p className="ant-upload-drag-icon">
-        <InboxOutlined />
-      </p>
-      <p className="ant-upload-text" style={{ marginBottom: 8 }}>
-        单击或拖动文件到此区域进行上传
-      </p>
-    </>
+    <Button type="primary" icon={<UploadOutlined />}>
+      上传
+    </Button>
   );
 
   const dom = (
     <BaseUpload
       children={innerDom}
       {...props}
-      dragger
       onUploading={(info) => {
         setLoading(true);
         onUploading?.(info);
@@ -42,4 +37,4 @@ const DraggerUpload: FC<Record<string, any>> = ({ renderChildren, ...props }) =>
   return dom;
 };
 
-export default DraggerUpload;
+export default DefaultUpload;
