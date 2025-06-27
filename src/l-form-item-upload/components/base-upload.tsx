@@ -36,7 +36,7 @@ export type LUploadProps = {
 const BaseUpload: FC<LUploadProps> = (props) => {
   const {
     dragger = false,
-    maxSize = 1024 * 1024 * 50,
+    maxSize = 1024 * 1024 * 100,
     uploadFieldName,
     isSerial,
     onExceedMaxCount,

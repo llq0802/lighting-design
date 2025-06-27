@@ -2,6 +2,7 @@ import type { UploadProps } from 'antd';
 import type { RcFile } from 'antd/es/upload';
 import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
 import type { LFormProps } from 'lighting-design/l-form/interface';
+import type React from 'react';
 import type { LUploadProps } from './components/base-upload';
 
 export type LFormItemUploadProps = LFormItemProps &
@@ -29,6 +30,11 @@ export type LFormItemUploadProps = LFormItemProps &
      *antd 上传组件的 Props
      */
     uploadProps?: UploadProps;
-    renderUploadChildren?: (opts: { fileList: RcFile[]; loading: boolean }) => React.ReactNode;
-    renderUploadAvatar?: (opts: { fileList: RcFile[]; loading: boolean; imageUrl: string }) => React.ReactNode;
+    renderUploadChildren?: (opts: {
+      fileList: RcFile[];
+      loading: boolean;
+      imageUrl?: string;
+      buttonDom?: React.ReactNode;
+      imageDom?: React.ReactNode;
+    }) => React.ReactNode;
   } & Pick<LFormProps, 'disabled'>;

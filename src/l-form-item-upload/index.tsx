@@ -15,7 +15,6 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   autoUpload,
   uploadProps,
   renderUploadChildren,
-  renderUploadAvatar,
 
   ...restProps
 }) => {
@@ -38,7 +37,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
     if (uploadType === 'image') {
       return <ImageUpload {...baseProps} renderChildren={renderUploadChildren} />;
     }
-    return <AvatarUpload {...baseProps} renderAvatar={renderUploadAvatar} />;
+    return <AvatarUpload {...baseProps} renderChildren={renderUploadChildren} />;
   };
 
   return (
