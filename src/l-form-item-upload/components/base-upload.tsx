@@ -58,6 +58,7 @@ const BaseUpload: FC<LUploadProps> = (props) => {
   } = props;
   // 标识当前是否正在上传
   const uploadingRef = useRef(false);
+  const uploadQueueRef = useRef<any[]>([]);
 
   // 上传前验证
   const innerBeforeUpload: UploadProps['beforeUpload'] = (file, fileList) => {
@@ -95,38 +96,43 @@ const BaseUpload: FC<LUploadProps> = (props) => {
       return customRequest(opts);
     }
 
-    const handleUploadSuccess = (result: any) => {
-      opts.onSuccess?.(result);
-      uploadingRef.current = false;
-    };
-
-    const handleUploadError = (error: any) => {
-      opts.onError?.(error);
-      uploadingRef.current = false;
-    };
-
-    const performUpload = () => {
-      const uploadRet = onUpload?.(opts);
-      opts.onProgress?.({ percent: 0 });
-
-      if (uploadRet instanceof Promise) {
-        uploadRet.then(handleUploadSuccess).catch(handleUploadError);
-      } else {
-        handleUploadSuccess(uploadRet);
-      }
-    };
-
     if (isSerial) {
       const queueUpload = () => {
-        if (!uploadingRef.current) {
-          uploadingRef.current = true;
-          performUpload();
-          return;
-        }
-        setTimeout(queueUpload, 100);
+        if (uploadingRef.current || uploadQueueRef.current.length === 0) return;
+        uploadingRef.current = true;
+        performUpload(uploadQueueRef.current.shift());
       };
 
-      queueUpload();
+      const performUpload = (currentOpts: any) => {
+        const handleUploadSuccess = (result: any) => {
+          currentOpts.onSuccess?.(result);
+          uploadingRef.current = false;
+          queueUpload();
+        };
+
+        const handleUploadError = (error: any) => {
+          currentOpts.onError?.(error);
+          uploadingRef.current = false;
+          queueUpload();
+        };
+
+        const uploadRet = onUpload?.(currentOpts);
+        currentOpts.onProgress?.({ percent: 99 });
+
+        if (uploadRet instanceof Promise) {
+          uploadRet.then(handleUploadSuccess).catch(handleUploadError);
+        } else {
+          handleUploadSuccess(uploadRet);
+        }
+      };
+
+      // 加入上传队列
+      uploadQueueRef.current.push(opts);
+
+      // 启动队列
+      if (!uploadingRef.current) {
+        queueUpload();
+      }
       return;
     }
 
@@ -135,9 +141,15 @@ const BaseUpload: FC<LUploadProps> = (props) => {
     opts.onProgress?.({ percent: 99 });
 
     if (uploadRet instanceof Promise) {
-      uploadRet.then(handleUploadSuccess).catch(handleUploadError);
+      uploadRet
+        .then(opts.onSuccess)
+        .catch(opts.onError)
+        .finally(() => {
+          uploadingRef.current = false;
+        });
     } else {
-      handleUploadSuccess(uploadRet);
+      opts.onSuccess?.(uploadRet);
+      uploadingRef.current = false;
     }
   };
 

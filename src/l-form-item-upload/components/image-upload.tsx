@@ -10,12 +10,7 @@ const ImageUpload: FC<Record<string, any>> = ({ renderChildren, ...props }) => {
   const { fileList, onUploading, onSuccess, onError, maxCount, onPreview } = props;
   const [loading, setLoading] = useState(false);
 
-  const uploadButton = (
-    <button style={{ border: 0, background: 'none' }} type="button">
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>上传</div>
-    </button>
-  );
+  const uploadButton = <PlusOutlined />;
 
   const showButton = () => {
     if (!maxCount || maxCount === 1) {
