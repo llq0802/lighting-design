@@ -11,7 +11,7 @@ export type LUploadProps = {
   uploadFieldName?: string;
   /** 选择文件后是否自动上传 */
   autoUpload?: boolean;
-  /**最大文件大小，默认为 50MB，值为 0 时不限制大小 */
+  /**最大文件大小，默认为 100MB，值为 0 时不限制大小 */
   maxSize?: number;
   /**自定义上传函数 */
   onUpload?: (opts: Parameters<UploadProps['customRequest'] & {}>[0]) => any;
@@ -56,8 +56,7 @@ const BaseUpload: FC<LUploadProps> = (props) => {
     onChange,
     ...restProps
   } = props;
-
-  // 标识正在上传
+  // 标识当前是否正在上传
   const uploadingRef = useRef(false);
 
   // 上传前验证
@@ -66,7 +65,8 @@ const BaseUpload: FC<LUploadProps> = (props) => {
       return beforeUpload(file, fileList);
     }
 
-    if (maxCount && maxCount > fileList?.length) {
+    if (maxCount && fileList?.length > maxCount) {
+      console.log('===isSupportFileType==>');
       onExceedMaxCount?.(file, fileList);
       return Upload.LIST_IGNORE;
     }
@@ -94,49 +94,50 @@ const BaseUpload: FC<LUploadProps> = (props) => {
     if (customRequest) {
       return customRequest(opts);
     }
+
+    const handleUploadSuccess = (result: any) => {
+      opts.onSuccess?.(result);
+      uploadingRef.current = false;
+    };
+
+    const handleUploadError = (error: any) => {
+      opts.onError?.(error);
+      uploadingRef.current = false;
+    };
+
+    const performUpload = () => {
+      const uploadRet = onUpload?.(opts);
+      opts.onProgress?.({ percent: 0 });
+
+      if (uploadRet instanceof Promise) {
+        uploadRet.then(handleUploadSuccess).catch(handleUploadError);
+      } else {
+        handleUploadSuccess(uploadRet);
+      }
+    };
+
     if (isSerial) {
-      let timer: any = null;
-      // 队列串行上传
-      function queueUpload() {
+      const queueUpload = () => {
         if (!uploadingRef.current) {
           uploadingRef.current = true;
-          clearTimeout(timer);
-          setTimeout(() => {
-            opts.onProgress?.({ percent: 99 });
-            const uploadRet = onUpload?.(opts);
-            if (uploadRet instanceof Promise) {
-              uploadRet
-                .then(opts.onSuccess)
-                .catch(opts.onError)
-                .finally(() => {
-                  uploadingRef.current = false;
-                });
-            } else {
-              opts.onSuccess?.(uploadRet);
-              uploadingRef.current = false;
-            }
-          });
-        } else {
-          timer = setTimeout(queueUpload, 100);
+          performUpload();
+          return;
         }
-      }
+        setTimeout(queueUpload, 100);
+      };
+
       queueUpload();
       return;
     }
+
     // 并行上传
-    const uploadRet = onUpload?.(opts as any);
-    opts.onProgress?.({ percent: 99 } as any);
+    const uploadRet = onUpload?.(opts);
+    opts.onProgress?.({ percent: 99 });
 
     if (uploadRet instanceof Promise) {
-      uploadRet
-        .then(opts.onSuccess)
-        .catch(opts.onError)
-        .finally(() => {
-          uploadingRef.current = false;
-        });
+      uploadRet.then(handleUploadSuccess).catch(handleUploadError);
     } else {
-      opts.onSuccess?.(uploadRet);
-      uploadingRef.current = false;
+      handleUploadSuccess(uploadRet);
     }
   };
 
@@ -159,7 +160,6 @@ const BaseUpload: FC<LUploadProps> = (props) => {
     // removed todo...
   };
   const UploadContent = useMemo(() => (dragger ? Upload.Dragger : Upload), [dragger]);
-
   return (
     <ConfigProvider locale={zhCN}>
       <UploadContent

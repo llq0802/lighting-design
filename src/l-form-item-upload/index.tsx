@@ -9,40 +9,60 @@ import type { LFormItemUploadProps } from './interface';
 const LFormItemUpload: FC<LFormItemUploadProps> = ({
   disabled,
   action,
+  maxCount,
+  maxSize,
+  isSerial,
+  onUploading,
+  onError,
+  onSuccess,
+  onNoSupportFileType,
+  onExceedFileSize,
+  onExceedMaxCount,
   uploadType,
   uploadFieldName,
   onUpload,
   autoUpload,
-  uploadProps,
   renderUploadChildren,
+  uploadProps,
 
   ...restProps
 }) => {
   const baseProps = {
     disabled,
     action,
+    maxCount,
+    maxSize,
+    isSerial,
+    onUploading,
+    onError,
+    onSuccess,
+    onNoSupportFileType,
+    onExceedFileSize,
+    onExceedMaxCount,
+    uploadType,
+    uploadFieldName,
     onUpload,
     autoUpload,
-    uploadFieldName,
+    uploadProps,
+    renderUploadChildren,
     ...uploadProps,
   };
 
   const renderUploadDom = () => {
     if (!uploadType || uploadType === 'default') {
-      return <DefaultUpload {...baseProps} renderChildren={renderUploadChildren} />;
+      return <DefaultUpload {...baseProps} />;
     }
     if (uploadType === 'dragger') {
-      return <DraggerUpload {...baseProps} renderChildren={renderUploadChildren} />;
+      return <DraggerUpload {...baseProps} />;
     }
     if (uploadType === 'image') {
-      return <ImageUpload {...baseProps} renderChildren={renderUploadChildren} />;
+      return <ImageUpload {...baseProps} />;
     }
-    return <AvatarUpload {...baseProps} renderChildren={renderUploadChildren} />;
+    return <AvatarUpload {...baseProps} />;
   };
 
   return (
     <LFormItem
-      valuePropName="fileList"
       getValueFromEvent={(value: any) => {
         if (Array.isArray(value)) return value;
         return value?.fileList ?? [];
@@ -52,6 +72,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
         return values?.filter(Boolean).filter((v: any) => v?.status !== 'error');
       }}
       {...restProps}
+      valuePropName="fileList"
     >
       {renderUploadDom()}
     </LFormItem>

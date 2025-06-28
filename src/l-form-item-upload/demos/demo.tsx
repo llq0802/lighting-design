@@ -21,10 +21,15 @@ const App: React.FC = () => {
         name="time1"
         label="上传"
         required
+        uploadType="image"
+        isSerial
+        maxCount={5}
         onUpload={async () => {
-          await sleep(10000);
+          // 随机生成 100 到 5000 的数字
+          const time = Math.floor(Math.random() * (3000 - 100 + 1) + 100);
+          await sleep(5000);
           return {
-            thumbUrl: 'h111',
+            thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
           };
         }}
         // uploadType="dragger"

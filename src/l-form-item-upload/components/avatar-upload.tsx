@@ -23,7 +23,7 @@ const AvatarUpload: React.FC<any> = ({ renderChildren, ...props }) => {
   const innerDom = renderChildren
     ? renderChildren({
         loading,
-        file: fileList?.[0],
+        fileList,
         imageUrl,
         buttonDom,
         imageDom,

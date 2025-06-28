@@ -13,9 +13,7 @@ const DraggerUpload: FC<Record<string, any>> = ({ renderChildren, ...props }) =>
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
-      <p className="ant-upload-text" style={{ marginBottom: 8 }}>
-        单击或拖动文件到此区域进行上传
-      </p>
+      <p className="ant-upload-text">单击或拖动文件到此区域进行上传</p>
     </>
   );
 

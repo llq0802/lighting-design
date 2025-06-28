@@ -33,6 +33,7 @@ export type LFormItemUploadProps = LFormItemProps &
     renderUploadChildren?: (opts: {
       fileList: RcFile[];
       loading: boolean;
+      maxCount?: number;
       imageUrl?: string;
       buttonDom?: React.ReactNode;
       imageDom?: React.ReactNode;
