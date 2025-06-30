@@ -67,10 +67,9 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
   const form = Form.useFormInstance();
   const { labelWidth, formItemBottom: innerFormItemBottom } = useLFormContext();
   const position = outPosition || labelWidth || 'center';
-  const formItemBottom = outFormItemBottom || innerFormItemBottom;
+  const formItemBottom = outFormItemBottom ?? innerFormItemBottom;
   const { preventDefault: submitPreventDefault = false, ...submitButtonProps } = outSubmitButtonProps;
   const { preventDefault: resetPreventDefault = false, ...resetButtonProps } = outResetButtonProps;
-
   const resetClick = useMemoizedFn((e) => {
     if (!resetPreventDefault && isReady) {
       form?.resetFields();
@@ -80,12 +79,13 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
     }
     resetButtonProps?.onClick?.(e);
   });
-
   const submitClick = useMemoizedFn((e) => {
+    console.log('===isEnterSubmit==>', isEnterSubmit);
     if (!submitPreventDefault && isReady) {
       if (submitButtonProps?.htmlType !== 'submit' && !isEnterSubmit) {
         form?.submit?.();
       }
+
       const valuse = form?.getFieldsValue();
       Promise.resolve().then(() => onSubmit?.(valuse, e));
     }
@@ -115,7 +115,6 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
   const isPresetposition = position === 'flex-start' || position === 'center' || position === 'flex-end';
   const justifyContent = isPresetposition ? position : void 0;
   const paddingLeft = isPresetposition ? void 0 : position;
-
   return (
     <LFormItem
       formItemBottom={formItemBottom}

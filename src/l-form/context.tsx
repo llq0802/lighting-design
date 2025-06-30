@@ -24,7 +24,7 @@ export const useMergeFormProps = (formItemProps: LFormItemProps) => {
   return {
     labelWidth: labelWidth || res.labelWidth,
     wrapperWidth: wrapperWidth || res.wrapperWidth,
-    formItemBottom: formItemBottom || res.formItemBottom,
+    formItemBottom: formItemBottom ?? res.formItemBottom,
     alignItems: alignItems || res.alignItems,
   };
 };

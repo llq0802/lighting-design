@@ -15,7 +15,7 @@ nav:
 
 <code src='./demos/Demo1.tsx'></code>
 
-### 使用 open 受控方式
+<!-- ### 使用 open 受控方式
 
 <code src='./demos/Demo3.tsx'></code>
 
@@ -39,7 +39,7 @@ nav:
 
 ### 与 Nice Modal 结合使用
 
-<code src='./demos/Demo6.tsx'></code>
+<code src='./demos/Demo6.tsx'></code> -->
 
 ## API
 
