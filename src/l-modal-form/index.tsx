@@ -117,13 +117,10 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
           }
           innerModalProps?.afterClose?.();
         }}
-        modalRender={(modalDom) => (
-          <LForm {...innerFormProps} submitter={submitterProps}>
-            {modalDom}
-          </LForm>
-        )}
       >
-        {children}
+        <LForm {...innerFormProps} submitter={submitterProps}>
+          {children}
+        </LForm>
       </Modal>
       {trigger &&
         cloneElement(trigger, {
