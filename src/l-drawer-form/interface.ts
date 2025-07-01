@@ -7,7 +7,7 @@ export interface LDrawerFormProps
     Pick<DrawerProps, 'open'>,
     Pick<
       LModalFormProps,
-      'trigger' | 'onFinish' | 'onOpenChange' | 'forceRender' | 'destroyOnClose' | 'isResetFields' | 'width' | 'title'
+      'trigger' | 'onFinish' | 'onOpenChange' | 'forceRender' | 'destroyOnHidden' | 'isResetFields' | 'width' | 'title'
     > {
   /**
    * 抽屉的方向
