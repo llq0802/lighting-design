@@ -5,19 +5,20 @@ import { useLFormInstance } from 'lighting-design/l-form/hooks';
 import type { MouseEvent } from 'react';
 import { cloneElement, useRef, useState } from 'react';
 import type { DraggableData, DraggableEvent } from 'react-draggable';
+import Draggable from 'react-draggable';
 import type { LModalFormProps } from './interface';
 
 const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: LModalFormProps) => {
   const {
     isResetFields = true,
     destroyOnClose = true,
-    isDraggable,
+    draggableProps,
     forceRender,
     centered,
     form: outForm,
     trigger,
     modalTop = '20vh',
-    title = '标题',
+    title,
     width = 600,
     modalProps,
     children,
@@ -107,21 +108,65 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
           },
         };
 
+  const childrenDom = (
+    <LForm {...innerFormProps} submitter={submitterProps}>
+      {children}
+    </LForm>
+  );
+
+  const modalAfterClose = () => {
+    if (!innerModalProps.destroyOnHidden || !innerFormProps.clearOnDestroy) {
+      if (isResetFields) formRef.current?.resetFields?.();
+    }
+    innerModalProps?.afterClose?.();
+  };
+
+  const dom = draggableProps ? (
+    <Modal
+      {...innerModalProps}
+      afterClose={() => {
+        setPosition({ x: 0, y: 0 });
+        modalAfterClose();
+      }}
+      modalRender={(modalDom) => (
+        <Draggable
+          //@ts-ignore
+          handle=".ant-modal-header"
+          {...(typeof draggableProps === 'boolean' ? {} : draggableProps)}
+          disabled={disabled}
+          bounds={bounds}
+          position={position}
+          onStart={(event, uiData) => onStart(event, uiData)}
+          onStop={(event, uiData) => onStop(event, uiData)}
+        >
+          <div ref={draggleRef}>{innerModalProps?.modalRender?.(modalDom) ?? modalDom}</div>
+        </Draggable>
+      )}
+      title={
+        <div
+          style={{ width: '100%', cursor: 'move' }}
+          onMouseOver={() => {
+            if (disabled) setDisabled(false);
+          }}
+          onMouseOut={() => setDisabled(true)}
+          onFocus={() => {}}
+          onBlur={() => {}}
+        >
+          {title || innerModalProps?.title}
+        </div>
+      }
+    >
+      {childrenDom}
+    </Modal>
+  ) : (
+    <Modal {...innerModalProps} afterClose={modalAfterClose}>
+      {childrenDom}
+    </Modal>
+  );
+
   return (
     <>
-      <Modal
-        {...innerModalProps}
-        afterClose={() => {
-          if (!innerModalProps.destroyOnHidden || !innerFormProps.clearOnDestroy) {
-            if (isResetFields) formRef.current?.resetFields?.();
-          }
-          innerModalProps?.afterClose?.();
-        }}
-      >
-        <LForm {...innerFormProps} submitter={submitterProps}>
-          {children}
-        </LForm>
-      </Modal>
+      {dom}
       {trigger &&
         cloneElement(trigger, {
           onClick(e: MouseEvent<HTMLElement>) {

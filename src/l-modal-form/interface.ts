@@ -1,6 +1,7 @@
 import type { ModalProps } from 'antd';
 import type { LFormProps } from 'lighting-design/l-form';
 import type { ReactElement, ReactNode } from 'react';
+import type { DraggableProps } from 'react-draggable';
 
 export interface LModalFormProps<T = any>
   extends Omit<LFormProps, 'title' | 'onFinish'>,
@@ -24,7 +25,7 @@ export interface LModalFormProps<T = any>
   /**
    * 是否允许拖动弹窗组件
    */
-  isDraggable?: boolean;
+  draggableProps?: boolean | DraggableProps;
   /**
    * `Moadl` 的宽
    */
