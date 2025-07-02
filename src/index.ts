@@ -2,6 +2,8 @@ export * from './l-captcha-button';
 export { default as LCaptchaButton } from './l-captcha-button';
 export * from './l-card-group';
 export { default as LCardGroup } from './l-card-group';
+export * from './l-drawer-form';
+export { default as LDrawerForm } from './l-drawer-form';
 export * from './l-form';
 export { default as LForm } from './l-form';
 export * from './l-form-item';

@@ -1,35 +1,20 @@
 import type { ModalProps } from 'antd';
 import type { LFormProps } from 'lighting-design/l-form';
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactElement } from 'react';
 import type { DraggableProps } from 'react-draggable';
 
 export interface LModalFormProps<T = any>
   extends Omit<LFormProps, 'title' | 'onFinish'>,
-    Pick<ModalProps, 'open' | 'centered'> {
-  /**
-   *  标题
-   */
-  title?: ReactNode;
-  /**
-   * 预渲染`Modal`内容
-   */
-  forceRender?: boolean;
+    Pick<ModalProps, 'open' | 'centered' | 'forceRender' | 'title' | 'destroyOnHidden' | 'width'> {
   /**
    * 是否在关闭后重置表单到初始值
    */
   isResetFields?: boolean;
   /**
-   * 关闭时是否销毁`Modal`的子元素
-   */
-  destroyOnClose?: boolean;
-  /**
    * 是否允许拖动弹窗组件
    */
   draggableProps?: boolean | DraggableProps;
-  /**
-   * `Moadl` 的宽
-   */
-  width?: ModalProps['width'];
+
   /**
    * 打开的按钮
    * - 必须是能接受到`onClick`的组件或元素
@@ -54,5 +39,6 @@ export interface LModalFormProps<T = any>
    * - 不要与 centered 同时配置
    */
   modalTop?: string | number;
+
   onCancel?: (values: Record<string, any>) => void | true | Promise<any>;
 }

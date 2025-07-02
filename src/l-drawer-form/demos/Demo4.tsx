@@ -13,7 +13,7 @@ const Demo4 = () => {
         //     // icon: <TeamOutlined />,
         //   },
         // }}
-        initialValues={{ name1: '张三' }}
+        height={'80vh'}
         form={form}
         title="新增"
         // isAntdReset={false}

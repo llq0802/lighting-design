@@ -15,7 +15,7 @@ nav:
 
 <code src='./demos/Demo4.tsx'></code>
 
-### 全屏抽屉
+<!-- ### 全屏抽屉
 
 <code src='./demos/Demo6.tsx'></code>
 
@@ -47,7 +47,7 @@ nav:
 
 ### 与 Nice Modal 结合使用
 
-<code src='./demos/Demo8.tsx'></code>
+<code src='./demos/Demo8.tsx'></code> -->
 
 ## API
 

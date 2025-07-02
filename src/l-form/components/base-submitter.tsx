@@ -1,5 +1,5 @@
 import { useMemoizedFn } from 'ahooks';
-import { Button, Form, Space, type ButtonProps } from 'antd';
+import { Button, Flex, Form, type ButtonProps } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem, { type LFormItemProps } from 'lighting-design/l-form-item';
 import type { ReactElement, ReactNode } from 'react';
@@ -45,6 +45,7 @@ export type LFormSubmitterProps<T extends any = any> = {
    * 表单提交按钮和重置按钮外层包裹的 LFormItem 的 Props
    */
   formItemProps?: LFormItemProps;
+  gap?: number | string;
 } & Pick<LFormItemProps, 'formItemBottom'>;
 
 const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
@@ -63,6 +64,7 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
     formItemBottom: outFormItemBottom,
     formItemProps,
     position: outPosition,
+    gap = 8,
   } = props;
   const form = Form.useFormInstance();
   const { labelWidth, formItemBottom: innerFormItemBottom } = useLFormContext();
@@ -80,7 +82,6 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
     resetButtonProps?.onClick?.(e);
   });
   const submitClick = useMemoizedFn((e) => {
-    console.log('===isEnterSubmit==>', isEnterSubmit);
     if (!submitPreventDefault && isReady) {
       if (submitButtonProps?.htmlType !== 'submit' && !isEnterSubmit) {
         form?.submit?.();
@@ -110,7 +111,13 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
     </Button>,
   ].filter(Boolean) as JSX.Element[];
 
-  const dom = renderSubmitter ? renderSubmitter(buttonDomArr, props) : <Space>{buttonDomArr}</Space>;
+  const dom = renderSubmitter ? (
+    renderSubmitter(buttonDomArr, props)
+  ) : (
+    <Flex gap={gap} align="center">
+      {buttonDomArr}
+    </Flex>
+  );
 
   const isPresetposition = position === 'flex-start' || position === 'center' || position === 'flex-end';
   const justifyContent = isPresetposition ? position : void 0;
