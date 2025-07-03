@@ -1,10 +1,10 @@
-import { useMemoizedFn, useUpdateEffect } from 'ahooks';
+import { useUpdateEffect } from 'ahooks';
 import type { FormProps } from 'antd';
 import { Form } from 'antd';
 import { useState, type JSXElementConstructor, type ReactElement } from 'react';
 import { useLFormInstance } from '../hooks';
 import type { LFormProps } from '../interface';
-import Submitter from './base-submitter';
+import LFormSubmitter from './base-submitter';
 
 function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
   const {
@@ -23,12 +23,12 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
   const formRef = useLFormInstance<T>(outForm);
   const [loading, setLoading] = useState(false);
 
-  const innerOnValuesChange: FormProps<T>['onValuesChange'] = useMemoizedFn((changedValues, allValues) => {
+  const innerOnValuesChange: FormProps<T>['onValuesChange'] = (changedValues, allValues) => {
     const [currentName, currentValue] = Object.entries(changedValues)?.[0] || [];
     onValuesChange?.(currentName as keyof T, currentValue as T[keyof T], allValues);
-  });
+  };
 
-  const innerOnFinish = useMemoizedFn(async (values: T) => {
+  const innerOnFinish = async (values: T) => {
     if (typeof onFinish !== 'function') return;
     const formValues = transformValues ? transformValues(values) : values;
     const ret = onFinish?.(formValues);
@@ -44,7 +44,7 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
           return Promise.reject(e);
         });
     }
-  });
+  };
 
   useUpdateEffect(() => {
     if (!isReady) return;
@@ -62,16 +62,20 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
           ...submitter,
         };
 
-  const submitterDom = submitterProps ? <Submitter<T> {...submitterProps} /> : null;
+  const submitterDom = submitterProps ? <LFormSubmitter<T> {...submitterProps} /> : null;
 
-  const childrenDom = renderChildren
-    ? renderChildren({
-        formItemsDom: children,
-        submitterDom,
-        form: formRef.current,
-      })
-    : children;
-
+  const childrenDom = renderChildren ? (
+    renderChildren({
+      formItemsDom: children,
+      submitterDom,
+      form: formRef.current,
+    })
+  ) : (
+    <>
+      {children}
+      {submitterDom}
+    </>
+  );
   const formDom = (
     <Form<T> {...restProps} form={formRef.current} onValuesChange={innerOnValuesChange} onFinish={innerOnFinish}>
       <Form.Item noStyle shouldUpdate>
@@ -81,7 +85,6 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
         }}
       </Form.Item>
       {childrenDom}
-      {submitterDom}
     </Form>
   );
 

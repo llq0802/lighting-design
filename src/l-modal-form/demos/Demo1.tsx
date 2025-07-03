@@ -8,7 +8,7 @@ const Demo1 = () => {
   return (
     <div>
       <LModalForm
-        draggableProps
+        // draggableProps
         form={form}
         title="弹窗"
         onFinish={async (values) => {

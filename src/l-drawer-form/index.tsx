@@ -1,13 +1,15 @@
-import { useControllableValue } from 'ahooks';
+import { useControllableValue, useUpdateEffect } from 'ahooks';
 import { Drawer } from 'antd';
 import LForm from 'lighting-design/l-form';
+import LFormSubmitter from 'lighting-design/l-form/components/base-submitter';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
 import type { FC, MouseEvent } from 'react';
-import { cloneElement } from 'react';
+import { cloneElement, useState } from 'react';
 import type { LDrawerFormProps } from './interface';
 
 const LDrawerForm: FC<LDrawerFormProps> = (props) => {
   const {
+    isReady,
     trigger,
     isResetFields = true,
     destroyOnHidden,
@@ -31,6 +33,14 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     onOpenChange: outOnOpenChange,
     ...formProps
   } = props;
+  const [loading, setLoading] = useState(false);
+
+  useUpdateEffect(() => {
+    if (!isReady) return;
+    // 准备完成后，重新设置表单的初始值
+    // 因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
+    formRef.current?.resetFields?.();
+  }, [isReady]);
 
   const formRef = useLFormInstance(outForm);
 
@@ -46,7 +56,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     title,
     forceRender,
     destroyOnHidden: true,
-    focusTriggerAfterClose: false,
     maskClosable: false,
     keyboard: false,
     ...drawerProps,
@@ -69,18 +78,35 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     clearOnDestroy: true,
     ...formProps,
     onFinish: async (values: Record<string, any>) => {
-      const ret = await onFinish?.(values);
-      if (ret === true) setOpen(false);
+      try {
+        setLoading(true);
+        const ret = await onFinish?.(values);
+        if (ret === true) setOpen(false);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+      }
     },
   };
+
+  // const submitterProps =
+  //   typeof submitter === 'boolean'
+  //     ? false
+  //     : {
+  //         isReady,
+  //         loading,
+  //         ...submitter,
+  //       };
+
   const submitterProps =
-    innerDrawerProps?.footer || typeof submitter === 'boolean'
+    typeof submitter === 'boolean'
       ? false
       : {
           resetText: '取消',
           submitText: '确定',
           formItemBottom: 0,
           position: 'center',
+          loading,
           ...submitter,
           resetButtonProps: {
             preventDefault: true,
@@ -90,43 +116,38 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
               submitter?.resetButtonProps?.onClick?.(e);
             },
           },
+          formInstance: formRef.current,
         };
+
+  const submitterDom = submitterProps ? <LFormSubmitter {...submitterProps} /> : null;
 
   return (
     <>
-      <LForm
-        {...innerFormProps}
-        submitter={submitterProps}
-        renderLFrom={(doms) => {
-          return (
-            <Drawer
-              footer={doms.submitterDom}
-              {...innerDrawerProps}
-              width={
-                isFullscreen && ['left', 'right'].includes(innerDrawerProps.placement)
-                  ? '100vw'
-                  : innerDrawerProps.width || width
-              }
-              height={
-                isFullscreen && ['top', 'bottom'].includes(innerDrawerProps.placement)
-                  ? '100vh'
-                  : innerDrawerProps.height || height
-              }
-              afterOpenChange={(b) => {
-                innerDrawerProps?.afterOpenChange?.(b);
-                if (b) return;
-                if (!innerDrawerProps.destroyOnHidden || !innerFormProps.clearOnDestroy) {
-                  if (isResetFields) formRef.current?.resetFields?.();
-                }
-              }}
-            >
-              {doms.formItemsDom}
-            </Drawer>
-          );
+      <Drawer
+        footer={submitterDom}
+        {...innerDrawerProps}
+        width={
+          isFullscreen && ['left', 'right'].includes(innerDrawerProps.placement)
+            ? '100vw'
+            : innerDrawerProps.width || width
+        }
+        height={
+          isFullscreen && ['top', 'bottom'].includes(innerDrawerProps.placement)
+            ? '100vh'
+            : innerDrawerProps.height || height
+        }
+        afterOpenChange={(b) => {
+          innerDrawerProps?.afterOpenChange?.(b);
+          if (b) return;
+          if (!innerDrawerProps.destroyOnHidden || !innerFormProps.clearOnDestroy) {
+            if (isResetFields) formRef.current?.resetFields?.();
+          }
         }}
       >
-        {children}
-      </LForm>
+        <LForm {...innerFormProps} submitter={false}>
+          {children}
+        </LForm>
+      </Drawer>
       {trigger &&
         cloneElement(trigger, {
           ...trigger.props,

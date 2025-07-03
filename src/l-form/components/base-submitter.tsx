@@ -1,5 +1,4 @@
-import { useMemoizedFn } from 'ahooks';
-import { Button, Flex, Form, type ButtonProps } from 'antd';
+import { Button, Flex, Form, type ButtonProps, type FormInstance } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem, { type LFormItemProps } from 'lighting-design/l-form-item';
 import type { ReactElement, ReactNode } from 'react';
@@ -45,6 +44,7 @@ export type LFormSubmitterProps<T extends any = any> = {
    * 表单提交按钮和重置按钮外层包裹的 LFormItem 的 Props
    */
   formItemProps?: LFormItemProps;
+  formInstance?: FormInstance;
   gap?: number | string;
 } & Pick<LFormItemProps, 'formItemBottom'>;
 
@@ -65,14 +65,17 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
     formItemProps,
     position: outPosition,
     gap = 8,
+    //
+    formInstance,
   } = props;
-  const form = Form.useFormInstance();
+
+  const form = formInstance || Form.useFormInstance();
   const { labelWidth, formItemBottom: innerFormItemBottom } = useLFormContext();
-  const position = outPosition || labelWidth || 'center';
+  const position = outPosition ?? labelWidth ?? 'center';
   const formItemBottom = outFormItemBottom ?? innerFormItemBottom;
   const { preventDefault: submitPreventDefault = false, ...submitButtonProps } = outSubmitButtonProps;
   const { preventDefault: resetPreventDefault = false, ...resetButtonProps } = outResetButtonProps;
-  const resetClick = useMemoizedFn((e) => {
+  const resetClick = (e) => {
     if (!resetPreventDefault && isReady) {
       form?.resetFields();
       // 由于刚重置表单，使用异步可防止立即触发提交操作，导致数据过时而提交失败。
@@ -80,8 +83,8 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
       Promise.resolve().then(() => onReset?.(e));
     }
     resetButtonProps?.onClick?.(e);
-  });
-  const submitClick = useMemoizedFn((e) => {
+  };
+  const submitClick = (e) => {
     if (!submitPreventDefault && isReady) {
       if (submitButtonProps?.htmlType !== 'submit' && !isEnterSubmit) {
         form?.submit?.();
@@ -91,7 +94,7 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
       Promise.resolve().then(() => onSubmit?.(valuse, e));
     }
     submitButtonProps?.onClick?.(e);
-  });
+  };
 
   const buttonDomArr = [
     showReset ? (

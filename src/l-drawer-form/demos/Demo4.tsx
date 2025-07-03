@@ -8,15 +8,8 @@ const Demo4 = () => {
   return (
     <div>
       <LDrawerForm
-        // submitter={{
-        //   submitButtonProps: {
-        //     // icon: <TeamOutlined />,
-        //   },
-        // }}
-        height={'80vh'}
         form={form}
         title="新增"
-        // isAntdReset={false}
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
           await sleep();
