@@ -15,7 +15,7 @@ nav:
 
 <code src='./demos/Demo1.tsx'></code>
 
-### 修改响应式
+<!-- ### 修改响应式
 
 <code src='./demos/Demo5.tsx'></code>
 
@@ -41,7 +41,7 @@ nav:
 
 ### 单独设置某一项占的份数
 
-<code src='./demos/Demo7.tsx'></code>
+<code src='./demos/Demo7.tsx'></code> -->
 
 ## API
 

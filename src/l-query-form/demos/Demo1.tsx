@@ -1,4 +1,5 @@
 import { LForm, LFormItemInput, LQueryForm } from 'lighting-design';
+import { sleep } from 'lighting-design/test';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
@@ -7,17 +8,25 @@ const Demo1 = () => {
     <>
       <LQueryForm
         form={form}
+        showColsNumber={2}
         onFinish={async (values) => {
+          await sleep();
           console.log('onFinish-values ', values);
         }}
-        initialValues={{
-          input1: '默认值',
+        submitter={{
+          isEnterSubmit: true,
+          position: 'flex-end',
         }}
-      >
-        <LFormItemInput name="input1" required label="输入框1" />
-        <LFormItemInput name="input2" required label="输入框2" />
-        <LFormItemInput name="input3" required label="输入框3" />
-      </LQueryForm>
+        items={[
+          {
+            colProps: { xxl: 12 },
+            content: <LFormItemInput name="input1" required label="输入框1" />,
+          },
+          <LFormItemInput name="input2" required label="输入框2" />,
+          <LFormItemInput name="input3" required label="输入框3" />,
+          <LFormItemInput name="input5" required label="输入框3" />,
+        ]}
+      />
     </>
   );
 };

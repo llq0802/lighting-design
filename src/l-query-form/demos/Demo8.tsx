@@ -21,7 +21,6 @@ const Demo1 = () => {
         <LFormItemInput name="input7" required label="输入框7" />
         <LFormItemInput name="input8" required label="输入框8" />
         <LFormItemInput name="input9" required label="输入框9" />
-        <LFormItemInput name="input10" required label="输入框10" />
       </LQueryForm>
     </>
   );

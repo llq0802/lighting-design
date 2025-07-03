@@ -1,31 +1,20 @@
 import { DownOutlined } from '@ant-design/icons';
-import { useMemoizedFn } from 'ahooks';
-import { Col, Row, Space, Typography, theme } from 'antd';
-import classnames from 'classnames';
-import BaseForm from 'lighting-design/Form/base/BaseForm';
-import LFormItem from 'lighting-design/FormItem';
-import { emptyObject } from 'lighting-design/constants';
-import type { CSSProperties, FC } from 'react';
+import { Col, Flex, Row, Typography, theme } from 'antd';
+import LForm from 'lighting-design/l-form';
+import type { FC } from 'react';
 import { cloneElement, memo, useState } from 'react';
 import type { LQueryFormProps } from './interface';
-
 const { useToken } = theme;
+
 const { Link } = Typography;
-const prefixCls = 'lightd-form-query';
 
 const defualtColSpan = {
   xs: 24, // 屏幕 < 576px 响应式栅格
   sm: 24, // 屏幕 ≥ 576px 响应式栅格，
   md: 12, // 屏幕 ≥ 768px 响应式栅格
-  lg: 8, // 屏幕 ≥ 992px 响应式栅格
+  lg: 12, // 屏幕 ≥ 992px 响应式栅格
   xl: 8, // 屏幕 ≥ 1200px 响应式栅格
   xxl: 6, // 屏幕 ≥ 1600px 响应式栅格
-};
-
-const submitterColStyle: CSSProperties = {
-  display: 'flex',
-  flex: '1',
-  flexWrap: 'wrap',
 };
 
 interface CollapseProps {
@@ -34,28 +23,28 @@ interface CollapseProps {
 }
 
 const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
-  const handleCollapse = useMemoizedFn(() => {
+  const handleCollapse = () => {
     onToggle?.(!collapsed);
-  });
+  };
 
   const { token } = useToken();
 
   return (
     <Link
       onClick={handleCollapse}
-      className={`${prefixCls}-collapse`}
       style={{
         whiteSpace: 'nowrap',
         color: token?.colorPrimary,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        marginLeft: 4,
       }}
     >
       {collapsed ? '展开' : '收起'}
       <DownOutlined
         style={{
-          marginLeft: 5,
+          marginLeft: 4,
           transition: '0.3s all',
           transform: `rotate(${collapsed ? 0 : 180}deg)`,
         }}
@@ -66,106 +55,86 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
 
 function LQueryForm(props: LQueryFormProps) {
   const {
-    layout = 'horizontal',
     submitter,
     isCollapsed = true,
-    isApproachLastItem = false,
-    isSpace: outIsSpace = false,
+    isSpace = false,
     showColsNumber,
-    className,
-    formItemBottom,
-    itemColProps = emptyObject,
     gutter = 16,
     onCollapsedChange,
+    items,
+    rowProps,
     ...restProps
   } = props;
-  const isSpace = outIsSpace || layout === 'inline';
+  const enabledCollapse = typeof showColsNumber === 'number' && showColsNumber < items?.length;
+
+  const chindrenItems = items?.map((item: any, i) => {
+    const isSimple = !item?.content;
+    const itemDom = isSimple ? item : item?.content;
+    const itemColProps = isSimple ? {} : item.colProps;
+    const rowKey = itemDom?.key || itemDom?.props?.name + `${i}`;
+    const hidden = collapsed && enabledCollapse && i >= showColsNumber;
+
+    const style = {
+      display: hidden ? 'none' : void 0,
+      ...itemColProps?.style,
+    };
+
+    return (
+      <Col key={rowKey} {...defualtColSpan} {...itemColProps} style={style}>
+        {cloneElement(itemDom, { hidden, ...itemDom?.props })}
+      </Col>
+    );
+  });
+
   const [collapsed, setCollapsed] = useState(isCollapsed);
 
-  return (
-    <BaseForm
-      formItemBottom={formItemBottom}
-      layout={layout}
-      submitter={
-        submitter === void 0 || submitter
-          ? {
-              submitText: '查询',
-              ...submitter,
-              submitButtonProps: {
-                ...submitter?.submitButtonProps,
-              },
-            }
-          : false
-      }
-      className={classnames(prefixCls, className)}
-      contentRender={(formItemsDom, submitterDom) => {
-        const enabledCollapse = typeof showColsNumber === 'number' && showColsNumber < formItemsDom?.length;
-        const colSpans = !isSpace
-          ? {
-              ...defualtColSpan,
-              ...itemColProps,
-            }
-          : {};
-
-        return (
-          <Row gutter={gutter}>
-            <>
-              {formItemsDom?.map((itemDom: any, index: number) => {
-                const { ownColSpans = {}, ...restItemProps } = itemDom.props;
-                const hidden = collapsed && enabledCollapse && index >= showColsNumber;
-                return (
-                  <Col
-                    key={itemDom?.key || itemDom.name + index.toString()}
-                    {...colSpans}
-                    {...ownColSpans}
-                    style={hidden ? { display: 'none' } : {}}
-                  >
-                    {cloneElement(itemDom, {
-                      hidden,
-                      ...restItemProps,
-                    })}
-                  </Col>
-                );
-              })}
-            </>
-            <>
-              {submitter !== false && (
-                <Col
-                  style={{
-                    ...submitterColStyle,
-                    alignItems: layout === 'vertical' ? 'flex-end' : 'flex-start',
-                    justifyContent: `flex-${isApproachLastItem ? 'start' : 'end'}`,
-                  }}
-                >
-                  <LFormItem
-                    colon={false}
-                    className={classnames(`${prefixCls}-submitter`)}
-                    style={{
-                      marginBottom: formItemBottom,
-                      ...(submitter ? submitter?.style : {}),
+  const submitterProps =
+    typeof submitter === 'boolean'
+      ? false
+      : {
+          submitText: '查询',
+          position: 'flex-start',
+          gap: 8,
+          ...submitter,
+          renderSubmitter(btnDoms, props) {
+            return (
+              <Flex align="baseline" gap={props?.gap}>
+                <Flex align="center" gap={props?.gap}>
+                  {btnDoms}
+                </Flex>
+                {enabledCollapse && (
+                  <Collapse
+                    collapsed={collapsed}
+                    onToggle={(v) => {
+                      setCollapsed(v);
+                      onCollapsedChange?.(v);
                     }}
-                  >
-                    <Space>
-                      {submitterDom}
-                      {enabledCollapse && (
-                        <Collapse
-                          collapsed={collapsed}
-                          onToggle={(v) => {
-                            setCollapsed(v);
-                            onCollapsedChange?.(v);
-                          }}
-                        />
-                      )}
-                    </Space>
-                  </LFormItem>
-                </Col>
-              )}
-            </>
+                  />
+                )}
+              </Flex>
+            );
+          },
+        };
+
+  return (
+    <LForm
+      submitter={submitterProps}
+      renderChildren={(doms) => {
+        return (
+          <Row gutter={gutter} {...rowProps}>
+            {doms.formItemsDom}
+            <Col key="submitter" flex={1}>
+              <Flex align="center" justify="flex-end">
+                {doms.submitterDom}
+              </Flex>
+            </Col>
           </Row>
         );
       }}
       {...restProps}
-    />
+    >
+      {chindrenItems}
+    </LForm>
   );
 }
 
