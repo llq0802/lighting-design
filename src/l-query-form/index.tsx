@@ -124,9 +124,7 @@ function LQueryForm(props: LQueryFormProps) {
           <Row gutter={gutter} {...rowProps}>
             {doms.formItemsDom}
             <Col key="submitter" flex={1}>
-              <Flex align="center" justify="flex-end">
-                {doms.submitterDom}
-              </Flex>
+              {doms.submitterDom}
             </Col>
           </Row>
         );
