@@ -13,7 +13,9 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/Demo2.tsx'></code>
+<code src='./demos/demo.tsx'></code>
+
+<!-- <code src='./demos/Demo2.tsx'></code>
 
 ### 竖直模式
 
@@ -57,7 +59,7 @@ nav:
 
 ### 提交成功后手动重置
 
-<code src='./demos/Demo8.tsx'></code>
+<code src='./demos/Demo8.tsx'></code> -->
 
 ## API
 

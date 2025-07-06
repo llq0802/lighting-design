@@ -58,6 +58,8 @@ export * from './l-modal-form';
 export { default as LModalForm } from './l-modal-form';
 export * from './l-query-form';
 export { default as LQueryForm } from './l-query-form';
+export * from './l-steps-form';
+export { default as LStepsForm } from './l-steps-form';
 export * from './l-tag-group';
 export { default as LTagGroup } from './l-tag-group';
 export * from './l-trigger';
