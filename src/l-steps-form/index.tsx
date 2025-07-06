@@ -1,6 +1,6 @@
-import { useControllableValue } from 'ahooks';
+import { useControllableValue, useLatest } from 'ahooks';
 import { Flex, Steps } from 'antd';
-import { useState, type FC } from 'react';
+import { useRef, useState, type FC } from 'react';
 import StepsItem from './components/steps-item';
 import StepsSubmitter from './components/steps-submitter';
 
@@ -8,7 +8,7 @@ const LStepsForm: FC<any> = (props) => {
   const {
     className,
     style,
-    isResetFields = true,
+    isMergeValues,
     destroyOnHidden,
     forceRender,
     //
@@ -18,6 +18,7 @@ const LStepsForm: FC<any> = (props) => {
     submitter,
     formProps,
     items: outItems = [],
+    submitStepNum: outSubmitStepNum,
 
     defaultCurrent = 0,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -26,41 +27,47 @@ const LStepsForm: FC<any> = (props) => {
     onCurrentChange: outOnCurrentChange,
   } = props;
   forceRender;
+  const defaultValue = outCurrent || defaultCurrent;
 
-  const [initialItems, setInitialItems] = useState<any[]>(outItems);
+  const [loading, setLoading] = useState(false);
+  const [initialItems, setInitialItems] = useState<any[]>(() => outItems?.map((v, i) => ({ formName: `${i}`, ...v })));
+  const formDataRef = useRef<Record<string, any>>({});
 
-  // 当前步骤
   const [stepNum, setStepNum] = useControllableValue(props, {
-    defaultValue: outCurrent || defaultCurrent,
+    defaultValue,
     defaultValuePropName: 'defaultCurrent',
     valuePropName: 'current',
     trigger: 'onCurrentChange',
   });
+  const stepNumRef = useLatest(stepNum);
 
   const [items, setItems] = useState<any[]>(() => {
     if (forceRender) {
       return initialItems;
     }
-    return initialItems?.slice(0, stepNum + 1) || [];
+    return initialItems?.slice(0, stepNumRef.current + 1) || [];
   });
 
   // 下一步
   const next = () => {
-    if (stepNum < initialItems.length - 1) {
-      const nextStepNum = stepNum + 1;
+    if (stepNumRef.current < initialItems.length - 1) {
+      const nextStepNum = stepNumRef.current + 1;
       const nextItem = initialItems[nextStepNum];
-      const isDestroyOnHidden = destroyOnHidden || nextItem.destroyOnHidden;
-      setItems((p) => (isDestroyOnHidden ? [nextItem] : [...p, nextItem]));
+      setItems((p) => {
+        const hasName = p.find((v) => v.formName === nextItem.formName);
+        console.log('===hasName==>', hasName);
+        if (!hasName) {
+          return [...p, nextItem];
+        }
+        return p;
+      });
       setStepNum(nextStepNum);
     }
   };
   // 上一步
   const prev = () => {
-    if (stepNum > 0) {
-      const prevStepNum = stepNum - 1;
-      const pevtItem = initialItems[prevStepNum];
-      const isDestroyOnHidden = destroyOnHidden || pevtItem.destroyOnHidden;
-      setItems((p) => (isDestroyOnHidden ? [pevtItem] : p.slice(0, stepNum)));
+    if (stepNumRef.current > 0) {
+      const prevStepNum = stepNumRef.current - 1;
       setStepNum(prevStepNum);
     }
   };
@@ -75,44 +82,84 @@ const LStepsForm: FC<any> = (props) => {
     }
   };
 
+  const reset = () => {
+    formDataRef.current = {};
+    initialItems.forEach((item) => {
+      item?.form?.resetFields();
+    });
+    setStepNum(defaultValue);
+  };
+
+  const submit = async () => {
+    if (typeof onFinish !== 'function') return;
+    let values;
+    if (isMergeValues) {
+      values = Object.values(formDataRef.current).reduce((pre, cur) => ({ ...pre, ...cur }), {});
+    } else {
+      values = formDataRef.current;
+    }
+    const ret = onFinish?.(values);
+    if (ret instanceof Promise) {
+      setLoading(true);
+      try {
+        const res = await ret;
+        // 如果返回true就会自动重置表单(包括StepForm变回第一步)
+        if (res === true) reset();
+      } finally {
+        formDataRef.current = {}; // 提交请求完成后重置所有收集到的表单数据
+        setLoading(false);
+      }
+    } else {
+      formDataRef.current = {};
+      if (ret === true) reset();
+    }
+  };
+
   const stepsItems = initialItems?.map((item) => {
-    const { formName, form, formItems, formProps, ...rest } = item;
+    const { formName, form, formItems, formProps, onFinish, ...rest } = item;
     return {
       ...rest,
     };
   });
-  console.log('===initialItems==>', initialItems);
+
+  const submitStepNum = outSubmitStepNum || initialItems.length - 1;
+
   return (
     <Flex vertical gap={16}>
-      <Steps current={stepNum} items={stepsItems} />
+      <Steps current={stepNumRef.current} items={stepsItems} />
       <div>
         {items.map((item, index) => {
-          const selected = stepNum === index;
+          const selected = stepNumRef.current === index;
+          const name = item.formName;
+
+          const isDestroyOnHidden = destroyOnHidden || item?.destroyOnHidden;
+
           return (
-            <StepsItem
-              key={index}
-              name={item.formName}
-              {...item.formProps}
-              style={{
-                display: selected ? 'block' : 'none',
-                ...item.formProps?.style,
-              }}
-              //
-              stepNum={stepNum}
-              initialItems={initialItems}
-              setInitialItems={setInitialItems}
-            >
-              {item.formItems}
-            </StepsItem>
+            (selected || !isDestroyOnHidden) && (
+              <StepsItem
+                key={index}
+                name={name}
+                {...item.formProps}
+                style={{
+                  display: selected ? 'block' : 'none',
+                  ...item.formProps?.style,
+                }}
+                //
+                stepNum={stepNumRef.current}
+                initialItems={initialItems}
+                setInitialItems={setInitialItems}
+              >
+                {item.formItems}
+              </StepsItem>
+            )
           );
         })}
       </div>
       <StepsSubmitter
-        form={initialItems[stepNum]?.form}
-        current={stepNum}
+        form={initialItems[stepNumRef.current]?.form}
+        current={stepNumRef.current}
         onPrev={prev}
-        onNext={next}
-        submitStepNum={initialItems.length - 1}
+        submitStepNum={submitStepNum}
       />
     </Flex>
   );

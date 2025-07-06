@@ -4,6 +4,7 @@ import type { FC, ReactElement } from 'react';
 
 const StepsSubmitter: FC<any> = (props) => {
   const {
+    loading,
     gap = 8,
     justify = 'center',
     current = 0,
@@ -18,7 +19,7 @@ const StepsSubmitter: FC<any> = (props) => {
     onNext = () => {},
     showNext = true,
 
-    submitText = '确定',
+    submitText = '提交',
     submitButtonProps = emptyObject,
     onSubmit = () => {},
 
@@ -52,19 +53,19 @@ const StepsSubmitter: FC<any> = (props) => {
   };
 
   const prevButton = (
-    <Button key="prev" {...prevButtonProps} onClick={handlePrev}>
+    <Button key="prev" loading={loading} {...prevButtonProps} onClick={handlePrev}>
       {prevText}
     </Button>
   );
 
   const nextButton = (
-    <Button key="next" type="primary" {...nextButtonProps} onClick={handleNext}>
+    <Button key="next" type="primary" loading={loading} {...nextButtonProps} onClick={handleNext}>
       {nextText}
     </Button>
   );
 
   const submitButton = (
-    <Button key="submit" type="primary" {...submitButtonProps} onClick={handleSubmit}>
+    <Button key="submit" type="primary" loading={loading} {...submitButtonProps} onClick={handleSubmit}>
       {submitText}
     </Button>
   );
