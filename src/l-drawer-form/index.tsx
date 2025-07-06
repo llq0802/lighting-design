@@ -89,15 +89,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     },
   };
 
-  // const submitterProps =
-  //   typeof submitter === 'boolean'
-  //     ? false
-  //     : {
-  //         isReady,
-  //         loading,
-  //         ...submitter,
-  //       };
-
   const submitterProps =
     typeof submitter === 'boolean'
       ? false

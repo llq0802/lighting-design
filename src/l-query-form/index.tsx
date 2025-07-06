@@ -65,6 +65,8 @@ function LQueryForm(props: LQueryFormProps) {
     rowProps,
     ...restProps
   } = props;
+
+  const [collapsed, setCollapsed] = useState(isCollapsed);
   const enabledCollapse = typeof showColsNumber === 'number' && showColsNumber < items?.length;
 
   const chindrenItems = items?.map((item: any, i) => {
@@ -85,8 +87,6 @@ function LQueryForm(props: LQueryFormProps) {
       </Col>
     );
   });
-
-  const [collapsed, setCollapsed] = useState(isCollapsed);
 
   const submitterProps =
     typeof submitter === 'boolean'

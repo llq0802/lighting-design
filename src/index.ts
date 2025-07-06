@@ -52,6 +52,8 @@ export * from './l-form-item-tree-select';
 export { default as LFormItemTreeSelect } from './l-form-item-tree-select';
 export * from './l-form-item-upload';
 export { default as LFormItemUpload } from './l-form-item-upload';
+export * from './l-list-form';
+export { default as LListForm } from './l-list-form';
 export * from './l-modal-form';
 export { default as LModalForm } from './l-modal-form';
 export * from './l-query-form';

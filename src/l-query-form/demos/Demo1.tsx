@@ -8,7 +8,8 @@ const Demo1 = () => {
     <>
       <LQueryForm
         form={form}
-        showColsNumber={2}
+        showColsNumber={3}
+        // isCollapsed={false}
         onFinish={async (values) => {
           await sleep();
           console.log('onFinish-values ', values);
@@ -19,11 +20,11 @@ const Demo1 = () => {
         }}
         items={[
           {
-            colProps: { xxl: 12 },
             content: <LFormItemInput name="input1" required label="输入框1" />,
           },
           <LFormItemInput name="input2" required label="输入框2" />,
           <LFormItemInput name="input3" required label="输入框3" />,
+          <LFormItemInput name="input4" required label="输入框3" />,
           <LFormItemInput name="input5" required label="输入框3" />,
         ]}
       />

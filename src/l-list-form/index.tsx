@@ -1,2 +1,2 @@
-import LForm from 'lighting-design/Form';
+import LForm from 'lighting-design/l-form';
 export default LForm.List;
