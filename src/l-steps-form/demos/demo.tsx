@@ -3,20 +3,19 @@ import { LFormItemInput, LStepsForm } from 'lighting-design';
 const App: React.FC = () => {
   return (
     <LStepsForm
-      // destroyOnHidden
+      destroyOnHidden
       items={[
         {
           formName: 'a1',
-          formItems: [<LFormItemInput key="1" name="input1" required label="输入框1" />],
-          onFinish() {},
+          formItems: [<LFormItemInput name="input1" required label="输入框1" />],
         },
         {
           formName: 'a2',
-          formItems: [<LFormItemInput key="1" name="input2" required label="输入框2" />],
+          formItems: [<LFormItemInput name="input2" required label="输入框2" />],
         },
         {
           formName: 'a3',
-          formItems: [<LFormItemInput key="1" name="input3" required label="输入框3" />],
+          formItems: [<LFormItemInput name="input3" required label="输入框3" />],
         },
       ]}
     />

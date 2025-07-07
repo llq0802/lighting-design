@@ -1,26 +1,24 @@
 import LForm from 'lighting-design/l-form';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useStepsContext } from '../context';
 
 type PropsType = any;
 
-const StepsItem: React.FC<PropsType> = ({ stepNum, initialItems, setInitialItems, ...props }) => {
-  const formRef = useLFormInstance(props.form);
+const StepsItem: React.FC<PropsType> = ({ currentIndex, isSelected, name, onFinish, form, ...props }) => {
+  const { setLoading, formDataRef, stepNum, submitStepNum, setInitialItems, submit, next } = useStepsContext();
+  const formRef = useLFormInstance(form);
 
   // 收集form实例
-  useLayoutEffect(() => {
+  useEffect(() => {
     setInitialItems((p) => {
-      return p.map((v) => {
-        return {
-          form: formRef.current,
-          ...v,
-        };
-      });
+      p[currentIndex].form = formRef.current;
+      return [...p];
     });
   }, []);
 
-  const handleFinsh = async (values) => {
-    console.log('===values==>', values);
+  const handleFinish = async (values) => {
+    console.log('===values==>', stepNum, values);
     const res: unknown = typeof onFinish === 'function' ? onFinish?.(values) : true;
     if (res instanceof Promise) {
       try {
@@ -33,7 +31,7 @@ const StepsItem: React.FC<PropsType> = ({ stepNum, initialItems, setInitialItems
 
     formDataRef.current[name] = values;
 
-    if (submitStepNum === stepNumRef.current) {
+    if (submitStepNum === stepNum) {
       // 最后一步触发提交
       submit();
       return;
@@ -43,12 +41,17 @@ const StepsItem: React.FC<PropsType> = ({ stepNum, initialItems, setInitialItems
   };
 
   return (
-    <LForm form={formRef.current} {...props} submitter={false} clearOnDestroy>
-      {props.children?.map?.((itemDom, i) => {
-        const rowKey = itemDom?.key || itemDom?.props?.name + `${i}`;
-        return <React.Fragment key={rowKey}>{itemDom}</React.Fragment>;
-      })}
-    </LForm>
+    <LForm
+      name={name}
+      form={formRef.current}
+      onFinish={handleFinish}
+      {...props}
+      style={{
+        display: isSelected ? 'block' : 'none',
+        ...props.style,
+      }}
+      submitter={false}
+    />
   );
 };
 

@@ -1,14 +1,13 @@
 import { Button, Flex } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import type { FC, ReactElement } from 'react';
+import { useStepsContext } from '../context';
 
 const StepsSubmitter: FC<any> = (props) => {
   const {
     loading,
     gap = 8,
     justify = 'center',
-    current = 0,
-    submitStepNum,
     prevText = '上一步',
     prevButtonProps = emptyObject,
     onPrev = () => {},
@@ -27,11 +26,12 @@ const StepsSubmitter: FC<any> = (props) => {
     forceShowNext = false,
     forceShowSubmit = false,
     renderSubmitter,
-
-    form,
   } = props;
 
+  const { loading: innerLoading, stepNum, submitStepNum, initialItems, prev } = useStepsContext();
+  const form = initialItems[stepNum]?.form;
   const handlePrev = (e) => {
+    prev();
     onPrev?.(e);
     prevButtonProps?.onClick?.(e);
   };
@@ -71,11 +71,11 @@ const StepsSubmitter: FC<any> = (props) => {
   );
 
   const createDom = () => {
-    let prevView = current !== 0 && showPrev ? prevButton : null;
+    let prevView = stepNum !== 0 && showPrev ? prevButton : null;
 
-    let nextView = current < submitStepNum && showNext ? nextButton : null;
+    let nextView = stepNum < submitStepNum && showNext ? nextButton : null;
 
-    let submitView = current >= submitStepNum ? submitButton : null;
+    let submitView = stepNum >= submitStepNum ? submitButton : null;
 
     if (forceShowPrev && !prevView) {
       prevView = prevButton;

@@ -1,8 +1,9 @@
 import { useControllableValue, useLatest } from 'ahooks';
 import { Flex, Steps } from 'antd';
-import { useRef, useState, type FC } from 'react';
+import React, { useRef, useState, type FC } from 'react';
 import StepsItem from './components/steps-item';
 import StepsSubmitter from './components/steps-submitter';
+import StepsProviderContext from './context';
 
 const LStepsForm: FC<any> = (props) => {
   const {
@@ -54,9 +55,8 @@ const LStepsForm: FC<any> = (props) => {
       const nextStepNum = stepNumRef.current + 1;
       const nextItem = initialItems[nextStepNum];
       setItems((p) => {
-        const hasName = p.find((v) => v.formName === nextItem.formName);
-        console.log('===hasName==>', hasName);
-        if (!hasName) {
+        const hasFormName = p.find((v) => v.formName === nextItem.formName);
+        if (!hasFormName) {
           return [...p, nextItem];
         }
         return p;
@@ -125,43 +125,59 @@ const LStepsForm: FC<any> = (props) => {
   const submitStepNum = outSubmitStepNum || initialItems.length - 1;
 
   return (
-    <Flex vertical gap={16}>
-      <Steps current={stepNumRef.current} items={stepsItems} />
-      <div>
-        {items.map((item, index) => {
-          const selected = stepNumRef.current === index;
-          const name = item.formName;
+    <StepsProviderContext
+      value={{
+        formDataRef,
+        loading,
+        setLoading,
+        initialItems,
+        setInitialItems,
+        stepNum: stepNumRef.current,
+        next,
+        prev,
+        submit,
+        submitStepNum,
+      }}
+    >
+      <Flex vertical gap={16}>
+        <Steps {...stepsProps} current={stepNumRef.current} items={stepsItems} />
+        <div data-role="steps-form-content">
+          {items.map((item, index) => {
+            const isSelected = stepNumRef.current === index;
+            const name = item.formName;
+            const form = item.form;
+            const isDestroyOnHidden = item?.destroyOnHidden || destroyOnHidden;
 
-          const isDestroyOnHidden = destroyOnHidden || item?.destroyOnHidden;
+            const baseProps = {
+              ...formProps,
+              form,
+              name,
+              ...item.formProps,
+              isSelected,
+              onFinish:
+                onFinish || item?.formProps?.onFinish
+                  ? async (value) => {
+                      await item?.onFinish(value);
+                      await item?.formProps?.onFinish(value);
+                    }
+                  : void 0,
+            };
 
-          return (
-            (selected || !isDestroyOnHidden) && (
-              <StepsItem
-                key={index}
-                name={name}
-                {...item.formProps}
-                style={{
-                  display: selected ? 'block' : 'none',
-                  ...item.formProps?.style,
-                }}
-                //
-                stepNum={stepNumRef.current}
-                initialItems={initialItems}
-                setInitialItems={setInitialItems}
-              >
-                {item.formItems}
-              </StepsItem>
-            )
-          );
-        })}
-      </div>
-      <StepsSubmitter
-        form={initialItems[stepNumRef.current]?.form}
-        current={stepNumRef.current}
-        onPrev={prev}
-        submitStepNum={submitStepNum}
-      />
-    </Flex>
+            return (
+              (isSelected || !isDestroyOnHidden) && (
+                <StepsItem key={index} currentIndex={index} {...baseProps}>
+                  {item.formItems?.map?.((itemDom, i) => {
+                    const rowKey = itemDom?.key || itemDom?.props?.name + `${i}`;
+                    return <React.Fragment key={rowKey}>{itemDom}</React.Fragment>;
+                  })}
+                </StepsItem>
+              )
+            );
+          })}
+        </div>
+        <StepsSubmitter {...submitter} />
+      </Flex>
+    </StepsProviderContext>
   );
 };
 
