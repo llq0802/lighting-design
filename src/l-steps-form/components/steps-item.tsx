@@ -18,7 +18,6 @@ const StepsItem: React.FC<PropsType> = ({ currentIndex, isSelected, name, onFini
   }, []);
 
   const handleFinish = async (values) => {
-    console.log('===values==>', stepNum, values);
     const res: unknown = typeof onFinish === 'function' ? onFinish?.(values) : true;
     if (res instanceof Promise) {
       try {

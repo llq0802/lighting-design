@@ -27,7 +27,6 @@ const LStepsForm: FC<any> = (props) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onCurrentChange: outOnCurrentChange,
   } = props;
-  forceRender;
   const defaultValue = outCurrent || defaultCurrent;
 
   const [loading, setLoading] = useState(false);
@@ -154,13 +153,7 @@ const LStepsForm: FC<any> = (props) => {
               name,
               ...item.formProps,
               isSelected,
-              onFinish:
-                onFinish || item?.formProps?.onFinish
-                  ? async (value) => {
-                      await item?.onFinish(value);
-                      await item?.formProps?.onFinish(value);
-                    }
-                  : void 0,
+              onFinish: onFinish ? async (value) => await item?.onFinish(value) : void 0,
             };
 
             return (

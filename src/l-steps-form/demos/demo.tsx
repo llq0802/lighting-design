@@ -1,13 +1,17 @@
-import { LFormItemInput, LStepsForm } from 'lighting-design';
+import { LFormItemInput } from 'lighting-design';
+import LStepsForm from '../index copy';
 
 const App: React.FC = () => {
   return (
     <LStepsForm
-      destroyOnHidden
+      // destroyOnHidden
       items={[
         {
           formName: 'a1',
-          formItems: [<LFormItemInput name="input1" required label="输入框1" />],
+          formItems: [
+            <LFormItemInput name="input1" label="输入框1" />,
+            <LFormItemInput name="input11" required label="输入框11" />,
+          ],
         },
         {
           formName: 'a2',
