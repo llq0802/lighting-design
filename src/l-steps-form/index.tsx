@@ -99,10 +99,12 @@ const LStepsForm: FC<any> = (props) => {
       }
     }
   };
-  const handleFinish = () => {
+  const handleFinish = async () => {
     const allValues = formRef.current.getFieldsValue(true);
     console.log('===allValues==>', allValues);
-    onFinish?.(allValues);
+    await onFinish?.(allValues);
+
+    reset();
   };
 
   return (
