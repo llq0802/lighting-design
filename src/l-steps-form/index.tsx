@@ -1,38 +1,36 @@
 import { useControllableValue, useLatest } from 'ahooks';
-import { Flex, Steps } from 'antd';
-import React, { useRef, useState, type FC } from 'react';
-import StepsItem from './components/steps-item';
+import { Steps } from 'antd';
+import LForm from 'lighting-design/l-form';
+import { useLFormInstance } from 'lighting-design/l-form/hooks';
+import React, { useState, type FC } from 'react';
 import StepsSubmitter from './components/steps-submitter';
-import StepsProviderContext from './context';
+import { disposeInitialItems } from './utils';
 
 const LStepsForm: FC<any> = (props) => {
   const {
-    className,
-    style,
-    isMergeValues,
-    destroyOnHidden,
-    forceRender,
+    form,
     //
     actionRef,
     onFinish,
     stepsProps,
     submitter,
-    formProps,
+    //
     items: outItems = [],
     submitStepNum: outSubmitStepNum,
 
+    destroyOnHidden,
+    forceRender,
     defaultCurrent = 0,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     current: outCurrent,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onCurrentChange: outOnCurrentChange,
+    ...restProps
   } = props;
   const defaultValue = outCurrent || defaultCurrent;
-
+  const formRef = useLFormInstance(form);
   const [loading, setLoading] = useState(false);
-  const [initialItems, setInitialItems] = useState<any[]>(() => outItems?.map((v, i) => ({ formName: `${i}`, ...v })));
-  const formDataRef = useRef<Record<string, any>>({});
-
+  const [initialItems] = useState<any[]>(() => disposeInitialItems(outItems));
   const [stepNum, setStepNum] = useControllableValue(props, {
     defaultValue,
     defaultValuePropName: 'defaultCurrent',
@@ -42,33 +40,29 @@ const LStepsForm: FC<any> = (props) => {
   const stepNumRef = useLatest(stepNum);
 
   const [items, setItems] = useState<any[]>(() => {
-    if (forceRender) {
-      return initialItems;
-    }
+    if (forceRender) return initialItems;
     return initialItems?.slice(0, stepNumRef.current + 1) || [];
   });
 
   // 下一步
   const next = () => {
-    if (stepNumRef.current < initialItems.length - 1) {
-      const nextStepNum = stepNumRef.current + 1;
-      const nextItem = initialItems[nextStepNum];
-      setItems((p) => {
-        const hasFormName = p.find((v) => v.formName === nextItem.formName);
-        if (!hasFormName) {
-          return [...p, nextItem];
-        }
-        return p;
-      });
-      setStepNum(nextStepNum);
-    }
+    if (stepNumRef.current >= initialItems.length - 1) return;
+    const nextStepNum = stepNumRef.current + 1;
+    const nextItem = initialItems[nextStepNum];
+    setItems((p) => {
+      const alreadyHasFormName = p.find((v) => v.formName === nextItem.formName);
+      if (!alreadyHasFormName) {
+        return [...p, nextItem];
+      }
+      return p;
+    });
+    setStepNum(nextStepNum);
   };
   // 上一步
   const prev = () => {
-    if (stepNumRef.current > 0) {
-      const prevStepNum = stepNumRef.current - 1;
-      setStepNum(prevStepNum);
-    }
+    if (stepNumRef.current <= 0) return;
+    const prevStepNum = stepNumRef.current - 1;
+    setStepNum(prevStepNum);
   };
 
   // 指定跳到哪一步
@@ -82,95 +76,72 @@ const LStepsForm: FC<any> = (props) => {
   };
 
   const reset = () => {
-    formDataRef.current = {};
-    initialItems.forEach((item) => {
-      item?.form?.resetFields();
-    });
+    formRef.current?.resetFields();
     setStepNum(defaultValue);
   };
 
-  const submit = async () => {
-    if (typeof onFinish !== 'function') return;
-    let values;
-    if (isMergeValues) {
-      values = Object.values(formDataRef.current).reduce((pre, cur) => ({ ...pre, ...cur }), {});
-    } else {
-      values = formDataRef.current;
-    }
-    const ret = onFinish?.(values);
-    if (ret instanceof Promise) {
-      setLoading(true);
-      try {
-        const res = await ret;
-        // 如果返回true就会自动重置表单(包括StepForm变回第一步)
-        if (res === true) reset();
-      } finally {
-        formDataRef.current = {}; // 提交请求完成后重置所有收集到的表单数据
-        setLoading(false);
-      }
-    } else {
-      formDataRef.current = {};
-      if (ret === true) reset();
-    }
-  };
-
-  const stepsItems = initialItems?.map((item) => {
-    const { formName, form, formItems, formProps, onFinish, ...rest } = item;
-    return {
-      ...rest,
-    };
-  });
+  const stepsItems = initialItems?.map(({ formName, formItems, nameLists, ...rest }) => rest);
 
   const submitStepNum = outSubmitStepNum || initialItems.length - 1;
 
+  const handleItemFinish = async () => {
+    const nameLists = initialItems[stepNumRef.current].nameLists;
+    const selectedValues = await formRef.current.validateFields(nameLists);
+    if (typeof initialItems[stepNumRef.current]?.onFinish === 'function') {
+      const ret = initialItems[stepNumRef.current].onFinish(selectedValues);
+      if (ret instanceof Promise) {
+        try {
+          setLoading(true);
+          await ret;
+        } finally {
+          setLoading(false);
+        }
+      }
+    }
+  };
+  const handleFinish = () => {
+    const allValues = formRef.current.getFieldsValue(true);
+    console.log('===allValues==>', allValues);
+    onFinish?.(allValues);
+  };
+
   return (
-    <StepsProviderContext
-      value={{
-        formDataRef,
-        loading,
-        setLoading,
-        initialItems,
-        setInitialItems,
-        stepNum: stepNumRef.current,
-        next,
-        prev,
-        submit,
-        submitStepNum,
-      }}
-    >
-      <Flex vertical gap={16}>
-        <Steps {...stepsProps} current={stepNumRef.current} items={stepsItems} />
-        <div data-role="steps-form-content">
-          {items.map((item, index) => {
-            const isSelected = stepNumRef.current === index;
-            const name = item.formName;
-            const form = item.form;
-            const isDestroyOnHidden = item?.destroyOnHidden || destroyOnHidden;
-
-            const baseProps = {
-              ...formProps,
-              form,
-              name,
-              ...item.formProps,
-              isSelected,
-              onFinish: onFinish ? async (value) => await item?.onFinish(value) : void 0,
-            };
-
-            return (
-              (isSelected || !isDestroyOnHidden) && (
-                <StepsItem key={index} currentIndex={index} {...baseProps}>
-                  {item.formItems?.map?.((itemDom, i) => {
-                    const rowKey = itemDom?.key || itemDom?.props?.name + `${i}`;
-                    return <React.Fragment key={rowKey}>{itemDom}</React.Fragment>;
-                  })}
-                </StepsItem>
-              )
-            );
-          })}
-        </div>
-        <StepsSubmitter {...submitter} />
-      </Flex>
-    </StepsProviderContext>
+    <LForm form={formRef.current} onFinish={handleFinish} {...restProps} submitter={false} preserve>
+      <Steps {...stepsProps} current={stepNumRef.current} items={stepsItems} />
+      <div data-role="l-steps-form-content">
+        {items.map((item, index) => {
+          const isSelected = stepNumRef.current === index;
+          const isDestroyOnHidden = item?.destroyOnHidden || destroyOnHidden;
+          return (
+            (isSelected || !isDestroyOnHidden) && (
+              <div data-steps-num={index} key={item.formName} style={{ display: isSelected ? 'block' : 'none' }}>
+                {item.formItems?.map?.((it, i) => {
+                  const rowKey = `${item.formName}-${i}`;
+                  return (
+                    <React.Fragment key={rowKey}>
+                      {React.cloneElement(it.content, { name: it.nameList })}
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            )
+          );
+        })}
+      </div>
+      <StepsSubmitter
+        loading={loading}
+        onPrev={() => {
+          prev();
+        }}
+        onNext={async () => {
+          await handleItemFinish();
+          next();
+        }}
+        onSubmit={() => formRef.current?.submit()}
+        stepNum={stepNum}
+        submitStepNum={submitStepNum}
+      />
+    </LForm>
   );
 };
 

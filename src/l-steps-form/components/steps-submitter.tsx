@@ -1,13 +1,12 @@
 import { Button, Flex } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
-import type { FC, ReactElement } from 'react';
-import { useStepsContext } from '../context';
+import type { FC } from 'react';
 
 const StepsSubmitter: FC<any> = (props) => {
   const {
     loading,
     gap = 8,
-    justify = 'center',
+    position = 'center',
     prevText = '上一步',
     prevButtonProps = emptyObject,
     onPrev = () => {},
@@ -26,34 +25,27 @@ const StepsSubmitter: FC<any> = (props) => {
     forceShowNext = false,
     forceShowSubmit = false,
     renderSubmitter,
+    stepNum,
+    submitStepNum,
   } = props;
 
-  const { loading: innerLoading, stepNum, submitStepNum, initialItems, prev } = useStepsContext();
-  const form = initialItems[stepNum]?.form;
   const handlePrev = (e) => {
-    prev();
     onPrev?.(e);
     prevButtonProps?.onClick?.(e);
   };
 
   const handleNext = (e) => {
-    if (nextButtonProps?.htmlType !== 'submit') {
-      form?.submit(); // 提交表单验证
-    }
     onNext?.(e);
     nextButtonProps?.onClick?.(e);
   };
 
   const handleSubmit = (e) => {
-    if (submitButtonProps?.htmlType !== 'submit') {
-      form?.submit(); // 提交表单验证
-    }
     Promise.resolve().then(() => onSubmit?.(e));
     submitButtonProps?.onClick?.(e);
   };
 
   const prevButton = (
-    <Button key="prev" loading={loading} {...prevButtonProps} onClick={handlePrev}>
+    <Button key="prev" disabled={loading} {...prevButtonProps} onClick={handlePrev}>
       {prevText}
     </Button>
   );
@@ -70,41 +62,31 @@ const StepsSubmitter: FC<any> = (props) => {
     </Button>
   );
 
-  const createDom = () => {
-    let prevView = stepNum !== 0 && showPrev ? prevButton : null;
+  let prevDom = stepNum !== 0 && showPrev ? prevButton : null;
+  let nextDom = stepNum < submitStepNum && showNext ? nextButton : null;
+  let submitDom = stepNum >= submitStepNum ? submitButton : null;
 
-    let nextView = stepNum < submitStepNum && showNext ? nextButton : null;
+  if (forceShowPrev && !prevDom) {
+    prevDom = prevButton;
+  }
 
-    let submitView = stepNum >= submitStepNum ? submitButton : null;
+  if (forceShowNext && !nextDom) {
+    nextDom = nextButton;
+  }
 
-    if (forceShowPrev && !prevView) {
-      prevView = prevButton;
-    }
+  if (forceShowSubmit && !submitDom) {
+    submitDom = submitButton;
+  }
 
-    if (forceShowNext && !nextView) {
-      nextView = nextButton;
-    }
-
-    if (forceShowSubmit && !submitView) {
-      submitView = submitButton;
-    }
-
-    return [prevView, nextView, submitView].filter(Boolean);
-  };
-
-  const renderDom = renderSubmitter ? (
-    renderSubmitter(createDom() as any, props)
+  const dom = renderSubmitter ? (
+    renderSubmitter({ prevDom, nextDom, submitDom }, props)
   ) : (
-    <Flex gap={gap} align="center" justify={justify}>
-      {createDom()}
+    <Flex gap={gap} align="center" justify={position}>
+      {[prevDom, nextDom, submitDom].filter(Boolean)}
     </Flex>
   );
 
-  if (!renderDom) {
-    return null;
-  }
-
-  return renderDom as ReactElement;
+  return dom;
 };
 
 export default StepsSubmitter;
