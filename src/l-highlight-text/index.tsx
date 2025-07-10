@@ -1,11 +1,8 @@
 import { useDebounce, useMemoizedFn } from 'ahooks';
-import clsx from 'classnames';
 import { emptyArray } from 'lighting-design/constants';
 import React, { useMemo } from 'react';
-import './index.less';
 import type { LHighlightTextProps } from './interface';
-
-const prefixCls = 'lightd-highlight-text';
+import { useStyles } from './styles';
 
 const escapeRegExp = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -24,6 +21,7 @@ const LHighlightText: React.FC<LHighlightTextProps> = ({
   debounceOptions,
   ...rest
 }) => {
+  const { styles, cx } = useStyles();
   const highlightWords = useDebounce(keywords, { wait, ...debounceOptions });
   const parts = useMemo(() => {
     const pattern = highlightWords
@@ -45,7 +43,7 @@ const LHighlightText: React.FC<LHighlightTextProps> = ({
   });
 
   const dom = (
-    <span className={clsx(prefixCls, className)} style={style} {...rest}>
+    <span className={cx(styles.container, className)} style={style} {...rest}>
       {parts.map((part, i) => {
         return (
           <React.Fragment key={i}>

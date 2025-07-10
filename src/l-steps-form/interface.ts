@@ -16,21 +16,14 @@ export type LStepsFormActionRef = {
   reset: () => void;
 };
 
-export type LStepsFormProps = Omit<LFormProps, 'renderChildren' | 'renderLFrom'> & {
+export type LStepsFormProps = Omit<LFormProps, 'renderChildren' | 'renderLFrom' | 'submitter'> & {
   items: (StepProps & {
     formName: string;
-    formItems: (
-      | ReactNode
-      | {
-          name: string;
-          content: ReactNode;
-        }
-    )[];
+    formItems: (ReactNode | { name: string; content: ReactNode })[];
   })[];
   /**
    * 指定步骤条方向。
    * - 目前支持水平（horizontal）和 竖直（vertical）两种方向
-   *@see https://ant.design/components/grid-cn#col
    */
   direction?: 'horizontal' | 'vertical';
   /**
@@ -51,7 +44,6 @@ export type LStepsFormProps = Omit<LFormProps, 'renderChildren' | 'renderLFrom'>
   destroyStepForm?: boolean;
   /**
    * 是否将每个LStepsForm.StepForm 的 onFinish 得到的表单数据合并成一个对象到最后提交的 onFinish 的参数中
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LStepsFormProps
    */
   isMergeValues?: boolean;
   /**

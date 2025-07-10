@@ -20,9 +20,8 @@ const LStepsForm: FC<any> = (props) => {
     stepsProps,
     //
     items: outItems = [],
-    submitStepNum: outSubmitStepNum,
-    destroyOnHidden,
     forceRender,
+    destroyOnHidden,
     defaultCurrent = 0,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     current: outCurrent,
@@ -48,8 +47,24 @@ const LStepsForm: FC<any> = (props) => {
   });
 
   // 下一步
-  const next = () => {
+  const next = async () => {
+    if (!isReady) return;
     if (stepNumRef.current >= initialItems.length - 1) return;
+
+    const nameLists = initialItems[stepNumRef.current].nameLists;
+    const selectedValues = await formRef.current.validateFields(nameLists);
+    if (typeof initialItems[stepNumRef.current]?.onFinish === 'function') {
+      const ret = initialItems[stepNumRef.current].onFinish(selectedValues);
+      if (ret instanceof Promise) {
+        try {
+          setLoading(true);
+          await ret;
+        } finally {
+          setLoading(false);
+        }
+      }
+    }
+
     const nextStepNum = stepNumRef.current + 1;
     const nextItem = initialItems[nextStepNum];
     setItems((p) => {
@@ -80,27 +95,11 @@ const LStepsForm: FC<any> = (props) => {
     setStepNum(defaultValue);
   };
 
-  const submitStepNum = outSubmitStepNum || initialItems.length - 1;
-
-  const handleItemFinish = async () => {
-    const nameLists = initialItems[stepNumRef.current].nameLists;
-    const selectedValues = await formRef.current.validateFields(nameLists);
-    if (typeof initialItems[stepNumRef.current]?.onFinish === 'function') {
-      const ret = initialItems[stepNumRef.current].onFinish(selectedValues);
-      if (ret instanceof Promise) {
-        try {
-          setLoading(true);
-          await ret;
-        } finally {
-          setLoading(false);
-        }
-      }
-    }
-  };
   const handleFinish = async () => {
+    if (!isReady) return;
     let allValues = formRef.current.getFieldsValue(true);
-
     if (isMergeValues) {
+      //@ts-ignore
       allValues = Object.values(isMergeValues).reduce((pre, cur) => ({ ...pre, ...cur }), {});
     }
 
@@ -145,7 +144,7 @@ const LStepsForm: FC<any> = (props) => {
         return (
           (isSelected || !isDestroyOnHidden) && (
             <div data-steps-num={index} key={item.formName} style={{ display: isSelected ? 'block' : 'none' }}>
-              {item.formItems?.map?.((it, i) => {
+              {item.formItems?.map?.((it: any, i: number) => {
                 const rowKey = `${item.formName}-${i}`;
                 return <Fragment key={rowKey}>{cloneElement(it.content, { name: it.nameList })}</Fragment>;
               })}
@@ -159,7 +158,7 @@ const LStepsForm: FC<any> = (props) => {
   const submitterDom =
     submitter === false ? null : (
       <StepsSubmitter
-        submitStepNum={submitStepNum}
+        submitStepNum={initialItems.length - 1}
         loading={loading}
         {...submitter}
         onPrev={(e) => {
@@ -167,7 +166,6 @@ const LStepsForm: FC<any> = (props) => {
           submitter?.onPrev?.(e);
         }}
         onNext={async (e) => {
-          await handleItemFinish();
           next();
           submitter?.onNext?.(e);
         }}

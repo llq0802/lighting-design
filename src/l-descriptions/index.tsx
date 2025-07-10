@@ -1,7 +1,7 @@
 import { Col, Form, Row, Spin } from 'antd';
 import classnames from 'classnames';
-import LFormItem from 'lighting-design/FormItem';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
+import LFormItem from 'lighting-design/l-form-item';
 import type { FC } from 'react';
 import { useMemo } from 'react';
 import './index.less';
