@@ -2,7 +2,7 @@ import { useControllableValue, useLatest } from 'ahooks';
 import { Steps } from 'antd';
 import LForm from 'lighting-design/l-form';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
-import React, { useImperativeHandle, useState, type FC } from 'react';
+import { Fragment, cloneElement, useImperativeHandle, useMemo, useState, type FC } from 'react';
 import StepsSubmitter from './components/steps-submitter';
 import { disposeInitialItems } from './utils';
 
@@ -27,7 +27,7 @@ const LStepsForm: FC<any> = (props) => {
     onCurrentChange: outOnCurrentChange,
     ...restProps
   } = props;
-  const defaultValue = outCurrent || defaultCurrent;
+  const defaultValue = useMemo(() => outCurrent || defaultCurrent, []);
   const formRef = useLFormInstance(form);
   const [loading, setLoading] = useState(false);
   const [initialItems] = useState<any[]>(() => disposeInitialItems(outItems));
@@ -68,9 +68,6 @@ const LStepsForm: FC<any> = (props) => {
   // 指定跳到哪一步
   const toStep = (num: number) => {
     if (num >= 0 && num <= initialItems.length - 1) {
-      const currentItem = initialItems[num];
-      const isDestroyOnHidden = destroyOnHidden || currentItem.destroyOnHidden;
-      setItems((p) => (isDestroyOnHidden ? [currentItem] : p.slice(0, num)));
       setStepNum(num);
     }
   };
@@ -79,8 +76,6 @@ const LStepsForm: FC<any> = (props) => {
     formRef.current?.resetFields();
     setStepNum(defaultValue);
   };
-
-  const stepsItems = initialItems?.map(({ formName, formItems, nameLists, ...rest }) => rest);
 
   const submitStepNum = outSubmitStepNum || initialItems.length - 1;
 
@@ -121,42 +116,61 @@ const LStepsForm: FC<any> = (props) => {
     reset,
   }));
 
-  return (
-    <LForm form={formRef.current} onFinish={handleFinish} {...restProps} submitter={false} preserve>
-      <Steps {...stepsProps} current={stepNumRef.current} items={stepsItems} />
-      <div data-role="l-steps-form-content">
-        {items.map((item, index) => {
-          const isSelected = stepNumRef.current === index;
-          const isDestroyOnHidden = item?.destroyOnHidden || destroyOnHidden;
-          return (
-            (isSelected || !isDestroyOnHidden) && (
-              <div data-steps-num={index} key={item.formName} style={{ display: isSelected ? 'block' : 'none' }}>
-                {item.formItems?.map?.((it, i) => {
-                  const rowKey = `${item.formName}-${i}`;
-                  return (
-                    <React.Fragment key={rowKey}>
-                      {React.cloneElement(it.content, { name: it.nameList })}
-                    </React.Fragment>
-                  );
-                })}
-              </div>
-            )
-          );
-        })}
-      </div>
+  const stepsDom = (
+    <Steps
+      {...stepsProps}
+      current={stepNumRef.current}
+      items={initialItems?.map(({ formName, formItems, nameLists, ...rest }) => rest)}
+    />
+  );
+
+  const contentDom = (
+    <div data-role="l-steps-form-content">
+      {items.map((item, index) => {
+        const isSelected = stepNumRef.current === index;
+        const isDestroyOnHidden = item?.destroyOnHidden || destroyOnHidden;
+        return (
+          (isSelected || !isDestroyOnHidden) && (
+            <div data-steps-num={index} key={item.formName} style={{ display: isSelected ? 'block' : 'none' }}>
+              {item.formItems?.map?.((it, i) => {
+                const rowKey = `${item.formName}-${i}`;
+                return <Fragment key={rowKey}>{cloneElement(it.content, { name: it.nameList })}</Fragment>;
+              })}
+            </div>
+          )
+        );
+      })}
+    </div>
+  );
+
+  const submitterDom =
+    submitter === false ? null : (
       <StepsSubmitter
+        submitStepNum={submitStepNum}
         loading={loading}
-        onPrev={() => {
+        {...submitter}
+        onPrev={(e) => {
           prev();
+          submitter?.onPrev?.(e);
         }}
-        onNext={async () => {
+        onNext={async (e) => {
           await handleItemFinish();
           next();
+          submitter?.onNext?.(e);
         }}
-        onSubmit={() => formRef.current?.submit()}
-        stepNum={stepNum}
-        submitStepNum={submitStepNum}
+        onSubmit={(e) => {
+          formRef.current?.submit();
+          submitter?.onSubmit?.(e);
+        }}
+        stepNum={stepNumRef.current}
       />
+    );
+
+  return (
+    <LForm clearOnDestroy form={formRef.current} onFinish={handleFinish} {...restProps} submitter={false} preserve>
+      {stepsDom}
+      {contentDom}
+      {submitterDom}
     </LForm>
   );
 };

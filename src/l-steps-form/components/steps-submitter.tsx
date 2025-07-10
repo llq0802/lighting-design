@@ -3,6 +3,7 @@ import { emptyObject } from 'lighting-design/constants';
 import type { FC, FormEvent, ReactNode } from 'react';
 
 export interface StepsSubmitterProps {
+  isReady?: boolean;
   stepNum: number;
   submitStepNum: number;
   position?: 'flex-start' | 'center' | 'flex-end';
@@ -47,6 +48,7 @@ export interface StepsSubmitterProps {
 
 const StepsSubmitter: FC<StepsSubmitterProps> = (props) => {
   const {
+    isReady = true,
     loading,
     gap = 8,
     position = 'center',
@@ -78,12 +80,16 @@ const StepsSubmitter: FC<StepsSubmitterProps> = (props) => {
   };
 
   const handleNext = (e) => {
-    onNext?.(e);
+    if (isReady) {
+      onNext?.(e);
+    }
     nextButtonProps?.onClick?.(e);
   };
 
   const handleSubmit = (e) => {
-    Promise.resolve().then(() => onSubmit?.(e));
+    if (isReady) {
+      Promise.resolve().then(() => onSubmit?.(e));
+    }
     submitButtonProps?.onClick?.(e);
   };
 
