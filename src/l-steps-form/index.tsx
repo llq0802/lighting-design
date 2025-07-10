@@ -2,22 +2,22 @@ import { useControllableValue, useLatest } from 'ahooks';
 import { Steps } from 'antd';
 import LForm from 'lighting-design/l-form';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
-import React, { useState, type FC } from 'react';
+import React, { useImperativeHandle, useState, type FC } from 'react';
 import StepsSubmitter from './components/steps-submitter';
 import { disposeInitialItems } from './utils';
 
 const LStepsForm: FC<any> = (props) => {
   const {
     form,
+    isReady,
+    onFinish,
+    submitter,
     //
     actionRef,
-    onFinish,
     stepsProps,
-    submitter,
     //
     items: outItems = [],
     submitStepNum: outSubmitStepNum,
-
     destroyOnHidden,
     forceRender,
     defaultCurrent = 0,
@@ -101,11 +101,25 @@ const LStepsForm: FC<any> = (props) => {
   };
   const handleFinish = async () => {
     const allValues = formRef.current.getFieldsValue(true);
-    console.log('===allValues==>', allValues);
-    await onFinish?.(allValues);
-
-    reset();
+    const res = await onFinish?.(allValues);
+    if (res instanceof Promise) {
+      try {
+        setLoading(true);
+        const r = await res;
+        if (r === true) reset();
+      } finally {
+        setLoading(false);
+      }
+    }
   };
+
+  useImperativeHandle(actionRef, () => ({
+    prev,
+    next,
+    toStep,
+    submit: handleFinish,
+    reset,
+  }));
 
   return (
     <LForm form={formRef.current} onFinish={handleFinish} {...restProps} submitter={false} preserve>

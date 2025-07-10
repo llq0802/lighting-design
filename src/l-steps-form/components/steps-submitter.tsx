@@ -1,8 +1,51 @@
-import { Button, Flex } from 'antd';
+import { Button, Flex, type ButtonProps } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
-import type { FC } from 'react';
+import type { FC, FormEvent, ReactNode } from 'react';
 
-const StepsSubmitter: FC<any> = (props) => {
+export interface StepsSubmitterProps {
+  stepNum: number;
+  submitStepNum: number;
+  position?: 'flex-start' | 'center' | 'flex-end';
+  gap?: number | string;
+  loading?: boolean;
+  /** 上一步按钮的文字 */
+  prevText?: ReactNode;
+  /** 点击上一步按钮的回调 */
+  onPrev?: (event?: FormEvent<HTMLFormElement>) => void;
+  /** 点击上一步按钮的Props*/
+  prevButtonProps?: ButtonProps;
+  /** 是否显示上一步按钮 */
+  showPrev?: boolean;
+  /** 下一步按钮的文字 */
+  nextText?: ReactNode;
+  /** 点击下一步按钮的回调 */
+  onNext?: (event?: FormEvent<HTMLFormElement>) => void;
+  /** 点击下一步按钮的Props*/
+  nextButtonProps?: ButtonProps;
+  submitButtonProps?: ButtonProps;
+  /** 是否显示下一步按钮 */
+  showNext?: boolean;
+  /** 点击提交按钮的回调 */
+  onSubmit?: (event?: FormEvent<HTMLFormElement>) => void;
+  /** 强制显示上一步按钮，优先级比 showPrev 高 */
+  forceShowPrev?: boolean;
+  /** 强制显示下一步按钮，优先级比 showNext 高 */
+  forceShowNext?: boolean;
+  /** 强制显示提交按钮 */
+  forceShowSubmit?: boolean;
+  submitText?: string;
+  /** 自定义渲染 */
+  renderSubmitter?: (
+    doms: {
+      prevDom: ReactNode;
+      nextDom: ReactNode;
+      submitDom: ReactNode;
+    },
+    props: StepsSubmitterProps,
+  ) => ReactNode;
+}
+
+const StepsSubmitter: FC<StepsSubmitterProps> = (props) => {
   const {
     loading,
     gap = 8,
