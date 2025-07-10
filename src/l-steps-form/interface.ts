@@ -1,5 +1,6 @@
-import type { StepsProps } from 'antd';
-import type { MutableRefObject } from 'react';
+import type { StepProps, StepsProps } from 'antd';
+import type { LFormProps } from 'lighting-design/l-form';
+import type { MutableRefObject, ReactNode } from 'react';
 import type { StepsSubmitterProps } from './components/steps-submitter';
 
 export type LStepsFormActionRef = {
@@ -15,19 +16,25 @@ export type LStepsFormActionRef = {
   reset: () => void;
 };
 
-export type LStepsFormProps = {
-  items: any[];
+export type LStepsFormProps = Omit<LFormProps, 'renderChildren' | 'renderLFrom'> & {
+  items: (StepProps & {
+    formName: string;
+    formItems: (
+      | ReactNode
+      | {
+          name: string;
+          content: ReactNode;
+        }
+    )[];
+  })[];
   /**
    * 指定步骤条方向。
    * - 目前支持水平（horizontal）和 竖直（vertical）两种方向
    *@see https://ant.design/components/grid-cn#col
    */
   direction?: 'horizontal' | 'vertical';
-
   /**
    * 设置后变为受控模式。当前表单的步骤数。
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LStepsFormProps
-   *@see https://ant.design/components/grid-cn#col
    */
   current?: number;
   /**

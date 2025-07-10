@@ -1,4 +1,4 @@
-import { useControllableValue, useLatest } from 'ahooks';
+import { useControllableValue, useLatest, useUpdateEffect } from 'ahooks';
 import { Steps } from 'antd';
 import LForm from 'lighting-design/l-form';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
@@ -9,10 +9,13 @@ import { disposeInitialItems } from './utils';
 const LStepsForm: FC<any> = (props) => {
   const {
     form,
-    isReady,
+    isReady = true,
     onFinish,
     submitter,
+    renderChildren,
+    renderLStepsForm,
     //
+    isMergeValues,
     actionRef,
     stepsProps,
     //
@@ -95,7 +98,12 @@ const LStepsForm: FC<any> = (props) => {
     }
   };
   const handleFinish = async () => {
-    const allValues = formRef.current.getFieldsValue(true);
+    let allValues = formRef.current.getFieldsValue(true);
+
+    if (isMergeValues) {
+      allValues = Object.values(isMergeValues).reduce((pre, cur) => ({ ...pre, ...cur }), {});
+    }
+
     const res = await onFinish?.(allValues);
     if (res instanceof Promise) {
       try {
@@ -115,6 +123,11 @@ const LStepsForm: FC<any> = (props) => {
     submit: handleFinish,
     reset,
   }));
+
+  useUpdateEffect(() => {
+    if (!isReady) return;
+    reset();
+  }, [isReady]);
 
   const stepsDom = (
     <Steps
@@ -166,13 +179,36 @@ const LStepsForm: FC<any> = (props) => {
       />
     );
 
-  return (
-    <LForm clearOnDestroy form={formRef.current} onFinish={handleFinish} {...restProps} submitter={false} preserve>
+  const childrenDom = renderChildren ? (
+    renderChildren({
+      stepsDom,
+      contentDom,
+      submitterDom,
+    })
+  ) : (
+    <>
       {stepsDom}
       {contentDom}
       {submitterDom}
+    </>
+  );
+
+  const dom = (
+    <LForm clearOnDestroy form={formRef.current} onFinish={handleFinish} {...restProps} submitter={false} preserve>
+      {childrenDom}
     </LForm>
   );
+
+  const returnDom = renderLStepsForm
+    ? renderLStepsForm({
+        dom,
+        stepsDom,
+        contentDom,
+        submitterDom,
+      })
+    : dom;
+
+  return returnDom;
 };
 
 export default LStepsForm;
