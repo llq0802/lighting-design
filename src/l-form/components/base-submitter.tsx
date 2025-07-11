@@ -1,10 +1,12 @@
 import { Button, Flex, Form, type ButtonProps, type FormInstance } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
-import LFormItem, { type LFormItemProps } from 'lighting-design/l-form-item';
+import { type LFormItemProps } from 'lighting-design/l-form-item';
 import type { ReactElement, ReactNode } from 'react';
 import { useLFormContext } from '../context';
 
 export type LFormSubmitterProps<T extends any = any> = {
+  className?: string;
+  style?: React.CSSProperties;
   /** 重置按钮名称*/
   resetText?: ReactNode;
   /** 提交按钮名称*/
@@ -19,7 +21,6 @@ export type LFormSubmitterProps<T extends any = any> = {
   onSubmit?: (values: T, event: React.MouseEvent<HTMLElement>) => void;
   /** 表单是否准备完成 */
   isReady?: boolean;
-
   /**
    * 是否 `disabled` 重置按钮
    *
@@ -33,24 +34,22 @@ export type LFormSubmitterProps<T extends any = any> = {
   isEnterSubmit?: boolean;
   /** 是否展示重置按钮 */
   showReset?: boolean;
-
   /** 重新渲染函数 */
-  renderSubmitter?: (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode | false;
+  renderSubmitter?: (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode;
   /**
    * 按钮的排列方式
    */
   position?: 'flex-start' | 'flex-end' | 'center' | number | string;
-  /**
-   * 表单提交按钮和重置按钮外层包裹的 LFormItem 的 Props
-   */
-  formItemProps?: LFormItemProps;
   formInstance?: FormInstance;
   gap?: number | string;
+  marginBottom?: number | string;
 } & Pick<LFormItemProps, 'formItemBottom'>;
 
 const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
   const {
     isReady = true,
+    className,
+    style,
     loading,
     isEnterSubmit,
     onSubmit,
@@ -61,8 +60,7 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
     submitButtonProps: outSubmitButtonProps = emptyObject,
     resetButtonProps: outResetButtonProps = emptyObject,
     renderSubmitter,
-    formItemBottom: outFormItemBottom,
-    formItemProps,
+    marginBottom: outMarginBottom,
     position: outPosition,
     gap = 8,
     //
@@ -72,7 +70,7 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
   const form = formInstance || Form.useFormInstance();
   const { labelWidth, formItemBottom: innerFormItemBottom } = useLFormContext();
   const position = outPosition ?? labelWidth ?? 'center';
-  const formItemBottom = outFormItemBottom ?? innerFormItemBottom;
+  const marginBottom = outMarginBottom ?? innerFormItemBottom;
   const { preventDefault: submitPreventDefault = false, ...submitButtonProps } = outSubmitButtonProps;
   const { preventDefault: resetPreventDefault = false, ...resetButtonProps } = outResetButtonProps;
   const resetClick = (e) => {
@@ -114,33 +112,24 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
     </Button>,
   ].filter(Boolean) as JSX.Element[];
 
+  const isPresetposition = position === 'flex-start' || position === 'center' || position === 'flex-end';
+  const justifyContent = isPresetposition ? position : void 0;
+  const paddingLeft = isPresetposition ? void 0 : position;
+
   const dom = renderSubmitter ? (
     renderSubmitter(buttonDomArr, props)
   ) : (
-    <Flex gap={gap} align="center">
+    <Flex
+      className={className}
+      gap={gap}
+      align="center"
+      style={{ justifyContent, paddingLeft, marginBottom, ...style }}
+    >
       {buttonDomArr}
     </Flex>
   );
 
-  const isPresetposition = position === 'flex-start' || position === 'center' || position === 'flex-end';
-  const justifyContent = isPresetposition ? position : void 0;
-  const paddingLeft = isPresetposition ? void 0 : position;
-  return (
-    <LFormItem
-      formItemBottom={formItemBottom}
-      {...formItemProps}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent,
-        paddingLeft,
-        ...formItemProps?.style,
-      }}
-      colon={false}
-    >
-      {dom}
-    </LFormItem>
-  );
+  return dom;
 };
 
 export default LFormSubmitter;

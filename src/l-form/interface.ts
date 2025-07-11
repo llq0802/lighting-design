@@ -9,16 +9,22 @@ export type LFormProps<T = any> = Omit<FormProps<T>, 'onValuesChange' | 'onFinis
      * 重新渲染 LForm 组件的所有 children
      * - LForm 下面所有的 Form.Item
      */
-    renderChildren?: (params: { formItemsDom: ReactNode; submitterDom: ReactNode; form: FormInstance<T> }) => ReactNode;
+    renderChildren?: (
+      params: { formItemsDom: ReactNode; submitterDom: ReactNode; form: FormInstance<T> },
+      props: LFormProps,
+    ) => ReactNode;
     /**
      * 重新渲染整个 LForm
      */
-    renderLFrom?: (params: {
-      formDom: ReactElement;
-      formItemsDom: ReactNode;
-      submitterDom: ReactNode;
-      form: FormInstance<T>;
-    }) => ReactNode;
+    renderLFrom?: (
+      params: {
+        dom: ReactElement;
+        formItemsDom: ReactNode;
+        submitterDom: ReactNode;
+        form: FormInstance<T>;
+      },
+      props: LFormProps,
+    ) => ReactNode;
     /**
      * 表单是否准备完成
      * - false时，禁止触发提交
@@ -30,7 +36,7 @@ export type LFormProps<T = any> = Omit<FormProps<T>, 'onValuesChange' | 'onFinis
      * - 满足大多数场景的按钮配置, 也可通过`submitter.render`自定义渲染后绑定`form`的各种方法
      * - 为`false`不会渲染内置的按钮, 需要自行通过`form`实例设置重置或提交
      */
-    submitter?: false | Omit<LFormSubmitterProps<T>, 'isReady'>;
+    submitter?: false | Omit<LFormSubmitterProps<T>, 'isReady' | 'formInstance'>;
 
     /**
      * 在 onFinish 调用之前转化表单值

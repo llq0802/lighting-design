@@ -16,16 +16,11 @@ export type LStepsFormActionRef = {
   reset: () => void;
 };
 
-export type LStepsFormProps = Omit<LFormProps, 'renderChildren' | 'renderLFrom' | 'submitter'> & {
+export type LStepsFormProps<T = any> = Omit<LFormProps, 'renderChildren' | 'renderLFrom' | 'submitter'> & {
   items: (StepProps & {
     formName: string;
     formItems: (ReactNode | { name: string; content: ReactNode })[];
   })[];
-  /**
-   * 指定步骤条方向。
-   * - 目前支持水平（horizontal）和 竖直（vertical）两种方向
-   */
-  direction?: 'horizontal' | 'vertical';
   /**
    * 设置后变为受控模式。当前表单的步骤数。
    */
@@ -41,7 +36,11 @@ export type LStepsFormProps = Omit<LFormProps, 'renderChildren' | 'renderLFrom' 
   /**
    * 被隐藏时是否销毁 DOM 结构
    */
-  destroyStepForm?: boolean;
+  destroyOnHidden?: boolean;
+  /**
+   * 初始化时强制渲染所有dom
+   */
+  forceRender?: boolean;
   /**
    * 是否将每个LStepsForm.StepForm 的 onFinish 得到的表单数据合并成一个对象到最后提交的 onFinish 的参数中
    */
@@ -64,7 +63,7 @@ export type LStepsFormProps = Omit<LFormProps, 'renderChildren' | 'renderLFrom' 
    * 默认表单最后一步提交成功触发，
    * - 如果返回 true 或者 Promise.Resolved(true) 就会自动重置所有表单到初始值`(包括StepForm变回第一步)`
    */
-  onFinish?: (valuse: Record<string, any>) => Promise<any>;
+  onFinish?: (valuse: T) => Promise<any>;
 
   /**
    *`上一步` `下一步` `提交`按钮的配置项
@@ -74,5 +73,25 @@ export type LStepsFormProps = Omit<LFormProps, 'renderChildren' | 'renderLFrom' 
   /**
    *antd Steps 组件的属性
    */
-  stepsProps?: StepsProps;
+  stepsProps?: Omit<StepsProps, 'current' | 'items' | 'initial'>;
+
+  renderChildren?: (
+    doms: {
+      stepsDom: ReactNode;
+      contentDom: ReactNode;
+      submitterDom: ReactNode;
+    },
+    props: LStepsFormProps,
+  ) => ReactNode;
+  renderLStepsForm?: (
+    doms: {
+      dom: ReactNode;
+      stepsDom: ReactNode;
+      contentDom: ReactNode;
+      submitterDom: ReactNode;
+    },
+    props: LStepsFormProps,
+  ) => ReactNode;
+  contentClassName?: string;
+  contentStyle?: React.CSSProperties;
 };

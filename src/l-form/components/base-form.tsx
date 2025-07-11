@@ -65,18 +65,21 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
   const submitterDom = submitterProps ? <LFormSubmitter<T> {...submitterProps} /> : null;
 
   const childrenDom = renderChildren ? (
-    renderChildren({
-      formItemsDom: children,
-      submitterDom,
-      form: formRef.current,
-    })
+    renderChildren(
+      {
+        formItemsDom: children,
+        submitterDom,
+        form: formRef.current,
+      },
+      props,
+    )
   ) : (
     <>
       {children}
       {submitterDom}
     </>
   );
-  const formDom = (
+  const dom = (
     <Form<T> {...restProps} form={formRef.current} onValuesChange={innerOnValuesChange} onFinish={innerOnFinish}>
       <Form.Item noStyle shouldUpdate>
         {(formInstance) => {
@@ -89,13 +92,16 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
   );
 
   const returnDom = renderLFrom
-    ? renderLFrom({
-        formDom,
-        formItemsDom: childrenDom,
-        submitterDom,
-        form: formRef.current,
-      })
-    : formDom;
+    ? renderLFrom(
+        {
+          dom,
+          formItemsDom: childrenDom,
+          submitterDom,
+          form: formRef.current,
+        },
+        props,
+      )
+    : dom;
 
   return returnDom as ReactElement<any, string | JSXElementConstructor<any>>;
 }

@@ -2,11 +2,12 @@ import { useControllableValue, useLatest, useUpdateEffect } from 'ahooks';
 import { Steps } from 'antd';
 import LForm from 'lighting-design/l-form';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
-import { Fragment, cloneElement, useImperativeHandle, useMemo, useState, type FC } from 'react';
+import { Fragment, cloneElement, useImperativeHandle, useMemo, useState } from 'react';
 import StepsSubmitter from './components/steps-submitter';
+import type { LStepsFormProps } from './interface';
 import { disposeInitialItems } from './utils';
 
-const LStepsForm: FC<any> = (props) => {
+const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
   const {
     form,
     isReady = true,
@@ -22,6 +23,8 @@ const LStepsForm: FC<any> = (props) => {
     items: outItems = [],
     forceRender,
     destroyOnHidden,
+    contentClassName,
+    contentStyle,
     defaultCurrent = 0,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     current: outCurrent,
@@ -133,11 +136,12 @@ const LStepsForm: FC<any> = (props) => {
       {...stepsProps}
       current={stepNumRef.current}
       items={initialItems?.map(({ formName, formItems, nameLists, ...rest }) => rest)}
+      style={{ marginBottom: 32, ...stepsProps?.style }}
     />
   );
 
   const contentDom = (
-    <div data-role="l-steps-form-content">
+    <>
       {items.map((item, index) => {
         const isSelected = stepNumRef.current === index;
         const isDestroyOnHidden = item?.destroyOnHidden || destroyOnHidden;
@@ -152,7 +156,7 @@ const LStepsForm: FC<any> = (props) => {
           )
         );
       })}
-    </div>
+    </>
   );
 
   const submitterDom =
@@ -178,15 +182,20 @@ const LStepsForm: FC<any> = (props) => {
     );
 
   const childrenDom = renderChildren ? (
-    renderChildren({
-      stepsDom,
-      contentDom,
-      submitterDom,
-    })
+    renderChildren(
+      {
+        stepsDom,
+        contentDom,
+        submitterDom,
+      },
+      props,
+    )
   ) : (
     <>
       {stepsDom}
-      {contentDom}
+      <div data-role="l-steps-form-content" className={contentClassName} style={contentStyle}>
+        {contentDom}
+      </div>
       {submitterDom}
     </>
   );
@@ -198,12 +207,15 @@ const LStepsForm: FC<any> = (props) => {
   );
 
   const returnDom = renderLStepsForm
-    ? renderLStepsForm({
-        dom,
-        stepsDom,
-        contentDom,
-        submitterDom,
-      })
+    ? renderLStepsForm(
+        {
+          dom,
+          stepsDom,
+          contentDom,
+          submitterDom,
+        },
+        props,
+      )
     : dom;
 
   return returnDom;
