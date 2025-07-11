@@ -95,7 +95,6 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
       : {
           resetText: '取消',
           submitText: '确定',
-          formItemBottom: 0,
           position: 'center',
           loading,
           ...submitter,

@@ -93,10 +93,6 @@ export default {
           link: '/components/l-h5-preview',
         },
         {
-          title: 'LEllipsisText-文本省略',
-          link: '/components/l-ellipsis-text',
-        },
-        {
           title: 'LHighlightText-文本高亮',
           link: '/components/l-highlight-text',
         },
@@ -219,10 +215,6 @@ export default {
           title: 'Slider-滑动条选择',
           link: '/components/l-form-item-slider',
         },
-        // {
-        //   title: 'Icon-图标选择',
-        //   link: '/components/l-form-item-icon',
-        // },
         {
           title: 'Segmented-分段器选择',
           link: '/components/l-form-item-segmented',

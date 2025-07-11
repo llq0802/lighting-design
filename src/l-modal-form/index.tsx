@@ -95,7 +95,6 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
       : {
           resetText: '取消',
           submitText: '确定',
-          formItemBottom: 0,
           position: 'flex-end',
           ...submitter,
           resetButtonProps: {

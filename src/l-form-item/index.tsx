@@ -16,7 +16,6 @@ const LFormItem: FC<LFormItemProps> & {
     alignItems: itemAlignItems,
     formItemBottom: itemBottom,
     // 自定义属性
-    dependName,
     renderField,
     renderFormItem,
     contentBefore,

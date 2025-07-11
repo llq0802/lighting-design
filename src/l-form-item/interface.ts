@@ -55,5 +55,4 @@ export type LFormItemProps<T = any> = FormItemProps<T> & {
    */
   customValidator?: (value: any, e: any) => Promise<any>;
   children?: ReactNode | ((form: FormInstance<T>, values: T | {}) => ReactNode);
-  dependName?: string;
 };
