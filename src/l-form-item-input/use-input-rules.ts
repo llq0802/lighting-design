@@ -23,6 +23,7 @@ export default function useInputRules({
       },
     ];
   }
+
   if (type === 'phone') {
     return [
       {
@@ -50,7 +51,6 @@ export default function useInputRules({
       },
     ];
   }
-
   if (type === 'bankCard') {
     return [
       {
@@ -69,7 +69,6 @@ export default function useInputRules({
       },
     ];
   }
-
   if (type === 'chinese') {
     return [
       {
@@ -79,6 +78,5 @@ export default function useInputRules({
       },
     ];
   }
-
   return void 0;
 }

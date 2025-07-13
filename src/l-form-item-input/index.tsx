@@ -1,5 +1,4 @@
 import { Input } from 'antd';
-import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import { getFormItemPlaceholder } from 'lighting-design/utils';
 import { useMemo, type FC } from 'react';
@@ -21,7 +20,7 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
   addonBefore,
   maxLength,
   showCount,
-  inputProps = emptyObject,
+  inputProps,
   //
   ...formItemProps
 }) => {

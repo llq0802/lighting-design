@@ -1,4 +1,4 @@
-import { LForm, LFormItem, LFormItemInput, LFormItemSwitch } from 'lighting-design';
+import { LForm, LFormItemInput } from 'lighting-design';
 import { sleep } from 'lighting-design/test';
 import React from 'react';
 
@@ -8,57 +8,75 @@ type FieldType = {
 
 const App: React.FC = () => {
   const [form] = LForm.useForm<FieldType>();
-
+  const customValidator = async (value) => {
+    if (!value || !/^\d+$/.test(value)) {
+      return Promise.reject('请输入数字!');
+    }
+  };
   return (
     <LForm<FieldType>
       submitter={{
-        isEnterSubmit: true,
         position: 'center',
-        onReset(event) {
-          console.log('onReset');
-        },
-        onSubmit: (vals) => {
-          console.log('onSubmit', vals);
-        },
       }}
-      labelWidth={100}
       form={form}
+      labelWidth={100}
       onFinish={async (values) => {
         console.log('===onFinish===', values);
         await sleep();
       }}
     >
+      <LFormItemInput required name="input" label="姓名" maxLength={10} />
+      <LFormItemInput min={2} max={8} name="input2" label="min,max" tooltip="tooltip" />
+      <LFormItemInput label="自定义检验" name="code" customValidator={customValidator} />
       <LFormItemInput
-        name="input1"
-        label="姓名1"
-        // getValueFromEvent={(e) => {
-        //   // 设置如何将 event 的值转换成字段值, 只在用户操作有效
-        //   console.log('===getValueFromEvent-1===>', e);
-        //   return e.target.value;
-        // }}
-        // normalize={(v, pv, s) => {
-        //   // 组件获取值后进行转换，再放入 Form 中。不支持异步, 只在用户操作有效
-        //   console.log('===normalize-2===>', v);
-        //   return v;
-        // }}
-        // getValueProps={(value) => {
-        //   //为子元素添加额外的属性, 每次初始化或者重新渲染都有效
-        //   console.log('===getValueProps-3===>', value);
-        //   return { value };
-        // }}
+        name="chinese"
+        label="中文汉字"
+        required
+        type="chinese"
+        messageVariables={{ label: '请输入中文!' }}
       />
-      {/* <LFormItemSwitch
-        name="input2"
-        label="姓名2"
-        dependencies={['input1']}
-        // shouldUpdate
-      /> */}
-
-      <LFormItem dependencies={['input1']} noStyle>
-        {() => {
-          return <LFormItemSwitch name="input2" label="姓名2" />;
+      <LFormItemInput
+        name="phone"
+        label="手机号"
+        type="phone"
+        required
+        messageVariables={{ label: '请输入正确的手机号格式!' }}
+      />
+      <LFormItemInput
+        name="email"
+        type="email"
+        label="邮箱"
+        required
+        messageVariables={{ label: '请输入正确的邮箱格式!' }}
+      />
+      <LFormItemInput
+        name="idCard"
+        type="idCard"
+        label="身份证"
+        required
+        messageVariables={{ label: '请输入正确的身份证格式!' }}
+      />
+      <LFormItemInput
+        name="bankCard"
+        label="银行卡"
+        required
+        type="bankCard"
+        messageVariables={{ label: '请输入正确的银行卡格式!' }}
+      />
+      <LFormItemInput
+        name="url"
+        label="URL网址"
+        required
+        type="url"
+        messageVariables={{ label: '请输入正确的网址格式!' }}
+      />
+      <LFormItemInput
+        name="input3"
+        label="inputProps"
+        inputProps={{
+          allowClear: true,
         }}
-      </LFormItem>
+      />
     </LForm>
   );
 };

@@ -4,10 +4,18 @@ import type { LFormProps } from 'lighting-design/l-form/interface';
 
 export interface LFormItemInputProps extends LFormItemProps, Pick<LFormProps, 'disabled' | 'size' | 'variant'> {
   placeholder?: string;
+  /**
+   * 检验限制最小长度
+   * - 需要同 max 一起使用
+   * */
   min?: number;
+  /**
+   * 检验限制最大长度
+   * - 需要同 min 一起使用
+   */
   max?: number;
   /**
-   * 输入框类型对antd输入框扩展了一些类型
+   * 输入框类型对 antd 输入框扩展了一些类型
    * - 'bankCard' | 'idCard' | 'phone' | 'url' | 'email' | 'chinese'类型的输入框会自动校验输入的值
    */
   type?: InputProps['type'] | 'bankCard' | 'idCard' | 'phone' | 'email' | 'url' | 'chinese ';
