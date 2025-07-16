@@ -1,4 +1,4 @@
-import { Input, InputNumber, Space } from 'antd';
+import { Input, InputNumber, Space, theme } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import type { LValueType } from 'lighting-design/interface';
 import LFormItem from 'lighting-design/l-form-item';
@@ -6,6 +6,7 @@ import { getFormItemLabel } from 'lighting-design/utils';
 import type { FC } from 'react';
 import type { LFormItemNumberRangeProps } from './interface';
 
+const { useToken } = theme;
 function NumberRange({
   value: valuePair,
   onChange,
@@ -17,6 +18,8 @@ function NumberRange({
   rightNumberProps,
   ...restProps
 }: Record<string, any>) {
+  const { token } = useToken();
+
   const handleOnBlur = () => {
     if (Array.isArray(valuePair)) {
       //   仅在两个值均为数字时才做比较并转换
@@ -62,7 +65,7 @@ function NumberRange({
           width: separatorWidth,
           textAlign: 'center',
           pointerEvents: 'none',
-          backgroundColor: restProps?.disabled ? '#f5f5f5' : void 0,
+          backgroundColor: restProps?.disabled ? token.colorBgContainerDisabled : void 0,
           ...separatorStyle,
         }}
       />

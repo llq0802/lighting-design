@@ -64,7 +64,6 @@ const LFormItemInput: FC<LFormItemInputProps> = ({
 
   const rules = useInputRules({
     type,
-    required,
     min,
     max,
     message: messageVariables?.label,

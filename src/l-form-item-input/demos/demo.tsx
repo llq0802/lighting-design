@@ -13,11 +13,10 @@ const App: React.FC = () => {
       return Promise.reject('请输入数字!');
     }
   };
+
   return (
     <LForm<FieldType>
-      submitter={{
-        position: 'center',
-      }}
+      submitter={{ position: 'center' }}
       form={form}
       labelWidth={100}
       onFinish={async (values) => {
@@ -28,18 +27,11 @@ const App: React.FC = () => {
       <LFormItemInput required name="input" label="姓名" maxLength={10} />
       <LFormItemInput min={2} max={8} name="input2" label="min,max" tooltip="tooltip" />
       <LFormItemInput label="自定义检验" name="code" customValidator={customValidator} />
-      <LFormItemInput
-        name="chinese"
-        label="中文汉字"
-        required
-        type="chinese"
-        messageVariables={{ label: '请输入中文!' }}
-      />
+      <LFormItemInput name="chinese" label="中文汉字" type="chinese" messageVariables={{ label: '请输入中文!' }} />
       <LFormItemInput
         name="phone"
         label="手机号"
         type="phone"
-        required
         messageVariables={{ label: '请输入正确的手机号格式!' }}
       />
       <LFormItemInput

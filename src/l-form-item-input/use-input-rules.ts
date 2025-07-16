@@ -2,21 +2,20 @@ import { BANCK_CARD_REG, CHINESE_REG, EMAIL_REG, ID_CARD_REG, PHONE_REG, URL_REG
 
 export default function useInputRules({
   type = 'text',
-  required,
   message,
   min,
   max,
 }: {
   type?: string;
-  required?: boolean;
   message?: string;
   min?: number;
   max?: number;
 }) {
+  const required = true;
   if (type === 'text' && min && max) {
     return [
       {
-        required: required ?? true,
+        required,
         min,
         max,
         message: message || `请输入 ${min} 到 ${max} 位字符!`,

@@ -1,4 +1,5 @@
 import { LForm, LFormItemTextarea } from 'lighting-design';
+import { sleep } from 'lighting-design/test';
 import React from 'react';
 
 type FieldType = {
@@ -21,16 +22,20 @@ const App: React.FC = () => {
       }}
       labelWidth={100}
       form={form}
-      onFinish={(values) => {
+      onFinish={async (values) => {
         console.log('===onFinish===', values);
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve(true);
-          }, 2000);
-        });
+        await sleep();
       }}
     >
-      <LFormItemTextarea name="input" label="备注" />
+      <LFormItemTextarea name="input1" label="备注" />
+      <LFormItemTextarea
+        name="input2"
+        label="备注"
+        autoSize={{
+          minRows: 4,
+          maxRows: 6,
+        }}
+      />
     </LForm>
   );
 };
