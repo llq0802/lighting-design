@@ -9,6 +9,8 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
   type,
   initText,
   cacheKey,
+  second,
+  onEnd,
   request,
   requestData,
   requestAutoFocus,
@@ -35,11 +37,23 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
 
   const isInline = type === 'inline' || type === 'link';
 
+  const mergeInputProps = {
+    ...inputProps,
+    ...restProps,
+    onChange(...args: any[]) {
+      restProps?.onChange?.(...args);
+      inputProps?.onChange?.(...args);
+    },
+  };
+
   const innerCaptchaButtonProps = {
     cacheKey,
+    second,
     loading,
     actionRef,
+    onEnd,
     type: isInline ? 'link' : type,
+    size: mergeInputProps?.size,
     ...captchaButtonProps,
     style: {
       height: isInline ? 'auto' : void 0,
@@ -53,15 +67,6 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
   };
 
   const captchaButtonDom = <LCaptchaButton {...innerCaptchaButtonProps}>{initText}</LCaptchaButton>;
-
-  const mergeInputProps = {
-    ...inputProps,
-    ...restProps,
-    onChange(...args: any[]) {
-      restProps?.onChange?.(...args);
-      inputProps?.onChange?.(...args);
-    },
-  };
 
   const innerInputProps = {
     ref: inputRef,
@@ -83,7 +88,7 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
 
   return (
     <Flex gap={8} align="center">
-      <Input {...innerInputProps} allowClear />
+      <Input {...innerInputProps} />
       {!isInline ? captchaButtonDom : null}
     </Flex>
   );

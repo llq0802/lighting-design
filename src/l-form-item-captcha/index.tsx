@@ -12,10 +12,13 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   variant,
   //
   cacheKey = '__LFormItemCaptcha__',
+  second,
+  initText = '获取验证码',
+  onEnd,
+
   type = 'default',
   maxLength = 6,
   //
-  initText = '获取验证码',
   request,
   requestData,
   onBefore,
@@ -41,6 +44,8 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
     //
     type,
     cacheKey,
+    second,
+    onEnd,
     initText,
     captchaButtonProps,
     inputProps,

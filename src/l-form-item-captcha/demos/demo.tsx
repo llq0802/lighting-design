@@ -41,6 +41,7 @@ const App: React.FC = () => {
         label="验证码1"
       />
       <LFormItemCaptcha
+        size="small"
         cacheKey="__LFormItemCaptcha__2"
         name="captcha2"
         label="验证码2"

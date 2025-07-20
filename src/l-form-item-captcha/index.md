@@ -34,19 +34,25 @@ import { LFormItemCaptcha } from 'lighting-design';
 
 除了以下参数，其余和 [LFormItem](/components/form-item#api) 一样。
 
-| 参数                  | 说明                                                                                                                             | 类型                                                                            | 默认值                 |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ---------------------- |
-| type                  | 验证码组件类型                                                                                                                   | `"link" \| "text" \| "inline" \| "ghost" \| "default" \| "primary" \| "dashed"` | `'default'`            |
-| maxLength             | 验证码最大长度                                                                                                                   | `number`                                                                        | `6`                    |
-| second                | 倒计时秒数                                                                                                                       | `number`                                                                        | `60`                   |
-| disabledText          | 倒计时的文字, 会带上 second 秒                                                                                                   | `string`                                                                        | `重发 `                |
-| initText              | 按钮初始文本                                                                                                                     | `string`                                                                        | `获取验证码`           |
-| cacheKey              | 组件缓存 key 值 刷新页面也会继续计时                                                                                             | `string`                                                                        | `__LFormItemCaptcha__` |
-| autoFocusOnGetCaptcha | `onGetCaptcha` 请求获取验证成功后，自动获取输入框焦点                                                                            | `boolean`                                                                       | `true`                 |
-| autoClick             | 组件挂载完成后，自动触发点击按钮。                                                                                               | `boolean`                                                                       | `false`                |
-| variant               | `InputProps['variant']`                                                                                                          | `InputProps['variant']`                                                         | `-`                    |
-| inputProps            | antd 输入框的属性                                                                                                                | [InputProps](https://ant.design/components/button-cn#api)                       | `-`                    |
-| buttonProps           | antd 按钮的属性                                                                                                                  | [ButtonProps](https://ant.design/components/input-cn/#api)                      | `-`                    |
-| onEnd                 | 倒计时完成后触发                                                                                                                 | `() => void`                                                                    | `- `                   |
-| actionRef             | 手动开始或取消倒计时 (onGetCaptcha 将无效 )                                                                                      | `MutableRefObject<LCaptchaButtonActionRef>`                                     | `- `                   |
-| onGetCaptcha          | 点击按钮触发并请求获取验证码。<br/>如果返回 `false` 或 `Promise.reject(false)` 表示验证失败或请求验证码失败。会自动管理`loading` | `() => boolean \| Promise<any>`                                                 | `() => true`           |
+| 参数                  | 说明                                                  | 类型                                                                            | 默认值                 |
+| --------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------- | ---------------------- |
+| type                  | 验证码组件类型                                        | `"link" \| "text" \| "inline" \| "ghost" \| "default" \| "primary" \| "dashed"` | `'default'`            |
+| maxLength             | 验证码最大长度                                        | `number`                                                                        | `6`                    |
+| second                | 倒计时秒数                                            | `number`                                                                        | `60`                   |
+| initText              | 按钮初始文本                                          | `string`                                                                        | `获取验证码`           |
+| cacheKey              | 组件缓存 key 值 刷新页面也会继续计时                  | `string`                                                                        | `__LFormItemCaptcha__` |
+| autoFocusOnGetCaptcha | `onGetCaptcha` 请求获取验证成功后，自动获取输入框焦点 | `boolean`                                                                       | `true`                 |
+| autoClick             | 组件挂载完成后，自动触发点击按钮。                    | `boolean`                                                                       | `false`                |
+| variant               | `InputProps['variant']`                               | `InputProps['variant']`                                                         | `-`                    |
+| disabled              | `InputProps['disabled']`                              | `InputProps['disabled']`                                                        | `-`                    |
+| size                  | `InputProps['size']`                                  | `InputProps['size']`                                                            | `-`                    |
+| placeholder           | `InputProps['placeholder']`                           | `InputProps['placeholder']`                                                     | `-`                    |
+| inputProps            | antd 输入框的属性                                     | InputProps                                                                      | `-`                    |
+| captchaButtonProps    | antd 按钮的属性                                       | ButtonProps                                                                     | `-`                    |
+| onEnd                 | 倒计时完成后触发                                      | `() => void`                                                                    | `- `                   |
+| request               | request                                               | `() => void`                                                                    | `- `                   |
+| onBefore              | onBefore                                              | `() => void`                                                                    | `- `                   |
+| onSuccess             | onSuccess                                             | `() => void`                                                                    | `- `                   |
+| onError               | onError                                               | `() => void`                                                                    | `- `                   |
+| requestAutoFocus      | requestAutoFocus                                      | `() => void`                                                                    | `- `                   |
+| requestData           | requestData                                           | `() => void`                                                                    | `- `                   |

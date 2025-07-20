@@ -7,7 +7,7 @@ import type { LFormProps } from 'lighting-design/l-form/interface';
 export interface LFormItemCaptchaProps
   extends LFormItemProps,
     Pick<LFormProps, 'size' | 'disabled' | 'variant'>,
-    Pick<LCaptchaButtonProps, 'cacheKey'> {
+    Pick<LCaptchaButtonProps, 'cacheKey' | 'onEnd' | 'second'> {
   placeholder?: string;
   /**
    *  按钮初始文本
