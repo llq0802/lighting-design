@@ -27,7 +27,148 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/demo.tsx' background="#f5f5f5"></code>
+与 `LDrawerForm` `LModalForm` 结合使用
+<code src='./demos/Demo24.tsx' background="#f5f5f5"></code>
+
+### 查询框
+
+通过 `queryFormProps` 可配置更多高级查询功能
+
+<code src='./demos/Demo1.tsx' background="#f5f5f5"></code>
+
+### 查询框依次紧挨着排列
+
+<code src='./demos/Demo5.tsx' background="#f5f5f5"></code>
+
+### 自定义重置查询
+
+<code src='./demos/Demo11.tsx' background="#f5f5f5"></code>
+
+### 开启缓存功能
+
+<code src='./demos/Demo27.tsx' background="#f5f5f5"></code>
+
+### 增加序号列
+
+支持其他列的配置
+
+<code src='./demos/Demo10.tsx' background="#f5f5f5"></code>
+
+### 重新排序内置工具栏
+
+<code src='./demos/Demo8.tsx' background="#f5f5f5"></code>
+
+### 隐藏部分内置工具栏
+
+<code src='./demos/Demo9.tsx' background="#f5f5f5"></code>
+
+### 隐藏分页栏
+
+<code src='./demos/Demo2.tsx' background="#f5f5f5"></code>
+
+### 小型表格
+
+适合在弹窗，抽屉，下拉等组件中使用
+
+<code src='./demos/Demo18.tsx' background="#f5f5f5"></code>
+
+### 动态列 columns
+
+<code src='./demos/Demo19.tsx' background="#f5f5f5"></code>
+
+### 表格选中功能
+
+<code src='./demos/Demo30.tsx' background="#f5f5f5"></code>
+
+### 表格额外信息
+
+<code src='./demos/Demo3.tsx' background="#f5f5f5"></code>
+
+### 卡片形式
+
+<code src='./demos/Demo6.tsx' background="#f5f5f5"></code>
+
+### 异步表单初始值
+
+<code src='./demos/Demo4.tsx' background="#f5f5f5"></code>
+
+### 手动设置查询表单
+
+<code src='./demos/Demo7.tsx' background="#f5f5f5"></code>
+
+### 填充视口剩余空间
+
+根据实际情况设置`number`类型时表示距离视口底部还剩多少 px
+
+`配置过后如果表格有分页, 表格的分页会在视口底部显示`
+
+不要在弹窗，抽屉，下拉等组件中使用
+
+<code src='./demos/Demo12.tsx' background="#f5f5f5" ></code>
+
+### 斑马纹与 Hover 高亮
+
+`showStripe` 与 `showHover` 设置字符串可自定义颜色
+
+<code src='./demos/Demo22.tsx' background="#f5f5f5" ></code>
+
+### 真正无边框表格
+
+<code src='./demos/Demo28.tsx' background="#f5f5f5" ></code>
+
+### 通过 headerCellStyle cellStyle rowStyle rowStyle 等修改样式
+
+headerCellStyle cellStyle rowStyle rowStyle 还可以是函数自定义控制
+
+<code src='./demos/Demo29.tsx' background="#f5f5f5" ></code>
+
+### 通过 Less 修改样式
+
+<code src='./demos/Demo13.tsx' background="#f5f5f5" ></code>
+
+### 通过 Token 修改样式
+
+`antd` 的版本要大于等于 `5.7.0`
+
+<code src='./demos/Demo15.tsx' background="#f5f5f5" ></code>
+
+### antd.Table 默认的 tr 元素属性
+
+移入每一个单元格`tr`元素会有 `ant-table-cell-hover` 类名
+不建议这样写, 因为 antd 每部使用 js 监听移入移除事件,当数据量大时严重影响性能
+建议使用`showHover`
+
+<code src='./demos/Demo21.tsx' background="#f5f5f5" ></code>
+
+### 自定义渲染组合表格
+
+<code src='./demos/Demo14.tsx' background="#f5f5f5"></code>
+
+### 自定义渲染 antd 头部列
+
+<code src='./demos/Demo25.tsx' background="#f5f5f5"></code>
+
+### Skeleton 骨架屏 1
+
+<code src='./demos/Demo16.tsx' background="#f5f5f5"></code>
+
+### Skeleton 骨架屏 2
+
+<code src='./demos/Demo17.tsx' background="#f5f5f5"></code>
+
+### 突变原表格数据
+
+常用于表格新增 编辑 删除数据的乐观更新 `(  每次更新是需要 list 引用地址不一样才能更新界面 )`
+
+<code src='./demos/Demo20.tsx' background="#f5f5f5"></code>
+
+### 使用 dataSource 方式
+
+<code src='./demos/Demo23.tsx' background="#f5f5f5"></code>
+
+### antd 的 title footer 等其他属性
+
+<code src='./demos/Demo26.tsx' background="#f5f5f5"></code>
 
 ### Excel 导入与导出
 
