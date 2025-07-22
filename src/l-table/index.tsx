@@ -1,37 +1,66 @@
-import { Card, Pagination, Table, type PaginationProps } from 'antd';
-import { usePagination } from './hooks/use-pagination';
+import { Card, Pagination, Table, type PaginationProps, type TableProps } from 'antd';
+import { useTablePagination } from './hooks/use-table-pagination';
 import { useStyles } from './styles';
 
-const LTable = <T extends Record<string, any>>(props) => {
-  const { pagination, dataSource } = props;
-
+const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
+  const { pagination, dataSource, request, ...restProps } = props;
   const { styles, cx } = useStyles();
 
-  usePagination(pagination);
+  const hasDataSource = !!dataSource;
 
-  const paginationProps: PaginationProps =
-    typeof pagination === 'boolean'
+  const paginationProps: PaginationProps | false =
+    pagination === null || pagination === false
       ? false
       : {
           align: 'end',
           showTotal: (total: number) => `共 ${total} 条数据`,
-          total: dataSource?.length || 0,
+          total:hasDataSource? dataSource?.length,
+          defaultCurrent: 1,
+          defaultPageSize: 10,
           ...pagination,
-          onChange(page, pageSize) {
-            pagination?.onChange(page, pageSize);
-          },
           className: cx(styles.pagination, pagination?.className),
         };
 
-  const paginationDom = paginationProps ? <Pagination {...paginationProps} /> : null;
+  const {
+    innerPagination,
+    setInnerPagination,
+    pagination: requestPagination,
+  } = useTablePagination({
+    hasDataSource,
+    request,
+    defaultCurrent: paginationProps ? paginationProps.defaultCurrent! : 1,
+    defaultPageSize: paginationProps ? paginationProps.defaultPageSize! : 10,
+  });
+  console.log('===requestPagination==>', requestPagination);
 
-  const tableDom = (
-    <Table
-      // loading
-      {...props}
-      pagination={false}
+
+
+
+
+
+
+
+
+
+  const innerTableData =
+    dataSource && dataSource?.length > 0
+      ? dataSource.slice(
+          (innerPagination.current - 1) * innerPagination.pageSize,
+          innerPagination.current * innerPagination.pageSize,
+        )
+      : [];
+
+  const paginationDom = paginationProps ? (
+    <Pagination
+      {...paginationProps}
+      onChange={(current, pageSize) => {
+        setInnerPagination({ current, pageSize });
+        paginationProps?.onChange?.(current, pageSize);
+      }}
     />
-  );
+  ) : null;
+
+  const tableDom = <Table loading={false} {...restProps} dataSource={innerTableData} pagination={false} />;
 
   return (
     <Card>

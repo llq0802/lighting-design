@@ -1,4 +1,4 @@
-import { Space, Tag, type TableProps } from 'antd';
+import { Tag, type TableProps } from 'antd';
 import React from 'react';
 import LTable from '..';
 
@@ -48,29 +48,30 @@ const columns: TableProps<DataType>['columns'] = [
       </>
     ),
   },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    ),
-  },
 ];
-const data: DataType[] = new Array(48).fill(null).map((_, i) => ({
+const data: DataType[] = new Array(68).fill(null).map((_, i) => ({
   key: i.toString(),
-  name: `Edward King ${i}`,
-  age: 32,
-  address: `London, Park Lane no. ${i}`,
+  name: `Edward King ${i + 1}`,
+  age: i + 1,
+  address: `London, Park Lane no. ${i + 1}`,
   tags: ['nice', 'developer'],
 }));
 
 const Index: React.FC<PropsType> = ({}) => {
   return (
-    <div>
-      <LTable columns={columns} dataSource={data} />
+    <div
+      style={{
+        outline: '1px solid red',
+        height: 500,
+      }}
+    >
+      <LTable
+        columns={columns}
+        dataSource={data}
+        onChange={(...args) => {
+          console.log('change', args);
+        }}
+      />
     </div>
   );
 };
