@@ -31,7 +31,6 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     defaultCurrent: paginationProps ? paginationProps.defaultCurrent! : 1,
     defaultPageSize: paginationProps ? paginationProps.defaultPageSize! : 10,
   });
-  console.log('===requestPagination==>', requestPagination);
 
 
 
