@@ -14,7 +14,6 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
       : {
           align: 'end',
           showTotal: (total: number) => `共 ${total} 条数据`,
-          total:hasDataSource? dataSource?.length,
           defaultCurrent: 1,
           defaultPageSize: 10,
           ...pagination,
@@ -32,15 +31,6 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     defaultPageSize: paginationProps ? paginationProps.defaultPageSize! : 10,
   });
 
-
-
-
-
-
-
-
-
-
   const innerTableData =
     dataSource && dataSource?.length > 0
       ? dataSource.slice(
@@ -51,9 +41,13 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
 
   const paginationDom = paginationProps ? (
     <Pagination
+      current={requestPagination.current}
+      pageSize={requestPagination.pageSize}
+      total={dataSource?.length ?? requestPagination.total ?? 0}
       {...paginationProps}
       onChange={(current, pageSize) => {
         setInnerPagination({ current, pageSize });
+        requestPagination.onChange(current, pageSize);
         paginationProps?.onChange?.(current, pageSize);
       }}
     />
