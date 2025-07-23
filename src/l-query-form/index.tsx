@@ -53,7 +53,7 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
   );
 });
 
-function LQueryForm(props: LQueryFormProps) {
+function LQueryForm<T = any>(props: LQueryFormProps<T>) {
   const {
     submitter,
     isCollapsed = true,
@@ -93,15 +93,19 @@ function LQueryForm(props: LQueryFormProps) {
       ? false
       : {
           submitText: '查询',
-          position: 'flex-start',
+          // position: 'flex-end',
           gap: 8,
           ...submitter,
           renderSubmitter(btnDoms, props) {
             return (
-              <Flex align="baseline" gap={props?.gap}>
-                <Flex align="center" gap={props?.gap}>
-                  {btnDoms}
-                </Flex>
+              <Flex align="baseline" justify={submitter?.position || 'flex-end'} gap={props?.gap}>
+                {submitter?.renderSubmitter ? (
+                  submitter?.renderSubmitter(btnDoms, props)
+                ) : (
+                  <Flex align="center" gap={props?.gap}>
+                    {btnDoms}
+                  </Flex>
+                )}
                 {enabledCollapse && (
                   <Collapse
                     collapsed={collapsed}
@@ -123,7 +127,14 @@ function LQueryForm(props: LQueryFormProps) {
         return (
           <Row gutter={gutter} {...rowProps}>
             {doms.formItemsDom}
-            <Col key="submitter" flex={1}>
+            <Col
+              key="submitter"
+              flex={1}
+              style={{
+                display: 'flex',
+                alignItems: restProps?.layout === 'vertical' ? 'flex-end' : 'flex-start',
+              }}
+            >
               {doms.submitterDom}
             </Col>
           </Row>

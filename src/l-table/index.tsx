@@ -1,65 +1,110 @@
-import { Card, Pagination, Table, type PaginationProps, type TableProps } from 'antd';
+import { useMount } from 'ahooks';
+import { Card, Flex, Pagination, Table, type PaginationProps, type TableProps } from 'antd';
+import { useLFormInstance } from 'lighting-design/l-form/hooks';
+import LQueryForm from 'lighting-design/l-query-form';
+import { useDefaultPagination } from './hooks/use-default-pagination';
 import { useTablePagination } from './hooks/use-table-pagination';
 import { useStyles } from './styles';
 
 const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
-  const { pagination, dataSource, request, ...restProps } = props;
+  const {
+    pagination,
+    dataSource,
+    request,
+    autoRequest = true,
+    gap = 16,
+    form: outForm,
+    formItems,
+    queryFormProps,
+    renderLTable,
+    ...restProps
+  } = props;
   const { styles, cx } = useStyles();
+  const { defaultCurrent, defaultPageSize } = useDefaultPagination(pagination);
+  const formRef = useLFormInstance(queryFormProps?.form ?? outForm);
 
   const hasDataSource = !!dataSource;
+  const hasFormItems = formItems?.length > 0;
+
+  const {
+    run,
+    data: requestData,
+    innerPagination,
+    setInnerPagination,
+    pagination: requestPagination,
+  } = useTablePagination({ request, defaultCurrent, defaultPageSize });
+
+  const total = hasDataSource ? dataSource?.length ?? 0 : requestData.total;
 
   const paginationProps: PaginationProps | false =
     pagination === null || pagination === false
       ? false
       : {
           align: 'end',
+          hideOnSinglePage: true,
+          showSizeChanger: total > 50,
+          showQuickJumper: total > 50,
           showTotal: (total: number) => `共 ${total} 条数据`,
-          defaultCurrent: 1,
-          defaultPageSize: 10,
+          total,
+          current: hasDataSource ? void 0 : requestPagination.current,
+          pageSize: hasDataSource ? void 0 : requestPagination.pageSize,
+          defaultCurrent,
+          defaultPageSize,
           ...pagination,
           className: cx(styles.pagination, pagination?.className),
+          onChange: (current, pageSize) => {
+            pagination?.onChange?.(current, pageSize);
+            if (hasDataSource) {
+              setInnerPagination({ current, pageSize });
+              return;
+            }
+            const formValues: Record<string, any> = hasFormItems ? formRef.current?.getFieldsValue() : {};
+            run({ ...formValues, current, pageSize });
+          },
         };
 
-  const {
-    innerPagination,
-    setInnerPagination,
-    pagination: requestPagination,
-  } = useTablePagination({
-    hasDataSource,
-    request,
-    defaultCurrent: paginationProps ? paginationProps.defaultCurrent! : 1,
-    defaultPageSize: paginationProps ? paginationProps.defaultPageSize! : 10,
+  const getTableData = () => {
+    if (!paginationProps) return dataSource ?? requestData.list;
+    if (hasDataSource) {
+      return dataSource?.slice?.(
+        (innerPagination.current - 1) * innerPagination.pageSize,
+        innerPagination.current * innerPagination.pageSize,
+      );
+    }
+    return requestData.list;
+  };
+
+  useMount(() => {
+    if (!autoRequest || hasDataSource) return;
+    const formValues: Record<string, any> = hasFormItems ? formRef.current?.getFieldsValue() : {};
+    run({ ...formValues, current: defaultCurrent, pageSize: defaultPageSize });
   });
 
-  const innerTableData =
-    dataSource && dataSource?.length > 0
-      ? dataSource.slice(
-          (innerPagination.current - 1) * innerPagination.pageSize,
-          innerPagination.current * innerPagination.pageSize,
-        )
-      : [];
+  const formDom = <LQueryForm items={formItems} {...queryFormProps} form={formRef.current} />;
+  const tableDom = <Table loading={false} {...restProps} dataSource={getTableData()} pagination={false} />;
+  const paginationDom = paginationProps ? <Pagination {...paginationProps} /> : null;
 
-  const paginationDom = paginationProps ? (
-    <Pagination
-      current={requestPagination.current}
-      pageSize={requestPagination.pageSize}
-      total={dataSource?.length ?? requestPagination.total ?? 0}
-      {...paginationProps}
-      onChange={(current, pageSize) => {
-        setInnerPagination({ current, pageSize });
-        requestPagination.onChange(current, pageSize);
-        paginationProps?.onChange?.(current, pageSize);
-      }}
-    />
-  ) : null;
+  if (renderLTable) {
+    return renderLTable({ formDom, tableDom, paginationDom }, props);
+  }
 
-  const tableDom = <Table loading={false} {...restProps} dataSource={innerTableData} pagination={false} />;
+  if (!hasFormItems) {
+    return (
+      <Card>
+        {tableDom}
+        {paginationDom}
+      </Card>
+    );
+  }
 
   return (
-    <Card>
-      {tableDom}
-      {paginationDom}
-    </Card>
+    <Flex vertical gap={gap}>
+      <Card>{formDom}</Card>
+      <Card>
+        {tableDom}
+        {paginationDom}
+      </Card>
+    </Flex>
   );
 };
 

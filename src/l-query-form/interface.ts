@@ -10,7 +10,7 @@ type LQueryFormItem =
     }
   | React.ReactNode;
 
-export interface LQueryFormProps extends LFormProps {
+export interface LQueryFormProps<T> extends LFormProps<T> {
   /**
    *初始状态下是否折叠
    * - 不支持动态设置
