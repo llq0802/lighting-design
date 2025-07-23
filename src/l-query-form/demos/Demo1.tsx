@@ -7,6 +7,7 @@ const Demo1 = () => {
   return (
     <>
       <LQueryForm
+        // layout="vertical"
         form={form}
         showColsNumber={3}
         // isCollapsed={false}

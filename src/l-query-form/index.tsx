@@ -1,5 +1,5 @@
 import { DownOutlined } from '@ant-design/icons';
-import { Col, Flex, Row, Typography, theme } from 'antd';
+import { Row, Typography, theme } from 'antd';
 import LForm from 'lighting-design/l-form';
 import type { FC } from 'react';
 import { cloneElement, memo, useState } from 'react';
@@ -73,19 +73,17 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
     const isSimple = !item?.content;
     const itemDom = isSimple ? item : item?.content;
     const itemColProps = isSimple ? {} : item.colProps;
-    const rowKey = itemDom?.key || itemDom?.props?.name + `${i}`;
     const hidden = collapsed && enabledCollapse && i >= showColsNumber;
-
+    const rowKey = itemDom?.key || itemDom?.props?.name + `${i}`;
     const style = {
       display: hidden ? 'none' : void 0,
       ...itemColProps?.style,
     };
 
-    return (
-      <Col key={rowKey} {...defualtColSpan} {...itemColProps} style={style}>
-        {cloneElement(itemDom, { hidden, ...itemDom?.props })}
-      </Col>
-    );
+    return cloneElement(itemDom, { hidden, ...itemDom?.props });
+    // <Col key={rowKey} {...(!isSpace ? defualtColSpan : {})} {...itemColProps} style={style}>
+    //   {cloneElement(itemDom, { hidden, ...itemDom?.props })}
+    // </Col>
   });
 
   const submitterProps =
@@ -96,53 +94,45 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
           // position: 'flex-end',
           gap: 8,
           ...submitter,
-          renderSubmitter(btnDoms, props) {
-            return (
-              <Flex align="baseline" justify={submitter?.position || 'flex-end'} gap={props?.gap}>
-                {submitter?.renderSubmitter ? (
-                  submitter?.renderSubmitter(btnDoms, props)
-                ) : (
-                  <Flex align="center" gap={props?.gap}>
-                    {btnDoms}
-                  </Flex>
-                )}
-                {enabledCollapse && (
-                  <Collapse
-                    collapsed={collapsed}
-                    onToggle={(v) => {
-                      setCollapsed(v);
-                      onCollapsedChange?.(v);
-                    }}
-                  />
-                )}
-              </Flex>
-            );
-          },
         };
+
+  const collapseDom = enabledCollapse ? (
+    <Collapse
+      collapsed={collapsed}
+      onToggle={(v) => {
+        setCollapsed(v);
+        onCollapsedChange?.(v);
+      }}
+    />
+  ) : null;
 
   return (
     <LForm
       submitter={submitterProps}
-      renderChildren={(doms) => {
-        return (
-          <Row gutter={gutter} {...rowProps}>
-            {doms.formItemsDom}
-            <Col
-              key="submitter"
-              flex={1}
-              style={{
-                display: 'flex',
-                alignItems: restProps?.layout === 'vertical' ? 'flex-end' : 'flex-start',
-              }}
-            >
-              {doms.submitterDom}
-            </Col>
-          </Row>
-        );
-      }}
+      // renderChildren={(doms) => {
+      //   return (
+      //     <Row gutter={gutter} {...rowProps}>
+      //       {doms.formItemsDom}
+      //       <Col
+      //         key="submitter"
+      //         flex="1 1 0"
+      //         style={{
+      //           display: 'flex',
+      //           alignItems: restProps?.layout === 'vertical' ? 'flex-end' : 'flex-start',
+      //         }}
+      //       >
+      //         {doms.submitterDom}
+      //         {collapseDom}
+      //       </Col>
+      //     </Row>
+      //   );
+      // }}
       {...restProps}
     >
-      {chindrenItems}
+      <Row gutter={gutter} {...rowProps}>
+        {chindrenItems}
+        {collapseDom}
+      </Row>
     </LForm>
   );
 }
