@@ -1,7 +1,8 @@
 import { createStyles } from 'lighting-design/styles';
 
-export const useStyles = createStyles((p) => {
-  const { css, cx, prefixCls, token } = p;
+export const useStyles = createStyles((params, props: any = {}) => {
+  const { rowHoverable, rowStripe } = props;
+  const { css, cx, prefixCls, token } = params;
 
   return {
     form_card: css`
@@ -13,12 +14,18 @@ export const useStyles = createStyles((p) => {
       marginBottom: token.margin,
     },
     row_stripe: {
-      backgroundColor: '#fafafa',
+      backgroundColor: typeof rowHoverable === 'string' ? rowStripe : '#fafafa',
     },
     row_hover: css`
-      transition: background-color 0.1s;
+      transition: background-color 0.2s;
       &:hover {
-        background-color: ${'#fafafa'};
+        background-color: ${typeof rowHoverable === 'string' ? rowHoverable : '#fafafa'};
+      }
+    `,
+    row_borderless: css`
+      tr& > td.${prefixCls}-table-cell {
+          border: none;
+        }
       }
     `,
     pagination: cx(

@@ -13,7 +13,6 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     style,
     pagination,
     dataSource,
-
     //
     rootStyle,
     request,
@@ -27,11 +26,15 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     toolbarStyle,
     rowHoverable = true,
     rowStripe = true,
+    borderless = false,
     queryFormProps,
     renderLTable,
     ...restProps
   } = props;
-  const { styles, cx } = useStyles();
+  const { styles, cx } = useStyles({
+    rowHoverable,
+    rowStripe,
+  });
   const { defaultCurrent, defaultPageSize } = useDefaultPagination(pagination);
   const formRef = useLFormInstance(queryFormProps?.form ?? outForm);
 
@@ -120,6 +123,8 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
         return cx(
           rowStripe && isEvenNumber(i + 1) ? styles.row_stripe : '',
           rowHoverable && styles.row_hover,
+
+          borderless && styles.row_borderless,
           typeof restProps.rowClassName === 'function'
             ? restProps.rowClassName?.(record, i, indent)
             : restProps.rowClassName,
@@ -143,7 +148,7 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
 
   if (!hasFormItems) {
     return (
-      <Card className={className} style={style}>
+      <Card data-l-table className={className} style={style}>
         {innerToolbarDom}
         {tableDom}
         {paginationDom}
