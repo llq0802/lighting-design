@@ -5,9 +5,9 @@ import { useMemo } from 'react';
  */
 export function useDefaultPagination(outPagination?: Record<string, any> | false) {
   // 默认从第一页
-  const defaultCurrent = useMemo(() => (outPagination && outPagination.defaultCurrent) || 1, []);
+  const defaultCurrent: number = useMemo(() => (outPagination && outPagination.defaultCurrent) || 1, []);
   // 默认一页10条
-  const defaultPageSize = useMemo(() => (outPagination && outPagination.defaultPageSize) || 10, []);
+  const defaultPageSize: number = useMemo(() => (outPagination && outPagination.defaultPageSize) || 10, []);
   return {
     defaultCurrent,
     defaultPageSize,

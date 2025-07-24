@@ -1,4 +1,4 @@
-import { Tag, type TableProps } from 'antd';
+import { Button, Tag, type TableProps } from 'antd';
 import { LFormItemInput } from 'lighting-design';
 import React from 'react';
 import LTable from '..';
@@ -61,10 +61,12 @@ const data: DataType[] = new Array(48).fill(null).map((_, i) => ({
 const Index: React.FC<PropsType> = ({}) => {
   return (
     <div
-      style={{
-        outline: '1px solid red',
-        // height: 500,
-      }}
+      style={
+        {
+          // outline: '1px solid red',
+          // height: 500,
+        }
+      }
     >
       <LTable
         rootClassName="my-table-root-1"
@@ -90,6 +92,14 @@ const Index: React.FC<PropsType> = ({}) => {
         onChange={(...args) => {
           console.log('change', args);
         }}
+        toolbar={
+          <>
+            <Button>测试</Button>
+            <Button>测试</Button>
+            <Button>测试</Button>
+            <Button>测试</Button>
+          </>
+        }
       />
     </div>
   );

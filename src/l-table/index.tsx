@@ -2,6 +2,7 @@ import { useMount } from 'ahooks';
 import { Card, Flex, Pagination, Table, type PaginationProps, type TableProps } from 'antd';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
 import LQueryForm from 'lighting-design/l-query-form';
+import { isEvenNumber } from 'lighting-design/utils';
 import { useDefaultPagination } from './hooks/use-default-pagination';
 import { useTablePagination } from './hooks/use-table-pagination';
 import { useStyles } from './styles';
@@ -12,12 +13,20 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     style,
     pagination,
     dataSource,
+
     //
+    rootStyle,
     request,
     autoRequest = true,
     gap = 16,
+    actionRef,
     form: outForm,
     formItems,
+    toolbar,
+    toolbarClassName,
+    toolbarStyle,
+    rowHoverable = true,
+    rowStripe = true,
     queryFormProps,
     renderLTable,
     ...restProps
@@ -83,9 +92,50 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     run({ ...formValues, current: defaultCurrent, pageSize: defaultPageSize });
   });
 
-  const formDom = <LQueryForm items={formItems} {...queryFormProps} form={formRef.current} />;
-  const tableDom = <Table loading={false} {...restProps} dataSource={getTableData()} pagination={false} />;
+  const formDom = (
+    <LQueryForm
+      items={formItems}
+      {...queryFormProps}
+      form={formRef.current}
+      onFinish={(formValues) => {
+        run(
+          {
+            current: defaultCurrent,
+            pageSize: requestPagination?.pageSize,
+            formValues,
+          },
+          'onSearch',
+        );
+      }}
+    />
+  );
+
+  const toolbarDom = toolbar;
+  const tableDom = (
+    <Table
+      style={rootStyle}
+      {...restProps}
+      dataSource={getTableData()}
+      rowClassName={(record, i, indent) => {
+        return cx(
+          rowStripe && isEvenNumber(i + 1) ? styles.row_stripe : '',
+          rowHoverable && styles.row_hover,
+          typeof restProps.rowClassName === 'function'
+            ? restProps.rowClassName?.(record, i, indent)
+            : restProps.rowClassName,
+        );
+      }}
+      pagination={false}
+      rowHoverable={false}
+    />
+  );
   const paginationDom = paginationProps ? <Pagination {...paginationProps} /> : null;
+  const innerFormDom = hasFormItems ? <Card className={cx(styles.form_card)}>{formDom}</Card> : null;
+  const innerToolbarDom = toolbar ? (
+    <Flex align="center" gap={8} className={cx(styles.toolbar, toolbarClassName)} style={toolbarStyle}>
+      {toolbarDom}
+    </Flex>
+  ) : null;
 
   if (renderLTable) {
     return renderLTable({ formDom, tableDom, paginationDom }, props);
@@ -94,6 +144,7 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
   if (!hasFormItems) {
     return (
       <Card className={className} style={style}>
+        {innerToolbarDom}
         {tableDom}
         {paginationDom}
       </Card>
@@ -102,8 +153,9 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
 
   return (
     <Flex vertical gap={gap} className={className} style={style}>
-      <Card>{formDom}</Card>
+      {innerFormDom}
       <Card>
+        {innerToolbarDom}
         {tableDom}
         {paginationDom}
       </Card>

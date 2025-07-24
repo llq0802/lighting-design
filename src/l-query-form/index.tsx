@@ -105,6 +105,7 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
           <Row gutter={gap} justify={justify} {...rowProps}>
             {doms.formItemsDom}
             <Col
+              data-col-submitter
               key="submitter"
               style={{
                 display: 'flex',
