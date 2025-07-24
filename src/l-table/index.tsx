@@ -1,8 +1,11 @@
 import { useMount } from 'ahooks';
 import { Card, Flex, Pagination, Table, type PaginationProps, type TableProps } from 'antd';
+import type { ColumnType } from 'antd/es/table';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
 import LQueryForm from 'lighting-design/l-query-form';
 import { isEvenNumber } from 'lighting-design/utils';
+import { isPlainObject } from 'lodash-es';
+import { useImperativeHandle } from 'react';
 import { useDefaultPagination } from './hooks/use-default-pagination';
 import { useTablePagination } from './hooks/use-table-pagination';
 import { useStyles } from './styles';
@@ -11,9 +14,13 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
   const {
     className,
     style,
+    rowClassName,
+    onHeaderRow,
     pagination,
     dataSource,
+    columns,
     //
+    sort = true,
     rootStyle,
     request,
     autoRequest = true,
@@ -74,9 +81,30 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
               return;
             }
             const formValues: Record<string, any> = hasFormItems ? formRef.current?.getFieldsValue() : {};
-            run({ ...formValues, current, pageSize });
+            run({ formValues, current, pageSize }, 'pagination');
           },
         };
+
+  const getTableColumns = (): ColumnType<any>[] | undefined => {
+    if (sort) {
+      const sortProps = isPlainObject(sort) ? sort : {};
+      const { current, pageSize } = hasDataSource ? innerPagination : requestPagination;
+      const render = (t: any, c: any, i: number) => {
+        const count = paginationProps ? (current - 1) * pageSize + i + 1 : i + 1;
+        return typeof sortProps?.render === 'function' ? sortProps?.render?.(count, t, c, i) : count;
+      };
+      const sortColumn: ColumnType = {
+        title: '序号',
+        align: 'center',
+        width: 70,
+        ...sortProps,
+        render,
+        dataIndex: '__SORT__',
+      };
+      return [sortColumn, ...(columns || [])];
+    }
+    return columns;
+  };
 
   const getTableData = () => {
     if (!paginationProps) return dataSource ?? requestData.list;
@@ -89,11 +117,37 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     return requestData.list;
   };
 
+  // 根据传入参数请求
+  const handleCustomSearch = (current: number, pageSize: number, extraParams?: Record<string, any>) => {
+    if (hasDataSource) return;
+    const formValues = hasFormItems ? formRef.current?.getFieldsValue() : {};
+    run(
+      {
+        ...extraParams,
+        formValues,
+        current,
+        pageSize,
+      },
+      'custom',
+    );
+  };
+
   useMount(() => {
     if (!autoRequest || hasDataSource) return;
     const formValues: Record<string, any> = hasFormItems ? formRef.current?.getFieldsValue() : {};
-    run({ ...formValues, current: defaultCurrent, pageSize: defaultPageSize });
+    run({ formValues, current: defaultCurrent, pageSize: defaultPageSize }, 'init');
   });
+
+  useImperativeHandle(actionRef, () => ({
+    // /** 根据条件，当前页、刷新数据 */
+    // onReload: handleReload,
+    // /** 重置数据，从第一页开始显示、查询数据 */
+    // onReset: handleReset,
+    // /** 根据条件，从第一页开始显示、查询数据 */
+    // onSearch: handleSearch,
+    /** 根据传入参数请求 */
+    onCustomSearch: handleCustomSearch,
+  }));
 
   const formDom = (
     <LQueryForm
@@ -101,13 +155,15 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
       {...queryFormProps}
       form={formRef.current}
       onFinish={(formValues) => {
+        queryFormProps?.onFinish?.(formValues);
+        if (hasDataSource) return;
         run(
           {
+            formValues,
             current: defaultCurrent,
             pageSize: requestPagination?.pageSize,
-            formValues,
           },
-          'onSearch',
+          'search',
         );
       }}
     />
@@ -116,18 +172,23 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
   const toolbarDom = toolbar;
   const tableDom = (
     <Table
-      style={rootStyle}
       {...restProps}
+      style={rootStyle}
+      columns={getTableColumns()}
       dataSource={getTableData()}
+      onHeaderRow={(record, i) => {
+        const headerRowProps = typeof onHeaderRow === 'function' ? onHeaderRow?.(record, i) : {};
+        return {
+          ...headerRowProps,
+          className: cx(borderless && styles.header_borderless, headerRowProps.className),
+        };
+      }}
       rowClassName={(record, i, indent) => {
         return cx(
           rowStripe && isEvenNumber(i + 1) ? styles.row_stripe : '',
           rowHoverable && styles.row_hover,
-
           borderless && styles.row_borderless,
-          typeof restProps.rowClassName === 'function'
-            ? restProps.rowClassName?.(record, i, indent)
-            : restProps.rowClassName,
+          typeof rowClassName === 'function' ? rowClassName?.(record, i, indent) : rowClassName,
         );
       }}
       pagination={false}
@@ -143,12 +204,12 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
   ) : null;
 
   if (renderLTable) {
-    return renderLTable({ formDom, tableDom, paginationDom }, props);
+    return renderLTable({ formDom, toolbarDom, tableDom, paginationDom }, props);
   }
 
   if (!hasFormItems) {
     return (
-      <Card data-l-table className={className} style={style}>
+      <Card className={className} style={style}>
         {innerToolbarDom}
         {tableDom}
         {paginationDom}
@@ -156,14 +217,18 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     );
   }
 
+  const innerTableDom = (
+    <Card>
+      {innerToolbarDom}
+      {tableDom}
+      {paginationDom}
+    </Card>
+  );
+
   return (
     <Flex vertical gap={gap} className={className} style={style}>
       {innerFormDom}
-      <Card>
-        {innerToolbarDom}
-        {tableDom}
-        {paginationDom}
-      </Card>
+      {innerTableDom}
     </Flex>
   );
 };

@@ -18,7 +18,7 @@ export const useTablePagination = ({
   requestOptions,
 }: useTablePaginationParams) => {
   const [innerPagination, setInnerPagination] = useState({ current: defaultCurrent, pageSize: defaultPageSize });
-  const [initLoading, setInitLoading] = useState(true);
+  const [initLoading, setInitLoading] = useState(false);
   const [noInitLoading, setNoInitLoading] = useState(false);
   const firstRequestRef = useRef(true);
 

@@ -28,6 +28,12 @@ export const useStyles = createStyles((params, props: any = {}) => {
         }
       }
     `,
+    header_borderless: css`
+      tr& > th.${prefixCls}-table-cell {
+          border: none;
+        }
+      }
+    `,
     pagination: cx(
       css`
         margin-top: ${token.marginLG}px;

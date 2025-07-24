@@ -80,15 +80,18 @@ const Index: React.FC<PropsType> = ({}) => {
           <LFormItemInput name="input5" label="输入框3" />,
         ]}
         columns={columns}
-        // dataSource={data}
-        request={async (params) => {
-          console.log('params', params);
-          return {
-            data: data.slice((params.current - 1) * params.pageSize, params.current * params.pageSize),
-            total: data.length,
-          };
-        }}
-        // pagination={false}
+        dataSource={data}
+        // request={async (params) => {
+        //   console.log('params', params);
+        //   return {
+        //     data: data.slice((params.current - 1) * params.pageSize, params.current * params.pageSize),
+        //     total: data.length,
+        //   };
+        // }}
+
+        // pagination={{
+        //   defaultPageSize: 5,
+        // }}
         onChange={(...args) => {
           console.log('change', args);
         }}
