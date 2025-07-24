@@ -1,7 +1,7 @@
 import { Button, Flex, Form, type ButtonProps, type FormInstance } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import { type LFormItemProps } from 'lighting-design/l-form-item';
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useLFormContext } from '../context';
 
 export type LFormSubmitterProps<T extends any = any> = {
@@ -35,7 +35,13 @@ export type LFormSubmitterProps<T extends any = any> = {
   /** 是否展示重置按钮 */
   showReset?: boolean;
   /** 重新渲染函数 */
-  renderSubmitter?: (dom: ReactElement[], props: LFormSubmitterProps) => ReactNode[] | ReactNode;
+  renderSubmitter?: (
+    doms: {
+      submitDom: ReactNode;
+      resetDom: ReactNode;
+    },
+    props: LFormSubmitterProps,
+  ) => ReactNode[] | ReactNode;
   /**
    * 按钮的排列方式
    */
@@ -94,12 +100,13 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
     submitButtonProps?.onClick?.(e);
   };
 
-  const buttonDomArr = [
-    showReset ? (
-      <Button key="reset" htmlType="button" disabled={loading} {...resetButtonProps} onClick={resetClick}>
-        {resetText}
-      </Button>
-    ) : null,
+  const resetDom = showReset ? (
+    <Button key="reset" htmlType="button" disabled={loading} {...resetButtonProps} onClick={resetClick}>
+      {resetText}
+    </Button>
+  ) : null;
+
+  const submitDom = (
     <Button
       key="submit"
       type="primary"
@@ -109,15 +116,15 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
       onClick={submitClick}
     >
       {submitText}
-    </Button>,
-  ].filter(Boolean) as JSX.Element[];
+    </Button>
+  );
 
   const isPresetposition = position === 'flex-start' || position === 'center' || position === 'flex-end';
   const justifyContent = isPresetposition ? position : void 0;
   const paddingLeft = isPresetposition ? void 0 : position;
 
   const dom = renderSubmitter ? (
-    renderSubmitter(buttonDomArr, props)
+    renderSubmitter({ resetDom, submitDom }, props)
   ) : (
     <Flex
       className={className}
@@ -125,7 +132,8 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
       align="center"
       style={{ justifyContent, paddingLeft, marginBottom, ...style }}
     >
-      {buttonDomArr}
+      {resetDom}
+      {submitDom}
     </Flex>
   );
 

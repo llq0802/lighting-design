@@ -8,8 +8,11 @@ import { useStyles } from './styles';
 
 const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
   const {
+    className,
+    style,
     pagination,
     dataSource,
+    //
     request,
     autoRequest = true,
     gap = 16,
@@ -90,7 +93,7 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
 
   if (!hasFormItems) {
     return (
-      <Card>
+      <Card className={className} style={style}>
         {tableDom}
         {paginationDom}
       </Card>
@@ -98,7 +101,7 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
   }
 
   return (
-    <Flex vertical gap={gap}>
+    <Flex vertical gap={gap} className={className} style={style}>
       <Card>{formDom}</Card>
       <Card>
         {tableDom}

@@ -1,5 +1,5 @@
 import { DownOutlined } from '@ant-design/icons';
-import { Row, Typography, theme } from 'antd';
+import { Col, Row, Typography, theme } from 'antd';
 import LForm from 'lighting-design/l-form';
 import type { FC } from 'react';
 import { cloneElement, memo, useState } from 'react';
@@ -72,18 +72,15 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
   const chindrenItems = items?.map((item: any, i) => {
     const isSimple = !item?.content;
     const itemDom = isSimple ? item : item?.content;
-    const itemColProps = isSimple ? {} : item.colProps;
+    const colProps = isSimple ? {} : item.colProps;
     const hidden = collapsed && enabledCollapse && i >= showColsNumber;
     const rowKey = itemDom?.key || itemDom?.props?.name + `${i}`;
-    const style = {
-      display: hidden ? 'none' : void 0,
-      ...itemColProps?.style,
+    return {
+      rowKey,
+      hidden,
+      content: cloneElement(itemDom, { hidden, ...itemDom?.props }),
+      colProps,
     };
-
-    return cloneElement(itemDom, { hidden, ...itemDom?.props });
-    // <Col key={rowKey} {...(!isSpace ? defualtColSpan : {})} {...itemColProps} style={style}>
-    //   {cloneElement(itemDom, { hidden, ...itemDom?.props })}
-    // </Col>
   });
 
   const submitterProps =
@@ -130,7 +127,14 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
       {...restProps}
     >
       <Row gutter={gutter} {...rowProps}>
-        {chindrenItems}
+        {chindrenItems.map((item) => {
+          const style = { display: item.hidden ? 'none' : void 0, ...item.colProps?.style };
+          return (
+            <Col key={item.rowKey} {...(!isSpace ? defualtColSpan : {})} {...item.colProps} style={style}>
+              {item.content}
+            </Col>
+          );
+        })}
         {collapseDom}
       </Row>
     </LForm>
