@@ -1,5 +1,5 @@
 import type { ColProps } from 'antd';
-import type { Gutter, RowProps } from 'antd/es/grid/row';
+import type { RowProps } from 'antd/es/grid/row';
 import type { LFormProps } from 'lighting-design/l-form';
 
 type LQueryFormItem =
@@ -28,17 +28,14 @@ export interface LQueryFormProps<T> extends LFormProps<T> {
    */
   itemColProps?: ColProps;
   /**
-   * 是否水平紧凑显示
+   * 是否水平紧凑模式
    */
   isSpace?: boolean;
   /**
-   * ***重置/查询按钮组*** 是否紧挨着最后的表单项
-   */
-  isApproachLastItem?: boolean;
-  /**
    * 配置每一项的间隔
    */
-  gutter?: Gutter | [Gutter, Gutter];
+  gap?: RowProps['gutter'];
+  justify?: RowProps['justify'];
   /**
    * 展开/收起 事件的回调
    */

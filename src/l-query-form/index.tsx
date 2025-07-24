@@ -23,10 +23,7 @@ interface CollapseProps {
 }
 
 const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
-  const handleCollapse = () => {
-    onToggle?.(!collapsed);
-  };
-
+  const handleCollapse = () => onToggle?.(!collapsed);
   const { token } = useToken();
 
   return (
@@ -38,17 +35,11 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 4,
+        gap: 2,
       }}
     >
-      {collapsed ? '展开' : '收起'}
-      <DownOutlined
-        style={{
-          marginLeft: 4,
-          transition: '0.3s all',
-          transform: `rotate(${collapsed ? 0 : 180}deg)`,
-        }}
-      />
+      <span data-collapse-text>{collapsed ? '展开' : '收起'}</span>
+      <DownOutlined style={{ transition: '0.3s all', transform: `rotate(${collapsed ? 0 : 180}deg)` }} />
     </Link>
   );
 });
@@ -59,10 +50,12 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
     isCollapsed = true,
     isSpace = false,
     showColsNumber,
-    gutter = 16,
+    gap = 16,
+    justify,
+    rowProps,
     onCollapsedChange,
     items,
-    rowProps,
+    renderLFrom,
     ...restProps
   } = props;
 
@@ -88,8 +81,9 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
       ? false
       : {
           submitText: '查询',
-          // position: 'flex-end',
+          position: 'flex-end',
           gap: 8,
+          marginBottom: restProps?.formItemBottom || 24,
           ...submitter,
         };
 
@@ -106,27 +100,31 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
   return (
     <LForm
       submitter={submitterProps}
-      // renderChildren={(doms) => {
-      //   return (
-      //     <Row gutter={gutter} {...rowProps}>
-      //       {doms.formItemsDom}
-      //       <Col
-      //         key="submitter"
-      //         flex="1 1 0"
-      //         style={{
-      //           display: 'flex',
-      //           alignItems: restProps?.layout === 'vertical' ? 'flex-end' : 'flex-start',
-      //         }}
-      //       >
-      //         {doms.submitterDom}
-      //         {collapseDom}
-      //       </Col>
-      //     </Row>
-      //   );
-      // }}
+      renderChildren={(doms) => {
+        return (
+          <Row gutter={gap} justify={justify} {...rowProps}>
+            {doms.formItemsDom}
+            <Col
+              key="submitter"
+              style={{
+                display: 'flex',
+                alignItems: 'baseline',
+                alignSelf: restProps?.layout === 'vertical' ? 'flex-end' : 'flex-start',
+                gap: submitterProps ? submitterProps.gap : 8,
+                marginLeft: submitterProps && submitterProps.position === 'flex-end' ? 'auto' : 'initial',
+              }}
+            >
+              <>
+                {doms.submitterDom}
+                {collapseDom}
+              </>
+            </Col>
+          </Row>
+        );
+      }}
       {...restProps}
     >
-      <Row gutter={gutter} {...rowProps}>
+      <>
         {chindrenItems.map((item) => {
           const style = { display: item.hidden ? 'none' : void 0, ...item.colProps?.style };
           return (
@@ -135,8 +133,7 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
             </Col>
           );
         })}
-        {collapseDom}
-      </Row>
+      </>
     </LForm>
   );
 }
