@@ -27,6 +27,7 @@ export type LFormSubmitterProps<T extends any = any> = {
    * 是否 `loading` 提交按钮
    */
   loading?: boolean;
+  disabled?: boolean;
   /**
    * 是否按`Enter`键能提交表单
    * - 如果设置 `submitter.renderSubmitter` 且不使用内部 `dom (提交按钮)` 则无效
@@ -57,6 +58,7 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
     className,
     style,
     loading,
+    disabled,
     isEnterSubmit,
     onSubmit,
     onReset,
@@ -101,7 +103,7 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
   };
 
   const resetDom = showReset ? (
-    <Button key="reset" htmlType="button" disabled={loading} {...resetButtonProps} onClick={resetClick}>
+    <Button key="reset" htmlType="button" disabled={disabled || loading} {...resetButtonProps} onClick={resetClick}>
       {resetText}
     </Button>
   ) : null;
@@ -111,6 +113,7 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
       key="submit"
       type="primary"
       loading={loading}
+      disabled={disabled}
       htmlType={isEnterSubmit ? 'submit' : 'button'}
       {...submitButtonProps}
       onClick={submitClick}

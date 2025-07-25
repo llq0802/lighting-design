@@ -31,7 +31,7 @@ export const useTablePagination = ({
       }
       const [paramsObj, requestType, ...restArgs] = args;
       const res = await request?.(paramsObj, requestType, ...restArgs);
-      const list = res?.data || res?.list || res?.rows || res?.result || [];
+      const list = res?.list || res?.data || res?.rows || res?.result || [];
       const total = res?.total ?? list.length;
       if (Array.isArray(list) && list.length) {
         return { list, total };
@@ -39,6 +39,7 @@ export const useTablePagination = ({
       return { list: [], total: 0 };
     },
     {
+      loadingDelay: 20,
       ...requestOptions,
       manual: true,
       defaultCurrent,

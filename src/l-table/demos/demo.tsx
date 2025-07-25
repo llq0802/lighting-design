@@ -1,5 +1,6 @@
-import { Button, Tag, type TableProps } from 'antd';
+import { Button, ConfigProvider, Tag, type TableProps } from 'antd';
 import { LFormItemInput } from 'lighting-design';
+import { sleep } from 'lighting-design/test';
 import React from 'react';
 import LTable from '..';
 
@@ -68,42 +69,50 @@ const Index: React.FC<PropsType> = ({}) => {
         }
       }
     >
-      <LTable
-        rootClassName="my-table-root-1"
-        formItems={[
-          {
-            content: <LFormItemInput name="input1" label="输入框1" />,
-          },
-          <LFormItemInput name="input2" label="输入框2" />,
-          <LFormItemInput name="input3" label="输入框3" />,
-          <LFormItemInput name="input4" label="输入框3" />,
-          <LFormItemInput name="input5" label="输入框3" />,
-        ]}
-        columns={columns}
-        dataSource={data}
-        // request={async (params) => {
-        //   console.log('params', params);
-        //   return {
-        //     data: data.slice((params.current - 1) * params.pageSize, params.current * params.pageSize),
-        //     total: data.length,
-        //   };
-        // }}
-
-        // pagination={{
-        //   defaultPageSize: 5,
-        // }}
-        onChange={(...args) => {
-          console.log('change', args);
-        }}
-        toolbar={
-          <>
-            <Button>测试</Button>
-            <Button>测试</Button>
-            <Button>测试</Button>
-            <Button>测试</Button>
-          </>
-        }
-      />
+      <ConfigProvider
+      // renderEmpty={() => {
+      //   return <div>自定义空数据</div>;
+      // }}
+      >
+        <LTable
+          footer={(currentPageData) => 'antd.Footer'}
+          rootClassName="my-table-root-1"
+          formItems={[
+            {
+              content: <LFormItemInput name="input1" label="输入框1" />,
+            },
+            <LFormItemInput name="input2" label="输入框2" />,
+            <LFormItemInput name="input3" label="输入框3" />,
+            <LFormItemInput name="input4" label="输入框3" />,
+            <LFormItemInput name="input5" label="输入框3" />,
+          ]}
+          columns={columns}
+          // dataSource={data}
+          // dataSource={[]}
+          request={async (params) => {
+            console.log('params', params);
+            await sleep();
+            return {
+              data: data.slice((params.current - 1) * params.pageSize, params.current * params.pageSize),
+              total: data.length,
+            };
+          }}
+          // pagination={{
+          //   defaultPageSize: 5,
+          // }}
+          onChange={(...args) => {
+            console.log('change', args);
+          }}
+          toolbar={
+            <>
+              <Button>测试</Button>
+              <Button>测试</Button>
+              <Button>测试</Button>
+              <Button>测试</Button>
+            </>
+          }
+        />
+      </ConfigProvider>
     </div>
   );
 };
