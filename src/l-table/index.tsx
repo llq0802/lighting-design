@@ -20,6 +20,7 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     dataSource,
     columns,
     //
+    defaultFormValues,
     sort = true,
     rootStyle,
     request,
@@ -85,6 +86,12 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
           },
         };
 
+  const getFormValues = () => {
+    if (hasFormItems) {
+      return formRef.current?.getFieldsValue();
+    }
+    return {};
+  };
   const getTableColumns = (): ColumnType<any>[] | undefined => {
     if (sort) {
       const sortProps = isPlainObject(sort) ? sort : {};
@@ -118,9 +125,9 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
   };
 
   // 根据传入参数请求
-  const handleCustomSearch = (current: number, pageSize: number, extraParams?: Record<string, any>) => {
+  const handleCustom = (current: number, pageSize: number, extraParams?: Record<string, any>) => {
     if (hasDataSource) return;
-    const formValues = hasFormItems ? formRef.current?.getFieldsValue() : {};
+    const formValues = getFormValues();
     run(
       {
         ...extraParams,
@@ -132,21 +139,71 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     );
   };
 
+  const handleReload = (extraParams?: Record<string, any>) => {
+    if (hasDataSource) return;
+    const formValues = getFormValues();
+    run(
+      {
+        ...extraParams,
+        formValues,
+        current: requestPagination?.current,
+        pageSize: requestPagination?.pageSize,
+      },
+      'reload',
+    );
+  };
+
+  const handleReset = (extraParams?: Record<string, any>) => {
+    if (hasDataSource) return;
+    run(
+      {
+        ...extraParams,
+        formValues: defaultFormValues,
+        current: defaultCurrent,
+        pageSize: defaultPageSize,
+      },
+      'reset',
+    );
+  };
+
+  const handleSearch = (extraParams?: Record<string, any>) => {
+    if (hasDataSource) return;
+    const formValues = getFormValues();
+    run(
+      {
+        ...extraParams,
+        current: defaultCurrent,
+        pageSize: requestPagination?.pageSize,
+        formValues,
+      },
+      'search',
+    );
+  };
+
   useMount(() => {
-    if (!autoRequest || hasDataSource) return;
-    const formValues: Record<string, any> = hasFormItems ? formRef.current?.getFieldsValue() : {};
-    run({ formValues, current: defaultCurrent, pageSize: defaultPageSize }, 'init');
+    if (!autoRequest) return;
+    if (hasDataSource) return;
+    const formValues = getFormValues();
+    run(
+      {
+        ...defaultFormValues,
+        formValues,
+        current: defaultCurrent,
+        pageSize: defaultPageSize,
+      },
+      'init',
+    );
   });
 
   useImperativeHandle(actionRef, () => ({
-    // /** 根据条件，当前页、刷新数据 */
-    // onReload: handleReload,
-    // /** 重置数据，从第一页开始显示、查询数据 */
-    // onReset: handleReset,
-    // /** 根据条件，从第一页开始显示、查询数据 */
-    // onSearch: handleSearch,
+    /** 根据条件，当前页、刷新数据 */
+    onReload: handleReload,
+    /** 重置数据，从第一页开始显示、查询数据 */
+    onReset: handleReset,
+    /** 根据条件，从第一页开始显示、查询数据 */
+    onSearch: handleSearch,
     /** 根据传入参数请求 */
-    onCustomSearch: handleCustomSearch,
+    onCustom: handleCustom,
   }));
 
   const formDom = (

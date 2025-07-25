@@ -54,6 +54,7 @@ export const useTablePagination = ({
       },
     },
   );
+
   return {
     data: data || { list: [], total: 0 },
     ...rest,
