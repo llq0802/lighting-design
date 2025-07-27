@@ -75,7 +75,7 @@ const Index: React.FC<PropsType> = ({}) => {
       // }}
       >
         <LTable
-          footer={(currentPageData) => 'antd.Footer'}
+          // footer={(currentPageData) => 'antd.Footer'}
           rootClassName="my-table-root-1"
           formItems={[
             {

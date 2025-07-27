@@ -3,7 +3,7 @@ import type { PaginationOptions } from 'ahooks/lib/usePagination/types';
 import { useRef, useState } from 'react';
 
 type useTablePaginationParams = {
-  request: (...args: any[]) => Promise<any>;
+  request?: (...args: any[]) => Promise<any>;
   defaultCurrent: number;
   defaultPageSize: number;
   requestOptions?: PaginationOptions<any, any> & {
@@ -39,7 +39,6 @@ export const useTablePagination = ({
       return { list: [], total: 0 };
     },
     {
-      loadingDelay: 20,
       ...requestOptions,
       manual: true,
       defaultCurrent,

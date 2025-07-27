@@ -126,7 +126,7 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
       {...restProps}
     >
       <>
-        {chindrenItems.map((item) => {
+        {chindrenItems?.map((item) => {
           const style = { display: item.hidden ? 'none' : void 0, ...item.colProps?.style };
           return (
             <Col key={item.rowKey} {...(!isSpace ? defualtColSpan : {})} {...item.colProps} style={style}>

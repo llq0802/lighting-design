@@ -14,12 +14,12 @@ export const useStyles = createStyles((params, props: any = {}) => {
       marginBottom: token.margin,
     },
     row_stripe: {
-      backgroundColor: typeof rowHoverable === 'string' ? rowStripe : '#fafafa',
+      background: typeof rowStripe === 'string' ? rowStripe : token.colorFillAlter,
     },
     row_hover: css`
-      transition: background-color 0.2s;
+      transition: background 0.2s;
       &:hover {
-        background-color: ${typeof rowHoverable === 'string' ? rowHoverable : '#fafafa'};
+        background: ${typeof rowHoverable === 'string' ? rowHoverable : token.colorFillAlter};
       }
     `,
     row_borderless: css`

@@ -2,6 +2,8 @@ const style = {
   maxHeight: 'none',
 };
 
+// indicator={<LoadingOutlined spin style={{ fontSize: loadingProps?.style?.fontSize || 36 }} />}
+
 /**
  * 合并请求loading和外部loading配置
  */

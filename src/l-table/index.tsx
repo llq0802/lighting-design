@@ -1,16 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
-import {
-  Card,
-  ConfigProvider,
-  Flex,
-  Pagination,
-  Spin,
-  Table,
-  Tooltip,
-  type PaginationProps,
-  type TableProps,
-} from 'antd';
+import { Card, ConfigProvider, Flex, Pagination, Table, Tooltip, type PaginationProps } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import zhCN from 'antd/locale/zh_CN';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
@@ -21,8 +11,9 @@ import { useImperativeHandle } from 'react';
 import { useDefaultPagination } from './hooks/use-default-pagination';
 import { useMergeLoading } from './hooks/use-merge-loading';
 import { useTablePagination } from './hooks/use-table-pagination';
+import type { LTableProps } from './interface';
 import { useStyles } from './styles';
-const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
+const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
   const {
     className,
     style,
@@ -35,9 +26,12 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     //
     renderEmpty,
     defaultRequestParams,
+    formInitialValues,
     sortColumn: sort,
     rootStyle,
     request,
+    requestCacheKey,
+    requestOptions,
     autoRequest = true,
     gap = 16,
     actionRef,
@@ -61,7 +55,7 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
   const formRef = useLFormInstance(queryFormProps?.form ?? outForm);
 
   const hasDataSource = !!dataSource;
-  const hasFormItems = formItems?.length > 0;
+  const hasFormItems = formItems && formItems?.length > 0;
 
   const {
     loading: requestLoading,
@@ -70,7 +64,7 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
     innerPagination,
     setInnerPagination,
     pagination: requestPagination,
-  } = useTablePagination({ request, defaultCurrent, defaultPageSize });
+  } = useTablePagination({ request, defaultCurrent, defaultPageSize, requestOptions });
 
   const loadingProps = useMergeLoading(requestLoading, outLoading);
 
@@ -87,6 +81,7 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
       ? false
       : {
           align: 'end',
+          disabled: loadingProps.spinning,
           hideOnSinglePage: true,
           showSizeChanger: total > 50,
           showQuickJumper: total > 50,
@@ -112,7 +107,7 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
   const getTableColumns = (): ColumnType<any>[] | undefined => {
     let innerColumns = columns || [];
     if (sort) {
-      const sortProps = isPlainObject(sort) ? sort : {};
+      const sortProps = isPlainObject(sort) ? (sort as ColumnType) : {};
       const { current, pageSize } = hasDataSource ? innerPagination : requestPagination;
       const render = (t: any, c: any, i: number) => {
         const count = paginationProps ? (current - 1) * pageSize + i + 1 : i + 1;
@@ -242,7 +237,8 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
 
   const formDom = (
     <LQueryForm
-      items={formItems}
+      items={formItems!}
+      initialValues={formInitialValues}
       {...queryFormProps}
       submitter={
         typeof queryFormProps?.submitter === 'boolean'
@@ -297,6 +293,10 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
         }}
         pagination={false}
         rowHoverable={false}
+        loading={{
+          indicator: <LoadingOutlined spin style={{ fontSize: loadingProps?.style?.fontSize || 36 }} />,
+          ...loadingProps,
+        }}
       />
     </ConfigProvider>
   );
@@ -323,16 +323,11 @@ const LTable = <T extends Record<string, any>>(props: TableProps<T>) => {
   }
 
   const innerTableDom = (
-    <Spin
-      indicator={<LoadingOutlined spin style={{ fontSize: loadingProps?.style?.fontSize || 36 }} />}
-      {...loadingProps}
-    >
-      <Card>
-        {innerToolbarDom}
-        {tableDom}
-        {paginationDom}
-      </Card>
-    </Spin>
+    <Card>
+      {innerToolbarDom}
+      {tableDom}
+      {paginationDom}
+    </Card>
   );
 
   return (
