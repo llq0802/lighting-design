@@ -86,7 +86,6 @@ const Index: React.FC<PropsType> = ({}) => {
             <LFormItemInput name="input5" label="输入框3" />,
           ]}
           columns={columns}
-          rowStripe="#fafafa"
           // dataSource={data}
           dataSource={[]}
           request={async (params) => {
