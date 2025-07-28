@@ -59,7 +59,6 @@ export type LTableProps<T = any> = TableProps<T> & {
   ref?: Parameters<typeof Table>[0]['ref'];
   /**
    * 列配置, 扩展了部分字段
-   * - 配置了 `contentRender` 则 `columns` 无效
    * - `toolTip` 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)`
    * - `exportRender` 字段配合`json2Excel`方法自定义导出列数据的 `excel`
    */
@@ -87,7 +86,7 @@ export type LTableProps<T = any> = TableProps<T> & {
   sortColumn?:
     | boolean
     | (ColumnType<T> & {
-        render?: (pageCount: number) => ReactNode;
+        render?: (pageCount: number, current: number, pageSize: number, index: number) => ReactNode;
       });
   gap?: string | number;
   /**

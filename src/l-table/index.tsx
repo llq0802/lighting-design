@@ -128,7 +128,7 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
       const { current, pageSize } = hasDataSource ? innerPagination : requestPagination;
       const render = (t: any, c: any, i: number) => {
         const count = paginationProps ? (current - 1) * pageSize + i + 1 : i + 1;
-        return typeof sortProps?.render === 'function' ? sortProps?.render?.(count, t, c, i) : count;
+        return typeof sortProps?.render === 'function' ? sortProps?.render?.(count, current, pageSize, i) : count;
       };
       const sortColumn = {
         title: '序号',
