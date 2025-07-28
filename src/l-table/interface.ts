@@ -1,8 +1,9 @@
+import type { PaginationResult } from 'ahooks/lib/usePagination/types';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
 import type { CardProps, FormInstance, Table, TableProps, TooltipProps } from 'antd';
-import type { ColumnGroupType, ColumnType } from 'antd/es/table';
+import type { ColumnType } from 'antd/es/table';
 import type { LQueryFormProps } from 'lighting-design/l-query-form/interface';
-import type { CSSProperties, MutableRefObject, ReactNode } from 'react';
+import type { CSSProperties, Dispatch, MutableRefObject, ReactNode, SetStateAction } from 'react';
 
 export type LTableActionRef = {
   /** 根据条件，当前页，当前分页数量、刷新数据 */
@@ -15,41 +16,22 @@ export type LTableActionRef = {
   onSearch: (extraParams?: Record<string, any>) => void;
   // /** 表格根标签 div */
   // rootRef: RefObject<HTMLDivElement>;
-  // /** request 的参数 */
-  // params: [LTableRequestParams, LTableRequestType] | [];
-  // /** 表格数据 */
-  // tableData: Record<string, any>[];
-  // /**
-  //  * 类似 React.setState 直接修改当前表格的数据
-  //  *
-  //  * 推荐使用函数的形式修改
-  //  *
-  //  * 每次更新需要 `list` 引用地址不一样才能更新界面
-  //  * - 仅在使用`request`获取数据有效
-  //  */
-  // setTableData: Dispatch<
-  //   SetStateAction<{
-  //     list: Record<string, any>[];
-  //     total: number;
-  //   }>
-  // >;
-  // /** 页码信息以及方法 */
-  // pagination: {
-  //   /** 当前页 */
-  //   current: number;
-  //   // 一页多少条
-  //   pageSize: number;
-  //   /** 总的数量 */
-  //   total: number;
-  //   /** 总的页数 */
-  //   totalPage: number;
-  //   /** 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined */
-  //   onChange: (current: number, pageSize: number) => void;
-  //   /** 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined */
-  //   changeCurrent: (current: number) => void;
-  //   /** 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined */
-  //   changePageSize: (pageSize: number) => void;
-  // };
+
+  /** request 的参数 */
+  params: [LTableRequestParams, LTableRequestType] | [];
+  /** 表格数据 */
+  tableData: Record<string, any>[];
+  /**
+   * 类似 React.setState 直接修改当前表格的数据
+   *
+   * 推荐使用函数的形式修改
+   *
+   * 每次更新需要 `list` 引用地址不一样才能更新界面
+   * - 仅在使用`request`获取数据有效
+   */
+  setTableData: Dispatch<SetStateAction<{ list: Record<string, any>[]; total: number }>>;
+  /** 页码信息以及方法 */
+  pagination: PaginationResult<any, any>['pagination'];
 };
 
 export type LTableRequestType = 'init' | 'search' | 'reload' | 'reset' | 'custom' | 'pagination';
@@ -83,16 +65,12 @@ export type LTableProps<T = any> = TableProps<T> & {
    */
   columns?:
     | TableProps['columns']
-    | (
-        | {
-            /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
-            toolTip?: boolean | TooltipProps;
-            /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
-            exportRender?: (val: any, row: Record<string, any>, i: number) => string | number;
-          }
-        | ColumnGroupType<T>
-        | ColumnType<T>
-      )[];
+    | {
+        /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
+        toolTip?: boolean | TooltipProps;
+        /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
+        exportRender?: (val: any, row: Record<string, any>, i: number) => string | number;
+      }[];
 
   /**
    * 表格数据
@@ -112,7 +90,7 @@ export type LTableProps<T = any> = TableProps<T> & {
     | (ColumnType<T> & {
         render?: (pageCount: number) => ReactNode;
       });
-  gap: string | number;
+  gap?: string | number;
   /**
    * 是否展示带斑马纹的表格，可以更容易区分出不同行的数据。
    *   - string 可设置自定义颜色
@@ -141,7 +119,6 @@ export type LTableProps<T = any> = TableProps<T> & {
    * `ahooks` 的 `useRequest` 的配置项
    * - 使用其配置项可以很简单的使用其高级请求的功能
    * - 部分参数内置无法配置
-   * @see https://ahooks.js.org/zh-CN/hooks/use-request/basic#result
    */
   requestOptions?: Options<any, any>;
   /**
@@ -190,7 +167,7 @@ export type LTableProps<T = any> = TableProps<T> & {
   /**
    * 整个 toolbar 容器的类名
    */
-  toolbarClassName?: CSSProperties;
+  toolbarClassName?: string;
   /**
    * 查询表单外层的 CardProps
    */

@@ -1,7 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
-import { Card, ConfigProvider, Flex, Pagination, Table, Tooltip, type PaginationProps } from 'antd';
-import type { ColumnType } from 'antd/es/table';
+import { Card, ConfigProvider, Flex, Pagination, Spin, Table, Tooltip, type PaginationProps } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
 import LQueryForm from 'lighting-design/l-query-form';
@@ -24,6 +23,8 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
     columns,
     loading: outLoading,
     //
+    tableCardProps,
+    formCardProps,
     renderEmpty,
     defaultRequestParams,
     formInitialValues,
@@ -60,7 +61,9 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
   const {
     loading: requestLoading,
     run,
+    params: requestParams,
     data: requestData,
+    mutate: requestMutate,
     innerPagination,
     setInnerPagination,
     pagination: requestPagination,
@@ -80,12 +83,12 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
     pagination === null || pagination === false
       ? false
       : {
+          // disabled: loadingProps.spinning,
           align: 'end',
-          disabled: loadingProps.spinning,
           hideOnSinglePage: true,
           showSizeChanger: total > 50,
           showQuickJumper: total > 50,
-          showTotal: (total: number) => `共 ${total} 条数据`,
+          showTotal: (t) => `共 ${t} 条数据`,
           total,
           current: hasDataSource ? void 0 : requestPagination.current,
           pageSize: hasDataSource ? void 0 : requestPagination.pageSize,
@@ -104,16 +107,16 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
           },
         };
 
-  const getTableColumns = (): ColumnType<any>[] | undefined => {
+  const getTableColumns = () => {
     let innerColumns = columns || [];
     if (sort) {
-      const sortProps = isPlainObject(sort) ? (sort as ColumnType) : {};
+      const sortProps = isPlainObject(sort) ? (sort as any) : {};
       const { current, pageSize } = hasDataSource ? innerPagination : requestPagination;
       const render = (t: any, c: any, i: number) => {
         const count = paginationProps ? (current - 1) * pageSize + i + 1 : i + 1;
         return typeof sortProps?.render === 'function' ? sortProps?.render?.(count, t, c, i) : count;
       };
-      const sortColumn: ColumnType = {
+      const sortColumn = {
         title: '序号',
         align: 'center',
         width: 70,
@@ -233,6 +236,10 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
     onSearch: handleSearch,
     /** 根据传入参数请求 */
     onCustom: handleCustom,
+    tableData: requestData,
+    setTableData: requestMutate,
+    params: requestParams,
+    pagination: requestPagination,
   }));
 
   const formDom = (
@@ -248,7 +255,7 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
               ...queryFormProps?.submitter,
               onReset: (e) => {
                 handleReset();
-                queryFormProps?.submitter?.onReset?.(e);
+                queryFormProps?.submitter && queryFormProps?.submitter?.onReset?.(e);
               },
             }
       }
@@ -271,7 +278,7 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
   const toolbarDom = toolbar;
   const tableDom = (
     <ConfigProvider renderEmpty={renderEmpty} locale={zhCN}>
-      <Table
+      <Table<T>
         {...restProps}
         style={rootStyle}
         columns={getTableColumns()}
@@ -293,15 +300,20 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
         }}
         pagination={false}
         rowHoverable={false}
-        loading={{
-          indicator: <LoadingOutlined spin style={{ fontSize: loadingProps?.style?.fontSize || 36 }} />,
-          ...loadingProps,
-        }}
+        loading={false}
+        // loading={{
+        //   indicator: <LoadingOutlined spin style={{ fontSize: loadingProps?.style?.fontSize || 36 }} />,
+        //   ...loadingProps,
+        // }}
       />
     </ConfigProvider>
   );
   const paginationDom = paginationProps ? <Pagination {...paginationProps} /> : null;
-  const innerFormDom = hasFormItems ? <Card className={cx(styles.form_card)}>{formDom}</Card> : null;
+  const innerFormDom = hasFormItems ? (
+    <Card {...formCardProps} className={cx(styles.form_card, formCardProps?.className)}>
+      {formDom}
+    </Card>
+  ) : null;
   const innerToolbarDom = toolbar ? (
     <Flex align="center" gap={8} className={cx(styles.toolbar, toolbarClassName)} style={toolbarStyle}>
       {toolbarDom}
@@ -312,18 +324,31 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
     return renderLTable({ formDom, toolbarDom, tableDom, paginationDom }, props);
   }
 
+  const innerSpinProps = {
+    ...loadingProps,
+    indicator: <LoadingOutlined spin style={{ fontSize: loadingProps?.style?.fontSize || 36 }} />,
+  };
+
   if (!hasFormItems) {
-    return (
+    const innerNoFormTableDom = (
       <Card className={className} style={style}>
         {innerToolbarDom}
         {tableDom}
         {paginationDom}
       </Card>
     );
+
+    return loadingProps.spinning ? (
+      <Spin {...innerSpinProps} spinning>
+        {innerNoFormTableDom}
+      </Spin>
+    ) : (
+      innerNoFormTableDom
+    );
   }
 
   const innerTableDom = (
-    <Card>
+    <Card {...tableCardProps}>
       {innerToolbarDom}
       {tableDom}
       {paginationDom}
@@ -333,7 +358,13 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>) => {
   return (
     <Flex vertical gap={gap} className={className} style={style}>
       {innerFormDom}
-      {innerTableDom}
+      {loadingProps.spinning ? (
+        <Spin {...innerSpinProps} spinning>
+          {innerTableDom}
+        </Spin>
+      ) : (
+        innerTableDom
+      )}
     </Flex>
   );
 };

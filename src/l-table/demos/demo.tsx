@@ -1,5 +1,5 @@
 import { Button, ConfigProvider, Tag, type TableProps } from 'antd';
-import { LFormItemInput } from 'lighting-design';
+import LFormItemInput from 'lighting-design/l-form-item-input';
 import { sleep } from 'lighting-design/test';
 import React from 'react';
 import LTable from '..';
@@ -75,8 +75,7 @@ const Index: React.FC<PropsType> = ({}) => {
       // }}
       >
         <LTable
-          // footer={(currentPageData) => 'antd.Footer'}
-          rootClassName="my-table-root-1"
+          footer={(currentPageData) => 'antd.Footer'}
           formItems={[
             {
               content: <LFormItemInput name="input1" label="输入框1" />,
@@ -87,13 +86,14 @@ const Index: React.FC<PropsType> = ({}) => {
             <LFormItemInput name="input5" label="输入框3" />,
           ]}
           columns={columns}
+          rowStripe="#fafafa"
           // dataSource={data}
           // dataSource={[]}
           request={async (params) => {
             console.log('params', params);
             await sleep();
             return {
-              data: data.slice((params.current - 1) * params.pageSize, params.current * params.pageSize),
+              list: data.slice((params.current - 1) * params.pageSize, params.current * params.pageSize),
               total: data.length,
             };
           }}
