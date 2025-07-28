@@ -6,13 +6,14 @@ import { useLFormInstance } from 'lighting-design/l-form/hooks';
 import LQueryForm from 'lighting-design/l-query-form';
 import { isEvenNumber } from 'lighting-design/utils';
 import { isPlainObject } from 'lodash-es';
-import { forwardRef, useImperativeHandle } from 'react';
+import { forwardRef, useImperativeHandle, type ReactNode } from 'react';
 import { useDefaultPagination } from './hooks/use-default-pagination';
 import { useMergeLoading } from './hooks/use-merge-loading';
 import { useTablePagination } from './hooks/use-table-pagination';
 import type { LTableProps } from './interface';
 import { useStyles } from './styles';
-const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) => {
+
+const LTable: <T = Record<string, any>>(props: LTableProps<T>, ref: any) => ReactNode = forwardRef((props, ref) => {
   const {
     className,
     style,
@@ -399,6 +400,7 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
       )}
     </Flex>
   );
-};
+});
 
-export default forwardRef(LTable);
+export default LTable;
+export * from './interface';

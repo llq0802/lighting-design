@@ -14,9 +14,6 @@ export type LTableActionRef = {
   onReset: (extraParams?: Record<string, any>) => void;
   /** 根据条件，从第一页以及当前的分页数量开始显示、查询数据 */
   onSearch: (extraParams?: Record<string, any>) => void;
-  // /** 表格根标签 div */
-  // rootRef: RefObject<HTMLDivElement>;
-
   /** request 的参数 */
   params: [LTableRequestParams, LTableRequestType] | [];
   /** 表格数据 */
@@ -62,13 +59,12 @@ export type LTableProps<T = any> = TableProps<T> & {
    * - `toolTip` 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)`
    * - `exportRender` 字段配合`json2Excel`方法自定义导出列数据的 `excel`
    */
-  columns?: (ColumnGroupType<T> | ColumnType<T>) &
-    {
-      /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
-      toolTip?: boolean | TooltipProps;
-      /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
-      exportRender?: (val: any, row: T, i: number) => string | number;
-    }[];
+  columns?: ((ColumnGroupType<T> | ColumnType<T>) & {
+    /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
+    toolTip?: boolean | TooltipProps;
+    /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
+    exportRender?: (val: any, row: T, i: number) => string | number;
+  })[];
 
   /**
    * 表格数据
@@ -220,5 +216,5 @@ export type LTableProps<T = any> = TableProps<T> & {
     },
     props: LTableProps,
   ) => ReactNode;
-  pagination: false | PaginationProps;
+  pagination?: false | PaginationProps;
 };

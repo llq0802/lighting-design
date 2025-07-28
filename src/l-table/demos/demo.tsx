@@ -1,8 +1,8 @@
-import { Button, ConfigProvider, Tag, type TableProps } from 'antd';
+import { Button, ConfigProvider, Tag } from 'antd';
+import { LTable } from 'lighting-design';
 import LFormItemInput from 'lighting-design/l-form-item-input';
 import { sleep } from 'lighting-design/test';
 import React from 'react';
-import LTable from '..';
 
 type PropsType = {};
 interface DataType {
@@ -13,7 +13,7 @@ interface DataType {
   tags: string[];
 }
 
-const columns: TableProps<DataType>['columns'] = [
+const columns = [
   {
     title: 'Name',
     dataIndex: 'name',
@@ -74,7 +74,7 @@ const Index: React.FC<PropsType> = ({}) => {
       //   return <div>自定义空数据</div>;
       // }}
       >
-        <LTable
+        <LTable<DataType>
           footer={(currentPageData) => 'antd.Footer'}
           formItems={[
             {
@@ -88,7 +88,7 @@ const Index: React.FC<PropsType> = ({}) => {
           columns={columns}
           rowStripe="#fafafa"
           // dataSource={data}
-          // dataSource={[]}
+          dataSource={[]}
           request={async (params) => {
             console.log('params', params);
             await sleep();
