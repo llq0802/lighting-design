@@ -68,7 +68,7 @@ export type LTableProps<T = any> = TableProps<T> & {
       /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
       toolTip?: boolean | TooltipProps;
       /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
-      exportRender?: (val: any, row: Record<string, any>, i: number) => string | number;
+      exportRender?: (val: any, row: T, i: number) => string | number;
     }[];
 
   /**
@@ -120,6 +120,7 @@ export type LTableProps<T = any> = TableProps<T> & {
    * - 部分参数内置无法配置
    */
   requestOptions?: Options<any, any>;
+
   /**
    * 异步请求函数用于获取表格数据
    *  - 不能与 `dataSource` 同时配置, 一旦配置（dataSource即便为空数组）`request`及其相关属性方法将不生效
@@ -142,6 +143,10 @@ export type LTableProps<T = any> = TableProps<T> & {
    */
   requestCacheKey?: string;
   /**
+   * 配置了 requestCacheKey 后，是否缓存请求的params参数
+   */
+  requestCacheParams?: boolean;
+  /**
    * 查询表单的实例
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
@@ -156,9 +161,14 @@ export type LTableProps<T = any> = TableProps<T> & {
    */
   rootClassName?: string;
   /**
+   *  antd 的 div 类名
+   */
+  tableClassName?: string;
+  /**
    *  antd 的 style
    */
-  rootStyle?: CSSProperties;
+  tableStyle?: CSSProperties;
+
   /**
    * 整个 toolbar 容器的样式
    */

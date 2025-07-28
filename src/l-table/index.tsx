@@ -23,28 +23,30 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
     columns,
     loading: outLoading,
     //
+    gap = 16,
+    tableClassName,
+    tableStyle,
     tableCardProps,
     formCardProps,
-    renderEmpty,
-    defaultRequestParams,
-    formInitialValues,
-    sortColumn: sort,
-    rootStyle,
+    autoRequest = true,
     request,
     requestCacheKey,
+    defaultRequestParams,
+    requestCacheParams,
     requestOptions,
-    autoRequest = true,
-    gap = 16,
     actionRef,
     form: outForm,
     formItems,
+    formInitialValues,
+    queryFormProps,
     toolbar,
     toolbarClassName,
     toolbarStyle,
+    sortColumn: sort,
     rowHoverable = true,
     rowStripe = true,
     borderless = false,
-    queryFormProps,
+    renderEmpty,
     renderLTable,
     ...restProps
   } = props;
@@ -227,8 +229,7 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
   useMount(() => {
     if (!autoRequest) return;
     if (hasDataSource) return;
-    const cacheKey = innerRequestOptions.cacheKey;
-    if (cacheKey && requestParams[0] && requestParams[0].current) {
+    if (innerRequestOptions.cacheKey && requestCacheParams && requestParams[0]) {
       const { current: cacheCurrent, pageSize: cachePageSize, formValues: cacheFormValues, ...rest } = requestParams[0];
       if (hasFormItems) {
         formRef.current.setFieldsValue(cacheFormValues);
@@ -314,7 +315,8 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
       <Table<T>
         {...restProps}
         ref={ref}
-        style={rootStyle}
+        className={tableClassName}
+        style={tableStyle}
         columns={getTableColumns()}
         dataSource={getTableData()}
         onHeaderRow={(record, i) => {
