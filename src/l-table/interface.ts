@@ -1,6 +1,6 @@
 import type { PaginationResult } from 'ahooks/lib/usePagination/types';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
-import type { CardProps, FormInstance, Table, TableProps, TooltipProps } from 'antd';
+import type { CardProps, FormInstance, PaginationProps, Table, TableProps, TooltipProps } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import type { LQueryFormProps } from 'lighting-design/l-query-form/interface';
 import type { CSSProperties, Dispatch, MutableRefObject, ReactNode, SetStateAction } from 'react';
@@ -153,11 +153,11 @@ export type LTableProps<T = any> = TableProps<T> & {
    */
   actionRef?: MutableRefObject<LTableActionRef | undefined>;
   /**
-   * 组件根div类名
+   * antd 跟 div 类名
    */
   rootClassName?: string;
   /**
-   *  antd 根div样式
+   *  antd 的 style
    */
   rootStyle?: CSSProperties;
   /**
@@ -212,4 +212,5 @@ export type LTableProps<T = any> = TableProps<T> & {
     },
     props: LTableProps,
   ) => ReactNode;
+  pagination: false | PaginationProps;
 };
