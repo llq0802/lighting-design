@@ -1,7 +1,7 @@
 import type { PaginationResult } from 'ahooks/lib/usePagination/types';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
 import type { CardProps, FormInstance, PaginationProps, Table, TableProps, TooltipProps } from 'antd';
-import type { ColumnType } from 'antd/es/table';
+import type { ColumnGroupType, ColumnType } from 'antd/es/table';
 import type { LQueryFormProps } from 'lighting-design/l-query-form/interface';
 import type { CSSProperties, Dispatch, MutableRefObject, ReactNode, SetStateAction } from 'react';
 
@@ -63,14 +63,13 @@ export type LTableProps<T = any> = TableProps<T> & {
    * - `toolTip` 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)`
    * - `exportRender` 字段配合`json2Excel`方法自定义导出列数据的 `excel`
    */
-  columns?:
-    | TableProps['columns']
-    | {
-        /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
-        toolTip?: boolean | TooltipProps;
-        /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
-        exportRender?: (val: any, row: Record<string, any>, i: number) => string | number;
-      }[];
+  columns?: (ColumnGroupType<T> | ColumnType<T>) &
+    {
+      /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
+      toolTip?: boolean | TooltipProps;
+      /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
+      exportRender?: (val: any, row: Record<string, any>, i: number) => string | number;
+    }[];
 
   /**
    * 表格数据
@@ -80,7 +79,7 @@ export type LTableProps<T = any> = TableProps<T> & {
    *  - 内部的表单查询, 表格分页查询 以及`tableRef`的实例方法均无效
    *  - 你依然可以使用内置部分布局属性，自定义渲染等
    */
-  dataSource?: TableProps['dataSource'];
+  dataSource?: T[];
   /**
    * 是否需要排序序号及宽度，自定义渲染排序等
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
@@ -97,22 +96,22 @@ export type LTableProps<T = any> = TableProps<T> & {
    * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    * */
   rowStripe?: boolean | string;
+  /**
+   * 无边框表格
+   */
   borderless?: boolean;
   /**
    * 鼠标移入每一行是否有hover效果
    *  - string 可设置自定义颜色
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    * */
   rowHover?: boolean | string;
   /**
    * 是否在第一次渲染时自动请求 `request`
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   autoRequest?: boolean;
   /**
    *  `request`第一次请求的额外参数
    * - 仅在`第一次` `自动请求`时会传入到 `request` 参数中
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   defaultRequestParams?: Record<string, any>;
   /**

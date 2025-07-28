@@ -58,8 +58,17 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
   const hasDataSource = !!dataSource;
   const hasFormItems = formItems && formItems?.length > 0;
 
+  const innerRequestOptions = {
+    cacheKey: requestCacheKey,
+    ...requestOptions,
+    defaultCurrent,
+    defaultPageSize,
+  };
+
   const {
     loading: requestLoading,
+    initLoading,
+    noInitLoading,
     run,
     params: requestParams,
     data: requestData,
@@ -67,7 +76,10 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
     innerPagination,
     setInnerPagination,
     pagination: requestPagination,
-  } = useTablePagination({ request, defaultCurrent, defaultPageSize, requestOptions });
+  } = useTablePagination({
+    request,
+    requestOptions: innerRequestOptions,
+  });
 
   const loadingProps = useMergeLoading(requestLoading, outLoading);
 
@@ -145,8 +157,8 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
   };
 
   const getTableData = () => {
-    if (!paginationProps) return dataSource ?? requestData.list;
     if (hasDataSource) {
+      if (!paginationProps) return dataSource;
       return dataSource?.slice?.(
         (innerPagination.current - 1) * innerPagination.pageSize,
         innerPagination.current * innerPagination.pageSize,
@@ -215,16 +227,34 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
   useMount(() => {
     if (!autoRequest) return;
     if (hasDataSource) return;
-    const formValues = getFormValues();
-    run(
-      {
-        ...defaultRequestParams,
-        formValues,
-        current: defaultCurrent,
-        pageSize: defaultPageSize,
-      },
-      'init',
-    );
+    const cacheKey = innerRequestOptions.cacheKey;
+    if (cacheKey && requestParams[0] && requestParams[0].current) {
+      const { current: cacheCurrent, pageSize: cachePageSize, formValues: cacheFormValues, ...rest } = requestParams[0];
+      if (hasFormItems) {
+        formRef.current.setFieldsValue(cacheFormValues);
+      }
+      run(
+        {
+          ...rest,
+          ...defaultRequestParams,
+          formValues: cacheFormValues,
+          current: cacheCurrent,
+          pageSize: cachePageSize,
+        },
+        'init',
+      );
+    } else {
+      const formValues = getFormValues();
+      run(
+        {
+          ...defaultRequestParams,
+          formValues,
+          current: defaultCurrent,
+          pageSize: defaultPageSize,
+        },
+        'init',
+      );
+    }
   });
 
   useImperativeHandle(actionRef, () => ({
@@ -240,6 +270,9 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
     setTableData: requestMutate,
     params: requestParams,
     pagination: requestPagination,
+    loading: requestLoading,
+    initLoading,
+    noInitLoading,
   }));
 
   const formDom = (
@@ -302,10 +335,6 @@ const LTable = <T extends Record<string, any>>(props: LTableProps<T>, ref: any) 
         pagination={false}
         rowHoverable={false}
         loading={false}
-        // loading={{
-        //   indicator: <LoadingOutlined spin style={{ fontSize: loadingProps?.style?.fontSize || 36 }} />,
-        //   ...loadingProps,
-        // }}
       />
     </ConfigProvider>
   );

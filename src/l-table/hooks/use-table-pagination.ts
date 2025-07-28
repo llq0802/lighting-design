@@ -4,20 +4,16 @@ import { useRef, useState } from 'react';
 
 type useTablePaginationParams = {
   request?: (...args: any[]) => Promise<any>;
-  defaultCurrent: number;
-  defaultPageSize: number;
-  requestOptions?: PaginationOptions<any, any> & {
+  requestOptions: PaginationOptions<any, any> & {
     onInitRequest?: PaginationOptions<any, any>['onFinally'];
   };
 };
 
-export const useTablePagination = ({
-  request,
-  defaultCurrent,
-  defaultPageSize,
-  requestOptions,
-}: useTablePaginationParams) => {
-  const [innerPagination, setInnerPagination] = useState({ current: defaultCurrent, pageSize: defaultPageSize });
+export const useTablePagination = ({ request, requestOptions }: useTablePaginationParams) => {
+  const [innerPagination, setInnerPagination] = useState({
+    current: requestOptions.defaultCurrent!,
+    pageSize: requestOptions.defaultPageSize!,
+  });
   const [initLoading, setInitLoading] = useState(false);
   const [noInitLoading, setNoInitLoading] = useState(false);
   const firstRequestRef = useRef(true);
@@ -41,8 +37,6 @@ export const useTablePagination = ({
     {
       ...requestOptions,
       manual: true,
-      defaultCurrent,
-      defaultPageSize,
       onFinally(...args) {
         if (firstRequestRef.current) {
           firstRequestRef.current = false;
