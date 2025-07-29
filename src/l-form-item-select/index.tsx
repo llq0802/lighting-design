@@ -14,6 +14,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   showSearch,
   fieldNames,
   filterOption,
+  optionFilterProp = 'label',
   mode,
   options,
   selectProps,
@@ -40,6 +41,7 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
     showSearch,
     fieldNames,
     filterOption,
+    optionFilterProp,
     //
     request,
     actionRef,

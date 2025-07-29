@@ -10,7 +10,7 @@ export interface LFormItemSelectProps extends LFormItemProps, Pick<LFormProps, '
   showSearch?: SelectProps['showSearch'];
   mode?: SelectProps['mode'];
   fieldNames?: SelectProps['fieldNames'];
-  optionFilterProp?: SelectProps['filterOption'];
+  optionFilterProp?: SelectProps['optionFilterProp'];
   filterOption?: SelectProps['filterOption'];
   /**
    * 数据源
