@@ -75,7 +75,8 @@ const Index: React.FC<PropsType> = ({}) => {
       // }}
       >
         <LTable<DataType>
-          footer={(currentPageData) => 'antd.Footer'}
+          borderless
+          // footer={(currentPageData) => 'antd.Footer'}
           formItems={[
             {
               content: <LFormItemInput name="input1" label="输入框1" />,
@@ -87,7 +88,7 @@ const Index: React.FC<PropsType> = ({}) => {
           ]}
           columns={columns}
           // dataSource={data}
-          dataSource={[]}
+          // dataSource={[]}
           request={async (params) => {
             console.log('params', params);
             await sleep();

@@ -1,7 +1,7 @@
 import type { PaginationResult } from 'ahooks/lib/usePagination/types';
 import type { Options } from 'ahooks/lib/useRequest/src/types';
 import type { CardProps, FormInstance, PaginationProps, Table, TableProps, TooltipProps } from 'antd';
-import type { ColumnGroupType, ColumnType } from 'antd/es/table';
+import type { ColumnType } from 'antd/es/table';
 import type { LQueryFormProps } from 'lighting-design/l-query-form/interface';
 import type { CSSProperties, Dispatch, MutableRefObject, ReactNode, SetStateAction } from 'react';
 
@@ -29,6 +29,9 @@ export type LTableActionRef = {
   setTableData: Dispatch<SetStateAction<{ list: Record<string, any>[]; total: number }>>;
   /** 页码信息以及方法 */
   pagination: PaginationResult<any, any>['pagination'];
+  loading: boolean;
+  initLoading: boolean;
+  noInitLoading: boolean;
 };
 
 export type LTableRequestType = 'init' | 'search' | 'reload' | 'reset' | 'custom' | 'pagination';
@@ -59,12 +62,14 @@ export type LTableProps<T = any> = TableProps<T> & {
    * - `toolTip` 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)`
    * - `exportRender` 字段配合`json2Excel`方法自定义导出列数据的 `excel`
    */
-  columns?: ((ColumnGroupType<T> | ColumnType<T>) & {
-    /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
-    toolTip?: boolean | TooltipProps;
-    /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
-    exportRender?: (val: any, row: T, i: number) => string | number;
-  })[];
+  columns?:
+    | TableProps<T>['columns']
+    | {
+        /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
+        toolTip?: boolean | TooltipProps;
+        /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
+        exportRender?: (val: any, row: T, i: number) => string | number;
+      }[];
 
   /**
    * 表格数据
@@ -214,6 +219,7 @@ export type LTableProps<T = any> = TableProps<T> & {
       tableDom: ReactNode;
       paginationDom: ReactNode;
     },
+    state: any,
     props: LTableProps,
   ) => ReactNode;
   pagination?: false | PaginationProps;

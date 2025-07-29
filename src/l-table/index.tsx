@@ -13,7 +13,7 @@ import { useTablePagination } from './hooks/use-table-pagination';
 import type { LTableProps } from './interface';
 import { useStyles } from './styles';
 
-const LTable: <T = Record<string, any>>(props: LTableProps<T>, ref: any) => ReactNode = forwardRef((props, ref) => {
+const LTable: <T extends any = Record<string, any>>(props: LTableProps<T>) => ReactNode = forwardRef((props, ref) => {
   const {
     className,
     style,
@@ -122,7 +122,7 @@ const LTable: <T = Record<string, any>>(props: LTableProps<T>, ref: any) => Reac
           },
         };
 
-  const getTableColumns = () => {
+  const getTableColumns = (): any[] => {
     let innerColumns = columns || [];
     if (sort) {
       const sortProps = isPlainObject(sort) ? (sort as any) : {};
@@ -259,22 +259,21 @@ const LTable: <T = Record<string, any>>(props: LTableProps<T>, ref: any) => Reac
     }
   });
 
-  useImperativeHandle(actionRef, () => ({
-    /** 根据条件，当前页、刷新数据 */
-    onReload: handleReload,
-    /** 重置数据，从第一页开始显示、查询数据 */
-    onReset: handleReset,
-    /** 根据条件，从第一页开始显示、查询数据 */
-    onSearch: handleSearch,
-    /** 根据传入参数请求 */
-    onCustom: handleCustom,
+  const innerState = {
     tableData: requestData,
-    setTableData: requestMutate,
     params: requestParams,
     pagination: requestPagination,
     loading: requestLoading,
     initLoading,
     noInitLoading,
+  };
+  useImperativeHandle(actionRef, () => ({
+    onReload: handleReload,
+    onReset: handleReset,
+    onSearch: handleSearch,
+    onCustom: handleCustom,
+    setTableData: requestMutate,
+    ...innerState,
   }));
 
   const formDom = (
@@ -313,7 +312,7 @@ const LTable: <T = Record<string, any>>(props: LTableProps<T>, ref: any) => Reac
   const toolbarDom = toolbar;
   const tableDom = (
     <ConfigProvider renderEmpty={renderEmpty} locale={zhCN}>
-      <Table<T>
+      <Table
         {...restProps}
         ref={ref}
         className={tableClassName}
@@ -354,7 +353,7 @@ const LTable: <T = Record<string, any>>(props: LTableProps<T>, ref: any) => Reac
   ) : null;
 
   if (renderLTable) {
-    return renderLTable({ formDom, toolbarDom, tableDom, paginationDom }, props);
+    return renderLTable({ formDom, toolbarDom, tableDom, paginationDom }, innerState, props);
   }
 
   const innerSpinProps = {
