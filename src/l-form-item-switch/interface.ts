@@ -3,10 +3,6 @@ import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
 
 export interface LFormItemSwitchProps extends LFormItemProps {
   /**
-   *antd Swicth的 props
-   */
-  switchProps?: SwitchProps;
-  /**
    * 选中的值 默认 true
    * - 不能与  `unCheckedValue` 一样
    */
@@ -28,4 +24,8 @@ export interface LFormItemSwitchProps extends LFormItemProps {
   unCheckedChildren?: string;
   size?: SwitchProps['size'];
   disabled?: SwitchProps['disabled'];
+  /**
+   *antd Swicth的 props
+   */
+  switchProps?: SwitchProps;
 }

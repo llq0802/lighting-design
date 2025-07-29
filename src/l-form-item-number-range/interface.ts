@@ -13,7 +13,7 @@ export type LFormItemNumberRangeProps = {
    */
   separatorWidth?: number | string;
   /**
-   * 中间元素的样式
+   * 中间连接符号的样式
    */
   separatorStyle?: React.CSSProperties;
 

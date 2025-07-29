@@ -6,12 +6,10 @@ export interface LFormItemInputProps extends LFormItemProps, Pick<LFormProps, 'd
   placeholder?: string;
   /**
    * 检验限制最小长度
-   * - 需要同 max 一起使用
    * */
   min?: number;
   /**
    * 检验限制最大长度
-   * - 需要同 min 一起使用
    */
   max?: number;
   /**

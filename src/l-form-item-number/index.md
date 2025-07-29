@@ -40,4 +40,4 @@ import { LFormItemNumber } from 'lighting-design';
 | suffix      | `InputNumber['suffix']`      | `InputNumber['suffix']`      | `-`    |
 | addonAfter  | `InputNumber['addonAfter']`  | `InputNumber['addonAfter']`  | `-`    |
 | addonBefore | `InputNumber['addonBefore']` | `InputNumber['addonBefore']` | `-`    |
-| numberProps | antd `Input.Number`的属性    | InputNumberProps             | `-`    |
+| numberProps | antd `Input.Number`的属性    | `InputNumberProps`           | `-`    |

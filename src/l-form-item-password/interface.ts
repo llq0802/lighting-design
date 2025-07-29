@@ -8,7 +8,6 @@ export interface LFormItemPasswordProps extends LFormItemProps, Pick<LFormProps,
   suffix?: PasswordProps['suffix'];
   addonAfter?: PasswordProps['addonAfter'];
   addonBefore?: PasswordProps['addonBefore'];
-
   /**
    * 密码最小位数
    */
@@ -27,10 +26,6 @@ export interface LFormItemPasswordProps extends LFormItemProps, Pick<LFormProps,
    */
   strictValidatorMessage?: string;
   /**
-   * Input.Password 的属性
-   */
-  passwordProps?: PasswordProps;
-  /**
    *  是否禁用粘贴
    */
   disabledPaste?: boolean;
@@ -38,4 +33,8 @@ export interface LFormItemPasswordProps extends LFormItemProps, Pick<LFormProps,
    *  是否禁用复制
    */
   disabledCopy?: boolean;
+  /**
+   * Input.Password 的属性
+   */
+  passwordProps?: PasswordProps;
 }

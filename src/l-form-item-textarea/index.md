@@ -37,4 +37,4 @@ import { LFormItemTextArea } from 'lighting-design';
 | autoSize      | `InputTextAreaProps['autoSize']`    | `InputTextAreaProps['autoSize']`    | `-`    |
 | maxLength     | `InputTextAreaProps['maxLength']`   | `InputTextAreaProps['maxLength']`   | `-`    |
 | rows          | `InputTextAreaProps['rows']`        | `InputTextAreaProps['rows']`        | `-`    |
-| textAreaProps | `Input.TextArea`或者`Input`的属性   | InputProps \| InputTextAreaProps    | `-`    |
+| textAreaProps | `Input.TextArea`或者`Input`的属性   | `InputProps \| InputTextAreaProps`  | `-`    |

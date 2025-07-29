@@ -3,10 +3,7 @@ import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
 import type { LFormProps } from 'lighting-design/l-form/interface';
 
 export interface LFormItemNumberProps extends LFormItemProps, Pick<LFormProps, 'disabled' | 'size' | 'variant'> {
-  /**
-   * InputNumber的属性
-   */
-  numberProps?: InputNumberProps;
+  placeholder?: string;
   /**
    * 保留小数点后几位
    */
@@ -19,9 +16,12 @@ export interface LFormItemNumberProps extends LFormItemProps, Pick<LFormProps, '
    * 最大值
    */
   max?: number;
-  placeholder?: string;
   prefix?: InputNumberProps['prefix'];
   suffix?: InputNumberProps['suffix'];
   addonAfter?: InputNumberProps['addonAfter'];
   addonBefore?: InputNumberProps['addonBefore'];
+  /**
+   * InputNumber 的属性
+   */
+  numberProps?: InputNumberProps;
 }

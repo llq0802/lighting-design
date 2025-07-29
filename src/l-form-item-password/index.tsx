@@ -1,4 +1,3 @@
-import { useMemoizedFn } from 'ahooks';
 import { Input } from 'antd';
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
@@ -20,7 +19,7 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
   //
   min = 8,
   max = 16,
-  strictValidator = false,
+  strictValidator,
   disabledPaste = true,
   disabledCopy = true,
   strictValidatorMessage,
@@ -61,25 +60,25 @@ const LFormItemPassword: FC<LFormItemPasswordProps> = ({
     },
   ];
 
-  const handlePaste = useMemoizedFn((e: ClipboardEvent<HTMLInputElement>) => {
+  const handlePaste = (e: ClipboardEvent<HTMLInputElement>) => {
     if (disabledPaste) {
       e.preventDefault();
     }
     passwordProps?.onPaste?.(e);
-  });
+  };
 
-  const handleCopy = useMemoizedFn((e: ClipboardEvent<HTMLInputElement>) => {
+  const handleCopy = (e: ClipboardEvent<HTMLInputElement>) => {
     if (disabledCopy) {
       e.preventDefault();
     }
     passwordProps?.onCopy?.(e);
-  });
+  };
 
   const baseProps = {
     size,
     disabled,
-    placeholder: innerPlaceholder,
     variant,
+    placeholder: innerPlaceholder,
     //
     prefix,
     suffix,
