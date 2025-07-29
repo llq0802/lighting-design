@@ -12,6 +12,26 @@ export default function useInputRules({
   max?: number;
 }) {
   const required = true;
+  if (type === 'text' && min && !max) {
+    return [
+      {
+        required,
+        min,
+        max,
+        message: message || `请输入至少 ${min} 位字符!`,
+      },
+    ];
+  }
+  if (type === 'text' && !min && max) {
+    return [
+      {
+        required,
+        min,
+        max,
+        message: message || `请输入至多 ${max} 位字符!`,
+      },
+    ];
+  }
   if (type === 'text' && min && max) {
     return [
       {

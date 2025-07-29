@@ -11,7 +11,6 @@ nav:
 
 **特点**
 
-- 默认不能输入空格
 - 内置常见正则校验
   - `phone` 类型 支持以 1 开头的 11 位手机号码
   - `idCard`类型 支持 1/2 代(15 位/18 位数字)最后一位可为数字或字符大小写`X`
@@ -30,7 +29,7 @@ nav:
 
 :::warning{title=注意}
 
-- `'bankCard' | 'idCard' | 'phone' | 'url' | 'email' | 'chinese'`类型的输入框会自动校验输入的值 , `required`只充当是否展示必填的(`*`)星号
+- `'bankCard' | 'idCard' | 'phone' | 'url' | 'email' | 'chinese'`类型的输入框以及`min` `max`属性会自动校验输入的值 , `required`只充当是否展示必填的(`*`)星号
 
   :::
 
@@ -54,4 +53,4 @@ import { LFormItemInput } from 'lighting-design';
 | variant |`InputProps['variant']`|`InputProps['variant']`|`-`|
 | disabled |`InputProps['disabled']`|`InputProps['disabled']`|`-`|
 | size |`InputProps['size']`|`InputProps['size']`|`-`|
-| inputProps |Input 的 Props | InputProps| `-` |
+| inputProps |Input 的 Props | `InputProps`| `-` |

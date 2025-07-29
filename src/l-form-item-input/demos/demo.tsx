@@ -4,29 +4,44 @@ import React from 'react';
 
 type FieldType = {
   input?: string;
+  input1?: string;
+  input2?: string;
+  input3?: string;
+  input4?: string;
+  phone?: string;
+  email?: string;
+  idCard?: string;
+  bankCard?: string;
+  url?: string;
+  input999?: string;
 };
 
 const App: React.FC = () => {
   const [form] = LForm.useForm<FieldType>();
-  const customValidator = async (value) => {
-    if (!value || !/^\d+$/.test(value)) {
-      return Promise.reject('请输入数字!');
-    }
-  };
 
   return (
     <LForm<FieldType>
       submitter={{ position: 'center' }}
       form={form}
-      labelWidth={100}
+      labelWidth={110}
       onFinish={async (values) => {
         console.log('===onFinish===', values);
         await sleep();
       }}
     >
-      <LFormItemInput required name="input" label="姓名" maxLength={10} />
-      <LFormItemInput min={2} max={8} name="input2" label="min,max" tooltip="tooltip" />
-      <LFormItemInput label="自定义检验" name="code" customValidator={customValidator} />
+      <LFormItemInput required name="input" label="姓名" maxLength={10} prefix="prefix" suffix="suffix" />
+      <LFormItemInput min={2} max={8} name="input1" label="min,max" tooltip="tooltip" />
+      <LFormItemInput min={2} name="input2" label="min" />
+      <LFormItemInput max={8} name="input3" label="max" />
+      <LFormItemInput
+        label="自定义检验"
+        name="input4"
+        customValidator={async (value: any) => {
+          if (!value || !/^\d+$/.test(value)) {
+            return Promise.reject('请输入数字!');
+          }
+        }}
+      />
       <LFormItemInput name="chinese" label="中文汉字" type="chinese" messageVariables={{ label: '请输入中文!' }} />
       <LFormItemInput
         name="phone"
@@ -63,7 +78,7 @@ const App: React.FC = () => {
         messageVariables={{ label: '请输入正确的网址格式!' }}
       />
       <LFormItemInput
-        name="input3"
+        name="input999"
         label="inputProps"
         inputProps={{
           allowClear: true,
