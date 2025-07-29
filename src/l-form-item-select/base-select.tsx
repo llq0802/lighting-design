@@ -21,15 +21,16 @@ const BaseSelect: FC<Record<string, any>> = ({
   const { loading, data } = requestRes;
   useImperativeHandle(actionRef, () => requestRes);
 
-  const dom = <Select options={options || data} {...restProps} style={{ width: '100%', ...restProps.style }} />;
-
-  return loading && !options ? (
-    <Spin spinning {...spin}>
-      {dom}
-    </Spin>
-  ) : (
-    dom
+  const dom = (
+    <Select
+      optionFilterProp="label"
+      options={options || data}
+      {...restProps}
+      style={{ width: '100%', ...restProps.style }}
+    />
   );
+
+  return loading && !options ? <Spin {...spin}>{dom}</Spin> : dom;
 };
 
 export default BaseSelect;

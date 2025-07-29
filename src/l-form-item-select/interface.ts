@@ -5,19 +5,12 @@ import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
 import type { LFormProps } from 'lighting-design/l-form/interface';
 import type { ReactNode } from 'react';
 
-type AllItem =
-  | {
-      label: ReactNode;
-      value: string | number;
-      [k: string]: any;
-    }
-  | true;
-
 export interface LFormItemSelectProps extends LFormItemProps, Pick<LFormProps, 'variant' | 'disabled' | 'size'> {
   placeholder?: string;
   showSearch?: SelectProps['showSearch'];
   mode?: SelectProps['mode'];
   fieldNames?: SelectProps['fieldNames'];
+  optionFilterProp?: SelectProps['filterOption'];
   filterOption?: SelectProps['filterOption'];
   /**
    * 数据源

@@ -25,13 +25,7 @@ export const useRequestOptions = ({
   request?: Parameters<typeof useRequest>[0];
   requestOptions?: Parameters<typeof useRequest>[1];
 }) => {
-  const res = useRequest<
-    {
-      label: string;
-      value: string;
-    }[],
-    any
-  >(
+  const res = useRequest<{ label: string; value: string; [key: string]: any }[], any>(
     // @ts-ignore
     async (...args) => {
       if (request) {

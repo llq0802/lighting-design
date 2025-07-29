@@ -23,14 +23,6 @@ const LFormItemSelect: FC<LFormItemSelectProps> = ({
   actionRef,
   ...formItemProps
 }) => {
-  // const innerAllItem = allItem
-  //   ? {
-  //       label: '全部',
-  //       value: 'all',
-  //       ...(typeof allItem === 'object' ? allItem : {}),
-  //     }
-  //   : void 0;
-
   const innerPlaceholder = getFormItemPlaceholder({
     placeholder,
     formItemProps,
