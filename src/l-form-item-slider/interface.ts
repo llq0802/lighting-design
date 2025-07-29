@@ -6,7 +6,7 @@ import type { LFormProps } from 'lighting-design/l-form/interface';
 export interface LFormItemSliderProps
   extends LFormItemProps,
     Pick<SliderSingleProps, 'min' | 'max' | 'step' | 'marks'>,
-    Pick<LFormProps, 'disabled' | 'size'> {
+    Pick<LFormProps, 'disabled'> {
   /**
    *antd 滑块的 props
    */

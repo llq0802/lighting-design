@@ -5,7 +5,6 @@ import type { FC } from 'react';
 import type { LFormItemSliderProps } from './interface';
 
 const LFormItemSlider: FC<LFormItemSliderProps> = ({
-  size,
   disabled,
   min,
   max,
@@ -15,7 +14,6 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
   ...restProps
 }) => {
   const baseProps = {
-    size,
     disabled,
     //
     min,
@@ -34,10 +32,3 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
 
 export default LFormItemSlider;
 export * from './interface';
-
-// https://www.npmjs.com/package/rc-slider
-// trackStyle?: React.CSSProperties | React.CSSProperties[];
-// handleStyle?: React.CSSProperties | React.CSSProperties[];
-// railStyle?: React.CSSProperties;
-// dotStyle?: React.CSSProperties | ((dotValue: number) => React.CSSProperties);
-// activeDotStyle?: React.CSSProperties | ((dotValue: number) => React.CSSProperties);

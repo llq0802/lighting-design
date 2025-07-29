@@ -5,7 +5,6 @@ import type { LFormItemRateProps } from './interface';
 
 const LFormItemRate: FC<LFormItemRateProps> = ({
   disabled,
-  size,
   allowHalf,
   character,
   count = 5,
