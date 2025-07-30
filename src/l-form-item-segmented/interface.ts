@@ -10,7 +10,6 @@ export interface LFormItemSegmentedProps
   options?: SegmentedProps['options'] | Record<string, any>[];
   segmentedProps?: SegmentedProps;
   block?: SegmentedProps['block'];
-  vertical?: SegmentedProps['vertical'];
   shape?: SegmentedProps['shape'];
   /** 是否默认高亮第一个选项 (只高亮,不代表有值) */
   isHighlightFirst?: boolean;

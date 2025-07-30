@@ -7,18 +7,17 @@ import type { LFormItemSegmentedProps } from './interface';
 const LFormItemSegmented: FC<LFormItemSegmentedProps> = ({
   disabled,
   size,
+
+  options,
+  block,
+  shape,
+  isHighlightFirst = false,
+  fieldNames,
   spin,
   actionRef,
   request,
-  fieldNames,
-  options,
-  segmentedProps,
   requestOptions,
-  block,
-  vertical,
-  shape,
-  isHighlightFirst = false,
-
+  segmentedProps,
   ...restProps
 }) => {
   const baseProps = {
@@ -26,8 +25,8 @@ const LFormItemSegmented: FC<LFormItemSegmentedProps> = ({
     disabled,
     options,
     fieldNames,
-    vertical,
     shape,
+    block,
     //
     request,
     actionRef,
