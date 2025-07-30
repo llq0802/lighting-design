@@ -1,3 +1,4 @@
+import type { Options } from 'ahooks/lib/useRequest/src/types';
 import type { ButtonProps } from 'antd';
 import type { InputProps } from 'antd/es/input';
 import type { LCaptchaButtonProps } from 'lighting-design/l-captcha-button';
@@ -16,16 +17,15 @@ export interface LFormItemCaptchaProps
   type?: ButtonProps['type'] | 'inline';
   maxLength?: number;
   /**
-   * @description 请求方法
-   * @param requestData 请求的额外参数
-   * @returns Promise.resolve() 成功  /  Promise.reject() 失败
+   * 请求方法
    */
-  request?: (requestData: any) => Promise<any>;
+  request?: (...args: any[]) => Promise<any>;
   requestAutoFocus?: boolean;
-  requestData?: any;
-  onBefore?: (requestData: any) => void;
-  onSuccess?: (data: any, requestData: any) => void;
-  onError?: (err: Error, res: any) => void;
+  /**
+   *ahooks 的 useRequest  的配置项
+   *@see https://ahooks.js.org/zh-CN/hooks/use-request/basic
+   */
+  requestOptions?: Options<any, any>;
   captchaButtonProps?: Partial<LCaptchaButtonProps>;
   inputProps?: InputProps;
 }

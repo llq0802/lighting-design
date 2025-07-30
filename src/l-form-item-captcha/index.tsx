@@ -20,10 +20,7 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   maxLength = 6,
   //
   request,
-  requestData,
-  onBefore,
-  onSuccess,
-  onError,
+  requestOptions,
   requestAutoFocus = true,
   inputProps = emptyObject,
   captchaButtonProps = emptyObject,
@@ -46,15 +43,12 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
     cacheKey,
     second,
     onEnd,
-    initText,
-    captchaButtonProps,
     inputProps,
+    captchaButtonProps,
+    initText,
     //
     request,
-    onBefore,
-    onSuccess,
-    onError,
-    requestData,
+    requestOptions,
     requestAutoFocus,
   };
 

@@ -4,7 +4,10 @@ import { sleep } from 'lighting-design/test';
 import React, { useRef } from 'react';
 
 type FieldType = {
-  input?: string;
+  captcha1?: string;
+  captcha2?: string;
+  captcha3?: string;
+  captcha4?: string;
 };
 
 const App: React.FC = () => {
@@ -33,18 +36,35 @@ const App: React.FC = () => {
       }}
     >
       <LFormItemCaptcha
-        request={async (vals) => {
+        cacheKey="__LFormItemCaptcha__1"
+        request={async () => {
           await sleep();
         }}
-        cacheKey="__LFormItemCaptcha__1"
         name="captcha1"
-        label="验证码1"
+        label="request"
       />
       <LFormItemCaptcha
-        size="small"
+        type="inline"
+        cacheKey="__LFormItemCaptcha__3"
+        request={async () => {
+          await sleep();
+        }}
+        name="captcha3"
+        label="inline"
+      />
+      <LFormItemCaptcha
+        type="primary"
+        cacheKey="__LFormItemCaptcha__4"
+        request={async () => {
+          await sleep();
+        }}
+        name="captcha4"
+        label="primary"
+      />
+      <LFormItemCaptcha
         cacheKey="__LFormItemCaptcha__2"
         name="captcha2"
-        label="验证码2"
+        label="手动"
         inputProps={{
           ref: inputRef,
         }}
