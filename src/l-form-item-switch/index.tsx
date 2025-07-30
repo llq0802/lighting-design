@@ -11,12 +11,13 @@ const BaseSwitch = (
     [key: string]: any;
   } & Pick<LFormItemSwitchProps, 'checkedBg' | 'unCheckedBg'>,
 ) => {
-  const { checked, unCheckedBg, checkedBg, switchProps, ...restProps } = props;
+  const { value, unCheckedBg, checkedBg, switchProps, ...restProps } = props;
   const innerSwitchProps = {
+    value,
     ...restProps,
     ...switchProps,
     style: {
-      backgroundColor: checked ? checkedBg : unCheckedBg,
+      background: value ? checkedBg : unCheckedBg,
       ...switchProps?.style,
     },
     onChange: (...args: any[]) => {
