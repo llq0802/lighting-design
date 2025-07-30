@@ -14,10 +14,9 @@ const LFormItemRadio: FC<LFormItemRadioProps> = ({
   requestOptions,
   actionRef,
   request,
-
+  spin,
   fieldNames,
   radioProps,
-  spin,
 
   ...restProps
 }) => {
