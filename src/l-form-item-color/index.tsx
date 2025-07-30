@@ -16,6 +16,7 @@ const LFormItemColor: FC<LFormItemColorProps> = ({
   const baseProps = {
     size,
     disabled,
+    destroyOnHidden: true,
     //
     format: colorFormat,
     ...colorProps,
