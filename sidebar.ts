@@ -193,7 +193,7 @@ export default {
         },
         {
           title: 'Address-组合选择',
-          link: '/components/l-form-item-address',
+          link: '/components/l-form-item-composition',
         },
         {
           title: 'Color-颜色选择',

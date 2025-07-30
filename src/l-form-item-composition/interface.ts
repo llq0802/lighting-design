@@ -7,11 +7,11 @@ export interface LFormItemCompositionProps extends LFormItemProps, Pick<LFormPro
   /**右侧收集数据组件 */
   rightComponent: React.ReactNode;
   /**
-   * 转化左侧组件的onChange参数
+   * 转化左侧组件的onChange参数到formState中
    */
   transformLeftOnChangeParams?: (...args: any[]) => any;
   /**
-   * 转化右侧组件的onChange参数
+   * 转化右侧组件的onChange参数到formState中
    */
   transformRightOnChangeParams?: (...args: any[]) => any;
 }

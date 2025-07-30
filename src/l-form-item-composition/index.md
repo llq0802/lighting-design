@@ -13,6 +13,8 @@ nav:
 
 ### 基础用法
 
+<code src='./demos/Demo1.tsx'></code>
+
 <!-- <code src='./demos/Demo1.tsx'></code>
 
 ### 改用 Select 组件与 InputNumer 组件

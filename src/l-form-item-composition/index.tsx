@@ -76,6 +76,8 @@ const LFormItemComposition: FC<LFormItemCompositionProps> = ({
     variant,
     leftComponent,
     rightComponent,
+    transformLeftOnChangeParams,
+    transformRightOnChangeParams,
   };
   return (
     <LFormItem {...restProps}>
