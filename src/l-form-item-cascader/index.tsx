@@ -1,4 +1,3 @@
-import { emptyArray } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import { getFormItemPlaceholder } from 'lighting-design/utils';
 import type { FC } from 'react';
@@ -17,14 +16,13 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   showSearch,
   multiple,
   loadData,
-  options = emptyArray,
+  options,
   fieldNames,
 
   request,
   requestOptions,
   spin,
   actionRef,
-
   cascaderProps,
 
   ...formItemProps
@@ -32,15 +30,22 @@ const LFormItemCascader: FC<LFormItemCascaderProps> = ({
   const innerPlaceholder = getFormItemPlaceholder({
     placeholder,
     formItemProps,
+    isSelectType: true,
   });
 
   const baseProps = {
+    placeholder: innerPlaceholder,
     disabled,
-    options,
     variant,
     size,
     //
-    placeholder: innerPlaceholder,
+    options,
+    changeOnSelect,
+    displayRender,
+    expandTrigger,
+    showSearch,
+    loadData,
+    multiple,
     fieldNames,
     spin,
     request,

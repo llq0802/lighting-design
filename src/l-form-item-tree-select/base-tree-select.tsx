@@ -21,13 +21,7 @@ const BaseTreeSelect: FC<Record<string, any>> = ({
     <TreeSelect treeData={treeData || data} treeNodeFilterProp={restProps?.fieldNames?.label} {...restProps} />
   );
 
-  return loading && !treeData ? (
-    <Spin spinning {...spin}>
-      {dom}
-    </Spin>
-  ) : (
-    dom
-  );
+  return loading && !treeData ? <Spin {...spin}>{dom}</Spin> : dom;
 };
 
 export default BaseTreeSelect;

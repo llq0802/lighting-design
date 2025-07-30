@@ -17,6 +17,8 @@ export * from './l-form-item-auto-complete';
 export { default as LFormItemAutoComplete } from './l-form-item-auto-complete';
 export * from './l-form-item-captcha';
 export { default as LFormItemCaptcha } from './l-form-item-captcha';
+export * from './l-form-item-cascader';
+export { default as LFormItemCascader } from './l-form-item-cascader';
 export * from './l-form-item-checkbox';
 export { default as LFormItemCheckbox } from './l-form-item-checkbox';
 export * from './l-form-item-color';
