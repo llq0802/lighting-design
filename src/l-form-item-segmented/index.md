@@ -23,7 +23,7 @@ import { LFormItemSegmented } from 'lighting-design';
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
-包含 [LFormItemSelect](/components/form-item-select#api) 的 `request` `requestOptions` `spin` `actionRef` `options` `fieldNames`
+包含 [LFormItemSelect](/components/form-item-select#api) 的 `request` `requestOptions` `spin` `actionRef` `options` `fieldNames` `size` `disabled`
 
 用法与 [LFormItemSelect](/components/form-item-select#api) 一致
 

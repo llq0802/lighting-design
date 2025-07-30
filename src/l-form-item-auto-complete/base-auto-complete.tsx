@@ -29,13 +29,7 @@ const BaseAutoComplete: FC<Record<string, any>> = ({
 
   const dom = <AutoComplete options={innerOptions} {...restProps} />;
 
-  return loading && !options ? (
-    <Spin spinning {...spin}>
-      {dom}
-    </Spin>
-  ) : (
-    dom
-  );
+  return loading && !options ? <Spin {...spin}>{dom}</Spin> : dom;
 };
 
 export default BaseAutoComplete;
