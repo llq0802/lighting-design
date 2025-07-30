@@ -101,8 +101,6 @@ const LTable: <T extends any = Record<string, any>>(props: LTableProps<T>) => Re
           // disabled: loadingProps.spinning,
           align: 'end',
           hideOnSinglePage: true,
-          showSizeChanger: total > 50,
-          showQuickJumper: total > 50,
           showTotal: (t) => `共 ${t} 条数据`,
           total,
           current: hasDataSource ? void 0 : requestPagination.current,
@@ -340,7 +338,11 @@ const LTable: <T extends any = Record<string, any>>(props: LTableProps<T>) => Re
       />
     </ConfigProvider>
   );
-  const paginationDom = paginationProps ? <Pagination {...paginationProps} /> : null;
+  const paginationDom = paginationProps ? (
+    <ConfigProvider locale={zhCN}>
+      <Pagination {...paginationProps} />
+    </ConfigProvider>
+  ) : null;
   const innerFormDom = hasFormItems ? (
     <Card {...formCardProps} className={cx(styles.form_card, formCardProps?.className)}>
       {formDom}

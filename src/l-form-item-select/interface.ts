@@ -39,5 +39,8 @@ export interface LFormItemSelectProps extends LFormItemProps, Pick<LFormProps, '
    *配置`request`时自定义`loading`效果
    */
   spin?: SpinProps;
+  /**
+   * antd Select 的 props
+   */
   selectProps?: SelectProps;
 }

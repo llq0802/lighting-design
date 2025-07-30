@@ -51,7 +51,7 @@ const columns = [
     ),
   },
 ];
-const data: DataType[] = new Array(48).fill(null).map((_, i) => ({
+const data: DataType[] = new Array(88).fill(null).map((_, i) => ({
   key: i.toString(),
   name: `Edward King ${i + 1}`,
   age: i + 1,
@@ -89,7 +89,8 @@ const Index: React.FC<PropsType> = ({}) => {
           columns={columns}
           // dataSource={data}
           // dataSource={[]}
-          request={async (params) => {
+          request={async (params, type) => {
+            console.log('type', type);
             console.log('params', params);
             await sleep();
             return {
