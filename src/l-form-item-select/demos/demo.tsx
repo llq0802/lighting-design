@@ -52,7 +52,6 @@ const App: React.FC = () => {
         required
         options={opts2}
         fieldNames={{ label: 'city', value: 'code' }}
-        optionFilterProp="city"
       />
       <LFormItemSelect
         label="request"
