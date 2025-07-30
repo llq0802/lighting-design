@@ -23,7 +23,7 @@ nav:
 import { LFormItemAutoComplete } from 'lighting-design';
 ```
 
-包含 [LFormItemSelect](/components/form-item-select#api) 的 `request` `requestOptions` `spin` `actionRef` `options` `fieldNames` `placeholder` `disabled` `variant` `size` `mode`
+包含 [LFormItemSelect](/components/form-item-select#api) 的 `request` `requestOptions` `spin` `actionRef` `options` `fieldNames` `placeholder` `disabled` `variant` `size`
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 

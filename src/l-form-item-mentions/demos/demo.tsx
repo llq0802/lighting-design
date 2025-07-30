@@ -1,9 +1,11 @@
 import Mock from 'better-mock';
 import { LForm, LFormItemMentions } from 'lighting-design';
+import { sleep } from 'lighting-design/test';
 import React from 'react';
-const opts1 = Mock.mock({ 'list|5': [{ label: '@cname', value: '@cname' }] }).list;
+const opts1 = Mock.mock({ 'list|20': [{ label: '@cname', value: '@cname' }] }).list;
+
 type FieldType = {
-  time1?: string;
+  mentions1?: string;
 };
 
 const App: React.FC = () => {
@@ -17,7 +19,15 @@ const App: React.FC = () => {
         console.log('===onFinish===', values);
       }}
     >
-      <LFormItemMentions required label="标签1" name="mentions-1" options={opts1} />
+      <LFormItemMentions required label="标签1" name="mentions1" options={opts1} />
+      <LFormItemMentions
+        label="request"
+        name="mentions2"
+        request={async () => {
+          await sleep();
+          return Mock.mock({ 'list|6': [{ label: '@cname', value: '@cname' }] }).list;
+        }}
+      />
     </LForm>
   );
 };
