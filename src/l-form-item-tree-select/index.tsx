@@ -18,6 +18,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
   showSearch,
   loadData,
   treeData,
+  options,
   fieldNames,
   //
   maxHeight = 400,
@@ -55,6 +56,7 @@ const LFormItemTreeSelect: FC<LFormItemTreeSelectProps> = ({
     multiple,
     showSearch,
     loadData,
+    options,
     treeData,
     ...treeSelectProps,
     styles: {

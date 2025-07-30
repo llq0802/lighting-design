@@ -4,6 +4,7 @@ import type { FC } from 'react';
 import { useImperativeHandle } from 'react';
 
 const BaseTreeSelect: FC<Record<string, any>> = ({
+  options,
   treeData,
   request,
   requestOptions,
@@ -18,10 +19,14 @@ const BaseTreeSelect: FC<Record<string, any>> = ({
   const { loading, data } = requestRes;
   useImperativeHandle(actionRef, () => requestRes);
   const dom = (
-    <TreeSelect treeData={treeData || data} treeNodeFilterProp={restProps?.fieldNames?.label} {...restProps} />
+    <TreeSelect
+      treeData={treeData || options || data}
+      treeNodeFilterProp={restProps?.fieldNames?.label}
+      {...restProps}
+    />
   );
 
-  return loading && !treeData ? <Spin {...spin}>{dom}</Spin> : dom;
+  return loading && !treeData && !options ? <Spin {...spin}>{dom}</Spin> : dom;
 };
 
 export default BaseTreeSelect;

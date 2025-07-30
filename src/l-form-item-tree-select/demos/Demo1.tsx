@@ -32,13 +32,7 @@ const Demo1 = () => {
         console.log('==vals====>', vals);
       }}
     >
-      <LFormItemTreeSelect
-        label="树形选择"
-        variant="filled"
-        name="tree1"
-        required
-        treeData={treeData}
-      />
+      <LFormItemTreeSelect label="树形选择" variant="filled" name="tree1" required treeData={treeData} />
       <LFormItemTreeSelect
         label="自定义字段名"
         name="tree2"
@@ -73,10 +67,9 @@ const Demo1 = () => {
           value: 'code',
           children: 'children',
         }}
+        maxHeight={600}
         treeSelectProps={{
-          dropdownStyle: {
-            maxHeight: 600,
-          },
+          listHeight: 330,
         }}
       />
     </LForm>

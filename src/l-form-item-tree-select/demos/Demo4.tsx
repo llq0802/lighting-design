@@ -52,7 +52,7 @@ const Demo4 = () => {
   const [form] = LForm.useForm();
 
   return (
-    <LForm form={form} submitter={{ buttonAlign: 'center' }}>
+    <LForm form={form}>
       <LFormItemTreeSelect
         label="树形选择"
         name="tree"

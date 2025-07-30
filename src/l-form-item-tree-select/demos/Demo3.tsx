@@ -34,7 +34,7 @@ const Demo3 = () => {
   };
 
   return (
-    <LForm form={form} submitter={{ buttonAlign: 'center' }}>
+    <LForm form={form} submitter={{ position: 'center' }}>
       <LFormItemTreeSelect
         label="异步加载树形选择"
         name="tree"

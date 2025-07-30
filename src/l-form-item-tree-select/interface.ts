@@ -6,8 +6,7 @@ import type { LFormProps } from 'lighting-design/l-form/interface';
 export interface LFormItemTreeSelectProps
   extends LFormItemProps,
     Pick<LFormProps, 'variant' | 'disabled' | 'size'>,
-    Pick<LFormItemSelectProps, 'actionRef' | 'requestOptions' | 'request' | 'spin'> {
-  placeholder?: string;
+    Pick<LFormItemSelectProps, 'actionRef' | 'requestOptions' | 'request' | 'spin' | 'placeholder'> {
   maxHeight?: string | number;
   treeDataSimpleMode?: TreeSelectProps['treeDataSimpleMode'];
   showSearch?: TreeSelectProps['showSearch'];
@@ -17,6 +16,7 @@ export interface LFormItemTreeSelectProps
   treeCheckable?: TreeSelectProps['treeCheckable'];
   loadData?: TreeSelectProps['loadData'];
   treeData?: TreeSelectProps['treeData'];
+  options?: TreeSelectProps['treeData'];
   fieldNames?: TreeSelectProps['fieldNames'];
   treeSelectProps?: TreeSelectProps;
 }
