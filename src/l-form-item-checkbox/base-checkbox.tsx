@@ -32,13 +32,7 @@ const BaseCheckbox: FC<Record<string, any>> = ({
 
   const dom = <Checkbox.Group options={innerOptions} {...restProps} />;
 
-  return loading && !options ? (
-    <Spin spinning {...spin}>
-      {dom}
-    </Spin>
-  ) : (
-    dom
-  );
+  return loading && !options ? <Spin {...spin}>{dom}</Spin> : dom;
 };
 
 export default BaseCheckbox;

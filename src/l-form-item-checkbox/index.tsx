@@ -5,14 +5,13 @@ import type { LFormItemCheckboxProps } from './interface';
 
 const LFormItemCheckbox: FC<LFormItemCheckboxProps> = ({
   disabled,
-
   fieldNames,
   actionRef,
   request,
   options,
-  checkboxProps,
   spin,
   requestOptions,
+  checkboxProps,
   ...restProps
 }) => {
   const baseProps = {

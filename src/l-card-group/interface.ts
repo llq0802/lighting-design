@@ -1,7 +1,6 @@
 import type { CardProps, SelectProps } from 'antd';
+import type { LValueType } from 'lighting-design/interface';
 import type { CSSProperties } from 'react';
-
-export type LValueType = string | number | (string | number)[];
 
 export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disabled'> {
   /**
