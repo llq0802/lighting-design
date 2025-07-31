@@ -192,7 +192,7 @@ export default {
           link: '/components/l-form-item-tree-select',
         },
         {
-          title: 'Address-组合选择',
+          title: 'Composition-组合选择',
           link: '/components/l-form-item-composition',
         },
         {

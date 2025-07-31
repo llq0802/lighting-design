@@ -41,37 +41,14 @@ import { LFormItemAddress } from 'lighting-design';
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
-| 参数        | 说明                             | 类型                        | 默认值                 |
-| ----------- | -------------------------------- | --------------------------- | ---------------------- |
-| variant     | `CascaderProps['variant']`       | `CascaderProps['variant']`  | `-`                    |
-| block       | 是否占满父容器                   | `boolean`                   | `true`                 |
-| leftWidth   | 左侧组件的宽度                   | `number \| string`          | `50%`                  |
-| options     | 左侧组件数据源                   | `CascaderProps['options'] ` | `-`                    |
-| placeholder | 组件的 placeholder               | `[string , string]`         | `['请选择', '请输入']` |
-| leftProps   | `Select`或`Cascader`组件 Props   | `LeftProps`                 | `-`                    |
-| rightProps  | `Input`或`InputNumber`组件 Props | `RightProps`                | `-`                    |
-
-### LeftProps
-
-```ts
-type LeftProps =
-  | (CascaderProps & {
-      isSelect: boolean;
-    })
-  | (SelectProps & {
-      isSelect: boolean;
-    });
-```
-
-### RightProps
-
-```ts
-type RightProps =
-  rightProps?:
-    | (InputProps & {
-        isInputNumber: boolean;
-      })
-    | (InputNumberProps & {
-        isInputNumber: boolean;
-      });
-```
+| 参数                         | 说明                                        | 类型                        | 默认值 |
+| ---------------------------- | ------------------------------------------- | --------------------------- | ------ |
+| variant                      | `CascaderProps['variant']`                  | `CascaderProps['variant']`  | `-`    |
+| size                         | `CascaderProps['size']`                     | `CascaderProps['size']`     | `-`    |
+| disabled                     | `CascaderProps['disabled']`                 | `CascaderProps['disabled']` | `-`    |
+| block                        | 是否占满父容器                              | `boolean`                   | `true` |
+| leftWidth                    | 左侧组件的宽度                              | `number \| string`          | `50%`  |
+| leftComponent                | 左侧收集数据组件                            | `ReactNode`                 | `-`    |
+| rightComponent               | 右侧收集数据组件                            | `ReactNode`                 | `-`    |
+| transformLeftOnChangeParams  | 转化左侧组件的 onChange 参数到 formState 中 | `(...args: any[]) => any`   | `-`    |
+| transformRightOnChangeParams | 转化右侧组件的 onChange 参数到 formState 中 | `(...args: any[]) => any`   | `-`    |

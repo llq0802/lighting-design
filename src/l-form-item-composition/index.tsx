@@ -7,6 +7,8 @@ const BaseComposition: FC<Record<string, any>> = ({
   size,
   disabled,
   variant,
+  block,
+  leftWidth = '100%',
   leftComponent,
   rightComponent,
   transformLeftOnChangeParams,
@@ -32,6 +34,7 @@ const BaseComposition: FC<Record<string, any>> = ({
     ...pubilcProps,
     id: `${id}-left`,
     value: value[0],
+    style: { width: leftWidth, ...leftComponent?.props?.style },
     onChange: (val: any, ...args: any) => {
       const v = transformLeftOnChangeParams ? transformLeftOnChangeParams(val, ...args) : val;
       hanleChange(0, v);
@@ -43,6 +46,7 @@ const BaseComposition: FC<Record<string, any>> = ({
     ...pubilcProps,
     id: `${id}-right`,
     value: value[1],
+    style: { width: '100%', ...rightComponent?.props?.style },
     onChange: (val: any, ...args: any[]) => {
       const v = transformRightOnChangeParams ? transformRightOnChangeParams(val) : val;
       hanleChange(1, v);
@@ -51,7 +55,7 @@ const BaseComposition: FC<Record<string, any>> = ({
   });
 
   return (
-    <Space.Compact block>
+    <Space.Compact block={block}>
       {leftDom}
       {rightDom}
     </Space.Compact>
@@ -62,7 +66,8 @@ const LFormItemComposition: FC<LFormItemCompositionProps> = ({
   size,
   disabled,
   variant,
-
+  block = true,
+  leftWidth,
   leftComponent,
   rightComponent,
   transformLeftOnChangeParams,
@@ -74,6 +79,8 @@ const LFormItemComposition: FC<LFormItemCompositionProps> = ({
     size,
     disabled,
     variant,
+    block,
+    leftWidth,
     leftComponent,
     rightComponent,
     transformLeftOnChangeParams,
