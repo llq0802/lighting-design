@@ -1,11 +1,11 @@
 ---
-title: LFormItemAddress
+title: LFormItemComposition
 toc: content
 nav:
   path: /components
 ---
 
-# LFormItemAddress
+# LFormItemComposition
 
 地址 (银行卡) 等选择与输入
 
@@ -14,12 +14,6 @@ nav:
 ### 基础用法
 
 <code src='./demos/Demo1.tsx'></code>
-
-<!-- <code src='./demos/Demo1.tsx'></code>
-
-### 改用 Select 组件与 InputNumer 组件
-
-<code src='./demos/Demo2.tsx'></code> -->
 
 ## API
 

@@ -85,6 +85,7 @@ export function createDisabledDate(
   if (!hasBefore && !hasAfter) {
     return () => false;
   }
+
   const dayjsType = DayjsEnum[picker] as any;
   if (!dayjsType) {
     return () => false;
@@ -132,7 +133,6 @@ export function transform2Dayjs(
   }
 
   if (typeof value === 'string' && value) {
-    console.log('===value==>', value);
     // 周
     if (picker === PickerEnum.week) {
       const match = value.split(value.slice(4, 5) || '-')[1]?.match(/\d+/g);

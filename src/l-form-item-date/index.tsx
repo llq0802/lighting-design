@@ -1,7 +1,7 @@
 import { emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
 import { createDisabledDate, getDateFormat, PickerEnum, transform2Dayjs } from 'lighting-design/utils/date';
-import { useRef, type FC } from 'react';
+import { type FC } from 'react';
 import { BaseDate, BaseDateRange } from './base-date';
 import type { LFormItemDateProps } from './interface';
 
@@ -18,7 +18,6 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
   dateValueType = 'string',
   disabledDateBefore,
   disabledDateAfter,
-
   datePickerProps = emptyObject,
   ...restProps
 }) => {
@@ -49,12 +48,9 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
   //@ts-ignore
   const dom = !rangePicker ? <BaseDate {...baseProps} /> : <BaseDateRange {...baseProps} />;
 
-  const selectedValue = useRef();
-
   return (
     <LFormItem
       getValueFromEvent={(v1, v2) => {
-        selectedValue.current = v1;
         if (dateValueType === 'string') {
           return v2;
         }
@@ -63,6 +59,7 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
         }
         return v1;
       }}
+      // normalize={(v1, v2) => {}}
       getValueProps={(value) => {
         //为子元素添加额外的属性, 每次初始化或者重新渲染都有效
         return {
