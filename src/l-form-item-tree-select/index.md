@@ -38,23 +38,24 @@ import { LFormItemTreeSelect } from 'lighting-design';
 
 除了以下参数，其余和 [LFormItem](/components/form-item) 一样。
 
-包含 [LFormItemSelect](/components/form-item-select#api) 的 `request` `requestOptions` `spin` `actionRef` `options` `fieldNames` `placeholder` `disabled` `variant` `size`
+包含 [LFormItemSelect](/components/form-item-select#api) 的 `request` `requestOptions` `spin` `actionRef` `placeholder` `disabled` `variant` `size`
 
 用法与 [LFormItemSelect](/components/form-item-select#api) 一致
 
-| 参数               | 说明                                                                                                                                      | 类型                                                                 | 默认值  |
-| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------- |
-| treeData           | 数据化配置选项内容, 类型与 `treeDataSimpleMode`配置有关                                                                                   | `TreeSelectProps['treeData']`                                        | `[]`    |
-| options            | treeData 别名                                                                                                                             | `TreeSelectProps['treeData']`                                        | `[]`    |
-| treeDataSimpleMode | 使用简单格式的 treeData，<br> (此时 treeData 应变为这样的数据结构: [{id:1, pId:0, value:'1', title:"test1",...},...]， pId 是父节点的 id) | `TreeSelectProps['treeDataSimpleMode'] `                             | `false` |
-| showSearch         | 是否可搜索 单选：false 多选：true                                                                                                         | `boolean `                                                           | `-`     |
-| multiple           | 是否多选                                                                                                                                  | `boolean `                                                           | `false` |
-| treeCheckable      | 显示 Checkbox                                                                                                                             | `boolean `                                                           | `false` |
-| loadData           | 异步加载数据                                                                                                                              | `function(node)`                                                     | `-`     |
-| fieldNames         | ` TreeSelectProps['fieldNames']`                                                                                                          | ` TreeSelectProps['fieldNames']`                                     | `-`     |
-| treeIcon           | ` TreeSelectProps['treeIcon']` fieldNames                                                                                                 | ` TreeSelectProps['treeIcon']`                                       | `-`     |
-| treeLine           | ` TreeSelectProps['treeLine']`                                                                                                            | ` TreeSelectProps['treeIcon']`                                       | `-`     |
-| treeSelectProps    | `antd`树选择组件的 Props                                                                                                                  | [TreeSelectProps](https://ant.design/components/tree-select-cn/#api) | `-`     |
+| 参数               | 说明                                                                                                                                      | 类型                                     | 默认值  |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | ------- |
+| treeData           | 数据化配置选项内容, 类型与 `treeDataSimpleMode`配置有关                                                                                   | `TreeSelectProps['treeData']`            | `[]`    |
+| options            | treeData 别名                                                                                                                             | `TreeSelectProps['treeData']`            | `[]`    |
+| treeDataSimpleMode | 使用简单格式的 treeData，<br> (此时 treeData 应变为这样的数据结构: [{id:1, pId:0, value:'1', title:"test1",...},...]， pId 是父节点的 id) | `TreeSelectProps['treeDataSimpleMode'] ` | `false` |
+| showSearch         | 是否可搜索 单选：false 多选：true                                                                                                         | `boolean `                               | `-`     |
+| multiple           | 是否多选                                                                                                                                  | `boolean `                               | `false` |
+| treeCheckable      | 显示 Checkbox                                                                                                                             | `boolean `                               | `false` |
+| loadData           | 异步加载数据                                                                                                                              | `function(node)`                         | `-`     |
+| fieldNames         | ` TreeSelectProps['fieldNames']`                                                                                                          | ` TreeSelectProps['fieldNames']`         | `-`     |
+| switcherIcon       | ` TreeSelectProps['switcherIcon']`                                                                                                        | ` TreeSelectProps['switcherIcon']`       | `-`     |
+| treeIcon           | ` TreeSelectProps['treeIcon']`                                                                                                            | ` TreeSelectProps['treeIcon']`           | `-`     |
+| treeLine           | ` TreeSelectProps['treeLine']`                                                                                                            | ` TreeSelectProps['treeLine']`           | `-`     |
+| treeSelectProps    | `antd`树选择组件的 Props                                                                                                                  | [TreeSelectProps]                        | `-`     |
 
 ### LTreeSelectOption
 
@@ -72,3 +73,5 @@ export type LTreeSelectOption = {
   isLeaf?: boolean;
 };
 ```
+
+[TreeSelectProps] :https://ant.design/components/tree-select-cn/#api

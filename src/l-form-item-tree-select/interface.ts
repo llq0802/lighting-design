@@ -11,6 +11,7 @@ export interface LFormItemTreeSelectProps
   treeDataSimpleMode?: TreeSelectProps['treeDataSimpleMode'];
   showSearch?: TreeSelectProps['showSearch'];
   multiple?: TreeSelectProps['multiple'];
+  switcherIcon?: TreeSelectProps['switcherIcon'];
   treeIcon?: TreeSelectProps['treeIcon'];
   treeLine?: TreeSelectProps['treeLine'];
   treeCheckable?: TreeSelectProps['treeCheckable'];
@@ -18,5 +19,6 @@ export interface LFormItemTreeSelectProps
   treeData?: TreeSelectProps['treeData'];
   options?: TreeSelectProps['treeData'];
   fieldNames?: TreeSelectProps['fieldNames'];
+  listHeight?: TreeSelectProps['listHeight'];
   treeSelectProps?: TreeSelectProps;
 }

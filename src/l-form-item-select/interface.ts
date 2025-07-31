@@ -22,7 +22,7 @@ export interface LFormItemSelectProps extends LFormItemProps, Pick<LFormProps, '
    * - 数据优先级 : `selectProps.options` > `组件本身的 options` > `request 返回值`
    * - 不能与 `options` 同时配置
    */
-  request?: (...args: any[]) => Promise<{ label: ReactNode; value: string | number; [key: string]: any }[]>;
+  request?: (...args: any[]) => Promise<{ label?: ReactNode; value?: string | number; [key: string]: any }[]>;
 
   /**
    *ahooks 的 useRequest  的配置项
