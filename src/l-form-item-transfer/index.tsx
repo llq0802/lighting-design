@@ -7,14 +7,17 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
   disabled,
   //
   options,
+  dataSource,
   titles,
+  listHeight,
   listStyle,
   showSearch,
   oneWay,
   pagination,
   fieldNames,
-  actionRef,
 
+  block = true,
+  actionRef,
   request,
   requestOptions,
   spin,
@@ -23,9 +26,12 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
   ...restProps
 }) => {
   const baseProps = {
+    block,
     disabled,
+    dataSource,
     options,
     titles,
+    listHeight,
     listStyle,
     showSearch,
     oneWay,

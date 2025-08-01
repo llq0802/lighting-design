@@ -7,6 +7,8 @@ import type { LFormProps } from 'lighting-design/l-form/interface';
 export type LFormItemTransferActionRef<D extends any = any, P = any> = PaginationResult<D, P>;
 
 interface RecordType {
+  label?: string | number;
+  value?: React.ReactNode;
   key?: string | number;
   title?: React.ReactNode;
   disabled?: boolean;
@@ -16,18 +18,16 @@ interface RecordType {
 export type LFormItemTransferProps = LFormItemProps &
   Pick<LFormItemSelectProps, 'spin' | 'fieldNames'> &
   Pick<LFormProps, 'disabled'> & {
+    listHeight?: number | string;
+    block?: boolean;
     /**
      *包含一些请求分页的方法与属性 配合 request pagination 用于外部控制分页请求
      */
     actionRef?: React.MutableRefObject<LFormItemTransferActionRef | undefined>;
-    /**
-     *可选的最大数量
-     */
     listStyle?: TransferProps['listStyle'];
     titles?: TransferProps['titles'];
     showSearch?: TransferProps['titles'];
     oneWay?: TransferProps['oneWay'];
-    transferProps?: TransferProps;
     /**
      *分页配置 与 antd 穿梭框的分页配置一样
      */
@@ -37,11 +37,13 @@ export type LFormItemTransferProps = LFormItemProps &
      */
     request?: (info: { current: number; pageSize: number }) => Promise<{ total: number; list: RecordType[] }>;
     /**
-     *ahooks 的 usePagination 配置项
+     * ahooks 的 usePagination 配置项
      */
     requestOptions?: PaginationOptions<any, any>;
     /**
-     *数据源
+     *dataSource的别名
      */
-    options?: RecordType;
+    options?: RecordType[];
+    dataSource?: RecordType[];
+    transferProps?: TransferProps;
   };

@@ -6,13 +6,15 @@ import { useImperativeHandle, type FC } from 'react';
 const BaseTransfer: FC<Record<string, any>> = (props) => {
   const {
     fieldNames = { label: 'label', value: 'value' },
+    block,
+    listHeight = 400,
     options,
+    dataSource,
     //
     actionRef,
     request,
     requestOptions,
     spin,
-    dataSource,
     ...restProps
   } = props;
   const { label: labelKey, value: valueKey } = fieldNames;
@@ -20,8 +22,7 @@ const BaseTransfer: FC<Record<string, any>> = (props) => {
   const requestRes = usePagination(
     async (...args) => {
       if (request) {
-        const res = await request?.(...args);
-        return res;
+        return await request?.(...args);
       }
       return { list: [], total: 0 };
     },
@@ -34,28 +35,26 @@ const BaseTransfer: FC<Record<string, any>> = (props) => {
   const dom = (
     <Transfer
       titles={['数据项', '已选择']}
-      rowKey={(record: Record<string, any>) => record[valueKey] || 'value'}
+      rowKey={(record: Record<string, any>) => record[valueKey] ?? record[labelKey]}
       render={(item: Record<string, any>) => item[labelKey] ?? item[valueKey]}
       dataSource={dataSource || options || data?.list}
       {...restProps}
-      listStyle={
-        restProps?.listStyle || {
-          flex: 1,
-          height: 400,
-        }
-      }
+      style={{
+        width: block ? '100%' : 'fit-content',
+        height: listHeight,
+        ...restProps?.style,
+      }}
+      listStyle={{
+        flex: 1,
+        height: '100%',
+        ...restProps?.listStyle,
+      }}
     />
   );
 
   return (
     <ConfigProvider locale={zhCN}>
-      {dataSource || options ? (
-        dom
-      ) : (
-        <Spin spinning={loading} {...spin}>
-          {dom}
-        </Spin>
-      )}
+      {loading && !dataSource && !options ? <Spin {...spin}>{dom}</Spin> : dom}
     </ConfigProvider>
   );
 };

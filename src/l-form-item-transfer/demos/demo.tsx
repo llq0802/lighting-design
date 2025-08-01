@@ -3,7 +3,7 @@ import { LForm, LFormItemTransfer } from 'lighting-design';
 import { sleep } from 'lighting-design/test';
 import React from 'react';
 
-const transferMockData: any[] = Mock.mock({ 'list|15': [{ value: '@id', label: '@city' }] }).list;
+const transferMockData: any[] = Mock.mock({ 'list|25': [{ value: '@id', label: '@city' }] }).list;
 
 type FieldType = {
   time1?: string;
@@ -22,10 +22,9 @@ const App: React.FC = () => {
         name="LFormItemTransfer"
         label="LFormItemTransfer"
         // options={transferMockData}
-
         request={async (p) => {
           console.log('===p==>', p);
-          await sleep(3000);
+          await sleep();
           return {
             list: transferMockData,
             total: transferMockData.length,
