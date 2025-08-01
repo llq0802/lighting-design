@@ -7,12 +7,14 @@ import type { LFormItemDateProps } from './interface';
 
 const LFormItemDate: FC<LFormItemDateProps> = ({
   disabled,
-  placeholder,
   size,
   variant,
+  placeholder,
   picker,
   showTime,
   format,
+  minDate,
+  maxDate,
   //
   rangePicker = false,
   dateValueType = 'string',
@@ -29,6 +31,8 @@ const LFormItemDate: FC<LFormItemDateProps> = ({
     disabled,
     format,
     picker,
+    minDate,
+    maxDate,
     //
     ...datePickerProps,
   };

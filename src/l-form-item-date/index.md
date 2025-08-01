@@ -22,23 +22,13 @@ nav:
 
 <code src='./demos/demo.tsx'></code>
 
-<!-- <code src='./demos/Demo1.tsx'></code>
-
 ### 日期范围
 
 <code src='./demos/Demo2.tsx'></code>
 
 ### 禁用
 
-<code src='./demos/Demo3.tsx'></code>
-
-### 时间戳的值类型
-
-<code src='./demos/Demo4.tsx'></code>
-
-### 限制范围
-
-<code src='./demos/Demo5.tsx'></code> -->
+<code src='./demos/Demo5.tsx'></code>
 
 ## API
 
