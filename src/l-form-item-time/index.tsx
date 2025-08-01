@@ -1,4 +1,3 @@
-import { useMemoizedFn } from 'ahooks';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { emptyObject } from 'lighting-design/constants';
@@ -19,7 +18,6 @@ const LFormItemTime: FC<LFormItemTimeProps> = ({
   //
   rangePicker = false,
   timeValueType = 'string',
-  //
   disabledHourBefore,
   disabledHourAfter,
   disabledMinutes = () => [],
@@ -28,7 +26,7 @@ const LFormItemTime: FC<LFormItemTimeProps> = ({
 
   ...formItemProps
 }) => {
-  const innerDisabledTime = useMemoizedFn((now: Dayjs, type: 'start' | 'end') => {
+  const innerDisabledTime = (now: Dayjs, type: 'start' | 'end') => {
     return {
       disabledHours: () => customDisabledHours(dayjs().hour(), disabledHourBefore, disabledHourAfter),
       disabledMinutes: (selectedHour: number) => disabledMinutes(selectedHour, type),
@@ -36,7 +34,7 @@ const LFormItemTime: FC<LFormItemTimeProps> = ({
         disabledSeconds(selectedHour, selectedMinute, type),
       ...timePickerProps?.disabledTime?.(now, type),
     };
-  });
+  };
 
   const showNow = typeof disabledHourBefore !== 'number' && typeof disabledHourAfter !== 'number';
 

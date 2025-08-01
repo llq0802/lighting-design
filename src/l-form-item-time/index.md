@@ -20,12 +20,6 @@ nav:
 
 <code src='./demos/demo.tsx'></code>
 
-<!-- <code src='./demos/Demo1.tsx'></code> -->
-
-### 范围禁用
-
-<!-- <code src='./demos/Demo2.tsx'></code> -->
-
 ## API
 
 ```ts
@@ -36,25 +30,18 @@ import { LFormItemTimePicker } from 'lighting-design';
 
 | 参数               | 说明                                        | 类型                                                                 | 默认值       |
 | ------------------ | ------------------------------------------- | -------------------------------------------------------------------- | ------------ |
-| dateValueType      | 表单获取到的值的类型                        | `'string'` \| `'dayjs'`                                              | `'string'`   |
+| timeValueType      | 表单获取到的值的类型                        | `'string'` \| `'dayjs'`                                              | `'string'`   |
 | disabledHourBefore | 禁用当前时间之前的小时 (`0` 会包括当前小时) | `number`                                                             | `-`          |
 | disabledHourAfter  | 禁用当前时间之后的小时 (`0` 会包括当前小时) | `number`                                                             | `-`          |
 | rangePicker        | 是否是范围时间选择                          | `boolean`                                                            | `false`      |
 | format             | 同`antd`时间组件的格式                      | `string`                                                             | `'HH:mm:ss'` |
+| size               | size                                        | `PickerProps['size']`                                                | `-`          |
+| disabled           | disabled                                    | `PickerProps['disabled']`                                            | `-`          |
 | variant            | 形态变体                                    | `PickerProps['variant']`                                             | `-`          |
+| placeholder        | placeholder                                 | `PickerProps['placeholder']`                                         | `-`          |
 | disabledMinutes    | 禁用分钟的函数                              | `DisabledMinutes`                                                    | `-`          |
 | DisabledSeconds    | 禁用秒的函数                                | `DisabledSeconds`                                                    | `-`          |
 | timePickerProps    | `antd`时间组件的 Props                      | [TimePickerProps](https://ant.design/components/time-picker-cn/#api) | `-`          |
-
-### customDisabledHours
-
-```ts
-// 自定义禁用当前时间
-// hour: 传入的当前小时
-// disabledHourBefore: 禁用当前小时之前
-// disabledHourAfter: 禁用当前小时之后
- function customDisabledHours(hour: number,disabledHourBefore?: number, disabledHourAfter?: number) => number[]
-```
 
 ### DisabledMinutes
 

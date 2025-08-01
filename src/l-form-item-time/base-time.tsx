@@ -20,20 +20,10 @@ const BaseTime: FC<BaseTimeProps> = ({ dateValueType, rangePicker, ...restProps 
   };
 
   if (!placeholder) {
-    return !rangePicker ? (
-      <TimePicker {...props} />
-    ) : (
-      // `disabled` should not set with empty `value`. You should set `allowEmpty` or `value` instead.
-      <TimePicker.RangePicker allowEmpty {...props} />
-    );
+    return !rangePicker ? <TimePicker {...props} /> : <TimePicker.RangePicker allowEmpty {...props} />;
   }
 
-  return !rangePicker ? (
-    <TimePicker {...props} />
-  ) : (
-    // `disabled` should not set with empty `value`. You should set `allowEmpty` or `value` instead.
-    <TimePicker.RangePicker allowEmpty {...props} />
-  );
+  return !rangePicker ? <TimePicker {...props} /> : <TimePicker.RangePicker allowEmpty {...props} />;
 };
 
 export default BaseTime;

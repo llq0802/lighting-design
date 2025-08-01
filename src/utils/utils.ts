@@ -1,5 +1,3 @@
-import { version } from 'antd';
-import { compare } from 'compare-versions';
 import { cloneDeep, isPlainObject } from 'lodash-es';
 
 /**
@@ -75,6 +73,3 @@ export const generatePasswordRegex = (min: number = 8, max: number = 16): RegExp
     )}]{${min},${max}}$`,
   );
 };
-
-/** 获取`antd`版本是否大于等于`5.14.0`*/
-export const isAntdVersionMoreThan514 = compare(version, '5.14.0', '>=');

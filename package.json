@@ -64,7 +64,6 @@
     "antd-img-crop": "^4.21.0",
     "antd-style": "^3.7.1",
     "classnames": "^2.5.1",
-    "compare-versions": "^6.1.0",
     "copy-to-clipboard": "^3.3.3",
     "dayjs": "^1.11.11",
     "echarts": "^5.5.0",
