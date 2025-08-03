@@ -8,7 +8,7 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
   //
   options,
   dataSource,
-  titles,
+  titles = ['数据项', '已选择'],
   listHeight,
   listStyle,
   showSearch,

@@ -1,6 +1,5 @@
 import Mock from 'better-mock';
 import { LForm, LFormItemTransfer } from 'lighting-design';
-import { sleep } from 'lighting-design/test';
 import React from 'react';
 
 const transferMockData: any[] = Mock.mock({ 'list|25': [{ value: '@id', label: '@city' }] }).list;
@@ -18,17 +17,18 @@ const App: React.FC = () => {
         console.log('===onFinish===', values);
       }}
     >
+      <LFormItemTransfer name="LFormItemTransfer1" label="基础" options={transferMockData} />
+      <LFormItemTransfer name="LFormItemTransfer2" label="block" options={transferMockData} block={false} />
+      <LFormItemTransfer name="LFormItemTransfer3" label="listHeight" options={transferMockData} listHeight={300} />
+      <LFormItemTransfer name="LFormItemTransfer4" label="pagination" options={transferMockData} pagination />
+      <LFormItemTransfer name="LFormItemTransfer6" label="showSearch" showSearch options={transferMockData} />
       <LFormItemTransfer
-        name="LFormItemTransfer"
-        label="LFormItemTransfer"
-        // options={transferMockData}
-        request={async (p) => {
-          console.log('===p==>', p);
-          await sleep();
-          return {
-            list: transferMockData,
-            total: transferMockData.length,
-          };
+        name="LFormItemTransfer5"
+        label="fieldNames"
+        options={Mock.mock({ 'list|25': [{ key: '@id', title: '@city' }] }).list}
+        fieldNames={{
+          label: 'title',
+          value: 'key',
         }}
       />
     </LForm>

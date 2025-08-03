@@ -1,59 +1,52 @@
-import { Button } from 'antd';
 import Mock from 'better-mock';
 import type { LFormItemTransferActionRef } from 'lighting-design';
 import { LForm, LFormItemTransfer } from 'lighting-design';
 import { sleep } from 'lighting-design/test';
 import { useRef } from 'react';
 
-const transferMockData: any[] = Mock.mock({ 'list|20': [{ key: '@id', title: '@city' }] }).list;
-
-const initialTargetKeys = transferMockData.filter((item) => Number(item.key) <= 1).map((item) => item.key);
+const transferMockData: any[] = Mock.mock({ 'list|20': [{ value: '@id', label: '@city' }] }).list;
 
 export default () => {
   const actionRef = useRef<LFormItemTransferActionRef>();
 
   return (
     <LForm
-      labelCol={{ flex: '120px' }}
-      submitter={{ buttonAlign: 'center' }}
-      initialValues={{
-        transfer: initialTargetKeys,
-      }}
       onFinish={(values) => {
         console.log('values', values);
       }}
     >
       <LFormItemTransfer
         actionRef={actionRef}
-        contentAfter={false}
-        contentInline={false}
-        transferProps={{ listStyle: { flex: 'auto' } }}
+        block={false}
+        wrapperWidth="auto"
         required
-        // pagination
-
-        pagination={{
-          simple: false,
-          showSizeChanger: true,
-          showLessItems: true,
-        }}
+        pagination
         label="穿梭框"
         name="transfer"
         request={async (info) => {
           console.log('page-pageSize-info ', info);
-          await sleep(500, 1000);
+          await sleep();
           return {
-            data: transferMockData,
+            list: transferMockData,
             total: transferMockData.length,
           };
         }}
       />
-      <Button
-        onClick={() => {
-          console.log('==actionRef====>', actionRef.current);
+      <LFormItemTransfer
+        actionRef={actionRef}
+        required
+        pagination
+        label="穿梭框"
+        name="transfer2"
+        request={async (info) => {
+          console.log('page-pageSize-info ', info);
+          await sleep();
+          return {
+            list: transferMockData,
+            total: transferMockData.length,
+          };
         }}
-      >
-        获取
-      </Button>
+      />
     </LForm>
   );
 };

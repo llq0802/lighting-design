@@ -26,7 +26,7 @@ export type LFormItemTransferProps = LFormItemProps &
     actionRef?: React.MutableRefObject<LFormItemTransferActionRef | undefined>;
     listStyle?: TransferProps['listStyle'];
     titles?: TransferProps['titles'];
-    showSearch?: TransferProps['titles'];
+    showSearch?: TransferProps['showSearch'];
     oneWay?: TransferProps['oneWay'];
     /**
      *分页配置 与 antd 穿梭框的分页配置一样

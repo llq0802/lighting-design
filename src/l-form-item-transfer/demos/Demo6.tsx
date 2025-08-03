@@ -1,8 +1,6 @@
 import { Tree } from 'antd';
-import type { TransferItem } from 'antd/es/transfer';
 import type { DataNode } from 'antd/es/tree';
 import { LForm, LFormItemTransfer } from 'lighting-design';
-import { sleep } from 'lighting-design/test';
 
 const treeData: DataNode[] = [
   { key: '0-0', title: '0-0' },
@@ -35,10 +33,10 @@ const generateTree = (treeNodes: DataNode[] = [], checkedKeys: string[] = []): D
 export default () => {
   const [form] = LForm.useForm();
 
-  const transferDataSource: TransferItem[] = [];
+  const transferDataSource: any[] = [];
   function flatten(list: DataNode[] = []) {
     list.forEach((item) => {
-      transferDataSource.push(item as TransferItem);
+      transferDataSource.push(item);
       flatten(item.children);
     });
   }
@@ -47,21 +45,17 @@ export default () => {
   return (
     <LForm
       form={form}
-      labelCol={{ flex: '120px' }}
-      submitter={{ buttonAlign: 'center' }}
+      submitter={{ position: 'center' }}
       onFinish={(values) => {
         console.log('values', values);
       }}
     >
       <LFormItemTransfer
-        // options={transferDataSource}
-        request={async ({ current, pageSize }) => {
-          await sleep();
-          return {
-            data: transferDataSource,
-            total: transferDataSource.length,
-          };
+        fieldNames={{
+          label: 'title',
+          value: 'key',
         }}
+        options={transferDataSource}
         label="穿梭框"
         name="transfer"
         transferProps={{

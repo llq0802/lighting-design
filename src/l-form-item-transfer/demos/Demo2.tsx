@@ -70,16 +70,20 @@ export default () => {
   return (
     <LForm
       labelCol={{ flex: '120px' }}
-      submitter={{ buttonAlign: 'center' }}
+      submitter={{ position: 'center' }}
       onFinish={(values) => {
         console.log('values', values);
       }}
     >
       <LFormItemTransfer
+        fieldNames={{
+          label: 'title',
+          value: 'key',
+        }}
         request={async ({ current, pageSize }) => {
           await sleep();
           return {
-            data: mockData,
+            list: mockData,
             total: mockData.length,
           };
         }}

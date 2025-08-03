@@ -34,7 +34,6 @@ const BaseTransfer: FC<Record<string, any>> = (props) => {
 
   const dom = (
     <Transfer
-      titles={['数据项', '已选择']}
       rowKey={(record: Record<string, any>) => record[valueKey] ?? record[labelKey]}
       render={(item: Record<string, any>) => item[labelKey] ?? item[valueKey]}
       dataSource={dataSource || options || data?.list}
