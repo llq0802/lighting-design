@@ -81,10 +81,6 @@ export default {
           link: '/components/l-collapse-card',
         },
         {
-          title: 'LScrollBar-滚动条',
-          link: '/components/l-scrollbar',
-        },
-        {
           title: 'LTreeTable-树表格',
           link: '/components/l-tree-table',
         },
