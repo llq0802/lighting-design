@@ -1,6 +1,6 @@
 import { useDebounce, useMemoizedFn } from 'ahooks';
 import { emptyArray } from 'lighting-design/constants';
-import React, { useMemo } from 'react';
+import React, { Fragment, createElement, useMemo } from 'react';
 import type { LHighlightTextProps } from './interface';
 import { useStyles } from './styles';
 
@@ -46,13 +46,13 @@ const LHighlightText: React.FC<LHighlightTextProps> = ({
     <span className={cx(styles.container, className)} style={style} {...rest}>
       {parts.map((part, i) => {
         return (
-          <React.Fragment key={i}>
+          <Fragment key={i}>
             {isHighlight(part)
               ? renderHighlight
                 ? renderHighlight?.(part)
-                : React.createElement(highlightTag, { className: highlightClassName, style: highlightStyle }, part)
+                : createElement(highlightTag, { className: highlightClassName, style: highlightStyle }, part)
               : part}
-          </React.Fragment>
+          </Fragment>
         );
       })}
     </span>

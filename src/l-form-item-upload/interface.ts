@@ -26,10 +26,7 @@ export type LFormItemUploadProps = LFormItemProps &
      *上传组件内置类型
      */
     uploadType?: 'image' | 'default' | 'avatar' | 'dragger';
-    /**
-     *antd 上传组件的 Props
-     */
-    uploadProps?: UploadProps;
+
     renderUploadChildren?: (opts: {
       fileList: RcFile[];
       loading: boolean;
@@ -38,4 +35,8 @@ export type LFormItemUploadProps = LFormItemProps &
       buttonDom?: React.ReactNode;
       imageDom?: React.ReactNode;
     }) => React.ReactNode;
+    /**
+     *antd 上传组件的 Props
+     */
+    uploadProps?: UploadProps;
   } & Pick<LFormProps, 'disabled'>;
