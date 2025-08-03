@@ -20,8 +20,7 @@ const App: React.FC = () => {
         name="time1"
         label="上传"
         required
-        uploadType="image"
-        maxCount={5}
+        uploadType="avatar"
         // onUpload={async () => {
         //   // 随机生成 100 到 5000 的数字
         //   const time = Math.floor(Math.random() * (3000 - 100 + 1) + 100);

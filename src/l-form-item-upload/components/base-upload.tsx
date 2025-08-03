@@ -67,7 +67,6 @@ const BaseUpload: FC<LUploadProps> = (props) => {
     }
 
     if (maxCount && fileList?.length > maxCount) {
-      console.log('===isSupportFileType==>');
       onExceedMaxCount?.(file, fileList);
       return Upload.LIST_IGNORE;
     }

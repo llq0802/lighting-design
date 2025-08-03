@@ -66,16 +66,18 @@ export const createFileUrl = (ukey: string, uid: string, file: File): string => 
 
 export const removeFileUrl = (ukey: string, uid?: string): void => {
   if (!urlCache[ukey]) return;
-  if (uid) {
-    if (urlCache[ukey][uid]) {
-      URL.revokeObjectURL(urlCache[ukey][uid]);
+  setTimeout(() => {
+    if (uid) {
+      if (urlCache[ukey][uid]) {
+        URL.revokeObjectURL(urlCache[ukey][uid]);
+      }
+      delete urlCache[ukey][uid];
+    } else {
+      const uids = Object.keys(urlCache[ukey]);
+      uids.forEach((item) => {
+        URL.revokeObjectURL(urlCache[ukey][item]);
+      });
+      delete urlCache[ukey];
     }
-    delete urlCache[ukey][uid];
-  } else {
-    const uids = Object.keys(urlCache[ukey]);
-    uids.forEach((item) => {
-      URL.revokeObjectURL(urlCache[ukey][item]);
-    });
-    delete urlCache[ukey];
-  }
+  }, 100);
 };

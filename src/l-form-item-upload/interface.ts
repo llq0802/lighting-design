@@ -26,7 +26,6 @@ export type LFormItemUploadProps = LFormItemProps &
      *上传组件内置类型
      */
     uploadType?: 'image' | 'default' | 'avatar' | 'dragger';
-
     renderUploadChildren?: (opts: {
       fileList: RcFile[];
       loading: boolean;
