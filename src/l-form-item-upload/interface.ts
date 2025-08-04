@@ -13,6 +13,7 @@ export type LFormItemUploadProps = LFormItemProps &
     | 'autoUpload'
     | 'onUpload'
     | 'maxSize'
+    | 'accept'
     | 'maxCount'
     | 'isSerial'
     | 'onUploading'
@@ -29,13 +30,15 @@ export type LFormItemUploadProps = LFormItemProps &
     renderUploadChildren?: (opts: {
       fileList: RcFile[];
       loading: boolean;
-      maxCount?: number;
-      imageUrl?: string;
+      avatarUrl?: string;
+      avatarDom?: React.ReactNode;
       buttonDom?: React.ReactNode;
-      imageDom?: React.ReactNode;
+      draggerDom?: React.ReactNode;
     }) => React.ReactNode;
     /**
      *antd 上传组件的 Props
      */
     uploadProps?: UploadProps;
+    multiple?: UploadProps['multiple'];
+    headers?: UploadProps['headers'];
   } & Pick<LFormProps, 'disabled'>;

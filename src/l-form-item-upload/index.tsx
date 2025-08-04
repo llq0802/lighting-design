@@ -6,10 +6,24 @@ import DraggerUpload from './components/dragger-upload';
 import ImageUpload from './components/image-upload';
 import type { LFormItemUploadProps } from './interface';
 
+const getValueFromEvent = (value: any) => {
+  if (Array.isArray(value)) return value;
+  return value?.fileList ?? [];
+};
+
+const normalize = (value: any) => {
+  const values = Array.isArray(value) ? value : value?.fileList || [];
+  return values?.filter?.(Boolean)?.filter((v: any) => v?.status !== 'error');
+};
+
 const LFormItemUpload: FC<LFormItemUploadProps> = ({
   disabled,
   action,
+  multiple,
   maxCount,
+  accept,
+  headers,
+  //
   maxSize,
   isSerial,
   onUploading,
@@ -29,6 +43,8 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
 }) => {
   const baseProps = {
     disabled,
+    accept,
+    headers,
     action,
     maxCount,
     maxSize,
@@ -62,18 +78,7 @@ const LFormItemUpload: FC<LFormItemUploadProps> = ({
   };
 
   return (
-    <LFormItem
-      getValueFromEvent={(value: any) => {
-        if (Array.isArray(value)) return value;
-        return value?.fileList ?? [];
-      }}
-      normalize={(value: any) => {
-        const values = Array.isArray(value) ? value : value?.fileList || [];
-        return values?.filter(Boolean).filter((v: any) => v?.status !== 'error');
-      }}
-      {...restProps}
-      valuePropName="fileList"
-    >
+    <LFormItem getValueFromEvent={getValueFromEvent} normalize={normalize} {...restProps} valuePropName="fileList">
       {renderUploadDom()}
     </LFormItem>
   );

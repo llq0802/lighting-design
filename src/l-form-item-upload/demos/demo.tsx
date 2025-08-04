@@ -1,8 +1,9 @@
+import { message } from 'antd';
 import { LForm, LFormItemUpload } from 'lighting-design';
 import React from 'react';
 
 type FieldType = {
-  time1?: string;
+  upload1?: string;
 };
 
 const App: React.FC = () => {
@@ -15,21 +16,42 @@ const App: React.FC = () => {
         console.log('===onFinish===', values);
       }}
     >
+      <LFormItemUpload action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload" name="upload1" label="default" />
       <LFormItemUpload
         action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-        name="time1"
-        label="上传"
-        required
+        name="upload2"
+        label="avatar"
         uploadType="avatar"
-        // onUpload={async () => {
-        //   // 随机生成 100 到 5000 的数字
-        //   const time = Math.floor(Math.random() * (3000 - 100 + 1) + 100);
-        //   await sleep(time);
-        //   return {
-        //     thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        //   };
-        // }}
-        // uploadType="dragger"
+        onError={(err) => {
+          console.log('===onError===', err);
+          message.error('上传失败');
+        }}
+        initialValue={[
+          {
+            name: 'avatar.png',
+            url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+          },
+        ]}
+      />
+      <LFormItemUpload
+        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+        name="upload3"
+        label="image"
+        uploadType="image"
+        onError={(err) => {
+          console.log('===onError===', err);
+          message.error('上传失败');
+        }}
+      />
+      <LFormItemUpload
+        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+        name="upload4"
+        label="dragger"
+        uploadType="dragger"
+        onError={(err) => {
+          console.log('===onError===', err);
+          message.error('上传失败');
+        }}
       />
     </LForm>
   );

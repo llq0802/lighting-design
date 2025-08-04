@@ -3,17 +3,17 @@ import { Button } from 'antd';
 import { useState, type FC } from 'react';
 import BaseUpload from './base-upload';
 
-const DefaultUpload: FC<Record<string, any>> = ({ renderChildren, ...props }) => {
+const DefaultUpload: FC<Record<string, any>> = ({ renderUploadChildren, ...props }) => {
   const { fileList, onUploading, onSuccess, onError } = props;
   const [loading, setLoading] = useState(false);
 
-  const innerDom = renderChildren ? (
-    renderChildren({ loading, fileList })
-  ) : (
+  const buttonDom = (
     <Button type="primary" icon={<UploadOutlined />}>
       上传
     </Button>
   );
+
+  const innerDom = renderUploadChildren ? renderUploadChildren({ loading, fileList, buttonDom }) : buttonDom;
 
   const dom = (
     <BaseUpload

@@ -5,31 +5,30 @@ import { createFileUrl, removeFileUrl, uniqueId } from 'lighting-design/utils';
 import React, { useMemo, useState } from 'react';
 import BaseUpload from './base-upload';
 
-const font = { fontSize: 30 };
+export const font = { fontSize: 30 };
 
-const AvatarUpload: React.FC<any> = ({ renderChildren, ...props }) => {
+const AvatarUpload: React.FC<any> = ({ renderUploadChildren, ...props }) => {
   const { fileList, onUploading, onSuccess, onError } = props;
   const uniqueKey = useMemo(() => uniqueId(), []);
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>(fileList?.[0]?.url || fileList?.[0]?.thumbUrl || '');
-
+  const [avatarUrl, setAvatarUrl] = useState<string>(fileList?.[0]?.url || fileList?.[0]?.thumbUrl || '');
   useUnmount(() => {
     removeFileUrl(uniqueKey);
   });
 
   const buttonDom = loading ? <LoadingOutlined style={font} /> : <PlusOutlined style={font} />;
-  const imageDom = <img src={imageUrl} alt="avatar" data-avatar-upload style={{ width: '100%' }} />;
+  const avatarDom = <img src={avatarUrl} alt="avatar" data-avatar-upload style={{ width: '100%' }} />;
 
-  const innerDom = renderChildren
-    ? renderChildren({
+  const innerDom = renderUploadChildren
+    ? renderUploadChildren({
         loading,
         fileList,
-        imageUrl,
+        avatarUrl,
+        avatarDom,
         buttonDom,
-        imageDom,
       })
-    : imageUrl
-    ? imageDom
+    : avatarUrl
+    ? avatarDom
     : buttonDom;
 
   return (
@@ -41,13 +40,13 @@ const AvatarUpload: React.FC<any> = ({ renderChildren, ...props }) => {
       showUploadList={false}
       maxCount={1}
       onUploading={(info) => {
-        setImageUrl('');
+        setAvatarUrl('');
         setLoading(true);
         onUploading?.(info);
       }}
       onSuccess={(info) => {
         const url = createFileUrl(uniqueKey, info.file.uid, info.file?.originFileObj!);
-        setImageUrl(url);
+        setAvatarUrl(url);
         setLoading(false);
         onSuccess?.(info);
       }}
