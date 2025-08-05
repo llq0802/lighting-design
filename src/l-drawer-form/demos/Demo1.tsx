@@ -20,7 +20,7 @@ const Demo1 = () => {
         title="抽屉"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
-          await sleep('', 1000);
+          await sleep();
           return true;
         }}
         initialValues={{

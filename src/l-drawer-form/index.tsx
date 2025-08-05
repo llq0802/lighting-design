@@ -19,14 +19,12 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
     height,
     placement = 'right',
     children,
-    className,
     form: outForm,
     onFinish,
     submitter,
     isFullscreen,
     onCancel,
     drawerProps,
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -103,6 +101,7 @@ const LDrawerForm: FC<LDrawerFormProps> = (props) => {
             ...submitter?.resetButtonProps,
             onClick: (e: any) => {
               setOpen(false);
+              onCancel?.(e);
               submitter?.resetButtonProps?.onClick?.(e);
             },
           },

@@ -1,3 +1,4 @@
+import { useUpdateEffect } from 'ahooks';
 import { Button, Space, message } from 'antd';
 import { LDrawerForm, LForm, LFormItemInput } from 'lighting-design';
 import type { UseShowInstance, UseShowInstanceRef } from 'rc-use-hooks';
@@ -10,13 +11,18 @@ const MyDrawer = ({ deawerRef }: { deawerRef: UseShowInstanceRef }) => {
   const { showRecord, open, updateOpen } = useShow(deawerRef, {
     onShow(record) {
       console.log('==onShow====>', record);
-      form.setFieldValue('name', record.name);
     },
     onHide(record) {
-      console.log('==onHide====>', record);
-      form.setFieldValue('name', void 0);
+      console.log('==onHide====>');
     },
   });
+
+  useUpdateEffect(() => {
+    if (open && form && showRecord?.name) {
+      form.setFieldsValue(showRecord);
+    }
+  }, [open]);
+
   return (
     <div>
       <LDrawerForm
@@ -43,17 +49,17 @@ export default () => {
       <Button
         type="primary"
         onClick={() => {
-          deawerRef.current?.onShow({ title: '新增-标题', name: '吴彦祖' });
+          deawerRef.current?.onShow({ title: '新增-标题', name: '' });
         }}
       >
-        显示
+        新增
       </Button>
       <Button
         onClick={() => {
-          deawerRef.current?.onHide({});
+          deawerRef.current?.onShow({ title: '新增-标题', name: '吴彦祖' });
         }}
       >
-        隐藏
+        编辑
       </Button>
       <MyDrawer deawerRef={deawerRef} />
     </Space>

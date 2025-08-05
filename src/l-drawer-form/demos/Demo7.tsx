@@ -4,14 +4,14 @@ import {
   LForm,
   LFormItemCascader,
   LFormItemCheckbox,
-  LFormItemDatePicker,
+  LFormItemDate,
   LFormItemInput,
   LFormItemNumber,
   LFormItemRadio,
   LFormItemSelect,
   LFormItemSwitch,
-  LFormItemTextArea,
-  LFormItemTimePicker,
+  LFormItemTextarea,
+  LFormItemTime,
   LFormItemTreeSelect,
 } from 'lighting-design';
 import { sleep } from '../../test';
@@ -84,6 +84,7 @@ const Demo1 = () => {
         }}
       >
         <LDrawerForm
+          title="抽屉"
           form={form}
           onFinish={async (values) => {
             console.log('onFinish-values ', values);
@@ -121,28 +122,22 @@ const Demo1 = () => {
             label="单选"
             name="LFormItemRadio2"
             required
-            request={async () => {
-              const result = await sleep(
-                [
-                  { label: 'Unresolved', value: 'open' },
-                  { label: 'Resolved', value: 'closed' },
-                  { label: 'Resolving', value: 'processing' },
-                ],
-                1000,
-              );
-              if (result.success) return result.data;
-            }}
+            options={[
+              { label: 'Unresolved', value: 'open' },
+              { label: 'Resolved', value: 'closed' },
+              { label: 'Resolving', value: 'processing' },
+            ]}
           />
-          <LFormItemTimePicker required placeholder="请选择时间" label="时间选择" name="LFormItemTimePicker" />
-          <LFormItemDatePicker required placeholder="请选择日期" label="日期选择" name="LFormItemDatePicker" />
-          <LFormItemDatePicker
+          <LFormItemTime required placeholder="请选择时间" label="时间选择" name="LFormItemTime" />
+          <LFormItemDate required placeholder="请选择日期" label="日期选择" name="LFormItemDate" />
+          <LFormItemDate
             rangePicker
             required
             placeholder={['开始日期', '结束日期']}
             label="日期范围"
             name="LFormItemDatePicker1"
           />
-          <LFormItemTextArea name="LFormItemTextArea" label="备注" />
+          <LFormItemTextarea name="LFormItemTextarea" label="备注" />
           <LFormItemSwitch name="LFormItemSwitch" label="开关" />
         </LDrawerForm>
       </ConfigProvider>

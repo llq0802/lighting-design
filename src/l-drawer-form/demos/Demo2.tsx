@@ -22,11 +22,12 @@ const Demo1 = () => {
           return true;
         }}
         submitter={{
-          render(dom) {
+          renderSubmitter(doms) {
             return (
               <Space>
                 <Button onClick={() => form1.setFieldsValue({ name: null })}>重置</Button>
-                {dom}
+                {doms.resetDom}
+                {doms.submitDom}
               </Space>
             );
           },
@@ -46,7 +47,7 @@ const Demo1 = () => {
           return true;
         }}
         submitter={{
-          buttonAlign: 'center',
+          position: 'center',
           submitText: '提交',
         }}
         trigger={<Button type="primary">自定义按钮2</Button>}
@@ -82,11 +83,11 @@ const Demo1 = () => {
           return true;
         }}
         submitter={{
-          buttonAlign: 'left',
-          render(dom) {
+          renderSubmitter(doms) {
             return (
               <Space>
-                {dom}
+                {doms.resetDom}
+                {doms.submitDom}
                 <Button>其他</Button>
               </Space>
             );
@@ -98,7 +99,6 @@ const Demo1 = () => {
       </LDrawerForm>
       <LDrawerForm
         name="LModalForm5"
-        actionBarDir="extra"
         form={form5}
         title="新增"
         onFinish={async (values) => {
