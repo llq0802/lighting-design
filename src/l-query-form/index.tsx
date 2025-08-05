@@ -5,17 +5,7 @@ import type { FC } from 'react';
 import { cloneElement, memo, useState } from 'react';
 import type { LQueryFormProps } from './interface';
 const { useToken } = theme;
-
 const { Link } = Typography;
-
-const defualtColSpan = {
-  xs: 24, // 屏幕 < 576px 响应式栅格
-  sm: 24, // 屏幕 ≥ 576px 响应式栅格，
-  md: 12, // 屏幕 ≥ 768px 响应式栅格
-  lg: 12, // 屏幕 ≥ 992px 响应式栅格
-  xl: 8, // 屏幕 ≥ 1200px 响应式栅格
-  xxl: 6, // 屏幕 ≥ 1600px 响应式栅格
-};
 
 interface CollapseProps {
   collapsed: boolean;
@@ -28,6 +18,7 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
 
   return (
     <Link
+      data-collapse-wrapper
       onClick={handleCollapse}
       style={{
         whiteSpace: 'nowrap',
@@ -51,10 +42,12 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
     isSpace = false,
     showColsNumber,
     gap = 16,
+    column = 4,
     justify,
     rowProps,
     onCollapsedChange,
     items,
+    submitterWrapperStyle,
     ...restProps
   } = props;
 
@@ -112,6 +105,7 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
                 alignSelf: restProps?.layout === 'vertical' ? 'flex-end' : 'flex-start',
                 gap: submitterProps ? submitterProps.gap : 8,
                 marginLeft: submitterProps && submitterProps.position === 'flex-end' ? 'auto' : 'initial',
+                ...submitterWrapperStyle,
               }}
             >
               <>
@@ -127,9 +121,17 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
       <>
         {chindrenItems?.map((item) => {
           const style = { display: item.hidden ? 'none' : void 0, ...item.colProps?.style };
-          const itemColProps = !isSpace ? { ...defualtColSpan, ...item.colProps } : {};
+
+          const itemColProps = !isSpace
+            ? {
+                ...(typeof column !== 'number' ? column : {}),
+                ...item.colProps,
+              }
+            : {};
+          const span = !isSpace && typeof column === 'number' ? Math.floor(24 / column) : void 0;
+
           return (
-            <Col key={item.rowKey} {...itemColProps} style={style}>
+            <Col key={item.rowKey} span={span} {...itemColProps} style={style}>
               {item.content}
             </Col>
           );

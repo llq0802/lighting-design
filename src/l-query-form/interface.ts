@@ -24,11 +24,6 @@ export interface LQueryFormProps<T = any> extends LFormProps<T> {
    * */
   showColsNumber?: number;
   /**
-   * 统一设置 表单项的 colProps
-   *   - `isSpace` 为 `false`时配置响应式
-   */
-  itemColProps?: ColProps;
-  /**
    * 是否水平紧凑模式
    */
   isSpace?: boolean;
@@ -43,4 +38,14 @@ export interface LQueryFormProps<T = any> extends LFormProps<T> {
   onCollapsedChange?: (v: boolean) => void;
   items: LQueryFormItem[];
   rowProps?: RowProps;
+  /**
+   * 列数 默认 4 列
+   * - 必须是 24 的整数倍
+   * - 也可以设置 `ColProps` 来设置响应式
+   */
+  column?: number | ColProps;
+  /**
+   * 重置提交按钮的外层容器的样式
+   */
+  submitterWrapperStyle?: React.CSSProperties;
 }

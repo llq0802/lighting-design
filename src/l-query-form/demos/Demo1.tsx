@@ -54,7 +54,7 @@ const Demo1 = () => {
       <Divider />
 
       <LQueryForm
-        layout="vertical"
+        gap={32}
         onFinish={async (values) => {
           await sleep();
           console.log('onFinish-values ', values);
