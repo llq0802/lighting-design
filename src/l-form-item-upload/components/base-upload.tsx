@@ -115,7 +115,7 @@ const BaseUpload: FC<LUploadProps> = (props) => {
           queueUpload();
         };
 
-        const uploadRet = onUpload?.(currentOpts);
+        const uploadRet = onUpload?.(currentOpts?.file);
         currentOpts.onProgress?.({ percent: 99 });
 
         if (uploadRet instanceof Promise) {
@@ -136,7 +136,7 @@ const BaseUpload: FC<LUploadProps> = (props) => {
     }
 
     // 并行上传
-    const uploadRet = onUpload?.(opts);
+    const uploadRet = onUpload?.(opts.file);
     opts.onProgress?.({ percent: 99 });
 
     if (uploadRet instanceof Promise) {

@@ -5,30 +5,31 @@ import { IMAGES_SUFFIX } from 'lighting-design/constants';
 import { createFileUrl, removeFileUrl } from 'lighting-design/utils';
 import { uniqueId } from 'lodash-es';
 import { useMemo, useState, type FC } from 'react';
+import { font } from './avatar-upload';
 import BaseUpload from './base-upload';
-const ImageUpload: FC<Record<string, any>> = ({ renderChildren, ...props }) => {
+const ImageUpload: FC<Record<string, any>> = ({ renderUploadChildren, ...props }) => {
   const { fileList, onUploading, onSuccess, onError, maxCount, onPreview } = props;
   const [loading, setLoading] = useState(false);
 
-  const uploadButton = <PlusOutlined />;
+  const buttonButton = <PlusOutlined style={font} />;
 
   const showButton = () => {
     if (!maxCount || maxCount === 1) {
-      return uploadButton;
+      return buttonButton;
     }
     if (fileList?.length >= maxCount) {
       return null;
     }
-    return uploadButton;
+    return buttonButton;
   };
 
-  const innerDom = renderChildren ? renderChildren({ loading, fileList, maxCount }) : showButton();
+  const innerDom = renderUploadChildren ? renderUploadChildren({ loading, fileList, buttonButton }) : showButton();
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const uniqueKey = useMemo(() => uniqueId(), []);
   const handlePreview = async (file: UploadFile) => {
-    const imageUrl = file.url || file.thumbUrl || file.preview;
+    const imageUrl = file?.url || file?.thumbUrl;
     if (imageUrl) {
       setPreviewImage(imageUrl);
       setPreviewOpen(true);
