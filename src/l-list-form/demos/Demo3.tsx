@@ -1,12 +1,6 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Form, Space } from 'antd';
-import {
-  LForm,
-  LFormItem,
-  LFormItemInput,
-  LFormItemSelect,
-  LListForm,
-} from 'lighting-design';
+import { LForm, LFormItem, LFormItemInput, LFormItemSelect, LListForm } from 'lighting-design';
 import React from 'react';
 
 const sights = {
@@ -71,8 +65,7 @@ const App: React.FC = () => {
                 <LFormItem
                   noStyle
                   shouldUpdate={(prevValues, curValues) =>
-                    prevValues.area !== curValues.area ||
-                    prevValues.sights !== curValues.sights
+                    prevValues.area !== curValues.area || prevValues.sights !== curValues.sights
                   }
                 >
                   {() => (
@@ -82,30 +75,18 @@ const App: React.FC = () => {
                       label="景点"
                       disabled={!form.getFieldValue('area')}
                       name={[field.name, 'sight']}
-                      options={
-                        sights[form.getFieldValue('area') as SightsKeys] || []
-                      }
+                      options={sights[form.getFieldValue('area') as SightsKeys] || []}
                     />
                   )}
                 </LFormItem>
-                <LFormItemInput
-                  {...field}
-                  label="价格"
-                  required
-                  name={[field.name, 'price']}
-                />
+                <LFormItemInput {...field} label="价格" required name={[field.name, 'price']} />
 
                 <MinusCircleOutlined onClick={() => remove(field.name)} />
               </Space>
             ))}
 
             <LFormItem>
-              <Button
-                type="dashed"
-                onClick={() => add()}
-                block
-                icon={<PlusOutlined />}
-              >
+              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                 新增景点
               </Button>
             </LFormItem>

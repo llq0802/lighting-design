@@ -24,7 +24,8 @@ export interface LQueryFormProps<T = any> extends LFormProps<T> {
    * */
   showColsNumber?: number;
   /**
-   *  `isSpace` 为 `false`时配置响应式
+   * 统一设置 表单项的 colProps
+   *   - `isSpace` 为 `false`时配置响应式
    */
   itemColProps?: ColProps;
   /**

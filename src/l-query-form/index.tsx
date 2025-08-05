@@ -55,7 +55,6 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
     rowProps,
     onCollapsedChange,
     items,
-    renderLFrom,
     ...restProps
   } = props;
 
@@ -128,8 +127,9 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
       <>
         {chindrenItems?.map((item) => {
           const style = { display: item.hidden ? 'none' : void 0, ...item.colProps?.style };
+          const itemColProps = !isSpace ? { ...defualtColSpan, ...item.colProps } : {};
           return (
-            <Col key={item.rowKey} {...(!isSpace ? defualtColSpan : {})} {...item.colProps} style={style}>
+            <Col key={item.rowKey} {...itemColProps} style={style}>
               {item.content}
             </Col>
           );

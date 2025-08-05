@@ -13,19 +13,25 @@ nav:
 
 ### 基础用法
 
+响应式模式
+
 <code src='./demos/Demo1.tsx'></code>
+
+### 依次排列模式
+
+<code src='./demos/Demo2.tsx'></code>
+
+### 修改响应式
+
+<code src='./demos/Demo5.tsx'></code>
 
 <!-- ### 修改响应式
 
-<code src='./demos/Demo5.tsx'></code>
 
 ### 修改每一表单项的 bottom
 
 <code src='./demos/Demo8.tsx'></code>
 
-### 水平紧凑模式
-
-<code src='./demos/Demo2.tsx'></code>
 
 ### 展开收起
 

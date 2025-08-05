@@ -29,7 +29,7 @@ const Demo2: React.FC = () => {
   return (
     <LForm
       name="dynamic_form_item"
-      submitter={{ buttonAlign: 'center' }}
+      submitter={{ position: 'center' }}
       // {...formItemLayoutWithOutLabel}
       onFinish={onFinish}
       // style={{ maxWidth: 600 }}
@@ -61,31 +61,17 @@ const Demo2: React.FC = () => {
                   />
 
                   {fields.length > 1 ? (
-                    <MinusCircleOutlined
-                      className="dynamic-delete-button"
-                      onClick={() => remove(field.name)}
-                    />
+                    <MinusCircleOutlined className="dynamic-delete-button" onClick={() => remove(field.name)} />
                   ) : null}
                 </div>
               </LFormItem>
             ))}
 
             <LFormItem>
-              <Button
-                block
-                type="dashed"
-                onClick={() => add()}
-                icon={<PlusOutlined />}
-                style={{ marginBottom: 20 }}
-              >
+              <Button block type="dashed" onClick={() => add()} icon={<PlusOutlined />} style={{ marginBottom: 20 }}>
                 增加一项
               </Button>
-              <Button
-                block
-                type="dashed"
-                onClick={() => add('添加在头部的数据', 0)}
-                icon={<PlusOutlined />}
-              >
+              <Button block type="dashed" onClick={() => add('添加在头部的数据', 0)} icon={<PlusOutlined />}>
                 增加一项在头部，并有默认值
               </Button>
               <LForm.ErrorList errors={errors} />

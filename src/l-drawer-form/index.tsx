@@ -3,11 +3,11 @@ import { Drawer } from 'antd';
 import LForm from 'lighting-design/l-form';
 import LFormSubmitter from 'lighting-design/l-form/components/base-submitter';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
-import type { FC, MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 import { cloneElement, useState } from 'react';
 import type { LDrawerFormProps } from './interface';
 
-const LDrawerForm: FC<LDrawerFormProps> = (props) => {
+const LDrawerForm: <T = any>(props: LDrawerFormProps<T>) => JSX.Element = (props) => {
   const {
     isReady,
     trigger,

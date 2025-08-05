@@ -9,7 +9,7 @@ const Demo1 = () => {
         onFinish={(values) => {
           console.log('values', values);
         }}
-        submitter={{ buttonAlign: 'center' }}
+        submitter={{ position: 'center' }}
         // initialValues={{
         //   input: '名字',
         //   list: [
