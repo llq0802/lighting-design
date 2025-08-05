@@ -121,7 +121,7 @@ const LTable: <T extends any = Record<string, any>>(props: LTableProps<T>) => Re
         };
 
   const getTableColumns = (): any[] => {
-    let innerColumns = columns || [];
+    let innerColumns: any[] = columns || [];
     if (sort) {
       const sortProps = isPlainObject(sort) ? (sort as any) : {};
       const { current, pageSize } = hasDataSource ? innerPagination : requestPagination;
@@ -229,13 +229,12 @@ const LTable: <T extends any = Record<string, any>>(props: LTableProps<T>) => Re
     if (!autoRequest) return;
     if (hasDataSource) return;
     if (innerRequestOptions.cacheKey && requestCacheParams && requestParams[0]) {
-      const { current: cacheCurrent, pageSize: cachePageSize, formValues: cacheFormValues, ...rest } = requestParams[0];
+      const { current: cacheCurrent, pageSize: cachePageSize, formValues: cacheFormValues } = requestParams[0];
       if (hasFormItems) {
         formRef.current.setFieldsValue(cacheFormValues);
       }
       run(
         {
-          ...rest,
           ...defaultRequestParams,
           formValues: cacheFormValues,
           current: cacheCurrent,
