@@ -40,5 +40,5 @@ export interface LModalFormProps<T = any>
    */
   modalTop?: string | number;
 
-  onCancel?: (values: Record<string, any>) => void | true | Promise<any>;
+  onCancel?: (e: any) => void;
 }

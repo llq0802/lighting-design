@@ -20,7 +20,6 @@ const Demo3 = () => {
       </Button>
 
       <LModalForm
-        submitter={false}
         open={open}
         onOpenChange={setOpen}
         form={form}

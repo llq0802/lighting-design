@@ -1,3 +1,4 @@
+import { useUpdateEffect } from 'ahooks';
 import { Button, Space, message } from 'antd';
 import { LForm, LFormItemInput, LModalForm } from 'lighting-design';
 import type { UseShowInstance, UseShowInstanceRef } from 'rc-use-hooks';
@@ -7,16 +8,23 @@ import { sleep } from '../../test';
 
 const MyModal = ({ modalRef }: { modalRef: UseShowInstanceRef }) => {
   const [form] = LForm.useForm();
-  const { showRecord, open, updateOpen } = useShow(modalRef, {
+
+  const { showRecord, open, updateOpen } = useShow<{
+    title: string;
+    name: string;
+  }>(modalRef, {
     onShow(record) {
       console.log('==onShow====>', record);
-      form.setFieldValue('name', record.name);
     },
     onHide(record) {
       console.log('==onHide====>', record);
-      form.setFieldValue('name', void 0);
     },
   });
+  useUpdateEffect(() => {
+    if (open && form && showRecord?.name) {
+      form.setFieldValue('name', showRecord?.name);
+    }
+  }, [open]);
   return (
     <div>
       <LModalForm
@@ -37,23 +45,28 @@ const MyModal = ({ modalRef }: { modalRef: UseShowInstanceRef }) => {
 };
 
 export default () => {
-  const modalRef = useRef<UseShowInstance>();
+  const modalRef = useRef<
+    UseShowInstance<{
+      title: string;
+      name: string;
+    }>
+  >();
   return (
     <Space>
       <Button
         type="primary"
         onClick={() => {
-          modalRef.current?.onShow({ title: '新增-标题', name: '吴彦祖' });
+          modalRef.current?.onShow({ title: '新增-标题', name: '' });
         }}
       >
-        显示
+        新增
       </Button>
       <Button
         onClick={() => {
-          modalRef.current?.onHide({});
+          modalRef.current?.onShow({ title: '编辑-标题', name: '吴彦祖' });
         }}
       >
-        隐藏
+        编辑
       </Button>
       <MyModal modalRef={modalRef} />
     </Space>

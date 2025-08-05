@@ -1,4 +1,4 @@
-import { Button, message, Space } from 'antd';
+import { Button, Flex, message, Space } from 'antd';
 import { LForm, LFormItemInput, LModalForm } from 'lighting-design';
 import { sleep } from '../../test';
 
@@ -21,12 +21,13 @@ const Demo1 = () => {
           return true;
         }}
         submitter={{
-          render(dom) {
+          renderSubmitter(doms) {
             return (
-              <Space>
+              <Flex justify="flex-end" gap={8}>
                 <Button onClick={() => form1.setFieldsValue({ name: null })}>重置</Button>
-                {dom}
-              </Space>
+                {doms.resetDom}
+                {doms.submitDom}
+              </Flex>
             );
           },
         }}
@@ -34,6 +35,7 @@ const Demo1 = () => {
       >
         <LFormItemInput name="name" required label="姓名" />
       </LModalForm>
+
       <LModalForm
         name="LModalForm2"
         form={form2}
@@ -45,7 +47,8 @@ const Demo1 = () => {
           return true;
         }}
         submitter={{
-          buttonAlign: 'center',
+          isEnterSubmit: true,
+          position: 'center',
           submitText: '提交',
         }}
         trigger={<Button type="primary">自定义按钮2</Button>}
@@ -81,12 +84,12 @@ const Demo1 = () => {
           return true;
         }}
         submitter={{
-          buttonAlign: 'left',
-          render(dom) {
+          renderSubmitter(doms) {
             return (
               <Space>
-                {dom}
+                {doms.resetDom}
                 <Button>其他</Button>
+                {doms.submitDom}
               </Space>
             );
           },

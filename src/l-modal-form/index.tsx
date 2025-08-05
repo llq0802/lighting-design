@@ -11,7 +11,7 @@ import type { LModalFormProps } from './interface';
 const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: LModalFormProps) => {
   const {
     isResetFields = true,
-    destroyOnClose = true,
+    destroyOnHidden = true,
     draggableProps,
     forceRender,
     centered,
@@ -58,7 +58,6 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
   const onStop = (_event: DraggableEvent, uiData: DraggableData) => {
     setPosition({ x: uiData.x, y: uiData.y });
   };
-
   const innerModalProps = {
     open,
     width,
@@ -69,9 +68,11 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
     maskClosable: false,
     keyboard: false,
     footer: null,
+    forceRender,
     ...modalProps,
     onCancel: (e) => {
       setOpen(false);
+      onCancel?.(e);
       modalProps?.onCancel?.(e);
     },
     style: {
@@ -102,6 +103,7 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
             ...submitter?.resetButtonProps,
             onClick: (e: any) => {
               setOpen(false);
+              onCancel?.(e);
               submitter?.resetButtonProps?.onClick?.(e);
             },
           },

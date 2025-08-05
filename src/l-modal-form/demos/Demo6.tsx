@@ -1,6 +1,6 @@
 import NiceModal, { useModal } from '@ebay/nice-modal-react';
 import { Button, message } from 'antd';
-import { LForm, LFormItemInput, LFormItemRadio, LModalForm } from 'lighting-design';
+import { LForm, LFormItemInput, LModalForm } from 'lighting-design';
 import { sleep } from 'lighting-design/test';
 
 const MyAntdModal = NiceModal.create(({ title }: { title: string }) => {
@@ -26,20 +26,6 @@ const MyAntdModal = NiceModal.create(({ title }: { title: string }) => {
       }}
     >
       <LFormItemInput name="name" required label="输入框" />
-      <LFormItemRadio
-        label="单选2"
-        name="radio"
-        initialValue="open"
-        required
-        request={async () => {
-          await sleep();
-          return [
-            { label: 'Unresolved', value: 'open' },
-            { label: 'Resolved', value: 'closed' },
-            { label: 'Resolving', value: 'processing' },
-          ];
-        }}
-      />
     </LModalForm>
   );
 });

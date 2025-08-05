@@ -8,8 +8,8 @@ const Demo3 = () => {
   return (
     <div>
       <LModalForm
+        draggableProps
         initialValues={{ name: '张三' }}
-        isResetFields={false}
         form={form}
         title="新增"
         onFinish={async (values) => {

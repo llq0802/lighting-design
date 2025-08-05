@@ -3,14 +3,14 @@ import {
   LForm,
   LFormItemCascader,
   LFormItemCheckbox,
-  LFormItemDatePicker,
+  LFormItemDate,
   LFormItemInput,
   LFormItemNumber,
   LFormItemRadio,
   LFormItemSelect,
   LFormItemSwitch,
-  LFormItemTextArea,
-  LFormItemTimePicker,
+  LFormItemTextarea,
+  LFormItemTime,
   LFormItemTreeSelect,
   LModalForm,
 } from 'lighting-design';
@@ -82,6 +82,8 @@ const Demo1 = () => {
         }}
       >
         <LModalForm
+          modalTop="16vh"
+          title="弹窗"
           form={form}
           onFinish={async (values) => {
             console.log('onFinish-values ', values);
@@ -127,9 +129,9 @@ const Demo1 = () => {
               ];
             }}
           />
-          <LFormItemTimePicker required placeholder="请选择时间" label="时间选择" name="LFormItemTimePicker" />
-          <LFormItemDatePicker required placeholder="请选择日期" label="日期选择" name="LFormItemDatePicker" />
-          <LFormItemTextArea name="LFormItemTextArea" label="备注" />
+          <LFormItemTime required placeholder="请选择时间" label="时间选择" name="LFormItemTime" />
+          <LFormItemDate required placeholder="请选择日期" label="日期选择" name="LFormItemDate" />
+          <LFormItemTextarea name="LFormItemTextarea" label="备注" />
           <LFormItemSwitch name="LFormItemSwitch" label="开关" />
         </LModalForm>
       </ConfigProvider>
