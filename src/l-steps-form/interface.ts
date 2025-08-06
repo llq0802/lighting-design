@@ -31,9 +31,10 @@ export type LStepsFormProps<T = any> = Omit<LFormProps, 'renderChildren' | 'rend
            * 当 content 渲染的是 LFormXXX 或者 Form.Item时, name为数组
            */
           content: ReactNode;
-          destroyOnHidden?: boolean;
         }
     )[];
+    destroyOnHidden?: boolean;
+    onFinish?: (valuse: T) => Promise<any>;
   })[];
   /**
    * 设置后变为受控模式。当前表单的步骤数。

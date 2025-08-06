@@ -110,7 +110,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
       allValues = Object.values(allValues).reduce((pre, cur) => ({ ...pre, ...cur }), {});
     }
 
-    const res = await onFinish?.(allValues);
+    const res = onFinish?.(allValues);
     if (res instanceof Promise) {
       try {
         setLoading(true);
@@ -142,7 +142,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
     <Steps
       {...stepsProps}
       current={stepNumRef.current!}
-      items={initialItems?.map(({ formName, formItems, nameLists, ...rest }) => rest)}
+      items={initialItems?.map(({ formName, formItems, nameLists, onFinish, destroyOnHidden, ...rest }) => rest)}
       style={{ marginBottom: 32, ...stepsProps?.style }}
     />
   );
@@ -203,7 +203,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
   ) : (
     <>
       {stepsDom}
-      <div data-content-wrapper className={contentClassName} style={contentStyle}>
+      <div data-steps-content-wrapper className={contentClassName} style={contentStyle}>
         {contentDom}
       </div>
       {submitterDom}

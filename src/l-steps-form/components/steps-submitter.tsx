@@ -114,7 +114,6 @@ const StepsSubmitter: FC<StepsSubmitterProps> = (props) => {
       {nextText}
     </Button>
   );
-
   const submitButton = (
     <Button
       key="submit"
@@ -147,7 +146,7 @@ const StepsSubmitter: FC<StepsSubmitterProps> = (props) => {
   const dom = renderSubmitter ? (
     renderSubmitter({ prevDom, nextDom, submitDom }, props)
   ) : (
-    <Flex gap={gap} align="center" justify={position} className={className} style={style}>
+    <Flex gap={gap} align="center" justify={position} className={className} style={style} data-steps-submitter>
       {[prevDom, nextDom, submitDom].filter(Boolean)}
     </Flex>
   );
