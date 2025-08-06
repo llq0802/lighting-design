@@ -7,18 +7,23 @@ export const disposeInitialItems = (list: any[]) => {
       const it = formItems[i];
       const hasContent = !!it?.content;
       const name = hasContent ? it.name ?? it.props?.name ?? `${i}` : it.props?.name ?? `${i}`;
+      if (Array.isArray(name)) {
+        name.forEach((s) => {
+          nameLists.push([item.formName, s]);
+        });
+      }
+
       const nameList = [item.formName, name];
+      nameLists.push(nameList);
       const content = hasContent ? it.content : it;
       const obj = {
         name,
         nameList,
         content,
       };
-      nameLists.push(nameList);
       newformItems.push(obj);
     }
     return { formName: `${index}`, ...item, formItems: newformItems, nameLists };
   });
-
   return newList;
 };

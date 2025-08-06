@@ -7,10 +7,15 @@ export interface StepsSubmitterProps {
   style?: React.CSSProperties;
   isReady?: boolean;
   stepNum: number;
-  submitStepNum: number;
+  /**
+   * 在第几步触发提交
+   * - 默认最后一步触发
+   */
+  submitStepNum?: number;
   position?: 'flex-start' | 'center' | 'flex-end';
   gap?: number | string;
   loading?: boolean;
+  disabled?: boolean;
   /** 上一步按钮的文字 */
   prevText?: ReactNode;
   /** 点击上一步按钮的回调 */
@@ -54,6 +59,7 @@ const StepsSubmitter: FC<StepsSubmitterProps> = (props) => {
     className,
     style,
     loading,
+    disabled,
     gap = 8,
     position = 'center',
     prevText = '上一步',
@@ -75,7 +81,7 @@ const StepsSubmitter: FC<StepsSubmitterProps> = (props) => {
     forceShowSubmit = false,
     renderSubmitter,
     stepNum,
-    submitStepNum,
+    submitStepNum = 0,
   } = props;
 
   const handlePrev = (e) => {
@@ -98,19 +104,26 @@ const StepsSubmitter: FC<StepsSubmitterProps> = (props) => {
   };
 
   const prevButton = (
-    <Button key="prev" disabled={loading} {...prevButtonProps} onClick={handlePrev}>
+    <Button key="prev" disabled={disabled || loading} {...prevButtonProps} onClick={handlePrev}>
       {prevText}
     </Button>
   );
 
   const nextButton = (
-    <Button key="next" type="primary" loading={loading} {...nextButtonProps} onClick={handleNext}>
+    <Button key="next" type="primary" loading={loading} disabled={disabled} {...nextButtonProps} onClick={handleNext}>
       {nextText}
     </Button>
   );
 
   const submitButton = (
-    <Button key="submit" type="primary" loading={loading} {...submitButtonProps} onClick={handleSubmit}>
+    <Button
+      key="submit"
+      type="primary"
+      loading={loading}
+      disabled={disabled}
+      {...submitButtonProps}
+      onClick={handleSubmit}
+    >
       {submitText}
     </Button>
   );

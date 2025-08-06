@@ -43,21 +43,20 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
     trigger: 'onCurrentChange',
   });
   const stepNumRef = useLatest(stepNum);
-
   const [items, setItems] = useState<any[]>(() => {
     if (forceRender) return initialItems;
-    return initialItems?.slice(0, stepNumRef.current + 1) || [];
+    return initialItems?.slice(0, stepNumRef.current! + 1) || [];
   });
 
   // 下一步
   const next = async () => {
     if (!isReady) return;
-    if (stepNumRef.current >= initialItems.length - 1) return;
+    if (stepNumRef.current! >= initialItems.length - 1) return;
 
-    const nameLists = initialItems[stepNumRef.current].nameLists;
+    const nameLists = initialItems[stepNumRef.current!].nameLists;
     const selectedValues = await formRef.current.validateFields(nameLists);
-    if (typeof initialItems[stepNumRef.current]?.onFinish === 'function') {
-      const ret = initialItems[stepNumRef.current].onFinish(selectedValues);
+    if (typeof initialItems[stepNumRef.current!]?.onFinish === 'function') {
+      const ret = initialItems[stepNumRef.current!].onFinish(selectedValues);
       if (ret instanceof Promise) {
         try {
           setLoading(true);
@@ -68,7 +67,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
       }
     }
 
-    const nextStepNum = stepNumRef.current + 1;
+    const nextStepNum = stepNumRef.current! + 1;
     const nextItem = initialItems[nextStepNum];
     setItems((p) => {
       const alreadyHasFormName = p.find((v) => v.formName === nextItem.formName);
@@ -81,19 +80,24 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
   };
   // 上一步
   const prev = () => {
-    if (stepNumRef.current <= 0) return;
-    const prevStepNum = stepNumRef.current - 1;
+    if (!isReady) return;
+    if (stepNumRef.current! <= 0) return;
+    const prevStepNum = stepNumRef.current! - 1;
     setStepNum(prevStepNum);
   };
 
   // 指定跳到哪一步
   const toStep = (num: number) => {
+    if (!isReady) return;
     if (num >= 0 && num <= initialItems.length - 1) {
       setStepNum(num);
     }
   };
-
+  const toLast = () => {
+    toStep(initialItems.length - 1);
+  };
   const reset = () => {
+    if (!isReady) return;
     formRef.current?.resetFields();
     setStepNum(defaultValue);
   };
@@ -103,7 +107,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
     let allValues = formRef.current.getFieldsValue(true);
     if (isMergeValues) {
       //@ts-ignore
-      allValues = Object.values(isMergeValues).reduce((pre, cur) => ({ ...pre, ...cur }), {});
+      allValues = Object.values(allValues).reduce((pre, cur) => ({ ...pre, ...cur }), {});
     }
 
     const res = await onFinish?.(allValues);
@@ -115,6 +119,8 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
       } finally {
         setLoading(false);
       }
+    } else {
+      if (res === true) reset();
     }
   };
 
@@ -122,6 +128,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
     prev,
     next,
     toStep,
+    toLast,
     submit: handleFinish,
     reset,
   }));
@@ -134,7 +141,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
   const stepsDom = (
     <Steps
       {...stepsProps}
-      current={stepNumRef.current}
+      current={stepNumRef.current!}
       items={initialItems?.map(({ formName, formItems, nameLists, ...rest }) => rest)}
       style={{ marginBottom: 32, ...stepsProps?.style }}
     />
@@ -147,7 +154,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
         const isDestroyOnHidden = item?.destroyOnHidden || destroyOnHidden;
         return (
           (isSelected || !isDestroyOnHidden) && (
-            <div data-steps-num={index} key={item.formName} style={{ display: isSelected ? 'block' : 'none' }}>
+            <div data-steps-num={index} key={item.formName} hidden={!isSelected}>
               {item.formItems?.map?.((it: any, i: number) => {
                 const rowKey = `${item.formName}-${i}`;
                 return <Fragment key={rowKey}>{cloneElement(it.content, { name: it.nameList })}</Fragment>;
@@ -166,18 +173,21 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
         loading={loading}
         {...submitter}
         onPrev={(e) => {
-          prev();
           submitter?.onPrev?.(e);
+          if (!isReady) return;
+          prev();
         }}
         onNext={async (e) => {
-          next();
           submitter?.onNext?.(e);
+          if (!isReady) return;
+          next();
         }}
         onSubmit={(e) => {
-          formRef.current?.submit();
           submitter?.onSubmit?.(e);
+          if (!isReady) return;
+          formRef.current?.submit();
         }}
-        stepNum={stepNumRef.current}
+        stepNum={stepNumRef.current!}
       />
     );
 
@@ -193,7 +203,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
   ) : (
     <>
       {stepsDom}
-      <div data-role="l-steps-form-content" className={contentClassName} style={contentStyle}>
+      <div data-content-wrapper className={contentClassName} style={contentStyle}>
         {contentDom}
       </div>
       {submitterDom}
@@ -201,22 +211,12 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
   );
 
   const dom = (
-    <LForm clearOnDestroy form={formRef.current} onFinish={handleFinish} {...restProps} submitter={false} preserve>
+    <LForm clearOnDestroy form={formRef.current} onFinish={handleFinish} {...restProps} submitter={false}>
       {childrenDom}
     </LForm>
   );
 
-  const returnDom = renderLStepsForm
-    ? renderLStepsForm(
-        {
-          dom,
-          stepsDom,
-          contentDom,
-          submitterDom,
-        },
-        props,
-      )
-    : dom;
+  const returnDom = renderLStepsForm ? renderLStepsForm({ dom, stepsDom, contentDom, submitterDom }, props) : dom;
 
   return returnDom;
 };

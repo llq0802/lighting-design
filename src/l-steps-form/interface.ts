@@ -6,20 +6,34 @@ import type { StepsSubmitterProps } from './components/steps-submitter';
 export type LStepsFormActionRef = {
   /** 到指定步骤 */
   toStep: (num: number) => void;
+  /**跳到最后一步 */
+  toLast: () => void;
   /** 上一步 */
   prev: () => void;
   /** 下一步 */
-  next: (submitted?: boolean) => void;
+  next: () => void;
   /** 提交 */
   submit: (isFinallySubmit?: boolean) => void;
-  /** 重置 */
+  /** 重置所有表单项并跳到默认步骤 */
   reset: () => void;
 };
 
 export type LStepsFormProps<T = any> = Omit<LFormProps, 'renderChildren' | 'renderLFrom' | 'submitter'> & {
   items: (StepProps & {
+    /**当前步骤收集的表单名 */
     formName: string;
-    formItems: (ReactNode | { name: string; content: ReactNode })[];
+    formItems: (
+      | ReactNode
+      | {
+          /**当 content 不是 LFormXXX 或者 Form.Item时, name为数组 */
+          name: string | string[];
+          /**
+           * 当 content 渲染的是 LFormXXX 或者 Form.Item时, name为数组
+           */
+          content: ReactNode;
+          destroyOnHidden?: boolean;
+        }
+    )[];
   })[];
   /**
    * 设置后变为受控模式。当前表单的步骤数。
@@ -68,7 +82,7 @@ export type LStepsFormProps<T = any> = Omit<LFormProps, 'renderChildren' | 'rend
   /**
    *`上一步` `下一步` `提交`按钮的配置项
    */
-  submitter?: StepsSubmitterProps | false;
+  submitter?: Omit<StepsSubmitterProps, 'stepNum'> | false;
 
   /**
    *antd Steps 组件的属性
