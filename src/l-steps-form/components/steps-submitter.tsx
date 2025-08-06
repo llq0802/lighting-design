@@ -127,9 +127,11 @@ const StepsSubmitter: FC<StepsSubmitterProps> = (props) => {
     </Button>
   );
 
-  let prevDom = stepNum !== 0 && showPrev ? prevButton : null;
+  let prevDom = stepNum !== 0 && stepNum <= submitStepNum && showPrev ? prevButton : null;
+
   let nextDom = stepNum < submitStepNum && showNext ? nextButton : null;
-  let submitDom = stepNum >= submitStepNum ? submitButton : null;
+
+  let submitDom = stepNum === submitStepNum ? submitButton : null;
 
   if (forceShowPrev && !prevDom) {
     prevDom = prevButton;

@@ -122,6 +122,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
     } else {
       if (res === true) reset();
     }
+    setItems([...initialItems]);
   };
 
   useImperativeHandle(actionRef, () => ({
@@ -222,3 +223,4 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
 };
 
 export default LStepsForm;
+export * from './interface';
