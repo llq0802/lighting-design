@@ -155,7 +155,13 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
         const isDestroyOnHidden = item?.destroyOnHidden || destroyOnHidden;
         return (
           (isSelected || !isDestroyOnHidden) && (
-            <div data-steps-num={index} key={item.formName} hidden={!isSelected}>
+            <div
+              data-steps-num={index}
+              key={item.formName}
+              hidden={!isSelected}
+              className={contentClassName}
+              style={contentStyle}
+            >
               {item.formItems?.map?.((it: any, i: number) => {
                 const rowKey = `${item.formName}-${i}`;
                 return <Fragment key={rowKey}>{cloneElement(it.content, { name: it.nameList })}</Fragment>;
@@ -204,9 +210,9 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
   ) : (
     <>
       {stepsDom}
-      <div data-steps-content-wrapper className={contentClassName} style={contentStyle}>
-        {contentDom}
-      </div>
+      {/* <div data-steps-content-wrapper className={contentClassName} style={contentStyle}> */}
+      {contentDom}
+      {/* </div> */}
       {submitterDom}
     </>
   );
