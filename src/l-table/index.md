@@ -33,6 +33,10 @@ nav:
 
 <code src='./demos/app1.tsx' background="#f5f5f5"></code>
 
+### 斑马纹与行高亮
+
+<code src='./demos/app2.tsx' background="#f5f5f5"></code>
+
 ### 无边框表格与排序
 
 ### Excel 导入与导出

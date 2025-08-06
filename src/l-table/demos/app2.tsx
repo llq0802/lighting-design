@@ -8,10 +8,16 @@ const App: React.FC<PropsType> = ({}) => {
   return (
     <div>
       <LTable<DataType>
-        pagination={{
-          pageSize: 6,
-        }}
-        columns={columns}
+        rowStripe="#F4F4F5"
+        rowHoverable="#8b8b8b"
+        columns={columns?.map((item) => {
+          return {
+            ...item,
+            onHeaderCell() {
+              return { style: { background: '#F4F4F5' } };
+            },
+          };
+        })}
         request={async (params, type) => {
           console.log('===request请求之前==>', type, params);
           const res = await apiGetUserList(params);

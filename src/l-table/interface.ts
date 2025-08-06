@@ -105,7 +105,7 @@ export type LTableProps<T = any> = TableProps<T> & {
    * 鼠标移入每一行是否有 hover 效果
    *  - string 可设置自定义颜色
    * */
-  rowHover?: boolean | string;
+  rowHoverable?: boolean | string;
   /**
    * 是否在第一次渲染时自动请求 `request`
    */
