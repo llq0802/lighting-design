@@ -178,6 +178,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
       <StepsSubmitter
         submitStepNum={initialItems.length - 1}
         loading={loading}
+        isReady={isReady}
         {...submitter}
         onPrev={(e) => {
           submitter?.onPrev?.(e);
@@ -210,9 +211,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
   ) : (
     <>
       {stepsDom}
-      {/* <div data-steps-content-wrapper className={contentClassName} style={contentStyle}> */}
       {contentDom}
-      {/* </div> */}
       {submitterDom}
     </>
   );

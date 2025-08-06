@@ -25,10 +25,18 @@ export type LStepsFormProps<T = any> = Omit<LFormProps, 'renderChildren' | 'rend
     formItems: (
       | ReactNode
       | {
-          /**当 content 不是 LFormXXX 或者 Form.Item时, name为数组 */
+          /**
+           * 当 content 的最外层不是 LFormXXX 或者 Form.Item 时, name 为数组
+           * @example
+           * name: ['name1', 'name2'] // 每一项的值为 content 中 Form.Item 时, LFormXXX 或者 Form.Item 的 name 数组的第二项
+           *
+           *
+           */
           name: string | string[];
           /**
-           * 当 content 渲染的是 LFormXXX 或者 Form.Item时, name为数组
+           * 当 content 的最外层不是 LFormXXX 或者 Form.Item 时, LFormXXX 或者 Form.Item 的 name 为数组
+           * @example
+           *  name: [formName, 'xxx'] // 第一项必须为 formName
            */
           content: ReactNode;
         }
