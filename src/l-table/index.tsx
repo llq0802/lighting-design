@@ -364,7 +364,11 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   if (!hasFormItems) {
     const innerNoFormTableDom = (
-      <Card className={className} style={style}>
+      <Card
+        {...tableCardProps}
+        className={cx(className, tableCardProps?.className)}
+        style={{ ...style, ...tableCardProps?.style }}
+      >
         {innerToolbarDom}
         {tableDom}
         {paginationDom}
@@ -379,7 +383,6 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
       innerNoFormTableDom
     );
   }
-
   const innerTableDom = (
     <Card {...tableCardProps}>
       {innerToolbarDom}

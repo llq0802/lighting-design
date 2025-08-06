@@ -70,7 +70,6 @@ export type LTableProps<T = any> = TableProps<T> & {
         /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
         exportRender?: (val: any, row: T, i: number) => string | number;
       }[];
-
   /**
    * 表格数据
    *  - 绝大多数情况下建议使用 `request` 返回的表格数据
@@ -82,23 +81,24 @@ export type LTableProps<T = any> = TableProps<T> & {
   dataSource?: T[];
   /**
    * 是否需要排序序号及宽度，自定义渲染排序等
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   sortColumn?:
     | boolean
     | (ColumnType<T> & {
         render?: (pageCount: number, current: number, pageSize: number, index: number) => ReactNode;
       });
+  /**
+   * 配置了表单项后, 查询表单与表格的间距
+   */
   gap?: string | number;
   /**
    * 是否展示带斑马纹的表格，可以更容易区分出不同行的数据。
    *   - string 可设置自定义颜色
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    * */
   rowStripe?: boolean | string;
   /**
    * 无边框表格
-   * - 需要将`borderless`设置为`false`
+   * - 需要同时将`bordered`设置为`false`
    */
   borderless?: boolean;
   /**
@@ -139,11 +139,12 @@ export type LTableProps<T = any> = TableProps<T> & {
   request?: LTableRequest<T>;
   /**
    * 配置后开启表格缓存 (会缓存 分页信息 与 表单信息)
-   *  - 在`第一次` `自动请求`时会自动设置为缓存的分页信息与表单信息
+   *  - 在`第一次` `自动请求`时会自动设置为缓存数据
+   *  -  requestCacheParams 设置为 true 会自动缓存请求的参数
    */
   requestCacheKey?: string;
   /**
-   * 配置了 requestCacheKey 后，是否缓存请求的params参数
+   * 配置了 requestCacheKey 后，是否缓存请求的 params 参数
    */
   requestCacheParams?: boolean;
   /**

@@ -37,6 +37,14 @@ nav:
 
 <code src='./demos/app2.tsx' background="#f5f5f5"></code>
 
+### 小型表格 无分页
+
+<code src='./demos/app3.tsx' background="#f5f5f5"></code>
+
+### 自定义空数据渲染
+
+<code src='./demos/app4.tsx' background="#f5f5f5"></code>
+
 ### 无边框表格与排序
 
 ### Excel 导入与导出
