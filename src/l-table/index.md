@@ -29,6 +29,12 @@ nav:
 
 <code src='./demos/demo.tsx' background="#f5f5f5"></code>
 
+### 无边框表格与排序
+
+<code src='./demos/app1.tsx' background="#f5f5f5"></code>
+
+### 无边框表格与排序
+
 ### Excel 导入与导出
 
 [表格的导出 - json2Excel ](/scene/table-Export) <br>

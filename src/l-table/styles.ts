@@ -39,6 +39,9 @@ export const useStyles = createStyles((params, props: any = {}) => {
         margin-top: ${token.marginLG}px;
         margin-bottom: ${token.marginXXS}px;
         align-items: center;
+        .ant-pagination-total-text {
+          margin-right: auto;
+        }
       `,
     ),
   };

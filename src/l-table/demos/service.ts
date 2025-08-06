@@ -1,20 +1,19 @@
 import Mock from 'better-mock';
-import type { LTableProps } from '../interface';
+import { LTableProps } from 'lighting-design';
 
-interface DataType {
+export interface DataType {
   key: string;
   name: string;
   age: number;
   address: string;
 }
 
-export const columns: LTableProps['columns'] = [
+export const columns: LTableProps<DataType>['columns'] = [
   {
     title: '姓名',
     dataIndex: 'name',
     key: 'name',
     align: 'center',
-    className: 'my-name-columns',
   },
   {
     title: '年龄',
@@ -38,7 +37,7 @@ export const columns: LTableProps['columns'] = [
 ];
 
 export const originData: DataType[] = Mock.mock({
-  'list|10': [
+  'list|20': [
     {
       key: '@id',
       name: '@cname',
@@ -49,13 +48,14 @@ export const originData: DataType[] = Mock.mock({
   ],
 }).list;
 
-export function apiGetUserList(
-  req: Record<string, any> = {},
-  time = 800,
-): Promise<Record<string, any>> {
-  const { current, pageSize = 10, formValues = {} } = req;
-  const data: DataType[] = Mock.mock({
-    [`list|${pageSize}`]: [
+export function apiGetUserList(req: Record<string, any> = {}): Promise<{
+  list: DataType[];
+  total: number;
+}> {
+  const { current = 1, pageSize = 10, formValues = {} } = req;
+
+  const list: DataType[] = Mock.mock({
+    [`list|${50}`]: [
       {
         key: '@id',
         name: '@cname',
@@ -67,13 +67,13 @@ export function apiGetUserList(
       },
     ],
   }).list;
+
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({
-        data,
-        total: 50,
-        success: true,
+        list: list.slice((current - 1) * pageSize, current * pageSize),
+        total: list.length,
       });
-    }, time);
+    }, 700);
   });
 }

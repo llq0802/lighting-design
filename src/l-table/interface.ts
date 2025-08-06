@@ -98,10 +98,11 @@ export type LTableProps<T = any> = TableProps<T> & {
   rowStripe?: boolean | string;
   /**
    * 无边框表格
+   * - 需要将`borderless`设置为`false`
    */
   borderless?: boolean;
   /**
-   * 鼠标移入每一行是否有hover效果
+   * 鼠标移入每一行是否有 hover 效果
    *  - string 可设置自定义颜色
    * */
   rowHover?: boolean | string;
@@ -120,14 +121,13 @@ export type LTableProps<T = any> = TableProps<T> & {
    * - 部分参数内置无法配置
    */
   requestOptions?: Options<any, any>;
-
   /**
    * 异步请求函数用于获取表格数据
-   *  - 不能与 `dataSource` 同时配置, 一旦配置（dataSource即便为空数组）`request`及其相关属性方法将不生效
+   *  - 不能与 `dataSource` 同时配置, 一旦配置（ dataSource 即便为空数组 ）`request`及其相关属性方法将不生效
    *  - 绝大部分情况下推荐使用 `request` 来获取数据而不是`dataSource`
    *  - 你仍可以使用 `dataSource` , 用法与 antd Table 完全一致
-   *  - 返回值必须是 `{ success: boolean, data: Record<string, any>[], total: number }`
-   *  - 你可在`request`或者在`requestBefore`格式化后端请求的参数格式
+   *  - 返回值必须是 `{ list: Record<string, any>[], total: number }`
+   *  - 你可在`request`中格式化接口的数据或者在请求之前的参数处理
    *  - 第一个参数为当前的`页码`和`分页数量`, 如果配置了表单`formItems`则还有表单的值`formValues`
    *  - 第二个参数表示当前请求的类型
    *    - autoRequest 为 true 时的组件初始化的请求为`onInit`
@@ -136,7 +136,7 @@ export type LTableProps<T = any> = TableProps<T> & {
    *    - 表单重置按钮为`onReset`
    *    - 使用 onCustom 方法为`onCustom`
    */
-  request?: LTableRequest;
+  request?: LTableRequest<T>;
   /**
    * 配置后开启表格缓存 (会缓存 分页信息 与 表单信息)
    *  - 在`第一次` `自动请求`时会自动设置为缓存的分页信息与表单信息

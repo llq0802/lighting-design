@@ -8,6 +8,11 @@ const App: React.FC<PropsType> = ({}) => {
   return (
     <div>
       <LTable<DataType>
+        sortColumn
+        borderless
+        pagination={{
+          pageSize: 6,
+        }}
         columns={columns}
         request={async (params, type) => {
           console.log('===request请求之前==>', type, params);

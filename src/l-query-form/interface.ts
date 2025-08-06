@@ -48,4 +48,6 @@ export interface LQueryFormProps<T = any> extends LFormProps<T> {
    * 重置提交按钮的外层容器的样式
    */
   submitterWrapperStyle?: React.CSSProperties;
+  /**展开/收起 容器类名 */
+  collapseClassName?: string;
 }

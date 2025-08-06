@@ -8,16 +8,18 @@ const { useToken } = theme;
 const { Link } = Typography;
 
 interface CollapseProps {
+  collapseClassName?: string;
   collapsed: boolean;
   onToggle?: (collapsed: boolean) => void;
 }
 
-const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle }) => {
+const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle, collapseClassName }) => {
   const handleCollapse = () => onToggle?.(!collapsed);
   const { token } = useToken();
 
   return (
     <Link
+      className={collapseClassName}
       data-collapse-wrapper
       onClick={handleCollapse}
       style={{
@@ -48,6 +50,7 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
     onCollapsedChange,
     items,
     submitterWrapperStyle,
+    collapseClassName,
     ...restProps
   } = props;
 
@@ -81,6 +84,7 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
 
   const collapseDom = enabledCollapse ? (
     <Collapse
+      collapseClassName={collapseClassName}
       collapsed={collapsed}
       onToggle={(v) => {
         setCollapsed(v);

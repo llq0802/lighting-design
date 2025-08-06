@@ -13,7 +13,7 @@ import { useTablePagination } from './hooks/use-table-pagination';
 import type { LTableProps } from './interface';
 import { useStyles } from './styles';
 
-const LTable: <T extends any = Record<string, any>>(props: LTableProps<T>) => ReactNode = forwardRef((props, ref) => {
+const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props, ref) => {
   const {
     className,
     style,
@@ -101,7 +101,7 @@ const LTable: <T extends any = Record<string, any>>(props: LTableProps<T>) => Re
           // disabled: loadingProps.spinning,
           align: 'end',
           hideOnSinglePage: true,
-          showTotal: (t) => `共 ${t} 条数据`,
+          showTotal: (t, r) => `显示第 ${r[0]} 条~第 ${r[1]} 条，共 ${t} 条`,
           total,
           current: hasDataSource ? void 0 : requestPagination.current,
           pageSize: hasDataSource ? void 0 : requestPagination.pageSize,
