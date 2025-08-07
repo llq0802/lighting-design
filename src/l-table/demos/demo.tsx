@@ -8,11 +8,12 @@ const App: React.FC<PropsType> = ({}) => {
   return (
     <div>
       <LTable<DataType>
+        rowKey="id"
         columns={columns}
         request={async (params, type) => {
-          console.log('===request请求之前==>', type, params);
+          // console.log('===request请求之前==>', type, params);
           const res = await apiGetUserList(params);
-          console.log('===request请求之后==>', type, params);
+          // console.log('===request请求之后==>', type, params);
           return res;
         }}
       />

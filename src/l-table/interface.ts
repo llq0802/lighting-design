@@ -156,15 +156,11 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    */
   actionRef?: MutableRefObject<LTableActionRef | undefined>;
   /**
-   * antd 跟 div 类名
-   */
-  rootClassName?: string;
-  /**
-   *  antd 的 div 类名
+   *  antd Table 的  类名
    */
   tableClassName?: string;
   /**
-   *  antd 的 style
+   *  antd Table 的 style
    */
   tableStyle?: CSSProperties;
 

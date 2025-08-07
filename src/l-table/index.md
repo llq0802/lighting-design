@@ -45,6 +45,14 @@ nav:
 
 <code src='./demos/app4.tsx' background="#f5f5f5"></code>
 
+### 表单查询
+
+<code src='./demos/app5.tsx' background="#f5f5f5"></code>
+
+### 工具栏
+
+<code src='./demos/app6.tsx' background="#f5f5f5"></code>
+
 ### 无边框表格与排序
 
 ### Excel 导入与导出

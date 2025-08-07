@@ -48,14 +48,17 @@ export const originData: DataType[] = Mock.mock({
   ],
 }).list;
 
-export function apiGetUserList(req: Record<string, any> = {}): Promise<{
+export function apiGetUserList(
+  req: Record<string, any> = {},
+  count = 50,
+): Promise<{
   list: DataType[];
   total: number;
 }> {
   const { current = 1, pageSize = 10, formValues = {} } = req;
 
   const list: DataType[] = Mock.mock({
-    [`list|${50}`]: [
+    [`list|${count}`]: [
       {
         id: '@id',
         name: '@cname',
