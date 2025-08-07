@@ -5,19 +5,21 @@ import type { ColumnType } from 'antd/es/table';
 import type { LQueryFormProps } from 'lighting-design/l-query-form/interface';
 import type { CSSProperties, Dispatch, MutableRefObject, ReactNode, SetStateAction } from 'react';
 
-export type LTableActionRef = {
-  /** 根据条件，当前页，当前分页数量、刷新数据 */
+export type LTableActionRef<T = any> = {
+  /** 根据`extraParams` `当前表单数据`，`当前页`，`当前分页数量`查询表格数据 */
   onReload: (extraParams?: Record<string, any>) => void;
-  /** 根据传入的 current pageSize 当前表单数据查询表格数据 */
+  /** 根据传入的 `current` `pageSize` `当前表单数据` `extraParams`查询表格数据 */
   onCustom: (current: number, pageSize: number, extraParams?: Record<string, any>) => void;
-  /** 重置数据，从第一页以及默认的分页数量开始显示、查询数据 */
+  /**
+   * 根据 `extraParams` `表单初始值` `requestInitialParams` 默认`(绝大数为第一页)`页, `默认的分页数量`查询数据
+   */
   onReset: (extraParams?: Record<string, any>) => void;
-  /** 根据条件，从第一页以及当前的分页数量开始显示、查询数据 */
+  /** 根据`extraParams` `当前表单数据`，默认`(绝大数为第一页)`页以及 `当前的分页数量` 查询数据*/
   onSearch: (extraParams?: Record<string, any>) => void;
-  /** request 的参数 */
+  /** request 异步函数的参数 */
   params: [LTableRequestParams, LTableRequestType] | [];
-  /** 表格数据 */
-  tableData: Record<string, any>[];
+  /** 表格数据与总数*/
+  tableData: T[];
   /**
    * 类似 React.setState 直接修改当前表格的数据
    *
@@ -26,11 +28,22 @@ export type LTableActionRef = {
    * 每次更新需要 `list` 引用地址不一样才能更新界面
    * - 仅在使用`request`获取数据有效
    */
-  setTableData: Dispatch<SetStateAction<{ list: Record<string, any>[]; total: number }>>;
-  /** 页码信息以及方法 */
+  setTableData: Dispatch<SetStateAction<{ list: T[]; total: number }>>;
+  /**
+   * 页码信息以及方法
+   */
   pagination: PaginationResult<any, any>['pagination'];
+  /**
+   * 加载状态
+   */
   loading: boolean;
+  /**
+   * 初始化加载状态
+   */
   initLoading: boolean;
+  /**
+   * 不是初始化加载的状态
+   */
   noInitLoading: boolean;
 };
 
@@ -39,7 +52,7 @@ export type LTableRequestType = 'init' | 'search' | 'reload' | 'reset' | 'custom
 export type LTableRequestParams = {
   /** 当前页 */
   current: number;
-  /** 一页多少条 */
+  /** 分页数量 */
   pageSize: number;
   /** 表单数据 */
   formValues?: Record<string, any>;
@@ -50,7 +63,12 @@ export type LTableRequestParams = {
 export type LTableRequest<T = Record<string, any>> = (
   /** 请求参数 */
   params: LTableRequestParams,
-  /** 请求类型 */
+  /**
+   * 请求类型
+   * @example
+   *  "init" | "search" | "reload" | "reset" | "custom" | "pagination"
+   *
+   */
   requestType: LTableRequestType,
   ...args: any[]
 ) => Promise<{ list: T[]; total: number }>;
@@ -71,9 +89,9 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
     }[];
   /**
    * 表格数据
+   *  - #### 一旦配置此属性（ 即便为空数组 ）, `request` 及其相关的属性方法均无效
    *  - 绝大多数情况下建议使用 `request` 返回的表格数据
    *  - 配置了此属性意味着你需要自己维护数据并管理分页, loading 等 用法与antd.Table完全一致
-   *  - 一旦配置此属性（即便为空数组）, `request` 及其相关的属性方法均无效
    *  - 内部的表单查询, 表格分页查询 以及`tableRef`的实例方法均无效
    *  - 你依然可以使用内置部分布局属性，自定义渲染等
    */
@@ -131,15 +149,15 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    *  - 不能与 `dataSource` 同时配置, 一旦配置（ dataSource 即便为空数组 ）`request`及其相关属性方法将不生效
    *  - 绝大部分情况下推荐使用 `request` 来获取数据而不是`dataSource`
    *  - 你仍可以使用 `dataSource` , 用法与 antd Table 完全一致
-   *  - 返回值必须是 `{ list: Record<string, any>[], total: number }`
-   *  - 你可在`request`中格式化接口的数据或者在请求之前的参数处理
+   *  - 返回值必须是 `{ list: T[], total: number }`
+   *  - 你可在`request`中的 **处理请求之前的参数** 以及 **格式化接口的数据**
    *  - 第一个参数为当前的`页码`和`分页数量`, 如果配置了表单`formItems`则还有表单的值`formValues`
    *  - 第二个参数表示当前请求的类型
-   *    - autoRequest 为 true 时的组件初始化的请求为`onInit`
-   *    - 表单查询按钮请求为`onSearch`
-   *    - 表格分页查询与内置工具栏的刷新为`onReload`
-   *    - 表单重置按钮为`onReset`
-   *    - 使用 onCustom 方法为`onCustom`
+   *    - autoRequest 为 true 时的组件初始化的请求为`init`
+   *    - 表单查询按钮请求为`search`
+   *    - 表格分页查询为`reload`
+   *    - 表单重置按钮为`reset`
+   *    - 使用 onCustom 方法为`custom`
    */
   request?: LTableRequest<T>;
   /**
@@ -150,6 +168,7 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
   requestCacheKey?: string;
   /**
    * 配置了 requestCacheKey 后，是否缓存请求的 params 参数
+   * - 包括表单数据与分页信息以及初始化的参数
    */
   isRequestCacheParams?: boolean;
   /**
@@ -160,9 +179,9 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    * 表格的实例
    * - 包含一些`方法` `属性数据`
    */
-  actionRef?: MutableRefObject<LTableActionRef | undefined>;
+  actionRef?: MutableRefObject<LTableActionRef<T> | undefined>;
   /**
-   *  antd Table 的  类名
+   *  antd Table 的 类名
    */
   tableClassName?: string;
   /**
@@ -191,9 +210,8 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    */
   toolbar?: ReactNode;
   /**
-   * 表单查询框数组
-   * - 必须包含 Form.Item 或 LFormItem 或 LFormItemXXX 组件
-   * - 特殊布局情况下也可含有其他元素
+   * 查询表单项数组
+   *  - 用法与 `LQueryForm` 一致
    */
   formItems?: LQueryFormProps['items'];
   /**
@@ -213,6 +231,10 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    * 在数据为空的情况下, 重新渲染空数据的组件
    */
   renderEmpty?: () => ReactNode;
+  /**
+   * 重新渲染整个 `LTable`
+   * - doms 中元素不会有 Card 等内置包裹
+   */
   renderLTable?: (
     doms: {
       formDom: ReactNode;
@@ -224,8 +246,25 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
     props: LTableProps,
   ) => ReactNode;
   /**
-   * 分页配置 (与antd内置分页不同)
+   * 分页配置
+   * - 与 antd.Table 内置分页不同
+   * - 更多配置项请查看 [PaginationProps](https://ant.design/components/pagination-cn/#Pagination)
+   *
    */
   pagination?: false | PaginationProps;
+  /**
+   * 卡片表格上部的额外内容
+   * - 如果有表单, 则在表单下面, 卡片表格上面
+   */
   tableExtra?: ReactNode;
+  /**
+   * 组件最外层的样式类
+   * - antd.Table 的 className 请使用 tableClassName 或 rootClassName
+   */
+  className?: string;
+  /**
+   * 组件最外层的样式
+   * - antd.Table 的 style 请使用 tableStyle
+   */
+  style?: CSSProperties;
 }
