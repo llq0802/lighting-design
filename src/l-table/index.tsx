@@ -170,10 +170,14 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
       );
     }
     if (!paginationProps) return requestData.list;
-    return requestData.list?.slice?.(
-      (requestPagination.current - 1) * requestPagination.pageSize,
-      requestPagination.current * requestPagination.pageSize,
-    );
+
+    if (requestData.list?.length > requestPagination.pageSize) {
+      return requestData.list?.slice?.(
+        (requestPagination.current - 1) * requestPagination.pageSize,
+        requestPagination.current * requestPagination.pageSize,
+      );
+    }
+    return requestData.list;
   };
 
   const handleCustom = (current: number, pageSize: number, extraParams?: Record<string, any>) => {
