@@ -34,8 +34,8 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     request,
     requestCacheKey,
     requestExtraParams = {},
-    defaultRequestParams,
-    requestCacheParams,
+    requestInitialParams,
+    isRequestCacheParams,
     requestOptions,
     actionRef,
     form: outForm,
@@ -205,7 +205,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     const formValues = getFormValues();
     run(
       {
-        ...defaultRequestParams,
+        ...requestInitialParams,
         ...extraParams,
         formValues,
         current: defaultCurrent,
@@ -232,14 +232,14 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
   useMount(() => {
     if (!autoRequest) return;
     if (hasDataSource) return;
-    if (innerRequestOptions.cacheKey && requestCacheParams && requestParams[0]) {
+    if (innerRequestOptions.cacheKey && isRequestCacheParams && requestParams[0]) {
       const { current: cacheCurrent, pageSize: cachePageSize, formValues: cacheFormValues } = requestParams[0];
       if (hasFormItems) {
         formRef.current.setFieldsValue(cacheFormValues);
       }
       run(
         {
-          ...defaultRequestParams,
+          ...requestInitialParams,
           formValues: cacheFormValues,
           current: cacheCurrent,
           pageSize: cachePageSize,
@@ -250,7 +250,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
       const formValues = getFormValues();
       run(
         {
-          ...defaultRequestParams,
+          ...requestInitialParams,
           formValues,
           current: defaultCurrent,
           pageSize: defaultPageSize,

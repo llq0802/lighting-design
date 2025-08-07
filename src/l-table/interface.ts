@@ -111,12 +111,12 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
   autoRequest?: boolean;
   /**
    *  `request`初始请求的额外参数
-   * - 仅在`第一次` `自动请求`时以及重置会传入到 `request` 参数中
+   * - 仅在`第一次自动请求`以及`重置`时会传入到 `request` 参数中
    */
-  defaultRequestParams?: Record<string, any>;
+  requestInitialParams?: Record<string, any>;
   /**
    * `request`的额外参数
-   *  - 每次请求都会传入到 `request` 的第一个参数中
+   *  - `每次请求`都会传入到 `request` 的第一个参数中
    */
   requestExtraParams?: Record<string, any>;
 
@@ -145,13 +145,13 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
   /**
    * 配置后开启表格缓存 (会缓存 分页信息 与 表单信息)
    *  - 在`第一次` `自动请求`时会自动设置为缓存数据
-   *  -  requestCacheParams 设置为 true 会自动缓存请求的参数
+   *  -  isRequestCacheParams 设置为 true 会自动缓存请求的参数
    */
   requestCacheKey?: string;
   /**
    * 配置了 requestCacheKey 后，是否缓存请求的 params 参数
    */
-  requestCacheParams?: boolean;
+  isRequestCacheParams?: boolean;
   /**
    * 查询表单的实例
    */
