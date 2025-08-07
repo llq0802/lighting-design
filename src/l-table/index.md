@@ -53,6 +53,18 @@ nav:
 
 <code src='./demos/app6.tsx' background="#f5f5f5"></code>
 
+### 查询表单折叠/收起
+
+<code src='./demos/app7.tsx' background="#f5f5f5"></code>
+
+### 查询表单其他配置
+
+<code src='./demos/app8.tsx' background="#f5f5f5"></code>
+
+### 表单初始值与默认参数
+
+<code src='./demos/app9.tsx' background="#f5f5f5"></code>
+
 ### 无边框表格与排序
 
 ### Excel 导入与导出

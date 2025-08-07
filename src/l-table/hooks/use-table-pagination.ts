@@ -8,9 +8,15 @@ type useTablePaginationParams = {
     onInitRequest?: PaginationOptions<any, any>['onFinally'];
   };
   autoRequest?: boolean;
+  requestExtraParams?: Record<string, any>;
 };
 
-export const useTablePagination = ({ request, autoRequest = true, requestOptions }: useTablePaginationParams) => {
+export const useTablePagination = ({
+  request,
+  autoRequest = true,
+  requestOptions,
+  requestExtraParams = {},
+}: useTablePaginationParams) => {
   const [innerPagination, setInnerPagination] = useState({
     current: requestOptions.defaultCurrent!,
     pageSize: requestOptions.defaultPageSize!,
@@ -26,8 +32,16 @@ export const useTablePagination = ({ request, autoRequest = true, requestOptions
       } else {
         setNoInitLoading(true);
       }
+
       const [paramsObj, requestType, ...restArgs] = args;
-      const res = await request?.(paramsObj, requestType, ...restArgs);
+      const res = await request?.(
+        {
+          ...requestExtraParams,
+          ...paramsObj,
+        },
+        requestType,
+        ...restArgs,
+      );
       const list = res?.list || res?.data || res?.rows || res?.result || [];
       const total = res?.total ?? list.length;
       if (Array.isArray(list) && list.length) {

@@ -33,6 +33,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     autoRequest = true,
     request,
     requestCacheKey,
+    requestExtraParams = {},
     defaultRequestParams,
     requestCacheParams,
     requestOptions,
@@ -57,7 +58,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     rowStripe,
   });
   const { defaultCurrent, defaultPageSize } = useDefaultPagination(pagination);
-  const formRef = useLFormInstance(queryFormProps?.form ?? outForm);
+  const formRef = useLFormInstance(outForm);
 
   const hasDataSource = !!dataSource;
   const hasFormItems = formItems && formItems?.length > 0;
@@ -83,6 +84,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
   } = useTablePagination({
     request,
     autoRequest,
+    requestExtraParams,
     requestOptions: innerRequestOptions,
   });
 

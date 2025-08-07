@@ -110,10 +110,16 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    */
   autoRequest?: boolean;
   /**
-   *  `request`第一次请求的额外参数
-   * - 仅在`第一次` `自动请求`时会传入到 `request` 参数中
+   *  `request`初始请求的额外参数
+   * - 仅在`第一次` `自动请求`时以及重置会传入到 `request` 参数中
    */
   defaultRequestParams?: Record<string, any>;
+  /**
+   * `request`的额外参数
+   *  - 每次请求都会传入到 `request` 的第一个参数中
+   */
+  requestExtraParams?: Record<string, any>;
+
   /**
    * `ahooks` 的 `useRequest` 的配置项
    * - 使用其配置项可以很简单的使用其高级请求的功能
@@ -202,7 +208,7 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    * - 配合此组件的自定义渲染组合表单可定制等多高级功能
    * - 具体参数配置请看`LQueryForm`
    */
-  queryFormProps?: LQueryFormProps;
+  queryFormProps?: Omit<LQueryFormProps, 'form' | 'items'>;
   /**
    * 在数据为空的情况下, 重新渲染空数据的组件
    */
@@ -221,4 +227,5 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    * 分页配置 (与antd内置分页不同)
    */
   pagination?: false | PaginationProps;
+  tableExtra?: ReactNode;
 }
