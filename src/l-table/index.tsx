@@ -362,8 +362,8 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
   }
 
   const innerSpinProps = {
-    ...loadingProps,
     indicator: <LoadingOutlined spin style={{ fontSize: loadingProps?.style?.fontSize || 36 }} />,
+    ...loadingProps,
   };
 
   if (!hasFormItems) {

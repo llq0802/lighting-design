@@ -220,7 +220,7 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
       tableDom: ReactNode;
       paginationDom: ReactNode;
     },
-    state: any,
+    state: Pick<LTableActionRef, 'tableData' | 'params' | 'pagination' | 'loading' | 'initLoading' | 'noInitLoading'>,
     props: LTableProps,
   ) => ReactNode;
   /**
