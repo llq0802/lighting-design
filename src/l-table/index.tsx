@@ -82,6 +82,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     pagination: requestPagination,
   } = useTablePagination({
     request,
+    autoRequest,
     requestOptions: innerRequestOptions,
   });
 
