@@ -39,7 +39,7 @@ export const columns: LTableProps<DataType>['columns'] = [
 export const originData: DataType[] = Mock.mock({
   'list|20': [
     {
-      key: '@id',
+      id: '@id',
       name: '@cname',
       'age|10-60': 10,
       birthday: `@date`,
@@ -57,7 +57,7 @@ export function apiGetUserList(req: Record<string, any> = {}): Promise<{
   const list: DataType[] = Mock.mock({
     [`list|${50}`]: [
       {
-        key: '@id',
+        id: '@id',
         name: '@cname',
         'age|10-50': 10,
         birthday: `@date`,

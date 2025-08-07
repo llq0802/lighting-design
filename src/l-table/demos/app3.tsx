@@ -8,6 +8,7 @@ const App: React.FC<PropsType> = ({}) => {
   return (
     <div>
       <LTable<DataType>
+        rowKey="id"
         tableCardProps={{
           size: 'small',
           style: { border: 'none' },
@@ -16,9 +17,9 @@ const App: React.FC<PropsType> = ({}) => {
         pagination={false}
         columns={columns}
         request={async (params, type) => {
-          console.log('===request请求之前==>', type, params);
+          // console.log('===request请求之前==>', type, params);
           const res = await apiGetUserList(params);
-          console.log('===request请求之后==>', type, params);
+          // console.log('===request请求之后==>', type, params);
           return res;
         }}
       />

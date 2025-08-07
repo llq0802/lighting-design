@@ -55,21 +55,20 @@ export type LTableRequest<T = Record<string, any>> = (
   ...args: any[]
 ) => Promise<{ list: T[]; total: number }>;
 
-export type LTableProps<T = any> = TableProps<T> & {
+export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable' | 'pagination'> {
   ref?: Parameters<typeof Table>[0]['ref'];
   /**
    * 列配置, 扩展了部分字段
    * - `toolTip` 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)`
    * - `exportRender` 字段配合`json2Excel`方法自定义导出列数据的 `excel`
    */
-  columns?:
-    | TableProps<T>['columns']
-    | {
-        /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
-        toolTip?: boolean | TooltipProps;
-        /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
-        exportRender?: (val: any, row: T, i: number) => string | number;
-      }[];
+  columns?: TableProps<T>['columns'] &
+    {
+      /** 字段自定义单元格省略提示 `( 内部使用`Tooltip`组件替代)` */
+      toolTip?: boolean | TooltipProps;
+      /** 配合`json2Excel`方法自定义导出列数据的 `excel` */
+      exportRender?: (val: any, row: T, i: number) => string | number;
+    }[];
   /**
    * 表格数据
    *  - 绝大多数情况下建议使用 `request` 返回的表格数据
@@ -105,7 +104,7 @@ export type LTableProps<T = any> = TableProps<T> & {
    * 鼠标移入每一行是否有 hover 效果
    *  - string 可设置自定义颜色
    * */
-  rowHoverable?: boolean | string;
+  rowHoverable?: string | boolean;
   /**
    * 是否在第一次渲染时自动请求 `request`
    */
@@ -149,7 +148,6 @@ export type LTableProps<T = any> = TableProps<T> & {
   requestCacheParams?: boolean;
   /**
    * 查询表单的实例
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   form?: FormInstance<any>;
   /**
@@ -223,5 +221,8 @@ export type LTableProps<T = any> = TableProps<T> & {
     state: any,
     props: LTableProps,
   ) => ReactNode;
+  /**
+   * 分页配置 (与antd内置分页不同)
+   */
   pagination?: false | PaginationProps;
-};
+}
