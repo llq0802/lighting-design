@@ -14,7 +14,10 @@ const App: React.FC<PropsType> = ({}) => {
         input1: '输入框1',
         input2: '输入框2',
       }}
-      defaultRequestParams={{
+      requestInitialParams={{
+        orgId: '111',
+      }}
+      requestExtraParams={{
         userId: '999',
       }}
       formItems={[
@@ -40,7 +43,7 @@ const App: React.FC<PropsType> = ({}) => {
       }
       columns={columns}
       request={async (params, type) => {
-        console.log('===request请求之前==>', type, params);
+        // console.log('===request请求之前==>', type, params);
         const res = await apiGetUserList(params, 95);
         // console.log('===request请求之后==>', type, params);
         return res;

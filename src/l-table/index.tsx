@@ -205,8 +205,8 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     const formValues = getFormValues();
     run(
       {
-        ...requestInitialParams,
         ...extraParams,
+        ...requestInitialParams,
         formValues,
         current: defaultCurrent,
         pageSize: defaultPageSize,
@@ -368,15 +368,18 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   if (!hasFormItems) {
     const innerNoFormTableDom = (
-      <Card
-        {...tableCardProps}
-        className={cx(className, tableCardProps?.className)}
-        style={{ ...style, ...tableCardProps?.style }}
-      >
-        {innerToolbarDom}
-        {tableDom}
-        {paginationDom}
-      </Card>
+      <>
+        {tableExtra}
+        <Card
+          {...tableCardProps}
+          className={cx(className, tableCardProps?.className)}
+          style={{ ...style, ...tableCardProps?.style }}
+        >
+          {innerToolbarDom}
+          {tableDom}
+          {paginationDom}
+        </Card>
+      </>
     );
 
     return loadingProps.spinning ? (

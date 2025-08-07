@@ -61,9 +61,13 @@ nav:
 
 <code src='./demos/app8.tsx' background="#f5f5f5"></code>
 
-### 表单初始值与默认参数
+### 表单初始值 默认参数 额外参数
 
 <code src='./demos/app9.tsx' background="#f5f5f5"></code>
+
+### 缓存表格
+
+<code src='./demos/app10.tsx' background="#f5f5f5"></code>
 
 ### 无边框表格与排序
 
