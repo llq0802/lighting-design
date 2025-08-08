@@ -77,9 +77,9 @@ nav:
 
 使用在不需要分页请求，直接一次性请求所有数据
 
-内部不再管理分页, actionRef 中的方法中的分页参数无效
-
 <code src='./demos/app12.tsx' background="#f5f5f5"></code>
+
+<code src='./demos/app13.tsx' background="#f5f5f5"></code>
 
 ### 无边框表格与排序
 

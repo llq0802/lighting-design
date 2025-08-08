@@ -58,6 +58,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     rowHoverable,
     rowStripe,
   });
+
   const { defaultCurrent, defaultPageSize } = useDefaultPagination(pagination);
   const formRef = useLFormInstance(outForm);
 
@@ -101,29 +102,28 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     }
     return {};
   };
-
   const paginationProps: PaginationProps | false =
     pagination === null || pagination === false
       ? false
       : {
-          align: 'end',
-          hideOnSinglePage: true,
-          showTotal: (t, r) => `显示第 ${r[0]} 条~第 ${r[1]} 条，共 ${t} 条`,
           total,
-          current: !hasDataSource && canRun ? requestPagination.current : void 0,
-          pageSize: !hasDataSource && canRun ? requestPagination.pageSize : void 0,
+          align: 'end',
           defaultCurrent,
           defaultPageSize,
+          hideOnSinglePage: true,
+          showTotal: (t, r) => `显示第 ${r[0]} 条~第 ${r[1]} 条，共 ${t} 条`,
+          current: hasDataSource || requestOnce ? innerPagination.current : requestPagination.current,
+          pageSize: hasDataSource || requestOnce ? innerPagination.pageSize : requestPagination.pageSize,
           ...pagination,
           className: cx(styles.pagination, pagination?.className),
           onChange: (current, pageSize) => {
             pagination?.onChange?.(current, pageSize);
-            if (!hasDataSource && canRun) {
-              const formValues = getFormValues();
-              run({ formValues, current, pageSize }, 'pagination');
+            if (hasDataSource || requestOnce) {
+              setInnerPagination({ current, pageSize });
               return;
             }
-            setInnerPagination({ current, pageSize });
+            const formValues = getFormValues();
+            run({ formValues, current, pageSize }, 'pagination');
           },
         };
 
@@ -131,20 +131,23 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     let innerColumns: any[] = columns || [];
     if (sort) {
       const sortProps = isPlainObject(sort) ? (sort as any) : {};
-      const { current, pageSize } = hasDataSource ? innerPagination : requestPagination;
+      const { current, pageSize } = hasDataSource || requestOnce ? innerPagination : requestPagination;
       const render = (t: any, c: any, i: number) => {
         const count = paginationProps ? (current - 1) * pageSize + i + 1 : i + 1;
         return typeof sortProps?.render ? sortProps?.render?.(count, current, pageSize, i) : count;
       };
-      const sortColumn = {
-        title: '序号',
-        align: 'center',
-        width: 70,
-        ...sortProps,
-        render,
-        dataIndex: '__SORT__',
-      };
-      innerColumns = [sortColumn, ...innerColumns];
+      innerColumns = [
+        {
+          title: '序号',
+          align: 'center',
+          width: 70,
+          ...sortProps,
+          render,
+          key: '__SORT__',
+          dataIndex: '__SORT__',
+        },
+        ...innerColumns,
+      ];
     }
     return innerColumns?.map((item) => {
       if (item.toolTip && !item.ellipsis) {
@@ -178,11 +181,10 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
       );
     }
 
-    if (!canRun) {
+    if (requestOnce) {
       if (requestData.list?.length <= innerPagination.pageSize) {
         return requestData.list;
       }
-
       return requestData.list?.slice?.(
         (innerPagination.current - 1) * innerPagination.pageSize,
         innerPagination.current * innerPagination.pageSize,
@@ -200,6 +202,14 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   const handleCustom: LTableActionRef['onCustom'] = ({ current, pageSize, extraParams, isResetFormValues }) => {
     if (hasDataSource) return;
+
+    if (!canRun) {
+      setInnerPagination((prev) => ({
+        current,
+        pageSize,
+      }));
+    }
+
     const formValues = getFormValues(isResetFormValues);
     run(
       {
@@ -214,6 +224,14 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   const handleReload = (extraParams?: Record<string, any>) => {
     if (hasDataSource) return;
+
+    if (!canRun) {
+      setInnerPagination((prev) => ({
+        current: prev.current,
+        pageSize: prev.pageSize,
+      }));
+    }
+
     const formValues = getFormValues();
     run(
       {
@@ -228,6 +246,14 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   const handleReset = (extraParams?: Record<string, any>) => {
     if (hasDataSource) return;
+
+    if (!canRun) {
+      setInnerPagination((prev) => ({
+        current: defaultCurrent,
+        pageSize: defaultPageSize,
+      }));
+    }
+
     const formValues = getFormValues(true);
     run(
       {
@@ -243,6 +269,14 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   const handleSearch = (extraParams?: Record<string, any>) => {
     if (hasDataSource) return;
+
+    if (!canRun) {
+      setInnerPagination((prev) => ({
+        current: defaultCurrent,
+        pageSize: prev.pageSize,
+      }));
+    }
+
     const formValues = getFormValues();
     run(
       {
@@ -324,6 +358,13 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
       onFinish={(formValues) => {
         queryFormProps?.onFinish?.(formValues);
         if (hasDataSource) return;
+        if (!canRun) {
+          setInnerPagination((prev) => ({
+            current: defaultCurrent,
+            pageSize: prev.pageSize,
+          }));
+        }
+
         run(
           {
             formValues,

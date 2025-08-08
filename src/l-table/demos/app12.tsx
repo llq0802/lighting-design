@@ -18,6 +18,12 @@ const options = Mock.mock({ 'list|5': [{ label: '@cname', value: '@id' }] }).lis
 
 const columns: LTableProps<DataType>['columns'] = [
   {
+    title: 'ID',
+    dataIndex: 'id',
+    key: 'id',
+    align: 'center',
+  },
+  {
     title: '姓名',
     dataIndex: 'name',
     key: 'name',
@@ -68,6 +74,22 @@ const columns: LTableProps<DataType>['columns'] = [
   },
 ];
 
+const list: DataType[] = Mock.mock({
+  [`list|${95}`]: [
+    {
+      'id|+1': 1,
+      name: '@cname',
+      'sex|1': ['男', '女'],
+      'age|10-50': 10,
+      phone: '@phone',
+      birthday: `@date`,
+      'status|1': [1, 0],
+      address: `@province@city@county`,
+      'isMarried|1': [true, false],
+    },
+  ],
+}).list;
+
 const App: React.FC<PropsType> = ({}) => {
   const [form] = LForm.useForm();
   const actionRef = useRef<LTableActionRef>();
@@ -86,16 +108,7 @@ const App: React.FC<PropsType> = ({}) => {
           <Button onClick={() => actionRef.current?.onReload()}>onReload</Button>
           <Button onClick={() => actionRef.current?.onReset()}>onReset</Button>
           <Button onClick={() => actionRef.current?.onSearch()}>onSearch</Button>
-          <Button
-            onClick={() =>
-              actionRef.current?.onCustom({
-                current: 2,
-                pageSize: 10,
-              })
-            }
-          >
-            onCustom
-          </Button>
+          <Button onClick={() => actionRef.current?.onCustom({ current: 2, pageSize: 10 })}>onCustom</Button>
           <Button
             type="primary"
             style={{ marginLeft: 'auto' }}
@@ -118,21 +131,6 @@ const App: React.FC<PropsType> = ({}) => {
       requestOnce
       request={async (params, type) => {
         await sleep();
-        const list: DataType[] = Mock.mock({
-          [`list|${95}`]: [
-            {
-              id: '@id',
-              name: '@cname',
-              'sex|1': ['男', '女'],
-              'age|10-50': 10,
-              phone: '@phone',
-              birthday: `@date`,
-              'status|1': [1, 0],
-              address: `@province@city@county`,
-              'isMarried|1': [true, false],
-            },
-          ],
-        }).list;
         return {
           list,
           total: list.length,
