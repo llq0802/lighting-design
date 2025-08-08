@@ -5,7 +5,7 @@ import type { LTableInstance, UseShowInstance } from 'lighting-design';
 import { LFormItemInput, LFormItemSelect, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef } from 'react';
-import SModal from './components/S-Modal';
+import SModal from './components/s-modal';
 import { apiGetUserList, columns } from './service';
 
 const formItems = [

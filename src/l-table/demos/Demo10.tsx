@@ -7,7 +7,7 @@ import { useLockScroll } from 'rc-use-hooks';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
 import { sleep } from '../../test';
-import AddEditModal from './components/S-EditAddModal';
+import AddEditModal from './components/s-edit-add-modal';
 import { apiGetUserList, columns } from './service';
 
 const Demo: FC = () => {

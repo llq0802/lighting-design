@@ -7,7 +7,7 @@ import type { UseShowInstance } from 'rc-use-hooks';
 import type { FC } from 'react';
 import { useRef } from 'react';
 import { sleep } from '../../test';
-import SModal from './components/S-Modal';
+import SModal from './components/s-modal';
 import { apiGetUserList, columns } from './service';
 
 const formItems = [

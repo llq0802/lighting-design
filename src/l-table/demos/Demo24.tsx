@@ -5,8 +5,8 @@ import { LTable } from 'lighting-design';
 import type { UseShowInstance } from 'rc-use-hooks';
 import { useEffect, useRef, type FC } from 'react';
 import { columns } from '../demos/service';
-import SDrawer from './components/S-Drawer';
-import SModal from './components/S-Modal';
+import SDrawer from './components/s-drawer';
+import SModal from './components/s-modal';
 import { apiGetUserList } from './service';
 
 const Demo: FC = () => {

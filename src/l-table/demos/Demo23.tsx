@@ -12,8 +12,8 @@ import {
 import { sleep } from 'lighting-design/test';
 import type { UseShowInstance } from 'rc-use-hooks';
 import React, { useRef } from 'react';
-import SDrawer from './components/S-Drawer';
-import SModal from './components/S-Modal';
+import SDrawer from './components/s-drawer';
+import SModal from './components/s-modal';
 
 interface DataType {
   key: string;

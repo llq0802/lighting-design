@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import type { LTableInstance } from 'lighting-design';
+import type { LTableActionRef } from 'lighting-design';
 import { LDrawerForm, LForm, LFormItemInput, LFormItemRadio, LFormItemSelect } from 'lighting-design';
 import type { UseShowInstanceRef } from 'rc-use-hooks';
 import { useShow } from 'rc-use-hooks';
@@ -8,14 +8,14 @@ import { useEffect } from 'react';
 import { sleep } from '../../../test';
 
 type TypeProps = {
-  tableRef: React.MutableRefObject<LTableInstance | undefined>;
+  actionRef: React.MutableRefObject<LTableActionRef | undefined>;
   modalRef: UseShowInstanceRef;
+  [key: string]: any;
 };
 
-const SDrawer: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
+const SDrawer: FC<TypeProps> = ({ modalRef, actionRef, ...restProps }) => {
   const [form] = LForm.useForm();
   const { showRecord, open, updateOpen } = useShow(modalRef);
-
   const isAdd = !showRecord || Object.keys(showRecord)?.length === 0;
 
   useEffect(() => {
@@ -26,17 +26,15 @@ const SDrawer: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
 
   return (
     <LDrawerForm
-      destroyOnClose
       open={open}
       onOpenChange={updateOpen}
-      labelWidth={84}
-      isEnterSubmit={false}
+      labelWidth={100}
       form={form}
       title={!isAdd ? '修改' : '新增'}
       onFinish={async (values) => {
         await sleep(); // 发起请求
         message.success('操作成功!');
-        tableRef.current?.onSearch();
+        actionRef.current?.onSearch();
         return true;
       }}
       {...restProps}
@@ -55,14 +53,11 @@ const SDrawer: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
         label="单选"
         name="radio"
         required
-        request={async () => {
-          await sleep(isAdd ? 400 : 0); // 发起请求
-          return [
-            { label: 'AA', value: 'a' },
-            { label: 'BB', value: 'b' },
-            { label: 'CC', value: 'c' },
-          ];
-        }}
+        options={[
+          { label: 'AA', value: 'a' },
+          { label: 'BB', value: 'b' },
+          { label: 'CC', value: 'c' },
+        ]}
       />
     </LDrawerForm>
   );

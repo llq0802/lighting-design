@@ -1,18 +1,24 @@
 import { message } from 'antd';
-import type { LTableInstance } from 'lighting-design';
-import { LForm, LFormItemInput, LFormItemRadio, LFormItemSelect, LModalForm } from 'lighting-design';
+import {
+  LForm,
+  LFormItemInput,
+  LFormItemRadio,
+  LFormItemSelect,
+  LModalForm,
+  type LTableActionRef,
+} from 'lighting-design';
 import { useShow, type UseShowInstanceRef } from 'rc-use-hooks';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { sleep } from '../../../test';
 
-type TypeProps = {
-  tableRef: React.MutableRefObject<LTableInstance | undefined>;
+type PropsType = {
+  actionRef: React.MutableRefObject<LTableActionRef | undefined>;
   modalRef: UseShowInstanceRef;
   [key: string]: any;
 };
 
-const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
+const SModal: FC<PropsType> = ({ modalRef, actionRef, ...restProps }) => {
   const { showRecord, open, updateOpen } = useShow(modalRef);
   const [form] = LForm.useForm();
 
@@ -21,25 +27,20 @@ const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
   useEffect(() => {
     if (open && form && !isAdd) {
       form.setFieldsValue(showRecord);
-      //  form.resetFields(); // 和 destroyOnClose=true 效果一样
     }
   }, [open, form, isAdd]);
 
   return (
     <LModalForm
-      modalTop="20vh"
-      destroyOnClose
       open={open}
       onOpenChange={updateOpen}
-      labelWidth={84}
-      isDraggable
-      isEnterSubmit={false}
+      labelWidth={100}
       form={form}
       title={!isAdd ? '修改' : '新增'}
       onFinish={async (values) => {
-        await sleep(); // 发起请求
+        await sleep();
         message.success('操作成功!');
-        tableRef.current?.onSearch();
+        actionRef.current?.onSearch();
         return true;
       }}
       {...restProps}
@@ -58,14 +59,11 @@ const SModal: FC<TypeProps> = ({ modalRef, tableRef, ...restProps }) => {
         label="单选"
         name="radio"
         required
-        request={async () => {
-          await sleep(isAdd ? 400 : 0); // 发起请求
-          return [
-            { label: 'AA', value: 'a' },
-            { label: 'BB', value: 'b' },
-            { label: 'CC', value: 'c' },
-          ];
-        }}
+        options={[
+          { label: 'AA', value: 'a' },
+          { label: 'BB', value: 'b' },
+          { label: 'CC', value: 'c' },
+        ]}
       />
     </LModalForm>
   );
