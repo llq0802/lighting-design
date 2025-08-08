@@ -41,26 +41,6 @@ nav:
 
 <code src='./demos/Demo6.tsx'></code>
 
-<!-- ### 使用 open 受控方式
-
-<code src='./demos/Demo3.tsx'></code>
-
-
-
-### 关闭弹窗时不重置到初始值
-
-<code src='./demos/Demo4.tsx'></code>
-
-### 通过 Token 修改样式
-
-`antd` 的版本要大于等于 `5.7.0`
-
-<code src='./demos/Demo5.tsx'></code>
-
-
-
- -->
-
 ## API
 
 :::warning{title=注意}
@@ -95,11 +75,13 @@ import { LModalForm } from 'lighting-design';
 | title           | `Modal` 标题                                                                                    | `ReactNode`                  | `-`     |
 | modalTop        | `Modal` 距离顶部的距离, 不要与 centered 同时配置                                                | `number \| string`           | `20vh`  |
 | width           | `Modal` 宽度                                                                                    | `modalProps['width']`        | `600`   |
+| afterClose      | Modal 完全关闭后的回调                                                                          | `modalProps['afterClose']`   | `-`     |
 | trigger         | 用于触发 `Modal` 打开的 dom，一般是 `Button` 组件                                               | `ReactElement`               | `-`     |
 | open            | 是否打开。<br/>设置后表示为 `受控组件`，可结合 `onOpenChange` 进行控制。                        | `boolean`                    | `-`     |
 | onOpenChange    | `open` 改变时触发                                                                               | `(open: boolean) => void`    | `- `    |
 | modalProps      | `Modal` 的 `props`，使用方式与 antd 相同。                                                      | [ModalProps]                 | `-`     |
 | onFinish        | 提交数据时触发。<br>如果返回 `true` 或 `Promise.resolve(true)`会关闭弹框并且会自动管理`loading` | `async (values: any) => any` | `-`     |
 | onCancel        | 点击内置的取消按钮或关闭按钮时触发                                                              | ` (e) => any`                | `-`     |
+| afterOpen       | open 为 true 后的回调 , 一般在此设置 form 表单的回填值                                          | ` () => void`                | `-`     |
 
 [ModalProps]: https://ant.design/components/modal-cn/#api

@@ -24,6 +24,8 @@ const LDrawerForm: <T = any>(props: LDrawerFormProps<T>) => JSX.Element = (props
     submitter,
     isFullscreen,
     onCancel,
+    afterClose,
+    afterOpen,
     drawerProps,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
@@ -110,6 +112,12 @@ const LDrawerForm: <T = any>(props: LDrawerFormProps<T>) => JSX.Element = (props
 
   const submitterDom = submitterProps ? <LFormSubmitter {...submitterProps} /> : null;
 
+  useUpdateEffect(() => {
+    if (open) {
+      afterOpen?.();
+    }
+  }, [open]);
+
   return (
     <>
       <Drawer
@@ -128,12 +136,13 @@ const LDrawerForm: <T = any>(props: LDrawerFormProps<T>) => JSX.Element = (props
         afterOpenChange={(b) => {
           innerDrawerProps?.afterOpenChange?.(b);
           if (b) return;
+          afterClose?.();
           if (!innerDrawerProps.destroyOnHidden || !innerFormProps.clearOnDestroy) {
             if (isResetFields) formRef.current?.resetFields?.();
           }
         }}
       >
-        <LForm {...innerFormProps} submitter={false}>
+        <LForm<any> {...innerFormProps} submitter={false}>
           {children}
         </LForm>
       </Drawer>

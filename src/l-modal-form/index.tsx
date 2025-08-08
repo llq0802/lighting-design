@@ -13,6 +13,7 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
     isResetFields = true,
     destroyOnHidden = true,
     draggableProps,
+    afterClose,
     forceRender,
     centered,
     form: outForm,
@@ -25,7 +26,7 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
     onCancel,
     submitter,
     onFinish,
-    onOpen,
+    afterOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -120,12 +121,13 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
     if (!innerModalProps.destroyOnHidden || !innerFormProps.clearOnDestroy) {
       if (isResetFields) formRef.current?.resetFields?.();
     }
+    afterClose?.();
     innerModalProps?.afterClose?.();
   };
 
   useUpdateEffect(() => {
     if (open) {
-      onOpen?.();
+      afterOpen?.();
     }
   }, [open]);
 

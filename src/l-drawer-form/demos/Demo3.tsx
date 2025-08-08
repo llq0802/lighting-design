@@ -1,17 +1,11 @@
 import { Button, message } from 'antd';
 import { LDrawerForm, LForm, LFormItemInput } from 'lighting-design';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { sleep } from '../../test';
 
 const Demo3 = () => {
   const [form] = LForm.useForm();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (open) {
-      form.setFieldsValue({ name: '法外狂徒' });
-    }
-  }, [form, open]);
 
   return (
     <div>
@@ -29,6 +23,12 @@ const Demo3 = () => {
           await sleep();
           message.success('提交成功');
           return true;
+        }}
+        afterOpen={() => {
+          form.setFieldsValue({ name: '法外狂徒' });
+        }}
+        afterClose={() => {
+          console.log('afterClose');
         }}
       >
         <LFormItemInput name="name" required label="姓名" />
