@@ -9,7 +9,13 @@ export type LTableActionRef<T = any> = {
   /** 根据`extraParams` `当前表单数据`，`当前页`，`当前分页数量`查询表格数据 */
   onReload: (extraParams?: Record<string, any>) => void;
   /** 根据传入的 `current` `pageSize` `当前表单数据` `extraParams`查询表格数据 */
-  onCustom: (current: number, pageSize: number, extraParams?: Record<string, any>) => void;
+  onCustom: (params: {
+    current: number;
+    pageSize: number;
+    extraParams?: Record<string, any>;
+    /**是否需要重置表单 */
+    isResetFormValues?: boolean;
+  }) => void;
   /**
    * 根据 `extraParams` `表单初始值` `requestInitialParams` 默认`(绝大数为第一页)`页, `默认的分页数量`查询数据
    */
@@ -126,7 +132,12 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
   /**
    * 是否在第一次渲染时自动请求 `request`
    */
-  autoRequest?: boolean;
+  requestAuto?: boolean;
+  /**
+   * `request`是否只执行一次
+   *  - 一般使用在不需要分页请求，直接一次性请求所有数据
+   */
+  requestOnce?: boolean;
   /**
    *  `request`初始请求的额外参数
    * - 仅在`第一次自动请求`以及`重置`时会传入到 `request` 参数中
@@ -153,7 +164,7 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    *  - 你可在`request`中的 **处理请求之前的参数** 以及 **格式化接口的数据**
    *  - 第一个参数为当前的`页码`和`分页数量`, 如果配置了表单`formItems`则还有表单的值`formValues`
    *  - 第二个参数表示当前请求的类型
-   *    - autoRequest 为 true 时的组件初始化的请求为`init`
+   *    - requestAuto 为 true 时的组件初始化的请求为`init`
    *    - 表单查询按钮请求为`search`
    *    - 表格分页查询为`reload`
    *    - 表单重置按钮为`reset`

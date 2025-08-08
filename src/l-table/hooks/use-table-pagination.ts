@@ -7,13 +7,15 @@ type useTablePaginationParams = {
   requestOptions: PaginationOptions<any, any> & {
     onInitRequest?: PaginationOptions<any, any>['onFinally'];
   };
-  autoRequest?: boolean;
+  requestAuto?: boolean;
+  requestOnce?: boolean;
   requestExtraParams?: Record<string, any>;
 };
 
 export const useTablePagination = ({
   request,
-  autoRequest = true,
+  requestAuto = true,
+  requestOnce,
   requestOptions,
   requestExtraParams = {},
 }: useTablePaginationParams) => {
@@ -21,9 +23,10 @@ export const useTablePagination = ({
     current: requestOptions.defaultCurrent!,
     pageSize: requestOptions.defaultPageSize!,
   });
-  const [initLoading, setInitLoading] = useState(autoRequest);
+  const [initLoading, setInitLoading] = useState(requestAuto);
   const [noInitLoading, setNoInitLoading] = useState(false);
   const firstRequestRef = useRef(true);
+  const canRun = !requestOnce ? true : firstRequestRef.current;
 
   const { data, ...rest } = usePagination(
     async (...args) => {
@@ -71,5 +74,6 @@ export const useTablePagination = ({
     noInitLoading,
     innerPagination,
     setInnerPagination,
+    canRun,
   };
 };

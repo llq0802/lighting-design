@@ -14,6 +14,8 @@ import { type DataType } from './service';
 
 type PropsType = {};
 
+const options = Mock.mock({ 'list|5': [{ label: '@cname', value: '@id' }] }).list;
+
 const columns: LTableProps<DataType>['columns'] = [
   {
     title: '姓名',
@@ -47,11 +49,17 @@ const columns: LTableProps<DataType>['columns'] = [
     toolTip: true,
   },
   {
+    title: '手机号',
+    dataIndex: 'phone',
+    key: 'phone',
+    align: 'center',
+  },
+  {
     title: '状态',
     dataIndex: 'status',
     key: 'status',
     align: 'center',
-    render: (text: string) => <Tag>{text}</Tag>,
+    render: (v: string) => <Tag color={v ? 'magenta' : 'cyan'}>{v ? '正常' : '待业'}</Tag>,
   },
   {
     title: '婚姻',
@@ -71,37 +79,54 @@ const App: React.FC<PropsType> = ({}) => {
       formItems={[
         <LFormItemInput label="输入框1" name="input1" />,
         <LFormItemInput label="输入框2" name="input2" />,
-        <LFormItemSelect
-          label="下拉框1"
-          name="select1"
-          options={Mock.mock({ 'list|5': [{ label: '@cname', value: '@id' }] }).list}
-        />,
+        <LFormItemSelect label="下拉框1" name="select1" options={options} />,
       ]}
       toolbar={
         <Flex gap={8} flex={1}>
-          <Button>按钮1</Button>
-          <Button>按钮2</Button>
-          <Button>按钮3</Button>
-          <Button>按钮4</Button>
-          <Button type="primary" style={{ marginLeft: 'auto' }}>
-            按钮4
+          <Button onClick={() => actionRef.current?.onReload()}>onReload</Button>
+          <Button onClick={() => actionRef.current?.onReset()}>onReset</Button>
+          <Button onClick={() => actionRef.current?.onSearch()}>onSearch</Button>
+          <Button
+            onClick={() =>
+              actionRef.current?.onCustom({
+                current: 2,
+                pageSize: 10,
+              })
+            }
+          >
+            onCustom
           </Button>
-          <Button type="primary">按钮5</Button>
+          <Button
+            type="primary"
+            style={{ marginLeft: 'auto' }}
+            onClick={() =>
+              form.setFieldsValue({
+                input1: 'input1',
+                input2: 'input2',
+                select1: options[1].value,
+              })
+            }
+          >
+            设置表单值
+          </Button>
+          <Button type="primary" onClick={() => form.resetFields()}>
+            重置表单值
+          </Button>
         </Flex>
       }
       columns={columns}
       request={async (params, type) => {
         await sleep();
         const list: DataType[] = Mock.mock({
-          [`list|${95}`]: [
+          [`list|${10}`]: [
             {
               id: '@id',
               name: '@cname',
               'sex|1': ['男', '女'],
               'age|10-50': 10,
-              phone: '@integer(10000000000,99999999999)',
+              phone: '@phone',
               birthday: `@date`,
-              'status|1': ['启用', '禁用'],
+              'status|1': [1, 0],
               address: `@province@city@county`,
               'isMarried|1': [true, false],
             },
@@ -109,7 +134,7 @@ const App: React.FC<PropsType> = ({}) => {
         }).list;
         return {
           list,
-          total: list.length,
+          total: 95,
         };
       }}
     />

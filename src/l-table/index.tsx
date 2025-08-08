@@ -10,7 +10,7 @@ import { forwardRef, useImperativeHandle, type ReactNode } from 'react';
 import { useDefaultPagination } from './hooks/use-default-pagination';
 import { useMergeLoading } from './hooks/use-merge-loading';
 import { useTablePagination } from './hooks/use-table-pagination';
-import type { LTableProps } from './interface';
+import type { LTableActionRef, LTableProps } from './interface';
 import { useStyles } from './styles';
 
 const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props, ref) => {
@@ -30,7 +30,8 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     tableExtra,
     tableCardProps,
     formCardProps,
-    autoRequest = true,
+    requestAuto = true,
+    requestOnce,
     request,
     requestCacheKey,
     requestExtraParams = {},
@@ -75,6 +76,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     initLoading,
     noInitLoading,
     run,
+    canRun,
     params: requestParams,
     data: requestData,
     mutate: requestMutate,
@@ -83,7 +85,8 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     pagination: requestPagination,
   } = useTablePagination({
     request,
-    autoRequest,
+    requestAuto,
+    requestOnce,
     requestExtraParams,
     requestOptions: innerRequestOptions,
   });
@@ -91,8 +94,9 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
   const loadingProps = useMergeLoading(requestLoading, outLoading);
 
   const total = hasDataSource ? dataSource?.length ?? 0 : requestData.total;
-  const getFormValues = () => {
+  const getFormValues = (isReset = false) => {
     if (hasFormItems) {
+      if (isReset) formRef.current?.resetFields();
       return formRef.current?.getFieldsValue();
     }
     return {};
@@ -102,25 +106,24 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     pagination === null || pagination === false
       ? false
       : {
-          // disabled: loadingProps.spinning,
           align: 'end',
           hideOnSinglePage: true,
           showTotal: (t, r) => `显示第 ${r[0]} 条~第 ${r[1]} 条，共 ${t} 条`,
           total,
-          current: hasDataSource ? void 0 : requestPagination.current,
-          pageSize: hasDataSource ? void 0 : requestPagination.pageSize,
+          current: !hasDataSource && canRun ? requestPagination.current : void 0,
+          pageSize: !hasDataSource && canRun ? requestPagination.pageSize : void 0,
           defaultCurrent,
           defaultPageSize,
           ...pagination,
           className: cx(styles.pagination, pagination?.className),
           onChange: (current, pageSize) => {
             pagination?.onChange?.(current, pageSize);
-            if (hasDataSource) {
-              setInnerPagination({ current, pageSize });
+            if (!hasDataSource && canRun) {
+              const formValues = getFormValues();
+              run({ formValues, current, pageSize }, 'pagination');
               return;
             }
-            const formValues = getFormValues();
-            run({ formValues, current, pageSize }, 'pagination');
+            setInnerPagination({ current, pageSize });
           },
         };
 
@@ -162,14 +165,29 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
   };
 
   const getTableData = () => {
+    if (!paginationProps) return hasDataSource ? dataSource : requestData.list;
+
     if (hasDataSource) {
-      if (!paginationProps) return dataSource;
+      if (dataSource?.length <= innerPagination.pageSize) {
+        return dataSource;
+      }
+
       return dataSource?.slice?.(
         (innerPagination.current - 1) * innerPagination.pageSize,
         innerPagination.current * innerPagination.pageSize,
       );
     }
-    if (!paginationProps) return requestData.list;
+
+    if (!canRun) {
+      if (requestData.list?.length <= innerPagination.pageSize) {
+        return requestData.list;
+      }
+
+      return requestData.list?.slice?.(
+        (innerPagination.current - 1) * innerPagination.pageSize,
+        innerPagination.current * innerPagination.pageSize,
+      );
+    }
 
     if (requestData.list?.length > requestPagination.pageSize) {
       return requestData.list?.slice?.(
@@ -180,9 +198,9 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     return requestData.list;
   };
 
-  const handleCustom = (current: number, pageSize: number, extraParams?: Record<string, any>) => {
+  const handleCustom: LTableActionRef['onCustom'] = ({ current, pageSize, extraParams, isResetFormValues }) => {
     if (hasDataSource) return;
-    const formValues = getFormValues();
+    const formValues = getFormValues(isResetFormValues);
     run(
       {
         ...extraParams,
@@ -210,7 +228,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   const handleReset = (extraParams?: Record<string, any>) => {
     if (hasDataSource) return;
-    const formValues = getFormValues();
+    const formValues = getFormValues(true);
     run(
       {
         ...extraParams,
@@ -238,7 +256,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
   };
 
   useMount(() => {
-    if (!autoRequest) return;
+    if (!requestAuto) return;
     if (hasDataSource) return;
     if (innerRequestOptions.cacheKey && isRequestCacheParams && requestParams[0]) {
       const { current: cacheCurrent, pageSize: cachePageSize, formValues: cacheFormValues } = requestParams[0];
