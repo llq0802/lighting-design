@@ -1,4 +1,4 @@
-import { useControllableValue } from 'ahooks';
+import { useControllableValue, useUpdateEffect } from 'ahooks';
 import { Modal } from 'antd';
 import LForm from 'lighting-design/l-form';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
@@ -25,6 +25,7 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
     onCancel,
     submitter,
     onFinish,
+    onOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -121,6 +122,12 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
     }
     innerModalProps?.afterClose?.();
   };
+
+  useUpdateEffect(() => {
+    if (open) {
+      onOpen?.();
+    }
+  }, [open]);
 
   const dom = draggableProps ? (
     <Modal

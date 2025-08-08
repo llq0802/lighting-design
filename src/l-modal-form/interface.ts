@@ -41,4 +41,5 @@ export interface LModalFormProps<T = any>
   modalTop?: string | number;
 
   onCancel?: (e: any) => void;
+  onOpen?: () => void;
 }
