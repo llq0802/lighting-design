@@ -4,27 +4,31 @@ import { LSkeleton } from 'lighting-design';
 import { useState } from 'react';
 const Demo1 = () => {
   const [loading, setLoading] = useState(true);
-  const reset = () => {
+  const reload = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 1200);
+    }, 2000);
   };
+
   useMount(() => {
-    reset();
+    reload();
   });
+
   return (
     <div>
       <Button
         onClick={() => {
-          reset();
+          reload();
         }}
       >
         刷新
       </Button>
       <Divider></Divider>
-      <LSkeleton loading={loading} itemHeight={30} gap={16} topSkeleton>
-        <h3>这是标题</h3>
+      <LSkeleton loading={loading}>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita tempore nemo molestiae, iste, nisi vero quis
+        </p>
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita tempore nemo molestiae, iste, nisi vero quis
         </p>
