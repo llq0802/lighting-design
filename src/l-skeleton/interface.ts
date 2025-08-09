@@ -11,6 +11,8 @@ export type LSkeletonProps = {
   vertical?: boolean;
   size?: SkeletonButtonProps['size'];
   itemHeight?: string | number;
+  firstItemStyle?: React.CSSProperties;
+  lastItemStyle?: React.CSSProperties;
   itemStyle?: React.CSSProperties;
   shape?: SkeletonButtonProps['shape'];
   children?: ReactNode;

@@ -1,7 +1,7 @@
 import { Loading3QuartersOutlined } from '@ant-design/icons';
-import { Button, ConfigProvider, Flex, Skeleton, Spin } from 'antd';
+import { Button, Flex, Spin } from 'antd';
 import Mock from 'better-mock';
-import { LFormItemInput, LFormItemSelect, LTable, type LTableActionRef } from 'lighting-design';
+import { LFormItemInput, LFormItemSelect, LSkeleton, LTable, type LTableActionRef } from 'lighting-design';
 import type { UseShowInstance } from 'rc-use-hooks';
 import React, { useRef } from 'react';
 import SDrawer from './components/s-drawer';
@@ -94,22 +94,7 @@ const App: React.FC<PropsType> = ({}) => {
           return (
             <Flex vertical gap={8}>
               {doms.formDom}
-              {!state.initLoading ? (
-                <ConfigProvider
-                  theme={{
-                    components: {
-                      Skeleton: {
-                        titleHeight: 48,
-                        paragraphLiHeight: 40,
-                      },
-                    },
-                  }}
-                >
-                  <Skeleton active title={{ width: '100%' }} paragraph={{ rows: 10, width: '100%' }} />
-                </ConfigProvider>
-              ) : (
-                contentDom
-              )}
+              {state.initLoading ? <LSkeleton count={10} size="large" /> : contentDom}
             </Flex>
           );
         }}
