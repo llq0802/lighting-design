@@ -1,6 +1,5 @@
-import type { FormInstance } from 'antd';
-import { Alert, Button } from 'antd';
-import type { LTableInstance } from 'lighting-design';
+import { Alert } from 'antd';
+import type { LTableActionRef } from 'lighting-design';
 import { LFormItemInput, LTable } from 'lighting-design';
 import type { FC } from 'react';
 import { useRef, useState } from 'react';
@@ -11,17 +10,17 @@ const formItems = [
   <LFormItemInput key="1" name="input5" label="输入框" />,
   <LFormItemInput key="2" name="input6" label="输入框" />,
   <LFormItemInput key="3" name="input7" label="输入框" />,
+  <LFormItemInput key="4" name="input8" label="输入框" />,
 ];
 
 const Demo3: FC = () => {
-  const formRef = useRef<FormInstance>();
-  const tableRef = useRef<LTableInstance>();
+  const actionRef = useRef<LTableActionRef>();
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log('selectedRowKeys changed: ', newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
+
   const rowSelection = {
     preserveSelectedRowKeys: true,
     selectedRowKeys,
@@ -30,21 +29,21 @@ const Demo3: FC = () => {
 
   return (
     <LTable
-      rowKey="key"
+      rowKey="id"
+      actionRef={actionRef}
       rowSelection={rowSelection}
-      tableRef={tableRef}
-      toolbarLeft={<Button type="primary">新增</Button>}
-      toolbarRight={<Button type="primary">审批</Button>}
       formItems={formItems}
-      // tableExtra='也可以把 Alert 放这'
-      tableHeaderRender={() =>
+      queryFormProps={{
+        showColsNumber: 3,
+      }}
+      pagination={{
+        defaultPageSize: 6,
+      }}
+      tableExtra={
         selectedRowKeys.length ? (
           <Alert
-            style={{ marginBottom: 10 }}
-            message={`已选择 ${selectedRowKeys.length} 项，共 ${
-              tableRef.current?.pagination.total || 0
-            } 项`}
             type="info"
+            message={`已选择 ${selectedRowKeys.length} 条，共 ${actionRef.current?.pagination.total || 0} 条`}
             action={
               <a
                 onClick={() => {
@@ -57,15 +56,9 @@ const Demo3: FC = () => {
           />
         ) : null
       }
-      formRef={formRef}
       columns={columns}
       request={async (params, requestType) => {
-        const res: Record<string, any> = await apiGetUserList(params);
-        return {
-          success: true,
-          data: res.data,
-          total: res.total,
-        };
+        return await apiGetUserList(params);
       }}
     />
   );

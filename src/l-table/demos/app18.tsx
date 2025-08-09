@@ -58,6 +58,7 @@ const Demo18: React.FC = () => {
   return (
     <div>
       <LTable
+        rowKey="id"
         size="middle"
         sortColumn={{
           render: (count) => <Tag>{count}</Tag>,

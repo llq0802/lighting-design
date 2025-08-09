@@ -99,9 +99,17 @@ nav:
 
 <code src='./demos/app17.tsx' background="#f5f5f5"></code>
 
+### 与骨架屏结合
+
+<code src='./demos/app19.tsx' background="#f5f5f5"></code>
+
 ### 动态列 columns
 
 <code src='./demos/app18.tsx' background="#f5f5f5"></code>
+
+### 表格选中功能
+
+<code src='./demos/app30.tsx' background="#f5f5f5"></code>
 
 ### 无边框表格与排序
 
