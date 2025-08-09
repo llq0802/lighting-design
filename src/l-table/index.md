@@ -79,7 +79,13 @@ nav:
 
 <code src='./demos/app12.tsx' background="#f5f5f5"></code>
 
+### 通过 Token 修改样式
+
 <code src='./demos/app13.tsx' background="#f5f5f5"></code>
+
+### tableExtra title footer summary
+
+<code src='./demos/app14.tsx' background="#f5f5f5"></code>
 
 ### 无边框表格与排序
 

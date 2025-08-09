@@ -259,6 +259,8 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
   /**
    * 分页配置
    * - 与 antd.Table 内置分页不同
+   * - 传入配置可覆盖内置分页配置
+   * - 一般情况不要传入 current 和 pageSize 请使用 defaultCurrent 和 defaultPageSize
    * - 更多配置项请查看 [PaginationProps](https://ant.design/components/pagination-cn/#Pagination)
    *
    */
