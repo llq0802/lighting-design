@@ -1,4 +1,4 @@
-import { message } from 'antd';
+import { Button, message, type ButtonProps } from 'antd';
 import {
   LForm,
   LFormItemInput,
@@ -7,38 +7,38 @@ import {
   LModalForm,
   type LTableActionRef,
 } from 'lighting-design';
-import { useShow, type UseShowInstanceRef } from 'rc-use-hooks';
 import type { FC } from 'react';
 import { sleep } from '../../../test';
 
 type PropsType = {
   actionRef: React.MutableRefObject<LTableActionRef | undefined>;
-  modalRef: UseShowInstanceRef;
-  [key: string]: any;
-};
+} & ButtonProps;
 
-const SModal: FC<PropsType> = ({ modalRef, actionRef, ...restProps }) => {
-  const { showRecord, open, updateOpen } = useShow(modalRef);
+const SModalEditButton: FC<PropsType> = ({ actionRef, ...restProps }) => {
   const [form] = LForm.useForm();
-  const isAdd = !showRecord || Object.keys(showRecord)?.length === 0;
-
   return (
     <LModalForm
-      open={open}
-      onOpenChange={updateOpen}
       labelWidth={100}
       form={form}
-      title={!isAdd ? '修改' : '新增'}
+      title={'Modal编辑'}
       onFinish={async (values) => {
         await sleep();
-        message.success('操作成功!');
+        message.success('编辑成功!');
         actionRef.current?.onSearch();
         return true;
       }}
+      trigger={
+        <Button type="primary" {...restProps}>
+          Modal编辑
+        </Button>
+      }
       afterOpen={() => {
-        form.setFieldsValue(showRecord);
+        form.setFieldsValue({
+          input: '法外狂徒',
+          select: '1',
+          radio: 'a',
+        });
       }}
-      {...restProps}
     >
       <LFormItemInput name="input" required label="输入框" />
       <LFormItemSelect
@@ -63,4 +63,4 @@ const SModal: FC<PropsType> = ({ modalRef, actionRef, ...restProps }) => {
     </LModalForm>
   );
 };
-export default SModal;
+export default SModalEditButton;

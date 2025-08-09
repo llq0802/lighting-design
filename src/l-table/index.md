@@ -87,6 +87,14 @@ nav:
 
 <code src='./demos/app14.tsx' background="#f5f5f5"></code>
 
+### 与弹窗 抽屉集成 1
+
+<code src='./demos/app15.tsx' background="#f5f5f5"></code>
+
+### 与弹窗 抽屉集成 2
+
+<code src='./demos/app15.tsx' background="#f5f5f5"></code>
+
 ### 无边框表格与排序
 
 ### Excel 导入与导出

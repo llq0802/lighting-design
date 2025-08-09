@@ -1,44 +1,39 @@
-import { message } from 'antd';
-import {
-  LForm,
-  LFormItemInput,
-  LFormItemRadio,
-  LFormItemSelect,
-  LModalForm,
-  type LTableActionRef,
-} from 'lighting-design';
-import { useShow, type UseShowInstanceRef } from 'rc-use-hooks';
+import { Button, message, type ButtonProps } from 'antd';
+import type { LTableActionRef } from 'lighting-design';
+import { LDrawerForm, LForm, LFormItemInput, LFormItemRadio, LFormItemSelect } from 'lighting-design';
 import type { FC } from 'react';
 import { sleep } from '../../../test';
 
-type PropsType = {
+type TypeProps = {
   actionRef: React.MutableRefObject<LTableActionRef | undefined>;
-  modalRef: UseShowInstanceRef;
-  [key: string]: any;
-};
+} & ButtonProps;
 
-const SModal: FC<PropsType> = ({ modalRef, actionRef, ...restProps }) => {
-  const { showRecord, open, updateOpen } = useShow(modalRef);
+const SDrawerEditButton: FC<TypeProps> = ({ actionRef, ...restProps }) => {
   const [form] = LForm.useForm();
-  const isAdd = !showRecord || Object.keys(showRecord)?.length === 0;
 
   return (
-    <LModalForm
-      open={open}
-      onOpenChange={updateOpen}
+    <LDrawerForm
       labelWidth={100}
       form={form}
-      title={!isAdd ? '修改' : '新增'}
+      title={'Drawer编辑'}
       onFinish={async (values) => {
-        await sleep();
-        message.success('操作成功!');
+        await sleep(); // 发起请求
+        message.success('编辑成功!');
         actionRef.current?.onSearch();
         return true;
       }}
+      trigger={
+        <Button type="primary" {...restProps}>
+          Drawer编辑
+        </Button>
+      }
       afterOpen={() => {
-        form.setFieldsValue(showRecord);
+        form.setFieldsValue({
+          input: '法外狂徒',
+          select: '1',
+          radio: 'a',
+        });
       }}
-      {...restProps}
     >
       <LFormItemInput name="input" required label="输入框" />
       <LFormItemSelect
@@ -60,7 +55,7 @@ const SModal: FC<PropsType> = ({ modalRef, actionRef, ...restProps }) => {
           { label: 'CC', value: 'c' },
         ]}
       />
-    </LModalForm>
+    </LDrawerForm>
   );
 };
-export default SModal;
+export default SDrawerEditButton;

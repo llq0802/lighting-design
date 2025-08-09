@@ -9,13 +9,13 @@ import { sleep } from '../../../test';
 
 type TypeProps = {
   actionRef: React.MutableRefObject<LTableActionRef | undefined>;
-  modalRef: UseShowInstanceRef;
+  drawerRef: UseShowInstanceRef;
   [key: string]: any;
 };
 
-const SDrawer: FC<TypeProps> = ({ modalRef, actionRef, ...restProps }) => {
+const SDrawer: FC<TypeProps> = ({ drawerRef, actionRef, ...restProps }) => {
   const [form] = LForm.useForm();
-  const { showRecord, open, updateOpen } = useShow(modalRef);
+  const { showRecord, open, updateOpen } = useShow(drawerRef);
   const isAdd = !showRecord || Object.keys(showRecord)?.length === 0;
 
   useEffect(() => {
