@@ -17,6 +17,6 @@ export function useMergeLoading(requestLoading: boolean, outLoading: Record<stri
   return {
     spinning: requestLoading,
     ...outLoading,
-    style: { ...outLoading.style, ...style },
+    style: { ...style, ...outLoading.style },
   };
 }

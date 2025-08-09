@@ -1,4 +1,4 @@
-import { LoadingOutlined } from '@ant-design/icons';
+import { Loading3QuartersOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
 import { Card, ConfigProvider, Flex, Pagination, Spin, Table, Tooltip, type PaginationProps } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
@@ -63,7 +63,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
   const formRef = useLFormInstance(outForm);
 
   const hasDataSource = !!dataSource;
-  const hasFormItems = formItems && formItems?.length > 0;
+  const hasFormItems = !!(formItems && formItems?.length > 0);
 
   const innerRequestOptions = {
     cacheKey: requestCacheKey,
@@ -202,14 +202,12 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   const handleCustom: LTableActionRef['onCustom'] = ({ current, pageSize, extraParams, isResetFormValues }) => {
     if (hasDataSource) return;
-
     if (!canRun) {
-      setInnerPagination((prev) => ({
+      setInnerPagination(() => ({
         current,
         pageSize,
       }));
     }
-
     const formValues = getFormValues(isResetFormValues);
     run(
       {
@@ -224,14 +222,12 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   const handleReload = (extraParams?: Record<string, any>) => {
     if (hasDataSource) return;
-
     if (!canRun) {
       setInnerPagination((prev) => ({
         current: prev.current,
         pageSize: prev.pageSize,
       }));
     }
-
     const formValues = getFormValues();
     run(
       {
@@ -246,14 +242,12 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   const handleReset = (extraParams?: Record<string, any>) => {
     if (hasDataSource) return;
-
     if (!canRun) {
-      setInnerPagination((prev) => ({
+      setInnerPagination(() => ({
         current: defaultCurrent,
         pageSize: defaultPageSize,
       }));
     }
-
     const formValues = getFormValues(true);
     run(
       {
@@ -269,14 +263,12 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
   const handleSearch = (extraParams?: Record<string, any>) => {
     if (hasDataSource) return;
-
     if (!canRun) {
       setInnerPagination((prev) => ({
         current: defaultCurrent,
         pageSize: prev.pageSize,
       }));
     }
-
     const formValues = getFormValues();
     run(
       {
@@ -364,7 +356,6 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
             pageSize: prev.pageSize,
           }));
         }
-
         run(
           {
             formValues,
@@ -429,9 +420,10 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
   }
 
   const innerSpinProps = {
-    indicator: <LoadingOutlined spin style={{ fontSize: loadingProps?.style?.fontSize || 36 }} />,
+    size: 'large',
+    indicator: <Loading3QuartersOutlined spin />,
     ...loadingProps,
-  };
+  } as const;
 
   if (!hasFormItems) {
     const innerNoFormTableDom = (

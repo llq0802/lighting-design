@@ -93,7 +93,15 @@ nav:
 
 ### 与弹窗 抽屉集成 2
 
-<code src='./demos/app15.tsx' background="#f5f5f5"></code>
+<code src='./demos/app16.tsx' background="#f5f5f5"></code>
+
+### 自定义渲染
+
+<code src='./demos/app17.tsx' background="#f5f5f5"></code>
+
+### 动态列 columns
+
+<code src='./demos/app18.tsx' background="#f5f5f5"></code>
 
 ### 无边框表格与排序
 
