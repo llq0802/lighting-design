@@ -111,6 +111,10 @@ nav:
 
 <code src='./demos/app30.tsx' background="#f5f5f5"></code>
 
+### 使用 dataSource
+
+<code src='./demos/app20.tsx' background="#f5f5f5"></code>
+
 ### 无边框表格与排序
 
 ### Excel 导入与导出

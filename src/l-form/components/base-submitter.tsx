@@ -95,7 +95,6 @@ const LFormSubmitter = <T,>(props: LFormSubmitterProps<T>) => {
       if (submitButtonProps?.htmlType !== 'submit' && !isEnterSubmit) {
         form?.submit?.();
       }
-
       const valuse = form?.getFieldsValue();
       Promise.resolve().then(() => onSubmit?.(valuse, e));
     }

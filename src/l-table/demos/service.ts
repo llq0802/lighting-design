@@ -3,6 +3,7 @@ import { LTableProps } from 'lighting-design';
 
 export interface DataType {
   key: string;
+  id: string;
   name: string;
   age: number;
   address: string;
