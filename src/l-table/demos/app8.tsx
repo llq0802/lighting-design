@@ -15,7 +15,7 @@ const App: React.FC<PropsType> = ({}) => {
         size="middle"
         rowKey="id"
         queryFormProps={{
-          isSpace: true,
+          layout: 'inline',
         }}
         pagination={{ defaultPageSize: 5 }}
         formItems={[
@@ -44,7 +44,8 @@ const App: React.FC<PropsType> = ({}) => {
         size="middle"
         rowKey="id"
         queryFormProps={{
-          isSpace: true,
+          layout: 'inline',
+
           submitter: {
             position: 'flex-start',
           },
@@ -76,7 +77,8 @@ const App: React.FC<PropsType> = ({}) => {
         size="middle"
         rowKey="id"
         queryFormProps={{
-          isSpace: true,
+          layout: 'inline',
+
           justify: 'end',
           submitter: {
             position: 'flex-start',
@@ -110,7 +112,8 @@ const App: React.FC<PropsType> = ({}) => {
         size="middle"
         rowKey="id"
         queryFormProps={{
-          isSpace: true,
+          layout: 'inline',
+
           justify: 'center',
           submitter: {
             position: 'flex-start',

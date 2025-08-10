@@ -5,7 +5,7 @@ const Demo1 = () => {
   return (
     <Flex vertical>
       <LQueryForm
-        isSpace
+        layout="inline"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
         }}
@@ -18,7 +18,7 @@ const Demo1 = () => {
       <Divider />
 
       <LQueryForm
-        isSpace
+        layout="inline"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
         }}
@@ -35,7 +35,7 @@ const Demo1 = () => {
 
       <LQueryForm
         justify="end"
-        isSpace
+        layout="inline"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
         }}
@@ -52,7 +52,7 @@ const Demo1 = () => {
 
       <LQueryForm
         justify="center"
-        isSpace
+        layout="inline"
         onFinish={async (values) => {
           console.log('onFinish-values ', values);
         }}

@@ -23,10 +23,7 @@ export interface LQueryFormProps<T = any> extends LFormProps<T> {
    * - 如果不想有 ***折叠/展开***按钮 就不要配置 showColsNumber
    * */
   showColsNumber?: number;
-  /**
-   * 是否水平紧凑模式
-   */
-  isSpace?: boolean;
+
   /**
    * 配置每一项的间隔
    */

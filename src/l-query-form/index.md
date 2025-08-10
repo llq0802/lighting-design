@@ -61,7 +61,6 @@ import { LQueryForm } from 'lighting-design';
 
 | 参数                  | 说明                                                                                         | 类型                               | 默认值  |
 | --------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------- | ------- |
-| isSpace               | 是否水平紧凑模式 (`类似行盒元素依次排列，不足宽则会换行`)                                    | `boolean`                          | `false` |
 | isApproachLastItem    | `重置 查询`按钮组是否紧挨着最后的表单项                                                      | `boolean`                          | `false` |
 | gap                   | 配置每一项的间隔                                                                             | `RowProps['gutter']`               | `16`    |
 | justify               | justify                                                                                      | `RowProps['justify']`              | `-`     |

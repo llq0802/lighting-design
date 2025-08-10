@@ -39,9 +39,9 @@ const Collapse: FC<CollapseProps> = memo(({ collapsed, onToggle, collapseClassNa
 
 function LQueryForm<T = any>(props: LQueryFormProps<T>) {
   const {
+    layout,
     submitter,
     isCollapsed = true,
-    isSpace = false,
     showColsNumber,
     gap = 16,
     column = 4,
@@ -106,7 +106,7 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
               style={{
                 display: 'flex',
                 alignItems: 'baseline',
-                alignSelf: restProps?.layout === 'vertical' ? 'flex-end' : 'flex-start',
+                alignSelf: layout === 'vertical' ? 'flex-end' : 'flex-start',
                 gap: submitterProps ? submitterProps.gap : 8,
                 marginLeft: submitterProps && submitterProps.position === 'flex-end' ? 'auto' : 'initial',
                 ...submitterWrapperStyle,
@@ -118,22 +118,24 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
           </Row>
         );
       }}
+      layout={layout === 'inline' ? void 0 : layout}
       {...restProps}
     >
       <>
         {chindrenItems?.map((item) => {
           const style = { display: item.hidden ? 'none' : void 0, ...item.colProps?.style };
 
-          const itemColProps = !isSpace
-            ? {
-                ...(typeof column !== 'number' ? column : {}),
-                ...item.colProps,
-              }
-            : {};
-          const span = !isSpace && typeof column === 'number' ? Math.floor(24 / column) : void 0;
+          const itemColProps =
+            layout === 'inline'
+              ? {}
+              : {
+                  span: typeof column === 'number' ? Math.floor(24 / column) : void 0,
+                  ...(typeof column !== 'number' ? column : {}),
+                  ...item.colProps,
+                };
 
           return (
-            <Col key={item.rowKey} span={span} {...itemColProps} style={style}>
+            <Col key={item.rowKey} {...itemColProps} style={style}>
               {item.content}
             </Col>
           );
