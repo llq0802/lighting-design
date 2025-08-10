@@ -1,152 +1,122 @@
-import { Col, Form, Row, Spin } from 'antd';
-import classnames from 'classnames';
+import { Col, Flex, Form, Row, Spin } from 'antd';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
-import type { FC } from 'react';
-import { useMemo } from 'react';
-import './index.less';
+import { useMemo, type ReactNode } from 'react';
 import type { LDescriptionsProps } from './interface';
+import { useStyles } from './styles';
 
-const prefixCls = 'lightd-descriptions';
-
-const LDescriptions: FC<LDescriptionsProps> = ({
+const LDescriptions: <T = Record<string, ReactNode>>(props: LDescriptionsProps<T>) => JSX.Element = ({
   wrapperCol,
   labelCol,
   renderTitle,
-  marginBottom = 16,
+  itemBottom = 16,
   className,
+  headerClassName,
   style,
+  headerStyle,
   title,
   extra,
   columns = emptyArray,
   record = emptyObject,
-  headerStyle = emptyObject,
-  column: outColumn = 3,
+  column = 3,
   layout = 'horizontal',
   titleAlign = 'right',
   titleWidth,
   titleWrap,
-  gutter = 16,
   loading = false,
   isLastBlock = true,
-  colon = 'rgba(0, 0, 0, 0.88)',
+  //
+  gap = 16,
+  justify,
+  rowProps,
+  colProps,
+  colon,
 }) => {
+  const { cx, styles } = useStyles();
+
   const spinProps = useMemo(() => {
     if (typeof loading === 'boolean') return { spinning: loading };
     return loading;
   }, [loading]);
 
-  const { column, colSpan } = useMemo(() => {
-    if (typeof outColumn === 'number') {
-      return {
-        column: outColumn,
-        colSpan: {},
-      };
-    }
-    return {
-      column: void 0,
-      colSpan: outColumn,
-    };
-  }, [outColumn]);
-  const isInline = layout === 'inline';
   const isHorizontal = layout === 'horizontal';
-  return (
-    <Spin {...spinProps}>
-      <Form
-        requiredMark={renderTitle}
-        className={classnames(`${prefixCls}`, className)}
-        layout={layout}
-        component="div"
-        labelWrap={titleWrap}
-        style={{
-          // @ts-ignore
-          [`--${prefixCls}-colon-color`]: colon || 'rgba(0, 0, 0, 0.88)',
-          ...style,
-        }}
-      >
-        {(!!title || !!extra) && (
-          <div
-            className={classnames(`${prefixCls}-header`)}
-            style={{
-              display: 'flex',
-              marginBottom: 16,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              ...headerStyle,
-            }}
-          >
-            <div role="title">{title}</div>
-            <div role="extra">{extra}</div>
-          </div>
-        )}
-        <Row gutter={gutter}>
-          {columns.map(
-            (
-              {
-                render,
-                dataIndex,
-                title,
-                style: itemStyle,
-                span,
-                tooltip,
-                colStyle,
-                required,
-                emptyNode,
-                titleWidth: itemTitleWidth,
-                col: itemCol = {},
-              },
-              i,
-            ) => {
-              const curVal = record[dataIndex];
-              const isLastItem = i === columns.length - 1;
-              const getSpanNum = () => {
-                if (typeof column !== 'number' || isInline) {
-                  return {};
-                }
-                if (isLastItem) {
-                  return {
-                    span: isLastBlock ? void 0 : span || Math.floor(24 / (column || 3)),
-                  };
-                }
-                return {
-                  span: span || Math.floor(24 / (column || 3)),
-                };
-              };
-
-              return (
-                <Col
-                  key={dataIndex || i}
-                  {...getSpanNum()}
-                  {...colSpan}
-                  {...itemCol}
-                  style={{
-                    maxWidth: isLastItem && isLastBlock ? '100%' : void 0,
-                    ...colStyle,
-                  }}
-                  flex={isLastItem && isLastBlock ? 1 : void 0}
-                >
-                  <LFormItem
-                    required={required}
-                    tooltip={tooltip}
-                    labelWidth={isHorizontal ? itemTitleWidth || titleWidth : void 0}
-                    labelAlign={titleAlign}
-                    label={title}
-                    colon={!!colon}
-                    formItemBottom={marginBottom}
-                    labelCol={labelCol}
-                    wrapperCol={wrapperCol}
-                    style={itemStyle}
-                  >
-                    {render ? render?.(curVal, record, i) : curVal ?? emptyNode}
-                  </LFormItem>
-                </Col>
-              );
+  const dom = (
+    <Form
+      className={className}
+      style={style}
+      requiredMark={renderTitle}
+      layout={layout}
+      component="div"
+      labelWrap={titleWrap}
+    >
+      {(!!title || !!extra) && (
+        <Flex align="center" justify="space-between" className={cx(styles.header, headerClassName)} style={headerStyle}>
+          <div data-role="title">{title}</div>
+          <div data-role="extra">{extra}</div>
+        </Flex>
+      )}
+      <Row gutter={gap} justify={justify} {...rowProps}>
+        {columns.map(
+          (
+            {
+              title,
+              dataIndex,
+              tooltip,
+              required,
+              disabled,
+              emptyNode,
+              alignItems,
+              titleWidth: itemTitleWidth,
+              colProps: itemColProps,
+              formItemProps,
+              render,
             },
-          )}
-        </Row>
-      </Form>
-    </Spin>
+            i,
+          ) => {
+            const curVal = record[dataIndex];
+            const isLastItem = i === columns.length - 1;
+            const getSpanNum = () => {
+              if (typeof column !== 'number') return column;
+              return { span: Math.floor(24 / column) };
+            };
+
+            return (
+              <Col
+                key={dataIndex || i}
+                flex={isLastItem && isLastBlock ? 1 : void 0}
+                {...colProps}
+                {...getSpanNum()}
+                {...itemColProps}
+                style={{
+                  maxWidth: isLastBlock ? 'none' : void 0,
+                  ...colProps?.style,
+                  ...itemColProps?.style,
+                }}
+              >
+                <LFormItem
+                  labelCol={labelCol}
+                  wrapperCol={wrapperCol}
+                  required={required}
+                  tooltip={tooltip}
+                  disabled={disabled}
+                  labelWidth={isHorizontal ? itemTitleWidth || titleWidth : void 0}
+                  labelAlign={titleAlign}
+                  alignItems={alignItems}
+                  label={title}
+                  colon={!!colon}
+                  formItemBottom={itemBottom}
+                  {...formItemProps}
+                >
+                  {render ? render?.(curVal, record, i) : curVal ?? emptyNode}
+                </LFormItem>
+              </Col>
+            );
+          },
+        )}
+      </Row>
+    </Form>
   );
+  return spinProps?.spinning ? <Spin {...spinProps}>{dom}</Spin> : dom;
 };
 export default LDescriptions;
 export * from './interface';

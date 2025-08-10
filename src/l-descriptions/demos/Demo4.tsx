@@ -15,33 +15,11 @@ const record = Mock.mock({
 const Demo3 = () => {
   return (
     <>
-      <Card title={<h3>内联模式</h3>}>
-        <LDescriptions
-          layout="inline"
-          colon={false}
-          columns={[
-            { title: <h4>编码:</h4>, dataIndex: 'guid', emptyNode: '---' },
-            { title: <h4>姓名:</h4>, dataIndex: 'name' },
-            { title: <h4>性别:</h4>, dataIndex: 'sex' },
-            { title: <h4>年龄:</h4>, dataIndex: 'age' },
-            { title: <h4>出生日期:</h4>, dataIndex: 'date' },
-            { title: <h4>地址:</h4>, dataIndex: 'address' },
-            { title: <h4>IP:</h4>, dataIndex: 'ip', emptyNode: '127.0.0.1' },
-            { title: <h4>手机号:</h4>, dataIndex: 'phone' },
-            { title: <h4>邮箱:</h4>, dataIndex: 'email' },
-            { title: <h4>版本:</h4>, dataIndex: 'version', emptyNode: '0.0.0' },
-            { title: <h4>描述:</h4>, dataIndex: 'desc', emptyNode: '---' },
-          ]}
-          record={record}
-        />
-      </Card>
-      <br />
-      <br />
       <Card title={<h3>垂直模式</h3>}>
         <LDescriptions
           layout="vertical"
           colon={false}
-          marginBottom={24}
+          itemBottom={24}
           columns={[
             { title: <b>编码</b>, dataIndex: 'guid', emptyNode: '---' },
             { title: <b>姓名</b>, dataIndex: 'name' },

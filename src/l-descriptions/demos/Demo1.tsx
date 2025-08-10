@@ -1,9 +1,10 @@
+import { Button } from 'antd';
 import Mock from 'better-mock';
 import { LDescriptions } from 'lighting-design';
 
 const record = Mock.mock({
   name: '@cname',
-  address: '@county(true)',
+  address: '@county(true)@county(true)@county(true)',
   ip: '@ip',
   'age|20-50': 20,
   date: '@date',
@@ -19,6 +20,9 @@ const Demo1 = () => {
   return (
     <div>
       <LDescriptions
+        layout="inline"
+        title="用户信息"
+        extra={<Button type="link">操作</Button>}
         columns={[
           { title: '编码', dataIndex: 'guid' },
           { title: '姓名', dataIndex: 'name' },

@@ -112,10 +112,8 @@ function LQueryForm<T = any>(props: LQueryFormProps<T>) {
                 ...submitterWrapperStyle,
               }}
             >
-              <>
-                {doms.submitterDom}
-                {collapseDom}
-              </>
+              {doms.submitterDom}
+              {collapseDom}
             </Col>
           </Row>
         );
