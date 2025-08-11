@@ -27,7 +27,7 @@ nav:
 
 ### 基础用法
 
-<code src='./demos/demo.tsx' background="#f5f5f5"></code>
+<code src='./demos/app.tsx' background="#f5f5f5"></code>
 
 ### 无边框表格与排序
 
@@ -110,6 +110,10 @@ nav:
 ### 表格选中功能
 
 <code src='./demos/app30.tsx' background="#f5f5f5"></code>
+
+### 树形表格与展开
+
+<code src='./demos/app21.tsx' background="#f5f5f5"></code>
 
 ### 使用 dataSource
 

@@ -8,8 +8,8 @@ type PropsType = {};
 const App: React.FC<PropsType> = ({}) => {
   const tblRef: Parameters<typeof Table>[0]['ref'] = useRef(null);
   useEffect(() => {
-    console.log('==tblRef.currentscrollTo====>', tblRef.current!.scrollTo);
-    console.log('==tblRef.currentnativeElement====>', tblRef.current!.nativeElement);
+    // console.log('==tblRef.currentscrollTo====>', tblRef.current!.scrollTo);
+    // console.log('==tblRef.currentnativeElement====>', tblRef.current!.nativeElement);
   }, []);
   return (
     <div>
