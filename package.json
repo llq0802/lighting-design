@@ -79,7 +79,7 @@
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.0.0",
     "@umijs/lint": "^4.0.0",
-    "antd": "^5.26.7",
+    "antd": "^5.27.0",
     "antd-img-crop": "^4.21.0",
     "better-mock": "^0.3.6",
     "classnames": "^2.5.1",

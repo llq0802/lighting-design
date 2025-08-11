@@ -37,6 +37,6 @@ export type LCollapseCardProps = {
   /**
    * antd折叠卡片的items每一项的属性
    */
-  contentProps?: NonNullable<CollapseProps['items']>[number];
+  contentProps?: Omit<NonNullable<CollapseProps['items']>[number], 'children' | 'key'>;
   children: ReactNode;
 } & Omit<CollapseProps, 'items' | 'activeKey' | 'defaultActiveKey' | 'onChange' | 'accordion'>;

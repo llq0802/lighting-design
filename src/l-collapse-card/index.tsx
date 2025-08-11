@@ -1,7 +1,7 @@
 import { useControllableValue } from 'ahooks';
 import type { CollapseProps } from 'antd';
 import { Collapse } from 'antd';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
+import { emptyArray } from 'lighting-design/constants';
 import { type FC } from 'react';
 import type { LCollapseCardProps } from './interface';
 
@@ -21,7 +21,7 @@ const LCollapseCard: FC<LCollapseCardProps> = (props) => {
     collapsed: outCollapsed,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onCollapsed: outOnCollapsed,
-    contentProps = emptyObject,
+    contentProps,
     ...restProps
   } = props;
 

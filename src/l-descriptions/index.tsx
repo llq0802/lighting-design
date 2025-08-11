@@ -1,10 +1,11 @@
+import { Loading3QuartersOutlined } from '@ant-design/icons';
 import { Col, Flex, Form, Row, Spin } from 'antd';
 import LFormItem from 'lighting-design/l-form-item';
 import { useMemo } from 'react';
 import type { LDescriptionsProps } from './interface';
 import { useStyles } from './styles';
 
-const LDescriptions: <T = Record<string, any>>(props: LDescriptionsProps<T>) => JSX.Element = ({
+const LDescriptions: <T extends Record<string, any> = any>(props: LDescriptionsProps<T>) => JSX.Element = ({
   renderTitle,
   itemBottom = 16,
   className,
@@ -14,7 +15,7 @@ const LDescriptions: <T = Record<string, any>>(props: LDescriptionsProps<T>) => 
   title,
   extra,
   columns,
-  record = {},
+  record = {} as Record<string, any>,
   column = 3,
   layout = 'horizontal',
   titleAlign = 'right',
@@ -109,7 +110,13 @@ const LDescriptions: <T = Record<string, any>>(props: LDescriptionsProps<T>) => 
       </Row>
     </Form>
   );
-  return spinProps?.spinning ? <Spin {...spinProps}>{dom}</Spin> : dom;
+  return spinProps?.spinning ? (
+    <Spin size="large" indicator={<Loading3QuartersOutlined spin />} {...spinProps}>
+      {dom}
+    </Spin>
+  ) : (
+    dom
+  );
 };
 export default LDescriptions;
 export * from './interface';

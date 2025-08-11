@@ -20,17 +20,10 @@ const MyModal = ({ modalRef }: { modalRef: UseShowInstanceRef }) => {
   };
 
   return (
-    <Modal
-      centered
-      title="详情信息"
-      loading={loading}
-      width="50%"
-      open={open}
-      onOk={handleCancel}
-      onCancel={handleCancel}
-    >
+    <Modal centered title="详情信息" width="50%" open={open} onOk={handleCancel} onCancel={handleCancel}>
       <Card>
         <LDescriptions
+          loading={loading}
           titleWidth={100}
           column={2}
           columns={[
