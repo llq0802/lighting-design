@@ -29,6 +29,10 @@ export interface LHighlightTextProps extends React.HTMLAttributes<HTMLSpanElemen
    */
   text: string;
   /**
+   *展示的文本内容
+   */
+  children: string;
+  /**
    *要高亮的文本数组, 例如: ['lighting', 'design'] 支持动态更新
    */
   highlightWords: string[];

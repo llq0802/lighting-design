@@ -19,12 +19,12 @@ const LSkeleton: FC<LSkeletonProps> = ({
   children,
 }) => {
   const dom = (
-    <Flex vertical={vertical} flex={1} wrap="nowrap" gap={gap} className={className} style={style}>
+    <Flex vertical={vertical} flex={1} gap={gap} className={className} style={style}>
       {new Array(count).fill(0).map((_, i) => (
         <Skeleton.Button
           key={i}
-          active={active}
           block
+          active={active}
           size={size}
           shape={shape}
           style={{
