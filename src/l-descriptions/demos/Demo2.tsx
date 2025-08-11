@@ -21,7 +21,8 @@ const Demo2 = () => {
     <div>
       <LDescriptions
         colon={false}
-        titleWidth={100}
+        titleWidth={200}
+        titleAlign="right"
         title={<h3>用户信息</h3>}
         extra={<Button type="primary">操作</Button>}
         columns={[

@@ -72,8 +72,6 @@ import { LDescriptions } from 'lighting-design';
 | colon        | 每一项标题后面是否加上`：`符号, string 时可以自定义颜色                   | `boolean\|string`                        | `true`         |
 | isLastBlock  | 最后一项是否占满`包含块`                                                  | `boolean`                                | `true`         |
 | marginBottom | 每一项的`marginBottom`值                                                  | `number \| string`                       | `16`           |
-| labelCol     | `FormProps['labelCol']` 不要与`titleWidth`同时配置                        | `FormProps['labelCol']`                  | `-`            |
-| wrapperCol   | `FormProps['wrapperCol']` 不要与`titleWidth`同时配置                      | `FormProps['wrapperCol']`                | `-`            |
 | loading      | loading                                                                   | `boolean \| SpinProps`                   | `-`            |
 | record       | 字段数据源                                                                | `Record<string, ReactNode>`              | `-`            |
 | renderTitle  | 重新渲染每一项的标题                                                      | `FormProps['requiredMark']`              | `-`            |

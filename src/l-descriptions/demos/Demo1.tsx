@@ -20,7 +20,6 @@ const Demo1 = () => {
   return (
     <div>
       <LDescriptions
-        layout="inline"
         title="用户信息"
         extra={<Button type="link">操作</Button>}
         columns={[

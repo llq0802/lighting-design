@@ -3,8 +3,6 @@ import type { LFormItemProps } from 'lighting-design/l-form-item/interface';
 import type { ReactNode } from 'react';
 
 export type LDescriptionsProps<T = Record<string, ReactNode>> = {
-  wrapperCol?: FormProps['wrapperCol'];
-  labelCol?: FormProps['labelCol'];
   /**
    *左上角标题
    */
@@ -76,7 +74,7 @@ export type LDescriptionsProps<T = Record<string, ReactNode>> = {
   /**
    *字段数据
    */
-  record?: Record<T & string, ReactNode>;
+  record?: T;
   /**
    *重新渲染每一项的标题
    */
@@ -98,8 +96,6 @@ export type LDescriptionItem<T> = {
   required?: boolean;
   /** 空节点展示的内容 */
   emptyNode?: ReactNode;
-  /** 是否禁用当前项 */
-  disabled?: boolean;
   /** 重新渲染当前项 */
-  render?: (curVal: ReactNode, record: T, index: number) => ReactNode;
+  render?: (curVal: T[keyof T], record: T, index: number) => ReactNode;
 };

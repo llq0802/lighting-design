@@ -1,8 +1,16 @@
 import { Badge, Card, Tag, Typography, Watermark } from 'antd';
 import Mock from 'better-mock';
 import { LDescriptions } from 'lighting-design';
-
-const record = Mock.mock({
+interface Record {
+  name: string;
+  address: string;
+  age: number;
+  date: string;
+  phone: string;
+  email: string;
+  sex: '男' | '女';
+}
+const record: Record = Mock.mock({
   name: '@cname',
   address: '@county(true)',
   'age|20-50': 20,
@@ -15,6 +23,7 @@ const record = Mock.mock({
 const Demo3 = () => {
   Object.keys(record).forEach((key) => {
     if (key === 'age') {
+      //@ts-ignore
       record[key] = (
         <div
           style={{
@@ -37,7 +46,8 @@ const Demo3 = () => {
   return (
     <Watermark content="Lighting Design">
       <Card>
-        <LDescriptions
+        <LDescriptions<Record>
+          title="用户信息"
           colon={false}
           columns={[
             {

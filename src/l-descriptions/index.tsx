@@ -1,13 +1,10 @@
 import { Col, Flex, Form, Row, Spin } from 'antd';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
 import LFormItem from 'lighting-design/l-form-item';
-import { useMemo, type ReactNode } from 'react';
+import { useMemo } from 'react';
 import type { LDescriptionsProps } from './interface';
 import { useStyles } from './styles';
 
-const LDescriptions: <T = Record<string, ReactNode>>(props: LDescriptionsProps<T>) => JSX.Element = ({
-  wrapperCol,
-  labelCol,
+const LDescriptions: <T = Record<string, any>>(props: LDescriptionsProps<T>) => JSX.Element = ({
   renderTitle,
   itemBottom = 16,
   className,
@@ -16,8 +13,8 @@ const LDescriptions: <T = Record<string, ReactNode>>(props: LDescriptionsProps<T
   headerStyle,
   title,
   extra,
-  columns = emptyArray,
-  record = emptyObject,
+  columns,
+  record = {},
   column = 3,
   layout = 'horizontal',
   titleAlign = 'right',
@@ -56,14 +53,13 @@ const LDescriptions: <T = Record<string, ReactNode>>(props: LDescriptionsProps<T
         </Flex>
       )}
       <Row gutter={gap} justify={justify} {...rowProps}>
-        {columns.map(
+        {columns?.map(
           (
             {
               title,
               dataIndex,
               tooltip,
               required,
-              disabled,
               emptyNode,
               alignItems,
               titleWidth: itemTitleWidth,
@@ -73,7 +69,7 @@ const LDescriptions: <T = Record<string, ReactNode>>(props: LDescriptionsProps<T
             },
             i,
           ) => {
-            const curVal = record[dataIndex];
+            const curVal = record[dataIndex] as any;
             const isLastItem = i === columns.length - 1;
             const getSpanNum = () => {
               if (typeof column !== 'number') return column;
@@ -94,16 +90,13 @@ const LDescriptions: <T = Record<string, ReactNode>>(props: LDescriptionsProps<T
                 }}
               >
                 <LFormItem
-                  labelCol={labelCol}
-                  wrapperCol={wrapperCol}
                   required={required}
                   tooltip={tooltip}
-                  disabled={disabled}
                   labelWidth={isHorizontal ? itemTitleWidth || titleWidth : void 0}
                   labelAlign={titleAlign}
                   alignItems={alignItems}
                   label={title}
-                  colon={!!colon}
+                  colon={colon}
                   formItemBottom={itemBottom}
                   {...formItemProps}
                 >

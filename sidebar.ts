@@ -85,10 +85,6 @@ export default {
           link: '/components/l-tree-table',
         },
         {
-          title: 'LH5Preview-H5预览',
-          link: '/components/l-h5-preview',
-        },
-        {
           title: 'LHighlightText-文本高亮',
           link: '/components/l-highlight-text',
         },
