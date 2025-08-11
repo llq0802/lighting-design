@@ -25,13 +25,13 @@ export type LTableActionRef<T = any> = {
   /** request 异步函数的参数 */
   params: [LTableRequestParams, LTableRequestType] | [];
   /** 表格数据与总数*/
-  tableData: T[];
+  tableData: {
+    list: T[];
+    total: number;
+  };
   /**
-   * 类似 React.setState 直接修改当前表格的数据
    *
-   * 推荐使用函数的形式修改
-   *
-   * 每次更新需要 `list` 引用地址不一样才能更新界面
+   * 直接修改表格的数据与总数
    * - 仅在使用`request`获取数据有效
    */
   setTableData: Dispatch<SetStateAction<{ list: T[]; total: number }>>;
@@ -151,6 +151,7 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
 
   /**
    * `ahooks` 的 `useRequest` 的配置项
+   * - `onInitRequest` 配置项会在第一次请求时出发
    * - 使用其配置项可以很简单的使用其高级请求的功能
    * - 部分参数内置无法配置
    */
@@ -166,9 +167,10 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    *  - 第二个参数表示当前请求的类型
    *    - requestAuto 为 true 时的组件初始化的请求为`init`
    *    - 表单查询按钮请求为`search`
-   *    - 表格分页查询为`reload`
+   *    - 表格分页查询为`pagination`
    *    - 表单重置按钮为`reset`
    *    - 使用 onCustom 方法为`custom`
+   *    - 使用 onReload 方法为`reload`
    */
   request?: LTableRequest<T>;
   /**
@@ -217,7 +219,7 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    */
   tableCardProps?: CardProps;
   /**
-   * 表格上部区域
+   * 表格上部内容， 查询表单之下。
    */
   toolbar?: ReactNode;
   /**
@@ -227,7 +229,7 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
   formItems?: LQueryFormProps['items'];
   /**
    * 查询表单的初始值
-   * - 只在组件初始化时生效
+   * - 只在组件初始化时生效，不支持不动态
    * - 只在有 formItems 时生效
    */
   formInitialValues?: Record<string, any>;
@@ -244,7 +246,7 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
   renderEmpty?: () => ReactNode;
   /**
    * 重新渲染整个 `LTable`
-   * - doms 中元素不会有 Card 等内置包裹
+   * - doms 中所有的元素不会有 Card 等内置包
    */
   renderLTable?: (
     doms: {
@@ -262,7 +264,6 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    * - 传入配置可覆盖内置分页配置
    * - 一般情况不要传入 current 和 pageSize 请使用 defaultCurrent 和 defaultPageSize
    * - 更多配置项请查看 [PaginationProps](https://ant.design/components/pagination-cn/#Pagination)
-   *
    */
   pagination?: false | PaginationProps;
   /**

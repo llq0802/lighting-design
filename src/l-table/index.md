@@ -16,7 +16,6 @@ nav:
 - [x] 支持请求数据并缓存
 - [x] 自动捕获请求错误
 - [x] 自动管理`loading`分页
-- [x] 支持卡片形式的表格
 - [x] 内置实用表格工具栏
 - [x] 内置实用高级表单查询
 - [x] 简化 Table 样式配置
@@ -198,231 +197,109 @@ import { LTable } from 'lighting-design';
 
 除了以下参数，其余和 [antd.Table](https://ant.design/components/table-cn/#api) 一样。
 
-| 参数                 | 说明                                                                                                                                         | 类型                                                                              | 默认值                            |
-| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------- |
-| isSort               | 表格是否需要排序序号以及宽度 标题 自定义渲染等                                                                                               | ` boolean \|  ColumnType & {render?: (pageCount: number) => ReactNode}`           | `false`                           |
-| fillSpace            | 是否占满视口剩余空间的高度, **number 类型时控制距离底部视口还剩多少** <br>表格的分页会在视口底部显示, **不要在弹窗，抽屉，下拉等组件中配置** | `boolean \| number `                                                              | `false`                           |
-| isReady              | 表格 表单是否准备好, **false 时表格自动不会请求, 表单不能提交查询**                                                                          | `boolean`                                                                         | `true`                            |
-| showStripe           | 是否隔行展示表格的斑马纹, **true 时颜色为#fafafa, string 类型可自定义颜色**                                                                  | `boolean\|string`                                                                 | `false`                           |
-| showHover            | 鼠标移入每一行是否有 hover 高亮效果, **true 时颜色为#fafafa , string 类型可自定义颜色**                                                      | `boolean\|string`                                                                 | `false`                           |
-| showHorizontalBorder | 是否展示水平方向的边框, <br>**配合`antd.bordered = false`(bordered 默认为 false) 可做到真正无边框表格**                                      | `boolean`                                                                         | `true`                            |
-| showToolbar          | 是否显示整个 `toolbar` <br>**为 `false` 时不会渲染`内置表格工具栏` `toolbarLeft` `toolbarRight`**                                            | `boolean`                                                                         | `true`                            |
-| autoRequest          | 是否在第一次渲染时自动请求                                                                                                                   | `boolean`                                                                         | `true`                            |
-| fullScreenBgColor    | 全屏时显示的背景颜色                                                                                                                         | `string`                                                                          | `#fff`                            |
-| request              | 异步请求表格数据函数，不能与 `dataSource` 同时配置, <br>**一旦配置 dataSource（即便为空数组）`request`及其相关属性方法将不生效**             | [LTableRequest](/components/table#ltablerequest)                                  | `-`                               |
-| defaultRequestParams | `request` 默认参数 **仅第一次组件加载完成且`autoRequest 为 true 请求时会生效 <br>会被注入到 request 的第一个参数对象中**                     | `Record<string, any>`                                                             | `-`                               |
-| requestCacheKey      | 开启表格数据缓存 **会缓存分页信息与表单信息**                                                                                                | `string`                                                                          | `-`                               |
-| requestBefore        | 调用`request`之前的回调, **如果有返回值会被注入到 request 的第一个参数对象中**                                                               | `(...args: any[]) => Partial<LTableRequestParams>     \| void 0`                  | `-`                               |
-| requestSuccess       | `request`请求成功后的回调 **每次成功都会调用, 包括第一次**                                                                                   | `RequestSuccess`                                                                  | `-`                               |
-| requestFirstSuccess  | 在`request`**第一次请求成功**后的回调                                                                                                        | `RequestSuccess`                                                                  | `-`                               |
-| requestFinally       | `request`请求完成后的回调 **失败, 成功都会调用**                                                                                             | `RequestFinally`                                                                  | `-`                               |
-| requestOptions       | `ahooks 的 useRequest 的 options 配置`, 可用于配置其他请求功能                                                                               | [useRequest](https://ahooks.js.org/zh-CN/hooks/use-request/basic#options)         | `-`                               |
-| formRef              | 查询表单的实例                                                                                                                               | `MutableRefObject<FormInstance \| undefined> \| ((ref: FormInstance) => void)`    | `-`                               |
-| tableRef             | 表格的实例, 包含请求方法和表格的数据等                                                                                                       | ` MutableRefObject<LTableInstance \| undefined>`                                  | `-`                               |
-| rootClassName        | 根 div 类名                                                                                                                                  | `string`                                                                          | `-`                               |
-| rootStyle            | 根 div 样式                                                                                                                                  | `CSSProperties`                                                                   | `-`                               |
-| toolbarStyle         | 整个`toolbar`的样式, **showToolbar 为`true`时生效**                                                                                          | `CSSProperties`                                                                   | `{ marginBottom: 16}`             |
-| headerRowStyle       | 自定义表格头部行的样式                                                                                                                       | `CSSProperties \| ((columns: Record<string, any>[], i: number) => CSSProperties)` | `-`                               |
-| headerCellStyle      | 自定义表格头部行的单元格的样式                                                                                                               | `CSSProperties \| ((columns: Record<string, any>[]) => CSSProperties);`           | `-`                               |
-| rowStyle             | 自定义表格内容行的样式                                                                                                                       | `CSSProperties \| ((record: Record<string, any>, i: number) => CSSProperties);`   | `-`                               |
-| cellStyle            | 自定义表格内容行的单元格的样式                                                                                                               | `CSSProperties \| ((record: Record<string, any>, i: number) => CSSProperties);`   | `-`                               |
-| formCardProps        | 查询表单外层的 `Card` 组件的 `CardProps`                                                                                                     | [CardProps](https://ant.design/components/card-cn/#api)                           | `{ style:{ marginBottom: 16} }  ` |
-| tableCardProps       | 表格外层的 `Card` 组件的 `CardProps`                                                                                                         | [CardProps](https://ant.design/components/card-cn/#api)                           | `-`                               |
-| toolbarActionConfig  | 配置内置表格工具栏, 与 Space 组件有相同属性, <br> **showToolbar 为 true 生效, toolbarActionConfig=false 不渲染内置表格工具**                 | [LToolbarActionProps](/components/table#ltoolbaractionprops) \| `false`           | `-`                               |
-| toolbarLeft          | 整个 toolBar 的左侧                                                                                                                          | `ReactNode`                                                                       | `-`                               |
-| toolbarRight         | 整个 toolBar 的右侧, <br>**如果有内置表格工具, 在内置表格工具左侧**                                                                          | `ReactNode`                                                                       | `-`                               |
-| formItems            | 表单查询框组 **必须包含表单项**                                                                                                              | `LFormItemXXX[] \| Form.Item[] \| LFormItem[]`                                    | `-`                               |
-| formInitialValues    | 查询表单初始值, 默认只在第一次组件渲染生效 **支持异步动态**                                                                                  | `Record<string, any>`                                                             | `-`                               |
-| queryFormProps       | 用于配置查询表单 [LQueryForm] 的 `Props`                                                                                                     | [LQueryFormProps](/components/query-form)                                         | `-`                               |
-| tableExtra           | 表格`Card`上部区域, **在表单的 Card 下面**                                                                                                   | `ReactNode`                                                                       | `-`                               |
-| toolbarRender        | 重新渲染 `toolBar` 包括内置表格工具                                                                                                          | `(toolbarActionDom: ReactNode,toolbarDom: ReactNode) => ReactNode`                | `-`                               |
-| contentRender        | 重新渲染表格内容, **一般用于卡片表格**                                                                                                       | `(data: Record<string, any>[]) => ReactNode`                                      | `-`                               |
-| emptyRender          | 重新渲染空数据下的表格内容                                                                                                                   | `() => ReactNode`                                                                 | `-`                               |
-| tableHeaderRender    | 重新渲染 antd 表格的头部列                                                                                                                   | `(columns: Record<string, any>[],data: Record<string, any>[]) => ReactNode`       | `-`                               |
-| tableRender          | 重新渲染整个表格                                                                                                                             | [LTableRenderProps](/components/table#ltablerenderprops)                          | `-`                               |
+# LTable API 文档
 
-### LTableRequest
+## 基础属性
 
-```ts
-export type LTableRequest = (
-  /** 请求参数 */
-  params: LTableRequestParams,
-  /** 请求类型 */
-  requestType: LTableRequestType,
-  ...args: any[]
-) => Promise<{ success: boolean; data: Record<string, any>[]; total: number }>; // 返回值必须包含 success data total
-```
+| 参数         | 说明                                                                                                                     | 类型                                                                                                                                   | 默认值 |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| columns      | 列配置，扩展了 `toolTip` 和 `exportRender` 字段                                                                          | `TableProps<T>['columns'] & { toolTip?: boolean \| TooltipProps; exportRender?: (val: any, row: T, i: number) => string \| number }[]` | -      |
+| dataSource   | 表格数据，配置后 [request](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-table\interface.ts#L174-L174) 及相关属性失效 | `T[]`                                                                                                                                  | -      |
+| sortColumn   | 是否需要排序序号及宽度，自定义渲染排序等                                                                                 | `boolean \| (ColumnType<T> & { render?: (pageCount: number, current: number, pageSize: number, index: number) => ReactNode })`         | -      |
+| gap          | 配置了表单项后，查询表单与表格的间距                                                                                     | `string \| number`                                                                                                                     | -      |
+| rowStripe    | 是否展示带斑马纹的表格，string 可设置自定义颜色                                                                          | `boolean \| string`                                                                                                                    | -      |
+| borderless   | 无边框表格，需要同时将 `bordered` 设置为 `false`                                                                         | `boolean`                                                                                                                              | -      |
+| rowHoverable | 鼠标移入每一行是否有 hover 效果，string 可设置自定义颜色                                                                 | `string \| boolean`                                                                                                                    | -      |
 
-### LTableRequestParams
+## 请求相关属性
 
-```ts
-export type LTableRequestParams = {
-  /** 当前页 */
-  current: number;
-  /** 一页多少条 */
-  pageSize: number;
-  /** 表单数据, 如果没有formItems则没有*/
-  formValues?: Record<string, any>;
-  /** 通过表格的 onReload  onReset  onSearch onCustomSearch 方法或者 defaultRequestParams 传递其他额外参数 */
-  [key: string]: any;
-};
-```
+| 参数                 | 说明                                                                                                                                        | 类型                  | 默认值  |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- | ------- |
+| request              | 异步请求函数用于获取表格数据                                                                                                                | `LTableRequest<T>`    | -       |
+| requestAuto          | 是否在第一次渲染时自动请求 [request](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-table\interface.ts#L174-L174)                         | `boolean`             | `true`  |
+| requestOnce          | [request](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-table\interface.ts#L174-L174) 是否只执行一次，一般用于一次性请求所有数据         | `boolean`             | `false` |
+| requestInitialParams | [request](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-table\interface.ts#L174-L174) 初始请求的额外参数，仅在第一次自动请求和重置时传入 | `Record<string, any>` | -       |
+| requestExtraParams   | [request](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-table\interface.ts#L174-L174) 的额外参数，每次请求都会传入                       | `Record<string, any>` | -       |
+| requestOptions       | `ahooks` 的 `useRequest` 配置项                                                                                                             | `Options<any, any>`   | -       |
+| requestCacheKey      | 配置后开启表格缓存，会缓存分页信息与表单信息                                                                                                | `string`              | -       |
+| isRequestCacheParams | 配置了 [requestCacheKey](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-table\interface.ts#L180-L180) 后，是否缓存请求的 params 参数      | `boolean`             | `false` |
+
+## 表单相关属性
+
+| 参数              | 说明                                                                                                                                    | 类型                                       | 默认值 |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | ------ |
+| form              | 查询表单的实例                                                                                                                          | `FormInstance<any>`                        | -      |
+| formItems         | 查询表单项数组，用法与 [LQueryForm](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\QueryForm\index.tsx#L66-L169) 一致                   | `LQueryFormProps['items']`                 | -      |
+| formInitialValues | 查询表单的初始值，只在组件初始化时生效                                                                                                  | `Record<string, any>`                      | -      |
+| queryFormProps    | 高级查询表单的 props，可使用 [LQueryForm](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\QueryForm\index.tsx#L66-L169) 组件的所有配置项 | `Omit<LQueryFormProps, 'form' \| 'items'>` | -      |
+| formCardProps     | 查询表单外层的 CardProps                                                                                                                | `CardProps`                                | -      |
+
+## 实例与引用
+
+| 参数      | 说明                               | 类型                                                | 默认值 |
+| --------- | ---------------------------------- | --------------------------------------------------- | ------ |
+| actionRef | 表格的实例，包含一些方法和属性数据 | `MutableRefObject<LTableActionRef<T> \| undefined>` | -      |
+| ref       | 表格引用                           | `Parameters<typeof Table>[0]['ref']`                | -      |
+
+## 样式与布局
+
+| 参数             | 说明                       | 类型            | 默认值 |
+| ---------------- | -------------------------- | --------------- | ------ |
+| tableClassName   | antd Table 的类名          | `string`        | -      |
+| tableStyle       | antd Table 的样式          | `CSSProperties` | -      |
+| toolbarStyle     | 整个 toolbar 容器的样式    | `CSSProperties` | -      |
+| toolbarClassName | 整个 toolbar 宺器的类名    | `string`        | -      |
+| tableCardProps   | 表格外层的 CardProps       | `CardProps`     | -      |
+| toolbar          | 表格上部内容，查询表单之下 | `ReactNode`     | -      |
+| tableExtra       | 卡片表格上部的额外内容     | `ReactNode`     | -      |
+| className        | 组件最外层的样式类         | `string`        | -      |
+| style            | 组件最外层的样式           | `CSSProperties` | -      |
+
+## 渲染相关
+
+| 参数         | 说明                                                                                             | 类型                                                                                                                                                                                                                                                            | 默认值 |
+| ------------ | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| renderEmpty  | 在数据为空的情况下，重新渲染空数据的组件                                                         | `() => ReactNode`                                                                                                                                                                                                                                               | -      |
+| renderLTable | 重新渲染整个 [LTable](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-table\index.tsx#L25-L443) | `(doms: { formDom: ReactNode; toolbarDom: ReactNode; tableDom: ReactNode; paginationDom: ReactNode }, state: Pick<LTableActionRef, 'tableData' \| 'params' \| 'pagination' \| 'loading' \| 'initLoading' \| 'noInitLoading'>, props: LTableProps) => ReactNode` | -      |
+
+## 分页相关
+
+| 参数       | 说明                                 | 类型                       | 默认值 |
+| ---------- | ------------------------------------ | -------------------------- | ------ |
+| pagination | 分页配置，传入配置可覆盖内置分页配置 | `false \| PaginationProps` | -      |
+
+## LTableActionRef 方法
+
+| 方法         | 说明                                                                            | 参数                                                                                                    |
+| ------------ | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| onReload     | 根据 `extraParams` `当前表单数据`，`当前页`，`当前分页数量` 查询表格数据        | `extraParams?: Record<string, any>`                                                                     |
+| onCustom     | 根据传入的 `current` `pageSize` `当前表单数据` `extraParams` 查询表格数据       | `{ current: number; pageSize: number; extraParams?: Record<string, any>; isResetFormValues?: boolean }` |
+| onReset      | 根据 `extraParams` `表单初始值` `requestInitialParams` 默认页和分页数量查询数据 | `extraParams?: Record<string, any>`                                                                     |
+| onSearch     | 根据 `extraParams` `当前表单数据`，默认页以及当前分页数量查询数据               | `extraParams?: Record<string, any>`                                                                     |
+| setTableData | 直接修改表格的数据与总数（仅在使用 `request` 获取数据有效）                     | `Dispatch<SetStateAction<{ list: T[]; total: number }>>`                                                |
+
+## 类型定义
 
 ### LTableRequestType
 
-```ts
-// autoRequest 为 true 时的组件初始化的请求为 'onInit';
-// 表格查询按钮请求为 'onSearch'
-// 表格分页查询为 'onReload'
-// 表格重置按钮为 'onReset'
-// 使用 onCustomSearch 方法为 'onCustomSearch'
-export type LTableRequestType = 'onInit' | 'onSearch' | 'onReload' | 'onReset' | 'onCustomSearch';
+请求类型：
+
+- `'init'`: 初始化请求
+- `'search'`: 表单搜索请求
+- `'reload'`: 重新加载请求
+- `'reset'`: 重置请求
+- `'custom'`: 自定义请求
+- `'pagination'`: 分页请求
+
+### LTableRequestParams
+
+请求参数对象：
+
+```typescript
+{
+  current: number;           // 当前页码
+  pageSize: number;          // 分页大小
+  formValues?: Record<string, any>; // 表单数据
+  [key: string]: any;        // 其他参数
+}
 ```
-
-### LTableRenderProps
-
-```ts
-export type LTableRenderProps = (
-  doms: {
-    /** 内部表单dom */
-    searchFormDom: ReactNode;
-    /** 内置工具栏dom */
-    toolbarActionDom: ReactNode;
-    /** 整个 toolbar dom, 包含 toolbarActionDom*/
-    toolbarDom: ReactNode;
-    /** 在 tableDom 上面, 在 searchFormDom下面的额外 dom ,如果没有配置则没有 */
-    tableExtraDom: ReactNode;
-    /** 被Card包函的table主体dom,且外层没有Spin组件, 包含 toolbarDom  */
-    tableCardDom: ReactNode;
-    /** 被Card包函的table主体dom,且外层有Spin组件, 包含 toolbarDom  */
-    tableDom: ReactNode;
-    /** 整个高级表格dom 包含全部的dom */
-    finallyDom: ReactNode;
-  },
-  props: LTableProps,
-) => ReactNode;
-```
-
-### LTableInstance
-
-```ts
-export type MutableRefObject<LTableInstance|undefined > = {
-  // 根据条件，当前页，分页数量、刷新数据
-  onReload: (extraParams?: Record<string, any>) => void;
-  // 重置表单，从第一页以及默认的分页数量开始显示、查询数据
-  onReset: (extraParams?: Record<string, any>) => void;
-  // 根据条件，从第一页以及当前的分页数量开始显示、查询数据
-  onSearch: (extraParams?: Record<string, any>) => void;
-  // 根据传入的 current pageSize 参数，当前表单数据、查询数据
-  onCustomSearch: (current: number, pageSize: number, extraParams?: Record<string, any>) => void;
-  // 表格根标签div
-  rootRef: RefObject<HTMLDivElement>;
-  // request 请求的参数
-  params:[LTableRequestParams,LTableRequestType]|[]
-  // 表格数据
-  tableData: Record<string, any>[];
-  // 直接修改当前表格的数据 建议使用函数的形式
-  // 用法与 React.setState 一致，支持 setTableData(newData) 和 setTableData((oldData) => newData) 两种写法。
-  // 每次更新需要 list 引用地址不一样才能更新界面
-  setTableData:  setTableData: Dispatch<
-    SetStateAction<{
-      list: Record<string, any>[];
-      total: number;
-    }>
-  >
-  // 页码信息及方法
-  pagination: {
-    current: number;
-    pageSize: number;
-    total: number;
-    totalPage: number;
-    //(不建议外部使用) 以下方法会重新请求数据 , 会导致 request 的第一个参数不会有表单数据 并且第二个参数为 undefined
-    onChange: (current: number, pageSize: number) => void;
-    changeCurrent: (current: number) => void;
-    changePageSize: (pageSize: number) => void;
-  };
-};
-
-
-
-
-```
-
-### LToolbarActionProps
-
-```ts
-export type LToolbarActionProps = {
-  /** 是否显示刷新  默认显示*/
-  showReload?: boolean;
-  /** 是否显示列设置 默认显示*/
-  showColumnSetting?: boolean;
-  /** 是否显示表格密度 默认显示*/
-  showDensity?: boolean;
-  /** 是否显示全屏 默认显示*/
-  showFullscreen?: boolean;
-  /** 点击刷新图标的回调 */
-  onReloadIconChange?: () => void;
-  /** 点击列图标中每一项复选框改变后的回调 */
-  onColumnIconChange?: (keys: string[]) => void;
-  /** 全屏切换时的回调 */
-  onFullscreenIconChange?: (isFullScreen: boolean) => void;
-  /** 表格密度改变时的回调 */
-  onDensityIconChange?: (size: 'middle' | 'small' | 'large') => void;
-  /** 内置图标的排序 需从大于等于 1 开始设置*/
-  orders?: {
-    reload: number;
-    density: number;
-    fullscreen: number;
-    columnSetting: number;
-  };
-  /** 所有内置图标的样式 */
-  style?: CSSProperties; // 默认字体大小16px 字体颜色黑色
-  /** 自定义渲染内置操作栏 */
-  render?: (doms: ReactNode[]) => ReactNode;
-} & SpaceProps;
-```
-
-### RequestSuccess
-
-```ts
-type RequestSuccess = (
-  data: {
-    list: Record<string, any>[];
-    total: number;
-  },
-  params: [
-    {
-      [key: string]: any;
-      current: number;
-      pageSize: number;
-      formValues?: Record<string, any> | undefined;
-    },
-    'onInit' | 'onSearch' | 'onReload' | 'onReset' | undefined,
-  ],
-) => void;
-```
-
-### RequestFinally
-
-```ts
-type RequestFinally =
-  | ((
-      params: [
-        {
-          [key: string]: any;
-          current: number;
-          pageSize: number;
-          formValues?: Record<string, any> | undefined;
-        },
-        'onReset' | 'onInit' | 'onSearch' | 'onReload' | undefined,
-      ],
-      data: {
-        list: Record<string, any>[];
-        total: number;
-      },
-      e?: Error | undefined,
-    ) => void)
-  | undefined;
-```
-
-[LQueryForm]: /components/query-form
