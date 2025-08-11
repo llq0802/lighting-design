@@ -31,6 +31,7 @@ const LDrawerForm: <T = any>(props: LDrawerFormProps<T>) => JSX.Element = (props
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onOpenChange: outOnOpenChange,
+    layout,
     ...formProps
   } = props;
   const [loading, setLoading] = useState(false);
@@ -76,6 +77,7 @@ const LDrawerForm: <T = any>(props: LDrawerFormProps<T>) => JSX.Element = (props
   const innerFormProps = {
     form: formRef.current,
     clearOnDestroy: true,
+    layout: layout === 'inline' ? void 0 : layout,
     ...formProps,
     onFinish: async (values: Record<string, any>) => {
       try {

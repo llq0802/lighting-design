@@ -1,8 +1,8 @@
 import { useControllableValue, useLatest } from 'ahooks';
 import { Flex, Steps } from 'antd';
 import React, { useRef, useState, type FC } from 'react';
-import StepsItem from './components/steps-item';
-import StepsSubmitter from './components/steps-submitter';
+import StepsItem from './steps-item';
+import StepsSubmitter from './steps-submitter';
 
 const LStepsForm: FC<any> = (props) => {
   const {

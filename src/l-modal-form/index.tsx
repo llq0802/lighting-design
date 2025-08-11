@@ -31,6 +31,7 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
     open: outOpen,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onOpenChange: outOnOpenChange,
+    layout,
     ...formProps
   } = props;
 
@@ -86,6 +87,7 @@ const LModalForm: <T = any>(props: LModalFormProps<T>) => JSX.Element = (props: 
   const innerFormProps = {
     form: formRef.current,
     clearOnDestroy: true,
+    layout: layout === 'inline' ? void 0 : layout,
     ...formProps,
     onFinish: async (values: Record<string, any>) => {
       const ret = await onFinish?.(values);

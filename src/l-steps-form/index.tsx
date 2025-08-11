@@ -30,6 +30,7 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
     current: outCurrent,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     onCurrentChange: outOnCurrentChange,
+    layout,
     ...restProps
   } = props;
   const defaultValue = useMemo(() => outCurrent || defaultCurrent, []);
@@ -217,7 +218,14 @@ const LStepsForm = <T extends any>(props: LStepsFormProps<T>) => {
   );
 
   const dom = (
-    <LForm clearOnDestroy form={formRef.current} onFinish={handleFinish} {...restProps} submitter={false}>
+    <LForm
+      clearOnDestroy
+      form={formRef.current}
+      onFinish={handleFinish}
+      layout={layout === 'inline' ? void 0 : layout}
+      {...restProps}
+      submitter={false}
+    >
       {childrenDom}
     </LForm>
   );

@@ -1,6 +1,16 @@
 import { Loading3QuartersOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
-import { Card, ConfigProvider, Flex, Pagination, Spin, Table, Tooltip, type PaginationProps } from 'antd';
+import {
+  Card,
+  ConfigProvider,
+  Flex,
+  Pagination,
+  Spin,
+  Table,
+  Tooltip,
+  type PaginationProps,
+  type SpinProps,
+} from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import { useLFormInstance } from 'lighting-design/l-form/hooks';
 import LQueryForm from 'lighting-design/l-query-form';
@@ -209,15 +219,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
       }));
     }
     const formValues = getFormValues(isResetFormValues);
-    run(
-      {
-        ...extraParams,
-        formValues,
-        current,
-        pageSize,
-      },
-      'custom',
-    );
+    run({ ...extraParams, formValues, current, pageSize }, 'custom');
   };
 
   const handleReload = (extraParams?: Record<string, any>) => {
@@ -230,12 +232,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     }
     const formValues = getFormValues();
     run(
-      {
-        ...extraParams,
-        formValues,
-        current: requestPagination?.current,
-        pageSize: requestPagination?.pageSize,
-      },
+      { ...extraParams, formValues, current: requestPagination?.current, pageSize: requestPagination?.pageSize },
       'reload',
     );
   };
@@ -250,13 +247,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     }
     const formValues = getFormValues(true);
     run(
-      {
-        ...extraParams,
-        ...requestInitialParams,
-        formValues,
-        current: defaultCurrent,
-        pageSize: defaultPageSize,
-      },
+      { ...extraParams, ...requestInitialParams, formValues, current: defaultCurrent, pageSize: defaultPageSize },
       'reset',
     );
   };
@@ -270,15 +261,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
       }));
     }
     const formValues = getFormValues();
-    run(
-      {
-        ...extraParams,
-        formValues,
-        current: defaultCurrent,
-        pageSize: requestPagination?.pageSize,
-      },
-      'search',
-    );
+    run({ ...extraParams, formValues, current: defaultCurrent, pageSize: requestPagination?.pageSize }, 'search');
   };
 
   useMount(() => {
@@ -290,25 +273,12 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
         formRef.current.setFieldsValue(cacheFormValues);
       }
       run(
-        {
-          ...requestInitialParams,
-          formValues: cacheFormValues,
-          current: cacheCurrent,
-          pageSize: cachePageSize,
-        },
+        { ...requestInitialParams, formValues: cacheFormValues, current: cacheCurrent, pageSize: cachePageSize },
         'init',
       );
     } else {
       const formValues = getFormValues();
-      run(
-        {
-          ...requestInitialParams,
-          formValues,
-          current: defaultCurrent,
-          pageSize: defaultPageSize,
-        },
-        'init',
-      );
+      run({ ...requestInitialParams, formValues, current: defaultCurrent, pageSize: defaultPageSize }, 'init');
     }
   });
 
@@ -419,11 +389,11 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
     return renderLTable({ formDom, toolbarDom, tableDom, paginationDom }, innerState, props);
   }
 
-  const innerSpinProps = {
+  const innerSpinProps: SpinProps = {
     size: 'large',
     indicator: <Loading3QuartersOutlined spin />,
     ...loadingProps,
-  } as const;
+  };
 
   if (!hasFormItems) {
     const innerNoFormTableDom = (
