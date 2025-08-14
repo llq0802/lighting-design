@@ -29,11 +29,9 @@ nav:
 
 可通过 `LFormItemXXX` 的 `disabled` 和 `size` 单独设置
 
+<!--
+
 <code src='./demos/Demo6.tsx'></code>
-
-### 表单 initialValues 通过异步动态获取设置
-
-<code src='./demos/Demo5.tsx' ></code>
 
 ### 通过 form.setFieldsValue 设置初始值
 
@@ -49,7 +47,7 @@ nav:
 
 ### 自定义提交 / 重置按钮
 
-<code src='./demos/Demo3.tsx' ></code>
+<code src='./demos/Demo3.tsx' ></code> -->
 
 ## API
 

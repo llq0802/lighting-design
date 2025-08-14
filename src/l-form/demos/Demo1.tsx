@@ -1,14 +1,14 @@
-import type { TreeSelectProps } from 'antd';
+import { Input, Select, type TreeSelectProps } from 'antd';
 import type { DefaultOptionType } from 'antd/lib/select';
 import {
   LForm,
-  LFormItemAddress,
   LFormItemAutoComplete,
   LFormItemCaptcha,
   LFormItemCascader,
   LFormItemCheckbox,
   LFormItemColor,
-  LFormItemDatePicker,
+  LFormItemComposition,
+  LFormItemDate,
   LFormItemInput,
   LFormItemNumber,
   LFormItemNumberRange,
@@ -19,20 +19,18 @@ import {
   LFormItemSelect,
   LFormItemSlider,
   LFormItemSwitch,
-  LFormItemTextArea,
-  LFormItemTimePicker,
+  LFormItemTextarea,
+  LFormItemTime,
   LFormItemTransfer,
   LFormItemTreeSelect,
   LFormItemUpload,
 } from 'lighting-design';
 import { useState } from 'react';
-import { addressOptions, mockVal, upload } from './service';
+import { addressOptions, upload } from './service';
 
 const Demo1 = () => {
   const [form] = LForm.useForm();
-  const [autoCompleteOptions, setAutoCompleteOptions] = useState<
-    { value: string; label: string }[]
-  >([]);
+  const [autoCompleteOptions, setAutoCompleteOptions] = useState<{ value: string; label: string }[]>([]);
 
   const [treeData, setTreeData] = useState<Omit<DefaultOptionType, 'label'>[]>([
     { id: 1, pId: 0, value: '1', title: 'Expand to load' },
@@ -59,60 +57,34 @@ const Demo1 = () => {
   const onLoadData: TreeSelectProps['loadData'] = ({ id }) =>
     new Promise((resolve) => {
       setTimeout(() => {
-        setTreeData(
-          treeData.concat([genTreeNode(id, false), genTreeNode(id, true), genTreeNode(id, true)]),
-        );
+        setTreeData(treeData.concat([genTreeNode(id, false), genTreeNode(id, true), genTreeNode(id, true)]));
         resolve(undefined);
       }, 300);
     });
 
   return (
     <LForm
-      labelWidth={90}
-      submitter={{ buttonAlign: 90 }}
+      labelWidth={110}
+      submitter={{ position: 'center' }}
       form={form}
       onFinish={async (values) => {
         console.log('onFinish-values ', values);
       }}
     >
       <LFormItemInput name="LFormItemInput1" required label="输入框1" tooltip="禁止输入空格" />
-      <LFormItemNumber
-        name="LFormItemNumber1"
-        required
-        label="输入框2"
-        contentAfter={<div>$</div>}
-      />
+      <LFormItemNumber name="LFormItemNumber1" required label="输入框2" contentAfter={<div>$</div>} />
       <LFormItemNumberRange
         name="LFormItemNumberRange1"
         label="数字范围"
         placeholder={['请输入开始值', '请输入结束值']}
       />
       <LFormItemPassword name="LFormItemPassword1" required label="密码框" />
-      <LFormItemTextArea name="LFormItemTextArea1" required label="备注" />
-      <LFormItemCaptcha
-        name="LFormItemCaptcha1"
-        required
-        label="验证码"
-        type="inline"
-        cacheKey="LFormItemCaptcha11"
-      />
-      <LFormItemAutoComplete
-        name="LFormItemAutoComplete1"
-        required
-        label="自动联想"
-        options={autoCompleteOptions}
-        onSearch={(searchText) =>
-          setAutoCompleteOptions(
-            !searchText
-              ? []
-              : [mockVal(searchText, 1), mockVal(searchText, 2), mockVal(searchText, 3)],
-          )
-        }
-      />
+      <LFormItemTextarea name="LFormItemTextarea1" required label="备注" />
+      <LFormItemCaptcha name="LFormItemCaptcha1" required label="验证码" type="inline" cacheKey="LFormItemCaptcha11" />
+      <LFormItemAutoComplete name="LFormItemAutoComplete1" required label="自动联想" options={autoCompleteOptions} />
       <LFormItemSelect
         label="下拉选择"
         name="LFormItemSelect1"
-        all
         required
         options={[
           { label: 'A', value: 'a' },
@@ -134,28 +106,37 @@ const Demo1 = () => {
       />
 
       <LFormItemCascader label="级联选择" name="cascader" required options={addressOptions} />
-      <LFormItemAddress label="地址选择" name="location1" required options={addressOptions} />
-      <LFormItemDatePicker
-        label="日期选择"
-        name="LFormItemDatePicker1"
+      <LFormItemComposition
+        name="composition1"
+        label="组合选择"
         required
-        disabledDateBefore={1}
+        leftComponent={
+          <Select
+            options={[
+              {
+                label: 'A',
+                value: 'a',
+              },
+              {
+                label: 'B',
+                value: 'b',
+              },
+              {
+                label: 'C',
+                value: 'c',
+              },
+            ]}
+            placeholder="请选择"
+          />
+        }
+        transformRightOnChangeParams={(e) => e.target.value}
+        rightComponent={<Input placeholder="请输入" />}
       />
-      <LFormItemDatePicker
-        label="范围选择"
-        name="LFormItemDatePicker2"
-        required
-        disabledDateAfter={1}
-        rangePicker
-      />
-      <LFormItemTimePicker label="时间选择" name="LFormItemTimePicker1" required />
-      <LFormItemTimePicker label="范围选择" name="LFormItemTimePicker2" required rangePicker />
-      <LFormItemSlider
-        name="LFormItemSlider1"
-        label="滑块选择"
-        required
-        contentAfter={<div>后面</div>}
-      />
+      <LFormItemDate label="日期选择" name="LFormItemDate1" required disabledDateBefore={1} />
+      <LFormItemDate label="范围选择" name="LFormItemDate2" required disabledDateAfter={1} rangePicker />
+      <LFormItemTime label="时间选择" name="LFormItemTime1" required />
+      <LFormItemTime label="范围选择" name="LFormItemTime2" required rangePicker />
+      <LFormItemSlider name="LFormItemSlider1" label="滑块选择" required contentAfter={<div>后面</div>} />
 
       <LFormItemSegmented
         label="分段器"
@@ -171,7 +152,6 @@ const Demo1 = () => {
       <LFormItemCheckbox
         label="多选框"
         name="LFormItemCheckbox1"
-        beforeAll
         required
         options={[
           { label: '上班', value: '1' },
@@ -182,7 +162,6 @@ const Demo1 = () => {
       <LFormItemRadio
         label="单选框"
         name="LFormItemRadio1"
-        all
         required
         options={[
           { label: 'Unresolved', value: 'Unresolved' },
@@ -200,13 +179,7 @@ const Demo1 = () => {
       <LFormItemRate label="评分" name="LFormItemRate1" initialValue={3} required />
       <LFormItemColor name="LFormItemColor1" label="颜色选择" required />
       <LFormItemSwitch name="LFormItemSwitch" label="开关" tooltip="开关按钮" />
-      <LFormItemUpload
-        name="LFormItemUpload2"
-        required
-        onUpload={upload}
-        uploadType="avatar"
-        label="头像上传"
-      />
+      <LFormItemUpload name="LFormItemUpload2" required onUpload={upload} uploadType="avatar" label="头像上传" />
       <LFormItemUpload
         name="LFormItemUpload3"
         label="图片上传"
