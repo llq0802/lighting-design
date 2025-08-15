@@ -39,7 +39,7 @@ nav:
 
 ### 自定义组合
 
-<code src='./demos/demo7.tsx'></code>
+<code src='./demos/Demo7.tsx'></code>
 
 ## API
 

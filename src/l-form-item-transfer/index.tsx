@@ -1,4 +1,5 @@
 import LFormItem from 'lighting-design/l-form-item';
+import { useLFormContext } from 'lighting-design/l-form/context';
 import { type FC } from 'react';
 import BaseTransfer from './base-transfer';
 import type { LFormItemTransferProps } from './interface';
@@ -25,9 +26,11 @@ const LFormItemTransfer: FC<LFormItemTransferProps> = ({
   transferProps,
   ...restProps
 }) => {
+  const { disabled: formDisabled } = useLFormContext();
+
   const baseProps = {
     block,
-    disabled,
+    disabled: disabled ?? formDisabled,
     dataSource,
     options,
     titles,

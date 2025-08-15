@@ -22,6 +22,7 @@ export const useMergeFormProps = (formItemProps: LFormItemProps) => {
   const { labelWidth, wrapperWidth, formItemBottom, alignItems } = formItemProps;
   const res = useLFormContext() ?? {}; // 有可能不被包裹在LForm中
   return {
+    ...res,
     labelWidth: labelWidth ?? res.labelWidth,
     wrapperWidth: wrapperWidth ?? res.wrapperWidth,
     formItemBottom: formItemBottom ?? res.formItemBottom,

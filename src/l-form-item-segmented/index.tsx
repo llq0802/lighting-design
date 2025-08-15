@@ -1,4 +1,5 @@
 import LFormItem from 'lighting-design/l-form-item';
+import { useLFormContext } from 'lighting-design/l-form/context';
 import { isNil } from 'lodash-es';
 import type { FC } from 'react';
 import BaseSegmented from './base-segmented';
@@ -20,14 +21,16 @@ const LFormItemSegmented: FC<LFormItemSegmentedProps> = ({
   segmentedProps,
   ...restProps
 }) => {
+  const { disabled: formDisabled, size: formSize } = useLFormContext();
+
   const baseProps = {
-    size,
-    disabled,
+    size: size ?? formSize,
+    disabled: disabled ?? formDisabled,
     options,
-    fieldNames,
     shape,
     block,
     //
+    fieldNames,
     request,
     actionRef,
     requestOptions,

@@ -16,12 +16,13 @@ const App: React.FC = () => {
   return (
     <LForm<FieldType>
       labelWidth={100}
+      disabled
       form={form}
       onFinish={(values) => {
         console.log('===onFinish===', values);
       }}
     >
-      <LFormItemSegmented label="基础" required name="segmented1" options={opts1} />
+      <LFormItemSegmented disabled={false} label="基础" required name="segmented1" options={opts1} />
       <LFormItemSegmented label="block" block required name="segmented2" options={opts1} />
       <LFormItemSegmented label="shape" shape="round" required name="segmented3" options={opts1} />
       <LFormItemSegmented

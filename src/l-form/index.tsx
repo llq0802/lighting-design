@@ -6,7 +6,6 @@ import type { LFormProps } from './interface';
 
 function LForm<T extends any = any>(props: LFormProps<T>): React.ReactElement {
   const { labelWidth, wrapperWidth, alignItems, formItemBottom, ...restProps } = props;
-
   return (
     <LFormContextProvider
       disabled={props.disabled}

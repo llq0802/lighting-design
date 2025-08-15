@@ -17,7 +17,7 @@ const App: React.FC = () => {
         console.log('===onFinish===', values);
       }}
     >
-      <LFormItemTransfer name="LFormItemTransfer1" label="基础" options={transferMockData} />
+      <LFormItemTransfer disabled={false} name="LFormItemTransfer1" label="基础" options={transferMockData} />
       <LFormItemTransfer name="LFormItemTransfer2" label="block" options={transferMockData} block={false} />
       <LFormItemTransfer name="LFormItemTransfer3" label="listHeight" options={transferMockData} listHeight={300} />
       <LFormItemTransfer name="LFormItemTransfer4" label="pagination" options={transferMockData} pagination />
