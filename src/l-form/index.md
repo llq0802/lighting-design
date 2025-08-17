@@ -23,12 +23,17 @@ nav:
 
 ### 基础用法
 
-<!-- <code src='./demos/Demo1.tsx'></code> -->
+<code src='./demos/Demo1.tsx'></code>
 
 ### 表单整体禁用与大小
 
 可通过 `LFormItemXXX` 的 `disabled` 和 `size` 单独设置
+
 <code src='./demos/Demo2.tsx'></code>
+
+### 自定义提交 / 重置按钮
+
+<code src='./demos/Demo3.tsx' ></code>
 
 <!--
 
@@ -46,9 +51,7 @@ nav:
 
 <code src='./demos/Demo2.tsx' ></code>
 
-### 自定义提交 / 重置按钮
-
-<code src='./demos/Demo3.tsx' ></code> -->
+-->
 
 ## API
 

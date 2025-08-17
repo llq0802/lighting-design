@@ -21,6 +21,10 @@ const LFormItemSlider: FC<LFormItemSliderProps> = ({
     step,
     marks,
     ...sliderProps,
+    style: {
+      flex: restProps?.contentBefore || restProps?.contentAfter ? 1 : void 0,
+      ...sliderProps.style,
+    },
   };
 
   return (

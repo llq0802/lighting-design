@@ -8,6 +8,7 @@ import LFormSubmitter from './base-submitter';
 
 function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
   const {
+    disabled,
     isReady = true,
     submitter,
     transformValues,
@@ -59,6 +60,7 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
       : {
           isReady,
           loading,
+          disabled,
           ...submitter,
         };
 

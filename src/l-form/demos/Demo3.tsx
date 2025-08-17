@@ -1,4 +1,4 @@
-import { Button, Space } from 'antd';
+import { Button, Flex } from 'antd';
 import { LForm, LFormItemInput } from 'lighting-design';
 
 const Demo5 = () => {
@@ -7,30 +7,33 @@ const Demo5 = () => {
   return (
     <>
       <LForm
+        name="form3"
         form={form}
         labelWidth={90}
         // 不能使用回车键提交
-        isEnterSubmit={false}
         onFinish={async (values) => {
           console.log('自定义提交 / 重置按钮onFinish-values ', values);
         }}
-        onReset={() => {
-          console.log('== onReset ====>');
-        }}
         submitter={{
-          buttonAlign: 'center',
+          onReset() {
+            console.log('== onReset ====>');
+          },
+          onSubmit() {
+            console.log('== onSubmit ====>');
+          },
           resetButtonProps: {
             onClick() {
               console.log('== onClick ====>');
             },
           },
-          render(dom) {
+          renderSubmitter(doms, props) {
             return (
-              <Space>
+              <Flex gap={16} justify="center" align="center">
                 <Button>自定义按钮</Button>
                 <Button>返回</Button>
-                {dom}
-              </Space>
+                {doms.resetDom}
+                {doms.submitDom}
+              </Flex>
             );
           },
         }}

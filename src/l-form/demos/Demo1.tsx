@@ -39,8 +39,8 @@ const Demo1 = () => {
   ]);
 
   const transferMockData: any[] = Array.from({ length: 10 }).map((_, i) => ({
-    key: i.toString(),
-    title: `content--${i}`,
+    value: i + 1 + '',
+    label: `content--${i}`,
   }));
 
   const genTreeNode = (parentId: number, isLeaf = false) => {
@@ -64,6 +64,9 @@ const Demo1 = () => {
 
   return (
     <LForm
+      name="form1"
+      size="small"
+      disabled
       labelWidth={110}
       submitter={{ position: 'center' }}
       form={form}
@@ -71,20 +74,20 @@ const Demo1 = () => {
         console.log('onFinish-values ', values);
       }}
     >
-      <LFormItemInput name="LFormItemInput1" required label="输入框1" tooltip="禁止输入空格" />
-      <LFormItemNumber name="LFormItemNumber1" required label="输入框2" contentAfter={<div>$</div>} />
+      <LFormItemInput name="LFormItemInput" required label="输入框1" tooltip="禁止输入空格" />
+      <LFormItemNumber name="LFormItemNumber" required label="输入框2" contentAfter={<div>$</div>} />
       <LFormItemNumberRange
-        name="LFormItemNumberRange1"
+        name="LFormItemNumberRange"
         label="数字范围"
         placeholder={['请输入开始值', '请输入结束值']}
       />
-      <LFormItemPassword name="LFormItemPassword1" required label="密码框" />
-      <LFormItemTextarea name="LFormItemTextarea1" required label="备注" />
-      <LFormItemCaptcha name="LFormItemCaptcha1" required label="验证码" type="inline" cacheKey="LFormItemCaptcha11" />
-      <LFormItemAutoComplete name="LFormItemAutoComplete1" required label="自动联想" options={autoCompleteOptions} />
+      <LFormItemPassword name="LFormItemPassword" required label="密码框" />
+      <LFormItemTextarea name="LFormItemTextarea" required label="备注" />
+      <LFormItemCaptcha name="LFormItemCaptcha" required label="验证码" type="inline" cacheKey="LFormItemCaptcha11" />
+      <LFormItemAutoComplete name="LFormItemAutoComplete" required label="自动联想" options={autoCompleteOptions} />
       <LFormItemSelect
         label="下拉选择"
-        name="LFormItemSelect1"
+        name="LFormItemSelect"
         required
         options={[
           { label: 'A', value: 'a' },
@@ -95,7 +98,7 @@ const Demo1 = () => {
 
       <LFormItemTreeSelect
         label="树形选择"
-        name="LFormItemTreeSelect1"
+        name="LFormItemTreeSelect"
         required
         treeData={treeData}
         loadData={onLoadData}
@@ -105,9 +108,9 @@ const Demo1 = () => {
         }}
       />
 
-      <LFormItemCascader label="级联选择" name="cascader" required options={addressOptions} />
+      <LFormItemCascader label="级联选择" name="LFormItemCascader" required options={addressOptions} />
       <LFormItemComposition
-        name="composition1"
+        name="LFormItemComposition"
         label="组合选择"
         required
         leftComponent={
@@ -136,12 +139,12 @@ const Demo1 = () => {
       <LFormItemDate label="范围选择" name="LFormItemDate2" required disabledDateAfter={1} rangePicker />
       <LFormItemTime label="时间选择" name="LFormItemTime1" required />
       <LFormItemTime label="范围选择" name="LFormItemTime2" required rangePicker />
-      <LFormItemSlider name="LFormItemSlider1" label="滑块选择" required contentAfter={<div>后面</div>} />
+      <LFormItemSlider name="LFormItemSlider" label="滑块选择" required contentAfter={<div>后面</div>} />
 
       <LFormItemSegmented
         label="分段器"
         required
-        name="LFormItemSegmented1"
+        name="LFormItemSegmented"
         options={[
           { label: 'List', value: 'List' },
           { label: 'Kanban', value: 'Kanban' },
@@ -151,7 +154,7 @@ const Demo1 = () => {
 
       <LFormItemCheckbox
         label="多选框"
-        name="LFormItemCheckbox1"
+        name="LFormItemCheckbox"
         required
         options={[
           { label: '上班', value: '1' },
@@ -161,7 +164,7 @@ const Demo1 = () => {
       />
       <LFormItemRadio
         label="单选框"
-        name="LFormItemRadio1"
+        name="LFormItemRadio"
         required
         options={[
           { label: 'Unresolved', value: 'Unresolved' },
@@ -169,6 +172,10 @@ const Demo1 = () => {
           { label: 'Resolving', value: 'Resolving' },
         ]}
       />
+      <LFormItemRate label="评分" name="LFormItemRate" initialValue={3} required />
+      <LFormItemColor name="LFormItemColor" label="颜色选择" required />
+      <LFormItemSwitch name="LFormItemSwitch" label="开关" tooltip="开关按钮" />
+
       <LFormItemUpload
         name="LFormItemUpload1"
         label="默认上传"
@@ -176,9 +183,6 @@ const Demo1 = () => {
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         required
       />
-      <LFormItemRate label="评分" name="LFormItemRate1" initialValue={3} required />
-      <LFormItemColor name="LFormItemColor1" label="颜色选择" required />
-      <LFormItemSwitch name="LFormItemSwitch" label="开关" tooltip="开关按钮" />
       <LFormItemUpload name="LFormItemUpload2" required onUpload={upload} uploadType="avatar" label="头像上传" />
       <LFormItemUpload
         name="LFormItemUpload3"
@@ -196,7 +200,7 @@ const Demo1 = () => {
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
       />
 
-      <LFormItemTransfer required options={transferMockData} label="穿梭框" name="transfer" />
+      <LFormItemTransfer required options={transferMockData} label="穿梭框" name="LFormItemTransfer" />
     </LForm>
   );
 };

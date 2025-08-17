@@ -27,6 +27,9 @@ export type LFormSubmitterProps<T extends any = any> = {
    * 是否 `loading` 提交按钮
    */
   loading?: boolean;
+  /**
+   * 是否 `disabled` 按钮
+   */
   disabled?: boolean;
   /**
    * 是否按`Enter`键能提交表单
