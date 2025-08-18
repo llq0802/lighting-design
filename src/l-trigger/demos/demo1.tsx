@@ -36,8 +36,8 @@ const Demo1 = () => {
         </LTrigger>
       </Flex>
       <Flex gap="small" align="center">
-        <h5>隐藏弹出层时隐藏 DOM</h5>
-        <LTrigger destroyTooltipOnHide placeholder="请选择摸鱼员工">
+        <h5>隐藏弹出层时销毁 DOM</h5>
+        <LTrigger destroyOnHidden placeholder="请选择摸鱼员工">
           <ChildTable1 />
         </LTrigger>
       </Flex>

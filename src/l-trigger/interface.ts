@@ -88,7 +88,7 @@ export type LTriggerProps<T = LValueType> = {
    * @description 会影响children组件中的请求副作用
    * @default false
    */
-  destroyTooltipOnHide?: PopoverProps['destroyTooltipOnHide'];
+  destroyOnHidden?: PopoverProps['destroyOnHidden'];
 
   /**
    * 是否显示弹出层箭头
