@@ -33,25 +33,43 @@ toc: content
 import { LCollapseCard } from 'lighting-design';
 ```
 
-|       参数       |                 说明                 |                    类型                     |  默认值  |
-| :--------------: | :----------------------------------: | :-----------------------------------------: | :------: |
-| defaultCollapsed |          初始化是否展开状态          |                  `boolean`                  | `false`  |
-|    collapsed     |           受控是否展开状态           |                  `boolean`                  |   `-`    |
-| triggerPosition  |            触发折叠的位置            |            `'header' \| 'icon'`             |  `icon`  |
-|   collapsible    |              是否能展开              |                  `boolean`                  |  `true`  |
-|   forceRender    |      被隐藏时是否渲染 DOM 结构       |                  `boolean`                  | `false`  |
-|      ghost       |          使面板透明且无边框          |                  `boolean`                  | `false`  |
-|     bordered     |           带边框风格的面板           |                  `boolean`                  |  `true`  |
-|     disabled     |               是否禁用               |                  `boolean`                  | `false`  |
-|  destroyContent  |          销毁折叠隐藏的面板          |                  `boolean`                  | `false`  |
-| collapsePosition |             设置图标位置             |               `left \| right`               | `right`  |
-|      title       |                 标题                 |                 `ReactNode`                 |   `-`    |
-|      extra       |            右上角额外内容            |                 `ReactNode`                 |   `-`    |
-|       size       |               组件大小               |         `large \| middle \| small`          | `middle` |
-|    className     |             根 div 类名              |                  `string`                   |   `-`    |
-|      style       |             根 div 样式              |               `CSSProperties`               |   `-`    |
-| contentClassName |           展开时的内容类名           |                  `string`                   |   `-`    |
-|     children     |               内容组件               |                 `ReactNode`                 |   `-`    |
-|    expandIcon    |            自定义切换图标            | `(props: Record<string, any>) => ReactNode` |   `- `   |
-|   onCollapsed    |           受控展开时的回调           |          `(bool: boolean) => void`          |   `- `   |
-|    itemProps     | antd 折叠卡片 items 中一项的配置对象 |         `CollapseProps['items'][0]`         |   `- `   |
+### 基础属性
+
+| 属性名           | 描述                        | 类型                                                                                                                                                                  | 默认值 |
+| ---------------- | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| defaultCollapsed | 初始化是否展开              | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49)       | -      |
+| collapsed        | 受控是否展开                | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49)       | -      |
+| onCollapsed      | 受控展开时的回调            | `(bool: boolean) => void`                                                                                                                                             | -      |
+| forceRender      | 初始是否渲染折叠的 DOM 结构 | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49)       | -      |
+| title            | 标题                        | [ReactNode](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts#L484-L495)       | -      |
+| extra            | 右上角额外内容              | [ReactNode](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts#L484-L495)       | -      |
+| contentClassName | 内容类名                    | [string](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/typescript@5.3.3/node_modules/typescript/lib/lib.es5.d.ts#L407-L407)          | -      |
+| contentStyle     | 内容样式                    | [CSSProperties](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts#L2591-L2600) | -      |
+
+### 内容属性
+
+| 属性名       | 描述                               | 类型                                                                     | 默认值 |
+| ------------ | ---------------------------------- | ------------------------------------------------------------------------ | ------ |
+| contentProps | antd 折叠卡片的 items 每一项的属性 | `Omit<NonNullable<CollapseProps['items']>[number], 'children' \| 'key'>` | -      |
+
+### Ant Design Collapse 属性
+
+LCollapseCard 继承了 Ant Design Collapse 的大部分属性，但排除了以下属性：
+
+- [items](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L510-L510)
+- `activeKey`
+- `defaultActiveKey`
+- [onChange](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts#L2421-L2421)
+- `accordion`
+
+可用的 Ant Design Collapse 属性包括：
+
+| 属性名               | 描述                                     | 类型                                                                                                                                                            | 默认值     |
+| -------------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| bordered             | 是否有边框                               | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | `true`     |
+| ghost                | 是否为透明无边框背景                     | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | `false`    |
+| size                 | Collapse 的尺寸                          | `'large' \| 'middle' \| 'small'`                                                                                                                                | `'middle'` |
+| expandIcon           | 自定义切换图标                           | `(panelProps) => ReactNode`                                                                                                                                     | -          |
+| expandIconPosition   | 设置图标位置                             | `'start' \| 'end'`                                                                                                                                              | `'start'`  |
+| collapsible          | 所有子面板是否可折叠或指定可折叠触发区域 | `'header' \| 'icon' \| 'disabled'`                                                                                                                              | -          |
+| destroyInactivePanel | 销毁折叠隐藏的面板                       | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | `false`    |
