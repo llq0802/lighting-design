@@ -77,67 +77,42 @@ import { LFormItem } from 'lighting-design';
 
 除了以下参数，其余和 [Form.Item](https://ant.design/components/form-cn#formitem) 一样。
 
-| 参数              | 说明                                                                                                                                   | 类型                                                         | 默认值     |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ---------- |
-| labelWidth        | \* label 宽度 , 同 `labelCol={{ flex: 'xxx px' }}` 默认继承 `LForm`的 `labelWidth` 如果配置则以当前配置为准                            | `string\|number \| 'auto'`                                   | `-`        |
-| formItemBottom    | \* 统一设置 LFormItem 或 LFormItemXXX 组件的 style.bottom 属性 , 比 LForm.formItemBottom 优先级高                                      | `string\|number`                                             | `-`        |
-| className         | 整个组件最外层容器类名                                                                                                                 | `string`                                                     | `-`        |
-| style             | 整个组件最外层容器样式                                                                                                                 | `CSSProperties`                                              | `-`        |
-| contentClassName  | 被包裹组件的最外层容器类名 , 配置 `contentAfter` 或者 `contentBefore` 生效                                                             | `string`                                                     | `-`        |
-| contentBefore     | 组件前面的内容                                                                                                                         | `ReactNode`                                                  | `-`        |
-| contentAfter      | 组件后面的内容                                                                                                                         | `ReactNode`                                                  | `-`        |
-| contentProps      | 传给 `children` 的额外属性                                                                                                             | `Record<string,any>`                                         | `-`        |
-| contentInline     | `children` 外层的 div 是否为 `inline`行盒，<br> 为`false`占满 div ，为`true`不占满整个 div                                             | `boolean`                                                    | `false`    |
-| contentAlignItems | 当配置了 `contentBefore` 或者 `contentAfter` 时组件原本子项内容`(label 的右边)`与 `contentBefore` 或者 `contentAfter` 与垂直的对齐方式 | `'center' \| 'start' \| 'end'`                               | `'center'` |
-| wrapperAlignItems | 当配置了 `label` 时组件左边的 `label` 与右边整体的内容区域 `( 如果配置了 contentBefore 或者 contentAfter 则包含它们 )` 的垂直对齐方式  | `'center' \| 'start' \| 'end'`                               | `'start'`  |
-| ownColSpans       | 只在作为`LQueryForm`组件的子项生效，与`antd.Col`组件的配置一样，配置单独这一项占多数份                                                 | [ColProps](https://ant.design/components/grid-cn/#col)       | `-`        |
-| renderField       | 重新渲染 `LFormItem` 的子组件                                                                                                          | `(dom: ReactElement, props: LFormItemProps) => ReactElement` | `-`        |
-| renderFormItem    | 重新渲染整个 `LFormItem` 组件                                                                                                          | `(dom: ReactElement) => ReactElement`                        | `-`        |
-| disabled          | \* 组件禁用, 几乎所有的内置`LFormItemXXX`组件均支持<br>自定义组件则需要开发者自己控制内部`children`的禁用                              | `boolean`                                                    | `false`    |
-| size              | \* 组件大小, 几乎所有的内置`LFormItemXXX`组件均支持<br>自定义组件则需要开发者自己控制内部`children`的大小                              | `'large' \| 'middle' \| 'small'`                             | `-`        |
-| placeholder       | \* 组件的 placeholder, 部分组件支持<br>自定义组件则需要开发者自己控制内部`children`的 placeholder                                      | `string\|string[]`                                           | `-`        |
+### 基础属性
 
-### renderField 用法
+| 属性名          | 描述                                                                                   | 类型                                                                                                                                                            | 默认值 |
+| --------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| labelWidth      | label 标签的宽度，如果 labelCol 存在，则 labelWidth 不生效                             | `number \| string`                                                                                                                                              | -      |
+| wrapperWidth    | children 组件外层宽度，如果 wrapperCol 存在，则 wrapperWidth 不生效                    | `number \| string`                                                                                                                                              | -      |
+| alignItems      | children 组件与 label 的对齐方式                                                       | `'center' \| 'flex-start' \| 'flex-end'`                                                                                                                        | -      |
+| formItemBottom  | 设置表单项的 style.bottom 属性                                                         | `number \| string`                                                                                                                                              | -      |
+| required        | 是否为必填字段，会生成默认的必填星号，默认会触发内置的表单校验规则                     | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | -      |
+| customValidator | 自定义校验函数，验证通过时返回 Promise.resolve()，验证失败时返回 Promise.reject(error) | `(value: any, e: any) => Promise<any>`                                                                                                                          | -      |
 
-```ts
-import { Popover, Space } from 'antd';
+### 内容扩展属性
 
-//使用renderField自定义antd的数据输入类型的组件
-<LFormItem
-  label="自定义渲染"
-  name="customField1"
-  renderField={(dom) => {
-    // 这儿的dom为LFormItem组件的children 也就是Input组件
-    // 这儿的 props 为组件内部注册 需要手动调用 value和onChange id
-    const CustomField = (props: { value: any; onChange: (val: any) => void; id: string; [key: string]: any }) => {
-      return <Space>通过 renderField 渲染 :{React.cloneElement(dom, props)}</Space>;
-    };
-    return <CustomField />;
-  }}
->
-  <Input placeholder="自定义渲染" />
-</LFormItem>;
+| 属性名              | 描述                                                                               | 类型                                                                                                                                                            | 默认值 |
+| ------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| contentBefore       | children 组件前面的内容                                                            | [ReactNode](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts#L484-L495) | -      |
+| contentAfter        | children 组件后面的内容                                                            | [ReactNode](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts#L484-L495) | -      |
+| contentWrapperProps | 当配置了 contentBefore 或 contentAfter 时，传给 children 组件的外层 div 的额外属性 | `React.HTMLAttributes<HTMLDivElement>`                                                                                                                          | -      |
 
-//使用renderField自定义 LFormItemXXX 组件
-<LFormItemPassword
-  required
-  validateTrigger="onChange"
-  label="自定义渲染"
-  name="with-popover6"
-  tooltip="该方案所有 LFormItemXXX 表单项"
-  renderField={(dom) => {
-    const MyField = (props) => {
-      return (
-        <Popover
-          trigger="focus"
-          getPopupContainer={(e) => (e?.parentNode || document.body) as HTMLElement}
-          // ...其他 Popover 的属性
-        >
-          {React.cloneElement(dom, props)}
-        </Popover>
-      );
-    };
-    return <MyField />;
-  }}
-/>;
-```
+### 自定义渲染属性
+
+| 属性名         | 描述                                | 类型                                                         | 默认值 |
+| -------------- | ----------------------------------- | ------------------------------------------------------------ | ------ |
+| renderField    | 重新渲染 LFormItem 的 children 组件 | `(dom: ReactElement, props: LFormItemProps<T>) => ReactNode` | -      |
+| renderFormItem | 重新渲染整个 LFormItem 组件         | `(dom: ReactElement) => ReactNode`                           | -      |
+
+### Ant Design Form.Item 属性
+
+LFormItem 继承了 Ant Design Form.Item 的所有属性，包括：
+
+| 属性名       | 描述                                     | 类型                                                                                                                                                            | 默认值 |
+| ------------ | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| name         | 字段名                                   | `string \| string[]`                                                                                                                                            | -      |
+| label        | 标签名                                   | [ReactNode](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts#L484-L495) | -      |
+| rules        | 校验规则                                 | `Rule[]`                                                                                                                                                        | -      |
+| dependencies | 设置依赖字段                             | `string[]`                                                                                                                                                      | -      |
+| shouldUpdate | 自定义字段更新逻辑                       | `boolean \| ((prevValue, curValue) => boolean)`                                                                                                                 | -      |
+| initialValue | 设置子元素默认值                         | [any](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts#L4185-L4185)     | -      |
+| ...          | 其他所有 Ant Design Form.Item 支持的属性 | -                                                                                                                                                               | -      |

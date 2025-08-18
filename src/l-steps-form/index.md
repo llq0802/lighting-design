@@ -46,162 +46,86 @@ const { StepForm } = LStepsForm;
 
 除了以下参数，其余和 [LForm](/components/form#api) 一样。
 
-| 参数             | 说明                                                                                                                                                                                                                                          | 类型                                    | 默认值            |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | ----------------- |
-| items            | 表单项配置                                                                                                                                                                                                                                    | `ItemsProps`                            | `-`               |
-| contentClassName | 表单项容器的类名                                                                                                                                                                                                                              | `string`                                | `-`               |
-| contentStyle     | 表单项层容器的样式                                                                                                                                                                                                                            | `CSSProperties`                         | `-`               |
-| defaultCurrent   | 默认步骤                                                                                                                                                                                                                                      | `number`                                | `0`               |
-| current          | 设置后变为受控模式。当前表单的步骤数。                                                                                                                                                                                                        | `number`                                | `-`               |
-| destroyOnHidden  | 被隐藏时是否销毁 DOM 结构                                                                                                                                                                                                                     | `boolean`                               | `false`           |
-| forceRender      | 初始化时强制渲染所有                                                                                                                                                                                                                          | `boolean`                               | `false`           |
-| isMergeValues    | 是否将每个表单的值合并后再传入到 `onFinish`的参数中                                                                                                                                                                                           | `boolean`                               | `true`            |
-| submitStepNum    | 在哪一步为最后的提交操作 , 用于触发 `onFinish` 默认为表单最后一步                                                                                                                                                                             | `number`                                | `children.length` |
-| isReady          | 为 `false` 时，禁止上一步、下一步、提交操作。                                                                                                                                                                                                 | `boolean`                               | `true`            |
-| stepsProps       | `antd Steps` 的属性，去掉了 `current` 和 `onChange`                                                                                                                                                                                           | [StepsProps]                            | `-`               |
-| submitter        | 上一步、下一步、提交按钮的配置 为`false`不渲染                                                                                                                                                                                                | `false \| LStepsFormSubmitterProps`     | `-`               |
-| actionRef        | 常用操作引用，便于自定义触发                                                                                                                                                                                                                  | `MutableRefObject<LStepsFormActionRef>` | `-`               |
-| onCurrentChange  | current 发生改变的事件                                                                                                                                                                                                                        | `(current:number) => void`              | `-`               |
-| onFinish         | 全部表单提交成功后调用 , 默认只在最后一步提交之后触发 , 如果配置`submitStepNum`则以在`submitStepNum`步骤时触发. <br>返回`true`或`Promise.resolve(true)`并且`isResetFields`为`true`会重置所有表单 步骤也会回到初始值 , 并且会自动管理`loading` | `async(values) => any`                  | `-`               |
-| renderChildren   | 自定义步骤器                                                                                                                                                                                                                                  | `RenderChildren`                        | `-`               |
-| renderLStepsForm | 自定义步骤器                                                                                                                                                                                                                                  | `RenderLStepsForm`                      | `-`               |
+### 基础属性
 
-### ItemProps
+| 属性名          | 描述                                                                                     | 类型                                                                                                                                                            | 默认值 |
+| --------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| items           | 步骤配置项列表，每个步骤包含表单项                                                       | [LStepsFormProps['items']](#lstepsformitem-属性)                                                                                                                | `[]`   |
+| defaultCurrent  | 默认当前步骤                                                                             | [number](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L45-L45)  | `0`    |
+| current         | 设置后变为受控模式，当前表单的步骤数                                                     | [number](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L45-L45)  | -      |
+| onCurrentChange | current 发生改变的事件                                                                   | `(current: number) => void`                                                                                                                                     | -      |
+| isReady         | 组件是否准备好，false 时不能进行`上一步`、`下一步`、`提交`等操作                         | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | `true` |
+| forceRender     | 初始化时强制渲染所有 dom                                                                 | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | -      |
+| destroyOnHidden | 被隐藏时是否销毁 DOM 结构                                                                | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | -      |
+| isMergeValues   | 是否将每个步骤表单的 onFinish 得到的表单数据合并成一个对象到最后提交的 onFinish 的参数中 | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | -      |
+| submitStepNum   | 在哪一步为最终的提交操作，用于触发 onFinish，默认为表单最后一步                          | [number](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L45-L45)  | -      |
+| actionRef       | 实例包含一些方法和属性，可以通过它调用组件内部方法                                       | `MutableRefObject<LStepsFormActionRef>`                                                                                                                         | -      |
 
-```TS
-type ItemProps = (StepProps & {
-    /**当前步骤收集的表单名 */
-    formName: string;
-    formItems: (
-      | ReactNode
-      | {
-          /**
-           * 当 content 的最外层不是 LFormXXX 或者 Form.Item 时, name 为数组
-           * @example
-           * name: ['name1', 'name2'] // 每一项的值为 content 中 Form.Item 时, LFormXXX 或者 Form.Item 的 name 数组的第二项
-           *
-           *
-           */
-          name: string | string[];
-          /**
-           * 当 content 的最外层不是 LFormXXX 或者 Form.Item 时, LFormXXX 或者 Form.Item 的 name 为数组
-           * @example
-           *  name: [formName, 'xxx'] // 第一项必须为 formName
-           */
-          content: ReactNode;
-        }
-    )[];
-    destroyOnHidden?: boolean;
-    onFinish?: (valuse: T) => Promise<any>;
-  })[]
+### 表单方法相关属性
 
-```
+| 属性名   | 描述                                                                                                 | 类型                          | 默认值 |
+| -------- | ---------------------------------------------------------------------------------------------------- | ----------------------------- | ------ |
+| onFinish | 默认表单最后一步提交成功触发，如果返回 true 或者 Promise.Resolved(true) 就会自动重置所有表单到初始值 | `(values: T) => Promise<any>` | -      |
 
-### LStepsFormSubmitterProps
+### 自定义渲染属性
 
-```ts
-interface LStepsFormSubmitterProps {
-  className?: string;
-  style?: React.CSSProperties;
-  isReady?: boolean;
-  /**
-   * 在第几步触发提交
-   * - 默认最后一步触发
-   */
-  submitStepNum?: number;
-  position?: 'flex-start' | 'center' | 'flex-end';
-  gap?: number | string;
-  loading?: boolean;
-  disabled?: boolean;
-  /** 上一步按钮的文字 */
-  prevText?: ReactNode;
-  /** 点击上一步按钮的回调 */
-  onPrev?: (event?: FormEvent<HTMLFormElement>) => void;
-  /** 点击上一步按钮的Props*/
-  prevButtonProps?: ButtonProps;
-  /** 是否显示上一步按钮 */
-  showPrev?: boolean;
-  /** 下一步按钮的文字 */
-  nextText?: ReactNode;
-  /** 点击下一步按钮的回调 */
-  onNext?: (event?: FormEvent<HTMLFormElement>) => void;
-  /** 点击下一步按钮的Props*/
-  nextButtonProps?: ButtonProps;
-  submitButtonProps?: ButtonProps;
-  /** 是否显示下一步按钮 */
-  showNext?: boolean;
-  /** 点击提交按钮的回调 */
-  onSubmit?: (event?: FormEvent<HTMLFormElement>) => void;
-  /** 强制显示上一步按钮，优先级比 showPrev 高 */
-  forceShowPrev?: boolean;
-  /** 强制显示下一步按钮，优先级比 showNext 高 */
-  forceShowNext?: boolean;
-  /** 强制显示提交按钮 */
-  forceShowSubmit?: boolean;
-  submitText?: string;
-  /** 自定义渲染 */
-  renderSubmitter?: (
-    doms: {
-      prevDom: ReactNode;
-      nextDom: ReactNode;
-      submitDom: ReactNode;
-    },
-    props: StepsSubmitterProps,
-  ) => ReactNode;
-}
-```
+| 属性名           | 描述                                    | 类型                                                                                                                                                         | 默认值 |
+| ---------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
+| renderChildren   | 重新渲染 LStepsForm 组件的所有 children | `(doms: { stepsDom: ReactNode; contentDom: ReactNode; submitterDom: ReactNode }, props: LStepsFormProps) => ReactNode`                                       | -      |
+| renderLStepsForm | 重新渲染整个 LStepsForm                 | `(doms: { dom: ReactNode; stepsDom: ReactNode; contentDom: ReactNode; submitterDom: ReactNode }, props: LStepsFormProps) => ReactNode`                       | -      |
+| contentClassName | 步骤内容区域的类名                      | [string](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/typescript@5.3.3/node_modules/typescript/lib/lib.es5.d.ts#L407-L407) | -      |
+| contentStyle     | 步骤内容区域的样式                      | `React.CSSProperties`                                                                                                                                        | -      |
 
-### LStepsFormActionRef
+### Steps 组件相关属性
 
-```typescript
-interface LStepsFormActionRef {
-  /** 到指定步骤 */
-  toStep: (num: number) => void;
-  /**跳到最后一步 */
-  toLast: () => void;
-  /** 上一步 */
-  prev: () => void;
-  /** 下一步 */
-  next: () => void;
-  /** 提交 */
-  submit: (isFinallySubmit?: boolean) => void;
-  /** 重置所有表单项并跳到默认步骤 */
-  reset: () => void;
-}
-```
+| 属性名     | 描述                  | 类型                                                  | 默认值 |
+| ---------- | --------------------- | ----------------------------------------------------- | ------ |
+| stepsProps | antd Steps 组件的属性 | `Omit<StepsProps, 'current' \| 'items' \| 'initial'>` | -      |
 
-### RenderChildren
+### 提交按钮配置 (submitter)
 
-```TS
+可以通过 `submitter` 属性配置步骤表单的提交按钮：
 
-type RenderChildren = (
-    doms: {
-      stepsDom: ReactNode;
-      contentDom: ReactNode;
-      submitterDom: ReactNode;
-    },
-    props: LStepsFormProps,
-  ) => ReactNode
+| 属性名            | 描述                                     | 类型                                                                                                                                                            | 默认值     |
+| ----------------- | ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| position          | 按钮的排列方式                           | `'flex-start' \| 'center' \| 'flex-end'`                                                                                                                        | `'center'` |
+| gap               | 按钮之间的间距                           | `number \| string`                                                                                                                                              | `8`        |
+| prevText          | 上一步按钮的文字                         | [ReactNode](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts#L484-L495) | `'上一步'` |
+| nextText          | 下一步按钮的文字                         | [ReactNode](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/@types+react@18.3.20/node_modules/@types/react/index.d.ts#L484-L495) | `'下一步'` |
+| submitText        | 提交按钮的文字                           | [string](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/typescript@5.3.3/node_modules/typescript/lib/lib.es5.d.ts#L407-L407)    | `'提交'`   |
+| prevButtonProps   | 上一步按钮的 Props                       | `ButtonProps`                                                                                                                                                   | -          |
+| nextButtonProps   | 下一步按钮的 Props                       | `ButtonProps`                                                                                                                                                   | -          |
+| submitButtonProps | 提交按钮的 Props                         | `ButtonProps`                                                                                                                                                   | -          |
+| onPrev            | 点击上一步按钮的回调                     | `(event?: FormEvent<HTMLFormElement>) => void`                                                                                                                  | -          |
+| onNext            | 点击下一步按钮的回调                     | `(event?: FormEvent<HTMLFormElement>) => void`                                                                                                                  | -          |
+| onSubmit          | 点击提交按钮的回调                       | `(event?: FormEvent<HTMLFormElement>) => void`                                                                                                                  | -          |
+| showPrev          | 是否显示上一步按钮                       | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | `true`     |
+| showNext          | 是否显示下一步按钮                       | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | `true`     |
+| forceShowPrev     | 强制显示上一步按钮，优先级比 showPrev 高 | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | -          |
+| forceShowNext     | 强制显示下一步按钮，优先级比 showNext 高 | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | -          |
+| forceShowSubmit   | 强制显示提交按钮                         | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | -          |
+| renderSubmitter   | 自定义渲染提交按钮区域                   | `(doms: { prevDom: ReactNode; nextDom: ReactNode; submitDom: ReactNode }, props: StepsSubmitterProps) => ReactNode`                                             | -          |
 
-```
+### LStepsFormItem 属性
 
-### RenderLStepsForm
+items 中每个步骤项的配置：
 
-```TS
+| 属性名          | 描述                      | 类型                                                                                                                                                            | 默认值 |
+| --------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
+| formName        | 当前步骤收集的表单名      | [string](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/typescript@5.3.3/node_modules/typescript/lib/lib.es5.d.ts#L407-L407)    | -      |
+| formItems       | 当前步骤的表单项          | `Array<ReactNode \| { name: string \| string[]; content: ReactNode }>`                                                                                          | -      |
+| destroyOnHidden | 被隐藏时是否销毁 DOM 结构 | [boolean](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/node_modules/.pnpm/better-mock@0.3.7/node_modules/better-mock/typings/index.d.ts#L49-L49) | -      |
+| onFinish        | 当前步骤完成时的回调      | `(values: T) => Promise<any>`                                                                                                                                   | -      |
 
-type RenderChildren =(
-    doms: {
-      dom: ReactNode;
-      stepsDom: ReactNode;
-      contentDom: ReactNode;
-      submitterDom: ReactNode;
-    },
-    props: LStepsFormProps,
-  ) => ReactNode;
+### ActionRef 方法
 
+通过 actionRef 可以调用 LStepsForm 内部的方法：
 
-```
-
-[StepsProps.Items]: https://ant.design/components/steps-cn/#api
-[StepsProps]: https://ant.design/components/steps-cn/#api
-[ButtonProps]: https://ant.design/components/button-cn/#api
+| 方法名 | 描述                         | 类型                                  |
+| ------ | ---------------------------- | ------------------------------------- |
+| toStep | 跳转到指定步骤               | `(num: number) => void`               |
+| toLast | 跳转到最后一步               | `() => void`                          |
+| prev   | 上一步                       | `() => void`                          |
+| next   | 下一步                       | `() => void`                          |
+| submit | 提交表单                     | `(isFinallySubmit?: boolean) => void` |
+| reset  | 重置所有表单项并跳到默认步骤 | `() => void`                          |

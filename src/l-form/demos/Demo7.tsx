@@ -1,8 +1,10 @@
+import { message } from 'antd';
 import { LForm, LFormItemInput, LFormItemRadio } from 'lighting-design';
 
 const Demo7 = () => {
   return (
     <LForm
+      name="Demo70"
       onFinish={(values) => {
         console.log('onFinish-values ', values);
       }}

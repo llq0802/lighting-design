@@ -12,9 +12,8 @@ const Demo8 = () => {
 
   return (
     <LForm
+      name="form8"
       labelWrap
-      labelCol={{ flex: '90px' }}
-      submitter={{ buttonAlign: 90 }}
       form={form}
       onFinish={async (values) => {
         console.log('onFinish-values ', values);
