@@ -169,8 +169,8 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
    * 表格数据
    *  - #### 一旦配置此属性（ 即便为空数组 ）, [request](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-table\interface.ts#L174-L174) 及其相关的属性方法均无效
    *  - 绝大多数情况下建议使用 [request](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-table\interface.ts#L174-L174) 返回的表格数据
-   *  - 配置了此属性意味着你需要自己维护数据并管理分页, loading 等 用法与antd.Table完全一致
-   *  - 内部的表单查询, 表格分页查询 以及[tableRef](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\EditTable\index.tsx#L45-L45)的实例方法均无效
+   *  - 配置了此属性意味着你需要自己维护数据并管理分页, loading 等 用法与 antd.Table 完全一致
+   *  - 内部的表单查询, 表格分页查询 以及 `actionRef` 等的实例方法均无效
    *  - 你依然可以使用内置部分布局属性，自定义渲染等
    */
   dataSource?: T[];
@@ -186,7 +186,7 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
       });
 
   /**
-   * 配置了表单项后, 查询表单与表格的间距
+   * 配置了表单项后, 查询表单卡片与表格卡片的间距
    */
   gap?: string | number;
 
@@ -210,6 +210,7 @@ export interface LTableProps<T = any> extends Omit<TableProps<T>, 'rowHoverable'
 
   /**
    * 是否在第一次渲染时自动请求 [request](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-table\interface.ts#L174-L174)
+   *  - 可以设置为 false 关闭自动请求， 通过`actionRef`的方法手动请求
    */
   requestAuto?: boolean;
 
