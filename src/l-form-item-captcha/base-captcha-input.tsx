@@ -6,7 +6,7 @@ import React, { useRef, type Ref } from 'react';
 type PropsType = any;
 
 const BaseCaptchaInput: React.FC<PropsType> = ({
-  type,
+  type = 'otp',
   initText,
   cacheKey,
   second,
@@ -16,6 +16,7 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
   requestAutoFocus,
   captchaButtonProps = {},
   inputProps = {},
+  wrapperProps,
   ...restProps
 }) => {
   const actionRef = useRef<LCaptchaButtonActionRef>(null!);
@@ -26,6 +27,7 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
     manual: true,
     onSuccess(data, params) {
       actionRef.current?.start?.();
+      console.log('===inputRef.current==>', inputRef.current);
       if (requestAutoFocus) inputRef?.current?.focus?.();
       requestOptions?.onSuccess?.(data, params);
     },
@@ -48,7 +50,7 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
     loading,
     actionRef,
     onEnd,
-    type: isInline ? 'link' : type,
+    type: isInline ? 'link' : type === 'otp' ? 'primary' : type,
     size: mergeInputProps?.size,
     ...captchaButtonProps,
     style: {
@@ -64,27 +66,34 @@ const BaseCaptchaInput: React.FC<PropsType> = ({
 
   const captchaButtonDom = <LCaptchaButton {...innerCaptchaButtonProps}>{initText}</LCaptchaButton>;
 
-  const innerInputProps = {
-    ref: inputRef,
-    ...mergeInputProps,
-    style: {
-      flex: 1,
-      ...mergeInputProps?.style,
-    },
-    suffix: isInline ? (
-      <>
-        {mergeInputProps?.suffix}
-        <Divider type="vertical" style={{ top: 0 }} />
-        {captchaButtonDom}
-      </>
+  const inputDom =
+    type === 'otp' ? (
+      <Input.OTP ref={inputRef} {...mergeInputProps} />
     ) : (
-      mergeInputProps?.suffix
-    ),
-  };
+      <Input
+        ref={inputRef}
+        {...mergeInputProps}
+        style={{
+          flex: 1,
+          ...mergeInputProps?.style,
+        }}
+        suffix={
+          isInline ? (
+            <>
+              {mergeInputProps?.suffix}
+              <Divider type="vertical" style={{ top: 0 }} />
+              {captchaButtonDom}
+            </>
+          ) : (
+            mergeInputProps?.suffix
+          )
+        }
+      />
+    );
 
   return (
-    <Flex gap={8} align="center">
-      <Input {...innerInputProps} />
+    <Flex gap={8} align="center" {...wrapperProps}>
+      {inputDom}
       {!isInline ? captchaButtonDom : null}
     </Flex>
   );

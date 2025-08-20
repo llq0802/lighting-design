@@ -16,7 +16,7 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   initText = '获取验证码',
   onEnd,
 
-  type = 'default',
+  type = 'otp',
   maxLength = 6,
   //
   request,
@@ -24,6 +24,7 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
   requestAutoFocus = true,
   inputProps = emptyObject,
   captchaButtonProps = emptyObject,
+  wrapperProps,
 
   ...formItemProps
 }) => {
@@ -38,6 +39,7 @@ const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
     variant,
     placeholder: itemPlaceholder,
     maxLength,
+    wrapperProps,
     //
     type,
     cacheKey,

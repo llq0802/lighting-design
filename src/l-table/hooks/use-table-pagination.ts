@@ -45,6 +45,7 @@ export const useTablePagination = ({
       return { list: [], total: 0 };
     },
     {
+      loadingDelay: 20,
       ...requestOptions,
       manual: true,
       onFinally(...args) {
