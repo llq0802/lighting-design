@@ -16,10 +16,6 @@ export default {
           link: '/components/l-captcha-button',
         },
         {
-          title: 'LFileViewer-文件预览器',
-          link: '/components/l-file-viewer',
-        },
-        {
           title: 'LNumberRoll-数值加载器',
           link: '/components/l-number-roll',
         },
@@ -45,7 +41,7 @@ export default {
         },
         {
           title: 'LRightMenu-右键菜单',
-          link: '/components/l-right-Mmenu',
+          link: '/components/l-right-menu',
         },
       ],
     },

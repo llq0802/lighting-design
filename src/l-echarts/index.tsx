@@ -1,102 +1,98 @@
 import { useMount, usePrevious, useUnmount, useUpdateEffect } from 'ahooks';
-import classnames from 'classnames';
 import type { ECharts, EChartsType } from 'echarts';
 import * as echarts from 'echarts';
 import isEqual from 'fast-deep-equal';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
-import { fastDeepClone, transformEchartsOption } from 'lighting-design/utils';
+import { emptyObject } from 'lighting-design/constants';
 import { isString, pick } from 'lodash-es';
 import { memo, useImperativeHandle, useRef, type FC } from 'react';
-import { bind, clear } from 'size-sensor';
-import './index.less';
+import { bind as bindDom, clear as clearDom } from 'size-sensor';
 import type { LEChartsProps } from './interface';
-const prefixCls = 'lightd-echarts';
+import { useStyles } from './styles';
 
-const pickKeys = ['option', 'notMerge', 'lazyUpdate', 'showLoading', 'loadingOption'];
+const pickKeys = ['option', 'notMerge', 'lazyUpdate', 'showLoading', 'loadingOption', 'replaceMerge'];
 
 const LECharts: FC<LEChartsProps> = memo((props) => {
   const {
     className,
     style,
     option = emptyObject,
-    echartsRef,
-    onEvents,
+    actionRef,
+    onEvents = emptyObject,
     onChartReady,
     onChartResize,
-    notMerge = false,
-    lazyUpdate = true,
+    notMerge,
+    lazyUpdate,
     showLoading,
     loadingOption,
     shouldSetOption,
     theme,
     opts,
     autoResize = true,
-    autoResizeDuration = 800,
-    designWidth = 1920,
-    autoResizeFields,
+    autoResizeDuration = 600,
+    replaceMerge,
+    transformOption,
   } = props;
+
+  const { cx, styles } = useStyles();
+
   const ref = useRef<HTMLDivElement>(null!);
   const echartsInstanceRef = useRef<ECharts>();
   const isInitialResize = useRef(true);
   const unBind = useRef<() => void>();
   const prevProps = usePrevious(props);
 
-  /** echarts.init 初始化实例 */
-  const initEchartsInstance = async () => {
-    return new Promise((resolve) => {
-      const ins = (echartsInstanceRef.current = echarts.init(ref.current, theme, opts));
-      resolve(ins);
-    });
-  };
-
   /** 更新图表 */
   const updateEChartsOption = () => {
-    let echartOption;
-    if (autoResize && autoResizeFields !== false && (autoResizeFields?.length || autoResizeFields === void 0)) {
-      echartOption = transformEchartsOption(
-        fastDeepClone(option), // 必须先深克隆
-        [...new Set(['fontSize', ...(autoResizeFields || emptyArray)])],
-        designWidth,
-      );
-    } else {
-      echartOption = fastDeepClone(option);
-    }
-
     const echartInstance = echartsInstanceRef.current;
-    echartInstance?.setOption(echartOption, notMerge, lazyUpdate);
+    echartInstance?.setOption(transformOption ? transformOption(option) : option, {
+      notMerge,
+      lazyUpdate,
+      replaceMerge,
+    });
+
     if (showLoading) echartInstance?.showLoading(loadingOption);
     else echartInstance?.hideLoading();
   };
 
   /** 绑定图表实例事件 */
-  const bindEvents = (instance: ECharts, events: Record<string, (params: any, ins: ECharts) => void>) => {
-    function _bindEvent(eventName: string, func: (params: any, ins: ECharts) => void) {
+  const bindEvents = (instance: ECharts, events: EChartsReactProps['onEvents']) => {
+    function _bindEvent(eventName: string, func: any) {
       if (isString(eventName) && typeof func === 'function') {
         instance.on(eventName, (param: any) => {
           func(param, instance);
         });
       }
     }
-
     Object.keys(events)?.forEach((eventName) => {
       _bindEvent(eventName, events[eventName]);
     });
   };
+
+  /** 移除图表实例事件 */
+  const offEvents = (instance: ECharts, events: EChartsReactProps['onEvents']) => {
+    if (!events) return;
+    Object.keys(events)?.forEach((eventName) => {
+      if (isString(eventName)) {
+        instance.off(eventName);
+      }
+    });
+  };
+
   /** 创建图表 */
   const renderNewEcharts = async () => {
     if (!ref.current) return;
 
-    await initEchartsInstance();
+    echartsInstanceRef.current = echarts.init(ref.current, theme, opts);
 
     updateEChartsOption();
 
     const echartInstance = echartsInstanceRef.current as EChartsType;
 
-    bindEvents(echartInstance, onEvents || {});
+    bindEvents(echartInstance, onEvents);
 
     if (typeof onChartReady === 'function') onChartReady?.(echartInstance);
 
-    unBind.current = bind(ref.current, (dom) => {
+    unBind.current = bindDom(ref.current, (dom) => {
       // 解决闪动问题
       if (dom!.clientWidth <= 0 || dom!.clientHeight <= 0) return;
       if (autoResize) resize();
@@ -107,16 +103,16 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
   /** 销毁当前图表实例并取消dom宽高监听 */
   const dispose = () => {
     unBind.current?.();
-    echartsInstanceRef.current?.clear?.();
+    echartsInstanceRef.current?.off?.();
     echartsInstanceRef.current?.dispose?.();
-    if (ref.current) {
-      try {
-        clear(ref.current);
-      } catch (e) {
-        console.warn(e);
-      }
-      echarts?.dispose(ref.current);
+    echartsInstanceRef.current?.clear?.();
+    if (!ref.current) return;
+    try {
+      clearDom(ref.current);
+    } catch (error) {
+      console.error(error);
     }
+    echarts?.dispose(ref.current);
   };
 
   /** 调用图标实例 resize函数 并加动画 */
@@ -124,10 +120,6 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     const echartsInstance = echartsInstanceRef.current;
     if (!isInitialResize.current) {
       try {
-        if (autoResizeFields !== false && (autoResizeFields?.length || autoResizeFields === void 0)) {
-          updateEChartsOption();
-        }
-
         echartsInstance?.resize({
           width: 'auto',
           height: 'auto',
@@ -151,22 +143,25 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     // 以下属性修改的时候，需要 dispose 之后再新建
     // 1. 切换 theme 的时候
     // 2. 修改 opts 的时候
-    // 3. 修改 onEvents 的时候，这样可以取消所有之前绑定的事件
-    if (
-      !isEqual(prevProps?.theme, theme) ||
-      !isEqual(prevProps?.opts, opts) ||
-      !isEqual(prevProps?.onEvents, onEvents)
-    ) {
+    if (!isEqual(prevProps?.theme, theme) || !isEqual(prevProps?.opts, opts)) {
       dispose();
       renderNewEcharts();
       return;
     }
 
+    // 修改 onEvent 的时候先移除历史事件再添加
+    if (!isEqual(prevProps?.onEvents, onEvents)) {
+      const echartInstance = echartsInstanceRef.current as EChartsType;
+      offEvents(echartInstance, onEvents);
+      bindEvents(echartInstance, onEvents);
+    }
+
+    // 以下属性修改的时候，需要直接更新
     if (!isEqual(pick(prevProps, pickKeys), pick(props, pickKeys))) {
       updateEChartsOption();
     }
 
-    // 如果 style 或者  className 变化 重新resize
+    // 如果 style 或者  className 变化 重新 resize
     if (!isEqual(prevProps?.style, style) || !isEqual(prevProps?.className, className)) {
       resize();
     }
@@ -182,6 +177,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     lazyUpdate,
     showLoading,
     loadingOption,
+    replaceMerge,
 
     style,
     className,
@@ -194,7 +190,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     dispose();
   });
 
-  useImperativeHandle(echartsRef, () => {
+  useImperativeHandle(actionRef, () => {
     return {
       echartsInstanceRef,
       rootRef: ref,
@@ -203,7 +199,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     };
   });
 
-  return <div ref={ref} className={classnames(prefixCls, className)} style={style} />;
+  return <div ref={ref} className={cx(styles.container, className)} style={style} />;
 });
 
 // 第一步优化性能

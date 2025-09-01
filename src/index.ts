@@ -9,6 +9,8 @@ export * from './l-descriptions';
 export { default as LDescriptions } from './l-descriptions';
 export * from './l-drawer-form';
 export { default as LDrawerForm } from './l-drawer-form';
+export * from './l-echarts';
+export { default as LECharts } from './l-echarts';
 export * from './l-form';
 export { default as LForm } from './l-form';
 export * from './l-form-item';
