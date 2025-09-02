@@ -11,6 +11,8 @@ export * from './l-drawer-form';
 export { default as LDrawerForm } from './l-drawer-form';
 export * from './l-echarts';
 export { default as LECharts } from './l-echarts';
+export * from './l-edit-table';
+export { default as LEditTable } from './l-edit-table';
 export * from './l-form';
 export { default as LForm } from './l-form';
 export * from './l-form-item';

@@ -5,7 +5,7 @@ toc: content
 
 # LEditTable
 
-基于 `LTable` `LForm` 封装的高级编辑表格, 默认关闭了 `pagination` `内置工具栏` 且不支持 `contentRender`
+基于 `LTable` `LForm` 封装的高级编辑表格, 默认关闭了 `pagination`
 
 ## 代码演示
 

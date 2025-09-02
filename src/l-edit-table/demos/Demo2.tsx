@@ -1,14 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import Mock from 'better-mock';
-import type { LEditTableInstance, LTableInstance } from 'lighting-design';
-import {
-  LEditTable,
-  LForm,
-  LFormItem,
-  LFormItemInput,
-  LFormItemNumber,
-} from 'lighting-design';
+import type { LEditTableInstance, LTableActionRef } from 'lighting-design';
+import { LEditTable, LForm, LFormItem, LFormItemInput, LFormItemNumber } from 'lighting-design';
 import { useRef, useState } from 'react';
 
 const defaultData = Mock.mock({
@@ -26,10 +20,8 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   const editTableRef = useRef<LEditTableInstance>();
-  const tableRef = useRef<LTableInstance>();
-  const [editableKeys, setEditableKeys] = useState<string[]>(
-    defaultData?.map((item) => item.id),
-  );
+  const actionRef = useRef<LTableActionRef>();
+  const [editableKeys, setEditableKeys] = useState<string[]>(defaultData?.map((item) => item.id));
 
   const columns = [
     {
@@ -59,16 +51,10 @@ const Demo1 = () => {
             >
               向下插入
             </Button>
-            <Button
-              type="link"
-              onClick={() => editTableRef.current?.resetFields(record.id)}
-            >
+            <Button type="link" onClick={() => editTableRef.current?.resetFields(record.id)}>
               重置此行
             </Button>
-            <Button
-              type="link"
-              onClick={() => editTableRef.current?.delete(record.id)}
-            >
+            <Button type="link" onClick={() => editTableRef.current?.delete(record.id)}>
               删除此行
             </Button>
           </Space>
@@ -82,7 +68,7 @@ const Demo1 = () => {
       <LForm
         form={form}
         labelWidth={100}
-        submitter={{ buttonAlign: 'center' }}
+        submitter={{ position: 'center' }}
         onFinish={async (val) => {
           await editTableRef.current?.validateFields();
           console.log(' val ', val);
@@ -138,28 +124,18 @@ const Demo1 = () => {
             onValuesChange={(a, b, c, i) => {
               // console.log('a,b,cLEditTable', a, b, c, i);
             }}
-            isSort
+            sortColumn
             rowKey="id"
-            tableRef={tableRef}
-            toolbarLeft={
+            actionRef={actionRef}
+            toolbar={
               <>
-                <Button
-                  type="dashed"
-                  onClick={() => editTableRef.current?.validateFields()}
-                >
+                <Button type="dashed" onClick={() => editTableRef.current?.validateFields()}>
                   校验
                 </Button>
-                <Button
-                  icon={<PlusOutlined />}
-                  type="dashed"
-                  onClick={() => editTableRef.current?.unshift()}
-                >
+                <Button icon={<PlusOutlined />} type="dashed" onClick={() => editTableRef.current?.unshift()}>
                   头部新增
                 </Button>
-                <Button
-                  type="dashed"
-                  onClick={() => editTableRef.current?.resetFields()}
-                >
+                <Button type="dashed" onClick={() => editTableRef.current?.resetFields()}>
                   重置全部
                 </Button>
               </>
@@ -172,12 +148,7 @@ const Demo1 = () => {
               onEditingKeys: setEditableKeys,
             }}
             footer={() => (
-              <Button
-                icon={<PlusOutlined />}
-                type="dashed"
-                block
-                onClick={() => editTableRef.current?.push()}
-              >
+              <Button icon={<PlusOutlined />} type="dashed" block onClick={() => editTableRef.current?.push()}>
                 底部新增
               </Button>
             )}

@@ -84,7 +84,7 @@ export type LFormProps<T = any> = Omit<FormProps<T>, 'onValuesChange' | 'onFinis
      * @param currentValue 当前改变的字段值
      * @param allValues 表单所有的数据
      */
-    onValuesChange?(currentName: keyof T, currentValue: T[keyof T], allValues: T): void;
+    onValuesChange?(currentName: keyof T & string, currentValue: T[keyof T], allValues: T): void;
 
     /** 子元素 */
     children?: ReactNode;

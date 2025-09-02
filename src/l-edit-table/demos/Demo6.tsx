@@ -1,7 +1,7 @@
 import { Button, message, Space, Tag } from 'antd';
 import Mock from 'better-mock';
-import type { LEditTableInstance, LTableInstance } from 'lighting-design';
-import { LEditTable, LFormItemDatePicker, LFormItemInput, LFormItemNumber, LFormItemSelect } from 'lighting-design';
+import type { LEditTableInstance, LTableActionRef } from 'lighting-design';
+import { LEditTable, LFormItemDate, LFormItemInput, LFormItemNumber, LFormItemSelect } from 'lighting-design';
 import { sleep } from 'lighting-design/test';
 import { useRef, useState } from 'react';
 
@@ -30,7 +30,7 @@ const SEX_MAP = {
 
 const Demo3 = () => {
   const editTableRef = useRef<LEditTableInstance>();
-  const tableRef = useRef<LTableInstance>();
+  const actionRef = useRef<LTableActionRef>();
   const [editingKeys, setEditingKeys] = useState<string[]>([]);
   const [loadings, setLoadings] = useState<string[]>([]);
 
@@ -86,7 +86,7 @@ const Demo3 = () => {
     {
       dataIndex: 'birthday',
       title: '出生年月',
-      editable: <LFormItemDatePicker disabled={!!loadings.length} required />,
+      editable: <LFormItemDate disabled={!!loadings.length} required />,
       render(val: string) {
         return <Tag color="#2c5687">{val}</Tag>;
       },
@@ -143,13 +143,12 @@ const Demo3 = () => {
   return (
     <div>
       <LEditTable
-        isSort
         rowKey="id"
         formItems={formItems}
         pagination={{
           pageSize: 5,
         }}
-        tableRef={tableRef}
+        actionRef={actionRef}
         toolbarActionConfig={{
           showColumnSetting: true,
           showReload: true,
@@ -159,8 +158,7 @@ const Demo3 = () => {
         request={async () => {
           await sleep();
           return {
-            success: true,
-            data: defaultData,
+            list: defaultData,
             total: defaultData.length,
           };
         }}

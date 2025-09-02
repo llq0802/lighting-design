@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import Mock from 'better-mock';
-import type { LEditTableInstance, LTableInstance } from 'lighting-design';
+import type { LEditTableInstance, LTableActionRef } from 'lighting-design';
 import { LEditTable, LForm, LFormItem, LFormItemInput, LFormItemNumber } from 'lighting-design';
 import { sleep } from 'lighting-design/test';
 import { useRef, useState } from 'react';
@@ -20,7 +20,7 @@ const Demo1 = () => {
   const [form] = LForm.useForm();
 
   const editTableRef = useRef<LEditTableInstance>();
-  const tableRef = useRef<LTableInstance>();
+  const actionRef = useRef<LTableActionRef>();
   const [editableKeys, setEditableKeys] = useState<string[]>(defaultData?.map((item) => item.id));
 
   const columns = [
@@ -64,7 +64,7 @@ const Demo1 = () => {
       <LForm
         form={form}
         labelWidth={100}
-        submitter={{ buttonAlign: 'center' }}
+        submitter={{ position: 'center' }}
         onFinish={async (val) => {
           await editTableRef.current?.validateFields();
           console.log(' val ', val);
@@ -135,8 +135,8 @@ const Demo1 = () => {
               console.log('a,b,cLEditTable===', a, b, c, i);
             }}
             rowKey="id"
-            tableRef={tableRef}
-            toolbarLeft={
+            actionRef={actionRef}
+            toolbar={
               <>
                 <Button icon={<PlusOutlined />} type="dashed" onClick={() => editTableRef.current?.unshift()}>
                   头部新增
@@ -152,8 +152,7 @@ const Demo1 = () => {
             request={async () => {
               await sleep();
               return {
-                success: true,
-                data: defaultData,
+                list: defaultData,
                 total: defaultData.length,
               };
             }}

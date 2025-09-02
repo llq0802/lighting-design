@@ -1,5 +1,5 @@
 import { Button, message } from 'antd';
-import type { LEditTableInstance, LTableInstance } from 'lighting-design';
+import type { LEditTableInstance, LTableActionRef } from 'lighting-design';
 import { LEditTable, LForm, LFormItem, LFormItemInput, LFormItemNumber, LModalForm } from 'lighting-design';
 import { useRef, useState } from 'react';
 import { sleep } from '../../test';
@@ -7,7 +7,7 @@ import { sleep } from '../../test';
 const Demo1 = () => {
   const [form] = LForm.useForm();
   const editTableRef = useRef<LEditTableInstance>();
-  const tableRef = useRef<LTableInstance>();
+  const actionRef = useRef<LTableActionRef>();
   const [editableKeys, setEditableKeys] = useState<string[]>([]);
 
   const columns = [
@@ -77,10 +77,9 @@ const Demo1 = () => {
           ]}
         >
           <LEditTable
-            showHorizontalBorder={false}
             rowKey="id"
             size="small"
-            tableRef={tableRef}
+            actionRef={actionRef}
             columns={columns}
             editTableOptions={{
               editTableRef,

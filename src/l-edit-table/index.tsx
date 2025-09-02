@@ -1,11 +1,9 @@
 import { useControllableValue, useDeepCompareEffect, useMemoizedFn } from 'ahooks';
-import classnames from 'classnames';
-import LForm from 'lighting-design/Form';
-import BaseTable from 'lighting-design/Table/base/BaseTable';
-import type { LTableInstance } from 'lighting-design/Table/interface';
 import { emptyObject } from 'lighting-design/constants';
 import { useIsFirstRender } from 'lighting-design/hooks';
-import { fastDeepClone, isFunction, uniqueId } from 'lighting-design/utils';
+import LForm from 'lighting-design/l-form';
+import LTable, { type LTableActionRef } from 'lighting-design/l-table';
+import { fastDeepClone, uniqueId } from 'lighting-design/utils';
 import { isPlainObject } from 'lodash';
 import React, { cloneElement, isValidElement, useImperativeHandle, useMemo, useRef } from 'react';
 import type { LEditTableProps } from './interface';
@@ -22,7 +20,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     dataSource,
     columns,
     size,
-    tableRef: outTableRef,
+    actionRef,
 
     editTableOptions = emptyObject,
 
@@ -43,7 +41,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   } = editTableOptions;
   const [form] = LForm.useForm();
   const isFirstRender = useIsFirstRender();
-  const tableRef = useRef<LTableInstance>();
+  const tableRef = useRef<LTableActionRef>();
   const alreadyTableDataRef = useRef<Record<string, any>[]>([]);
   const editableKeyMapRef = useRef<Record<string, any>>({});
   const [editingKeys, setEditingKeys] = useControllableValue<string[]>(editTableOptions, {
@@ -120,7 +118,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
   }, [editingKeys?.join(''), columns]);
   /** 添加表格一行 如果有值则表单赋值 */
   const addItemRow = useMemoizedFn((row) => {
-    const uid = (row && row?.[rowKey]) || uniqueId('row-key');
+    const uid = (row && row?.[rowKey]) || uniqueId();
     const rowItem = row ? { [rowKey]: uid, ...row } : { [rowKey]: uid, ...itemFieldObj };
     form.setFieldValue(uid, rowItem);
     setEditingKeys((prev) => [...new Set([...prev, uid])]);
@@ -310,18 +308,16 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     if (dataSource?.length) {
       alreadyTableDataRef.current = fastDeepClone([...dataSource]);
       return {
-        success: true,
-        data: dataSource,
+        list: dataSource,
         total: dataSource.length,
       };
     }
     // @ts-ignore
     const res = await outRequest?.(...args);
-    alreadyTableDataRef.current = fastDeepClone([...(res?.data ?? [])]);
+    alreadyTableDataRef.current = fastDeepClone([...(res?.list ?? [])]);
     return (
       res || {
-        success: true,
-        data: [],
+        list: [],
         total: 0,
       }
     );
@@ -365,32 +361,22 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
         formOnValuesChange?.(allVal, curName, curVal, index);
       }}
     >
-      <BaseTable
+      <LTable
         tableLayout="fixed"
-        // @ts-ignore
-        tableRef={(r) => {
+        actionRef={(r) => {
           tableRef.current = r;
-          if (!outTableRef) return;
-          if (isFunction(outTableRef)) {
-            (outTableRef as any)?.(r);
+          if (!actionRef) return;
+          if (typeof actionRef === 'function') {
+            (actionRef as any)?.(r);
           } else {
-            outTableRef.current = r;
+            actionRef.current = r;
           }
         }}
         columns={mergedColumns}
-        // @ts-ignore
         request={request}
         size={size}
-        toolbarActionConfig={false}
         pagination={false}
         {...restprops}
-        rowClassName={(...args: any[]) => {
-          const outRowClassName = restprops.rowClassName;
-          return classnames(
-            'light-editable-row',
-            typeof outRowClassName === 'function' ? outRowClassName(...args) : outRowClassName,
-          );
-        }}
       />
     </LForm>
   );

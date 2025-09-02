@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import Mock from 'better-mock';
-import type { LEditTableInstance, LTableInstance } from 'lighting-design';
+import type { LEditTableInstance, LEditTableProps, LTableActionRef } from 'lighting-design';
 import { LEditTable, LFormItemInput } from 'lighting-design';
 import { useRef, useState } from 'react';
 
@@ -16,11 +16,11 @@ const defaultData = Mock.mock({
 }).list;
 
 const Demo1 = () => {
-  const tableRef = useRef<LTableInstance>();
+  const actionRef = useRef<LTableActionRef>();
   const [editingKeys, setEditingKeys] = useState<string[]>([]);
   const editTableRef = useRef<LEditTableInstance>();
 
-  const columns = [
+  const columns: LEditTableProps['columns'] = [
     {
       dataIndex: 'name',
       title: '名字',
@@ -70,26 +70,16 @@ const Demo1 = () => {
     <div>
       <LEditTable
         rowKey="id"
-        tableRef={tableRef}
-        toolbarLeft={
+        actionRef={actionRef}
+        toolbar={
           <>
-            <Button
-              icon={<PlusOutlined />}
-              type="dashed"
-              onClick={() => editTableRef.current?.push()}
-            >
+            <Button icon={<PlusOutlined />} type="dashed" onClick={() => editTableRef.current?.push()}>
               底部新增
             </Button>
-            <Button
-              icon={<PlusOutlined />}
-              type="dashed"
-              onClick={() => editTableRef.current?.unshift()}
-            >
+            <Button icon={<PlusOutlined />} type="dashed" onClick={() => editTableRef.current?.unshift()}>
               头部新增
             </Button>
-            <Button onClick={() => editTableRef.current?.resetTableData()}>
-              重置表格数据到初始状态
-            </Button>
+            <Button onClick={() => editTableRef.current?.resetTableData()}>重置表格数据到初始状态</Button>
           </>
         }
         dataSource={defaultData}

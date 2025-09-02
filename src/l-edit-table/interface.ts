@@ -1,7 +1,7 @@
 import type { FormInstance } from 'antd';
-import type { LFormProps } from 'lighting-design/Form';
-import type { LFormItemProps } from 'lighting-design/FormItem/interface';
-import type { LTableProps } from 'lighting-design/Table';
+import type { LFormProps } from 'lighting-design/l-form';
+import type { LFormItemProps } from 'lighting-design/l-form-item';
+import type { LTableProps } from 'lighting-design/l-table';
 import type { Dispatch, Key, MutableRefObject, ReactElement, SetStateAction } from 'react';
 
 /** 编辑表格实例 */
@@ -109,9 +109,6 @@ export type LEditTableProps = {
    * @param key key 当前行的唯一id
    * @param value 当前行的表单值
    * @param index  索引
-   * @author 李岚清 <https://github.com/llq0802>
-   * @version 2.1.29
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   onValuesChange?: (
     allVal: Record<string, Record<string, any>>,
@@ -121,23 +118,20 @@ export type LEditTableProps = {
   ) => void;
   /**
    * 主键 id 必须是字符串类型
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   rowKey: string;
   /**
    * 编辑表格的配置项
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
   editTableOptions?: EditTableOptions;
   /**
    * 编辑表格的列配置 多了 editable属性  getEditable方法  用于配置每一项表单项
-   * @see 官网 https://llq0802.github.io/lighting-design/latest LTableProps
    */
-  columns: LTableProps<any>['columns'] &
+  columns: LTableProps['columns'] &
     {
       /** 为false此项不能编辑 ,  只能为 LFormItemXXX 或 Form.Item */
       editable?: ReactElement;
       /** 自定义配置每一项 LFormItemXXX 的配置 */
       getEditable?: (val: any, row: Record<string, any>, i: number) => Omit<LFormItemProps, 'name'>;
     }[];
-} & Partial<Omit<LTableProps, 'columns' | 'contentRender'>>;
+} & Partial<Omit<LTableProps, 'columns'>>;

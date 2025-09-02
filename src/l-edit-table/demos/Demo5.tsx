@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space } from 'antd';
 import Mock from 'better-mock';
-import type { LEditTableInstance, LTableInstance } from 'lighting-design';
+import type { LEditTableInstance, LTableActionRef } from 'lighting-design';
 import { LEditTable, LFormItemInput, LFormItemNumber } from 'lighting-design';
 import { useRef, useState } from 'react';
 
@@ -16,7 +16,7 @@ const defaultData = Mock.mock({
 }).list;
 
 const Demo5 = () => {
-  const tableRef = useRef<LTableInstance>();
+  const actionRef = useRef<LTableActionRef>();
   const [editingKeys, setEditingKeys] = useState<string[]>([]);
   const editTableRef = useRef<LEditTableInstance>();
 
@@ -40,16 +40,10 @@ const Demo5 = () => {
           <Space size={0}>
             {editingKeys.includes(record.id) ? (
               <>
-                <Button
-                  type="link"
-                  onClick={() => editTableRef.current?.save(record.id)}
-                >
+                <Button type="link" onClick={() => editTableRef.current?.save(record.id)}>
                   保存
                 </Button>
-                <Button
-                  type="link"
-                  onClick={() => editTableRef.current?.cancel(record.id)}
-                >
+                <Button type="link" onClick={() => editTableRef.current?.cancel(record.id)}>
                   取消
                 </Button>
               </>
@@ -67,16 +61,10 @@ const Demo5 = () => {
                 >
                   插入
                 </Button>
-                <Button
-                  type="link"
-                  onClick={() => editTableRef.current?.edit(record)}
-                >
+                <Button type="link" onClick={() => editTableRef.current?.edit(record)}>
                   编辑
                 </Button>
-                <Button
-                  type="link"
-                  onClick={() => editTableRef.current?.delete(record.id)}
-                >
+                <Button type="link" onClick={() => editTableRef.current?.delete(record.id)}>
                   删除
                 </Button>
               </>
@@ -90,22 +78,14 @@ const Demo5 = () => {
   return (
     <div>
       <LEditTable
-        isSort
-        tableRef={tableRef}
-        toolbarLeft={
+        sortColumn
+        actionRef={actionRef}
+        toolbar={
           <>
-            <Button
-              icon={<PlusOutlined />}
-              type="dashed"
-              onClick={() => editTableRef.current?.push()}
-            >
+            <Button icon={<PlusOutlined />} type="dashed" onClick={() => editTableRef.current?.push()}>
               底部新增
             </Button>
-            <Button
-              icon={<PlusOutlined />}
-              type="dashed"
-              onClick={() => editTableRef.current?.unshift()}
-            >
+            <Button icon={<PlusOutlined />} type="dashed" onClick={() => editTableRef.current?.unshift()}>
               头部新增
             </Button>
           </>
