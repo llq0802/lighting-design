@@ -1,5 +1,5 @@
 import { useMount, usePrevious, useUnmount, useUpdateEffect } from 'ahooks';
-import type { ECharts, EChartsType } from 'echarts';
+import type { ECharts } from 'echarts';
 import * as echarts from 'echarts';
 import isEqual from 'fast-deep-equal';
 import { emptyObject } from 'lighting-design/constants';
@@ -28,13 +28,12 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
     theme,
     opts,
     autoResize = true,
-    autoResizeDuration = 600,
+    autoResizeDuration = 800,
     replaceMerge,
     transformOption,
   } = props;
 
   const { cx, styles } = useStyles();
-
   const ref = useRef<HTMLDivElement>(null!);
   const echartsInstanceRef = useRef<ECharts>();
   const isInitialResize = useRef(true);
@@ -43,19 +42,18 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
 
   /** 更新图表 */
   const updateEChartsOption = () => {
-    const echartInstance = echartsInstanceRef.current;
-    echartInstance?.setOption(transformOption ? transformOption(option) : option, {
+    echartsInstanceRef.current?.setOption(transformOption ? transformOption(option) : option, {
       notMerge,
       lazyUpdate,
       replaceMerge,
     });
 
-    if (showLoading) echartInstance?.showLoading(loadingOption);
-    else echartInstance?.hideLoading();
+    if (showLoading) echartsInstanceRef.current?.showLoading(loadingOption);
+    else echartsInstanceRef.current?.hideLoading();
   };
 
   /** 绑定图表实例事件 */
-  const bindEvents = (instance: ECharts, events: EChartsReactProps['onEvents']) => {
+  const bindEvents = (instance: ECharts, events: any) => {
     function _bindEvent(eventName: string, func: any) {
       if (isString(eventName) && typeof func === 'function') {
         instance.on(eventName, (param: any) => {
@@ -69,7 +67,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
   };
 
   /** 移除图表实例事件 */
-  const offEvents = (instance: ECharts, events: EChartsReactProps['onEvents']) => {
+  const offEvents = (instance: ECharts, events: any) => {
     if (!events) return;
     Object.keys(events)?.forEach((eventName) => {
       if (isString(eventName)) {
@@ -79,24 +77,22 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
   };
 
   /** 创建图表 */
-  const renderNewEcharts = async () => {
+  const renderNewEcharts = () => {
     if (!ref.current) return;
 
     echartsInstanceRef.current = echarts.init(ref.current, theme, opts);
 
     updateEChartsOption();
 
-    const echartInstance = echartsInstanceRef.current as EChartsType;
+    bindEvents(echartsInstanceRef.current, onEvents);
 
-    bindEvents(echartInstance, onEvents);
-
-    if (typeof onChartReady === 'function') onChartReady?.(echartInstance);
+    if (typeof onChartReady === 'function') onChartReady?.(echartsInstanceRef.current);
 
     unBind.current = bindDom(ref.current, (dom) => {
       // 解决闪动问题
       if (dom!.clientWidth <= 0 || dom!.clientHeight <= 0) return;
       if (autoResize) resize();
-      onChartResize?.(echartInstance, dom as HTMLDivElement);
+      onChartResize?.(echartsInstanceRef.current!, dom as HTMLDivElement);
     });
   };
 
@@ -117,10 +113,9 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
 
   /** 调用图标实例 resize函数 并加动画 */
   const resize = () => {
-    const echartsInstance = echartsInstanceRef.current;
     if (!isInitialResize.current) {
       try {
-        echartsInstance?.resize({
+        echartsInstanceRef.current?.resize({
           width: 'auto',
           height: 'auto',
           animation: { duration: autoResizeDuration },
@@ -151,9 +146,8 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
 
     // 修改 onEvent 的时候先移除历史事件再添加
     if (!isEqual(prevProps?.onEvents, onEvents)) {
-      const echartInstance = echartsInstanceRef.current as EChartsType;
-      offEvents(echartInstance, onEvents);
-      bindEvents(echartInstance, onEvents);
+      offEvents(echartsInstanceRef.current!, onEvents);
+      bindEvents(echartsInstanceRef.current!, onEvents);
     }
 
     // 以下属性修改的时候，需要直接更新
@@ -192,7 +186,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
 
   useImperativeHandle(actionRef, () => {
     return {
-      echartsInstanceRef,
+      getEchartsInstance: () => echartsInstanceRef.current!,
       rootRef: ref,
       resize,
       dispose,
@@ -202,6 +196,7 @@ const LECharts: FC<LEChartsProps> = memo((props) => {
   return <div ref={ref} className={cx(styles.container, className)} style={style} />;
 });
 
-// 第一步优化性能
+LECharts.displayName = 'LECharts';
+
 export default LECharts;
 export * from './interface';

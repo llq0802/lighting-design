@@ -263,10 +263,10 @@ const Demo10 = () => {
   const echartsRef = useRef<LEChartsInstance>();
 
   useEffect(() => {
-    const myChart = echartsRef.current?.echartsInstanceRef;
+    const ins = echartsRef.current?.getEchartsInstance();
 
     showTipTimer.current = setInterval(() => {
-      myChart!.current!.dispatchAction({
+      ins!.dispatchAction({
         type: 'showTip',
         seriesIndex: 0,
         dataIndex: curIndex.current,
@@ -284,7 +284,7 @@ const Demo10 = () => {
 
   return (
     <LECharts
-      echartsRef={echartsRef}
+      actionRef={echartsRef}
       style={{ height: '70vh' }}
       option={option}
       onEvents={{

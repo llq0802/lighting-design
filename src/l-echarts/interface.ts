@@ -13,17 +13,18 @@ declare type Opts = {
   ssr?: boolean;
   width?: number | string | 'auto';
   height?: number | string | 'auto';
+  [key: string]: any;
 };
 
 export type LEChartsOption = EChartsOption | Record<string, any>;
 
 export type LEChartsInstance =
   | {
-      /** echarts的实例 */
-      echartsInstanceRef: MutableRefObject<ECharts | undefined>;
+      /** echarts的实例方法 */
+      getEchartsInstance: () => ECharts;
       /** echarts容器的根元素 */
       rootRef: MutableRefObject<HTMLDivElement | null>;
-      /** 内置执行 resize图表并附带动画 还会resize autoResizeField配置的字段名  */
+      /** 内置执行 resize 图表并附带动画  */
       resize: () => void;
       /** 内置销毁当前图表实例与取消dom大小监听的方法 */
       dispose: () => void;
