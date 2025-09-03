@@ -109,8 +109,6 @@ React 版本的 ECharts 容器组件 对比 `echarts-for-react` 有如下特性:
 import { LECharts } from 'lighting-design';
 ```
 
-## API 属性
-
 | 属性名             | 说明                                                            | 类型                                                                                 | 默认值  |
 | ------------------ | --------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------- |
 | actionRef          | LECharts 组件的实例引用，包含 echarts 实例、根元素等            | `MutableRefObject<LEChartsInstance \| undefined>`                                    | -       |
@@ -131,8 +129,6 @@ import { LECharts } from 'lighting-design';
 | autoResizeDuration | autoResize 为 true 时生效，内部 resize 时的动画过渡时长（毫秒） | `number`                                                                             | `800`   |
 | replaceMerge       | 在更新图表时，指定需要替换的组件名称                            | `string \| string[]`                                                                 | -       |
 | transformOption    | 在更新图表之前，转化配置项                                      | `(option: LEChartsOption) => LEChartsOption`                                         | -       |
-
-## 类型定义
 
 ### LEChartsInstance
 
