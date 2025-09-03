@@ -29,16 +29,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
 
   const rowKey = typeof props.rowKey === 'string' ? props.rowKey : 'key';
 
-  const {
-    isTimelyModified = true,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    editingKeys: outEditingKeys,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    onEditingKeys: outOnEditingKeys,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    defaultEditingKeys,
-    formProps = emptyObject,
-  } = editTableOptions;
+  const { isTimelyModified = true, formProps = emptyObject } = editTableOptions;
   const [form] = LForm.useForm();
   const isFirstRender = useIsFirstRender();
   const tableRef = useRef<LTableActionRef>();
@@ -363,6 +354,7 @@ const LEditTable: React.FC<LEditTableProps> = (props) => {
     >
       <LTable
         tableLayout="fixed"
+        // @ts-ignore
         actionRef={(r) => {
           tableRef.current = r;
           if (!actionRef) return;

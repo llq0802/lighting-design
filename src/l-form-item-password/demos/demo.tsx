@@ -30,8 +30,8 @@ const App: React.FC = () => {
         });
       }}
     >
-      <LFormItemPassword name="password" label="密码" />
-      <LFormItemPassword strictValidator name="password" label="强密码" />
+      <LFormItemPassword name="password1" label="密码" />
+      <LFormItemPassword strictValidator name="password2" label="强密码" />
     </LForm>
   );
 };

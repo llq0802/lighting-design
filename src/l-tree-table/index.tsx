@@ -5,6 +5,7 @@ import { emptyArray, emptyObject } from 'lighting-design/constants';
 import React from 'react';
 import './index.less';
 import type { LTreeTableProps } from './interface';
+import { useStyles } from './styles';
 import type { LTreeTableDataItem, LTreeTableFieldNames, ValueType } from './util';
 import { compactTree, findTreeNode, getNodeChilren, transformTreeToList } from './util';
 
@@ -38,6 +39,8 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     ...restProps
   } = props;
 
+  const { cx, styles } = useStyles();
+
   const [checkList, setCheckList] = useControllableValue<ValueType[]>({
     defaultValue: defaultValue || [],
     ...props,
@@ -55,20 +58,11 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     [outFieldNames],
   );
 
-  const {
-    value: valueKey,
-    label: labelKey,
-    children: childrenKey,
-  } = fieldNames as Required<LTreeTableFieldNames>;
+  const { value: valueKey, label: labelKey, children: childrenKey } = fieldNames as Required<LTreeTableFieldNames>;
 
   const { list: realDataSource, columns: innerColumns } = useCreation(
     () => transformTreeToList(treeData, lastColumnMerged, fieldNames),
     [lastColumnMerged, treeData, fieldNames],
-  );
-
-  const hiddenCheckboxClassName = useCreation(
-    () => (!showCheckbox ? `${prefixCls}-checkbox-hidden` : ''),
-    [showCheckbox],
   );
 
   const compactData = useCreation(
@@ -90,15 +84,6 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
           let childAllChecked = true; // 是否在值列表中选中了其所有子项  默认全部都选中
           let childHasOneChecked = false; // 是否在值列表中有一项子项被选中  默认都没有被选中
           let childHasIndetermanite = false; // 是否在半选列表中有一项被选中   默认都没有被选中
-
-          // const childs = currParentItem[childrenKey].filter(
-          //   (item) => !item.disbaled,
-          // );
-          // childs.forEach((item) => {
-          //   if (!newChecks.has(item[valueKey])) {
-          //     childAllChecked = false;
-          //   }
-          // });
 
           currParentItem[childrenKey]?.forEach((item: Record<string, any>) => {
             if (!item.disabled) {
@@ -212,11 +197,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
     if (checkList?.length && !checkStrictly) {
       let newIndetermaniteList = indeterminateList;
       checkList.forEach((itemValue) => {
-        const { newIndetermanites } = processParentChecked(
-          itemValue,
-          checkList,
-          newIndetermaniteList,
-        );
+        const { newIndetermanites } = processParentChecked(itemValue, checkList, newIndetermaniteList);
         newIndetermaniteList = newIndetermanites;
       });
       setIndeterminateList(newIndetermaniteList);
@@ -250,20 +231,14 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
           ? col?.data?.map((subItem: Record<string, any>) => (
               <Checkbox
                 style={checkboxStyle}
-                className={classnames(
-                  `${prefixCls}-checkbox`,
-                  hiddenCheckboxClassName,
-                  checkboxClassName,
-                )}
+                className={cx(!showCheckbox && styles.checkbox, checkboxClassName)}
                 checked={checkList?.includes(subItem[valueKey])}
                 indeterminate={indeterminateList?.includes(subItem[valueKey])} // 只控制样式不会改变选中的值
                 onChange={() => handleChange(subItem)}
                 disabled={outDisabled || subItem.disabled}
                 key={subItem[valueKey]}
               >
-                {labelRender
-                  ? labelRender(subItem, col, idx)
-                  : subItem[labelKey] || subItem[valueKey]}
+                {labelRender ? labelRender(subItem, col, idx) : subItem[labelKey] || subItem[valueKey]}
               </Checkbox>
             ))
           : fillEmpty;

@@ -12,17 +12,11 @@ const Demo1 = () => {
       <Space size={24}>
         <span>
           <span>是否合并最后一列：</span>
-          <Switch
-            checked={lastColumnMerged}
-            onChange={(checked) => setLastColumnMerged(checked)}
-          />
+          <Switch checked={lastColumnMerged} onChange={(checked) => setLastColumnMerged(checked)} />
         </span>
         <span>
           <span>是否展示复选框：</span>
-          <Switch
-            checked={showCheckbox}
-            onChange={(checked) => setShowCheckbox(checked)}
-          />
+          <Switch checked={showCheckbox} onChange={(checked) => setShowCheckbox(checked)} />
         </span>
       </Space>
       <Divider />
@@ -33,11 +27,7 @@ const Demo1 = () => {
         treeData={data1}
         lastColumnMerged={lastColumnMerged}
         showCheckbox={showCheckbox}
-        columns={[
-          { title: '第一级' },
-          { title: '第二级' },
-          { title: '第三级' },
-        ]}
+        columns={[{ title: '第一级' }, { title: '第二级' }, { title: '第三级' }]}
       />
     </div>
   );

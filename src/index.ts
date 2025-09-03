@@ -81,5 +81,7 @@ export * from './l-table';
 export { default as LTable } from './l-table';
 export * from './l-tag-group';
 export { default as LTagGroup } from './l-tag-group';
+export * from './l-tree-table';
+export { default as LTreeTable } from './l-tree-table';
 export * from './l-trigger';
 export { default as LTrigger } from './l-trigger';

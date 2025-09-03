@@ -34,7 +34,7 @@ export default () => {
     >
       <LFormItemInput name="name" label="名字" required />
 
-      <LFormItem name="treetbale" label="菜单" required _isSelectType>
+      <LFormItem name="treetbale" label="菜单" required>
         <LTreeTable size="small" lastColumnMerged treeData={treeData} loading={loading} showHeader={false} />
       </LFormItem>
     </LForm>
