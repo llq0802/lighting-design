@@ -1,15 +1,11 @@
 import { useControllableValue, useCreation, useMemoizedFn, useMount, useRafState } from 'ahooks';
 import { Checkbox, Table } from 'antd';
-import classnames from 'classnames';
 import { emptyArray, emptyObject } from 'lighting-design/constants';
 import React from 'react';
-import './index.less';
 import type { LTreeTableProps } from './interface';
 import { useStyles } from './styles';
 import type { LTreeTableDataItem, LTreeTableFieldNames, ValueType } from './util';
 import { compactTree, findTreeNode, getNodeChilren, transformTreeToList } from './util';
-
-const prefixCls = 'lightd-tree-table';
 
 const LTreeTable: React.FC<LTreeTableProps> = (props) => {
   const {
@@ -252,7 +248,7 @@ const LTreeTable: React.FC<LTreeTableProps> = (props) => {
       pagination={false}
       {...restProps}
       {...tableProps}
-      className={classnames(prefixCls, className, tableProps?.className)}
+      className={cx(className, tableProps?.className)}
       dataSource={realDataSource ?? emptyArray}
       columns={realColumns}
     />

@@ -1,7 +1,7 @@
 import type { TableProps } from 'antd';
 import type { LTreeTableData, LTreeTableDataItem, LTreeTableFieldNames, ValueType } from './util';
 
-export { LTreeTableData, LTreeTableDataItem, LTreeTableFieldNames };
+export { LTreeTableDataItem, LTreeTableFieldNames };
 
 export type LTreeTableProps = {
   /**

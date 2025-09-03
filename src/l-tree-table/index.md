@@ -78,7 +78,7 @@ import { LTreeTable } from 'lighting-design';
 ## ValueType
 
 ```ts
-export type ValueType = string | number;
+type ValueType = string | number;
 ```
 
 ## LTreeTableDataItem
