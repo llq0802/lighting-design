@@ -72,7 +72,7 @@ const LTianaiCaptcha: FC<LTianaiCaptchaProps> & {
       width="fit-content"
       open={isModalOpen}
       onCancel={handleCancel}
-      destroyOnClose
+      destroyOnHidden
     >
       <Captcha
         {...restProps}
