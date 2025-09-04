@@ -1,10 +1,10 @@
 import { Button } from 'antd';
-import type { LSliderVerifyInstance } from 'lighting-design';
+import type { LSliderVerifyActionRef } from 'lighting-design';
 import { LSliderVerify } from 'lighting-design';
 import { useRef } from 'react';
 
 const Demo1 = () => {
-  const actionRef = useRef<LSliderVerifyInstance>();
+  const actionRef = useRef<LSliderVerifyActionRef>();
   return (
     <div>
       <LSliderVerify

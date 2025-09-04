@@ -1,13 +1,10 @@
 import { CheckOutlined, DoubleRightOutlined } from '@ant-design/icons';
 import { useControllableValue } from 'ahooks';
-import classnames from 'classnames';
 import { emptyObject } from 'lighting-design/constants';
 import { forwardRef } from 'react';
-import './index.less';
 import type { LSliderVerifyProps } from './interface';
-import useVerify from './useVerify';
-
-const prefixCls = 'lightd-slider-verify';
+import { useStyles } from './styles';
+import useVerify from './use-verify';
 
 function SliderVerify(props: LSliderVerifyProps & { outRef: any }) {
   const {
@@ -38,6 +35,7 @@ function SliderVerify(props: LSliderVerifyProps & { outRef: any }) {
     successShowBar = true,
     difference = 0,
   } = props;
+  const { cx, styles } = useStyles();
 
   const [value, onChange] = useControllableValue(props, {
     defaultValue: props?.defaultValue ?? false,
@@ -87,27 +85,21 @@ function SliderVerify(props: LSliderVerifyProps & { outRef: any }) {
   };
 
   return (
-    <div
-      ref={outRef}
-      className={classnames(prefixCls, className, success ? `${prefixCls}-success` : '')}
-      style={sliderVerifyStyle}
-    >
+    <div ref={outRef} className={cx(styles.container, className)} style={sliderVerifyStyle}>
       {/* 中间文字内容 */}
-      <span className={`${prefixCls}-tips`} style={verifyTipsStyle}>
+      <span className={styles.tips} style={verifyTipsStyle}>
         {success ? successTips : tips}
       </span>
       {/* bar滑块内容 */}
-      <div className={`${prefixCls}-bar`} ref={refBar} style={barStyle}>
+      <div className={styles.bar} ref={refBar} style={barStyle}>
         {success ? successBar : bar}
       </div>
       {/* 成功后的modal背景 */}
-      <div className={`${prefixCls}-modal`} style={modalStyle} />
+      <div className={styles.modal} style={modalStyle} />
     </div>
   );
 }
 
-const LSliderVerify = forwardRef((props: LSliderVerifyProps, ref: any) => (
-  <SliderVerify {...props} outRef={ref} />
-));
+const LSliderVerify = forwardRef((props: LSliderVerifyProps, ref: any) => <SliderVerify {...props} outRef={ref} />);
 export default LSliderVerify;
 export * from './interface';

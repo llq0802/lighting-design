@@ -1,11 +1,11 @@
 import { useEventListener } from 'ahooks';
 import { Button } from 'antd';
-import type { LSliderVerifyInstance } from 'lighting-design';
+import type { LSliderVerifyActionRef } from 'lighting-design';
 import { LSliderVerify } from 'lighting-design';
 import { useRef, useState } from 'react';
 
 const Demo3 = () => {
-  const actionRef = useRef<LSliderVerifyInstance>();
+  const actionRef = useRef<LSliderVerifyActionRef>();
   const [widths, setWidths] = useState(() => ({
     width: (window.innerWidth * 400) / 1920,
     height: (window.innerWidth * 32) / 1920,
