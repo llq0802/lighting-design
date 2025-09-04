@@ -53,6 +53,10 @@ export default {
           link: '/components/l-echarts',
         },
         {
+          title: 'LCard-高级卡片',
+          link: '/components/l-card',
+        },
+        {
           title: 'LTable-高级表格',
           link: '/components/l-table',
         },

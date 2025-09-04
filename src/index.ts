@@ -1,6 +1,8 @@
 export * from './interface';
 export * from './l-captcha-button';
 export { default as LCaptchaButton } from './l-captcha-button';
+export * from './l-card';
+export { default as LCard } from './l-card';
 export * from './l-card-group';
 export { default as LCardGroup } from './l-card-group';
 export * from './l-collapse-card';
