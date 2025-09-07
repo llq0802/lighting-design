@@ -29,7 +29,7 @@ export interface LCaptchaButtonProps extends Omit<ButtonProps, 'disabled'> {
   cacheKey: string;
 
   /**
-   * 点击按钮是否自动启动倒计时
+   * 点击按钮时是否自动启动倒计时
    * @default false
    */
   autoStart?: boolean;

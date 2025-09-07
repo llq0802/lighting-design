@@ -18,6 +18,7 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
     //
     form: outForm,
     onValuesChange,
+    onReset,
     onFinish,
     ...restProps
   } = props;
@@ -62,6 +63,10 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
           loading,
           disabled,
           ...submitter,
+          onReset(e) {
+            onReset?.(e);
+            submitter?.onReset?.(e);
+          },
         };
 
   const submitterDom = submitterProps ? <LFormSubmitter<T> {...submitterProps} /> : null;
@@ -82,7 +87,13 @@ function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
     </>
   );
   const dom = (
-    <Form<T> {...restProps} form={formRef.current} onValuesChange={innerOnValuesChange} onFinish={innerOnFinish}>
+    <Form<T>
+      {...restProps}
+      form={formRef.current}
+      onValuesChange={innerOnValuesChange}
+      onFinish={innerOnFinish}
+      disabled={disabled}
+    >
       <Form.Item noStyle shouldUpdate>
         {(formInstance) => {
           formRef.current = formInstance;

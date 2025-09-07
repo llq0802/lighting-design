@@ -88,4 +88,5 @@ export type LFormProps<T = any> = Omit<FormProps<T>, 'onValuesChange' | 'onFinis
 
     /** 子元素 */
     children?: ReactNode;
+    onReset?: (event: React.MouseEvent<HTMLElement>) => void;
   };

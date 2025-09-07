@@ -65,8 +65,6 @@ const Demo1 = () => {
   return (
     <LForm
       name="form1"
-      size="small"
-      disabled
       labelWidth={110}
       submitter={{ position: 'center' }}
       form={form}

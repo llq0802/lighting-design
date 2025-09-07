@@ -18,7 +18,7 @@ const CaptchaButton: ForwardRefRenderFunction<HTMLButtonElement, LCaptchaButtonP
     ...restProps
   } = props;
 
-  const [targetDate, setTargetDate] = useLocalStorageState(cacheKey, { defaultValue: 0 });
+  const [targetDate, setTargetDate] = useLocalStorageState<number | undefined>(cacheKey, { defaultValue: 0 });
 
   const [countdown] = useCountDown({
     targetDate,
