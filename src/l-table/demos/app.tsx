@@ -1,13 +1,13 @@
 import { LTable } from 'lighting-design';
 import React from 'react';
-import { apiGetUserList, columns, type DataType } from './service';
+import { apiGetUserList, columns } from './service';
 
 type PropsType = {};
 
 const App: React.FC<PropsType> = ({}) => {
   return (
     <div>
-      <LTable<DataType>
+      <LTable
         rowKey="id"
         columns={columns}
         request={async (params, type) => {

@@ -1,6 +1,6 @@
-import { useControllableValue, useMemoizedFn } from 'ahooks';
+import { useControllableValue } from 'ahooks';
 import { Tag } from 'antd';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
+import { emptyArray } from 'lighting-design/constants';
 import type { LTagGroupProps } from './interface';
 import { useStyles } from './styles';
 
@@ -8,8 +8,8 @@ const { CheckableTag } = Tag;
 
 export default function LTagGroup(props: LTagGroupProps) {
   const {
-    activeItemStyle = emptyObject,
-    itemStyle = emptyObject,
+    tagStyle,
+    tagClassName,
     style,
     className,
     options = emptyArray,
@@ -17,6 +17,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     disabled = false,
     cancelable = false,
     fieldNames = { label: 'label', value: 'value' },
+    renderItem,
   } = props;
   const { label: labelKey, value: valueKey } = fieldNames as { label: string; value: string };
 
@@ -25,15 +26,15 @@ export default function LTagGroup(props: LTagGroupProps) {
   const [state, setState] = useControllableValue(props);
   const value = multiple ? state || [] : state;
 
-  const triggerChange = useMemoizedFn((v: any) => {
+  const triggerChange = (v: any) => {
     let cur = options?.find((k) => k[valueKey] === v);
     if (multiple) {
       cur = options?.filter((k) => v.includes(k[valueKey]));
     }
     setState?.(v, cur, options);
-  });
+  };
 
-  const handleTagSelect = useMemoizedFn((checked: boolean, item: any) => {
+  const handleTagSelect = (checked: boolean, item: any) => {
     let newValue: any;
     // 选中时
     if (checked) {
@@ -56,26 +57,45 @@ export default function LTagGroup(props: LTagGroupProps) {
         }
       }
     }
-  });
+  };
 
   return (
     <div className={cx(styles.container, className)} style={style}>
       {options?.map((item: any, i) => {
-        const isDisabled = disabled || item.disabled;
-        const checked = multiple
+        const isDisabled = item.disabled ?? disabled;
+        const isActive = multiple
           ? value !== void 0 && Array.isArray(value) && value?.includes(item[valueKey] as unknown as string)
           : value === item[valueKey];
+
+        if (renderItem) {
+          return renderItem(
+            item,
+            {
+              isActive,
+              isDisabled,
+              onClick: () => {
+                if (isDisabled) return;
+                handleTagSelect(isActive, item);
+              },
+            },
+            i,
+          );
+        }
 
         return (
           <CheckableTag
             key={item[valueKey] ?? i}
             {...item.tagProps}
+            className={cx(
+              isDisabled && styles.disbaled,
+              tagClassName?.({ isActive, isDisabled, item }),
+              item.tagProps?.className,
+            )}
             style={{
-              ...itemStyle,
+              ...tagStyle?.({ isActive, isDisabled, item }),
               ...item.tagProps?.style,
-              ...(checked ? activeItemStyle : {}),
             }}
-            checked={checked}
+            checked={isActive}
             onChange={(checked) => {
               if (isDisabled) return;
               handleTagSelect(checked, item);

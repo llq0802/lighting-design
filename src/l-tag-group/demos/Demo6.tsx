@@ -4,7 +4,6 @@ export default function Demo6() {
   return (
     <div>
       <LTagGroup
-        showAllChecked={false}
         cancelable
         options={[
           {

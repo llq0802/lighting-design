@@ -7,5 +7,10 @@ export const useStyles = createStyles((p) => {
       display: 'inline-flex',
       flexWrap: 'wrap',
     },
+    disbaled: {
+      cursor: 'not-allowed',
+      background: token.colorBgContainerDisabled,
+      color: token.colorTextDisabled,
+    },
   };
 });

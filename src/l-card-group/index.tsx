@@ -68,7 +68,18 @@ export default function LCardGroup(props: LCardGroupProps) {
         const itemCardProps = item.itemCardProps || {};
 
         if (renderItem) {
-          return renderItem(item, { isActive, isDisabled, onClick: () => handleSelect(item) }, i);
+          return renderItem(
+            item,
+            {
+              isActive,
+              isDisabled,
+              onClick: () => {
+                if (isDisabled) return;
+                handleSelect(item);
+              },
+            },
+            i,
+          );
         }
 
         return (

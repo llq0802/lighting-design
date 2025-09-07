@@ -144,7 +144,7 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
       const { current, pageSize } = hasDataSource || requestOnce ? innerPagination : requestPagination;
       const render = (t: any, c: any, i: number) => {
         const count = paginationProps ? (current - 1) * pageSize + i + 1 : i + 1;
-        return typeof sortProps?.render ? sortProps?.render?.(count, current, pageSize, i) : count;
+        return sortProps?.render ? sortProps?.render?.(count, current, pageSize, i) : count;
       };
       innerColumns = [
         {
@@ -153,8 +153,8 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
           width: 70,
           ...sortProps,
           render,
-          key: '__SORT__',
-          dataIndex: '__SORT__',
+          key: '__L_SORT_COLUMNL__',
+          dataIndex: '__L_SORT_COLUMNL__',
         },
         ...innerColumns,
       ];

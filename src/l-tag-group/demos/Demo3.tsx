@@ -1,15 +1,13 @@
-import type { ValueType } from 'lighting-design';
+import type { LValueType } from 'lighting-design';
 import { LTagGroup } from 'lighting-design';
 import { useState } from 'react';
-import './styles.less';
 
 export default function Demo() {
-  const [value, setValue] = useState<ValueType>('');
+  const [value, setValue] = useState<LValueType>('');
 
   return (
     <div>
       <LTagGroup
-        className="myLTagGroup"
         options={[
           {
             value: '1',
@@ -26,6 +24,13 @@ export default function Demo() {
         ]}
         value={value}
         onChange={(val) => setValue(val)}
+        tagStyle={({ isActive }) => {
+          return isActive
+            ? { background: '#3e9bed' }
+            : {
+                background: '#f5f5f5',
+              };
+        }}
       />
 
       <p style={{ marginTop: 50 }}>当前值：{value}</p>

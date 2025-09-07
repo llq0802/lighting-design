@@ -4,7 +4,6 @@ export default function Demo() {
   return (
     <div>
       <LTagGroup
-        showAllChecked
         options={[
           { id: '1', name: '香蕉' },
           { id: '2', name: '葡萄' },

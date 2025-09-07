@@ -1,5 +1,6 @@
 import type { SelectProps, TagProps } from 'antd';
 import type { LCardGroupProps } from 'lighting-design/l-card-group/interface';
+import type { CSSProperties } from 'react';
 
 export interface LTagGroupProps
   extends Pick<
@@ -15,14 +16,18 @@ export interface LTagGroupProps
     | 'style'
   > {
   options?: (SelectProps['options'] & { tagProps?: TagProps }[]) | Record<string, any>[];
+  tagStyle?: (state: {
+    isActive: boolean;
+    isDisabled: boolean;
+    item: Record<string, any>;
+  }) => (CSSProperties & Record<string, any>) | undefined;
+  tagClassName?: (state: { isActive: boolean; isDisabled: boolean; item: Record<string, any> }) => string | undefined;
   /**
-   *  每一项标签的类名
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
+   * 完全自定义渲染 item
    */
-  itemStyle?: React.CSSProperties;
-  /**
-   *  选中每一项标签的类名
-   *@see 官网 https://llq0802.github.io/lighting-design/latest LTagGroupProps
-   */
-  activeItemStyle?: React.CSSProperties;
+  renderItem?: (
+    item: Record<string, any>,
+    state: { isActive: boolean; isDisabled: boolean; onClick: () => void },
+    index: number,
+  ) => React.ReactNode;
 }

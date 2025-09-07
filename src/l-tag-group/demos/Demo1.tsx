@@ -13,6 +13,7 @@ export default function Demo() {
           {
             value: '2',
             label: '葡萄',
+            disabled: true,
           },
           {
             value: '3',
