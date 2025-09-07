@@ -1,16 +1,14 @@
-import { LCardGroup, LForm, LFormItem, LFormItemInput } from 'lighting-design';
+import { LCardGroup, LForm, LFormItem } from 'lighting-design';
 
 const Demo4 = () => {
   return (
     <div>
       <LForm
         labelWidth={90}
-        submitter={{ buttonAlign: 90 }}
         onFinish={async (values) => {
           console.log('values', values);
         }}
       >
-        <LFormItemInput name="input" label="输入框" />
         <LFormItem required name="card1" label="卡片单选">
           <LCardGroup
             options={[
@@ -22,11 +20,10 @@ const Demo4 = () => {
         </LFormItem>
         <LFormItem required name="card2" label="卡片多选">
           <LCardGroup
-            cardStyle={{ minWidth: 100 }}
-            cardBodyStyle={{ padding: 8, textAlign: 'center' }}
-            activeStyle={{
-              background: '#b0d0ff',
-            }}
+            cardBodyStyle={({ isActive }) => ({
+              padding: 8,
+              textAlign: 'center',
+            })}
             multiple
             options={[
               { value: '1', label: '支付宝' },

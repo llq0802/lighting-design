@@ -1,18 +1,17 @@
 import { LCardGroup } from 'lighting-design';
-import './Demo6.less';
 
 export default function Demo() {
   return (
     <div>
       <LCardGroup
         gap={16}
-        cardStyle={{
-          boxSizing: 'content-box',
-          borderWidth: 2,
-        }}
-        activeStyle={{
-          borderColor: '#0b284c',
-        }}
+        cardStyle={({ isActive }) =>
+          isActive
+            ? {
+                background: '#0b284c',
+              }
+            : undefined
+        }
         options={[
           {
             value: '1',

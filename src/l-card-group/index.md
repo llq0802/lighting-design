@@ -31,7 +31,7 @@ toc: content
 
 ### 在 LForm 中使用
 
-<!-- <code src='./demos/Demo4.tsx'></code> -->
+<code src='./demos/Demo4.tsx'></code>
 
 ### 修改选中样式
 
@@ -49,26 +49,20 @@ toc: content
 import { LCardGroup } from 'lighting-design';
 ```
 
-| 参数            | 说明                                   | 类型                                                 | 默认值  |
-| --------------- | -------------------------------------- | ---------------------------------------------------- | ------- |
-| options         | 数据                                   | `SelectProps['options']&{ cardProps?: CardProps }[]` | `-`     |
-| value           | 值                                     | `LValueType`                                         | `-`     |
-| defaultValue    | 默认值                                 | `LValueType`                                         | `-`     |
-| gap             | 卡片间隔                               | `number`                                             | `10`    |
-| className       | 容器类名                               | `string`                                             | `-`     |
-| style           | 容器样式                               | `CSSProperties`                                      | `-`     |
-| cardBodyStyle   | 卡片 body 样式                         | `CSSProperties`                                      | `-`     |
-| cardStyle       | 卡片样式                               | `CSSProperties`                                      | `-`     |
-| activeStyle     | 被选中的卡片样式                       | `CSSProperties`                                      | `-`     |
-| activeBodyStyle | 选中卡片 body 的样式                   | `CSSProperties`                                      | `-`     |
-| fieldNames      | 自定义 options 的字段名                | `SelectProps['fieldNames']`                          | `-`     |
-| multiple        | 是否多选                               | `boolean`                                            | `false` |
-| disabled        | 是否禁用                               | `boolean`                                            | `false` |
-| cancelable      | 单选时，是否可以点击选中的元素取消选中 | `boolean`                                            | `false` |
-| onChange        | 受控时 value 值变化事件                | `(args:...any[]]) => void`                           | `- `    |
-
-### LValueType
-
-```ts
-type LValueType = string | number;
-```
+| 参数          | 说明                                                                    | 类型                                                                                                                                    | 默认值                               |
+| ------------- | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| options       | 数据选项，每个选项可以配置单独的卡片属性                                | `(SelectProps['options'] & { cardProps?: CardProps }[]) \| Record<string, any>[]`                                                       | `-`                                  |
+| value         | 受控值                                                                  | [LValueType](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-card-group\interface.ts#L3-L3)                                            | `-`                                  |
+| defaultValue  | 默认值                                                                  | [LValueType](file://d:\MyWeb\KaiYuan\lighting-design-v2\src\l-card-group\interface.ts#L3-L3)                                            | `-`                                  |
+| multiple      | 是否支持多选                                                            | `boolean`                                                                                                                               | `false`                              |
+| disabled      | 是否禁用                                                                | `boolean`                                                                                                                               | `false`                              |
+| cancelable    | 单选时再次点击是否可以取消                                              | `boolean`                                                                                                                               | `false`                              |
+| gap           | 每个卡片之间的间隔                                                      | `number`                                                                                                                                | `10`                                 |
+| className     | 根类名                                                                  | `string`                                                                                                                                | `-`                                  |
+| style         | 根样式                                                                  | `CSSProperties`                                                                                                                         | `-`                                  |
+| cardBodyStyle | 统一设置每个卡片`body`的样式，比每一项中的 cardProps.bodyStyle 优先级低 | `(state: { isActive: boolean; isDisabled: boolean; item: Record<string, any> }) => (CSSProperties & Record<string, any>) \| undefined`  | `-`                                  |
+| cardStyle     | 统一设置每个卡片的样式，比每一项中的 cardProps.style 优先级低           | `(state: { isActive: boolean; isDisabled: boolean; item: Record<string, any> }) => (CSSProperties & Record<string, any>) \| undefined`  | `-`                                  |
+| cardClassName | 统一设置每个卡片的类名                                                  | `(state: { isActive: boolean; isDisabled: boolean; item: Record<string, any> }) => string \| undefined`                                 | `-`                                  |
+| fieldNames    | 自定义 options 中 label 和 value 的字段名                               | `SelectProps['fieldNames']`                                                                                                             | `{ label: 'label', value: 'value' }` |
+| renderItem    | 完全自定义渲染 item，不会被 Card 包裹                                   | `(item: Record<string, any>, state: { isActive: boolean; isDisabled: boolean; onClick: () => void }, index: number) => React.ReactNode` | `-`                                  |
+| onChange      | value 改变时触发                                                        | `(...args: any[]) => void`                                                                                                              | `-`                                  |

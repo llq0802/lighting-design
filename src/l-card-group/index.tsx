@@ -1,6 +1,6 @@
-import { useControllableValue, useMemoizedFn } from 'ahooks';
+import { useControllableValue } from 'ahooks';
 import { Card } from 'antd';
-import { emptyArray, emptyObject } from 'lighting-design/constants';
+import { emptyArray } from 'lighting-design/constants';
 import { useMemo } from 'react';
 import type { LCardGroupProps } from './interface';
 import { useStyles } from './styles';
@@ -9,38 +9,40 @@ export default function LCardGroup(props: LCardGroupProps) {
   const {
     className,
     style,
-    cardBodyStyle = emptyObject,
-    cardStyle = emptyObject,
-    activeStyle = emptyObject,
-    activeBodyStyle = emptyObject,
+    fieldNames = { label: 'label', value: 'value' },
+    cardBodyStyle,
+    cardStyle,
+    cardClassName,
     multiple = false,
     cancelable = false,
-    disabled = false,
+    disabled,
     gap = 10,
     options = emptyArray,
-    fieldNames = { label: 'label', value: 'value' },
+    renderItem,
   } = props;
   const { styles, cx } = useStyles();
   const { label: labelKey, value: valueKey } = fieldNames as { label: string; value: string };
   const [state, setState] = useControllableValue(props);
   const value = multiple ? state || [] : state;
-
-  useMemo(() => {
-    if (!disabled) return;
-    options?.forEach((item) => {
-      item.disabled = true;
+  const opts = useMemo(() => {
+    if (!disabled) return options;
+    return options?.map((item) => {
+      return {
+        ...item,
+        disabled: item?.disabled ?? true,
+      };
     });
   }, [disabled, options]);
 
-  const triggerChange = useMemoizedFn((v: any) => {
-    let cur = options?.find((k) => k[valueKey] === v);
+  const triggerChange = (v: any) => {
+    let cur = opts?.find((k) => k[valueKey] === v);
     if (multiple) {
-      cur = options?.filter((k) => v.includes(k[valueKey]));
+      cur = opts?.filter((k) => v.includes(k[valueKey]));
     }
-    setState?.(v, cur, options);
-  });
+    setState?.(v, cur, opts);
+  };
 
-  const handleSelect = useMemoizedFn((item: any) => {
+  const handleSelect = (item: any) => {
     // 多选
     if (multiple) {
       if (value?.includes?.(item[valueKey])) {
@@ -56,44 +58,52 @@ export default function LCardGroup(props: LCardGroupProps) {
     } else {
       triggerChange(item[valueKey]);
     }
-  });
+  };
+
   return (
     <div className={cx(styles.container, className)} style={{ gap, ...style }}>
-      {options?.map((item, i) => {
-        const isDisabled = disabled || item.disabled;
+      {opts?.map((item, i) => {
+        const isDisabled = item.disabled ?? disabled;
         const isActive = multiple ? value?.includes(item[valueKey]) : value === item[valueKey];
-        const cardProps = item.cardProps || {};
-        const compatibilityStyle = {
-          styles: {
-            ...cardProps?.styles,
-            body: {
-              ...cardBodyStyle,
-              ...cardProps?.styles?.body,
-              ...(isActive ? activeBodyStyle : {}),
-            },
-          },
-        };
+        const itemCardProps = item.itemCardProps || {};
+
+        if (renderItem) {
+          return renderItem(item, { isActive, isDisabled, onClick: () => handleSelect(item) }, i);
+        }
 
         return (
           <Card
+            {...itemCardProps}
             key={item[valueKey] ?? i}
-            {...cardProps}
-            rootClassName={cx(
+            className={cx(
+              itemCardProps?.className,
+              cardClassName?.({
+                isActive,
+                isDisabled,
+                item,
+              }),
+              {
+                [styles.disabled]: isDisabled,
+                [styles.active]: isActive,
+              },
               styles.item,
-              { [styles.disabled]: isDisabled, [styles.active]: isActive },
-              cardProps?.rootClassName,
             )}
             onClick={(e) => {
               if (isDisabled) return;
               handleSelect(item);
-              cardProps?.onClick?.(e);
+              itemCardProps?.onClick?.(e);
             }}
             style={{
-              ...cardStyle,
-              ...cardProps?.style,
-              ...(isActive ? activeStyle : {}),
+              ...cardStyle?.({ isActive, isDisabled, item }),
+              ...itemCardProps?.style,
             }}
-            {...compatibilityStyle}
+            styles={{
+              ...itemCardProps?.styles,
+              body: {
+                ...cardBodyStyle?.({ isActive, isDisabled, item }),
+                ...itemCardProps?.styles?.body,
+              },
+            }}
           >
             {item[labelKey] ?? item[valueKey]}
           </Card>

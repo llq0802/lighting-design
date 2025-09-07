@@ -17,7 +17,7 @@ export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disab
   onChange?: (...args: any[]) => void;
 
   /**
-   * 是否支持多选
+   * 是否多选
    */
   multiple?: boolean;
   /**
@@ -42,19 +42,29 @@ export interface LCardGroupProps extends Pick<SelectProps, 'fieldNames' | 'disab
    */
   style?: CSSProperties;
   /**
-   * 统一设置每个卡片`body`的样式,  比每一项中的 cardProps.bodyStyle 优先级低
+   * 统一设置每个卡片`body`的样式,  比每一项中的 cardProps 优先级低
    * */
-  cardBodyStyle?: CSSProperties;
+  cardBodyStyle?: (state: {
+    isActive: boolean;
+    isDisabled: boolean;
+    item: Record<string, any>;
+  }) => (CSSProperties & Record<string, any>) | undefined;
   /**
-   *  统一设置每个卡片的样式,  比每一项中的 cardProps.style 优先级低
+   *  统一设置每个卡片的样式,  比每一项中的 cardProps 优先级低
    */
-  cardStyle?: CSSProperties;
+  cardStyle?: (state: {
+    isActive: boolean;
+    isDisabled: boolean;
+    item: Record<string, any>;
+  }) => (CSSProperties & Record<string, any>) | undefined;
+  cardClassName?: (state: { isActive: boolean; isDisabled: boolean; item: Record<string, any> }) => string | undefined;
   /**
-   *选中卡片的样式
+   * 完全自定义渲染 item
+   * - 不会被 Card 包裹
    */
-  activeStyle?: CSSProperties;
-  /**
-   *选中卡片body的样式
-   */
-  activeBodyStyle?: CSSProperties;
+  renderItem?: (
+    item: Record<string, any>,
+    state: { isActive: boolean; isDisabled: boolean; onClick: () => void },
+    index: number,
+  ) => React.ReactNode;
 }
