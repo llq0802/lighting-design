@@ -87,17 +87,10 @@ export default function LCardGroup(props: LCardGroupProps) {
             {...itemCardProps}
             key={item[valueKey] ?? i}
             className={cx(
-              itemCardProps?.className,
-              cardClassName?.({
-                isActive,
-                isDisabled,
-                item,
-              }),
-              {
-                [styles.disabled]: isDisabled,
-                [styles.active]: isActive,
-              },
               styles.item,
+              { [styles.disabled]: isDisabled, [styles.active]: isActive },
+              itemCardProps?.className,
+              cardClassName?.({ item, isActive, isDisabled }),
             )}
             onClick={(e) => {
               if (isDisabled) return;
