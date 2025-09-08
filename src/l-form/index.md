@@ -99,14 +99,18 @@ import { LForm } from 'lighting-design';
 | alignItems     | children 组件与 label 的对齐方式                                  | `'center' \| 'flex-start' \| 'flex-end'`                                                                                                                        | -      |
 | formItemBottom | 设置表单项的 style.bottom 属性                                    | `number \| string`                                                                                                                                              | -      |
 
+    onReset?:
+
 ### 表单方法相关属性
 
-| 属性名          | 描述                                                      | 类型                                                                     | 默认值 |
-| --------------- | --------------------------------------------------------- | ------------------------------------------------------------------------ | ------ |
-| form            | 表单实例                                                  | `FormInstance`                                                           | -      |
-| onFinish        | 提交数据时触发，如果是异步函数会自动管理按钮 loading 状态 | `(values: T) => any`                                                     | -      |
-| onValuesChange  | 字段值更新时触发                                          | `(currentName: keyof T, currentValue: T[keyof T], allValues: T) => void` | -      |
-| transformValues | 在 onFinish 调用之前转化表单值                            | `(values: T) => T & Record<string, any>`                                 | -      |
+| 属性名   | 描述                                                      | 类型                                             | 默认值 |
+| -------- | --------------------------------------------------------- | ------------------------------------------------ | ------ |
+| form     | 表单实例                                                  | `FormInstance`                                   | -      |
+| onFinish | 提交数据时触发，如果是异步函数会自动管理按钮 loading 状态 | `(values: T) => any`                             | -      |
+| onReset  | 点击内置重置按钮触发                                      | `(event: React.MouseEvent<HTMLElement>) => void` | -      |
+
+| onValuesChange | 字段值更新时触发 | `(currentName: keyof T, currentValue: T[keyof T], allValues: T) => void` | - |
+| transformValues | 在 onFinish 调用之前转化表单值 | `(values: T) => T & Record<string, any>` | - |
 
 ### 提交按钮配置 (submitter)
 

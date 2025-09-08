@@ -88,5 +88,10 @@ export type LFormProps<T = any> = Omit<FormProps<T>, 'onValuesChange' | 'onFinis
 
     /** 子元素 */
     children?: ReactNode;
+    /**
+     * submitter 的重置按钮点击时触发
+     *  - 当 submitter 为 false 时，不会触发
+     * - 当 render 时 重新渲染时不使用 reserDom 不会触发
+     */
     onReset?: (event: React.MouseEvent<HTMLElement>) => void;
   };

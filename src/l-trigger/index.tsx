@@ -92,10 +92,10 @@ const LTrigger: FC<LTriggerProps> = (props) => {
       destroyOnHidden={destroyOnHidden}
       arrow={popupArrow}
       placement={placement}
+      trigger="click"
       {...popoverProps}
       content={content}
       open={isOpen}
-      trigger="click"
       onOpenChange={(b) => setIsOpen(b)}
     >
       <Select
