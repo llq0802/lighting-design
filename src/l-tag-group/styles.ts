@@ -7,10 +7,15 @@ export const useStyles = createStyles((p) => {
       display: 'inline-flex',
       flexWrap: 'wrap',
     },
-    disbaled: {
-      cursor: 'not-allowed',
-      background: token.colorBgContainerDisabled,
-      color: token.colorTextDisabled,
-    },
+
+    disbaled: css`
+      cursor: not-allowed;
+      background: ${token.colorBgContainerDisabled};
+      color: ${token.colorTextDisabled};
+      &.${prefixCls}-tag-checkable:not(.ant-tag-checkable-checked):hover {
+        background: ${token.colorBgContainerDisabled};
+        color: ${token.colorTextDisabled};
+      }
+    `,
   };
 });
