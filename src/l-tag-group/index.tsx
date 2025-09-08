@@ -1,6 +1,7 @@
 import { useControllableValue } from 'ahooks';
 import { Tag } from 'antd';
 import { emptyArray } from 'lighting-design/constants';
+import { useMemo } from 'react';
 import type { LTagGroupProps } from './interface';
 import { useStyles } from './styles';
 
@@ -14,7 +15,7 @@ export default function LTagGroup(props: LTagGroupProps) {
     className,
     options = emptyArray,
     multiple = false,
-    disabled = false,
+    disabled,
     cancelable = false,
     fieldNames = { label: 'label', value: 'value' },
     renderItem,
@@ -25,13 +26,21 @@ export default function LTagGroup(props: LTagGroupProps) {
 
   const [state, setState] = useControllableValue(props);
   const value = multiple ? state || [] : state;
-
+  const opts = useMemo(() => {
+    if (!disabled) return options;
+    return options?.map((item) => {
+      return {
+        ...item,
+        disabled: item?.disabled ?? true,
+      };
+    });
+  }, [disabled, options]);
   const triggerChange = (v: any) => {
-    let cur = options?.find((k) => k[valueKey] === v);
+    let cur = opts?.find((k) => k[valueKey] === v);
     if (multiple) {
-      cur = options?.filter((k) => v.includes(k[valueKey]));
+      cur = opts?.filter((k) => v.includes(k[valueKey]));
     }
-    setState?.(v, cur, options);
+    setState?.(v, cur, opts);
   };
 
   const handleTagSelect = (checked: boolean, item: any) => {
@@ -61,7 +70,7 @@ export default function LTagGroup(props: LTagGroupProps) {
 
   return (
     <div className={cx(styles.container, className)} style={style}>
-      {options?.map((item: any, i) => {
+      {opts?.map((item: any, i) => {
         const isDisabled = item.disabled ?? disabled;
         const isActive = multiple
           ? value !== void 0 && Array.isArray(value) && value?.includes(item[valueKey] as unknown as string)
