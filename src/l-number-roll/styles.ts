@@ -9,9 +9,6 @@ export const useStyles = createStyles((p) => {
       align-items: center;
       user-select: none;
       line-height: 1;
-      & * {
-        line-height: 1;
-      }
     `,
     content: cx(
       css`

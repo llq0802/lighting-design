@@ -32,7 +32,7 @@ const LNumberRoll = (
   const { styles, cx } = useStyles();
   const domRef = useRef<HTMLDivElement>(null!);
 
-  const renderDom = useMemoizedFn((newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
+  const renderDom = (newStr: string[]): ReactElement<DOMAttributes<ReactNode>> => {
     const decimalFlag = newStr.join('').indexOf('.') === -1; // 判断是否没有小数
     const decimal = newStr.length - newStr.join('').indexOf('.'); // 小数位数
     const numberDom: any[] = []; // 整数位数
@@ -94,10 +94,10 @@ const LNumberRoll = (
         {numberDom.map((item, index: number) => item(index))}
       </div>
     );
-  });
+  };
 
   // 将数字,字符串转换为字符串数组，如果有最小位数则往前拼接“0”
-  const valToArr = useMemoizedFn((val: number | any): string[] => {
+  const valToArr = (val: number | any): string[] => {
     const newVal: string = val.toString();
     let newStr: string[] = [];
     if (newVal.includes('.')) {
@@ -129,10 +129,10 @@ const LNumberRoll = (
       }
     }
     return newStr;
-  });
+  };
 
   // 设置动画number类型
-  const loadAnimateNumer = useMemoizedFn(() => {
+  const loadAnimateNumer = () => {
     const domList = domRef.current!.querySelectorAll(`[data-num]`);
     if (!domList) return;
     for (const itemDom of [...(domList as any)]) {
@@ -143,10 +143,10 @@ const LNumberRoll = (
       itemStyle.transform = `translateY(${y}px)`;
       itemStyle.transition = `all ${!isNumber(dataNum) ? 0 : speed / 1000}s`;
     }
-  });
+  };
 
   // 设置动画date类型
-  const loadAnimateDate = useMemoizedFn(() => {
+  const loadAnimateDate = () => {
     const domList = domRef.current!.querySelectorAll(`[data-num]`);
     if (!domList) return;
     for (const itemDom of [...(domList as any)]) {
@@ -168,7 +168,7 @@ const LNumberRoll = (
       itemStyle.transform = `translateY(${y}px)`;
       itemStyle.transition = `all ${!isNumber(dataNum) ? 0 : speed / 1000}s`;
     }
-  });
+  };
 
   const onLoadAnimate = useMemoizedFn(() => {
     if (type === 'number') {
@@ -180,7 +180,7 @@ const LNumberRoll = (
 
   // 更新
   useLayoutEffect(() => {
-    onLoadAnimate();
+    // onLoadAnimate();
     let timer: NodeJS.Timeout;
     if (onFinish) {
       timer = setTimeout(() => {

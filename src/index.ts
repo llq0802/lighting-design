@@ -71,6 +71,8 @@ export * from './l-list-form';
 export { default as LListForm } from './l-list-form';
 export * from './l-modal-form';
 export { default as LModalForm } from './l-modal-form';
+export * from './l-number-roll';
+export { default as LNumberRoll } from './l-number-roll';
 export * from './l-query-form';
 export { default as LQueryForm } from './l-query-form';
 export * from './l-right-menu';
