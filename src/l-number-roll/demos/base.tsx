@@ -1,12 +1,11 @@
 import { useInterval } from 'ahooks';
-import type { LNumberRollActionRef } from 'lighting-design';
+import type {} from 'lighting-design';
 import { LNumberRoll } from 'lighting-design';
 import type { FC } from 'react';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 const Demo: FC = () => {
   const [value, setValue] = useState(10);
-  const numRef = useRef<LNumberRollActionRef>();
 
   useInterval(() => {
     setValue((num) => (num > Number.MAX_SAFE_INTEGER ? 10 : num + 10));
@@ -14,7 +13,7 @@ const Demo: FC = () => {
 
   return (
     <div style={{}}>
-      <LNumberRoll value={value} ref={numRef} fontSize={36} />
+      <LNumberRoll value={value} fontSize={36} />
     </div>
   );
 };
