@@ -15,7 +15,7 @@ nav:
 
 <code src="./demos/base.tsx"></code>
 
-<!-- ### 时间类型
+### 时间类型
 
 <code src="./demos/date.tsx"></code>
 
@@ -27,13 +27,9 @@ nav:
 
 <code src="./demos/dynamic.tsx"></code>
 
-### 金额分隔符
-
-<code src="./demos/decimal.tsx"></code>
-
 ### 改变大小
 
-<code src="./demos/size.tsx"></code> -->
+<code src="./demos/size.tsx"></code>
 
 ## API
 
@@ -51,20 +47,19 @@ nav:
 import { LNumberRoll } from 'lighting-design';
 ```
 
-|     参数      |                                        说明                                        |                类型                |   默认值   |
-| :-----------: | :--------------------------------------------------------------------------------: | :--------------------------------: | :--------: |
-|     type      |                                        类型                                        |         `'date'\|'number'`         | `'number'` |
-|   fontSize    |                                   组件的字体大小                                   |          `string\|number`          |    `36`    |
-|    height     |                                     组件的高度                                     |          `string\|number`          |    `36`    |
-|     value     |                                         值                                         |          `string\|number`          |    `0`     |
-|   minLength   | value 的最小位数 如果 value 的长度小于 minLength 则会在前面补 0 （个位数的位置起） |              `number`              |    `-`     |
-|     scale     |                                      缩放大小                                      |              `number`              |    `1`     |
-|     speed     |                                  移动速度 单位 ms                                  |              `number`              |   `600`    |
-|      dot      |                                    保留几位小数                                    |              `number`              |    `0`     |
-|    symbol     |                       分割符号`（ 不能使用"." 建议使用","）`                       |              `string`              |    `-`     |
-|   className   |                                      容器类名                                      |              `string`              |    `-`     |
-|     style     |                                      容器样式                                      |          `CSSProperties`           |    `-`     |
-| itemNumStyle  |                              每一项数值类型滚动的样式                              |          `CSSProperties`           |    `-`     |
-| itemCharStyle |           每一项不是数值类型滚动的样式 比如 value 中包函 '.' ':' '-' '/'           |          `CSSProperties`           |    `-`     |
-|  symbolStyle  |                                   分隔符的的样式                                   |          `CSSProperties`           |    `-`     |
-|   onFinish    |                                   动画结束的回调                                   | `(value:string \| number) => void` |    `- `    |
+| 属性          | 说明                                    | 类型                                | 默认值      | 版本 |
+| ------------- | --------------------------------------- | ----------------------------------- | ----------- | ---- |
+| value         | 数字值或日期字符串                      | `number \| string`                  | `0`         |      |
+| type          | 组件类型                                | `'number' \| 'date'`                | `'number'`  |      |
+| fontSize      | 字体大小，控制数字的高度                | `number \| string`                  | `36`        |      |
+| gap           | 每个数字之间的间隔                      | `number \| string`                  | `0`         |      |
+| speed         | 动画速度（单位：毫秒）                  | `number`                            | `500`       |      |
+| scale         | 缩放大小                                | `number`                            | `1`         |      |
+| rootClassName | 根元素的类名                            | `string`                            | `undefined` |      |
+| rootStyle     | 根元素的样式                            | `CSSProperties`                     | `undefined` |      |
+| className     | 内容区域的类名                          | `string`                            | `undefined` |      |
+| style         | 内容区域的样式                          | `CSSProperties`                     | `undefined` |      |
+| itemNumStyle  | 数字项的样式                            | `CSSProperties`                     | `undefined` |      |
+| itemCharStyle | 非数字项的样式（如 '.', ':', '-', '/'） | `CSSProperties`                     | `undefined` |      |
+| symolStyle    | 分隔符的样式                            | `CSSProperties`                     | `undefined` |      |
+| onFinish      | 滚动动画结束的回调函数                  | `(value: number \| string) => void` | `undefined` |      |

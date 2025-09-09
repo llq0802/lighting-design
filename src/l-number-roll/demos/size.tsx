@@ -8,9 +8,7 @@ const center = {
   justifyContent: 'center',
 };
 const Demo: FC = () => {
-  const [value, setCalue] = useState<number>(() =>
-    Number((Math.random() * 10000).toFixed(2)),
-  );
+  const [value, setCalue] = useState<number>(() => Number((Math.random() * 10000).toFixed(2)));
 
   useInterval(() => {
     const random = Number((Math.random() * 10000).toFixed(2));
@@ -25,7 +23,6 @@ const Demo: FC = () => {
       <br />
       <LNumberRoll style={center} value={value} scale={1.2} />
       <br />
-      <LNumberRoll style={center} value={value} scale={1.5} />
     </>
   );
 };
