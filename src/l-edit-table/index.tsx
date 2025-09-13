@@ -4,7 +4,7 @@ import { useIsFirstRender } from 'lighting-design/hooks';
 import LForm from 'lighting-design/l-form';
 import LTable, { type LTableActionRef } from 'lighting-design/l-table';
 import { fastDeepClone, uniqueId } from 'lighting-design/utils';
-import { isPlainObject } from 'lodash';
+import { isPlainObject } from 'lodash-es';
 import React, { cloneElement, isValidElement, useImperativeHandle, useMemo, useRef } from 'react';
 import type { LEditTableProps } from './interface';
 
