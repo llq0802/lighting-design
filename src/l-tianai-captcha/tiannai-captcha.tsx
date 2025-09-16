@@ -1,5 +1,6 @@
 import { DoubleRightOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useSetState } from 'ahooks';
+import LSkeleton from 'lighting-design/l-skeleton';
 import React, { useImperativeHandle, useRef } from 'react';
 import { LTianaiCaptchaStatus, LTianaiCaptchaText, getRandomNumber } from './hook';
 import { useCheckParams } from './hooks/use-check-params';
@@ -7,6 +8,10 @@ import { useGetImg } from './hooks/use-get-img';
 import { useGetParams } from './hooks/use-get-params';
 import { useMove } from './hooks/use-move';
 import { useStyles } from './styles';
+
+type TiannaiCaptchaActionRef = {
+  refresh: () => void;
+};
 
 type PropsType = {
   className?: string;
@@ -16,6 +21,7 @@ type PropsType = {
   backgroundImageWidth?: number;
   backgroundImageHeight?: number;
   sliderImageWidth?: number;
+  actionRef?: React.MutableRefObject<TiannaiCaptchaActionRef | undefined>;
 };
 
 const TiannaiCaptcha: React.FC<PropsType> = ({
@@ -59,7 +65,6 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
       const firstT = trackList.at(0)?.t! ?? 0;
       const lastT = trackList.at(-1)?.t! ?? 0;
       const time = isSuccess ? (lastT - firstT) / 1000 : 0;
-
       setStates({ time: +time?.toFixed(2) || 0, showTips: true });
 
       if (!isSuccess) {
@@ -113,7 +118,7 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
     refresh,
   }));
 
-  return (
+  const innerDom = (
     <div className={cx(styles.container, className)} style={style}>
       <div className={cx(styles.content)}>
         <img className={styles.big_img} alt="big-bg" draggable={false} src={imgData?.backgroundImage} />
@@ -151,6 +156,20 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
         </div>
       </div>
     </div>
+  );
+
+  return imgLoading ? (
+    <LSkeleton
+      count={1}
+      itemHeight={backgroundImageHeight}
+      style={{
+        width: backgroundImageWidth,
+        height: backgroundImageHeight,
+        margin: '0 auto',
+      }}
+    />
+  ) : (
+    innerDom
   );
 };
 

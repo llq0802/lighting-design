@@ -10,6 +10,7 @@ const Demo: React.FC<PropsType> = ({}) => {
   return (
     <TiannaiCaptcha
       requestImg={async () => {
+        await sleep(1000);
         return {
           id: '1',
           backgroundImage: bg1,

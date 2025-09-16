@@ -31,7 +31,7 @@ const Demo1: React.FC = () => {
       }}
       dataSource={data}
       height={ContainerHeight}
-      itemMinHeight={10}
+      itemHeight={10}
       rowKey="id"
       renderItem={(item: UserItem, i) => (
         <div style={{ border: '1px solid', marginBottom: 10 }}>

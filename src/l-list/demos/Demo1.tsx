@@ -18,8 +18,7 @@ interface UserItem {
   };
 }
 
-const fakeDataUrl =
-  'https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo';
+const fakeDataUrl = 'https://randomuser.me/api/?results=10&inc=name,gender,email,nat,picture&noinfo';
 const ContainerHeight = 500;
 const Demo1: React.FC = () => {
   const [data, setData] = useState<UserItem[]>([]);
@@ -53,7 +52,7 @@ const Demo1: React.FC = () => {
     <LList
       dataSource={data}
       height={ContainerHeight}
-      itemMinHeight={10}
+      itemHeight={10}
       rowKey="email"
       onScrollBottom={onScrollBottom}
       renderItem={(item: UserItem) => (

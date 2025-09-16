@@ -1,54 +1,42 @@
 import { List } from 'antd';
 import VirtualList from 'rc-virtual-list';
-import React from 'react';
+import React, { forwardRef } from 'react';
 import type { LListProps } from './interface';
 
-const LList: React.FC<LListProps> & {
+type LListType = ReturnType<typeof forwardRef<any, LListProps>> & {
   Item: typeof List.Item;
-} = ({
-  rowKey,
-  height = 0,
-  itemMinHeight,
-  onScrollBottom,
-
-  renderItem,
-  virtualListProps = {},
-  ...restProps
-}) => {
-  const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
-    const scrollHeight = Math.ceil(e.currentTarget.scrollHeight);
-    const scrollTop = Math.ceil(e.currentTarget.scrollTop);
-
-    console.log('==scrollTop====>', scrollTop);
-
-    // if (height + scrollTop >= scrollHeight) {
-    //   onScrollBottom?.();
-    // }
-
-    if (Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - height) <= 1) {
-      onScrollBottom?.();
-    }
-  };
-
-  if (!height) {
-    return <List renderItem={renderItem} {...restProps} />;
-  }
-
-  return (
-    <List>
-      <VirtualList
-        data={restProps.dataSource || []}
-        height={height}
-        itemHeight={itemMinHeight}
-        itemKey={rowKey as React.Key}
-        onScroll={onScroll}
-        {...virtualListProps}
-      >
-        {(item, index, props) => renderItem?.(item, index, props)}
-      </VirtualList>
-    </List>
-  );
 };
+
+const LList = forwardRef<any, LListProps>(
+  ({ height = 0, itemHeight, onScrollBottom, renderItem, virtualListProps, ...restProps }, ref) => {
+    const onScroll = (e: React.UIEvent<HTMLElement, UIEvent>) => {
+      virtualListProps?.onScroll?.(e);
+      if (Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - height) <= 1) {
+        onScrollBottom?.();
+      }
+    };
+
+    if (!height) {
+      return <List ref={ref} renderItem={renderItem} {...restProps} />;
+    }
+
+    return (
+      <List>
+        <VirtualList
+          ref={ref}
+          data={restProps?.dataSource || []}
+          height={height}
+          itemHeight={itemHeight}
+          itemKey={restProps?.rowKey as React.Key}
+          {...virtualListProps}
+          onScroll={onScroll}
+        >
+          {(item, index, props) => renderItem?.(item, index, props)}
+        </VirtualList>
+      </List>
+    );
+  },
+) as LListType;
 
 LList.Item = List.Item;
 

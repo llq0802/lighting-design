@@ -67,6 +67,8 @@ export * from './l-form-item-upload';
 export { default as LFormItemUpload } from './l-form-item-upload';
 export * from './l-highlight-text';
 export { default as LHighlightText } from './l-highlight-text';
+export * from './l-list';
+export { default as LList } from './l-list';
 export * from './l-list-form';
 export { default as LListForm } from './l-list-form';
 export * from './l-modal-form';
