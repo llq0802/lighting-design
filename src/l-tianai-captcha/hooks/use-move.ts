@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef } from 'react';
 
 export function useMove(
   el: (() => HTMLElement) | React.RefObject<HTMLElement>,
-  { initMoveX = 0, maxMoveX = 400, onMouseUp, onMouseDown, onMouseMove }: any = {},
+  { initMoveX = 0, maxMoveX = 400, loading, onMouseUp, onMouseDown, onMouseMove }: any = {},
 ) {
   const [moveX, setMoveX] = useRafState(initMoveX);
   const [moveing, setMoveing] = useRafState(false);
@@ -84,7 +84,7 @@ export function useMove(
         dom.removeEventListener('pointerup', handlePointerUp);
       }
     };
-  }, [maxMoveX, initMoveX]);
+  }, [loading, maxMoveX, initMoveX]);
 
   return { moveX, reset, moveing };
 }

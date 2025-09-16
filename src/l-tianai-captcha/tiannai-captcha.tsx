@@ -34,8 +34,17 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
   backgroundImageHeight = 180,
   sliderImageWidth = 56,
   failRefreshTime = 1000,
+  styleContent,
+  styleContentTips,
+  styleTrack,
+  styleTrackShadow,
+  styleTrackMark,
+  styleTrackMove,
+  moveIcon = <DoubleRightOutlined />,
+  loadingIcon = <LoadingOutlined />,
   onFail,
   onSuccess,
+  onFinally,
 }) => {
   const { data: imgData, loading: imgLoading, refresh: refreshImg } = useGetImg(requestImg);
 
@@ -78,10 +87,12 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
     onError() {
       onFail?.();
     },
+    onFinally,
   });
   const isSuccess = checkData && +checkData?.code === LTianaiCaptchaStatus.SUCCESS;
 
   const { moveX, moveing, reset } = useMove(ref, {
+    loading: imgLoading,
     maxMoveX: backgroundImageWidth - sliderImageWidth + 2,
     onMouseDown() {
       paramsRef.current.startSlidingTime = Date.now();
@@ -120,7 +131,7 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
 
   const innerDom = (
     <div className={cx(styles.container, className)} style={style}>
-      <div className={cx(styles.content)}>
+      <div className={styles.content} style={styleContent}>
         <img className={styles.big_img} alt="big-bg" draggable={false} src={imgData?.backgroundImage} />
         <img
           className={styles.small_img}
@@ -134,40 +145,33 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
             [styles.success_content_tips]: isSuccess,
             [styles.fail_content_tips]: !isSuccess,
           })}
-          style={{ transform: `translateY(${states?.showTips ? 0 : 101}%)` }}
+          style={{ transform: `translateY(${states?.showTips ? 0 : 101}%)`, ...styleContentTips }}
         >
           {LTianaiCaptchaText[checkData?.code as keyof typeof LTianaiCaptchaText]}
           {states?.time ? `，耗时 ${states.time}s` : null}
         </div>
       </div>
 
-      <div className={styles.track}>
-        <div className={styles.mark} style={{ width: moveX, transition }} />
-        <div className={styles.shadow} />
+      <div className={styles.track} style={styleTrack}>
+        <div className={styles.mark} style={{ transition, ...styleTrackMark, width: moveX }} />
+        <div className={styles.shadow} style={styleTrackShadow} />
         <div
           ref={ref}
           className={styles.move}
           style={{
             width: sliderImageWidth,
+            ...styleTrackMove,
             pointerEvents: checkLoading ? 'none' : 'auto',
           }}
         >
-          {checkLoading ? <LoadingOutlined /> : <DoubleRightOutlined />}
+          {checkLoading ? loadingIcon : moveIcon}
         </div>
       </div>
     </div>
   );
 
   return imgLoading ? (
-    <LSkeleton
-      count={1}
-      itemHeight={backgroundImageHeight}
-      style={{
-        width: backgroundImageWidth,
-        height: backgroundImageHeight,
-        margin: '0 auto',
-      }}
-    />
+    <LSkeleton count={1} itemHeight={backgroundImageHeight} style={{ width: backgroundImageWidth, margin: '0 auto' }} />
   ) : (
     innerDom
   );

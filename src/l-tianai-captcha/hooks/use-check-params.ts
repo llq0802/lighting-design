@@ -2,10 +2,10 @@ import { useRequest } from 'ahooks';
 
 export function useCheckParams(
   fn: (...angs: any[]) => Promise<{
-    data: any;
+    data?: any;
     success: boolean;
     code: number;
-    msg: string;
+    msg?: string;
   }>,
   opts,
 ) {
