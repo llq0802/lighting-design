@@ -1,74 +1,90 @@
 import { useLatest, useRafState } from 'ahooks';
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 
 export function useMove(
   el: (() => HTMLElement) | React.RefObject<HTMLElement>,
-  { initX = 0, maxMoveX = 400, loading, onMouseUp, onMouseDown, onMouseMove }: any = {},
+  { initMoveX = 0, maxMoveX = 400, onMouseUp, onMouseDown, onMouseMove }: any = {},
 ) {
-  const [dx, setDx] = useRafState(initX);
+  const [moveX, setMoveX] = useRafState(initMoveX);
   const [moveing, setMoveing] = useRafState(false);
-  const dxRef = useLatest(dx);
+  const moveXRef = useLatest(moveX);
   const moveingRef = useLatest(moveing);
-  const initXRef = useRef(initX);
+  const initMoveXRef = useRef(initMoveX);
 
-  const resetX = () => {
-    setDx(initX);
-    initXRef.current = initX;
+  const reset = () => {
+    initMoveXRef.current = initMoveX;
+    setMoveX(initMoveX);
   };
 
   useLayoutEffect(() => {
     const dom = typeof el === 'function' ? el() : (el.current as HTMLElement);
     if (!dom) return;
-    dom.style.transform = `translate3d(${dx}px, 0, 0)`;
-    dom.style.transition = moveing ? 'none' : 'transform 0.3s';
-  }, [dx, moveing, loading]);
 
-  useEffect(() => {
-    const dom = typeof el === 'function' ? el() : (el.current as HTMLElement);
-    if (!dom) return;
     dom.style.touchAction = 'none';
     dom.style.userSelect = 'none';
     dom.style.cursor = 'move';
+    // 初始化位置
+    dom.style.transform = `translate3d(${initMoveX}px, 0, 0)`;
+    dom.style.transition = 'transform 0.3s';
+
+    let handlePointerMove: ((ev: PointerEvent) => void) | null = null;
+    let handlePointerUp: ((ev: PointerEvent) => void) | null = null;
 
     const handlePointerDown = (e: PointerEvent) => {
       e.preventDefault();
       dom.setPointerCapture(e.pointerId);
-      const startX = e.pageX - initXRef.current;
+      const startX = e.pageX - initMoveXRef.current;
       onMouseDown?.(startX);
       setMoveing(true);
+      // 开始拖动时取消过渡效果
+      dom.style.transition = 'none';
 
-      const handlePointerMove = (ev: PointerEvent) => {
+      handlePointerMove = (ev: PointerEvent) => {
         ev.preventDefault();
         if (!moveingRef.current) return;
-        let newDx = ev.pageX - startX;
-        if (newDx < 0) {
-          newDx = 0;
-        }
-        if (newDx > maxMoveX) {
-          newDx = maxMoveX;
-        }
-        onMouseMove?.(newDx);
-        setDx(newDx);
+        let newmoveX = ev.pageX - startX;
+        if (newmoveX < 0) newmoveX = 0;
+        if (newmoveX > maxMoveX) newmoveX = maxMoveX;
+        onMouseMove?.(newmoveX);
+        setMoveX(newmoveX);
+        dom.style.transform = `translate3d(${newmoveX}px, 0, 0)`;
       };
 
-      const handlePointerUp = (evo: PointerEvent) => {
-        evo.preventDefault();
-        initXRef.current = dxRef.current;
+      handlePointerUp = (ev: PointerEvent) => {
+        ev.preventDefault();
+        initMoveXRef.current = moveXRef.current;
         setMoveing(false);
-        onMouseUp?.(dxRef.current);
-        dom.removeEventListener('pointermove', handlePointerMove);
-        dom.removeEventListener('pointerup', handlePointerUp);
+        onMouseUp?.(moveXRef.current);
+        // 停止拖动时恢复过渡效果
+        dom.style.transition = 'transform 0.3s';
+
+        if (handlePointerMove) {
+          dom.removeEventListener('pointermove', handlePointerMove);
+          handlePointerMove = null;
+        }
+        if (handlePointerUp) {
+          dom.removeEventListener('pointerup', handlePointerUp);
+          handlePointerUp = null;
+        }
       };
 
       dom.addEventListener('pointermove', handlePointerMove);
-      dom.addEventListener('pointerup', handlePointerUp, { once: true });
+      dom.addEventListener('pointerup', handlePointerUp);
     };
 
     dom.addEventListener('pointerdown', handlePointerDown);
+
     return () => {
       dom.removeEventListener('pointerdown', handlePointerDown);
+      // 清理可能残留的事件监听器
+      if (handlePointerMove) {
+        dom.removeEventListener('pointermove', handlePointerMove);
+      }
+      if (handlePointerUp) {
+        dom.removeEventListener('pointerup', handlePointerUp);
+      }
     };
-  }, [loading]);
+  }, [maxMoveX, initMoveX]);
 
-  return { moveX: dx, resetX, moveing };
+  return { moveX, reset, moveing };
 }

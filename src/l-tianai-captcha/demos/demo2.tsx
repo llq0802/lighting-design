@@ -19,6 +19,9 @@ const Demo: React.FC<PropsType> = ({}) => {
           templateImageWidth: 110,
         };
       }}
+      requestCheck={async (params) => {
+        return { data: null, msg: '', success: true, code: 200 };
+      }}
     />
   );
 };
