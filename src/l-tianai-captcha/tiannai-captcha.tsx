@@ -13,9 +13,9 @@ type PropsType = {
   style?: React.CSSProperties;
   requestImg: Parameters<typeof useGetImg>[0];
   requestCheck: Parameters<typeof useCheckParams>[0];
-  backgroundImageWidth: number;
-  backgroundImageHeight: number;
-  sliderImageWidth: number;
+  backgroundImageWidth?: number;
+  backgroundImageHeight?: number;
+  sliderImageWidth?: number;
 };
 
 const TiannaiCaptcha: React.FC<PropsType> = ({

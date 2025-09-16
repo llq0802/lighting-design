@@ -1,3 +1,4 @@
+import { sleep } from 'lighting-design/test';
 import React from 'react';
 import bg1 from '../imgs/bg1.webp';
 import bg2 from '../imgs/bg2.webp';
@@ -20,6 +21,7 @@ const Demo: React.FC<PropsType> = ({}) => {
         };
       }}
       requestCheck={async (params) => {
+        await sleep(1000);
         return { data: null, msg: '', success: true, code: 200 };
       }}
     />
