@@ -1,6 +1,7 @@
 import type { ListProps } from 'antd';
+import type { ListProps as RCLListProps } from 'rc-virtual-list';
 
-export type LListProps = {
+export type LListProps<T = any> = {
   /**
    * 虚拟滚动容器的高度 设置后将自动开启虚拟滚动
    */
@@ -17,5 +18,5 @@ export type LListProps = {
   /**
    * @see https://github.com/react-component/virtual-list
    */
-  virtualListProps?: Record<string, any>;
-} & ListProps<any>;
+  virtualListProps?: RCLListProps<T>;
+} & ListProps<T>;
