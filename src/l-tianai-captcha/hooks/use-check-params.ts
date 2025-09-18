@@ -3,7 +3,7 @@ import { useRequest } from 'ahooks';
 export function useCheckParams(
   fn: (...angs: any[]) => Promise<{
     data?: any;
-    success: boolean;
+    success?: boolean;
     code: number;
     msg?: string;
   }>,
@@ -17,6 +17,7 @@ export function useCheckParams(
     },
     {
       manual: true,
+
       ...opts,
     },
   );

@@ -10,23 +10,26 @@ export function useMove(
   const moveXRef = useLatest(moveX);
   const moveingRef = useLatest(moveing);
   const initMoveXRef = useRef(initMoveX);
-
-  const reset = () => {
-    initMoveXRef.current = initMoveX;
-    setMoveX(initMoveX);
-  };
-
-  useLayoutEffect(() => {
+  const init = () => {
     const dom = typeof el === 'function' ? el() : (el.current as HTMLElement);
     if (!dom) return;
-
     dom.style.touchAction = 'none';
     dom.style.userSelect = 'none';
     dom.style.cursor = 'move';
     // 初始化位置
     dom.style.transform = `translate3d(${initMoveX}px, 0, 0)`;
     dom.style.transition = 'transform 0.3s';
+    return dom;
+  };
+  const reset = () => {
+    initMoveXRef.current = initMoveX;
+    setMoveX(initMoveX);
+    init();
+  };
 
+  useLayoutEffect(() => {
+    const dom = init()!;
+    if (!dom) return;
     let handlePointerMove: ((ev: PointerEvent) => void) | null = null;
     let handlePointerUp: ((ev: PointerEvent) => void) | null = null;
 
@@ -54,6 +57,7 @@ export function useMove(
         ev.preventDefault();
         initMoveXRef.current = moveXRef.current;
         setMoveing(false);
+        setMoveX(moveXRef.current);
         onMouseUp?.(moveXRef.current);
         // 停止拖动时恢复过渡效果
         dom.style.transition = 'transform 0.3s';

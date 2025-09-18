@@ -2,51 +2,39 @@ import { DoubleRightOutlined, LoadingOutlined } from '@ant-design/icons';
 import { useSetState } from 'ahooks';
 import LSkeleton from 'lighting-design/l-skeleton';
 import React, { useImperativeHandle, useRef } from 'react';
-import { LTianaiCaptchaStatus, LTianaiCaptchaText, getRandomNumber } from './hook';
 import { useCheckParams } from './hooks/use-check-params';
 import { useGetImg } from './hooks/use-get-img';
 import { useGetParams } from './hooks/use-get-params';
 import { useMove } from './hooks/use-move';
+import type { LTianaiCaptchaProps } from './interface';
 import { useStyles } from './styles';
+import { LTianaiCaptchaStatus, LTianaiCaptchaText, getRandomNumber } from './utils';
 
-type TiannaiCaptchaActionRef = {
-  refresh: () => void;
-};
-
-type PropsType = {
-  className?: string;
-  style?: React.CSSProperties;
-  requestImg: Parameters<typeof useGetImg>[0];
-  requestCheck: Parameters<typeof useCheckParams>[0];
-  backgroundImageWidth?: number;
-  backgroundImageHeight?: number;
-  sliderImageWidth?: number;
-  actionRef?: React.MutableRefObject<TiannaiCaptchaActionRef | undefined>;
-};
-
-const TiannaiCaptcha: React.FC<PropsType> = ({
-  actionRef,
-  className,
-  style,
-  requestImg,
-  requestCheck,
-  backgroundImageWidth = 309,
-  backgroundImageHeight = 180,
-  sliderImageWidth = 56,
-  failRefreshTime = 1000,
-  styleContent,
-  styleContentTips,
-  styleTrack,
-  styleTrackShadow,
-  styleTrackMark,
-  styleTrackMove,
-  moveIcon = <DoubleRightOutlined />,
-  loadingIcon = <LoadingOutlined />,
-  onFail,
-  onSuccess,
-  onFinally,
-}) => {
-  const { data: imgData, loading: imgLoading, refresh: refreshImg } = useGetImg(requestImg);
+const TiannaiCaptcha: React.FC<LTianaiCaptchaProps> = (props) => {
+  const {
+    actionRef,
+    className,
+    style,
+    requestImg,
+    requestCheck,
+    requestCheckBefore,
+    backgroundImageWidth = 310,
+    backgroundImageHeight = 180,
+    sliderImageWidth = 56,
+    styleContent,
+    styleContentTips,
+    styleTrack,
+    styleTrackShadow,
+    styleTrackMark,
+    styleTrackMove,
+    moveIcon = <DoubleRightOutlined />,
+    loadingIcon = <LoadingOutlined />,
+    onFail,
+    onSuccess,
+    onFinally,
+    render,
+  } = props;
+  const { data: imgData, loading: imgLoading, refreshAsync: refreshImg } = useGetImg(requestImg);
 
   const { cx, styles } = useStyles();
   const ref = useRef<HTMLDivElement>(null);
@@ -57,43 +45,53 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
     sliderImageWidth,
   });
 
-  const refresh = () => {
-    refreshImg?.();
-    reset();
-    setStates({ time: 0, showTips: false });
-  };
-
   const {
     run: runCheck,
     loading: checkLoading,
     data: checkData,
   } = useCheckParams(requestCheck, {
-    onSuccess(data) {
+    onSuccess(data: any) {
+      if (!data?.code) {
+        onFail?.();
+        return;
+      }
       const isSuccess = +data?.code === LTianaiCaptchaStatus.SUCCESS;
       const trackList = paramsRef.current?.trackList;
       const firstT = trackList.at(0)?.t! ?? 0;
       const lastT = trackList.at(-1)?.t! ?? 0;
       const time = isSuccess ? (lastT - firstT) / 1000 : 0;
       setStates({ time: +time?.toFixed(2) || 0, showTips: true });
-
-      if (!isSuccess) {
-        onFail?.();
-        setTimeout(() => refresh?.(), failRefreshTime);
-      } else {
-        resetParams();
-        onSuccess?.();
+      if (isSuccess) {
+        onSuccess?.(data);
+        return;
       }
+
+      if (onFail) {
+        onFail?.();
+        return;
+      }
+
+      setTimeout(() => {
+        refreshImg?.();
+        resetMove();
+        resetParams();
+        setStates({ time: 0, showTips: false });
+      }, 1000);
     },
     onError() {
       onFail?.();
     },
     onFinally,
   });
-  const isSuccess = checkData && +checkData?.code === LTianaiCaptchaStatus.SUCCESS;
+  const isSuccess = !!checkData && +checkData?.code === LTianaiCaptchaStatus.SUCCESS;
 
-  const { moveX, moveing, reset } = useMove(ref, {
+  const {
+    moveX,
+    moveing,
+    reset: resetMove,
+  } = useMove(ref, {
     loading: imgLoading,
-    maxMoveX: backgroundImageWidth - sliderImageWidth + 2,
+    maxMoveX: backgroundImageWidth - sliderImageWidth + 2 || 240,
     onMouseDown() {
       paramsRef.current.startSlidingTime = Date.now();
       paramsRef.current.trackList.push({ type: 'down', t: Date.now() - startTimeRef.current, y: 0, x: 0 });
@@ -116,27 +114,60 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
         y,
         x: Math.round(moveX),
       });
-      runCheck({
-        id: imgData?.id,
-        ...paramsRef.current,
-      });
+      const p1 = { id: imgData?.id, ...paramsRef.current };
+      const p2 = requestCheckBefore ? requestCheckBefore(p1) : p1;
+      runCheck(p2);
     },
   });
 
   const transition = moveing ? 'none' : 'all 0.3s';
+  const refresh = async () => {
+    resetMove();
+    resetParams();
+    setStates({ time: 0, showTips: false });
+    await refreshImg?.();
+  };
+
+  const reset = () => {
+    resetMove();
+    resetParams();
+    setStates({ time: 0, showTips: false });
+  };
 
   useImperativeHandle(actionRef, () => ({
     refresh,
+    reset,
   }));
 
   const innerDom = (
     <div className={cx(styles.container, className)} style={style}>
-      <div className={styles.content} style={styleContent}>
-        <img className={styles.big_img} alt="big-bg" draggable={false} src={imgData?.backgroundImage} />
+      <div
+        className={styles.content}
+        style={{
+          width: backgroundImageWidth,
+          height: backgroundImageHeight,
+          ...styleContent,
+        }}
+      >
+        <img
+          className={styles.big_img}
+          style={{
+            width: backgroundImageWidth,
+            height: backgroundImageHeight,
+          }}
+          alt="big-bg"
+          draggable={false}
+          src={imgData?.backgroundImage}
+        />
         <img
           className={styles.small_img}
           alt="small-bg"
-          style={{ transition, transform: `translateX(${moveX}px)` }}
+          style={{
+            width: sliderImageWidth,
+            height: backgroundImageHeight,
+            transition,
+            transform: `translateX(${moveX}px)`,
+          }}
           draggable={false}
           src={imgData?.templateImage}
         />
@@ -147,7 +178,7 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
           })}
           style={{ transform: `translateY(${states?.showTips ? 0 : 101}%)`, ...styleContentTips }}
         >
-          {LTianaiCaptchaText[checkData?.code as keyof typeof LTianaiCaptchaText]}
+          {checkData?.msg || LTianaiCaptchaText[checkData?.code as keyof typeof LTianaiCaptchaText]}
           {states?.time ? `，耗时 ${states.time}s` : null}
         </div>
       </div>
@@ -170,11 +201,17 @@ const TiannaiCaptcha: React.FC<PropsType> = ({
     </div>
   );
 
-  return imgLoading ? (
+  const dom = imgLoading ? (
     <LSkeleton count={1} itemHeight={backgroundImageHeight} style={{ width: backgroundImageWidth, margin: '0 auto' }} />
   ) : (
     innerDom
   );
+
+  if (render) {
+    return render(innerDom, { imgLoading, imgData, checkLoading, checkData, isSuccess }, props);
+  }
+
+  return dom;
 };
 
 export default TiannaiCaptcha;

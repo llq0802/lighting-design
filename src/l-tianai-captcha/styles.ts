@@ -18,9 +18,7 @@ export const useStyles = createStyles((p) => {
       css`
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        width: 309px;
-        height: 234px;
+        gap: 16px;
         user-select: none;
         justify-content: center;
         text-align: center;
@@ -32,7 +30,6 @@ export const useStyles = createStyles((p) => {
       css`
         position: relative;
         width: 100%;
-        height: 180px;
         overflow: hidden;
         border-radius: 4px;
       `,

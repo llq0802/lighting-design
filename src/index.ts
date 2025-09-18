@@ -89,6 +89,7 @@ export * from './l-table';
 export { default as LTable } from './l-table';
 export * from './l-tag-group';
 export { default as LTagGroup } from './l-tag-group';
+
 export * from './l-tianai-captcha';
 export { default as LTianaiCaptcha } from './l-tianai-captcha';
 export * from './l-tree-table';
