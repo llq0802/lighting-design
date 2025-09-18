@@ -39,7 +39,8 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     wrapperHeight,
     scrollRef: outScrollRef,
   } = props;
-  const copyNum = new Array(outCopyNum).fill(null);
+
+  const copyNum = useMemo(() => new Array(outCopyNum).fill(null), [outCopyNum]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const slotListRef = useRef<HTMLDivElement | null>(null);
   const realBoxRef = useRef<HTMLDivElement | null>(null);
@@ -82,7 +83,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   // 基础字体大小 默认为1px
   const baseFontSize = useMemo<number>(() => {
     return isRemUnit
-      ? parseInt(globalThis.window.getComputedStyle(globalThis.document.documentElement, null).fontSize)
+      ? parseInt(globalThis.window?.getComputedStyle(globalThis.document?.documentElement, null).fontSize, 10) || 1
       : 1;
   }, [isRemUnit]);
 
@@ -107,9 +108,12 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
 
   // 取消滚动id 避免闭包问题
   const cancle = () => {
-    cancelAnimationFrame(reqFrame.current as number);
-    reqFrame.current = null;
+    if (reqFrame.current) {
+      cancelAnimationFrame(reqFrame.current);
+      reqFrame.current = null;
+    }
   };
+
   // 滚动动画核心
   const move = () => {
     cancle();
@@ -119,6 +123,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     }
     animation(direction as 'up' | 'down' | 'left' | 'right', stepCount, false);
   };
+
   // 滚动动画
   const animation = (_direction: 'up' | 'down' | 'left' | 'right', _step: number, isWheel?: boolean) => {
     reqFrame.current = requestAnimationFrame(function () {
@@ -159,7 +164,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
       }
 
       // 单步滚动
-      if (!!realSingleStopHeight) {
+      if (realSingleStopHeight > 0) {
         if (Math.abs(yPos.current) % realSingleStopHeight === 0) {
           singleWaitTimeout.current = setTimeout(() => {
             move();
@@ -167,7 +172,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
         } else {
           move();
         }
-      } else if (!!realSingleStopWidth) {
+      } else if (realSingleStopWidth > 0) {
         if (Math.abs(xPos.current) % realSingleStopWidth < _step) {
           singleWaitTimeout.current = setTimeout(() => {
             move();
@@ -186,18 +191,23 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     dataWarm(list);
     // 是否横线滚动
     if (isHorizontal) {
-      let slotListWidth = (slotListRef.current as HTMLDivElement).offsetWidth;
-      realBoxWidth.current = slotListWidth * 2;
+      if (slotListRef.current) {
+        const slotListWidth = slotListRef.current.offsetWidth;
+        realBoxWidth.current = slotListWidth * (outCopyNum + 1);
+      }
     } else {
-      realBoxHeight.current = (realBoxRef.current as HTMLDivElement).offsetHeight;
+      if (realBoxRef.current) {
+        realBoxHeight.current = realBoxRef.current.offsetHeight;
+      }
     }
     move();
   };
+
   // 滚轮事件
   const { run: onWheel } = useDebounceFn(
     (e: React.WheelEvent<HTMLDivElement>) => {
       cancle();
-      const singleStep = !!realSingleStopHeight ? realSingleStopHeight : 20;
+      const singleStep = realSingleStopHeight > 0 ? realSingleStopHeight : 20;
       if (e.deltaY < 0) {
         animation('down', singleStep, true);
       }
@@ -212,6 +222,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   const startMove = () => {
     move();
   };
+
   // 停止滚动
   const stopMove = () => {
     if (singleWaitTimeout.current) {
@@ -222,9 +233,12 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
 
   const reset = () => {
     if (singleWaitTimeout.current) {
-      clearTimeout(singleWaitTimeout.current as unknown as number);
+      clearTimeout(singleWaitTimeout.current);
     }
     cancle();
+    _count.current = 0;
+    setXpos(0);
+    setYpos(0);
     initMove();
   };
 
@@ -248,7 +262,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
 
     cancle();
     if (singleWaitTimeout.current) {
-      clearTimeout(singleWaitTimeout.current as unknown as number);
+      clearTimeout(singleWaitTimeout.current);
     }
     // 如果数据list长度能滚动并且配置了自动滚动
     if (isScroll && isAutoScroll) {
@@ -257,7 +271,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     return () => {
       stopMove();
     };
-  }, [list, isWatch]);
+  }, [list, isWatch, isScroll, isAutoScroll]);
 
   // 提供的方法
   useImperativeHandle(outScrollRef, () => ({
@@ -272,27 +286,30 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     },
   }));
 
-  const getHtmlMemo = (
-    <>
-      <div ref={slotListRef} style={floatStyle}>
+  const renderedItems = useMemo(() => {
+    const items = [
+      <div key="original" ref={slotListRef} style={floatStyle}>
         {children}
-      </div>
-      {isScroll && isAutoScroll
-        ? copyNum.map((_, i) => (
-            <div key={i} style={floatStyle}>
-              {children}
-            </div>
-          ))
-        : null}
-    </>
-  );
+      </div>,
+    ];
+    if (isScroll && isAutoScroll) {
+      copyNum.forEach((_, i) => {
+        items.push(
+          <div key={`copy-${i}`} style={floatStyle}>
+            {children}
+          </div>,
+        );
+      });
+    }
+    return items;
+  }, [children, copyNum, floatStyle, isScroll, isAutoScroll]);
 
   return (
     <div
       ref={scrollRef}
       className={wrapperClassName}
       style={{
-        height: wrapperHeight || realBoxHeight.current / (outCopyNum + 1),
+        height: wrapperHeight || realBoxHeight.current / (outCopyNum + 1) || 'auto',
         overflow: 'hidden',
       }}
     >
@@ -310,12 +327,12 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
           }
         }}
         onWheel={(e) => {
-          if (isHoverStop && wheel && hover) {
+          if (isHoverStop && wheel) {
             onWheel(e);
           }
         }}
       >
-        {getHtmlMemo}
+        {renderedItems}
       </div>
     </div>
   );
