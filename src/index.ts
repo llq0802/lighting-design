@@ -79,6 +79,8 @@ export * from './l-query-form';
 export { default as LQueryForm } from './l-query-form';
 export * from './l-right-menu';
 export { default as LRightMenu } from './l-right-menu';
+export * from './l-seamless-scroll';
+export { default as LSeamlessScroll } from './l-seamless-scroll';
 export * from './l-skeleton';
 export { default as LSkeleton } from './l-skeleton';
 export * from './l-slider-verify';
@@ -89,7 +91,6 @@ export * from './l-table';
 export { default as LTable } from './l-table';
 export * from './l-tag-group';
 export { default as LTagGroup } from './l-tag-group';
-
 export * from './l-tianai-captcha';
 export { default as LTianaiCaptcha } from './l-tianai-captcha';
 export * from './l-tree-table';

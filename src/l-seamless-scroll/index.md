@@ -13,7 +13,7 @@ toc: content
 
 <code src='./demos/Demo1.tsx' ></code>
 
-### 移入暂停
+<!-- ### 移入暂停
 
 <code src='./demos/Demo2.tsx' ></code>
 
@@ -23,7 +23,7 @@ toc: content
 
 ### 动态数据
 
-<code src='./demos/Demo4.tsx' ></code>
+<code src='./demos/Demo4.tsx' ></code> -->
 
 ## API
 

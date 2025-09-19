@@ -17,7 +17,7 @@ const listData = [
 const Demo1 = () => {
   const scrollRef = useRef<LSeamlessScrollInstance>();
   return (
-    <LSeamlessScroll list={listData} scrollRef={scrollRef} hover wheel>
+    <LSeamlessScroll height={300} list={listData} actionRef={scrollRef}>
       {listData.map((item, index) => (
         <div key={index} style={{ height: 22 }}>
           <span style={{ marginRight: 22 }}>{item.title}</span>
