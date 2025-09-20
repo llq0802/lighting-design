@@ -1,22 +1,14 @@
-declare type EaseType =
-  | {
-      x1: number;
-      y1: number;
-      x2: number;
-      y2: number;
-    }
-  | string;
-
-export declare interface LSeamlessScrollInstance {
-  onReset(): void;
-  onStopMove(): void;
-  onStartMove(): void;
+export declare interface LSeamlessScrollActionRef {
+  reset(): void;
+  start(): void;
+  stop(): void;
 }
-export declare interface LSeamlessScrollProps {
+export declare interface LSeamlessScrollProps<T = any> {
+  autoScroll?: boolean;
   /**
    * 原始数据列表
    */
-  list: Record<string, any>[];
+  list: T[];
   /**
    * 步进速度，step也是单步大小的约数
    */
@@ -39,40 +31,34 @@ export declare interface LSeamlessScrollProps {
   singleWaitTime?: number;
 
   /**
-   * 开启数据更新监听
+   * css 过渡效果
    */
-  isWatch?: boolean;
-  /**
-   *  动画延迟时间
-   */
-  delay?: number;
-  /**
-   * 动画方式
-   */
-  ease?: EaseType;
+  ease?: string;
 
   /**
    *  拷贝几份滚动列表
+   *  默认值 2
    */
   copyNum?: number;
   /**
    * 开启鼠标悬停时支持滚轮滚动
+   * 必须配合hover使用
    */
   wheel?: boolean;
   /**
    * 滚动盒子的类名
    */
-  wrapperClassName?: string;
+  className?: string;
+  style?: React.CSSProperties;
   /**
    *  高度
    */
   height: number | string;
   /**
-   * 列表节点
+   * 鼠标滚轮滚动距离
    */
-  children: React.ReactNode;
-  /**
-   * 滚动实例
-   */
-  actionRef?: React.MutableRefObject<LSeamlessScrollInstance | undefined>;
+  wheelDistance?: number;
+  actionRef?: React.MutableRefObject<LSeamlessScrollActionRef | undefined>;
+  rowKey?: string;
+  renderItem: (item: T, index: number) => React.ReactNode;
 }

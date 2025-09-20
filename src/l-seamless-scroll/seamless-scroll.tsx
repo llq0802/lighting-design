@@ -1,30 +1,29 @@
 import type { FC } from 'react';
-import React, { memo, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
 import type { LSeamlessScrollProps } from './interface';
 
-/**
- * 无缝滚动组件
- */
 const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   const {
+    className,
+    style,
     list,
-    copyNum: outCopyNum = 1,
-    hover = false,
-    wheel = false,
-    ease = 'ease-in',
-    delay = 0,
+    copyNum = 2,
+    hover,
+    wheel,
+    wheelDistance,
+    ease,
     singleWaitTime = 1000,
     direction = 'up',
     singleHeight = 0,
     step = 1,
-    children,
-    wrapperClassName,
     height,
     actionRef,
+    rowKey = 'key',
+    autoScroll = true,
+    renderItem,
   } = props;
   const reqFrame = useRef<number | null>(null);
   const singleWaitTimeout = useRef<NodeJS.Timeout | null>(null);
-  const copyNum = useMemo(() => new Array(outCopyNum).fill(outCopyNum), [outCopyNum]);
   const scrollRef = useRef<HTMLDivElement>(null!);
   const scrollHeight = useRef<number>(0);
   const realBoxRef = useRef<HTMLDivElement>(null!);
@@ -33,11 +32,6 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   const yPos = useRef<number>(yPosState);
   yPos.current = yPosState;
   const enterRef = useRef<boolean>(false);
-
-  // 滚动频率
-  const stepCount = useMemo(() => {
-    return step;
-  }, [step]);
 
   // 取消滚动id 避免闭包问题
   const cancle = () => {
@@ -53,17 +47,22 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
 
   // 滚动动画核心
   const move = () => {
-    animation(direction, stepCount);
+    animation(direction, step);
   };
 
   // 滚动动画
   const animation = (_direction: 'up' | 'down', _step: number) => {
     cancle();
     reqFrame.current = requestAnimationFrame(function () {
-      const h = realBoxHeight.current / (outCopyNum + 1);
-      // if (scrollHeight.current > h) {
-      //   return;
-      // }
+      const h = realBoxHeight.current / (copyNum + 1);
+
+      console.log('===h==>', h);
+      console.log('===yPos.current==>', yPos.current);
+
+      //最好的无缝效果：满足 scrollHeight.current <  h * outCopyNum
+      if (singleWaitTimeout.current) {
+        clearTimeout(singleWaitTimeout.current);
+      }
 
       if (_direction === 'up') {
         if (Math.abs(yPos.current) >= h) {
@@ -71,7 +70,6 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
         } else {
           setYpos((item) => (item -= _step));
         }
-        1;
       } else if (_direction === 'down') {
         if (yPos.current >= 0) {
           setYpos(h * -1);
@@ -86,10 +84,8 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
 
       // 单步滚动
       if (singleHeight > 0) {
-        if (Math.abs(yPos.current) % singleHeight === 0) {
-          if (singleWaitTimeout.current) {
-            clearTimeout(singleWaitTimeout.current);
-          }
+        const b = Math.abs(yPos.current) % singleHeight === 0;
+        if (b) {
           singleWaitTimeout.current = setTimeout(() => {
             move();
           }, singleWaitTime);
@@ -116,11 +112,11 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   // 滚轮事件
   const onWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     cancle();
-    const singleStep = singleHeight > 0 ? singleHeight : 5;
+    const singleStep = singleHeight > 0 ? singleHeight : 20;
     if (e.deltaY > 0) {
-      animation('down', singleStep);
+      animation('down', wheelDistance || singleStep);
     } else if (e.deltaY < 0) {
-      animation('up', singleStep);
+      animation('up', wheelDistance || singleStep);
     }
   };
 
@@ -128,65 +124,48 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     cancle();
     setYpos(0);
     initMove();
+    enterRef.current = false;
   };
 
   // 初始化
   useLayoutEffect(() => {
+    if (!list?.length || !autoScroll) return;
+    setYpos(0);
     initMove();
     return () => cancle();
-  }, []);
+  }, [list]);
 
   // 提供的方法
   useImperativeHandle(actionRef, () => ({
-    onReset: () => {
-      reset();
-    },
-    onStopMove: () => {
-      cancle();
-    },
-    onStartMove: () => {
+    reset,
+    start: () => {
       move();
+    },
+    stop: () => {
+      cancle();
     },
   }));
 
-  // 真实盒子的样式
-  const realBoxStyle = useMemo(() => {
-    return {
-      transform: `translate(${0}px,${yPosState}px)`,
-      transition: `all ${ease} ${delay}ms`,
-      overflow: 'hidden',
-    };
-  }, [delay, ease, yPosState]);
-
-  const renderedItems = useMemo(() => {
-    const items = [
-      <div data-original key="original">
-        {children}
-      </div>,
-    ];
-    copyNum.forEach((_, i) => {
-      items.push(
-        <div data-copy-i={i} key={`copy-${i}`}>
-          {children}
-        </div>,
-      );
-    });
-    return items;
-  }, [children, copyNum]);
+  const renderChildren = list.map((item, index) => (
+    <React.Fragment key={item[rowKey] ?? index}>{renderItem(item, index)}</React.Fragment>
+  ));
 
   return (
     <div
       ref={scrollRef}
-      className={wrapperClassName}
+      className={className}
       style={{
         height,
         overflow: 'hidden',
-        outline: '1px solid red',
+        ...style,
       }}
     >
       <div
         ref={realBoxRef}
-        style={realBoxStyle}
+        style={{
+          translate: `${0} ${yPos.current}px`,
+          transition: `translate ${ease}`,
+        }}
         onMouseEnter={() => {
           if (hover) {
             enterRef.current = true;
@@ -205,7 +184,12 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
           }
         }}
       >
-        {renderedItems}
+        {renderChildren}
+        {new Array(copyNum).fill(0).map((_, i) => (
+          <div data-copy={i + 1} key={`copy-${i}`}>
+            {renderChildren}
+          </div>
+        ))}
       </div>
     </div>
   );
