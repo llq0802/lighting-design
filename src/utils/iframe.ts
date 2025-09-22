@@ -1,4 +1,7 @@
+let requestId = 0;
+
 // 可以扩展为更完整的检测
+
 const isEmbedded = (): boolean => {
   try {
     return window.self !== window.top;
@@ -122,6 +125,7 @@ export class IframeMessenger {
       message.id = id;
 
       this.pendingRequests.set(id, { resolve, reject });
+
       this.sendMessage(target, message, targetOrigin);
 
       // 设置超时
@@ -263,9 +267,9 @@ export class ParentMessenger {
    * 发送消息给指定iframe
    * @param iframe iframe元素
    * @param message 消息数据
-   * @param targetOrigin 目标源
+   * @param targetOrigin 目标源，默认为*
    */
-  public static send(iframe: HTMLIFrameElement, message: IframeMessageData, targetOrigin: string): void {
+  public static send(iframe: HTMLIFrameElement, message: IframeMessageData, targetOrigin = '*'): void {
     IframeMessenger.getInstance().sendMessage(iframe.contentWindow!, message, targetOrigin);
   }
 
@@ -273,9 +277,9 @@ export class ParentMessenger {
    * 发送请求给指定iframe并等待响应
    * @param iframe iframe元素
    * @param message 消息数据
-   * @param targetOrigin 目标源
+   * @param targetOrigin 目标源，默认为*
    */
-  public static request(iframe: HTMLIFrameElement, message: IframeMessageData, targetOrigin: string): Promise<any> {
+  public static request(iframe: HTMLIFrameElement, message: IframeMessageData, targetOrigin = '*'): Promise<any> {
     return IframeMessenger.getInstance().sendRequest(iframe.contentWindow!, message, targetOrigin);
   }
 }
