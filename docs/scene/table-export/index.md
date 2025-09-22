@@ -20,7 +20,6 @@ nav:
 
 <code src='./demos/Demo1.tsx' background="#f5f5f5"></code>
 
-<code src='./demos/Demo1.tsx' background="#f5f5f5"></code>
 
 ### 含有文件名称
 

@@ -1,6 +1,6 @@
 import { useControllableValue, useDeepCompareEffect, useMemoizedFn } from 'ahooks';
 import { emptyObject } from 'lighting-design/constants';
-import { useIsFirstRender } from 'lighting-design/hooks';
+import { useIsFirstRender } from 'lighting-design/hooks/use-request-options';
 import LForm from 'lighting-design/l-form';
 import LTable, { type LTableActionRef } from 'lighting-design/l-table';
 import { fastDeepClone, uniqueId } from 'lighting-design/utils';
