@@ -6,5 +6,3 @@ declare module '*.css';
 declare module '*.webp';
 declare module '*.less';
 declare module 'classnames';
-declare module 'lodash/debounce';
-declare module 'lodash/debounce';

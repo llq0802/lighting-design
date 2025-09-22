@@ -1,8 +1,8 @@
 import { Button, Upload } from 'antd';
-import type { LTableInstance } from 'lighting-design';
-import { excel2Json, getExcelData, LTable } from 'lighting-design';
+import type { LTableActionRef } from 'lighting-design';
+import { LTable, excel2Json, getExcelData } from 'lighting-design';
 import React, { useRef, useState } from 'react';
-import { apiGetUserList } from '../../tableExport/demos/service';
+import { apiGetUserList } from '../../table-export/demos/service';
 
 const columns: any[] = [
   {
@@ -27,7 +27,7 @@ const columns: any[] = [
 ];
 
 const App: React.FC = () => {
-  const tableRef = useRef<LTableInstance>();
+  const actionRef = useRef<LTableActionRef>();
   const [list1, setList1] = useState([]);
   const [obj, setObj] = useState({});
 
@@ -56,8 +56,7 @@ const App: React.FC = () => {
                 padding: `0 24px`,
               }}
             >
-              excel2Json方法解析的数据为：{' '}
-              <pre>{JSON.stringify(list1, null, 4)}</pre>
+              excel2Json方法解析的数据为： <pre>{JSON.stringify(list1, null, 4)}</pre>
             </div>
             <div
               style={{
@@ -66,13 +65,12 @@ const App: React.FC = () => {
                 padding: `0 24px`,
               }}
             >
-              getExcelData方法解析的数据为：{' '}
-              <pre>{JSON.stringify(obj, null, 4)}</pre>
+              getExcelData方法解析的数据为： <pre>{JSON.stringify(obj, null, 4)}</pre>
             </div>
           </>
         }
         rowKey="key"
-        toolbarLeft={
+        toolbar={
           <>
             <Upload
               showUploadList={false}
@@ -90,13 +88,12 @@ const App: React.FC = () => {
             </Upload>
           </>
         }
-        tableRef={tableRef}
+        actionRef={actionRef}
         columns={columns}
         request={async (params, requestType) => {
           const result = await apiGetUserList();
           return {
-            success: true,
-            data: result.data,
+            list: result.data,
             total: result.data.length,
           };
         }}

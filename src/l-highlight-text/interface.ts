@@ -84,7 +84,7 @@ export interface LHighlightTextProps extends React.HTMLAttributes<HTMLSpanElemen
   wait?: number;
 
   /**
-   * lodash 的防抖配置
+   * lodash-es 的防抖配置
    * - 传递给防抖函数的配置选项
    */
   debounceOptions?: DebounceOptions;

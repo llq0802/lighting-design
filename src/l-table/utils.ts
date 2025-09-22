@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash-es';
 import XLSX from 'xlsx-js-style';
 
 type Columns = {
@@ -212,7 +213,6 @@ export type Excel2JsonOptions = {
 
 /**
  * 与 LTable 配合把 Excel 转 Json 数据
- * @version 2.1.29
  * @param {Excel2JsonOptions} options 配置对象
  * @return 返回JSON形式的表格数据
  */
@@ -227,13 +227,15 @@ export const excel2Json = (options: Excel2JsonOptions): Promise<Record<string, a
       },
     } = options;
 
+    const newColumns = cloneDeep(columns);
+
     const { title: titleKey, dataIndex: dataIndexKey } = fieldNames;
 
     if (!file) {
       reject('缺少excel文件');
       return;
     }
-    if (!columns) {
+    if (!newColumns) {
       reject('缺少 columns 参数');
       return;
     }
@@ -252,7 +254,7 @@ export const excel2Json = (options: Excel2JsonOptions): Promise<Record<string, a
 
       if (Array.isArray(result) && result.length) {
         result.forEach((item: any, i) => {
-          columns.forEach((col: any) => {
+          newColumns.forEach((col: any) => {
             item.key = `${i}`; // 生成唯一索引
             item[col[dataIndexKey]] = item[col[titleKey]];
             delete item[col[titleKey]];

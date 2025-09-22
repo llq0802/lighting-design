@@ -1,6 +1,5 @@
 import { Button } from 'antd';
-import type { LTableInstance } from 'lighting-design';
-import { json2Excel, LTable } from 'lighting-design';
+import { json2Excel, LTable, type LTableActionRef } from 'lighting-design';
 import React, { useRef } from 'react';
 import { apiGetUserList } from './service';
 
@@ -27,10 +26,10 @@ const columns: any[] = [
 ];
 
 const App: React.FC = () => {
-  const tableRef = useRef<LTableInstance>();
+  const actionRef = useRef<LTableActionRef>();
 
   const handleUploadChange = () => {
-    const data = tableRef.current?.tableData as Record<string, any>[];
+    const data = actionRef.current?.tableData.list!;
     json2Excel({
       columns,
       data,
@@ -41,19 +40,18 @@ const App: React.FC = () => {
   return (
     <>
       <LTable
-        toolbarLeft={
+        toolbar={
           <Button type="primary" onClick={handleUploadChange}>
             导出 Excel
           </Button>
         }
         rowKey="key"
-        tableRef={tableRef}
+        actionRef={actionRef}
         columns={columns}
         request={async (params, requestType) => {
           const res: Record<string, any> = await apiGetUserList();
           return {
-            success: true,
-            data: res.data,
+            list: res.data,
             total: res.total,
           };
         }}

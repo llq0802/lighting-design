@@ -445,3 +445,4 @@ const LTable: <T = any>(props: LTableProps<T>) => ReactNode = forwardRef((props,
 
 export default LTable;
 export * from './interface';
+export * from './utils';
