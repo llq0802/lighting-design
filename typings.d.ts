@@ -5,4 +5,3 @@ declare module '*.gif';
 declare module '*.css';
 declare module '*.webp';
 declare module '*.less';
-declare module 'classnames';
