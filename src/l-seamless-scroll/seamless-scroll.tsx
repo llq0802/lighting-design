@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { memo, useImperativeHandle, useLayoutEffect, useRef, useState } from 'react';
+import React, { memo, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { LSeamlessScrollProps } from './interface';
 
 const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
@@ -146,8 +146,13 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     <React.Fragment key={item[rowKey] ?? index}>{renderItem(item, index)}</React.Fragment>
   ));
 
+  const copyList = useMemo(() => new Array(copyNum).fill(0), [copyNum]);
   return (
-    <div ref={scrollRef} className={className} style={{ height, overflow: 'hidden', ...style }}>
+    <div
+      ref={scrollRef}
+      className={className}
+      style={{ height, overscrollBehavior: 'contain', overflow: 'hidden', ...style }}
+    >
       <div
         ref={realBoxRef}
         className={contentClassName}
@@ -176,7 +181,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
         }}
       >
         {renderChildren}
-        {new Array(copyNum).fill(0).map((_, i) => (
+        {copyList.map((_, i) => (
           <div data-copy={i + 1} key={`copy-${i + 1}`}>
             {renderChildren}
           </div>
