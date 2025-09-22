@@ -3,8 +3,8 @@
 // DO NOT CHANGE IT MANUALLY!
 import { history } from 'dumi';
 import React, { useState, useLayoutEffect, useCallback, type ReactNode } from 'react';
-import { RawIntlProvider, createIntl, createIntlCache } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/react-intl';
-import { useIsomorphicLayoutEffect } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/dumi/dist/client/theme-api/utils.js'
+import { RawIntlProvider, createIntl, createIntlCache } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/.pnpm/react-intl@7.1.10_react@18.3.1_typescript@5.0.4/node_modules/react-intl';
+import { useIsomorphicLayoutEffect } from 'D:/MyWeb/KaiYuan/lighting-design-v2/node_modules/.pnpm/dumi@2.4.20_@babel+core@7.26.10_@swc+helpers@0.5.1_@types+node@20.5.1_@types+react@18.3.20_es_rzg42hdgqowhqkrduwhofq5dre/node_modules/dumi/dist/client/theme-api/utils.js'
 import { locales, messages } from './config';
 
 const cache = createIntlCache();
@@ -33,6 +33,8 @@ const LocalesContainer: FC<{ children: ReactNode }> = (props) => {
 
     // append internal message, for use intl as string template util
     localeMessages['$internal.edit.link'] = "https://github.com/llq0802/lighting-design/edit/master/{filename}";
+
+    localeMessages['$internal.api.sourceLink'] = "https://github.com/llq0802/lighting-design/tree/master/{fileName}#L{line}";
 
     return createIntl({ locale, messages: localeMessages }, cache);
   }, []);
