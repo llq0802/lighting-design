@@ -1,0 +1,65 @@
+import { emptyObject } from 'lighting-design/constants';
+import LFormItem from 'lighting-design/l-form-item';
+import { getFormItemPlaceholder } from 'lighting-design/utils';
+import type { FC } from 'react';
+import BaseCaptchaInput from './base-captcha-input';
+import type { LFormItemCaptchaProps } from './interface';
+
+const LFormItemCaptcha: FC<LFormItemCaptchaProps> = ({
+  placeholder,
+  size,
+  disabled,
+  variant,
+  //
+  cacheKey = '__LFormItemCaptcha__',
+  second,
+  initText = '获取验证码',
+  onEnd,
+
+  type = 'otp',
+  maxLength = 6,
+  //
+  request,
+  requestOptions,
+  requestAutoFocus = true,
+  inputProps = emptyObject,
+  captchaButtonProps = emptyObject,
+  wrapperProps,
+
+  ...formItemProps
+}) => {
+  const itemPlaceholder = getFormItemPlaceholder({
+    placeholder,
+    formItemProps,
+  });
+
+  const baseProps = {
+    size,
+    disabled,
+    variant,
+    placeholder: itemPlaceholder,
+    maxLength,
+    wrapperProps,
+    //
+    type,
+    cacheKey,
+    second,
+    onEnd,
+    inputProps,
+    captchaButtonProps,
+    initText,
+    //
+    request,
+    requestOptions,
+    requestAutoFocus,
+  };
+
+  return (
+    <LFormItem {...formItemProps}>
+      <BaseCaptchaInput {...baseProps} />
+    </LFormItem>
+  );
+};
+
+export default LFormItemCaptcha;
+export * from './interface';

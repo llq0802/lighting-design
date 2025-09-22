@@ -1,0 +1,122 @@
+import { useUpdateEffect } from 'ahooks';
+import type { FormProps } from 'antd';
+import { Form } from 'antd';
+import { useState, type JSXElementConstructor, type ReactElement } from 'react';
+import { useLFormInstance } from '../hooks';
+import type { LFormProps } from '../interface';
+import LFormSubmitter from './base-submitter';
+
+function BaseForm<T extends any>(props: LFormProps<T>): React.ReactElement {
+  const {
+    disabled,
+    isReady = true,
+    submitter,
+    transformValues,
+    children,
+    renderChildren,
+    renderLFrom,
+    //
+    form: outForm,
+    onValuesChange,
+    onReset,
+    onFinish,
+    ...restProps
+  } = props;
+  const formRef = useLFormInstance<T>(outForm);
+  const [loading, setLoading] = useState(false);
+
+  const innerOnValuesChange: FormProps<T>['onValuesChange'] = (changedValues, allValues) => {
+    const [currentName, currentValue] = Object.entries(changedValues)?.[0] || [];
+    onValuesChange?.(currentName as keyof T, currentValue as T[keyof T], allValues);
+  };
+
+  const innerOnFinish = async (values: T) => {
+    if (typeof onFinish !== 'function') return;
+    const formValues = transformValues ? transformValues(values) : values;
+    const ret = onFinish?.(formValues);
+    if (ret instanceof Promise) {
+      setLoading(true);
+      return ret
+        .then((r) => {
+          setLoading(false);
+          return r;
+        })
+        .catch((e) => {
+          setLoading(false);
+          return Promise.reject(e);
+        });
+    }
+  };
+
+  useUpdateEffect(() => {
+    if (!isReady) return;
+    // 准备完成后，重新设置表单的初始值
+    // 因而其子组件也会重新 mount 从而消除自定义组件可能存在的副作用（例如异步数据、状态等等）。
+    formRef.current?.resetFields?.();
+  }, [isReady]);
+
+  const submitterProps =
+    typeof submitter === 'boolean'
+      ? false
+      : {
+          isReady,
+          loading,
+          disabled,
+          ...submitter,
+          onReset(e) {
+            onReset?.(e);
+            submitter?.onReset?.(e);
+          },
+        };
+
+  const submitterDom = submitterProps ? <LFormSubmitter<T> {...submitterProps} /> : null;
+
+  const childrenDom = renderChildren ? (
+    renderChildren(
+      {
+        formItemsDom: children,
+        submitterDom,
+        form: formRef.current,
+      },
+      props,
+    )
+  ) : (
+    <>
+      {children}
+      {submitterDom}
+    </>
+  );
+  const dom = (
+    <Form<T>
+      {...restProps}
+      form={formRef.current}
+      onValuesChange={innerOnValuesChange}
+      onFinish={innerOnFinish}
+      disabled={disabled}
+    >
+      <Form.Item noStyle shouldUpdate>
+        {(formInstance) => {
+          formRef.current = formInstance;
+          return null;
+        }}
+      </Form.Item>
+      {childrenDom}
+    </Form>
+  );
+
+  const returnDom = renderLFrom
+    ? renderLFrom(
+        {
+          dom,
+          formItemsDom: childrenDom,
+          submitterDom,
+          form: formRef.current,
+        },
+        props,
+      )
+    : dom;
+
+  return returnDom as ReactElement<any, string | JSXElementConstructor<any>>;
+}
+
+export default BaseForm;

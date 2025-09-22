@@ -5,15 +5,22 @@
     "moduleResolution": "node",
     "strict": true,
     "declaration": true,
+    "declarationMap": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "baseUrl": "./",
+    "allowJs": true,
+    "isolatedModules": false,
+    "noEmitOnError": false,
+    "emitDeclarationOnly": false,
+    "outDir": "dist",
     "paths": {
       "@@/*": [".dumi/tmp/*"],
       "lighting-design": ["src", "docs"],
       "lighting-design/*": ["src/*", "*"]
     }
   },
-  "include": [".dumirc.ts", "src/**/*", "docs/**/*"]
+  "include": [".dumirc.ts", "src/**/*", "docs/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
