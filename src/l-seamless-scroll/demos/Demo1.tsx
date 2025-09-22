@@ -19,8 +19,10 @@ const Demo1 = () => {
   const scrollRef = useRef<LSeamlessScrollActionRef>();
   return (
     <LSeamlessScroll
-      singleHeight={22}
       height={100}
+      singleHeight={22}
+      hover
+      wheel
       list={listData}
       actionRef={scrollRef}
       renderItem={(item, index) => (

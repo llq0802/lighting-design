@@ -34,7 +34,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   const enterRef = useRef<boolean>(false);
 
   // 取消滚动id 避免闭包问题
-  const cancle = () => {
+  const cancel = () => {
     if (singleWaitTimeout.current) {
       clearTimeout(singleWaitTimeout.current);
       singleWaitTimeout.current = null;
@@ -52,17 +52,10 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
 
   // 滚动动画
   const animation = (_direction: 'up' | 'down', _step: number) => {
-    cancle();
-    reqFrame.current = requestAnimationFrame(function () {
+    reqFrame.current = requestAnimationFrame(() => {
       const h = realBoxHeight.current / (copyNum + 1);
-
-      console.log('===h==>', h);
-      console.log('===yPos.current==>', yPos.current);
-
       //最好的无缝效果：满足 scrollHeight.current <  h * outCopyNum
-      if (singleWaitTimeout.current) {
-        clearTimeout(singleWaitTimeout.current);
-      }
+      cancel();
 
       if (_direction === 'up') {
         if (Math.abs(yPos.current) >= h) {
@@ -84,8 +77,9 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
 
       // 单步滚动
       if (singleHeight > 0) {
-        const b = Math.abs(yPos.current) % singleHeight === 0;
-        if (b) {
+        const absYPos = Math.abs(yPos.current);
+        const remainder = absYPos % singleHeight;
+        if (remainder === 0 && absYPos != 0) {
           singleWaitTimeout.current = setTimeout(() => {
             move();
           }, singleWaitTime);
@@ -111,17 +105,17 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
 
   // 滚轮事件
   const onWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    cancle();
-    const singleStep = singleHeight > 0 ? singleHeight : 20;
+    cancel();
+    const singleStep = wheelDistance || 20;
     if (e.deltaY > 0) {
-      animation('down', wheelDistance || singleStep);
+      animation('down', singleStep);
     } else if (e.deltaY < 0) {
-      animation('up', wheelDistance || singleStep);
+      animation('up', singleStep);
     }
   };
 
   const reset = () => {
-    cancle();
+    cancel();
     setYpos(0);
     initMove();
     enterRef.current = false;
@@ -132,7 +126,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
     if (!list?.length || !autoScroll) return;
     setYpos(0);
     initMove();
-    return () => cancle();
+    return () => cancel();
   }, [list]);
 
   // 提供的方法
@@ -142,7 +136,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
       move();
     },
     stop: () => {
-      cancle();
+      cancel();
     },
   }));
 
@@ -169,7 +163,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
         onMouseEnter={() => {
           if (hover) {
             enterRef.current = true;
-            cancle();
+            cancel();
           }
         }}
         onMouseLeave={() => {
