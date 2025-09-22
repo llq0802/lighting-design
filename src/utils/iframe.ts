@@ -1,11 +1,29 @@
+// 可以扩展为更完整的检测
+const isEmbedded = (): boolean => {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true; // 跨域情况默认返回 true
+  }
+};
+
 /**
  * iframe通信库
  * 提供父子页面间的安全通信功能
  */
 
 export type IframeMessageData<T = any> = {
+  /**
+   * 消息类型
+   */
   type: string;
+  /**
+   * 消息内容
+   */
   payload?: T;
+  /**
+   * 请求id
+   * */
   id?: string;
 };
 
@@ -16,7 +34,7 @@ export type IframeMessageCallback<T = any> = (data: T, origin: string) => void;
  */
 export class IframeMessenger {
   private static instance: IframeMessenger;
-  private callbacks: Map<string, IframeMessageCallback>;
+  private callbacks: Map<string, IframeMessageCallback[]>;
   private pendingRequests: Map<string, { resolve: Function; reject: Function }>;
 
   private constructor() {
@@ -68,10 +86,16 @@ export class IframeMessenger {
       return;
     }
 
-    // 处理普通消息
-    const callback = this.callbacks.get(messageData.type);
-    if (callback) {
-      callback(messageData.payload, origin);
+    // 处理普通消息 - 调用所有注册的回调函数
+    const callbacks = this.callbacks.get(messageData.type);
+    if (callbacks) {
+      callbacks.forEach((callback) => {
+        try {
+          callback(messageData.payload, origin);
+        } catch (error) {
+          console.error(`Error in callback for message type ${messageData.type}:`, error);
+        }
+      });
     }
   }
 
@@ -111,23 +135,6 @@ export class IframeMessenger {
   }
 
   /**
-   * 注册消息监听器
-   * @param type 消息类型
-   * @param callback 回调函数
-   */
-  public on(type: string, callback: IframeMessageCallback): void {
-    this.callbacks.set(type, callback);
-  }
-
-  /**
-   * 移除消息监听器
-   * @param type 消息类型
-   */
-  public off(type: string): void {
-    this.callbacks.delete(type);
-  }
-
-  /**
    * 发送响应消息
    * @param target 目标窗口
    * @param originalMessage 原始消息
@@ -152,6 +159,65 @@ export class IframeMessenger {
 
     this.sendMessage(target, responseMessage, targetOrigin);
   }
+
+  /**
+   * 注册消息监听器
+   * @param type 消息类型
+   * @param callback 回调函数
+   */
+  public on(type: string, callback: IframeMessageCallback): void {
+    if (!this.callbacks.has(type)) {
+      this.callbacks.set(type, []);
+    }
+    this.callbacks.get(type)!.push(callback);
+  }
+
+  /**
+   * 移除特定的消息监听器
+   * @param type 消息类型
+   * @param callback 要移除的回调函数
+   */
+  public off(type: string, callback: IframeMessageCallback): void {
+    const callbacks = this.callbacks.get(type);
+    if (callbacks) {
+      const index = callbacks.indexOf(callback);
+      if (index !== -1) {
+        callbacks.splice(index, 1);
+      }
+      // 如果该类型没有回调函数了，删除该类型
+      if (callbacks.length === 0) {
+        this.callbacks.delete(type);
+      }
+    }
+  }
+
+  /**
+   * 移除指定类型的所有消息监听器
+   * @param type 消息类型
+   */
+  public offAll(type: string): void {
+    this.callbacks.delete(type);
+  }
+
+  /**
+   * 检查是否存在指定类型的监听器
+   * @param type 消息类型
+   * @returns boolean
+   */
+  public hasListener(type: string): boolean {
+    const callbacks = this.callbacks.get(type);
+    return !!callbacks && callbacks.length > 0;
+  }
+
+  /**
+   * 获取指定类型监听器的数量
+   * @param type 消息类型
+   * @returns number
+   */
+  public listenerCount(type: string): number {
+    const callbacks = this.callbacks.get(type);
+    return callbacks ? callbacks.length : 0;
+  }
 }
 
 /**
@@ -162,16 +228,16 @@ export const useIframeMessenger = () => {
 };
 
 /**
- * 父页面通信工具
+ * 子页面通信工具
  */
-export class ParentMessenger {
+export class ChildMessenger {
   /**
    * 发送消息给父页面
    * @param message 消息数据
    * @param targetOrigin 目标源，默认为*
    */
   public static send(message: IframeMessageData, targetOrigin: string = '*'): void {
-    if (window.parent !== window) {
+    if (isEmbedded()) {
       IframeMessenger.getInstance().sendMessage(window.parent, message, targetOrigin);
     }
   }
@@ -182,7 +248,7 @@ export class ParentMessenger {
    * @param targetOrigin 目标源，默认为*
    */
   public static request(message: IframeMessageData, targetOrigin: string = '*'): Promise<any> {
-    if (window.parent !== window) {
+    if (isEmbedded()) {
       return IframeMessenger.getInstance().sendRequest(window.parent, message, targetOrigin);
     }
     return Promise.reject(new Error('Not in iframe'));
@@ -190,9 +256,9 @@ export class ParentMessenger {
 }
 
 /**
- * 子页面通信工具
+ * 父页面通信工具
  */
-export class ChildMessenger {
+export class ParentMessenger {
   /**
    * 发送消息给指定iframe
    * @param iframe iframe元素
