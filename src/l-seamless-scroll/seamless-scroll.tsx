@@ -6,6 +6,8 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   const {
     className,
     style,
+    contentClassName,
+    contentStyle,
     list,
     copyNum = 2,
     hover,
@@ -124,10 +126,10 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   // 初始化
   useLayoutEffect(() => {
     if (!list?.length || !autoScroll) return;
-    setYpos(0);
+    enterRef.current = false;
     initMove();
     return () => cancel();
-  }, [list]);
+  }, [autoScroll, list]);
 
   // 提供的方法
   useImperativeHandle(actionRef, () => ({
@@ -145,20 +147,15 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
   ));
 
   return (
-    <div
-      ref={scrollRef}
-      className={className}
-      style={{
-        height,
-        overflow: 'hidden',
-        ...style,
-      }}
-    >
+    <div ref={scrollRef} className={className} style={{ height, overflow: 'hidden', ...style }}>
       <div
         ref={realBoxRef}
+        className={contentClassName}
         style={{
+          willChange: 'translate',
           translate: `${0} ${yPos.current}px`,
           transition: `translate ${ease}`,
+          ...contentStyle,
         }}
         onMouseEnter={() => {
           if (hover) {
@@ -180,7 +177,7 @@ const LSeamlessScroll: FC<LSeamlessScrollProps> = (props) => {
       >
         {renderChildren}
         {new Array(copyNum).fill(0).map((_, i) => (
-          <div data-copy={i + 1} key={`copy-${i}`}>
+          <div data-copy={i + 1} key={`copy-${i + 1}`}>
             {renderChildren}
           </div>
         ))}

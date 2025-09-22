@@ -50,6 +50,8 @@ export declare interface LSeamlessScrollProps<T = any> {
    */
   className?: string;
   style?: React.CSSProperties;
+  contentClassName?: string;
+  contentStyle?: React.CSSProperties;
   /**
    *  高度
    */

@@ -1,4 +1,5 @@
-import type { LSeamlessScrollInstance } from 'lighting-design';
+import { Flex } from 'antd';
+import type { LSeamlessScrollActionRef } from 'lighting-design';
 import { LSeamlessScroll } from 'lighting-design';
 import { useRef } from 'react';
 
@@ -15,24 +16,22 @@ const listData = [
   { title: '无缝滚动组件展示数据第10条', date: Date.now() },
 ];
 const Demo3 = () => {
-  const scrollRef = useRef<LSeamlessScrollInstance>();
+  const actionRef = useRef<LSeamlessScrollActionRef>();
 
   return (
     <LSeamlessScroll
+      height={300}
       list={listData}
-      scrollRef={scrollRef}
+      actionRef={actionRef}
       singleHeight={30}
-      wrapperClassName="my-LSeamlessScroll"
-      wrapperHeight={500}
-      copyNum={2}
-    >
-      {listData.map((item, index) => (
-        <div key={index} style={{ height: 30 }}>
-          <span style={{ marginRight: 22 }}>{item.title}</span>
-          <span>{item.date}</span>
-        </div>
-      ))}
-    </LSeamlessScroll>
+      renderItem={(item, index) => (
+        <Flex key={index} style={{ height: 30 }}>
+          <span>
+            {item.title} - {item.date}
+          </span>
+        </Flex>
+      )}
+    />
   );
 };
 

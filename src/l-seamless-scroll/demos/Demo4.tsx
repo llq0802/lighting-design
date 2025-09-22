@@ -1,6 +1,8 @@
-import type { LSeamlessScrollInstance } from 'lighting-design';
+import { useInterval } from 'ahooks';
+import { Flex } from 'antd';
+import type { LSeamlessScrollActionRef } from 'lighting-design';
 import { LSeamlessScroll } from 'lighting-design';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 const listData = [
   { title: '无缝滚动组件展示数据第1条', date: Date.now() },
@@ -16,39 +18,37 @@ const listData = [
 ];
 const Demo1 = () => {
   const [data, setData] = useState(listData);
+  const actionRef = useRef<LSeamlessScrollActionRef>();
 
-  const scrollRef = useRef<LSeamlessScrollInstance>();
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setData((pList) => {
-        if (pList.length > 50) {
-          return [...pList];
-        }
-        return [
-          ...pList,
-          {
-            title: `无缝滚动组件展示数据第${pList.length + 1}条`,
-            date: Date.now(),
-          },
-        ];
-      });
-    }, 3000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  useInterval(() => {
+    setData((pList) => {
+      if (pList.length > 40) {
+        return [...pList];
+      }
+      return [
+        ...pList,
+        {
+          title: `无缝滚动组件展示数据第${pList.length + 1}条`,
+          date: Date.now(),
+        },
+      ];
+    });
+  }, 1000);
 
   return (
-    <LSeamlessScroll list={data} scrollRef={scrollRef} step={0.5} wrapperHeight={320}>
-      {data.map((item, index) => (
-        <div key={index} style={{ height: 22 }}>
-          <span style={{ marginRight: 22 }}>{item.title}</span>
-          <span>{item.date}</span>
-        </div>
-      ))}
-    </LSeamlessScroll>
+    <LSeamlessScroll
+      height={300}
+      list={data}
+      actionRef={actionRef}
+      step={1}
+      renderItem={(item, index) => (
+        <Flex key={index} style={{ height: 30 }} data-index={index + 1}>
+          <span>
+            {item.title} - {item.date}
+          </span>
+        </Flex>
+      )}
+    />
   );
 };
 

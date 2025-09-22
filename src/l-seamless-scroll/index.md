@@ -13,7 +13,7 @@ toc: content
 
 <code src='./demos/Demo1.tsx' ></code>
 
-<!-- ### 移入暂停
+### 移入暂停
 
 <code src='./demos/Demo2.tsx' ></code>
 
@@ -23,7 +23,7 @@ toc: content
 
 ### 动态数据
 
-<code src='./demos/Demo4.tsx' ></code> -->
+<code src='./demos/Demo4.tsx' ></code>
 
 ## API
 
@@ -31,39 +31,44 @@ toc: content
 import { LSeamlessScroll } from 'lighting-design';
 ```
 
-:::warning{title=注意}
+### LSeamlessScroll API
 
-- `singleHeight/singleWidth`设置的值必须和 `item` 每一项的高度(宽度)值一样 , 否则可能会引起单步滚动不准!
+| 属性             | 说明                                              | 类型                                                                | 默认值        | 版本 |
+| ---------------- | ------------------------------------------------- | ------------------------------------------------------------------- | ------------- | ---- |
+| autoScroll       | 是否自动开始滚动                                  | boolean                                                             | true          | -    |
+| list             | 原始数据列表                                      | T[]                                                                 | -             | -    |
+| step             | 步进速度，也是单步大小的约数                      | number                                                              | 1             | -    |
+| hover            | 是否开启鼠标悬停暂停功能                          | boolean                                                             | false         | -    |
+| direction        | 控制滚动方向                                      | 'up' \| 'down'                                                      | 'up'          | -    |
+| singleHeight     | 单步运动停止的高度(每一项的高度)                  | number                                                              | 0             | -    |
+| singleWaitTime   | 单步停止等待时间                                  | number                                                              | 1000          | -    |
+| ease             | CSS 过渡效果                                      | string                                                              | 'ease-in-out' | -    |
+| copyNum          | 拷贝几份滚动列表                                  | number                                                              | 2             | -    |
+| wheel            | 开启鼠标悬停时支持滚轮滚动（必须配合 hover 使用） | boolean                                                             | false         | -    |
+| className        | 滚动盒子的类名                                    | string                                                              | -             | -    |
+| style            | 滚动盒子的样式                                    | React.CSSProperties                                                 | -             | -    |
+| contentClassName | 内容区域的类名                                    | string                                                              | -             | -    |
+| contentStyle     | 内容区域的样式                                    | React.CSSProperties                                                 | -             | -    |
+| height           | 滚动区域高度                                      | number \| string                                                    | -             | -    |
+| wheelDistance    | 鼠标滚轮滚动距离                                  | number                                                              | -             | -    |
+| actionRef        | 组件操作引用，可用于控制组件行为                  | React.MutableRefObject&lt;LSeamlessScrollActionRef \| undefined&gt; | -             | -    |
+| rowKey           | 数据项的唯一标识字段名                            | string                                                              | 'key'         | -    |
+| renderItem       | 渲染每项数据的函数                                | (item: T, index: number) => React.ReactNode                         | -             | -    |
 
-- 如果自定义了 `wrapperHeight` 则必须满足 `wrapperHeight < ( children 的高度 ) * ( copyNum + 1 )`
+### LSeamlessScrollActionRef API
 
-  :::
+通过 [actionRef](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/src/l-seamless-scroll/interface.ts#L60-L60) 可以调用组件的以下方法：
 
-|       参数       |                        说明                        |                         类型                         |        默认值         |
-| :--------------: | :------------------------------------------------: | :--------------------------------------------------: | :-------------------: |
-|   isAutoScroll   |                  是否开启自动滚动                  |                       boolean                        |        `true`         |
-|     isWatch      |                  是否开启监听数据                  |                       boolean                        |        `true`         |
-|       list       |                    原始数据列表                    |               `Record<string, any>[]`                |          `-`          |
-|    scrollRef     |                    引用组件方法                    |               LSeamlessScrollInstance                |          `-`          |
-|       step       |         步进速度，step 也是单步大小的约数          |                        number                        |          `1`          |
-|  limitScrollNum  |            能开启滚动的 list 数组的长度            |                        number                        |          `3`          |
-|      hover       |                  是否开启鼠标悬停                  |                       boolean                        |        `false`        |
-|    direction     |                    控制滚动方向                    |               up , down , left , right               |        `'up'`         |
-|   singleHeight   |          单步运动停止的高度(每一项的高度)          |                        number                        |          `-`          |
-|   singleWidth    |          单步运动停止的宽度(每一项的宽度)          |                        number                        |          `-`          |
-|  singleWaitTime  |                  单步停止等待时间                  |                        number                        |       `1000ms`        |
-|    isRemUnit     |                 是否开启 rem 单位                  |                       boolean                        |        `false`        |
-|      delay       |                    动画延迟时间                    |                        number                        |         `0ms`         |
-|       ease       |         动画方式(与 css 过度效果配置一致)          | string 或者{x1:number,x2:number,y1:number,y2:number} |       `ease-in`       |
-|      count       |   动画循环次数，默认-1 表示一直动画 0 表示不循环   |                        number                        |         `-1`          |
-|     copyNum      |   拷贝几份滚动列表(`children`) `必须大于等于 0 `   |                        number                        |          `1`          |
-|      wheel       | 开启鼠标悬停时支持滚轮滚动`(hover 为 true 时生效)` |                       boolean                        |        `false`        |
-| wrapperClassName |                   最外层盒子类名                   |                        string                        |          `-`          |
-|  wrapperHeight   |                   最外层盒子高度                   |                        number                        | `children 列表的高度` |
-|     children     |                      列表节点                      |                      ReactNode                       |           -           |
+| 方法名 | 说明         | 类型       | 版本 |
+| ------ | ------------ | ---------- | ---- |
+| reset  | 重置滚动状态 | () => void | -    |
+| start  | 开始滚动     | () => void | -    |
+| stop   | 停止滚动     | () => void | -    |
 
-## LSeamlessScrollInstance
+### 注意事项
 
-- onReset 重置滚动
-- onStopMove 停止滚动
-- onStartMove 开始滚动
+1. 当设置 [singleHeight](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/src/l-seamless-scroll/interface.ts#L26-L26) 大于 0 时，组件将启用单步滚动模式，每滚动一个项目高度会暂停 [singleWaitTime](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/src/l-seamless-scroll/interface.ts#L30-L30) 毫秒
+2. [hover](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/src/l-seamless-scroll/interface.ts#L18-L18) 属性设为 `true` 时，鼠标悬停会暂停滚动
+3. 当 [hover](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/src/l-seamless-scroll/interface.ts#L18-L18) 和 [wheel](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/src/l-seamless-scroll/interface.ts#L46-L46) 同时为 `true` 时，鼠标悬停状态下可以通过滚轮控制滚动
+4. [step](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/src/l-seamless-scroll/interface.ts#L14-L14) 属性控制每次滚动的像素距离，值越大滚动越快
+5. [copyNum](file:///Users/lilanqing/Desktop/web/kaiyuan/lighting-design/src/l-seamless-scroll/interface.ts#L41-L41) 控制复制几份列表用于无缝滚动效果，默认为 2 份
