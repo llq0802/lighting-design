@@ -1,14 +1,14 @@
 import { PenpalParent } from '@weblivion/react-penpal';
 import type { PenpalParentProps } from '@weblivion/react-penpal/dist/PenpalParent';
-import type { RemoteProxy, Reply } from 'penpal';
+import type { Methods, RemoteProxy, Reply } from 'penpal';
 import { useImperativeHandle, useState, type FC } from 'react';
 
 type ChildMethods = {
   hi: (s: string) => Reply<string>;
 };
 
-type LIframeProps = PenpalParentProps & {
-  actionRef?: React.MutableRefObject<RemoteProxy<ChildMethods>>;
+type LIframeProps<T extends Methods = any> = PenpalParentProps & {
+  actionRef?: React.MutableRefObject<RemoteProxy<T>>;
   width?: number | string;
   height?: number | string;
   style?: React.CSSProperties;
