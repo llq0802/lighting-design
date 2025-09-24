@@ -92,6 +92,10 @@ export default {
           title: 'LSkeleton-高级骨架屏',
           link: '/components/l-skeleton',
         },
+        {
+          title: 'L-Iframe-高级iframe',
+          link: '/components/l-iframe',
+        },
       ],
     },
     {

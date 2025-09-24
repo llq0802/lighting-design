@@ -1,0 +1,12 @@
+---
+title: LIframe
+toc: content
+---
+
+# LIframe
+
+用法与 antd.Card 一致，自动适应父容器高度，父容器没有高度时，用内容高度
+
+## 代码演示
+
+<code src='./demos/demo.tsx' background="#f5f5f5"></code>
