@@ -1,7 +1,7 @@
 import { PenpalParent } from '@weblivion/react-penpal';
 import type { PenpalParentProps } from '@weblivion/react-penpal/dist/PenpalParent';
 import type { Methods, RemoteProxy, Reply } from 'penpal';
-import { useImperativeHandle, useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 
 type ChildMethods = {
   hi: (s: string) => Reply<string>;
@@ -26,7 +26,16 @@ const LIframe: FC<LIframeProps> = ({
   ...rest
 }) => {
   const [child, setChild] = useState<RemoteProxy<ChildMethods>>(null!);
-  useImperativeHandle(actionRef, () => child);
+  // useImperativeHandle(actionRef, () => child);
+
+  useEffect(() => {
+    if (!child) {
+      return;
+    }
+
+    actionRef.current = child;
+    console.log('===actionRef==>', actionRef.current);
+  }, [child]);
 
   return (
     <PenpalParent

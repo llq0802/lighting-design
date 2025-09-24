@@ -7,6 +7,7 @@ type PropsType = {};
 const Index: React.FC<PropsType> = ({}) => {
   const actionRef = useRef();
   useMount(() => {
+    actionRef.current?.hi('LIframe');
     console.log('===actionRef==>', actionRef);
   });
   return (
@@ -15,7 +16,7 @@ const Index: React.FC<PropsType> = ({}) => {
         height: 500,
       }}
     >
-      <LIframe actionRef={actionRef} src="https://www.baidu.com" allowedOrigins={['*']} />
+      <LIframe actionRef={actionRef} src="http://localhost:5173/penpal" allowedOrigins={['*']} />
     </div>
   );
 };
