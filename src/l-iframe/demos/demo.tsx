@@ -1,5 +1,5 @@
+import { LIframe } from 'lighting-design';
 import React, { useEffect, useState } from 'react';
-import LIframe from '..';
 
 type PropsType = {};
 
