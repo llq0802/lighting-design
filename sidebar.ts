@@ -93,6 +93,10 @@ export default {
           link: '/components/l-skeleton',
         },
         {
+          title: 'LTabs - 高级标签页',
+          link: '/components/l-tabs',
+        },
+        {
           title: 'L-Iframe-高级iframe',
           link: '/components/l-iframe',
         },

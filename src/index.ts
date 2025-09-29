@@ -91,6 +91,8 @@ export * from './l-steps-form';
 export { default as LStepsForm } from './l-steps-form';
 export * from './l-table';
 export { default as LTable } from './l-table';
+export * from './l-tabs';
+export { default as LTabs } from './l-tabs';
 export * from './l-tag-group';
 export { default as LTagGroup } from './l-tag-group';
 export * from './l-tianai-captcha';
