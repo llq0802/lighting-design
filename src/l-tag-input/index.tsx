@@ -1,14 +1,13 @@
 import { useControllableValue, useMount, useRafState } from 'ahooks';
-import clx from 'classnames';
 import { memo, useImperativeHandle, useRef } from 'react';
-import styles from './index.less';
 import type { ATagInputProps } from './interface';
-import useSelectionChange from './useSelectionChange';
+import { useStyles } from './styles';
+import useSelectionChange from './use-selection-change';
 
 const regex1 = /<i(?=[^>]*\bdata-tagvalue="([^"]+)")(?=[^>]*\bdata-taglabel="([^"]+)")[^>]*>.*?<\/i>/g;
 const regex2 = /{{#([^.]+)\.([^#]+)#}}/g;
 
-export const ATagInputPro = memo(function (props: ATagInputProps) {
+const LTagInput = memo(function (props: ATagInputProps) {
   const {
     value,
     onChange,
@@ -20,16 +19,16 @@ export const ATagInputPro = memo(function (props: ATagInputProps) {
     inputClassName,
     placeholderStyle,
     onKeyDown,
-    prefix,
-    suffix,
     tagClassName,
     readOnly,
     renderTag,
     ...restProps
   } = props;
+
+  const { styles, cx } = useStyles();
   const inputRef = useRef<HTMLDivElement>(null!);
   const [state, setState] = useControllableValue<string>(props, { defaultValue: '' });
-  const [showPlaceholder, setshowPlaceholder] = useRafState(true);
+  const [showPlaceholder, setshowPlaceholder] = useRafState(!state);
   const { rangeObjRef, contentId } = useSelectionChange(readOnly);
 
   const handleInput = (e) => {
@@ -37,10 +36,7 @@ export const ATagInputPro = memo(function (props: ATagInputProps) {
     const inputDom = e.target;
     const textContent = inputDom.textContent;
     const innerHTML = inputDom.innerHTML;
-    let replacedStr = innerHTML.replace(regex1, (match, p1: string, p2: string) => `{{#${p1}.${p2}#}}`);
-    if (replacedStr === '<br>' || replacedStr === '' || replacedStr === '<br/>') {
-      replacedStr = '';
-    }
+    const replacedStr = innerHTML.replace(regex1, (match, p1: string, p2: string) => `{{#${p1}.${p2}#}}`);
     requestAnimationFrame(() => {
       setState(replacedStr);
       inputDom.dataset.value = replacedStr;
@@ -69,16 +65,17 @@ export const ATagInputPro = memo(function (props: ATagInputProps) {
 
   useImperativeHandle(actionRef, () => ({
     addTag,
-    onFocus: () => {
+    focus: () => {
       if (readOnly) return;
       inputRef.current?.focus();
     },
-    onBlur: () => {
+    blur: () => {
       if (readOnly) return;
       inputRef.current?.blur();
     },
     clear: () => {
       if (readOnly) return;
+      inputRef.current.dataset.value = '';
       inputRef.current.innerHTML = '';
       setshowPlaceholder(true);
     },
@@ -95,38 +92,32 @@ export const ATagInputPro = memo(function (props: ATagInputProps) {
     inputRef.current.dataset.value = newStr;
     setshowPlaceholder(!inputRef.current?.textContent?.length);
   });
+
   return (
-    <div
-      className={clx(styles.a_tag_input_wrapper, readOnly ? styles.a_tag_input_readonly_wrapper : '', className)}
-      style={style}
-    >
-      {prefix}
-      <div className={styles.a_tag_input_body}>
-        <div
-          // contentEditable
-          {...restProps}
-          data-tag-input
-          id={contentId}
-          className={clx(styles.a_tag_input, readOnly ? styles.a_tag_input_readonly : '', inputClassName)}
-          ref={inputRef}
-          style={inputStyle}
-          onInput={handleInput}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-            }
-            onKeyDown?.(e);
-          }}
-        />
-        {showPlaceholder && (
-          <div className={styles.placeholder} style={placeholderStyle}>
-            {placeholder}
-          </div>
-        )}
-      </div>
-      {suffix}
+    <div className={cx(styles.container, className)} style={style}>
+      <div
+        {...restProps}
+        tabIndex={-1}
+        data-tag-input-id={contentId}
+        id={contentId}
+        className={styles.content}
+        ref={inputRef}
+        style={inputStyle}
+        onInput={handleInput}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+          }
+          onKeyDown?.(e);
+        }}
+      />
+      {showPlaceholder && (
+        <div className={styles.placeholder} style={placeholderStyle}>
+          {placeholder}
+        </div>
+      )}
     </div>
   );
 });
-
+export default LTagInput;
 export * from './interface';

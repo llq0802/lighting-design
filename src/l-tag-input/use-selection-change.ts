@@ -14,11 +14,11 @@ function generateRandomString(length: number = 10): string {
 
 export default function useSelectionChange(readOnly = false) {
   const rangeObjRef = useRef<Range>();
-  const [contentId] = useState(() => `a-tag-input-${generateRandomString(10)}`);
+  const [contentId] = useState(() => `l-tag-input-${generateRandomString(10)}`);
 
   const selecthandler = useMemoizedFn(() => {
     if (readOnly) return;
-    const sel = window.parent.getSelection();
+    const sel = window.getSelection();
     const range = sel ? (sel.rangeCount > 0 ? sel?.getRangeAt(0) : null) : null;
     if (range && document?.activeElement?.id === contentId) {
       rangeObjRef.current = range;

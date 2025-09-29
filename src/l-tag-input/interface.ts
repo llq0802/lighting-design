@@ -1,7 +1,7 @@
 export type ATagInputActionRef = {
   addTag: (tagvalue: string, taglabel: string) => void;
-  onFocus: () => void;
-  onBlur: () => void;
+  focus: () => void;
+  blur: () => void;
   clear: () => void;
 };
 

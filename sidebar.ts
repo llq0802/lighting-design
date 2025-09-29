@@ -43,6 +43,10 @@ export default {
           title: 'LRightMenu-右键菜单',
           link: '/components/l-right-menu',
         },
+        {
+          title: 'LTagInput-高级标签输入框',
+          link: '/components/l-tag-input',
+        },
       ],
     },
     {
