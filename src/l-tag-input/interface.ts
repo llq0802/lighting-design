@@ -1,11 +1,11 @@
-export type ATagInputActionRef = {
+export type LTagInputActionRef = {
   addTag: (tagvalue: string, taglabel: string) => void;
   focus: () => void;
   blur: () => void;
   clear: () => void;
 };
 
-export type ATagInputProps = {
+export type LTagInputProps = {
   value?: string;
   onChange?: (val: string) => void;
   readOnly?: boolean;
@@ -14,7 +14,7 @@ export type ATagInputProps = {
   style?: React.CSSProperties;
   className?: string;
   tagClassName?: string;
-  actionRef?: React.MutableRefObject<ATagInputActionRef | undefined>;
+  actionRef?: React.MutableRefObject<LTagInputActionRef | undefined>;
   inputStyle?: React.CSSProperties;
   inputClassName?: string;
   placeholderStyle?: React.CSSProperties;

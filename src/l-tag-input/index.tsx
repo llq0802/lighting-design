@@ -1,13 +1,13 @@
 import { useControllableValue, useMount, useRafState } from 'ahooks';
 import { memo, useImperativeHandle, useRef } from 'react';
-import type { ATagInputProps } from './interface';
+import type { LTagInputProps } from './interface';
 import { useStyles } from './styles';
 import useSelectionChange from './use-selection-change';
 
 const regex1 = /<i(?=[^>]*\bdata-tagvalue="([^"]+)")(?=[^>]*\bdata-taglabel="([^"]+)")[^>]*>.*?<\/i>/g;
 const regex2 = /{{#([^.]+)\.([^#]+)#}}/g;
 
-const LTagInput = memo(function (props: ATagInputProps) {
+const LTagInput = memo(function (props: LTagInputProps) {
   const {
     value,
     onChange,
