@@ -1,4 +1,4 @@
-import { useControllableValue, useMount, useRafState } from 'ahooks';
+import { useMount, useRafState } from 'ahooks';
 import { memo, useImperativeHandle, useRef } from 'react';
 import type { LTagInputProps } from './interface';
 import { useStyles } from './styles';
@@ -9,7 +9,7 @@ const regex2 = /{{#([^#]+)\.([^#]+)#}}/g;
 
 const LTagInput = memo(function (props: LTagInputProps) {
   const {
-    value,
+    defaultValue,
     onChange,
     placeholder = '请输入',
     style,
@@ -19,14 +19,14 @@ const LTagInput = memo(function (props: LTagInputProps) {
     inputStyle,
     inputClassName,
     placeholderStyle,
-    onKeyDown,
+    onEnter,
     disabled,
     ...restProps
   } = props;
 
   const { styles, cx } = useStyles();
   const inputRef = useRef<HTMLDivElement>(null!);
-  const [state, setState] = useControllableValue<string>(props, { defaultValue: '那匹{{#hello.111#}}马dsa' });
+  const [state, setState] = useRafState<string>(defaultValue ?? '');
   const [showPlaceholder, setshowPlaceholder] = useRafState(!state);
   const { rangeObjRef, contentId } = useSelectionChange(disabled);
 
@@ -36,11 +36,9 @@ const LTagInput = memo(function (props: LTagInputProps) {
     const textContent = inputDom.textContent;
     const innerHTML = inputDom.innerHTML;
     const replacedStr = innerHTML.replace(regex1, (match, p1: string, p2: string) => `{{#${p1}.${p2}#}}`);
-    requestAnimationFrame(() => {
-      inputDom.dataset.value = replacedStr;
-      setState(replacedStr);
-      setshowPlaceholder(!textContent?.length);
-    });
+    inputDom.dataset.value = replacedStr;
+    setState(replacedStr);
+    setshowPlaceholder(!textContent?.length);
   };
 
   const addTag = (taglabel: string, tagvalue: string) => {
@@ -60,7 +58,10 @@ const LTagInput = memo(function (props: LTagInputProps) {
     inputRef.current?.focus();
     handleInput({ target: inputRef.current });
   };
-
+  const getValue = () => {
+    if (disabled) return;
+    return inputRef.current.dataset.value;
+  };
   useImperativeHandle(actionRef, () => ({
     addTag,
     focus: () => {
@@ -77,6 +78,7 @@ const LTagInput = memo(function (props: LTagInputProps) {
       inputRef.current.innerHTML = '';
       setshowPlaceholder(true);
     },
+    getValue,
   }));
 
   useMount(() => {
@@ -102,8 +104,10 @@ const LTagInput = memo(function (props: LTagInputProps) {
         onInput={handleInput}
         onKeyDown={(e) => {
           if (disabled) return;
-          if (e.key === 'Enter') e.preventDefault();
-          onKeyDown?.(e);
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            onEnter?.(e);
+          }
         }}
       />
       {showPlaceholder && (

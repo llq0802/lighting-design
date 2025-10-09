@@ -6,7 +6,7 @@ export type LTagInputActionRef = {
 };
 
 export type LTagInputProps = {
-  value?: string;
+  defaultValue?: string;
   onChange?: (val: string) => void;
   disabled?: boolean;
   placeholder?: string;
@@ -17,7 +17,7 @@ export type LTagInputProps = {
   inputStyle?: React.CSSProperties;
   inputClassName?: string;
   placeholderStyle?: React.CSSProperties;
-  onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
+  onEnter?: React.KeyboardEventHandler<HTMLDivElement>;
   /**
    *
    * @param tagvalue
