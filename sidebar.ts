@@ -101,7 +101,7 @@ export default {
           link: '/components/l-tabs',
         },
         {
-          title: 'L-Iframe-高级iframe',
+          title: 'LIframe-高级iframe',
           link: '/components/l-iframe',
         },
       ],

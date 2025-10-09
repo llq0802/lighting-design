@@ -34,7 +34,6 @@ export const useStyles = createStyles((p) => {
     content: css`
       flex: 1;
       min-width: 0;
-      -webkit-user-modify: read-write-plaintext-only;
       color: rgba(0, 0, 0, 0.89);
       outline: none;
       border: none;
@@ -45,10 +44,29 @@ export const useStyles = createStyles((p) => {
       word-break: break-word;
       overflow-x: auto;
       scrollbar-width: none;
+      -webkit-user-modify: read-write-plaintext-only !important;
       &::-webkit-scrollbar {
         display: none;
       }
+
+      & i {
+        display: inline-block;
+        position: relative;
+        font-style: normal;
+        -webkit-user-modify: read-only !important;
+        background: #1677ff;
+        color: #fff;
+        padding: 0px 8px;
+        margin: 0 4px;
+        border-radius: 4px;
+        white-space: nowrap;
+        cursor: default;
+        pointer-events: none;
+        user-select: none;
+        width: fit-content;
+      }
     `,
+
     placeholder: css`
       position: absolute;
       top: 50%;
