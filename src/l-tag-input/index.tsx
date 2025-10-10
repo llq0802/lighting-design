@@ -1,5 +1,5 @@
 import { useMount, useRafState } from 'ahooks';
-import { memo, useImperativeHandle, useRef } from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 import type { LTagInputProps } from './interface';
 import { useStyles } from './styles';
 import useSelectionChange from './use-selection-change';
@@ -7,7 +7,7 @@ import useSelectionChange from './use-selection-change';
 const regex1 = /<i(?=[^>]*\bdata-label="([^"]+)")(?=[^>]*\bdata-value="([^"]+)")[^>]*>.*?<\/i>/g;
 const regex2 = /{{#([^#]+)\.([^#]+)#}}/g;
 
-const LTagInput = memo(function (props: LTagInputProps) {
+const LTagInput = React.forwardRef(function (props: LTagInputProps, ref: any) {
   const {
     defaultValue,
     onChange,
@@ -21,6 +21,7 @@ const LTagInput = memo(function (props: LTagInputProps) {
     placeholderStyle,
     onEnter,
     disabled,
+    autoFocus = true,
     value,
     ...restProps
   } = props;
@@ -56,7 +57,9 @@ const LTagInput = memo(function (props: LTagInputProps) {
     } else {
       inputRef.current?.appendChild(node);
     }
-    inputRef.current?.focus();
+    if (autoFocus) {
+      inputRef.current?.focus();
+    }
     handleInput({ target: inputRef.current });
   };
 
@@ -102,7 +105,13 @@ const LTagInput = memo(function (props: LTagInputProps) {
         style={inputStyle}
         id={contentId}
         className={cx(styles.content, inputClassName)}
-        ref={inputRef}
+        ref={(r) => {
+          if (!r) return;
+          if (ref) {
+            ref.current = r;
+          }
+          inputRef.current = r;
+        }}
         onInput={handleInput}
         onKeyDown={(e) => {
           if (disabled) return;
