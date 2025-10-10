@@ -34,7 +34,7 @@ export const useStyles = createStyles((p) => {
     content: css`
       flex: 1;
       min-width: 0;
-      color: rgba(0, 0, 0, 0.89);
+      color: ${token.colorText};
       outline: none;
       border: none;
       background: transparent;
@@ -45,6 +45,7 @@ export const useStyles = createStyles((p) => {
       overflow-x: auto;
       scrollbar-width: none;
       -webkit-user-modify: read-write-plaintext-only !important;
+
       &::-webkit-scrollbar {
         display: none;
       }
@@ -54,8 +55,8 @@ export const useStyles = createStyles((p) => {
         position: relative;
         font-style: normal;
         -webkit-user-modify: read-only !important;
-        background: #1677ff;
-        color: #fff;
+        background: ${token.colorPrimary};
+        color: ${token.colorWhite};
         padding: 0px 8px;
         margin: 0 4px;
         border-radius: 4px;

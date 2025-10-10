@@ -21,6 +21,7 @@ const LTagInput = memo(function (props: LTagInputProps) {
     placeholderStyle,
     onEnter,
     disabled,
+    value,
     ...restProps
   } = props;
 
@@ -34,7 +35,7 @@ const LTagInput = memo(function (props: LTagInputProps) {
     if (disabled) return;
     const inputDom = e.target;
     const textContent = inputDom.textContent;
-    const innerHTML = inputDom.innerHTML;
+    const innerHTML = inputDom.innerHTML === '<br>' ? '' : inputDom.innerHTML;
     const replacedStr = innerHTML.replace(regex1, (match, p1: string, p2: string) => `{{#${p1}.${p2}#}}`);
     inputDom.dataset.value = replacedStr;
     setState(replacedStr);
@@ -58,10 +59,7 @@ const LTagInput = memo(function (props: LTagInputProps) {
     inputRef.current?.focus();
     handleInput({ target: inputRef.current });
   };
-  const getValue = () => {
-    if (disabled) return;
-    return inputRef.current.dataset.value;
-  };
+
   useImperativeHandle(actionRef, () => ({
     addTag,
     focus: () => {
@@ -78,7 +76,10 @@ const LTagInput = memo(function (props: LTagInputProps) {
       inputRef.current.innerHTML = '';
       setshowPlaceholder(true);
     },
-    getValue,
+    getValue: () => {
+      if (disabled) return;
+      return inputRef.current.dataset.value;
+    },
   }));
 
   useMount(() => {
@@ -96,6 +97,7 @@ const LTagInput = memo(function (props: LTagInputProps) {
     <div className={cx(styles.container, className)} style={style}>
       <div
         {...restProps}
+        // contentEditable
         tabIndex={-1}
         style={inputStyle}
         id={contentId}
