@@ -14,7 +14,7 @@ toc: content
 
 ## 代码演示
 
-<code src='./demos/demo.tsx' background="#f5f5f5"></code>
+<code src='./demos/demo.tsx' ></code>
 
 ## API
 

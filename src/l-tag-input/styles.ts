@@ -8,27 +8,27 @@ export const useStyles = createStyles((p, { disabled }: any) => {
       align-items: center;
       gap: 8px;
       position: relative;
+      box-sizing: border-box;
       width: 100%;
       height: ${token.controlHeight}px;
       padding: 0 10px;
-      background: rgba(0, 0, 0, 0.04);
       border-width: ${token.lineWidth}px;
       border-style: solid;
-      border-color: transparent;
+      border-color: #d9d9d9;
       color: rgba(0, 0, 0, 0.88);
       font-size: 14px;
-      line-height: ${token.lineHeight};
       border-radius: ${token.borderRadius}px;
       transition: all 0.2s;
       outline: none;
+      cursor: ${disabled ? 'not-allowed' : 'text'};
+      background: ${disabled ? token.colorBgContainerDisabled : token.colorBgContainer};
 
       &:hover {
-        background: rgba(0, 0, 0, 0.06);
+        border-color: ${disabled ? '#d9d9d9' : token.colorPrimary};
       }
       &:focus,
       &:focus-within {
-        border-color: #4755e3;
-        background: #ffffff;
+        border-color: ${disabled ? '#d9d9d9' : token.colorPrimary};
       }
     `,
     content_wapper: css`
@@ -48,7 +48,6 @@ export const useStyles = createStyles((p, { disabled }: any) => {
       overflow-x: auto;
       scrollbar-width: none;
       -webkit-user-modify: ${disabled ? 'read-only' : 'read-write-plaintext-only'} !important;
-      cursor: ${disabled ? 'not-allowed' : 'text'};
 
       &::-webkit-scrollbar {
         display: none;

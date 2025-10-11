@@ -6,28 +6,29 @@ type PropsType = {};
 
 const Index: React.FC<PropsType> = ({}) => {
   const actionRef = useRef<any>();
+  const ref = useRef();
+
   return (
     <Flex gap="24px">
       <LTagInput
-        // disabled
+        ref={ref}
         actionRef={actionRef}
-        tagClassName="mdsads999"
+        tagClassName="LTagInput-tag"
+        prefix={<div>prefix</div>}
+        suffix={<div>suffix</div>}
         // defaultValue="dasdsadasDFSD"
-        onFocus={(e) => {
-          console.log('=== onFocus==>', e);
-        }}
-        onBlur={(e) => {
-          console.log('=== onBlur==>', e);
-        }}
-        onChange={(val) => {
-          console.log('=== onChange==>', val);
-        }}
-        onEnter={(e) => {
-          console.log('=== onEnter==>', e);
-        }}
-        onInput={(e) => {
-          console.log('=== onInput==>', e);
-        }}
+        // onFocus={(e) => {
+        //   console.log('=== onFocus==>', e);
+        // }}
+        // onBlur={(e) => {
+        //   console.log('=== onBlur==>', e);
+        // }}
+        // onChange={(val) => {
+        //   console.log('=== onChange==>', val);
+        // }}
+        // onEnter={(e) => {
+        //   console.log('=== onEnter==>', e);
+        // }}
       />
       <Button onClick={() => actionRef.current.inset('hello', '111')}>插入</Button>
       <Button onClick={() => actionRef.current.clear()}>清除</Button>
