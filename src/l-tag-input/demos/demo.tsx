@@ -9,17 +9,27 @@ const Index: React.FC<PropsType> = ({}) => {
   return (
     <Flex gap="24px">
       <LTagInput
+        // disabled
         actionRef={actionRef}
         tagClassName="mdsads999"
-        defaultValue="dasdsadasDFSD"
+        // defaultValue="dasdsadasDFSD"
         onFocus={(e) => {
           console.log('=== onFocus==>', e);
         }}
         onBlur={(e) => {
           console.log('=== onBlur==>', e);
         }}
+        onChange={(val) => {
+          console.log('=== onChange==>', val);
+        }}
+        onEnter={(e) => {
+          console.log('=== onEnter==>', e);
+        }}
+        onInput={(e) => {
+          console.log('=== onInput==>', e);
+        }}
       />
-      <Button onClick={() => actionRef.current.addTag('hello', '111')}>插入</Button>
+      <Button onClick={() => actionRef.current.inset('hello', '111')}>插入</Button>
       <Button onClick={() => actionRef.current.clear()}>清除</Button>
     </Flex>
   );

@@ -7,10 +7,9 @@ import useSelectionChange from './use-selection-change';
 const regex1 = /<i(?=[^>]*\bdata-label="([^"]+)")(?=[^>]*\bdata-value="([^"]+)")[^>]*>.*?<\/i>/g;
 const regex2 = /{{#([^#]+)\.([^#]+)#}}/g;
 
-const LTagInput = React.forwardRef(function (props: LTagInputProps, ref: any) {
+const LTagInput = React.forwardRef<any, LTagInputProps>((props, ref) => {
   const {
     defaultValue,
-    onChange,
     placeholder = '请输入',
     style,
     className,
@@ -22,11 +21,17 @@ const LTagInput = React.forwardRef(function (props: LTagInputProps, ref: any) {
     onEnter,
     disabled,
     autoFocus = true,
+    prefix,
+    suffix,
+    //
     value,
+    onInput,
+    onChange,
+    onKeyDown,
     ...restProps
   } = props;
 
-  const { styles, cx } = useStyles();
+  const { styles, cx } = useStyles({ disabled });
   const inputRef = useRef<HTMLDivElement>(null!);
   const [state, setState] = useRafState<string>(defaultValue ?? '');
   const [showPlaceholder, setshowPlaceholder] = useRafState(!state);
@@ -41,9 +46,11 @@ const LTagInput = React.forwardRef(function (props: LTagInputProps, ref: any) {
     inputDom.dataset.value = replacedStr;
     setState(replacedStr);
     setshowPlaceholder(!textContent?.length);
+    onInput?.(e);
+    onChange?.(e);
   };
 
-  const addTag = (taglabel: string, tagvalue: string) => {
+  const inset = (taglabel: string, tagvalue: string) => {
     if (disabled) return;
     const node = document.createElement('i');
     if (tagClassName) node.classList.add(tagClassName);
@@ -57,14 +64,12 @@ const LTagInput = React.forwardRef(function (props: LTagInputProps, ref: any) {
     } else {
       inputRef.current?.appendChild(node);
     }
-    if (autoFocus) {
-      inputRef.current?.focus();
-    }
+    if (autoFocus) inputRef.current?.focus();
     handleInput({ target: inputRef.current });
   };
 
   useImperativeHandle(actionRef, () => ({
-    addTag,
+    inset,
     focus: () => {
       if (disabled) return;
       inputRef.current?.focus();
@@ -96,25 +101,24 @@ const LTagInput = React.forwardRef(function (props: LTagInputProps, ref: any) {
     setshowPlaceholder(false);
   });
 
-  return (
-    <div className={cx(styles.container, className)} style={style}>
+  const contentdom = (
+    <div className={styles.content_wapper}>
       <div
         {...restProps}
-        // contentEditable
         tabIndex={-1}
+        data-disabled={disabled}
         style={inputStyle}
         id={contentId}
         className={cx(styles.content, inputClassName)}
         ref={(r) => {
           if (!r) return;
-          if (ref) {
-            ref.current = r;
-          }
+          if (ref) ref.current = r;
           inputRef.current = r;
         }}
         onInput={handleInput}
         onKeyDown={(e) => {
           if (disabled) return;
+          onKeyDown?.(e);
           if (e.key === 'Enter') {
             e.preventDefault();
             onEnter?.(e);
@@ -126,6 +130,14 @@ const LTagInput = React.forwardRef(function (props: LTagInputProps, ref: any) {
           {placeholder}
         </div>
       )}
+    </div>
+  );
+
+  return (
+    <div className={cx(styles.container, className)} style={style}>
+      {prefix}
+      {contentdom}
+      {suffix}
     </div>
   );
 });

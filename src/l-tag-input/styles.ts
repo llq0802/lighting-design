@@ -1,50 +1,54 @@
 import { createStyles } from 'lighting-design/styles';
 
-export const useStyles = createStyles((p) => {
+export const useStyles = createStyles((p, { disabled }: any) => {
   const { css, cx, prefixCls, token } = p;
   return {
     container: css`
-      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
       width: 100%;
       height: ${token.controlHeight}px;
-      position: relative;
+      padding: 0 10px;
       background: rgba(0, 0, 0, 0.04);
       border-width: ${token.lineWidth}px;
       border-style: solid;
       border-color: transparent;
-      display: inline-flex;
-      min-width: 0;
       color: rgba(0, 0, 0, 0.88);
       font-size: 14px;
       line-height: ${token.lineHeight};
       border-radius: ${token.borderRadius}px;
       transition: all 0.2s;
-      align-items: center;
+      outline: none;
+
       &:hover {
         background: rgba(0, 0, 0, 0.06);
       }
       &:focus,
       &:focus-within {
-        outline: 0;
         border-color: #4755e3;
         background: #ffffff;
       }
     `,
-
-    content: css`
+    content_wapper: css`
       flex: 1;
-      min-width: 0;
-      color: ${token.colorText};
+      width: 0;
+      outline: none;
+      border: none;
+    `,
+    content: css`
+      width: 100%;
       outline: none;
       border: none;
       background: transparent;
-      color: inherit;
       box-sizing: border-box;
       white-space: nowrap;
       word-break: break-word;
       overflow-x: auto;
       scrollbar-width: none;
-      -webkit-user-modify: read-write-plaintext-only !important;
+      -webkit-user-modify: ${disabled ? 'read-only' : 'read-write-plaintext-only'} !important;
+      cursor: ${disabled ? 'not-allowed' : 'text'};
 
       &::-webkit-scrollbar {
         display: none;
