@@ -18,16 +18,15 @@ const LTagInput = React.forwardRef<any, LTagInputProps>((props, ref) => {
     inputStyle,
     inputClassName,
     placeholderStyle,
-    onEnter,
     disabled,
     autoFocus = true,
     prefix,
     suffix,
     //
-    value,
     onInput,
     onChange,
     onKeyDown,
+    onEnter,
     ...restProps
   } = props;
 
@@ -104,6 +103,7 @@ const LTagInput = React.forwardRef<any, LTagInputProps>((props, ref) => {
   const contentdom = (
     <div className={styles.content_wapper}>
       <div
+        contentEditable
         {...restProps}
         tabIndex={-1}
         data-disabled={disabled}
