@@ -1,61 +1,61 @@
-import { useControllableValue, useMount, useRafState } from 'ahooks';
-import clx from 'classnames';
-import { memo, useImperativeHandle, useRef } from 'react';
-import styles from './index.less';
-import type { ATagInputProps } from './interface';
-import useSelectionChange from './useSelectionChange';
+import { useMount, useRafState } from 'ahooks';
+import React, { useImperativeHandle, useRef } from 'react';
+import type { LTagInputProps } from './interface';
+import { useStyles } from './styles';
+import useSelectionChange from './use-selection-change';
 
-const regex1 = /<i(?=[^>]*\bdata-tagvalue="([^"]+)")(?=[^>]*\bdata-taglabel="([^"]+)")[^>]*>.*?<\/i>/g;
-const regex2 = /{{#([^.]+)\.([^#]+)#}}/g;
+const regex1 = /<i(?=[^>]*\bdata-label="([^"]+)")(?=[^>]*\bdata-value="([^"]+)")[^>]*>.*?<\/i>/g;
+const regex2 = /{{#([^#]+)\.([^#]+)#}}/g;
 
-export const ATagInputPro = memo(function (props: ATagInputProps) {
+const LTagInput = React.forwardRef<any, LTagInputProps>((props, ref) => {
   const {
-    value,
-    onChange,
+    defaultValue,
     placeholder = '请输入',
     style,
     className,
+    tagClassName,
     actionRef,
     inputStyle,
     inputClassName,
     placeholderStyle,
-    onKeyDown,
+    disabled,
+    autoFocus = true,
     prefix,
     suffix,
-    tagClassName,
-    readOnly,
-    renderTag,
+    //
+    onInput,
+    onChange,
+    onKeyDown,
+    onEnter,
     ...restProps
   } = props;
+
+  const { styles, cx } = useStyles({ disabled });
   const inputRef = useRef<HTMLDivElement>(null!);
-  const [state, setState] = useControllableValue<string>(props, { defaultValue: '' });
-  const [showPlaceholder, setshowPlaceholder] = useRafState(true);
-  const { rangeObjRef, contentId } = useSelectionChange(readOnly);
+  const [state, setState] = useRafState<string>(defaultValue ?? '');
+  const [showPlaceholder, setshowPlaceholder] = useRafState(!state);
+  const { rangeObjRef, contentId } = useSelectionChange(disabled);
 
   const handleInput = (e) => {
-    if (readOnly) return;
+    if (disabled) return;
     const inputDom = e.target;
     const textContent = inputDom.textContent;
-    const innerHTML = inputDom.innerHTML;
-    let replacedStr = innerHTML.replace(regex1, (match, p1: string, p2: string) => `{{#${p1}.${p2}#}}`);
-    if (replacedStr === '<br>' || replacedStr === '' || replacedStr === '<br/>') {
-      replacedStr = '';
-    }
-    requestAnimationFrame(() => {
-      setState(replacedStr);
-      inputDom.dataset.value = replacedStr;
-    });
+    const innerHTML = inputDom.innerHTML === '<br>' ? '' : inputDom.innerHTML;
+    const replacedStr = innerHTML.replace(regex1, (match, p1: string, p2: string) => `{{#${p1}.${p2}#}}`);
+    inputDom.dataset.value = replacedStr;
+    setState(replacedStr);
     setshowPlaceholder(!textContent?.length);
+    onInput?.(e);
+    onChange?.(e);
   };
 
-  // 添加标签
-  const addTag = (tagvalue: string, taglabel: string) => {
-    if (readOnly) return;
+  const inset = (taglabel: string, tagvalue: string) => {
+    if (disabled) return;
     const node = document.createElement('i');
     if (tagClassName) node.classList.add(tagClassName);
-    node.dataset['tagvalue'] = tagvalue;
-    node.dataset['taglabel'] = taglabel;
-    node.innerHTML = renderTag ? renderTag(tagvalue, taglabel) : taglabel;
+    node.dataset['label'] = taglabel;
+    node.dataset['value'] = tagvalue;
+    node.innerHTML = taglabel;
     if (rangeObjRef.current) {
       rangeObjRef.current.deleteContents();
       rangeObjRef.current.insertNode(node);
@@ -63,70 +63,83 @@ export const ATagInputPro = memo(function (props: ATagInputProps) {
     } else {
       inputRef.current?.appendChild(node);
     }
-    inputRef.current?.focus();
+    if (autoFocus) inputRef.current?.focus();
     handleInput({ target: inputRef.current });
   };
 
   useImperativeHandle(actionRef, () => ({
-    addTag,
-    onFocus: () => {
-      if (readOnly) return;
+    inset,
+    focus: () => {
+      if (disabled) return;
       inputRef.current?.focus();
     },
-    onBlur: () => {
-      if (readOnly) return;
+    blur: () => {
+      if (disabled) return;
       inputRef.current?.blur();
     },
     clear: () => {
-      if (readOnly) return;
+      if (disabled) return;
+      inputRef.current.dataset.value = '';
       inputRef.current.innerHTML = '';
       setshowPlaceholder(true);
+    },
+    getValue: () => {
+      if (disabled) return;
+      return inputRef.current.dataset.value;
     },
   }));
 
   useMount(() => {
     if (!state) return;
-    const newStr = state.replace(regex2, (match, p1, p2) => {
-      return `<i ${tagClassName ? `class=${tagClassName}` : ''} data-tagvalue="${p1}" data-taglabel="${p2}" >${
-        renderTag ? renderTag(p1, p2) : p2
-      }</i>`;
+    inputRef.current.dataset.value = state;
+    inputRef.current.innerHTML = state.replace(regex2, (match, p1, p2) => {
+      return tagClassName
+        ? `<i class=${tagClassName} data-label="${p1}" data-value="${p2}">${p1}</i>`
+        : `<i data-label="${p1}" data-value="${p2}">${p1}</i>`;
     });
-    inputRef.current!.innerHTML = newStr;
-    inputRef.current.dataset.value = newStr;
-    setshowPlaceholder(!inputRef.current?.textContent?.length);
+    setshowPlaceholder(false);
   });
+
+  const contentdom = (
+    <div className={styles.content_wapper}>
+      <div
+        contentEditable
+        {...restProps}
+        tabIndex={-1}
+        data-disabled={disabled}
+        style={inputStyle}
+        id={contentId}
+        className={cx(styles.content, inputClassName)}
+        ref={(r) => {
+          if (!r) return;
+          if (ref) ref.current = r;
+          inputRef.current = r;
+        }}
+        onInput={handleInput}
+        onKeyDown={(e) => {
+          if (disabled) return;
+          onKeyDown?.(e);
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            onEnter?.(e);
+          }
+        }}
+      />
+      {showPlaceholder && (
+        <div className={styles.placeholder} style={placeholderStyle}>
+          {placeholder}
+        </div>
+      )}
+    </div>
+  );
+
   return (
-    <div
-      className={clx(styles.a_tag_input_wrapper, readOnly ? styles.a_tag_input_readonly_wrapper : '', className)}
-      style={style}
-    >
+    <div className={cx(styles.container, className)} style={style}>
       {prefix}
-      <div className={styles.a_tag_input_body}>
-        <div
-          // contentEditable
-          {...restProps}
-          data-tag-input
-          id={contentId}
-          className={clx(styles.a_tag_input, readOnly ? styles.a_tag_input_readonly : '', inputClassName)}
-          ref={inputRef}
-          style={inputStyle}
-          onInput={handleInput}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-            }
-            onKeyDown?.(e);
-          }}
-        />
-        {showPlaceholder && (
-          <div className={styles.placeholder} style={placeholderStyle}>
-            {placeholder}
-          </div>
-        )}
-      </div>
+      {contentdom}
       {suffix}
     </div>
   );
 });
-
+export default LTagInput;
 export * from './interface';

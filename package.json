@@ -60,11 +60,13 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
+    "@weblivion/react-penpal": "^3.0.2",
     "ahooks": "^3.9.0",
     "antd-style": "^3.7.1",
     "dayjs": "^1.11.11",
     "echarts": "^6.0.0",
     "lodash-es": "^4.17.21",
+    "penpal": "^7.0.4",
     "rc-use-hooks": "^2.0.10",
     "rc-virtual-list": "^3.18.5",
     "react-draggable": "^4.4.5",

@@ -43,6 +43,10 @@ export default {
           title: 'LRightMenu-右键菜单',
           link: '/components/l-right-menu',
         },
+        {
+          title: 'LTagInput-高级标签输入框',
+          link: '/components/l-tag-input',
+        },
       ],
     },
     {
@@ -91,6 +95,14 @@ export default {
         {
           title: 'LSkeleton-高级骨架屏',
           link: '/components/l-skeleton',
+        },
+        {
+          title: 'LTabs - 高级标签页',
+          link: '/components/l-tabs',
+        },
+        {
+          title: 'LIframe-高级iframe',
+          link: '/components/l-iframe',
         },
       ],
     },

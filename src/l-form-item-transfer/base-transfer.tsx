@@ -41,6 +41,7 @@ const BaseTransfer: FC<Record<string, any>> = (props) => {
       style={{
         width: block ? '100%' : 'fit-content',
         height: listHeight,
+        overflowY: 'auto',
         ...restProps?.style,
       }}
       listStyle={{

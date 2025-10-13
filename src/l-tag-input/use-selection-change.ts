@@ -12,13 +12,13 @@ function generateRandomString(length: number = 10): string {
   return result;
 }
 
-export default function useSelectionChange(readOnly = false) {
+export default function useSelectionChange(disabled = false) {
   const rangeObjRef = useRef<Range>();
-  const [contentId] = useState(() => `a-tag-input-${generateRandomString(10)}`);
+  const [contentId] = useState(() => `l-tag-input-${generateRandomString(10)}`);
 
   const selecthandler = useMemoizedFn(() => {
-    if (readOnly) return;
-    const sel = window.parent.getSelection();
+    if (disabled) return;
+    const sel = window.getSelection();
     const range = sel ? (sel.rangeCount > 0 ? sel?.getRangeAt(0) : null) : null;
     if (range && document?.activeElement?.id === contentId) {
       rangeObjRef.current = range;
